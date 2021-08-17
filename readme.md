@@ -1,0 +1,1 @@
+![./resource/20098ac3418ee89ef51558f2f29ef9e.jpg](img.png)

@@ -1,0 +1,17 @@
+server:
+  port: 18890
+spring:
+  application:
+    name: member
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.102
+        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        group: MUYUAN
+        file-extension: properties
+      discovery:
+        server-addr: 192.168.1.102
+
+
+
