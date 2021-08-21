@@ -1,16 +1,21 @@
 package com.muyuan.common.result;
 
 
+import com.muyuan.common.enums.CodeMessage;
 import com.muyuan.common.enums.ResponseCode;
 
 public class ResultUtil {
 
     public static Result render() {
-        return new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getType(),"操作成功");
+        return new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getType(), CodeMessage.SUCCESS.getMsg());
     }
 
     public static Result render(Object data) {
         return new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getType(),"操作成功",data);
+    }
+
+    public static Result render(String msg,Object data) {
+        return new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getType(),msg,data);
     }
 
     public static Result renderFail(String msg) {

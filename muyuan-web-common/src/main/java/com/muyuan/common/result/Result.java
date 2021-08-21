@@ -1,11 +1,14 @@
 package com.muyuan.common.result;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.util.Date;
 
 @Data
+@ApiModel
 public class Result {
 
     private int code;

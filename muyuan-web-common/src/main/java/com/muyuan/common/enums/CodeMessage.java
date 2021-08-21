@@ -1,7 +1,8 @@
 package com.muyuan.common.enums;
 
 public enum CodeMessage {
-    AUTH_FAIL(401,"登录失败");
+    AUTH_FAIL(401,"登录失败"),
+    SUCCESS(0,"登录成功");
 
     CodeMessage(int code, String msg) {
         this.code = code;
