@@ -2,7 +2,10 @@ package com.muyuan.common.enums;
 
 public enum CodeMessage {
     AUTH_FAIL(401,"登录失败"),
-    SUCCESS(0,"登录成功");
+    SUCCESS(0,"操作成功"),
+
+    ARGUMENT_EEORR(300,"参数错误"),
+    EERROR(500,"未知异常，请联系管理员！");
 
     CodeMessage(int code, String msg) {
         this.code = code;

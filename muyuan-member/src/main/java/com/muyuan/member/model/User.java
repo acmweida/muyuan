@@ -35,6 +35,16 @@ public class User {
     private String password;
 
     /**
+     * 加密salt
+     */
+    private String salt;
+
+    /**
+     * 加密key
+     */
+    private String encryptKey;
+
+    /**
      * 手机号
      */
     private String phone;

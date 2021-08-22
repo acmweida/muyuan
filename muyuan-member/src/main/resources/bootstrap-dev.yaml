@@ -1,4 +1,3 @@
-
 spring:
   cloud:
     nacos:
@@ -15,3 +14,11 @@ spring:
     name: member
 server:
   port: 18890
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.muyuan.member.repo.dao: debug
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*.xml
