@@ -30,6 +30,11 @@ public class User {
     private String account;
 
     /**
+     * 用户类型 0-会员 1-商家
+     */
+    private short type;
+
+    /**
      * 密码
      */
     private String password;

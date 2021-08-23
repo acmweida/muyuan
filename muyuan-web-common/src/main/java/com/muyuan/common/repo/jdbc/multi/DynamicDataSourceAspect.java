@@ -16,7 +16,7 @@ public class DynamicDataSourceAspect {
 
     private Logger logger = LoggerFactory.getLogger(DynamicDataSourceAspect.class);
 
-    @Before("@annotation(DataSource)")
+    @Before("@annotation(dataSource)")
     public void changeDataSource(JoinPoint point, DataSource dataSource) throws Throwable {
         String dsId = dataSource.value();
         if (!DynamicDataSourceContextHolder.containsDataSource(dsId)) {
@@ -28,7 +28,7 @@ public class DynamicDataSourceAspect {
         }
     }
 
-    @After("@annotation(DataSource)")
+    @After("@annotation(dataSource)")
     public void restoreDataSource(JoinPoint point, DataSource dataSource) {
         logger.info("恢复数据源-" + point.getSignature());
 
