@@ -1,6 +1,5 @@
 package com.muyuan.common.util;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import javax.crypto.Cipher;
@@ -281,12 +280,12 @@ public class EncryptUtil {
         return Base64.encode(res.getBytes());
     }
 
-    /**
-     * 使用Base64进行解密
-     * @param res
-     * @return
-     */
-    public static String Base64Decode(String res) throws Base64DecodingException {
-        return new String(Base64.decode(res));
-    }
+//    /**
+//     * 使用Base64进行解密
+//     * @param res
+//     * @return
+//     */
+//    public static String Base64Decode(String res) {
+//        return new String(Base64.decode(res));
+//    }
 }

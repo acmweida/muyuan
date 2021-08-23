@@ -1,5 +1,8 @@
 package com.muyuan.common.util;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class IdUtil {
 
 
@@ -7,7 +10,7 @@ public class IdUtil {
 
     private static long datacentId = 1;
 
-    private static  final IdWorker worker = new IdWorker(workerId,datacentId,1);
+    private static final IdWorker worker = new IdWorker(workerId,datacentId,1);
 
     private static class IdWorker{
 
@@ -123,7 +126,7 @@ public class IdUtil {
 
     }
 
-    public static long  createId() {
+    public long  createId() {
         return worker.nextId();
     }
 
