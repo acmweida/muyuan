@@ -8,6 +8,7 @@ import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,12 +64,12 @@ public class CrudSqlProvider {
         SQL sql = new SQL();
         Class<?> aClass = bean.getClass();
         String simpleName = aClass.getSimpleName();
-        sql.INSERT_INTO(Constant.TABLE_PREFIX+simpleName);
+        sql.INSERT_INTO(Constant.TABLE_PREFIX+InternalStrUtil.humpToUnderline(simpleName));
 
         List<String> values = new ArrayList<>();
         List<String> column = new ArrayList<>();
-        PropertyDescriptor[] beanProperties = ReflectUtils.getBeanProperties(aClass);
-        for (PropertyDescriptor propertyDescriptor : beanProperties) {
+        Field[] declaredFields = aClass.getDeclaredFields();
+        for (Field propertyDescriptor : declaredFields) {
             values.add("#{"+propertyDescriptor.getName()+"}");
             column.add(InternalStrUtil.humpToUnderline(propertyDescriptor.getName()));
         }

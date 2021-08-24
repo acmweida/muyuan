@@ -12,7 +12,7 @@ public interface JdbcBaseMapper<T>  {
     @SelectProvider(value = CrudSqlProvider.class,method = "selectFirst")
     T selectFirst(Map params);
 
-    @IdGenerator(fieldName = "id")
+    @IdGenerator()
     @SelectProvider(value = CrudSqlProvider.class,method = "insert")
-    int insert(T dataObject);
+    void insert(T dataObject);
 }

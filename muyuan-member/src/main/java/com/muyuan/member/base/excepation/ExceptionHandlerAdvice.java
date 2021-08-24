@@ -49,7 +49,7 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(RuntimeException.class)
     public Result unknowRuntimeException(RuntimeException e) {
         e.printStackTrace();
-        return ResultUtil.renderError(e.getStackTrace());
+        return ResultUtil.renderError();
     }
 
 }

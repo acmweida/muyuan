@@ -12,7 +12,7 @@ public class User {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 昵称
@@ -75,13 +75,7 @@ public class User {
     private Date updateTime;
 
     /**
-     * 修改人编号
+     * 上次登录时间
      */
-    private long updateUserNo;
-
-    /**
-     * 修改人编号
-     */
-    private long createUserNo;
-
+    private Date lastSignTime;
 }

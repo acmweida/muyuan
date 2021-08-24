@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping("/user")
 @Api(tags = {"用户接口"})
-public interface UserController {
+public interface LoginController {
 
-    @PostMapping("/register")
-    Result register(@RequestBody  RegisterDTO register);
+    @PostMapping("/accountRegister")
+    Result accountRegister(@RequestBody @Validated  RegisterDTO register);
 
     @ApiOperation(value = "账号登录接口",code = 0)
-    @PostMapping("/login")
-    Result login(@RequestBody @Validated AccountLoginDTO loginInfo);
+    @PostMapping("/accountLogin")
+    Result accountLogin(@RequestBody @Validated AccountLoginDTO loginInfo);
 }
