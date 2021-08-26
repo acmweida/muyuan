@@ -2,6 +2,7 @@ package com.muyuan.member.service.impl;
 
 import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
 import com.muyuan.common.util.EncryptUtil;
+import com.muyuan.common.util.IdUtil;
 import com.muyuan.common.util.JWTUtil;
 import com.muyuan.member.dto.AccountLoginDTO;
 import com.muyuan.member.dto.RegisterDTO;
@@ -14,10 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,7 +24,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public Optional<AccountLoginVo> login(AccountLoginDTO loginInfo) {
+    public Optional<AccountLoginVo> accountLogin(AccountLoginDTO loginInfo) {
         AccountLoginVo loginVo = new AccountLoginVo();
         User account = userMapper.selectFirst(new SqlBuilder(User.class)
                 .eq("account", loginInfo.getAccount())
@@ -52,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int register(RegisterDTO registerInfo) {
+    public int accountRegister(RegisterDTO registerInfo) {
 
         User account = userMapper.selectFirst(new SqlBuilder(User.class).select("id")
                 .eq("account", registerInfo.getAccount())
@@ -66,10 +64,11 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         BeanUtils.copyProperties(registerInfo,user);
+        user.setUserNo(IdUtil.createUserNo());
+        user.setUsername(IdUtil.createUserName());
         user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
         user.setSalt(salt);
         user.setEncryptKey(encryptKey);
-
 
         userMapper.insert(user);
 

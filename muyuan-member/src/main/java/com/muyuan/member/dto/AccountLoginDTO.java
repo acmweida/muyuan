@@ -29,4 +29,8 @@ public class AccountLoginDTO {
     @NotBlank(message = "用户类型不能为空")
     @ApiModelProperty(value = "用户类型 0-会员 1=商家")
     private short type;
+
+    @NotBlank(message = "验证码校验编号不能为空")
+    @ApiModelProperty(name = "验证码校验编号")
+    private String uuid;
 }

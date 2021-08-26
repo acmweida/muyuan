@@ -1,6 +1,11 @@
 package com.muyuan.common.util;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.springframework.stereotype.Component;
+
+import java.text.DateFormat;
+import java.util.Random;
 
 @Component
 public class IdUtil {
@@ -10,7 +15,11 @@ public class IdUtil {
 
     private static long datacentId = 1;
 
+    private static final String NAME_PREFIX = "my_";
+
     private static final IdWorker worker = new IdWorker(workerId,datacentId,1);
+
+    private static Random random = new Random();
 
     private static class IdWorker{
 
@@ -128,6 +137,41 @@ public class IdUtil {
 
     public long  createId() {
         return worker.nextId();
+    }
+
+
+    public static String randomString(int length) {
+        StringBuffer name = new StringBuffer();
+        Random random = new Random();
+        char temp = 'a';
+        int t = 0;
+        for (int i=0;i<length;i++) {
+            t = random.nextInt(61);
+            if (t < 10) {
+                temp = (char) (48 + t);
+            } else if (t < 37) {
+                temp = (char) (55 + t);
+            } else {
+                temp = (char) (60 + t);
+            }
+            name.append(temp);
+        }
+
+        return name.toString();
+    }
+
+    public static String createUserName() {
+        StringBuffer name = new StringBuffer(NAME_PREFIX);
+        name.append(randomString(7));
+        name.append((random.nextInt(900)+100));
+        return name.toString();
+    }
+
+    public static long createUserNo() {
+        StringBuffer userNoStr = new StringBuffer().append(random.nextInt(4)+5);
+        userNoStr.append(DateTime.now().toString("MMyyddHHssmm")).append(System.currentTimeMillis() % 1000)
+                .append(random.nextInt(9));;
+        return Long.valueOf(userNoStr.toString());
     }
 
 }

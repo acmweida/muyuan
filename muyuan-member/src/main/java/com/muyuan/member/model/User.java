@@ -15,11 +15,6 @@ public class User {
     private String username;
 
     /**
-     * 昵称
-     */
-    private String nickName;
-
-    /**
      * 用户编号
      */
     private long userNo;

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<AccountLoginVo> login(AccountLoginDTO loginInfo);
+    Optional<AccountLoginVo> accountLogin(AccountLoginDTO loginInfo);
 
     /**
      * 账户注册
@@ -16,5 +16,5 @@ public interface UserService {
      * @param registerInfo
      * @return
      */
-    int register(RegisterDTO registerInfo);
+    int accountRegister(RegisterDTO registerInfo);
 }
