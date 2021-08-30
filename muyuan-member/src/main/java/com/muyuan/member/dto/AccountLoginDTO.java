@@ -25,9 +25,8 @@ public class AccountLoginDTO {
     @ApiModelProperty(name = "验证码")
     private String code;
 
-    @Range(min = 0,max = 1,message = "用户类型无效")
-    @NotBlank(message = "用户类型不能为空")
-    @ApiModelProperty(value = "用户类型 0-会员 1=商家")
+    @Range(min = 1,max = 2,message = "用户类型无效")
+    @ApiModelProperty(value = "用户类型 1-会员 2=商家")
     private short type;
 
     @NotBlank(message = "验证码校验编号不能为空")

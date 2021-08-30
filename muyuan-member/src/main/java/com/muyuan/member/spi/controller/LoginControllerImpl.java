@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class LoginControllerImpl implements LoginController {
@@ -46,7 +47,10 @@ public class LoginControllerImpl implements LoginController {
 
 
     public Result accountLogin(AccountLoginDTO loginInfo) {
-        String  captcha = (String) redisTemplate.boundHashOps("captcha").get(loginInfo.getUuid());
+        if (!redisTemplate.hasKey("captcha:"+loginInfo.getUuid())) {
+            return ResultUtil.renderFail("验证码过时，请重新获取");
+        }
+        Object captcha = redisTemplate.opsForValue().get("captcha:" + loginInfo.getUuid());
         if (!loginInfo.getCode().equals(captcha)) {
             return ResultUtil.renderFail("验证码错误");
         }
@@ -78,7 +82,8 @@ public class LoginControllerImpl implements LoginController {
         String base64Image = encoder.encode(captchaChallengeAsJpeg);
         CaptchaVo captchaVo = new CaptchaVo();
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.boundHashOps("captcha").put(uuid,createText);
+        redisTemplate.opsForValue().set("captcha:"+uuid,createText);
+        redisTemplate.expire("captcha:"+uuid,5, TimeUnit.MINUTES);
         captchaVo.setImg(base64Image);
         captchaVo.setUuid(uuid);
 
