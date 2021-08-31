@@ -13,20 +13,24 @@ import java.util.Map;
 public class JWTUtil {
 
 
-    private static final String SIGNING_KEY = "jfd2fdsfs923m0-4dfs3.ef121d-asda";
+    private  String singingKey = "jfd2fdsfs923m0-4dfs3.ef121d-asda";
 
-    public static String createJwt(Date exp, Map claims) {
+    public JWTUtil(String singingKey) {
+        this.singingKey = singingKey;
+    }
+
+    public  String createJwt(Date exp, Map claims) {
         DateTime now = DateTime.now();
         String token = JWT.create()
                 .withIssuedAt(now.toDate())
                 .withExpiresAt(exp)
                 .withPayload(claims)
-                .sign(Algorithm.HMAC256(SIGNING_KEY));
+                .sign(Algorithm.HMAC256(singingKey));
         return token;
     }
 
-    public static Map parseToken(String token) {
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(SIGNING_KEY)).build();
+    public  Map parseToken(String token) {
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(singingKey)).build();
         DecodedJWT verify = jwtVerifier.verify(token);
         Map<String, Claim> claims = verify.getClaims();
         return claims;

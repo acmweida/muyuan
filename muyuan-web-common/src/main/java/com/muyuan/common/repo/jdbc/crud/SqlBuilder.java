@@ -2,7 +2,9 @@ package com.muyuan.common.repo.jdbc.crud;
 
 import com.muyuan.common.repo.jdbc.page.Page;
 import com.muyuan.common.util.InternalStrUtil;
+import org.apache.ibatis.reflection.ArrayUtil;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +115,14 @@ public class SqlBuilder {
         params.put(Constant.TABLE_NAME,InternalStrUtil.humpToUnderline(target.getSimpleName()));
         params.put(Constant.CONDITION,conditions);
         if (null == columns) {
-            params.put(Constant.COLUMN,Constant.ALL);
+            List<String> column = new ArrayList<>();
+            Field[] declaredFields = target.getDeclaredFields();
+            for (Field propertyDescriptor : declaredFields) {
+                column.add(InternalStrUtil.humpToUnderline(propertyDescriptor.getName()) + " as "+propertyDescriptor.getName());
+            }
+            String[] columns = new String[column.size()];
+            column.toArray(columns);
+            params.put(Constant.COLUMN,columns);
         } else {
             params.put(Constant.COLUMN,columns);
         }
