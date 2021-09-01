@@ -5,7 +5,7 @@ import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
 import com.muyuan.member.dto.AccountLoginDTO;
 import com.muyuan.member.dto.RegisterDTO;
-import com.muyuan.member.service.UserService;
+import com.muyuan.member.service.LoginService;
 import com.muyuan.member.spi.LoginController;
 import com.muyuan.member.vo.AccountLoginVo;
 import com.muyuan.member.vo.CaptchaVo;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class LoginControllerImpl implements LoginController {
 
     @Autowired
-    private UserService userService;
+    private LoginService userService;
 
     @Autowired
     private RedisTemplate redisTemplate;

@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>muyuan-auth</module>
         <module>muyuan-gateway</module>
         <module>muyuan-member</module>
         <module>muyuan-web-common</module>

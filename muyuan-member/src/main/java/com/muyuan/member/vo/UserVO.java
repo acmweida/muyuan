@@ -3,7 +3,6 @@ package com.muyuan.member.vo;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
 public class UserVO {
 

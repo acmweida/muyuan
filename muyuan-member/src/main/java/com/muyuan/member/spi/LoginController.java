@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController()
-@RequestMapping("/user")
-@Api(tags = {"用户接口"})
+@RequestMapping("/login")
+@Api(tags = {"登录接口"})
 public interface LoginController {
 
+    @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/accountRegister")
     Result accountRegister(@RequestBody @Validated  RegisterDTO register);
 
