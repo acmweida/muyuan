@@ -2,17 +2,14 @@ spring:
   cloud:
     nacos:
       config:
-#        server-addr: 192.168.56.105
-#        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
-#        group: MUYUAN
-#        file-extension: properties
-#      discovery:
-#        server-addr: 192.168.56.105
-#        group: MUYUAN
-#        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
-      server-addr: 127.0.0.1
+        server-addr: 192.168.56.105
+        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        group: MUYUAN
+        file-extension: properties
       discovery:
-        server-addr: 127.0.0.1
+        server-addr: 192.168.56.105
+        group: MUYUAN
+        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
   application:
     name: gateway
 server:
@@ -21,3 +18,10 @@ logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
+zuul:
+  routes:
+    member:
+      path: /member/**
+    auth:
+      path: /auth/**
+  prefix: /api

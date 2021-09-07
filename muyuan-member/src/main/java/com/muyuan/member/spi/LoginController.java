@@ -16,9 +16,6 @@ import java.io.IOException;
 @Api(tags = {"登录接口"})
 public interface LoginController {
 
-    @ApiOperation(value = "账号密码注册",code = 0)
-    @PostMapping("/accountRegister")
-    Result accountRegister(@RequestBody @Validated  RegisterDTO register);
 
     @ApiOperation(value = "账号登录接口",code = 0)
     @PostMapping("/accountLogin")

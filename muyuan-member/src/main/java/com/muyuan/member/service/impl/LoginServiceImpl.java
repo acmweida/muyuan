@@ -54,29 +54,5 @@ public class LoginServiceImpl implements LoginService {
         return Optional.of(loginVo);
     }
 
-    @Override
-    public int accountRegister(RegisterDTO registerInfo) {
 
-        User account = userMapper.selectFirst(new SqlBuilder(User.class).select("id")
-                .eq("account", registerInfo.getAccount())
-                .build());
-        if (null != account) {
-            return 1;
-        }
-
-        String salt = UUID.randomUUID().toString();
-        String encryptKey = UUID.randomUUID().toString();
-
-        User user = new User();
-        BeanUtils.copyProperties(registerInfo,user);
-        user.setUserNo(IdUtil.createUserNo());
-        user.setUsername(IdUtil.createUserName());
-        user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
-        user.setSalt(salt);
-        user.setEncryptKey(encryptKey);
-
-        userMapper.insert(user);
-
-        return 0;
-    }
 }
