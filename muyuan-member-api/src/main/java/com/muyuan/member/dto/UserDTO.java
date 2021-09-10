@@ -1,11 +1,11 @@
-package com.muyuan.auth.model;
+package com.muyuan.member.dto;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class User {
+public class UserDTO  {
 
     private long id;
 

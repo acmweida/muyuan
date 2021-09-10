@@ -3,6 +3,7 @@ package com.muyuan.member.spi.controller;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
 import com.muyuan.member.dto.RegisterDTO;
+import com.muyuan.member.model.User;
 import com.muyuan.member.service.UserService;
 import com.muyuan.member.spi.UserController;
 import com.muyuan.member.vo.UserVO;
@@ -24,6 +25,11 @@ public class UserControllerImpl implements UserController {
             return ResultUtil.renderFail("用户信息不存在");
         }
         return ResultUtil.render(userInfo.get());
+    }
+
+    @Override
+    public Result<User> getUserByUsername(String username) {
+        return null;
     }
 
     public Result accountRegister(RegisterDTO register) {

@@ -1,11 +1,8 @@
 package com.muyuan.common.result;
 
-
-import com.alibaba.fastjson.JSONObject;
 import com.muyuan.common.enums.CodeMessage;
 import com.muyuan.common.enums.ResponseCode;
 
-import java.util.Collection;
 import java.util.Collections;
 
 public class ResultUtil {
@@ -39,6 +36,7 @@ public class ResultUtil {
     }
 
     public static Result renderError() { return renderError(Collections.EMPTY_LIST);};
+    public static Result renderError(String code,String message) { return renderError(Collections.EMPTY_LIST);};
 
     public static Result renderError(Object data) { return new Result(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getType(),CodeMessage.EERROR.getMsg(),data );};
 

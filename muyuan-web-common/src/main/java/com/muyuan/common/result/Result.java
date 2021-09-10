@@ -6,10 +6,11 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Data
 @ApiModel
-public class Result {
+public class Result<T> {
 
     private int code;
 
@@ -17,7 +18,7 @@ public class Result {
 
     private String msg;
 
-    private Object data;
+    private Optional<T> data = Optional.empty();
 
     private Date optionTime = DateTime.now().toDate();
 
@@ -27,10 +28,10 @@ public class Result {
         this.msg = msg;
     }
 
-    public Result(int code, String type, String msg, Object data) {
+    public Result(int code, String type, String msg, T data) {
         this.code = code;
         this.type = type;
         this.msg = msg;
-        this.data = data;
+        this.data = Optional.of(data);
     }
 }

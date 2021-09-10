@@ -1,9 +1,9 @@
 package com.muyuan.auth.service.impl;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
-import com.muyuan.auth.model.User;
-import com.muyuan.auth.repo.dao.UserMapper;
-import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
+import com.muyuan.common.result.Result;
+import com.muyuan.member.api.UserInterFace;
+import com.muyuan.member.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,17 +18,18 @@ import java.util.List;
 public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserMapper userMapper;
+    UserInterFace userInterFace;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User account = userMapper.selectFirst(new SqlBuilder(User.class)
-                .eq("account", s)
-                .build());
-        List<GrantedAuthority>  authorities = new ArrayList<>();
-        if (null == account) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Result<UserDTO> result  = userInterFace.getUserByUsername(username);
+
+        if (!result.getData().isPresent()) {
             throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
         }
+
+        UserDTO userDTO = result.getData().get();
+        List<GrantedAuthority>  authorities = new ArrayList<>();
 
         authorities.add(new GrantedAuthority() {
             @Override
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserDetailsService {
                 return "ADMIN";
             }
         });
-        return new org.springframework.security.core.userdetails
-                .User(account.getUsername(), account.getPassword(), authorities);
+        return new com.muyuan.auth.dto.UserDTO(userDTO.getUsername(), userDTO.getPassword(), authorities);
     }
+
+
 }

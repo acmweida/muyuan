@@ -18,3 +18,4 @@ logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
+    org.springframework: debug
