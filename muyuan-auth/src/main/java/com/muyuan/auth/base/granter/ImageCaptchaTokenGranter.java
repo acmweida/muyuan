@@ -1,5 +1,6 @@
 package com.muyuan.auth.base.granter;
 
+import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
 import com.muyuan.auth.base.exception.ImageCaptchaException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
@@ -38,7 +39,7 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 
         Map<String, String> parameters = new LinkedHashMap<String, String>(tokenRequest.getRequestParameters());
-        String username = parameters.get("username");
+        String account = parameters.get("account");
         String password = parameters.get("password");
         String captchaInput = parameters.get("captcha");
         String uuid = parameters.get("uuid");
@@ -55,7 +56,7 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
             throw new ImageCaptchaException("验证码错误");
         }
 
-        Authentication userAuth = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication userAuth = new ImageCaptchaAuthenticationToken(account, password);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
         try {
             userAuth = authenticationManager.authenticate(userAuth);
@@ -69,7 +70,7 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
             throw new InvalidGrantException(e.getMessage());
         }
         if (userAuth == null || !userAuth.isAuthenticated()) {
-            throw new InvalidGrantException("Could not authenticate user: " + username);
+            throw new InvalidGrantException("Could not authenticate user: " + account);
         }
 
         OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);

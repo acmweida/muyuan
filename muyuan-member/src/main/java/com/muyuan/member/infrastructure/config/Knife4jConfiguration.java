@@ -1,4 +1,4 @@
-package com.muyuan.auth.base.config;
+package com.muyuan.member.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class Knife4jConfiguration {
         Docket docket=new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         //.title("swagger-bootstrap-ui-demo RESTful APIs")
-                        .description("# 认证服务 RESTful APIs")
+                        .description("# 用户服务 RESTful APIs")
                         .termsOfServiceUrl("http://www.xx.com/")
                         .version("1.0")
                         .build())

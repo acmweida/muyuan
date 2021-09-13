@@ -1,7 +1,7 @@
 package com.muyuan.member;
 
-import com.muyuan.member.model.User;
-import com.muyuan.member.repo.dao.UserMapper;
+import com.muyuan.member.domain.model.User;
+import com.muyuan.member.infrastructure.persistence.dao.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

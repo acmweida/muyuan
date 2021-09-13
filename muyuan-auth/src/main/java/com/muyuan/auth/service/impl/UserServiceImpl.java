@@ -3,7 +3,7 @@ package com.muyuan.auth.service.impl;
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.common.result.Result;
 import com.muyuan.member.api.UserInterFace;
-import com.muyuan.member.dto.UserDTO;
+import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserDetailsService {
                 return "ADMIN";
             }
         });
-        return new com.muyuan.auth.dto.UserDTO(userDTO.getUsername(), userDTO.getPassword(), authorities);
+        return new com.muyuan.auth.dto.UserInfo(userDTO.getUsername(), userDTO.getPassword(),userDTO.getAccount(), authorities);
     }
-
 
 }
