@@ -54,6 +54,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder());
     }
 
+
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenGranter tokenGranter = TokenGranterExt.getTokenGranter(authenticationManager, endpoints,  redisTemplate);

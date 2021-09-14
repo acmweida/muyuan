@@ -1,5 +1,6 @@
 package com.muyuan.member.api;
 
+import com.muyuan.common.constant.ServiceTypeConst;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
 import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(value = "member",path = "/user",fallback = UserInterFace.UserFallbackFactory.class)
+@FeignClient(value = ServiceTypeConst.MEMBER_SERVICE,path = "/user",fallback = UserInterFace.UserFallbackFactory.class)
 public interface UserInterFace {
 
     @RequestMapping(value = "/getUserByUsername",method = RequestMethod.POST)

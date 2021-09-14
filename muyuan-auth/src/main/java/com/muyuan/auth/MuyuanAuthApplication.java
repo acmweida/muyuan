@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan(basePackages = {"com.muyuan"})
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.muyuan"})
 public class MuyuanAuthApplication {
 
     public static void main(String[] args) {
