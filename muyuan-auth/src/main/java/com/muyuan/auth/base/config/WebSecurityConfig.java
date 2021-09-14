@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.auhenticationprovider.ImageCaptchaAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +21,12 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)  {
-        auth.authenticationProvider(new ImageCaptchaAuthenticationProvider());
+        auth.authenticationProvider(new ImageCaptchaAuthenticationProvider(userDetailsService));
     }
 
 

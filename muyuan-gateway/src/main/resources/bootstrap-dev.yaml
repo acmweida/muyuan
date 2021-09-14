@@ -12,6 +12,11 @@ spring:
         namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
   application:
     name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
 server:
   port: 18990
 logging:
@@ -25,3 +30,9 @@ zuul:
     auth:
       path: /auth/**
   prefix: /api
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:${server.port}/auth/oauth/token
+      user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize #授权端点
