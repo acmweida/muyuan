@@ -10,6 +10,23 @@ spring:
         server-addr: 192.168.56.105
         group: MUYUAN
         namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: member
+          url: lb://member
+          predicates:
+            - Path=/member/**
+          filters:
+            - StripPrefix=1
+        - id: auth
+          url: lb://auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
   application:
     name: gateway
   security:
@@ -19,20 +36,15 @@ spring:
           jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
 server:
   port: 18990
+  servlet:
+    context-path: /api
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
-zuul:
-  routes:
-    member:
-      path: /member/**
-    auth:
-      path: /auth/**
-  prefix: /api
-
 security:
   oauth2:
     client:
       access-token-uri: http://localhost:${server.port}/auth/oauth/token
       user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize #授权端点
+

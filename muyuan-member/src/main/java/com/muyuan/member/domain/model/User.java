@@ -25,9 +25,19 @@ public class User {
     private String account;
 
     /**
-     * 用户类型 0-会员 1-商家
+     * 用户类型 0-个人 1-企业
      */
     private short type;
+
+    /**
+     * 是否开店
+     */
+    private boolean isShop;
+
+    /**
+     * 店铺号
+     */
+    private long shopNo;
 
     /**
      * 密码

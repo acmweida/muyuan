@@ -1,11 +1,13 @@
-package com.muyuan.member.interfaces.facade.api.controller;
+package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.result.Result;
-import com.muyuan.member.interfaces.facade.dto.RegisterDTO;
+import com.muyuan.member.interfaces.dto.RegisterDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
 
 @RestController()
 @RequestMapping("/user")
@@ -16,9 +18,9 @@ public interface UserController {
     @ApiOperation(value = "获取用户信息")
     Result getUserInfo();
 
-    @GetMapping("/getUserByUsername")
-    @ApiOperation(value = "获取用户信息")
-    Result getUserByUsername(@RequestParam("username") String username);
+    @GetMapping("/getUserByAccount")
+    @ApiOperation(value = "通过账号获取用户信息")
+    Result getUserByAccount(@RequestParam("account") @NotBlank String account);
 
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/accountRegister")

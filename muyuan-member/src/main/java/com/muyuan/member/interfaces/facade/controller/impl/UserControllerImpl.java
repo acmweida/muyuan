@@ -1,12 +1,14 @@
-package com.muyuan.member.interfaces.facade.api.controller.impl;
+package com.muyuan.member.interfaces.facade.controller.impl;
 
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
-import com.muyuan.member.interfaces.facade.api.controller.UserController;
-import com.muyuan.member.interfaces.facade.dto.RegisterDTO;
+import com.muyuan.member.domain.query.UserQuery;
+import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
+import com.muyuan.member.interfaces.dto.RegisterDTO;
 import com.muyuan.member.domain.model.User;
-import com.muyuan.member.application.service.UserService;
 import com.muyuan.member.domain.vo.UserVO;
+import com.muyuan.member.interfaces.dto.UserDTO;
+import com.muyuan.member.interfaces.facade.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,24 +18,30 @@ import java.util.Optional;
 public class UserControllerImpl implements UserController {
 
     @Autowired
-    UserService userService;
+    UserQuery userQuery;
 
     @Override
     public Result getUserInfo() {
-        final Optional<UserVO> userInfo = userService.getUserInfo("xxxx");
+        final Optional<User> userInfo = userQuery.getUserInfo("xxxx");
         if (!userInfo.isPresent()) {
             return ResultUtil.renderFail("用户信息不存在");
         }
-        return ResultUtil.render(userInfo.get());
+        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get());
+        return ResultUtil.render(userVO);
     }
 
     @Override
-    public Result<User> getUserByUsername(String username) {
-        return null;
+    public Result<UserDTO> getUserByAccount(String account) {
+        final Optional<User> userInfo = userQuery.getUserByAccount(account);
+        if (!userInfo.isPresent()) {
+            return ResultUtil.renderFail("用户信息不存在");
+        }
+        UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
+        return ResultUtil.render(userDTO);
     }
 
     public Result accountRegister(RegisterDTO register) {
-        int registerResult = userService.accountRegister(register);
+        int registerResult = userQuery.accountRegister(register);
         if (registerResult == 0) {
             return   ResultUtil.render("注册成功");
         } else if (registerResult == 1) {

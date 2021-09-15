@@ -1,13 +1,12 @@
-package com.muyuan.member.application.service.impl;
+package com.muyuan.member.domain.query.impl;
 
 import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
 import com.muyuan.common.util.EncryptUtil;
 import com.muyuan.common.util.IdUtil;
-import com.muyuan.member.interfaces.facade.dto.RegisterDTO;
 import com.muyuan.member.domain.model.User;
-import com.muyuan.member.infrastructure.persistence.dao.UserMapper;
-import com.muyuan.member.application.service.UserService;
-import com.muyuan.member.domain.vo.UserVO;
+import com.muyuan.member.domain.query.UserQuery;
+import com.muyuan.member.domain.repo.UserRepo;
+import com.muyuan.member.interfaces.dto.RegisterDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,29 +15,38 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserQuery {
 
     @Autowired
-    UserMapper userMapper;
+    UserRepo userRepo;
 
     @Override
-    public Optional<UserVO> getUserInfo(String userNo) {
-        final User user = userMapper.selectFirst(new SqlBuilder(User.class)
+    public Optional<User> getUserInfo(String userNo) {
+        final User user = userRepo.selectFirst(new SqlBuilder(User.class)
                 .eq("userNo", userNo)
                 .build());
         if (null == user) {
             return Optional.empty();
         }
 
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user,userVO);
-        return Optional.of(userVO);
+        return Optional.of(user);
+    }
+
+    @Override
+    public Optional<User> getUserByAccount(String account) {
+        final User user = userRepo.selectFirst(new SqlBuilder(User.class)
+                .eq("account", account)
+                .build());
+        if (null == user) {
+            return Optional.empty();
+        }
+        return Optional.empty();
     }
 
     @Override
     public int accountRegister(RegisterDTO registerInfo) {
 
-        User account = userMapper.selectFirst(new SqlBuilder(User.class).select("id")
+        User account = userRepo.selectFirst(new SqlBuilder(User.class).select("id")
                 .eq("account", registerInfo.getAccount())
                 .build());
         if (null != account) {
@@ -56,7 +64,7 @@ public class UserServiceImpl implements UserService {
         user.setSalt(salt);
         user.setEncryptKey(encryptKey);
 
-        userMapper.insert(user);
+        userRepo.insert(user);
 
         return 0;
     }

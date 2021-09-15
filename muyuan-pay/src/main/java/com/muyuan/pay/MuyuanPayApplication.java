@@ -1,13 +1,13 @@
-package com.muyua.gateway;
+package com.muyuan.pay;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MuyuanGatewayApplication {
+public class MuyuanPayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MuyuanGatewayApplication.class, args);
+        SpringApplication.run(MuyuanPayApplication.class, args);
     }
 
 }

@@ -1,13 +1,13 @@
-package com.muyua.gateway;
+package com.muyuan.goods;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MuyuanGatewayApplication {
+public class MuyuanGoodsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MuyuanGatewayApplication.class, args);
+        SpringApplication.run(MuyuanGoodsApplication.class, args);
     }
 
 }

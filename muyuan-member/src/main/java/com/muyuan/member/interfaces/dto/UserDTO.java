@@ -1,19 +1,18 @@
-package com.muyuan.member.domain.vo;
+package com.muyuan.member.interfaces.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class UserVO {
+public class UserDTO {
+
+    private long id;
 
     /**
      * 用户名
      */
     private String username;
-
-    /**
-     * 昵称
-     */
-    private String nickName;
 
     /**
      * 用户编号
@@ -24,11 +23,6 @@ public class UserVO {
      * 账号名唯一用于登录
      */
     private String account;
-
-    /**
-     * 手机号
-     */
-    private String phone;
 
     /**
      * 用户类型 0-个人 1-企业
@@ -46,6 +40,26 @@ public class UserVO {
     private long shopNo;
 
     /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 加密salt
+     */
+    private String salt;
+
+    /**
+     * 加密key
+     */
+    private String encryptKey;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
      * 是否删除（0-否 1-是）
      */
     private boolean isDelete;
@@ -55,4 +69,18 @@ public class UserVO {
      */
     private short status;
 
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
+
+    /**
+     * 上次登录时间
+     */
+    private Date lastSignTime;
 }
