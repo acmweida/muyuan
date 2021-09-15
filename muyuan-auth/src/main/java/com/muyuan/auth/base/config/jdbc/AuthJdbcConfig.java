@@ -5,6 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "member.jdbc")
-public class MemberJdbcConfig extends JdbcConfig {
+@ConfigurationProperties(prefix = "auth.jdbc")
+public class AuthJdbcConfig extends JdbcConfig {
 }

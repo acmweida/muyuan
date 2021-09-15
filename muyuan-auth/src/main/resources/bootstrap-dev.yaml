@@ -19,3 +19,8 @@ logging:
   level:
     com.muyuan.member.repo.dao: debug
     org.springframework: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -2,6 +2,7 @@ package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.auhenticationprovider.ImageCaptchaAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,11 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers().anyRequest()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/**","/rsa/publicKey").permitAll()
-                .and()
-                .authorizeRequests();
+      http.authorizeRequests()
+              .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+              .antMatchers("/oauth/**","/rsa/publicKey","/login/**").permitAll()
+              .anyRequest().authenticated();
     }
 }

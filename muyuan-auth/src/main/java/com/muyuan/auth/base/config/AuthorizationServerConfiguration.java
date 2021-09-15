@@ -51,7 +51,20 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder());
+//        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder());
+        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+                clients.inMemory().withClient("client_1")
+                .resourceIds("ORDER")
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("select")
+                .authorities("oauth2")
+                .secret(finalSecret)
+                .and().withClient("client_2")
+                .resourceIds("ORDER")
+                .authorizedGrantTypes("password", "refresh_token")
+                .scopes("server")
+                .authorities("oauth2")
+                .secret(finalSecret);
     }
 
 

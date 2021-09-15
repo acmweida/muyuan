@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(MemberJdbcConfig jdbcConfig) {
+    public DataSource dataSource(AuthJdbcConfig jdbcConfig) {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
         dataSource.setJdbcUrl(jdbcConfig.getUrl());
