@@ -14,24 +14,24 @@ public class Result<T> {
 
     private int code;
 
-    private String type;
-
     private String msg;
 
-    private Optional<T> data = Optional.empty();
+    private String type;
+
+    private T data ;
 
     private Date optionTime = DateTime.now().toDate();
 
-    public Result(int code, String type, String msg) {
+    public Result(int code, String type,String msg) {
         this.code = code;
-        this.type = type;
         this.msg = msg;
+        this.type =type;
     }
 
     public Result(int code, String type, String msg, T data) {
         this.code = code;
-        this.type = type;
         this.msg = msg;
-        this.data = Optional.of(data);
+        this.type =type;
+        this.data = data;
     }
 }

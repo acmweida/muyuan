@@ -24,11 +24,11 @@ public class UserServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Result<UserDTO> result  = userInterFace.getUserByUsername(username);
 
-        if (!result.getData().isPresent()) {
+        if (result.getData() == null) {
             throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
         }
 
-        UserDTO userDTO = result.getData().get();
+        UserDTO userDTO = result.getData();
         List<GrantedAuthority>  authorities = new ArrayList<>();
 
         authorities.add(new GrantedAuthority() {

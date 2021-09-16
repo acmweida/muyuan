@@ -1,7 +1,7 @@
 package com.muyuan.member.infrastructure.excepation;
 
 import com.alibaba.fastjson.JSONObject;
-import com.muyuan.common.enums.CodeMessage;
+import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.exception.MuyuanException;
 import com.muyuan.common.exception.MuyuanExceptionHandler;
 import com.muyuan.common.result.Result;
@@ -33,7 +33,7 @@ public class ExceptionHandlerAdvice {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
 
-        return ResultUtil.renderFail(CodeMessage.ARGUMENT_EEORR,errorInfo);
+        return ResultUtil.renderFail(ResponseCode.ARGUMENT_EEORR,errorInfo);
     }
 
     @ExceptionHandler(MuyuanException.class)
