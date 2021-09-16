@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
 
-    private static String GRANT_TYPE = "imageCaptcha";
+    private static String GRANT_TYPE = "image_captcha";
 
     private final AuthenticationManager authenticationManager;
 
@@ -46,7 +46,7 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
         // Protect from downstream leaks of password
         parameters.remove("password");
 
-        if (ObjectUtils.isEmpty(uuid) || redisTemplate.hasKey(uuid)) {
+        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(uuid)) {
             throw  new  ImageCaptchaException("验证码验证失败");
         }
 

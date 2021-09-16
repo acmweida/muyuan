@@ -56,7 +56,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
                 clients.inMemory().withClient("client_1")
                 .resourceIds("ORDER")
-                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .authorizedGrantTypes("client_credentials", "refresh_token","image_captcha")
                 .scopes("select")
                 .authorities("oauth2")
                 .secret(finalSecret)

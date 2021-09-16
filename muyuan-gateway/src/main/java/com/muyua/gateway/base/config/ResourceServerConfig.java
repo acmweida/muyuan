@@ -5,7 +5,6 @@ import com.muyua.gateway.base.component.RestfulAccessDeniedHandler;
 import com.muyua.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
 import com.muyuan.common.auth.AuthConst;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,6 @@ import org.springframework.security.oauth2.server.resource.authentication.Reacti
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import reactor.core.publisher.Mono;
-import sun.security.util.ArrayUtil;
 
 @AllArgsConstructor
 @Configuration
