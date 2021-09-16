@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -19,7 +20,6 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
@@ -32,6 +32,7 @@ import java.util.List;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    @Qualifier("authenticationManagerBean")
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -77,8 +78,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         delegates.add(jwtTokenEnhancer);
         delegates.add(accessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates);
-        endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory))
-                .authenticationManager(authenticationManager)
+        endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
                 .tokenGranter(tokenGranter)
