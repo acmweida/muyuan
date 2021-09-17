@@ -1,4 +1,4 @@
-package com.muyuan.member.infrastructure.config.mybatis;
+package com.muyuan.shop.infrastructure.config.mybatis;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
@@ -10,11 +10,11 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.member.infrastructure.persistence.dao")
+@MapperScan("com.muyuan.member.infrastructure.db.dao")
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(MemberJdbcConfig jdbcConfig) {
+    public DataSource dataSource(ShopJdbcConfig jdbcConfig) {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
         dataSource.setJdbcUrl(jdbcConfig.getUrl());

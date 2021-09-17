@@ -11,17 +11,14 @@ spring:
         group: MUYUAN
         namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
   application:
-    name: member
+    name: shop
 server:
   port: 18690
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.member.repo.dao: debug
+    com.muyuan.shop.: debug
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath*:mapper/*.xml
-
-jwt:
-  signingKey: jfd2fdsfs923m0-4dfs3.ef121d-asda
