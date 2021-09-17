@@ -18,7 +18,7 @@ public interface UserController {
     @ApiOperation(value = "获取用户信息")
     Result getUserInfo();
 
-    @GetMapping("/getUserByAccount")
+    @PostMapping("/getUserByAccount")
     @ApiOperation(value = "通过账号获取用户信息")
     Result getUserByAccount(@RequestParam("account") @NotBlank String account);
 

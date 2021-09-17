@@ -48,13 +48,13 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
+        Assert.isInstanceOf(ImageCaptchaAuthenticationToken.class, authentication,
                 () -> this.messages.getMessage("ImageCaptchaAuthenticationProvider.onlySupports",
                         "Only UsernamePasswordAuthenticationToken is supported"));
         String username = determineUsername(authentication);
         UserDetails user;
         try {
-            user = retrieveUser(username, (UsernamePasswordAuthenticationToken) authentication);
+            user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
         } catch (UsernameNotFoundException ex) {
             this.logger.debug("Failed to find user '" + username + "'");
             if (!this.hideUserNotFoundExceptions) {
@@ -68,7 +68,7 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             this.preAuthenticationChecks.check(user);
             additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
         } catch (AuthenticationException ex) {
-            user = retrieveUser(username, (UsernamePasswordAuthenticationToken) authentication);
+            user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
             this.preAuthenticationChecks.check(user);
             additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
         }
@@ -113,7 +113,7 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         return ImageCaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
+    protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
             throws AuthenticationException {
         try {
             UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username);

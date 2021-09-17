@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.granter;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
+import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.base.exception.ImageCaptchaException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
@@ -46,12 +47,12 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
         // Protect from downstream leaks of password
         parameters.remove("password");
 
-        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(uuid)) {
+        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid)) {
             throw  new  ImageCaptchaException("验证码验证失败");
         }
 
-        final Object captcha = redisTemplate.opsForValue().get(uuid);
-        redisTemplate.delete(uuid);
+        final Object captcha = redisTemplate.opsForValue().get(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
+        redisTemplate.delete(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
         if (!captcha.toString().equals(captchaInput)) {
             throw new ImageCaptchaException("验证码错误");
         }
