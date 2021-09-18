@@ -1,15 +1,23 @@
 package com.muyuan.common.util;
 
+import com.muyuan.common.constant.RedisConst;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
-import java.text.DateFormat;
 import java.util.Random;
 
 @Component
 public class IdUtil {
 
+    public static final String MACHINE_CODE_MAP = "MACHINE:CODEMAP";
+
+    private static final long MAX_MACHINE_ID = 1 << 10;
+
+    private static final long MAX_WORK_ID = 1 << 5;
 
     private static long workerId = 1;
 
@@ -17,9 +25,37 @@ public class IdUtil {
 
     private static final String NAME_PREFIX = "my_";
 
-    private static final IdWorker worker = new IdWorker(workerId,datacentId,1);
+    private static IdWorker worker = null;
 
     private static Random random = new Random();
+
+    public IdUtil() {
+    }
+
+
+    public IdUtil(@Autowired RedisTemplate redisTemplate) {
+        getMachineCode(redisTemplate);
+        worker =new IdWorker(workerId,datacentId,1);
+    }
+
+    public static void  getMachineCode(RedisTemplate redisTemplate ) {
+        HashOperations hashOperations = redisTemplate.opsForHash();
+
+        String localIp = IpUtil.getLocalAddress().getHostAddress();
+        long machineId =  localIp.hashCode() % MAX_MACHINE_ID;
+        while ( hashOperations.hasKey(MACHINE_CODE_MAP,machineId)){
+           machineId++;
+        }
+        hashOperations.put(MACHINE_CODE_MAP,machineId, RedisConst.TRUE_VALUE);
+        workerId = machineId & MAX_WORK_ID;
+        datacentId = machineId >> 5;
+        long finalMachineId = machineId;
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(
+                        () -> hashOperations.delete(MACHINE_CODE_MAP, finalMachineId)
+                )
+        );
+    }
 
     private static class IdWorker{
 
