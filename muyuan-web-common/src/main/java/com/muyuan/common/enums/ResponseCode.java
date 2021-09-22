@@ -6,6 +6,7 @@ public enum ResponseCode {
     AUTH_FAIL(401,"FAIL","没有权限"),
     ARGUMENT_EEORR(402,"FAIL","参数错误"),
     UNAUTHORIZED(405,"FAIL","没有登录或者token失效"),
+    USER_ONT_FOUND(406,"FAIL","用户信息没有查询到"),
     ERROR(500,"ERROR","未知异常，请联系管理员！");
 
 

@@ -3,7 +3,7 @@ package com.muyua.gateway.base.config;
 import com.muyua.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyua.gateway.base.component.RestfulAccessDeniedHandler;
 import com.muyua.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
-import com.muyuan.common.auth.AuthConst;
+import com.muyuan.common.constant.auth.AuthConst;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package com.muyuan.member.infrastructure.common.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.muyuan.common.auth.AuthConst;
+import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;

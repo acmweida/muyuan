@@ -1,4 +1,4 @@
-package com.muyuan.common.auth;
+package com.muyuan.common.constant.auth;
 
 public class AuthConst {
     public static final String AUTHORITY_PREFIX = "ROLE_";

@@ -1,9 +1,7 @@
-package com.muyuan.member.infrastructure.excepation;
+package com.muyuan.common.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.muyuan.common.enums.ResponseCode;
-import com.muyuan.common.exception.MuyuanException;
-import com.muyuan.common.exception.MuyuanExceptionHandler;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,6 @@ public class ExceptionHandlerAdvice {
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         JSONObject errorInfo = new JSONObject();
         for (ObjectError error : allErrors) {
-            System.out.println(error);
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
 

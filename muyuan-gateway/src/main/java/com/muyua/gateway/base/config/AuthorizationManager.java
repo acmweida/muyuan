@@ -1,8 +1,8 @@
 package com.muyua.gateway.base.config;
 
 import cn.hutool.core.convert.Convert;
-import com.muyuan.common.auth.AuthConst;
-import com.muyuan.common.auth.AuthRedisConst;
+import com.muyuan.common.constant.auth.AuthConst;
+import com.muyuan.common.constant.auth.AuthRedisConst;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
