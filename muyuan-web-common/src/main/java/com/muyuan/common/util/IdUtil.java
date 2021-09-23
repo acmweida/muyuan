@@ -1,6 +1,7 @@
 package com.muyuan.common.util;
 
 import com.muyuan.common.constant.RedisConst;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Random;
 
 @Component
+@Slf4j
 public class IdUtil {
 
     public static final String MACHINE_CODE_MAP = "MACHINE:CODEMAP";
@@ -50,6 +52,7 @@ public class IdUtil {
         workerId = machineId & MAX_WORK_ID;
         datacentId = machineId >> 5;
         long finalMachineId = machineId;
+        log.info("server machine id : {}",machineId);
         Runtime.getRuntime().addShutdownHook(
                 new Thread(
                         () -> hashOperations.delete(MACHINE_CODE_MAP, finalMachineId)
