@@ -21,6 +21,11 @@ public class Goods {
     private long categoryId;
 
     /**
+     * 商品属性分类id
+     */
+    private long goodsAttributeCategoryId;
+
+    /**
      * 店铺ID
      */
     private long shopId;
