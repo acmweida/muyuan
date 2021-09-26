@@ -7,15 +7,31 @@ public class GoodsAttribute {
 
     private long id;
 
-    private long goodsAttributeCategoryId;
+    /**
+     * 属性分组
+     */
+    private String group;
+
+    private long goodsCategoryId;
 
     /**
-     * 属性值选择类型
+     * 属性值选择类型 1-单选 2-多选 3-自定义
      */
-    private int selectType;
+    private short selectType;
 
     /**
-     * 检索类型 0->不需要进行检索；1->关键字检索；2->范围检索
+     * 属性类型 1-关键属性 2-销售属性 3-非关键属性 4-商品属性（新旧..）
      */
-    private short searchType;
+    private short attributeType;
+
+    /**
+     * 可选值
+     */
+    private String valueList;
+
+    /**
+     * 是否必填
+     */
+    private boolean isRequired;
+
 }

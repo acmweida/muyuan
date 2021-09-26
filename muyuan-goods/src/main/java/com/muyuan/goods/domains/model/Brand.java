@@ -10,11 +10,19 @@ public class Brand {
     private String name;
 
     /**
+     * 表名
+     */
+    private String asName;
+
+    private String englishName;
+
+    /**
      * 图标
      */
     private String logo;
 
-    private boolean  isPublish;
+    private boolean isPublish;
+
 
     /**
      * 首字母
@@ -30,4 +38,9 @@ public class Brand {
      * 排序
      */
     private int sort;
+
+    /**
+     * 描述
+     */
+    private String desc;
 }

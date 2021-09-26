@@ -16,9 +16,9 @@ public class GoodsCategory {
     private long code;
 
     /**
-     * 父分类编码
+     * 父分类ID
      */
-    private long parentCode;
+    private long parentId;
 
     private String name;
 
