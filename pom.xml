@@ -27,6 +27,7 @@
         <module>muyuan-member</module>
         <module>muyuan-web-common</module>
         <module>muyuan-member-api</module>
+        <module>muyuan-product</module>
     </modules>
 
     <dependencyManagement>
@@ -188,7 +189,6 @@
             <artifactId>guava</artifactId>
             <version>20.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
