@@ -1,13 +1,13 @@
-package com.muyuan.product;
+package com.muyuan.activity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MuyuanProductApplication {
+public class MuyuanActivityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MuyuanProductApplication.class, args);
+        SpringApplication.run(MuyuanActivityApplication.class, args);
     }
 
 }
