@@ -17,8 +17,8 @@ import java.util.List;
 public interface ProductController {
 
     @PostMapping("/getProduct")
-    @ApiOperation(value = "通过商店id查询商品列表")
-    Result<List<ProductVO>> getProduct(ShopProductDTO productDTO);
+    @ApiOperation(value = "通过商店信息查询商品列表")
+    Result<List<ProductVO>> getProducts(ShopProductDTO productDTO);
 
 
 

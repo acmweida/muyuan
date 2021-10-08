@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserQuery {
 
     @Override
     public Optional<User> getUserInfo(String userNo) {
-        final User user = userRepo.selectFirst(new SqlBuilder(User.class)
+        final User user = userRepo.selectOne(new SqlBuilder(User.class)
                 .eq("userNo", userNo)
                 .build());
         if (null == user) {
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserQuery {
 
     @Override
     public Optional<User> getUserByAccount(String account) {
-        final User user = userRepo.selectFirst(new SqlBuilder(User.class)
+        final User user = userRepo.selectOne(new SqlBuilder(User.class)
                 .eq("account", account)
                 .build());
         if (null == user) {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserQuery {
     @Override
     public int accountRegister(RegisterDTO registerInfo) {
 
-        User account = userRepo.selectFirst(new SqlBuilder(User.class).select("id")
+        User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
                 .eq("account", registerInfo.getAccount())
                 .build());
         if (null != account) {

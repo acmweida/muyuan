@@ -9,7 +9,7 @@
         <version>2.4.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
+    <description>牧原商店商家管理系统</description>
     <groupId>com.muyuan</groupId>
     <artifactId>MuyuanShop</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -21,7 +21,6 @@
     </properties>
 
     <modules>
-        <module>muyuan-auth-admin</module>
         <module>muyuan-auth-member</module>
         <module>muyuan-gateway</module>
         <module>muyuan-member</module>

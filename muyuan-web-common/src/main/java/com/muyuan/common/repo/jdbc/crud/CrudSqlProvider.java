@@ -24,7 +24,7 @@ public class CrudSqlProvider {
         sqlHandlers.put(Option.IN,new InConditionSqlHandler());
     }
 
-    public String selectFirst(Map<String,Object> params) {
+    public String selectOne(Map<String,Object> params) {
         SQL sql = new SQL();
 
         String table = (String) params.get(Constant.TABLE_NAME);
@@ -55,6 +55,41 @@ public class CrudSqlProvider {
         if (!conditions.isEmpty()) {
             sql.WHERE( conditionSqls.toArray(new String[conditionSqls.size()]));
             sql.LIMIT(1);
+        }
+
+        return sql.toString();
+    }
+
+    public String selectList(Map<String,Object> params) {
+        SQL sql = new SQL();
+
+        String table = (String) params.get(Constant.TABLE_NAME);
+        String[] column = (String[]) params.get(Constant.COLUMN);
+        sql.SELECT(column).FROM(Constant.TABLE_PREFIX + table);
+        String conditionSql ;
+        List<String> conditionSqls = new ArrayList<>();
+        List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
+        for (Condition condition : conditions) {
+            Option option = condition.getOption();
+            if (option != Option.OR  && option != Option.AND) {
+                ConditionSqlHandler conditionSqlHandler = sqlHandlers.get(option);
+                if (null == conditionSqlHandler) {
+                    throw new RuntimeException("sql condition conditionSqlHandler is null for option '"+condition.getOption().getOp()+"'");
+                }
+                conditionSql = conditionSqlHandler.buildSql(condition);
+                conditionSqls.add(conditionSql);
+            } else {
+                sql.WHERE( conditionSqls.toArray(new String[conditionSqls.size()]));
+                conditionSqls.clear();
+                if (option == Option.OR) {
+                    sql.OR();
+                } else if (option == Option.AND) {
+                    sql.AND();
+                }
+            }
+        }
+        if (!conditions.isEmpty()) {
+            sql.WHERE( conditionSqls.toArray(new String[conditionSqls.size()]));
         }
 
         return sql.toString();

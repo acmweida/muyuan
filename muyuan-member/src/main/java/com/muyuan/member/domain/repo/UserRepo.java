@@ -8,7 +8,7 @@ public interface UserRepo {
 
     User find(int userNo);
 
-    User selectFirst(Map params);
+    User selectOne(Map params);
 
     void insert(User dataObject);
 }

@@ -20,8 +20,8 @@ public class UserRepoImpl implements UserRepo {
     }
 
     @Override
-    public User selectFirst(Map params) {
-        return userMapper.selectFirst(params);
+    public User selectOne(Map params) {
+        return userMapper.selectOne(params);
     }
 
     @Override
