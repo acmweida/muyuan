@@ -62,12 +62,12 @@ public class User {
     /**
      * 是否删除（0-否 1-是）
      */
-    private boolean isDelete;
+    private byte isDelete;
 
     /**
      * 账号状态 0-正常 1-锁定
      */
-    private short status;
+    private byte status;
 
     /**
      * 创建时间

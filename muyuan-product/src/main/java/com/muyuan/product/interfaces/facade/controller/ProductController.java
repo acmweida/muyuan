@@ -5,7 +5,9 @@ import com.muyuan.product.domains.vo.ProductVO;
 import com.muyuan.product.interfaces.dto.ShopProductDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,7 @@ public interface ProductController {
 
     @PostMapping("/getProduct")
     @ApiOperation(value = "通过商店信息查询商品列表")
-    Result<List<ProductVO>> getProducts(ShopProductDTO productDTO);
+    Result<List<ProductVO>> getProducts(@RequestBody @Validated ShopProductDTO productDTO);
 
 
 

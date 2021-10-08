@@ -1,0 +1,3 @@
+fastDFS:
+  profiles:
+    active: classpath:fastDFS-${spring.prefiles.active}.properties
