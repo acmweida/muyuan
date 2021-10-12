@@ -4,15 +4,17 @@ import com.muyuan.common.domains.model.File;
 import com.muyuan.common.domains.repo.FileRepo;
 import com.muyuan.common.domains.service.FileService;
 import com.muyuan.common.domains.vo.FileVO;
+import com.muyuan.common.exception.handler.FileUploadFailException;
+import com.muyuan.common.infrastructure.util.FastDFSClient;
+import com.muyuan.common.util.RequestUtil;
+import com.sun.javafx.binding.StringFormatter;
+import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.csource.common.MyException;
-import org.csource.common.NameValuePair;
-import org.csource.fastdfs.StorageClient;
-import org.csource.fastdfs.StorageClient1;
-import org.csource.fastdfs.UploadCallback;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.Optional;
 
 /**
@@ -26,14 +28,14 @@ public class FastDFSFileService implements FileService {
 
     private File file;
 
-    private StorageClient1 storageClient;
+    private FastDFSClient fastDFSClient;
 
     private FileRepo fileRepo;
 
-    public FastDFSFileService(File file,FileRepo fileRepo,StorageClient1 storageClient) {
+    public FastDFSFileService(File file,FileRepo fileRepo,FastDFSClient fastDFSClient) {
         this.file = file;
         this.fileRepo = fileRepo;
-        this.storageClient = storageClient;
+        this.fastDFSClient = fastDFSClient;
     }
 
     public Optional<FileVO> uploadFile(MultipartFile file)  {
@@ -41,16 +43,32 @@ public class FastDFSFileService implements FileService {
         final String filename = file.getOriginalFilename();
         long size = file.getSize();
 
-
         String suffix = filename.substring(filename.lastIndexOf(".")+1);
-        byte[] context = new byte[0];
+        InputStream context =null;
+        String filePath = null;
         try {
-            context = file.getBytes();
-            String strings = storageClient.upload_file1(context, filename, new NameValuePair[]{});
+            context = file.getInputStream();
+            filePath = fastDFSClient.uploadFile(suffix, context);
         } catch (IOException | MyException e) {
-            e.printStackTrace();
+            throw new FileUploadFailException();
         }
 
-        return null;
+        File fileInfo = new File();
+        fileInfo.setUrl(filePath);
+        fileInfo.setName(filename);
+        fileInfo.setSize(size);
+        fileInfo.setUpUser(RequestUtil.getCurrentUserId());
+
+        /**
+         * TODO : 通过字典功能设置数据
+         */
+        fileInfo.setVerifyResult((short) 0);
+        fileInfo.setVerifyStatus((short) 0);
+
+        fileRepo.insert(fileInfo);
+        FileVO fileVO = new FileVO();
+        BeanUtils.copyProperties(fileInfo,fileVO);
+
+        return Optional.of(fileVO);
     }
 }

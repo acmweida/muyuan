@@ -29,7 +29,7 @@ public class ExceptionHandlerAdvice {
         for (ObjectError error : allErrors) {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
-
+        log.error("hibernate-validator error : {}",e.toString());
         return ResultUtil.renderFail(ResponseCode.ARGUMENT_EEORR,errorInfo);
     }
 
@@ -42,9 +42,17 @@ public class ExceptionHandlerAdvice {
         return unknowRuntimeException(e);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result unknowRuntimeException(IllegalArgumentException e) {
+        e.printStackTrace();
+        log.error("argument error : {}",e.toString());
+        return ResultUtil.renderError();
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public Result unknowRuntimeException(RuntimeException e) {
         e.printStackTrace();
+        log.error("RuntimeException error : {}",e.toString());
         return ResultUtil.renderError();
     }
 

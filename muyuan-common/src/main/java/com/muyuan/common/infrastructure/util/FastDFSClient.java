@@ -60,6 +60,16 @@ public class FastDFSClient {
         return filePath;
     }
 
+    /**
+     * 批量上传小文件
+     * @param group
+     * @param fileExtendNames
+     * @param fileStreams
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws TimeoutException
+     */
     public String[] uploadFiles(String group, String[] fileExtendNames, List<InputStream> fileStreams) throws InterruptedException, ExecutionException, TimeoutException {
         Assert.notEmpty(fileExtendNames,"fileExtendNames is empty");
         Assert.notEmpty(fileStreams,"fileStreams is empty");
@@ -86,6 +96,9 @@ public class FastDFSClient {
         return filePaths;
     }
 
+    /**
+     * 上传回调方法
+     */
     static class UploadFaction implements UploadCallback {
         private int start = 0;
         private byte[] temp = new byte[1024];
@@ -105,6 +118,9 @@ public class FastDFSClient {
 
     }
 
+    /**
+     * 文件上传
+     */
     static class UploadTask extends UploadFaction implements  Callable<String> {
         private StorageClient1 storageClient1;
         private String group;

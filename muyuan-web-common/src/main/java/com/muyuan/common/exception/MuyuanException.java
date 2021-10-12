@@ -3,8 +3,9 @@ package com.muyuan.common.exception;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
-@Data
+@Slf4j
 public class MuyuanException extends RuntimeException implements MuyuanExceptionHandler {
 
 
@@ -20,6 +21,7 @@ public class MuyuanException extends RuntimeException implements MuyuanException
 
     @Override
     public Result handle(MuyuanException e) {
+        log.error("error code :{} -> message:{}",code,message);
         return ResultUtil.renderFail(code,message);
     }
 }

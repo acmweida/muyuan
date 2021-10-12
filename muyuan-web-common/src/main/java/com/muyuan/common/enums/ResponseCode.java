@@ -7,6 +7,7 @@ public enum ResponseCode {
     ARGUMENT_EEORR(402,"FAIL","参数错误"),
     UNAUTHORIZED(405,"FAIL","没有登录或者token失效"),
     USER_ONT_FOUND(406,"FAIL","用户信息没有查询到"),
+    FILE_UPLOAD_FAIL(411,"FAIL","文件上传失败"),
     ERROR(500,"ERROR","未知异常，请联系管理员！");
 
 

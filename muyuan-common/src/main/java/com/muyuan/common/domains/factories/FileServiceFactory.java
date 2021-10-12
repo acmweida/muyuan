@@ -3,7 +3,7 @@ package com.muyuan.common.domains.factories;
 import com.muyuan.common.domains.repo.FileRepo;
 import com.muyuan.common.domains.service.FileService;
 import com.muyuan.common.domains.service.impl.FastDFSFileService;
-import org.csource.fastdfs.StorageClient1;
+import com.muyuan.common.infrastructure.util.FastDFSClient;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -20,7 +20,7 @@ public class FileServiceFactory implements ApplicationContextAware {
     }
 
     public static FileService createFastDFSFileService() {
-        return new FastDFSFileService(null,context.getBean(FileRepo.class),context.getBean(StorageClient1.class));
+        return new FastDFSFileService(null,context.getBean(FileRepo.class),context.getBean(FastDFSClient.class));
     }
 
 
