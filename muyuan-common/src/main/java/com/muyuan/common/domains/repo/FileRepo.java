@@ -6,5 +6,5 @@ public interface FileRepo {
 
     File selectOne(long fileId);
 
-    File insert(File file);
+    void insert(File file);
 }

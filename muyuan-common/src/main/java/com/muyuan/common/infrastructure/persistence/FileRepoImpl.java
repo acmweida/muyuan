@@ -21,4 +21,9 @@ public class FileRepoImpl implements FileRepo {
                 .eq("isDelete", JdbcValueConst.SHORT_FALSE)
                 .build());
     }
+
+    @Override
+    public void insert(File file) {
+         fileMapper.insert(file);
+    }
 }
