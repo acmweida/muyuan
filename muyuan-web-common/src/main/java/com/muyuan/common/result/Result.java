@@ -7,20 +7,29 @@ import org.joda.time.DateTime;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Data
 @ApiModel
 public class Result<T> {
 
+    @ApiModelProperty(value = "响应码")
     private int code;
 
+    @ApiModelProperty(value = "响应信息")
     private String msg;
 
+    @ApiModelProperty(value = "响应类型")
     private String type;
 
+    @ApiModelProperty(value = "响应数据")
     private T data ;
 
+    @ApiModelProperty(value = "操作时间")
     private Date optionTime = DateTime.now().toDate();
+
+    @ApiModelProperty(value = "响应吗")
+    private String responseId = UUID.randomUUID().toString();
 
     public Result(int code, String type,String msg) {
         this.code = code;

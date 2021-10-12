@@ -1,21 +1,19 @@
 package com.muyuan.common.domains.service;
 
-import com.muyuan.common.domains.model.File;
-import com.muyuan.common.domains.repo.FileRepo;
 import com.muyuan.common.domains.vo.FileVO;
+import org.springframework.web.multipart.MultipartFile;
 
-public class FileService {
+import java.util.Optional;
 
-    private File file;
+/**
+ *  文件操作接口
+ */
+public interface FileService {
 
-    private FileRepo fileRepo;
-
-    public FileService(File file,FileRepo fileRepo) {
-        this.file = file;
-        this.fileRepo = fileRepo;
-    }
-
-    public FileVO uploadFile() {
-        return null;
-    }
+    /**
+     * 单文件上传
+     * @param file
+     * @return
+     */
+    Optional<FileVO> uploadFile(MultipartFile file) ;
 }

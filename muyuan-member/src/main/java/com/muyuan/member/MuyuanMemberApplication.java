@@ -13,6 +13,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class MuyuanMemberApplication {
 
     public static void main(String[] args) {
+        System.setProperty("Log4jContextSelector",
+                "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         SpringApplication.run(MuyuanMemberApplication.class, args);
     }
 

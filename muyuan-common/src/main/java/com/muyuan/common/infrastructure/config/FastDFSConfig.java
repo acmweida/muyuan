@@ -15,7 +15,7 @@ import java.util.Properties;
 public class FastDFSConfig {
 
     @Bean
-    public StorageClient trackerServer(@Value("${fastDFS.profiles.active}") String fastDFSConfigPath) throws IOException, MyException {
+    public StorageClient1 trackerServer(@Value("${fastDFS.profiles.active}") String fastDFSConfigPath) throws IOException, MyException {
         Properties properties = new Properties();
         Resource resource = new ClassPathResource(fastDFSConfigPath);
 
