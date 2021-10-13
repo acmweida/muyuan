@@ -28,7 +28,7 @@ public class ProductCategory {
 
     private int ProductCount;
 
-    private boolean isPublish;
+    private boolean publish;
 
     private int sort;
 

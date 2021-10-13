@@ -2,6 +2,7 @@ package com.muyuan.product.interfaces.facade.controller;
 
 import com.muyuan.common.result.Result;
 import com.muyuan.product.domains.vo.ProductVO;
+import com.muyuan.product.interfaces.dto.ProductDTO;
 import com.muyuan.product.interfaces.dto.ShopProductDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,8 @@ public interface ProductController {
     @ApiOperation(value = "通过商店信息查询商品列表")
     Result<List<ProductVO>> getProducts(@RequestBody @Validated ShopProductDTO productDTO);
 
-
+    @PostMapping("/addProduct")
+    @ApiOperation(value = "添加商品接口")
+    Result addProduct(@RequestBody @Validated ProductDTO productDTO);
 
 }

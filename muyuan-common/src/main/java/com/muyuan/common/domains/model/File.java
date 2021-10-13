@@ -27,7 +27,7 @@ public class File {
     /**
      * 状态 0-正常 1-删除
      */
-    private short isDelete;
+    private boolean delete;
 
     /**
      * 审核状态 0-待审核 1-审核中 2-审核完成

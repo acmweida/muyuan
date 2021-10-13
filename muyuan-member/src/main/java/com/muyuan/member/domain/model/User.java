@@ -62,7 +62,7 @@ public class User {
     /**
      * 是否删除（0-否 1-是）
      */
-    private byte isDelete;
+    private boolean delete;
 
     /**
      * 账号状态 0-正常 1-锁定

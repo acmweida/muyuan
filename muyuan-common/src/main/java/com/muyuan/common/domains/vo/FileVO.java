@@ -7,5 +7,5 @@ import lombok.Data;
 @ApiModel(value = "文件上传返回")
 public class FileVO {
 
-
+    private String url;
 }

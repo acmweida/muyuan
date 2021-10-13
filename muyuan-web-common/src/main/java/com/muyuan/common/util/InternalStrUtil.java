@@ -1,8 +1,11 @@
 package com.muyuan.common.util;
 
+import com.muyuan.common.util.string.MessageFormatter;
+import lombok.extern.slf4j.Slf4j;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class InternalStrUtil {
 
     /**
@@ -26,4 +29,9 @@ public class InternalStrUtil {
         }
         return sb.toString().toLowerCase();
     }
+
+    public static String stringFormat(String format,Object ... args) {
+         return MessageFormatter.format(format, args).getMessage();
+    }
+
 }

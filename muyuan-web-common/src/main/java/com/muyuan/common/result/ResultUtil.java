@@ -1,6 +1,7 @@
 package com.muyuan.common.result;
 
 import com.muyuan.common.enums.ResponseCode;
+import com.muyuan.common.util.InternalStrUtil;
 
 import java.util.Collections;
 
@@ -20,6 +21,10 @@ public class ResultUtil {
 
     public static Result render(String msg,Object data) {
         return new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getType(),msg,data);
+    }
+
+    public static Result renderFail(String format,Object... args) {
+        return new Result(ResponseCode.FAIL.getCode(),ResponseCode.FAIL.getType(), InternalStrUtil.stringFormat(format,args));
     }
 
     public static Result renderFail(String msg) {

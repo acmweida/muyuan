@@ -7,8 +7,6 @@ import com.muyuan.common.domains.vo.FileVO;
 import com.muyuan.common.exception.handler.FileUploadFailException;
 import com.muyuan.common.infrastructure.util.FastDFSClient;
 import com.muyuan.common.util.RequestUtil;
-import com.sun.javafx.binding.StringFormatter;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.csource.common.MyException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +36,11 @@ public class FastDFSFileService implements FileService {
         this.fastDFSClient = fastDFSClient;
     }
 
+    /**
+     * 文件上传实现
+     * @param file
+     * @return
+     */
     public Optional<FileVO> uploadFile(MultipartFile file)  {
 
         final String filename = file.getOriginalFilename();

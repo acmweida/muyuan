@@ -8,4 +8,6 @@ import java.util.Map;
 public interface ProductRepo {
 
     List<Product> queryList(Map param);
+
+    boolean insert(Product product);
 }

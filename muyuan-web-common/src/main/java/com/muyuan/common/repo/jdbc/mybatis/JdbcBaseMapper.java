@@ -18,5 +18,5 @@ public interface JdbcBaseMapper<T>  {
 
     @IdGenerator()
     @SelectProvider(value = CrudSqlProvider.class,method = "insert")
-    void insert(T dataObject);
+    int insert(T dataObject);
 }

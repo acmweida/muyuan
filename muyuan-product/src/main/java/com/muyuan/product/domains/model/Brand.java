@@ -21,7 +21,7 @@ public class Brand {
      */
     private String logo;
 
-    private boolean isPublish;
+    private boolean publish;
 
 
     /**

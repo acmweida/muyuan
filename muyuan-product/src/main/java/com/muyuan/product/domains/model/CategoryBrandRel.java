@@ -14,6 +14,6 @@ public class CategoryBrandRel {
 
     private long brandId;
 
-    private boolean isDelete;
+    private boolean delete;
 
 }

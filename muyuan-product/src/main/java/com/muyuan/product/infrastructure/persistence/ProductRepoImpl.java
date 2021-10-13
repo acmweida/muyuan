@@ -19,4 +19,9 @@ public class ProductRepoImpl implements ProductRepo {
     public List<Product> queryList(Map param) {
         return productMapper.selectList(param);
     }
+
+    @Override
+    public boolean insert(Product product) {
+        return productMapper.insert(product) > 0 ;
+    }
 }

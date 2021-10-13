@@ -20,7 +20,7 @@ public class Product {
      */
     private String title;
 
-    private boolean isDelete;
+    private boolean delete;
 
     /**
      * 品牌ID
@@ -40,7 +40,7 @@ public class Product {
     /**
      * 是否上架
      */
-    private boolean isPublish;
+    private boolean publish;
 
     /***
      * 详情页面
@@ -50,6 +50,11 @@ public class Product {
     /**
      * 主图
      */
-    private String mainPicture;
+    private String mainPictureUrl;
+
+    /**
+     * 商品标签
+     */
+    private String tags;
 
 }
