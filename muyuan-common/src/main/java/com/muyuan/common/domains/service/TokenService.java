@@ -1,6 +1,7 @@
 package com.muyuan.common.domains.service;
 
 import com.muyuan.common.domains.vo.TokenVO;
+import com.muyuan.common.enums.TokenStatus;
 
 import java.util.Optional;
 
@@ -14,5 +15,7 @@ import java.util.Optional;
 public interface TokenService {
 
     Optional<TokenVO> createToken();
+
+    Optional<TokenStatus> verify(String token);
 
 }

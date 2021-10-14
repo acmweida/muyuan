@@ -2,7 +2,7 @@ package com.muyuan.auth.service.impl;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.common.result.Result;
-import com.muyuan.member.api.UserInterFace;
+import com.muyuan.member.api.UserInterface;
 import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.List;
 public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserInterFace userInterFace;
+    UserInterface userInterFace;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

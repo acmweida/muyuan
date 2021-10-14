@@ -4,6 +4,7 @@ import com.muyuan.common.constant.RedisConst;
 import com.muyuan.common.domains.manager.TokenManager;
 import com.muyuan.common.domains.service.TokenService;
 import com.muyuan.common.domains.vo.TokenVO;
+import com.muyuan.common.enums.TokenStatus;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -43,5 +44,16 @@ public class RedisTokenService implements TokenService {
         tokenVO.setToken(token);
         tokenVO.setExpireTime(now.toDate());
         return Optional.of(tokenVO);
+    }
+
+    @Override
+    public Optional<TokenStatus> verify(String token) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        Object o = valueOperations.get(RedisConst.TOKEN_KEY_PREFIX + token);
+        if ( null != o) {
+            redisTemplate.delete(RedisConst.TOKEN_KEY_PREFIX+token);
+            return Optional.of(TokenStatus.OK);
+        }
+        return Optional.of(TokenStatus.INVALID);
     }
 }

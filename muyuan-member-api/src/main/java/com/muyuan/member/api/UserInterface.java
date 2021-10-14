@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(value = ServiceTypeConst.MEMBER_SERVICE,path = "/user",fallback = UserInterFace.UserFallbackFactory.class)
-public interface UserInterFace {
+@FeignClient(value = ServiceTypeConst.MEMBER_SERVICE,path = "/user",fallback = UserInterface.UserFallbackFactory.class)
+public interface UserInterface {
 
     @RequestMapping(value = "/getUserByAccount",method = RequestMethod.POST)
     Result<UserDTO> getUserByUsername(@RequestParam("account") String username);
@@ -24,11 +24,11 @@ public interface UserInterFace {
      * @author siguiyang
      */
     @Component
-    class UserFallbackFactory implements FallbackFactory<UserInterFace> {
+    class UserFallbackFactory implements FallbackFactory<UserInterface> {
 
         @Override
-        public UserInterFace create(Throwable cause) {
-            return new UserInterFace() {
+        public UserInterface create(Throwable cause) {
+            return new UserInterface() {
                 @Override
                 public Result getUserByUsername(String username) {
                     return ResultUtil.renderError();

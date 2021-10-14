@@ -29,6 +29,8 @@ public class TokenControllerImpl implements TokenController {
 
     @Override
     public Result<TokenStatus> verify(String token) {
-        return null;
+        TokenService redisTokenService = TokenFactory.createRedisTokenService();
+        Optional<TokenStatus> verify = redisTokenService.verify(token);
+        return ResultUtil.render(verify.get());
     }
 }

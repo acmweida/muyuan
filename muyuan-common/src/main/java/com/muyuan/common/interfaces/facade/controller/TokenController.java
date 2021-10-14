@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @ClassName TokenController
  * Description 请求token获取和校验
@@ -28,5 +30,5 @@ public interface TokenController {
 
     @GetMapping("/verfy")
     @ApiOperation(value = "token校验")
-    Result<TokenStatus> verify(@RequestParam("token") String token);
+    Result<TokenStatus> verify(@RequestParam("token") @NotNull(message = "token不能为null") String token);
 }
