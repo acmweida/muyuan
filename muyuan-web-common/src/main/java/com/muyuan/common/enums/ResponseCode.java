@@ -8,6 +8,9 @@ public enum ResponseCode {
     UNAUTHORIZED(405,"FAIL","没有登录或者token失效"),
     USER_ONT_FOUND(406,"FAIL","用户信息没有查询到"),
     FILE_UPLOAD_FAIL(411,"FAIL","文件上传失败"),
+    REPEATABLE_REQUEST_FAIL(413,"FAIL","请求在处理中，请勿重复提交"),
+    TOKEN_NOT_FOUND_FAIL(412,"FAIL","TOKEN参数未传递"),
+    TOKEN_INVALID_FAIL(414,"FAIL","TOKEN无效"),
     ERROR(500,"ERROR","未知异常，请联系管理员！");
 
 

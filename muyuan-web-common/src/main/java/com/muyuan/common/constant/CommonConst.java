@@ -11,4 +11,6 @@ public class CommonConst {
     public static long GB = MB << 10;
 
     public static Object NULL = null;
+
+    public static final String TOKEN = "token";
 }

@@ -48,7 +48,7 @@ public class IdUtil {
         while ( hashOperations.hasKey(MACHINE_CODE_MAP,machineId)){
            machineId++;
         }
-        hashOperations.put(MACHINE_CODE_MAP,machineId, RedisConst.TRUE_VALUE);
+        hashOperations.put(MACHINE_CODE_MAP,machineId, RedisConst.SHORT_TRUE_VALUE);
         workerId = machineId & MAX_WORK_ID;
         datacentId = machineId >> 5;
         long finalMachineId = machineId;

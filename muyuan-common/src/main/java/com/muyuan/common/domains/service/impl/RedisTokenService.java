@@ -37,7 +37,7 @@ public class RedisTokenService implements TokenService {
     public Optional<TokenVO> createToken() {
         ValueOperations valueOperations = redisTemplate.opsForValue();
         String token = manager.createToken();
-        valueOperations.set(RedisConst.TOKEN_KEY_PREFIX+token,RedisConst.TRUE_VALUE,30, TimeUnit.MINUTES);
+        valueOperations.set(RedisConst.TOKEN_KEY_PREFIX+token,RedisConst.SHORT_FALSE_VALUE,30, TimeUnit.MINUTES);
         DateTime now = DateTime.now();
         now.plusMinutes(30);
         TokenVO tokenVO = new TokenVO();

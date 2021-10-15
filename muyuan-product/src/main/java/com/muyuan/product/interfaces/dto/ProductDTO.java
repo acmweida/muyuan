@@ -1,6 +1,5 @@
 package com.muyuan.product.interfaces.dto;
 
-import com.muyuan.common.bean.RepeatableRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +15,9 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ApiModel("商品信息DTO")
-public class ProductDTO extends RepeatableRequest {
+public class ProductDTO {
+
+    private String token;
 
     /**
      * todo:物流模板

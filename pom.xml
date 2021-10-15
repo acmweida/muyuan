@@ -27,6 +27,8 @@
         <module>muyuan-web-common</module>
         <module>muyuan-member-api</module>
         <module>muyuan-product</module>
+        <module>muyuan-common</module>
+        <module>muyuan-common-api</module>
     </modules>
 
     <dependencyManagement>
