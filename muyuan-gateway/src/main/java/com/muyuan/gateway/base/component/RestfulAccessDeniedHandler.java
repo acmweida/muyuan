@@ -1,35 +1,34 @@
-package com.muyua.gateway.base.component;
+package com.muyuan.gateway.base.component;
 
-import com.muyuan.common.enums.ResponseCode;
+import com.alibaba.fastjson.JSON;
 import com.muyuan.common.result.ResultUtil;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.nio.charset.StandardCharsets;
 
-import cn.hutool.json.JSONUtil;
 import reactor.core.publisher.Mono;
 
 /**
- * 自定义返回结果：没有登录或token过期时
+ * 自定义返回结果：没有权限访问时
  *
  * @author Honghui [wanghonghui_work@163.com] 2021/3/16
  */
 @Component
-public class RestAuthenticationEntryPoint implements ServerAuthenticationEntryPoint {
+public class RestfulAccessDeniedHandler implements ServerAccessDeniedHandler {
   @Override
-  public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException e) {
+  public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException denied) {
     ServerHttpResponse response = exchange.getResponse();
-    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+    response.setStatusCode(HttpStatus.FORBIDDEN);
     response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-    String body = JSONUtil.toJsonStr(ResultUtil.renderFail(ResponseCode.UNAUTHORIZED));
+    String body = JSON.toJSONString(ResultUtil.renderForbidden(denied.getMessage())).toString();
     DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
     return response.writeWith(Mono.just(buffer));
   }

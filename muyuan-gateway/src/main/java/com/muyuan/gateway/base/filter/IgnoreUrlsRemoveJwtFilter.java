@@ -1,6 +1,6 @@
-package com.muyua.gateway.base.filter;
+package com.muyuan.gateway.base.filter;
 
-import com.muyua.gateway.base.config.IgnoreUrlsConfig;
+import com.muyuan.gateway.base.config.IgnoreUrlsConfig;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;

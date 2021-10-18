@@ -1,8 +1,8 @@
-package com.muyua.gateway.base.config;
+package com.muyuan.gateway.base.config;
 
-import com.muyua.gateway.base.component.RestAuthenticationEntryPoint;
-import com.muyua.gateway.base.component.RestfulAccessDeniedHandler;
-import com.muyua.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
+import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
+import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
+import com.muyuan.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
 import com.muyuan.common.constant.auth.AuthConst;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

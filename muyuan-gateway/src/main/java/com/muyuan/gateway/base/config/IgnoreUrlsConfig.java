@@ -1,4 +1,4 @@
-package com.muyua.gateway.base.config;
+package com.muyuan.gateway.base.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

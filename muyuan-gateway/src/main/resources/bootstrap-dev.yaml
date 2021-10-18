@@ -30,7 +30,6 @@ spring:
   application:
     name: gateway
   security:
-    ingor
     oauth2:
       resourceserver:
         jwt:
@@ -53,4 +52,4 @@ secure:
     - "/actuator/**"
     - "/oauth/token"
     - "/oauth/authorize"
-    - "/login/**"“
+    - "/login/**"
