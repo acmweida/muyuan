@@ -26,6 +26,7 @@ import reactor.core.publisher.Mono;
 public class ResourceServerConfig {
     @Autowired
     private final AuthorizationManager authorizationManager;
+    @Autowired
     private final IgnoreUrlsConfig ignoreUrlsConfig;
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -40,8 +41,8 @@ public class ResourceServerConfig {
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
         http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
-        String[]  urls = new String[ignoreUrlsConfig.getUrls().size()];
-        ignoreUrlsConfig.getUrls().toArray(urls);
+        String[]  urls = new String[ignoreUrlsConfig.getIgnore().size()];
+        ignoreUrlsConfig.getIgnore().toArray(urls);
         http.authorizeExchange()
                 .pathMatchers(urls).permitAll() // 白名单配置
                 .anyExchange().access(authorizationManager) // 鉴权管理器配置

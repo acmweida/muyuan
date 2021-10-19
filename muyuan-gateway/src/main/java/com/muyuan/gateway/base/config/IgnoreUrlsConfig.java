@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Component
-@ConfigurationProperties(prefix = "secure.ignore")
+@ConfigurationProperties(prefix = "secure")
 public class IgnoreUrlsConfig {
-  private List<String> urls;
+  private List<String> ignore;
 }
