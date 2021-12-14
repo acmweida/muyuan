@@ -23,7 +23,7 @@ public class DynamicDataSourceContextHolder {
         return dataSourceIds.contains(dataSourceId);
     }
 
-    public static List<String> getDataSourceIds() {
+    protected static List<String> getDataSourceIds() {
         return dataSourceIds;
     }
 }
