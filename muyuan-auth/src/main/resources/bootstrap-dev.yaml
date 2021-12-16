@@ -19,6 +19,7 @@ logging:
   level:
     com.muyuan.member.repo.dao: debug
     org.springframework: debug
+    io.lettuce.core: error
 management:
   endpoints:
     web:

@@ -21,13 +21,16 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
+
 server:
   port: 18990
 
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.member.repo.dao: debug
+    io:
+      lettuce: error
+
 security:
   oauth2:
     client:
