@@ -1,6 +1,5 @@
 package com.muyuan.shop.infrastructure.config.redis;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,7 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -47,7 +47,7 @@ public class RedisConfig {
 
     @Bean
     public RedisSerializer<String> fastJson2JsonRedisSerializer() {
-        return new FastJsonRedisSerializer<>(String.class);
+        return new Jackson2JsonRedisSerializer(String.class);
     }
 
 

@@ -2,31 +2,23 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.56.105
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        server-addr: 127.0.0.1
+        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
         group: MUYUAN
         file-extension: properties
       discovery:
-        server-addr: 192.168.56.105
+        server-addr: 127.0.0.1
         group: MUYUAN
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
     gateway:
+      api-prefix: /api
       discovery:
         locator:
           enabled: true
-      routes:
-        - id: member
-          url: lb://member
-          predicates:
-            - Path=/member/**
-          filters:
-            - StripPrefix=1
-        - id: auth
-          url: lb://auth
-          predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=1
+
+
+
+
   application:
     name: gateway
   security:
@@ -34,22 +26,18 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
+
 server:
   port: 18990
-  servlet:
-    context-path: /api
+
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.member.repo.dao: debug
+    io:
+      lettuce: error
+
 security:
   oauth2:
     client:
       access-token-uri: http://localhost:${server.port}/auth/oauth/token
       user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize #授权端点
-secure:
-  ignore:
-    - "/actuator/**"
-    - "/oauth/token"
-    - "/oauth/authorize"
-    - "/login/**"

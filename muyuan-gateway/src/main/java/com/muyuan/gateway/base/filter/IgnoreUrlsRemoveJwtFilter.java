@@ -8,11 +8,10 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.List;
-
-import reactor.core.publisher.Mono;
 
 /**
  * 白名单路径访问时需要移除JWT请求头

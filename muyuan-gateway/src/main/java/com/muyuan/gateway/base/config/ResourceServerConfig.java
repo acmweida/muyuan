@@ -1,9 +1,9 @@
 package com.muyuan.gateway.base.config;
 
+import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
 import com.muyuan.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
-import com.muyuan.common.constant.auth.AuthConst;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +15,9 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
@@ -27,9 +27,12 @@ public class ResourceServerConfig {
     @Autowired
     private final AuthorizationManager authorizationManager;
     @Autowired
-    private final IgnoreUrlsConfig ignoreUrlsConfig;
+    private  IgnoreUrlsConfig ignoreUrlsConfig;
+
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
     private final IgnoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
 
     @Bean
@@ -62,4 +65,6 @@ public class ResourceServerConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
+
+
 }

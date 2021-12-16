@@ -1,6 +1,5 @@
 package com.muyuan.common.exception;
 
-import com.alibaba.fastjson.JSONObject;
 import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
@@ -25,11 +26,12 @@ public class ExceptionHandlerAdvice {
     public Result methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
-        JSONObject errorInfo = new JSONObject();
+        Map errorInfo = new HashMap();
+
         for (ObjectError error : allErrors) {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
-        log.error("hibernate-validator error : {}",e.toString());
+        log.error("hibernate-validator error", e);
         return ResultUtil.renderFail(ResponseCode.ARGUMENT_EEORR,errorInfo);
     }
 

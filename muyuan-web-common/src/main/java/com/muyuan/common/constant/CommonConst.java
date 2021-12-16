@@ -13,4 +13,6 @@ public class CommonConst {
     public static Object NULL = null;
 
     public static final String TOKEN = "token";
+
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

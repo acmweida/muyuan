@@ -2,14 +2,14 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.56.105
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        server-addr: 127.0.0.1
+        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
         group: MUYUAN
         file-extension: properties
       discovery:
-        server-addr: 192.168.56.105
+        server-addr: 127.0.0.1
         group: MUYUAN
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
   application:
     name: member
 server:
@@ -22,3 +22,9 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath*:mapper/*.xml
+secure:
+  ignore:
+    - "/actuator/**"
+    - "/oauth/token"
+    - "/oauth/authorize"
+    - "/login/**"
