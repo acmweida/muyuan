@@ -1,16 +1,16 @@
 package com.muyuan.common.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.muyuan.common.constant.CommonConst;
 import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.exception.handler.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 @Slf4j
 public class RequestUtil {
@@ -25,7 +25,7 @@ public class RequestUtil {
             throw new UnAuthorizedException();
         }
 
-        JSONObject userJson = JSON.parseObject(userStr);
+        HashMap userJson = JSONUtil.parseObject(userStr, HashMap.class);
         if (!userJson.containsKey(CommonConst.ID)) {
             log.error("exception code {} :  user id not found in {}", ResponseCode.ARGUMENT_EEORR.getCode(),userJson);
             throw new UnAuthorizedException();

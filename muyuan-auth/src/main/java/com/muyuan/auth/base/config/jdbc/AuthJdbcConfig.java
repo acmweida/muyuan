@@ -7,4 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "auth.jdbc")
 public class AuthJdbcConfig extends JdbcConfig {
+
+    public static final String DATASOURCE_NAME = "auth";
 }

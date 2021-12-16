@@ -19,9 +19,6 @@ public class Result<T> {
     @ApiModelProperty(value = "响应信息")
     private String msg;
 
-    @ApiModelProperty(value = "响应类型")
-    private String type;
-
     @ApiModelProperty(value = "响应数据")
     private T data ;
 
@@ -31,16 +28,14 @@ public class Result<T> {
     @ApiModelProperty(value = "响应吗")
     private String responseId = UUID.randomUUID().toString();
 
-    public Result(int code, String type,String msg) {
+    public Result(int code,String msg) {
         this.code = code;
         this.msg = msg;
-        this.type =type;
     }
 
-    public Result(int code, String type, String msg, T data) {
+    public Result(int code,String msg, T data) {
         this.code = code;
         this.msg = msg;
-        this.type =type;
         this.data = data;
     }
 }

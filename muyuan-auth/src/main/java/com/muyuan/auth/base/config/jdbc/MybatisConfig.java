@@ -1,11 +1,14 @@
 package com.muyuan.auth.base.config.jdbc;
 
+import com.muyuan.common.repo.jdbc.multi.DynamicDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -13,13 +16,20 @@ public class MybatisConfig {
 
     @Bean
     public DataSource dataSource(AuthJdbcConfig jdbcConfig) {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
-        dataSource.setJdbcUrl(jdbcConfig.getUrl());
-        dataSource.setUsername(jdbcConfig.getUsername());
-        dataSource.setPassword(jdbcConfig.getPassword());
-        dataSource.setMaximumPoolSize(32);
-        dataSource.setMinimumIdle(8);
-        return dataSource;
+        DynamicDataSource dataSources = new DynamicDataSource();
+        Map<Object,Object> dataSourceMap = new HashMap<>();
+
+        HikariDataSource authDataSource = new HikariDataSource();
+        authDataSource.setDriverClassName(jdbcConfig.getDriverClassName());
+        authDataSource.setJdbcUrl(jdbcConfig.getUrl());
+        authDataSource.setUsername(jdbcConfig.getUsername());
+        authDataSource.setPassword(jdbcConfig.getPassword());
+        authDataSource.setMaximumPoolSize(32);
+        authDataSource.setMinimumIdle(8);
+        dataSourceMap.put(AuthJdbcConfig.DATASOURCE_NAME,authDataSource);
+
+        dataSources.setTargetDataSources(dataSourceMap);
+        dataSources.setDefaultTargetDataSource(authDataSource);
+        return dataSources;
     }
 }

@@ -1,17 +1,16 @@
 package com.muyuan.gateway.base.config;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 /**
  * 网关白名单配置
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
