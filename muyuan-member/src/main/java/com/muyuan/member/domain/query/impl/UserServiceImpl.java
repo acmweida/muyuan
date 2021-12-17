@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserQuery {
 
         User user = new User();
         BeanUtils.copyProperties(registerInfo,user);
-        user.setUserNo(IdUtil.createUserNo());
         user.setUsername(IdUtil.createUserName());
         user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
         user.setSalt(salt);

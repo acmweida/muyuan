@@ -15,24 +15,9 @@ public class User {
     private String username;
 
     /**
-     * 用户编号
-     */
-    private long userNo;
-
-    /**
      * 账号名唯一用于登录
      */
     private String account;
-
-    /**
-     * 用户类型 0-个人 1-企业
-     */
-    private short type;
-
-    /**
-     * 是否开店
-     */
-    private boolean isShop;
 
     /**
      * 店铺号
@@ -60,14 +45,9 @@ public class User {
     private String phone;
 
     /**
-     * 是否删除（0-否 1-是）
+     * 账号状态 0-正常 1-删除 2-锁定
      */
-    private boolean delete;
-
-    /**
-     * 账号状态 0-正常 1-锁定
-     */
-    private byte status;
+    private boolean status;
 
     /**
      * 创建时间
@@ -83,4 +63,8 @@ public class User {
      * 上次登录时间
      */
     private Date lastSignTime;
+
+    private long updateUserNo;
+
+    private long createUserNo;
 }
