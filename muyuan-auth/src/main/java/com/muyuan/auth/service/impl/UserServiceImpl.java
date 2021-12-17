@@ -3,7 +3,7 @@ package com.muyuan.auth.service.impl;
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.common.result.Result;
 import com.muyuan.member.api.UserInterface;
-import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

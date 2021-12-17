@@ -3,7 +3,7 @@ package com.muyuan.member.api;
 import com.muyuan.common.constant.ServiceTypeConst;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
-import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -36,4 +36,5 @@ public interface UserInterface {
             };
         }
     }
+
 }

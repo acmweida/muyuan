@@ -1,7 +1,6 @@
 package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.result.Result;
-import com.muyuan.member.infrastructure.common.enums.UserType;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import io.swagger.annotations.Api;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
 
 @RestController()
-@RequestMapping("/user")
+@RequestMapping(value = "/user",produces = "application/json; charset=UTF-8")
 @Api(tags = {"用户接口"})
 public interface UserController {
 

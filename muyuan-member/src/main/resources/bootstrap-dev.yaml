@@ -17,8 +17,10 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
+    io:
+      lettuce: error
     com.muyuan.member.persistence.persistence.dao: debug
-    io.lettuce.core: debug
+
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
