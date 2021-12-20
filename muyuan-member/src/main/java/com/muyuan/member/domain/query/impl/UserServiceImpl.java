@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserQuery {
     }
 
     @Override
-    public Optional<User> getUserByAccount(String account) {
+    public Optional<User> getUserByUsername(String username) {
         final User user = userRepo.selectOne(new SqlBuilder(User.class)
-                .eq("account", account)
+                .eq("username", username)
                 .build());
         if (null == user) {
             return Optional.empty();

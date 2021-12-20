@@ -10,14 +10,9 @@ public class User {
     private long id;
 
     /**
-     * 用户名
+     * 用户名 唯一 用于登录
      */
     private String username;
-
-    /**
-     * 账号名唯一用于登录
-     */
-    private String account;
 
     /**
      * 店铺号

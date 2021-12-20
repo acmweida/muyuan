@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserDetailsService {
                 return "ADMIN";
             }
         });
-        return new com.muyuan.auth.dto.UserInfo(userDTO.getUsername(), userDTO.getPassword(),userDTO.getAccount(), authorities);
+        return new com.muyuan.auth.dto.UserInfo(userDTO.getUsername(), userDTO.getPassword(),userDTO.getUsername(), authorities);
     }
 
 }

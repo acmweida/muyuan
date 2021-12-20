@@ -5,12 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserDTO {
+public class UserDTO  {
 
     private long id;
 
     /**
-     * 用户名 唯一用于登录
+     * 用户名
      */
     private String username;
 
@@ -20,19 +20,9 @@ public class UserDTO {
     private long userNo;
 
     /**
-     * 用户类型 0-个人 1-企业
+     * 用户类型 0-会员 1-商家
      */
     private short type;
-
-    /**
-     * 是否开店
-     */
-    private boolean isShop;
-
-    /**
-     * 店铺号
-     */
-    private long shopNo;
 
     /**
      * 密码
