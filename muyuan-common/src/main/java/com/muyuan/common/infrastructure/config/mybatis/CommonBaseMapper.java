@@ -1,4 +1,4 @@
-package com.muyuan.member.infrastructure.config.mybatis;
+package com.muyuan.common.infrastructure.config.mybatis;
 
 import com.muyuan.common.repo.base.id.IdGenerator;
 import com.muyuan.common.repo.jdbc.crud.CrudSqlProvider;
@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.SelectProvider;
 import java.util.List;
 import java.util.Map;
 
-@DataSource(MemberJdbcConfig.DATASOURCE_NAME)
-public interface MemberBaseMapper<T> extends JdbcBaseMapper<T> {
+@DataSource(CommonJdbcConfig.DATASOURCE_NAME)
+public interface CommonBaseMapper<T> extends JdbcBaseMapper<T> {
 
     @SelectProvider(value = CrudSqlProvider.class,method = "selectOne")
     T selectOne(Map params);

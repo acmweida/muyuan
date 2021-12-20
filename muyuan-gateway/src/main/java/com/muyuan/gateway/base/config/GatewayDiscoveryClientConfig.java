@@ -39,7 +39,7 @@ public class GatewayDiscoveryClientConfig extends GatewayDiscoveryClientAutoConf
         ArrayList<PredicateDefinition> definitions = new ArrayList();
         PredicateDefinition predicate = new PredicateDefinition();
         predicate.setName(NameUtils.normalizeRoutePredicateName(PathRoutePredicateFactory.class));
-        predicate.addArg("pattern","'/"+ prefix+"/'+serviceId+'/**'");
+        predicate.addArg("pattern","'"+ prefix+"/'+serviceId+'/**'");
         definitions.add(predicate);
         return definitions;
     }

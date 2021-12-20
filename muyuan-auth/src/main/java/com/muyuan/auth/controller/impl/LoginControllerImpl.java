@@ -6,6 +6,7 @@ import com.muyuan.auth.controller.LoginController;
 import com.muyuan.auth.vo.CaptchaVo;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class LoginControllerImpl implements LoginController {
 
@@ -51,6 +53,7 @@ public class LoginControllerImpl implements LoginController {
         redisTemplate.expire(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid,5, TimeUnit.MINUTES);
         captchaVo.setImg(base64Image);
         captchaVo.setUuid(uuid);
+        log.info("验证码：{},key:{}",createText,uuid);
 
         return ResultUtil.render(captchaVo);
     }

@@ -52,27 +52,31 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder());
-        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-                clients.inMemory().withClient("client_1")
-                .resourceIds("ORDER")
-                .authorizedGrantTypes("client_credentials", "refresh_token","image_captcha")
-                .scopes("select")
-                .authorities("oauth2")
-                .secret(finalSecret)
-                .and().withClient("client_2")
-                .resourceIds("ORDER")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("server")
-                .authorities("oauth2")
-                .secret(finalSecret);
+        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return  "{bcrypt}"+super.encode(rawPassword);
+            }
+        });
+//        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+//        clients.inMemory().withClient("client_1")
+//                .resourceIds("ORDER")
+//                .authorizedGrantTypes("client_credentials", "refresh_token", "image_captcha")
+//                .scopes("select")
+//                .authorities("oauth2")
+//                .secret(finalSecret)
+//                .and().withClient("client_2")
+//                .resourceIds("ORDER")
+//                .authorizedGrantTypes("password", "refresh_token")
+//                .scopes("server")
+//                .authorities("oauth2")
+//                .secret(finalSecret);
     }
-
 
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        TokenGranter tokenGranter = TokenGranterExt.getTokenGranter(authenticationManager, endpoints,  redisTemplate);
+        TokenGranter tokenGranter = TokenGranterExt.getTokenGranter(authenticationManager, endpoints, redisTemplate);
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
         delegates.add(jwtTokenEnhancer);
@@ -103,8 +107,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     public KeyPair keyPair() {
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"),"123456".toCharArray());
-        return keyStoreKeyFactory.getKeyPair("jwt","123456".toCharArray());
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
+        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
     }
 
 }

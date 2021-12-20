@@ -10,7 +10,7 @@ public class UserDTO {
     private long id;
 
     /**
-     * 用户名
+     * 用户名 唯一用于登录
      */
     private String username;
 
@@ -18,11 +18,6 @@ public class UserDTO {
      * 用户编号
      */
     private long userNo;
-
-    /**
-     * 账号名唯一用于登录
-     */
-    private String account;
 
     /**
      * 用户类型 0-个人 1-企业

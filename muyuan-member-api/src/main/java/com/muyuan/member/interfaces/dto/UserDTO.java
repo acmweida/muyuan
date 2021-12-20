@@ -1,4 +1,4 @@
-package com.muyuan.member.interfaces.facade.api.dto;
+package com.muyuan.member.interfaces.dto;
 
 import lombok.Data;
 
@@ -18,11 +18,6 @@ public class UserDTO  {
      * 用户编号
      */
     private long userNo;
-
-    /**
-     * 账号名唯一用于登录
-     */
-    private String account;
 
     /**
      * 用户类型 0-会员 1-商家

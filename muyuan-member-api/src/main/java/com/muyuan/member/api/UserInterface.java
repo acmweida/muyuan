@@ -3,7 +3,7 @@ package com.muyuan.member.api;
 import com.muyuan.common.constant.ServiceTypeConst;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
-import com.muyuan.member.interfaces.facade.api.dto.UserDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = ServiceTypeConst.MEMBER_SERVICE,path = "/user",fallback = UserInterface.UserFallbackFactory.class)
 public interface UserInterface {
 
-    @RequestMapping(value = "/getUserByAccount",method = RequestMethod.POST)
-    Result<UserDTO> getUserByUsername(@RequestParam("account") String username);
+    @RequestMapping(value = "/getUserByUsername",method = RequestMethod.POST)
+    Result<UserDTO> getUserByUsername(@RequestParam("username") String username);
 
     /**
      * 熔断工厂
@@ -36,4 +36,5 @@ public interface UserInterface {
             };
         }
     }
+
 }

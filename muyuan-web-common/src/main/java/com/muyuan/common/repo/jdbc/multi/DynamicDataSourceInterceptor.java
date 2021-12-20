@@ -52,7 +52,11 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
         } else {
             dataSource = AnnotatedElementUtils.findMergedAnnotation(methodInvocation.getMethod().getDeclaringClass(),DataSource.class);
         }
-        log.info("change datasource {} meth:{}",dataSource.value(),methodInvocation.getMethod().getName());
+        if (null != dataSource) {
+            log.info("change datasource {} meth:{}", dataSource.value(), methodInvocation.getMethod().getName());
+        } else {
+            log.info("use default datasource");
+        }
         changeDataSource(dataSource);
         Object ret =  methodInvocation.proceed();
         log.info("clear datasource {} meth:{}",dataSource.value(),methodInvocation.getMethod().getName());

@@ -164,6 +164,14 @@
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                </exclusion>
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--                    <artifactId>jackson-dateformat-xml</artifactId>-->
+<!--                </exclusion>-->
             </exclusions>
         </dependency>
 

@@ -31,8 +31,8 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public Result<UserDTO> getUserByAccount(String account) {
-        final Optional<User> userInfo = userQuery.getUserByAccount(account);
+    public Result<UserDTO> getUserByUsername(String username) {
+        final Optional<User> userInfo = userQuery.getUserByUsername(username);
         if (!userInfo.isPresent()) {
             return ResultUtil.renderFail("用户信息不存在");
         }

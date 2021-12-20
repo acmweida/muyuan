@@ -1,7 +1,6 @@
 package com.muyuan.member.domain.query;
 
 import com.muyuan.member.domain.model.User;
-import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
 
 import java.util.Optional;
@@ -20,7 +19,7 @@ public interface UserQuery {
      * @param account
      * @return
      */
-    Optional<User> getUserByAccount(String account);
+    Optional<User> getUserByUsername(String username);
 
     /**
      * 账户注册

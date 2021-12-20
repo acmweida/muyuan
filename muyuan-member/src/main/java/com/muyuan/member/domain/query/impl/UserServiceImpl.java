@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserQuery {
     }
 
     @Override
-    public Optional<User> getUserByAccount(String account) {
+    public Optional<User> getUserByUsername(String username) {
         final User user = userRepo.selectOne(new SqlBuilder(User.class)
-                .eq("account", account)
+                .eq("username", username)
                 .build());
         if (null == user) {
             return Optional.empty();
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserQuery {
     public int accountRegister(RegisterDTO registerInfo) {
 
         User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("account", registerInfo.getAccount())
+                .eq("username", registerInfo.getUsername())
                 .build());
         if (null != account) {
             return 1;
@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserQuery {
 
         User user = new User();
         BeanUtils.copyProperties(registerInfo,user);
-        user.setUserNo(IdUtil.createUserNo());
         user.setUsername(IdUtil.createUserName());
         user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
         user.setSalt(salt);
