@@ -14,7 +14,7 @@ public class RegisterDTO {
     @NotBlank(message = "账号名不能为空")
     @Length(min = 8,max=16,message = "用戶名长度要8~16位之间")
     @ApiModelProperty(value = "账号")
-    private String account;
+    private String username;
 
     @NotBlank(message = "密码不能为空")
     @ApiModelProperty(value = "密码")

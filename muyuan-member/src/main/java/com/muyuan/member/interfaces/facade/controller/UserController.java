@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
 
 @RestController()
-@RequestMapping(value = "/user",produces = "application/json; charset=UTF-8")
+@RequestMapping(value = "/user")
 @Api(tags = {"用户接口"})
 public interface UserController {
 
@@ -19,9 +19,9 @@ public interface UserController {
     @ApiOperation(value = "获取用户信息")
     Result getUserInfo();
 
-    @PostMapping("/getUserByUsername")
+    @GetMapping("/getUserByUsername")
     @ApiOperation(value = "通过账号获取用户信息")
-    Result<UserDTO> getUserByUsername(@RequestParam("username") @NotBlank String account);
+    Result<UserDTO> getUserByUsername(@RequestParam("username") @NotBlank String username);
 
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/accountRegister")

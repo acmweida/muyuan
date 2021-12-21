@@ -40,14 +40,14 @@ public class UserServiceImpl implements UserQuery {
         if (null == user) {
             return Optional.empty();
         }
-        return Optional.empty();
+        return Optional.of(user);
     }
 
     @Override
     public int accountRegister(RegisterDTO registerInfo) {
 
         User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("account", registerInfo.getAccount())
+                .eq("username", registerInfo.getUsername())
                 .build());
         if (null != account) {
             return 1;
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserQuery {
 
         User user = new User();
         BeanUtils.copyProperties(registerInfo,user);
-        user.setUsername(IdUtil.createUserName());
+        user.setNickName(IdUtil.createUserName());
         user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
         user.setSalt(salt);
         user.setEncryptKey(encryptKey);

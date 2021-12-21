@@ -4,10 +4,9 @@ import com.muyuan.common.repo.jdbc.crud.impl.EqConditionSqlHandler;
 import com.muyuan.common.repo.jdbc.crud.impl.InConditionSqlHandler;
 import com.muyuan.common.util.InternalStrUtil;
 import org.apache.ibatis.jdbc.SQL;
-import org.springframework.cglib.core.ReflectUtils;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +102,16 @@ public class CrudSqlProvider {
 
         List<String> values = new ArrayList<>();
         List<String> column = new ArrayList<>();
+        aClass.getDeclaredMethods();
+
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
-            values.add("#{"+propertyDescriptor.getName()+"}");
-            column.add(InternalStrUtil.humpToUnderline(propertyDescriptor.getName()));
+            propertyDescriptor.setAccessible(true);
+            Object field = ReflectionUtils.getField(propertyDescriptor, bean);
+            if (null != field) {
+                values.add("#{" + propertyDescriptor.getName() + "}");
+                column.add(InternalStrUtil.humpToUnderline(propertyDescriptor.getName()));
+            }
         }
 
 
