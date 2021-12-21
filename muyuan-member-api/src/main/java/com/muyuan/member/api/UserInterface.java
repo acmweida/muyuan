@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = ServiceTypeConst.MEMBER_SERVICE,path = "/user",fallback = UserInterface.UserFallbackFactory.class)
 public interface UserInterface {
 
-    @RequestMapping(value = "/getUserByUsername",method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserByUsername",method = RequestMethod.GET)
     Result<UserDTO> getUserByUsername(@RequestParam("username") String username);
 
     /**

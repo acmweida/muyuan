@@ -14,6 +14,8 @@ public class User {
      */
     private String username;
 
+    private String nickName;
+
     /**
      * 店铺号
      */

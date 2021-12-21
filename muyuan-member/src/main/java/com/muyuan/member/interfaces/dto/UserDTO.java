@@ -15,21 +15,6 @@ public class UserDTO {
     private String username;
 
     /**
-     * 用户编号
-     */
-    private long userNo;
-
-    /**
-     * 用户类型 0-个人 1-企业
-     */
-    private short type;
-
-    /**
-     * 是否开店
-     */
-    private boolean isShop;
-
-    /**
      * 店铺号
      */
     private long shopNo;
@@ -55,12 +40,7 @@ public class UserDTO {
     private String phone;
 
     /**
-     * 是否删除（0-否 1-是）
-     */
-    private boolean delete;
-
-    /**
-     * 账号状态 0-正常 1-锁定
+     * 账号状态 0-正常 1-删除 2-锁定
      */
     private short status;
 
