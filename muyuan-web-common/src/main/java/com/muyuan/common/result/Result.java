@@ -6,7 +6,6 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 @Data
