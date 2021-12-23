@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * @ClassName JSONUtil
@@ -67,5 +68,9 @@ public class JSONUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static <T> T coverValue(Map<String,Object> data,Class<T> clazz) {
+       return objectMapper.convertValue(data,clazz);
     }
 }

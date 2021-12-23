@@ -6,7 +6,6 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -28,7 +27,10 @@ public class Result<T> {
     @ApiModelProperty(value = "响应吗")
     private String responseId = UUID.randomUUID().toString();
 
-    public Result(int code,String msg) {
+    public Result() {
+    }
+
+    public Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }

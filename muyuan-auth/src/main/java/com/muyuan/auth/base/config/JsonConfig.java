@@ -1,4 +1,4 @@
-package com.muyuan.member.infrastructure.config;
+package com.muyuan.auth.base.config;
 
 import com.muyuan.common.util.JSONUtil;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
