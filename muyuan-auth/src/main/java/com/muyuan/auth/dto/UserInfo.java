@@ -161,7 +161,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return status == 1;
+        return status != 2;
     }
 
     @Override

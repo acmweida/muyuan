@@ -3,6 +3,7 @@ package com.muyuan.member.interfaces.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDTO {
@@ -13,6 +14,8 @@ public class UserDTO {
      * 用户名 唯一用于登录
      */
     private String username;
+
+    private String nickName;
 
     /**
      * 店铺号
@@ -58,4 +61,9 @@ public class UserDTO {
      * 上次登录时间
      */
     private Date lastSignTime;
+
+    /**
+     * 角色
+     */
+    private List<String> roles;
 }

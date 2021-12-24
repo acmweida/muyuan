@@ -4,6 +4,7 @@ import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
 import com.muyuan.common.util.EncryptUtil;
 import com.muyuan.common.util.IdUtil;
 import com.muyuan.member.domain.model.User;
+import com.muyuan.member.domain.query.RoleQuery;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.repo.UserRepo;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
@@ -15,10 +16,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserQuery {
+public class UserQueryImpl implements UserQuery {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    RoleQuery roleQuery;
 
     @Override
     public Optional<User> getUserInfo(String userNo) {
@@ -36,6 +40,7 @@ public class UserServiceImpl implements UserQuery {
     public Optional<User> getUserByUsername(String username) {
         final User user = userRepo.selectOne(new SqlBuilder(User.class)
                 .eq("username", username)
+                .eq("status",0)
                 .build());
         if (null == user) {
             return Optional.empty();

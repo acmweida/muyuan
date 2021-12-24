@@ -52,10 +52,11 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
         }
 
         final Object captcha = redisTemplate.opsForValue().get(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
-        redisTemplate.delete(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
         if (!captcha.toString().equals(captchaInput)) {
             throw new ImageCaptchaException("验证码错误");
         }
+        redisTemplate.delete(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
+
 
         Authentication userAuth = new ImageCaptchaAuthenticationToken(username, password);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
