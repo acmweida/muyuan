@@ -24,16 +24,7 @@ public class UserInfo implements UserDetails {
      */
     private String username;
 
-    /**
-     * 用户编号
-     */
-    private long userNo;
-
-    /**
-     * 账号名唯一用于登录
-     */
-    private String account;
-
+    private String nickName;
     /**
      * 用户类型 0-会员 1-商家
      */
@@ -88,7 +79,7 @@ public class UserInfo implements UserDetails {
      * @throws IllegalArgumentException if a <code>null</code> value was passed either as
      *                                  a parameter or as an element in the <code>GrantedAuthority</code> collection
      */
-    public UserInfo(String username, String password, String account, Collection<? extends GrantedAuthority> authorities) {
+    public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 
         if (((username == null) || "".equals(username)) || (password == null)) {
             throw new IllegalArgumentException(
@@ -96,7 +87,6 @@ public class UserInfo implements UserDetails {
         }
 
         this.username = username;
-        this.account = account;
         this.password = password;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
@@ -151,7 +141,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public String getUsername() {
-        return account;
+        return username;
     }
 
     @Override
@@ -161,7 +151,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return status == 1;
+        return status != 2;
     }
 
     @Override
@@ -172,5 +162,73 @@ public class UserInfo implements UserDetails {
     @Override
     public boolean isEnabled() {
         return status == 0;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public short getType() {
+        return type;
+    }
+
+    public void setType(short type) {
+        this.type = type;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getEncryptKey() {
+        return encryptKey;
+    }
+
+    public void setEncryptKey(String encryptKey) {
+        this.encryptKey = encryptKey;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public short getStatus() {
+        return status;
+    }
+
+    public void setStatus(short status) {
+        this.status = status;
+    }
+
+    public Date getLastSignTime() {
+        return lastSignTime;
+    }
+
+    public void setLastSignTime(Date lastSignTime) {
+        this.lastSignTime = lastSignTime;
+    }
+
+    public void setAuthorities(Set<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }

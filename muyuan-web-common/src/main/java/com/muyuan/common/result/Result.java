@@ -27,7 +27,10 @@ public class Result<T> {
     @ApiModelProperty(value = "响应吗")
     private String responseId = UUID.randomUUID().toString();
 
-    public Result(int code,String msg) {
+    public Result() {
+    }
+
+    public Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }

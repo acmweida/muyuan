@@ -100,6 +100,7 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         }
         UserInfo userInfo = (UserInfo) userDetails;
         String password = (String) authentication.getCredentials();
+        logger.info(userDetails);
         final String presentedPassword = EncryptUtil.SHA1(password + userInfo.getSalt(), userInfo.getEncryptKey());
         if (!userDetails.getPassword().equals(presentedPassword)) {
             this.logger.debug("Failed to authenticate since password does not match stored value");

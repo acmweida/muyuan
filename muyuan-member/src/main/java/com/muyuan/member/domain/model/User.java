@@ -4,10 +4,17 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @ClassName Role
+ * Description 用户 t_user
+ * @Author 2456910384
+ * @Date 2021/12/24 10:17
+ * @Version 1.0
+ */
 @Data
 public class User {
 
-    private long id;
+    private Long id;
 
     /**
      * 用户名 唯一 用于登录
@@ -19,7 +26,7 @@ public class User {
     /**
      * 店铺号
      */
-    private long shopNo;
+    private Long shopNo;
 
     /**
      * 密码
@@ -44,7 +51,7 @@ public class User {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private boolean status;
+    private Boolean status;
 
     /**
      * 创建时间
@@ -61,7 +68,7 @@ public class User {
      */
     private Date lastSignTime;
 
-    private long updateUserNo;
+    private Long updateUserId;
 
-    private long createUserNo;
+    private Long createUserId;
 }
