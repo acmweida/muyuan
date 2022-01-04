@@ -2,6 +2,7 @@ package com.muyuan.member.interfaces.facade.controller.impl;
 
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
+import com.muyuan.member.domain.factories.UserFactory;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.RoleQuery;
@@ -55,7 +56,7 @@ public class UserControllerImpl implements UserController {
     }
 
     public Result accountRegister(RegisterDTO register) {
-        int registerResult = userQuery.accountRegister(register);
+        int registerResult = UserFactory.create().accountRegister(register);
         if (registerResult == 0) {
             return   ResultUtil.render("注册成功");
         } else if (registerResult == 1) {

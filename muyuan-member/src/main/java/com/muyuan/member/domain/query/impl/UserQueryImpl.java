@@ -4,7 +4,6 @@ import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
 import com.muyuan.common.util.EncryptUtil;
 import com.muyuan.common.util.IdUtil;
 import com.muyuan.member.domain.model.User;
-import com.muyuan.member.domain.query.RoleQuery;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.repo.UserRepo;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
@@ -45,28 +44,4 @@ public class UserQueryImpl implements UserQuery {
         return Optional.of(user);
     }
 
-    @Override
-    public int accountRegister(RegisterDTO registerInfo) {
-
-        User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("username", registerInfo.getUsername())
-                .build());
-        if (null != account) {
-            return 1;
-        }
-
-        String salt = UUID.randomUUID().toString();
-        String encryptKey = UUID.randomUUID().toString();
-
-        User user = new User();
-        BeanUtils.copyProperties(registerInfo,user);
-        user.setNickName(IdUtil.createUserName());
-        user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
-        user.setSalt(salt);
-        user.setEncryptKey(encryptKey);
-
-        userRepo.insert(user);
-
-        return 0;
-    }
 }

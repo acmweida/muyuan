@@ -1,5 +1,10 @@
 package com.muyuan.auth.base.config;
 
+import com.muyuan.auth.base.exception.WebResponseExceptionTranslator;
+import com.muyuan.common.enums.ResponseCode;
+import com.muyuan.common.result.Result;
+import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +13,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +28,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
@@ -87,14 +95,36 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .accessTokenConverter(accessTokenConverter())
                 .tokenGranter(tokenGranter)
                 .tokenEnhancer(enhancerChain)
+                .exceptionTranslator(new WebResponseExceptionTranslator())
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
     }
 
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 允许表单认证
-        security.allowFormAuthenticationForClients();
+        CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(security);
+        endpointFilter.afterPropertiesSet();
+        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint());
+        security.addTokenEndpointAuthenticationFilter(endpointFilter);
+
+        security
+                .authenticationEntryPoint(authenticationEntryPoint())
+                /* .allowFormAuthenticationForClients()*/ //如果使用表单认证则需要加上
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
+//        security.allowFormAuthenticationForClients();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, e) -> {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            Result resultData = ResultUtil.renderError(ResponseCode.CLIENT_AUTHENTICATION_FAILED.getCode(), ResponseCode.CLIENT_AUTHENTICATION_FAILED.getMsg());
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.getWriter().write(JSONUtil.toJsonString(resultData));
+        };
     }
 
     @Bean
