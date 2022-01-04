@@ -1,5 +1,6 @@
 import com.muyuan.common.repo.jdbc.page.Page;
 import com.muyuan.common.result.Result;
+import com.muyuan.common.util.EncryptUtil;
 import com.muyuan.common.util.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.cglib.core.ReflectUtils;
@@ -27,5 +28,10 @@ public class RefllectUtil {
         data.put("data",user);
 
         System.out.println(JSONUtil.coverValue(data, Result.class));
+    }
+
+    @Test
+    public void encryptTest() {
+        System.out.println(EncryptUtil.SHA1("111", "dsdfsd"));
     }
 }

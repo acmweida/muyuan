@@ -16,7 +16,7 @@ public interface UserQuery {
 
     /**
      * 通过Uaccount 获取用户信息
-     * @param account
+     * @param username
      * @return
      */
     Optional<User> getUserByUsername(String username);

@@ -4,7 +4,6 @@ import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
 import com.muyuan.common.util.EncryptUtil;
 import com.muyuan.common.util.IdUtil;
 import com.muyuan.member.domain.model.User;
-import com.muyuan.member.domain.query.RoleQuery;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.repo.UserRepo;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
@@ -20,9 +19,6 @@ public class UserQueryImpl implements UserQuery {
 
     @Autowired
     UserRepo userRepo;
-
-    @Autowired
-    RoleQuery roleQuery;
 
     @Override
     public Optional<User> getUserInfo(String userNo) {

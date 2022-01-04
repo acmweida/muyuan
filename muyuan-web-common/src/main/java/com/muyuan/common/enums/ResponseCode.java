@@ -6,6 +6,7 @@ public enum ResponseCode {
     AUTH_FAIL(401,"没有权限"),
     ARGUMENT_EEORR(402,"参数错误"),
     UNAUTHORIZED(405,"没有登录或者token失效"),
+    CLIENT_AUTHENTICATION_FAILED(406,"OAUTH2 CLIENT认证错误"),
     USER_ONT_FOUND(406,"用户信息没有查询到"),
     FILE_UPLOAD_FAIL(411,"文件上传失败"),
     REPEATABLE_REQUEST_FAIL(413,"请求在处理中，请勿重复提交"),

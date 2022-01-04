@@ -53,7 +53,7 @@ public class ResultUtil {
     }
 
     public static Result renderError() { return renderError(Collections.EMPTY_LIST);};
-    public static Result renderError(String code,String message) { return renderError(Collections.EMPTY_LIST);};
+    public static Result renderError(int code,String message) { return new Result(code,message);};
 
     public static Result renderError(Object data) { return new Result(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMsg(),data );};
 
