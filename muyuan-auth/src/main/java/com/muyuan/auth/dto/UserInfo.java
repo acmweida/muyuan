@@ -30,11 +30,6 @@ public class UserInfo implements UserDetails {
     private long userNo;
 
     /**
-     * 账号名唯一用于登录
-     */
-    private String account;
-
-    /**
      * 用户类型 0-会员 1-商家
      */
     private short type;
@@ -96,7 +91,7 @@ public class UserInfo implements UserDetails {
         }
 
         this.username = username;
-        this.account = account;
+        this.username = account;
         this.password = password;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
@@ -151,7 +146,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public String getUsername() {
-        return account;
+        return username;
     }
 
     @Override

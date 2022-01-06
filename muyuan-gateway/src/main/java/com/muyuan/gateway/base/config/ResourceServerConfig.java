@@ -3,7 +3,6 @@ package com.muyuan.gateway.base.config;
 import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
-import com.muyuan.gateway.base.filter.IgnoreUrlsRemoveJwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -33,7 +31,7 @@ public class ResourceServerConfig {
 
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-    private final IgnoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
+//    private final IgnoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
@@ -43,7 +41,7 @@ public class ResourceServerConfig {
         // 1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
-        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+//        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         String[]  urls = new String[ignoreUrlsConfig.getIgnore().size()];
         ignoreUrlsConfig.getIgnore().toArray(urls);
         http.authorizeExchange()

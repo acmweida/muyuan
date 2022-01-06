@@ -93,6 +93,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
                 .tokenGranter(tokenGranter)
+//                .tokenStore(jwtTokenStore())
                 .tokenEnhancer(enhancerChain)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
@@ -137,5 +138,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
         return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
     }
+
+//    @Bean
+//    public TokenStore jwtTokenStore() {
+//        return new JwtTokenStore(accessTokenConverter());
+//    }
 
 }
