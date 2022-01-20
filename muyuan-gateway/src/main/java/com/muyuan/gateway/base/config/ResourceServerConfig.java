@@ -3,11 +3,16 @@ package com.muyuan.gateway.base.config;
 import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -17,6 +22,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
+
+import java.io.InputStream;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
 
 @AllArgsConstructor
 @Configuration
@@ -31,13 +41,12 @@ public class ResourceServerConfig {
 
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-//    private final IgnoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
-
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
 
-        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
+        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
+                .publicKey(rsaPublicKey());
         // 1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
@@ -46,7 +55,8 @@ public class ResourceServerConfig {
         ignoreUrlsConfig.getIgnore().toArray(urls);
         http.authorizeExchange()
                 .pathMatchers(urls).permitAll() // 白名单配置
-                .anyExchange().access(authorizationManager) // 鉴权管理器配置
+                .anyExchange()
+                .access(authorizationManager) // 鉴权管理器配置
                 .and().exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler) // 处理未授权
                 .authenticationEntryPoint(restAuthenticationEntryPoint) // 处理未认证
@@ -62,6 +72,24 @@ public class ResourceServerConfig {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
+    }
+
+    /**
+     * 本地获取JWT验签公钥
+     */
+    @SneakyThrows
+    @Bean
+    public RSAPublicKey rsaPublicKey() {
+        Resource resource = new ClassPathResource("public.key");
+        InputStream is = resource.getInputStream();
+        byte[] context = new byte[is.available()];
+        IOUtils.readFully(is,context);
+        String publicKeyData = new String(context);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.decode(publicKeyData)));
+
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        RSAPublicKey rsaPublicKey = (RSAPublicKey)keyFactory.generatePublic(keySpec);
+        return rsaPublicKey;
     }
 
 

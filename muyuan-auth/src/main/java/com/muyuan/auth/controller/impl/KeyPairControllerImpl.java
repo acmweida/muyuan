@@ -19,7 +19,7 @@ public class KeyPairControllerImpl implements KeyPairController {
     }
 
     @Override
-    public Map getkey() {
+    public Map getPublicKey() {
         RSAPublicKey aPublic = (RSAPublicKey) keyPair.getPublic();
         RSAKey key = new RSAKey.Builder(aPublic).build();
         return new JWKSet(key).toJSONObject();

@@ -15,5 +15,5 @@ public interface KeyPairController {
 
     @ApiOperation(value = "获取jwt公钥")
     @GetMapping("/publicKey")
-    Map getkey();
+    Map getPublicKey();
 }
