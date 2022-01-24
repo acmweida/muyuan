@@ -1,8 +1,8 @@
 package com.muyuan.gateway.base.config;
 
 import com.github.xiaoymin.knife4j.core.util.StrUtil;
-import com.muyuan.common.constant.auth.AuthConst;
 import com.muyuan.common.constant.auth.AuthRedisConst;
+import com.muyuan.common.constant.auth.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -44,7 +44,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 2. token为空拒绝访问
-        String token = request.getHeaders().getFirst("Authorization");
+        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isBlank(token)) {
             return Mono.just(new AuthorizationDecision(false));
         }
@@ -56,16 +56,17 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             String[] split = "ADMIN".split(",");
             authorities = Arrays.asList(split);
 //        }
-        authorities = authorities.stream().map(i -> i = AuthConst.AUTHORITY_PREFIX + i).collect(Collectors.toList());
+        authorities = authorities.stream().map(i -> i = SecurityConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         // 2、认证通过且角色匹配的用户可访问当前路径
         List<String> finalAuthorities = authorities;
-        return mono
+        // 判断JWT中携带的用户角色是否有权限访问
+        Mono<AuthorizationDecision> authorizationDecisionMono = mono
                 .filter(Authentication::isAuthenticated)
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    String roleCode = authority.substring(AuthConst.AUTHORITY_PREFIX.length()); // 用户的角色
-                    if (AuthConst.ROOT_ROLE_CODE.equals(roleCode)) {
+                    String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色
+                    if (SecurityConstants.ROOT_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }
                     boolean hasAuthorized = !CollectionUtils.isEmpty(finalAuthorities) && finalAuthorities.contains(roleCode);
@@ -73,5 +74,6 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 })
                 .map(AuthorizationDecision::new)
                 .defaultIfEmpty(new AuthorizationDecision(false));
+        return authorizationDecisionMono;
     }
 }

@@ -1,11 +1,10 @@
 package com.muyuan.common.util;
 
 import com.muyuan.common.constant.CommonConst;
-import com.muyuan.common.constant.auth.AuthConst;
+import com.muyuan.common.constant.auth.SecurityConstants;
 import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.exception.handler.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,7 +18,7 @@ public class RequestUtil {
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        String userStr = request.getHeader(AuthConst.REQUEST_USER_PARAM);
+        String userStr = request.getHeader(SecurityConstants.REQUEST_USER_PARAM);
         if (null == userStr) {
             log.error("exception code {} : not found user in request header",ResponseCode.ARGUMENT_EEORR.getCode());
             throw new UnAuthorizedException();
