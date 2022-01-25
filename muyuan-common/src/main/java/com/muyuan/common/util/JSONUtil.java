@@ -5,10 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.*;
 import com.muyuan.common.constant.CommonConst;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -72,5 +69,16 @@ public class JSONUtil {
 
     public static <T> T coverValue(Map<String,Object> data,Class<T> clazz) {
        return objectMapper.convertValue(data,clazz);
+    }
+
+    public static JsonNode readTree(String content) {
+        try {
+            return objectMapper.readTree(content);
+        } catch (JsonProcessingException e) {
+            log.error("Json parser error",e);
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

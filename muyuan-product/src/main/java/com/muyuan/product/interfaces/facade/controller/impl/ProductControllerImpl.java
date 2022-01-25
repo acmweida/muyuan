@@ -26,8 +26,8 @@ public class ProductControllerImpl implements ProductController {
     @Override
     public Result<List<ProductVO>> getProducts(ShopProductDTO productDTO) {
         List<Product> products = productQuery.queryProductsByShopInfo(productDTO);
-        List<ProductVO> productVOS = ProductAssembler.buildProductVO(products);
-        return ResultUtil.render(productVOS);
+        List<ProductVO> productVOs = ProductAssembler.buildProductVO(products);
+        return ResultUtil.render(productVOs);
     }
 
     @Override

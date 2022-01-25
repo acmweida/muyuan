@@ -11,7 +11,7 @@ public class UserUtil {
     private UserDTO getUserInfo() {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         RequestAttributes requestAttributes1 = RequestContextHolder.getRequestAttributes();
-        String userStr = (String) requestAttributes1.getAttribute(SecurityConstants.REQUEST_USER_PARAM, RequestAttributes.SCOPE_REQUEST);
+        String userStr = (String) requestAttributes1.getAttribute(SecurityConstants.JWT_PAYLOAD_KEY, RequestAttributes.SCOPE_REQUEST);
         UserDTO user = JSONUtil.parseObject(userStr, UserDTO.class);
         return user;
     }

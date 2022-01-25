@@ -57,4 +57,9 @@ public class ResultUtil {
 
     public static Result renderError(Object data) { return new Result(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMsg(),data );};
 
+    public static boolean isSuccess(Result result) {
+        return ResponseCode.SUCCESS.getCode() == result.getCode();
+    }
+
+
 }

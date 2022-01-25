@@ -28,7 +28,7 @@ public class UserControllerImpl implements UserController {
     RoleQuery roleQuery;
 
     @Override
-    public Result getUserInfo() {
+    public Result<UserVO> getUserInfo() {
         final Optional<User> userInfo = userQuery.getUserInfo("xxxx");
         if (!userInfo.isPresent()) {
             return ResultUtil.renderFail("用户信息不存在");

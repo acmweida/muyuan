@@ -36,4 +36,8 @@ public interface SecurityConstants {
      * JWT载体key
      */
     String JWT_PAYLOAD_KEY = "payload";
+
+    String USER_ID_KEY = "userId";
+
+    String USER_NAME_KEY = "username";
 }

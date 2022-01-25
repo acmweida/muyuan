@@ -1,6 +1,7 @@
 package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.result.Result;
+import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import io.swagger.annotations.Api;
@@ -17,7 +18,7 @@ public interface UserController {
 
     @GetMapping("/getUserInfo")
     @ApiOperation(value = "获取用户信息")
-    Result getUserInfo();
+    Result<UserVO> getUserInfo();
 
     @GetMapping("/getUserByUsername")
     @ApiOperation(value = "通过账号获取用户信息")

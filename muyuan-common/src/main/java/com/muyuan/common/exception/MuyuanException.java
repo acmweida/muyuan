@@ -2,7 +2,6 @@ package com.muyuan.common.exception;
 
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

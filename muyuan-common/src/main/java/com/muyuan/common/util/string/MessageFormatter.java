@@ -38,7 +38,7 @@ public class MessageFormatter {
      *          The argument to be substituted in place of the formatting anchor
      * @return The formatted message
      */
-    final public static org.slf4j.helpers.FormattingTuple format(String messagePattern, Object arg) {
+    final public static FormattingTuple format(String messagePattern, Object arg) {
         return arrayFormat(messagePattern, new Object[] { arg });
     }
 
@@ -65,12 +65,12 @@ public class MessageFormatter {
      *          anchor
      * @return The formatted message
      */
-    final public static org.slf4j.helpers.FormattingTuple format(final String messagePattern, Object arg1, Object arg2) {
+    final public static FormattingTuple format(final String messagePattern, Object arg1, Object arg2) {
         return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
     }
 
 
-    final public static org.slf4j.helpers.FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
+    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
         Throwable throwableCandidate = org.slf4j.helpers.MessageFormatter.getThrowableCandidate(argArray);
         Object[] args = argArray;
         if (throwableCandidate != null) {
@@ -79,14 +79,14 @@ public class MessageFormatter {
         return arrayFormat(messagePattern, args, throwableCandidate);
     }
 
-    final public static org.slf4j.helpers.FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
+    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
-            return new org.slf4j.helpers.FormattingTuple(null, argArray, throwable);
+            return new FormattingTuple(null, argArray, throwable);
         }
 
         if (argArray == null) {
-            return new org.slf4j.helpers.FormattingTuple(messagePattern);
+            return new FormattingTuple(messagePattern);
         }
 
         int i = 0;
@@ -102,11 +102,11 @@ public class MessageFormatter {
             if (j == -1) {
                 // no more variables
                 if (i == 0) { // this is a simple string
-                    return new org.slf4j.helpers.FormattingTuple(messagePattern, argArray, throwable);
+                    return new FormattingTuple(messagePattern, argArray, throwable);
                 } else { // add the tail string which contains no variables and return
                     // the result.
                     sbuf.append(messagePattern, i, messagePattern.length());
-                    return new org.slf4j.helpers.FormattingTuple(sbuf.toString(), argArray, throwable);
+                    return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
                 if (isEscapedDelimeter(messagePattern, j)) {

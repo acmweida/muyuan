@@ -3,31 +3,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.muyuan</groupId>
         <artifactId>MuyuanShop</artifactId>
+        <groupId>com.muyuan</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.muyuan</groupId>
-    <artifactId>muyuan-product</artifactId>
+    <artifactId>muyuan-common-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>muyuan-Product</name>
-    <description>Demo project for Spring Boot</description>
+    <name>muyuan-common</name>
+    <description>公共服务</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
     <dependencies>
         <dependency>
-            <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.29-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-common-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>muyuan-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

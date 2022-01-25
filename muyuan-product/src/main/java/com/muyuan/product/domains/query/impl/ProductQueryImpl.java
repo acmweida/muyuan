@@ -7,10 +7,12 @@ import com.muyuan.product.domains.query.ProductQuery;
 import com.muyuan.product.domains.repo.ProductRepo;
 import com.muyuan.product.interfaces.dto.ShopProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
+@Service
 public class ProductQueryImpl implements ProductQuery {
 
     @Autowired

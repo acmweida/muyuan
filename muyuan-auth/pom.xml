@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-web-common</artifactId>
+            <artifactId>muyuan-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -31,7 +31,7 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-web-common</artifactId>
+            <artifactId>muyuan-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
