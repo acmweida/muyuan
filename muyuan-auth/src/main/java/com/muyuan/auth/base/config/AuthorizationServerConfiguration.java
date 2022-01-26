@@ -1,5 +1,6 @@
 package com.muyuan.auth.base.config;
 
+import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
@@ -94,6 +95,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
                 .tokenGranter(tokenGranter)
+                .exceptionTranslator(new CustomWebResponseExceptionTranslator())
 //                .tokenStore(jwtTokenStore())
                 .tokenEnhancer(enhancerChain)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
