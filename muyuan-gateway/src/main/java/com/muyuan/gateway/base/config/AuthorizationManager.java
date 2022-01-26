@@ -1,8 +1,8 @@
 package com.muyuan.gateway.base.config;
 
-import com.github.xiaoymin.knife4j.core.util.StrUtil;
 import com.muyuan.common.constant.auth.AuthRedisConst;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -45,7 +45,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         // 2. token为空拒绝访问
         String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isBlank(token)) {
+        if (StringUtils.isBlank(token)) {
             return Mono.just(new AuthorizationDecision(false));
         }
 
