@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.muyuan</groupId>
-        <artifactId>MuyuanShop</artifactId>
+        <artifactId>muyuan-business</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.muyuan</groupId>
     <artifactId>muyuan-activity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>muyuan-activity</name>

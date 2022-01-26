@@ -1,8 +1,6 @@
 package com.muyuan.gateway.base.config;
 
 import com.github.xiaoymin.knife4j.core.util.StrUtil;
-import com.muyuan.common.constant.auth.AuthRedisConst;
-import com.muyuan.common.constant.auth.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -15,6 +13,7 @@ import org.springframework.security.web.server.authorization.AuthorizationContex
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
+import com.muyuan.common.constant.auth.SecurityConstants;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -53,7 +52,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         Object obj = redisTemplate.opsForHash().get(AuthRedisConst.RESOURCE_ROLES_MAP, uri.getPath());
         List<String> authorities = Collections.EMPTY_LIST;
 //        if (null != obj) {
-            String[] split = "ADMIN".split(",");
+            String[] split = "SHOP_KEEPER".split(",");
             authorities = Arrays.asList(split);
 //        }
         authorities = authorities.stream().map(i -> i = SecurityConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());

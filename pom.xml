@@ -11,7 +11,7 @@
     </parent>
     <description>牧原商店商家管理系统</description>
     <groupId>com.muyuan</groupId>
-    <artifactId>MuyuanShop</artifactId>
+    <artifactId>muyuan-business</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -28,6 +28,7 @@
         <module>muyuan-product</module>
         <module>muyuan-common</module>
         <module>muyuan-common-api</module>
+        <module>muyuan-common-server</module>
     </modules>
 
     <dependencyManagement>
