@@ -1,6 +1,7 @@
 package com.muyuan.gateway.base.config;
 
 import com.github.xiaoymin.knife4j.core.util.StrUtil;
+import com.muyuan.common.constant.auth.AuthRedisConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
