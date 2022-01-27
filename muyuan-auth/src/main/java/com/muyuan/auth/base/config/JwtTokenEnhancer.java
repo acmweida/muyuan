@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.common.constant.auth.SecurityConstants;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -18,7 +19,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String,Object> info = new HashMap<>();
-        info.put("username",((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
+        info.put(SecurityConstants.USER_NAME_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
+        info.put(SecurityConstants.USER_ID_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUserNo());
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
         return accessToken;
     }

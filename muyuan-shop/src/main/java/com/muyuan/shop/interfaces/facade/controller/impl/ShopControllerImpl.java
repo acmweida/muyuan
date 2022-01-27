@@ -3,7 +3,7 @@ package com.muyuan.shop.interfaces.facade.controller.impl;
 import com.muyuan.common.exception.handler.UserNotFoundException;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.RequestUtil;
+import com.muyuan.common.util.JwtUtils;
 import com.muyuan.shop.domain.query.ShopQuery;
 import com.muyuan.shop.domain.vo.ShopVO;
 import com.muyuan.shop.interfaces.facade.controller.ShopController;
@@ -22,7 +22,7 @@ public class ShopControllerImpl implements ShopController {
 
     @Override
     public Result<ShopVO> getShopBaseInfo() {
-        final long currentUserId = RequestUtil.getCurrentUserId();
+        final long currentUserId = JwtUtils.getUserId();
         log.info("user id: {} invoke /shop/getShopBaseInfo ",currentUserId);
         Optional<ShopVO> shopVo = shopQuery.getShopBaseInfoByyMemberId(currentUserId);
         shopVo.orElseThrow(() ->{

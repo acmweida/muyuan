@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
+import com.muyuan.auth.base.granter.ImageCaptchaTokenGranter;
 import com.muyuan.common.enums.ResponseCode;
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
@@ -23,6 +24,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -34,6 +36,7 @@ import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -85,19 +88,30 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        TokenGranter tokenGranter = TokenGranterExt.getTokenGranter(authenticationManager, endpoints, redisTemplate);
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
         delegates.add(jwtTokenEnhancer);
         delegates.add(accessTokenConverter());
+
+        // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
+        List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+
+        // 添加验证码授权模式授权者
+        granterList.add(new ImageCaptchaTokenGranter(authenticationManager,redisTemplate,endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory()
+        ));
+
+        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
+
         enhancerChain.setTokenEnhancers(delegates);
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
-                .tokenGranter(tokenGranter)
+                .tokenGranter(compositeTokenGranter)
                 .exceptionTranslator(new CustomWebResponseExceptionTranslator())
 //                .tokenStore(jwtTokenStore())
                 .tokenEnhancer(enhancerChain)
+                .reuseRefreshTokens(true)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
     }

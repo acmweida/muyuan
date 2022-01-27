@@ -2,6 +2,7 @@ package com.muyuan.member.interfaces.facade.controller.impl;
 
 import com.muyuan.common.result.Result;
 import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.util.JwtUtils;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.RoleQuery;
@@ -29,12 +30,18 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public Result<UserVO> getUserInfo() {
-        final Optional<User> userInfo = userQuery.getUserInfo("xxxx");
+        Long userId = JwtUtils.getUserId();
+        final Optional<User> userInfo = userQuery.getUserInfo(userId);
         if (!userInfo.isPresent()) {
             return ResultUtil.renderFail("用户信息不存在");
         }
-        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get());
+        List<Role> roles = getUserRoles(userId);
+        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(),roles);
         return ResultUtil.render(userVO);
+    }
+
+    private List<Role> getUserRoles(Long id) {
+          return  roleQuery.getRoleByUserId(id);
     }
 
     @Override
@@ -45,7 +52,7 @@ public class UserControllerImpl implements UserController {
         }
         User user = userInfo.get();
         Long id = user.getId();
-        List<Role> roles = roleQuery.getRoleByUserId(id);
+        List<Role> roles = getUserRoles(id);
 
         List<String> roleNames = roles.stream().map(item -> item.getName()).collect(Collectors.toList());
 

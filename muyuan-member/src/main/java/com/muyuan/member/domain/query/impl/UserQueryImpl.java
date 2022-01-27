@@ -21,9 +21,10 @@ public class UserQueryImpl implements UserQuery {
     UserRepo userRepo;
 
     @Override
-    public Optional<User> getUserInfo(String userNo) {
+    public Optional<User> getUserInfo(Long userId) {
         final User user = userRepo.selectOne(new SqlBuilder(User.class)
-                .eq("userNo", userNo)
+                .eq("userId", userId)
+                .eq("status",0)
                 .build());
         if (null == user) {
             return Optional.empty();

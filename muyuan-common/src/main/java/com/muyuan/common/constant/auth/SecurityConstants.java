@@ -13,7 +13,7 @@ public interface SecurityConstants {
      */
      String JWT_AUTHORITIES_KEY = "authorities";
 
-     String REQUEST_USER_PARAM = "user";
+     String REQUEST_USER_PARAM = "username";
 
      String ROOT_ROLE_CODE = "ADMIN";
 
@@ -40,4 +40,25 @@ public interface SecurityConstants {
     String USER_ID_KEY = "userId";
 
     String USER_NAME_KEY = "username";
+
+    String GRANT_TYPE_KEY = "grant_type";
+
+    String CLIENT_ID_KEY = "client_id";
+
+    /**
+     * Basic认证前缀
+     */
+    String BASIC_PREFIX = "Basic ";
+
+    String REFRESH_TOKEN_KEY = "refresh_token";
+
+    /**
+     * 认证方式
+     */
+    String AUTHENTICATION_METHOD = "authenticationMethod";
+
+    /**
+     * JWT ID 唯一标识
+     */
+    String JWT_EXP = "exp";
 }

@@ -2,6 +2,8 @@ package com.muyuan.member.domain.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @ClassName Role
  * Description 角色 t_role
@@ -33,4 +35,19 @@ public class Role {
      * 父角色ID
      */
     private Long parentId;
+
+    private String createBy;
+
+    private String updateBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
+
 }

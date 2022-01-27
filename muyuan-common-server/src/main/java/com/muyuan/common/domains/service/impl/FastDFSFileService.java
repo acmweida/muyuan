@@ -6,7 +6,7 @@ import com.muyuan.common.domains.service.FileService;
 import com.muyuan.common.domains.vo.FileVO;
 import com.muyuan.common.exception.handler.FileUploadFailException;
 import com.muyuan.common.infrastructure.util.FastDFSClient;
-import com.muyuan.common.util.RequestUtil;
+import com.muyuan.common.util.JwtUtils;
 import org.csource.common.MyException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +60,7 @@ public class FastDFSFileService implements FileService {
         fileInfo.setUrl(filePath);
         fileInfo.setName(filename);
         fileInfo.setSize(size);
-        fileInfo.setUpUser(RequestUtil.getCurrentUserId());
+        fileInfo.setUpUser(JwtUtils.getUserId());
 
         /**
          * TODO : 通过字典功能设置数据

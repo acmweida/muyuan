@@ -51,7 +51,7 @@ public class User {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private Boolean status;
+    private char status;
 
     /**
      * 创建时间
