@@ -1,7 +1,7 @@
 package com.muyuan.gateway.base.config;
 
 import com.muyuan.common.core.constant.auth.AuthRedisConst;
-import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -44,7 +44,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         // 2. token为空拒绝访问
-        String token = request.getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
+        String token = request.getHeaders().getFirst(SecurityConst.AUTHORIZATION_KEY);
         if (StringUtils.isBlank(token)) {
             return Mono.just(new AuthorizationDecision(false));
         }
@@ -56,7 +56,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             String[] split = "SHOP_KEEPER".split(",");
             authorities = Arrays.asList(split);
 //        }
-        authorities = authorities.stream().map(i -> i = SecurityConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());
+        authorities = authorities.stream().map(i -> i = SecurityConst.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         // 2、认证通过且角色匹配的用户可访问当前路径
         List<String> finalAuthorities = authorities;
         // 判断JWT中携带的用户角色是否有权限访问
@@ -65,8 +65,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .flatMapIterable(Authentication::getAuthorities)
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
-                    String roleCode = authority.substring(SecurityConstants.AUTHORITY_PREFIX.length()); // 用户的角色
-                    if (SecurityConstants.ROOT_ROLE_CODE.equals(roleCode)) {
+                    String roleCode = authority.substring(SecurityConst.AUTHORITY_PREFIX.length()); // 用户的角色
+                    if (SecurityConst.ROOT_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }
                     boolean hasAuthorized = !CollectionUtils.isEmpty(finalAuthorities) && finalAuthorities.contains(roleCode);

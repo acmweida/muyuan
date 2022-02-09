@@ -1,6 +1,7 @@
 package com.muyuan.common.core.constant.auth;
 
-public interface SecurityConstants {
+public interface SecurityConst {
+
      String AUTHORITY_PREFIX = "ROLE_";
 
     /**
@@ -16,6 +17,8 @@ public interface SecurityConstants {
      String REQUEST_USER_PARAM = "username";
 
      String ROOT_ROLE_CODE = "ADMIN";
+
+     String SHOP_KEEPER_ROLE_CODE = "SHOP_KEEPER";
 
     /**
      * JWT令牌前缀

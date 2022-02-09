@@ -3,6 +3,7 @@ package com.muyuan.member.domain.vo;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserVO {
@@ -34,5 +35,7 @@ public class UserVO {
     private long shopNo;
 
     private List<String> roles;
+
+    private Set<String> permissions;
 
 }

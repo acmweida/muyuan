@@ -1,6 +1,6 @@
 package com.muyuan.gateway.base.config;
 
-import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
@@ -68,8 +68,8 @@ public class ResourceServerConfig {
     @Bean
     public Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(SecurityConstants.AUTHORITY_PREFIX);
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConstants.JWT_AUTHORITIES_KEY);
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(SecurityConst.AUTHORITY_PREFIX);
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConst.JWT_AUTHORITIES_KEY);
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);

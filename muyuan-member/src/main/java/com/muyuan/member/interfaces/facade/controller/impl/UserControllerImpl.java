@@ -5,6 +5,7 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JwtUtils;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
+import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.member.domain.query.RoleQuery;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.vo.UserVO;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,6 +30,9 @@ public class UserControllerImpl implements UserController {
     @Autowired
     RoleQuery roleQuery;
 
+    @Autowired
+    MenuQuery menuQuery;
+
     @Override
     public Result<UserVO> getUserInfo() {
         Long userId = JwtUtils.getUserId();
@@ -35,13 +40,19 @@ public class UserControllerImpl implements UserController {
         if (!userInfo.isPresent()) {
             return ResultUtil.renderFail("用户信息不存在");
         }
-        List<Role> roles = getUserRoles(userId);
-        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(),roles);
+        List<String> roleNames = JwtUtils.getRoles();
+
+        Set<String> perms = getMenuPermissionByRoleNames(roleNames);
+        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(),roleNames,perms);
         return ResultUtil.render(userVO);
     }
 
     private List<Role> getUserRoles(Long id) {
           return  roleQuery.getRoleByUserId(id);
+    }
+
+    private Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
+        return menuQuery.selectMenuPermissionByRoleNames(roleIds);
     }
 
     @Override

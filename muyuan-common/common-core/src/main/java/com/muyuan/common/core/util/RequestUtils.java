@@ -1,7 +1,7 @@
 package com.muyuan.common.core.util;
 
 import com.github.xiaoymin.knife4j.core.util.StrUtil;
-import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -22,7 +22,7 @@ public class RequestUtils {
     @SneakyThrows
     public static String getGrantType() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String grantType = request.getParameter(SecurityConstants.GRANT_TYPE_KEY);
+        String grantType = request.getParameter(SecurityConst.GRANT_TYPE_KEY);
         return grantType;
     }
 
@@ -42,15 +42,15 @@ public class RequestUtils {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         // 从请求路径中获取
-        String clientId = request.getParameter(SecurityConstants.CLIENT_ID_KEY);
+        String clientId = request.getParameter(SecurityConst.CLIENT_ID_KEY);
         if (StrUtil.isNotBlank(clientId)) {
             return clientId;
         }
 
         // 从请求头获取
-        String basic = request.getHeader(SecurityConstants.AUTHORIZATION_KEY);
-        if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConstants.BASIC_PREFIX)) {
-            basic = basic.replace(SecurityConstants.BASIC_PREFIX, Strings.EMPTY);
+        String basic = request.getHeader(SecurityConst.AUTHORIZATION_KEY);
+        if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConst.BASIC_PREFIX)) {
+            basic = basic.replace(SecurityConst.BASIC_PREFIX, Strings.EMPTY);
             String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             clientId = basicPlainText.split(":")[0]; //client:secret
         }
@@ -65,12 +65,12 @@ public class RequestUtils {
 //    @SneakyThrows
 //    public static String getAuthenticationMethod() {
 //        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        String refreshToken = request.getParameter(SecurityConstants.REFRESH_TOKEN_KEY);
+//        String refreshToken = request.getParameter(SecurityConst.REFRESH_TOKEN_KEY);
 //
 //        String payload = StrUtil.toString(JWSObject.parse(refreshToken).getPayload());
 //        Map jsonObject = JSONUtil.parseObject(payload, HashMap.class);
 //
-//        String authenticationMethod = MapUtils.getString(jsonObject,SecurityConstants.AUTHENTICATION_METHOD);
+//        String authenticationMethod = MapUtils.getString(jsonObject,SecurityConst.AUTHENTICATION_METHOD);
 //        if (StrUtil.isBlank(authenticationMethod)) {
 //            authenticationMethod = AuthenticationMethodEnum.USERNAME.getValue();
 //        }

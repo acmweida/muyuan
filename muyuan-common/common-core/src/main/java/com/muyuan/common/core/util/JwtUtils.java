@@ -1,7 +1,7 @@
 package com.muyuan.common.core.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,7 +22,7 @@ public class JwtUtils {
 
     @SneakyThrows
     public static JsonNode getJwtPayload() {
-        String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConstants.JWT_PAYLOAD_KEY);
+        String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
         if (null == payload) {
             throw new FileNotFoundException("请传入认证头");
         }
@@ -36,7 +36,7 @@ public class JwtUtils {
      * @return
      */
     public static Long getUserId() {
-        Long id =   getJwtPayload().get(SecurityConstants.USER_ID_KEY).asLong();
+        Long id =   getJwtPayload().get(SecurityConst.USER_ID_KEY).asLong();
         return id;
     }
 
@@ -46,7 +46,7 @@ public class JwtUtils {
      * @return
      */
     public static String getUsername() {
-        String username = getJwtPayload().get(SecurityConstants.USER_NAME_KEY).asText();
+        String username = getJwtPayload().get(SecurityConst.USER_NAME_KEY).asText();
         return username;
     }
 
@@ -60,8 +60,8 @@ public class JwtUtils {
     public static List<String> getRoles() {
         List<String> roles = null;
         JsonNode jsonNode = getJwtPayload();
-        if (jsonNode.has(SecurityConstants.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConstants.JWT_AUTHORITIES_KEY).isArray()) {
-            roles = jsonNode.findValuesAsText(SecurityConstants.JWT_AUTHORITIES_KEY);;
+        if (jsonNode.has(SecurityConst.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY).isArray()) {
+            roles = jsonNode.findValuesAsText(SecurityConst.JWT_AUTHORITIES_KEY);;
         }
         return roles;
     }
