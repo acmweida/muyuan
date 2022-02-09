@@ -1,6 +1,6 @@
 package com.muyuan.shop.interfaces.dto;
 
-import com.muyuan.common.validator.annotions.AtLeastOneNotEmpty;
+import com.muyuan.common.core.validator.annotions.AtLeastOneNotEmpty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

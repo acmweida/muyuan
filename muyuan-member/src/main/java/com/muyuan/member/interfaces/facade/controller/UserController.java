@@ -1,6 +1,6 @@
 package com.muyuan.member.interfaces.facade.controller;
 
-import com.muyuan.common.result.Result;
+import com.muyuan.common.core.result.Result;
 import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
 import com.muyuan.member.interfaces.dto.UserDTO;

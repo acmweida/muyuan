@@ -1,8 +1,8 @@
 package com.muyuan.member.domain.query.impl;
 
-import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
-import com.muyuan.common.util.EncryptUtil;
-import com.muyuan.common.util.IdUtil;
+import com.muyuan.common.core.util.EncryptUtil;
+import com.muyuan.common.core.util.IdUtil;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.repo.UserRepo;

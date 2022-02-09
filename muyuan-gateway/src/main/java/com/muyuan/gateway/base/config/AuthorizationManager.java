@@ -1,6 +1,7 @@
 package com.muyuan.gateway.base.config;
 
-import com.muyuan.common.constant.auth.AuthRedisConst;
+import com.muyuan.common.core.constant.auth.AuthRedisConst;
+import com.muyuan.common.core.constant.auth.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,7 +15,6 @@ import org.springframework.security.web.server.authorization.AuthorizationContex
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
-import com.muyuan.common.constant.auth.SecurityConstants;
 
 import java.net.URI;
 import java.util.Arrays;

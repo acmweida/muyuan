@@ -1,7 +1,7 @@
 package com.muyuan.gateway.base.filter;
 
-import com.muyuan.common.constant.auth.SecurityConstants;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.util.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

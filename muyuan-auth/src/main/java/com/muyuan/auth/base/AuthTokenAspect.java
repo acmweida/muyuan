@@ -1,8 +1,6 @@
 package com.muyuan.auth.base;
 
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -31,7 +29,7 @@ public class AuthTokenAspect {
         if (proceed != null) {
             ResponseEntity responseEntity = (ResponseEntity) proceed;
             if (responseEntity.getBody() instanceof OAuth2AccessToken) {
-                return new ResponseEntity<Result>(ResultUtil.render(responseEntity.getBody()), HttpStatus.OK);
+                return new ResponseEntity(ResultUtil.render(responseEntity.getBody()), HttpStatus.OK);
             }
             return proceed;
         }

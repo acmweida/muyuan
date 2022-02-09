@@ -1,8 +1,8 @@
 package com.muyuan.gateway.base.component;
 
-import com.muyuan.common.enums.ResponseCode;
-import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.JSONUtil;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -2,8 +2,8 @@ package com.muyuan.auth.service.impl;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.dto.UserInfo;
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.member.api.UserInterface;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;

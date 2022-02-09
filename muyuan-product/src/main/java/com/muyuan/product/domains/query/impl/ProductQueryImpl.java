@@ -1,7 +1,7 @@
 package com.muyuan.product.domains.query.impl;
 
-import com.muyuan.common.constant.JdbcValueConst;
-import com.muyuan.common.repo.jdbc.crud.SqlBuilder;
+import com.muyuan.common.core.constant.JdbcValueConst;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.domains.query.ProductQuery;
 import com.muyuan.product.domains.repo.ProductRepo;

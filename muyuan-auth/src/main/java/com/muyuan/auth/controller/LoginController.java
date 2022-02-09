@@ -1,6 +1,6 @@
 package com.muyuan.auth.controller;
 
-import com.muyuan.common.result.Result;
+import com.muyuan.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

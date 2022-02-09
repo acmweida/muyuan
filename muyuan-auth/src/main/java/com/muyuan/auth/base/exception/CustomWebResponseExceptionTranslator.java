@@ -1,9 +1,9 @@
 package com.muyuan.auth.base.exception;
 
-import com.muyuan.common.enums.ResponseCode;
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.JSONUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;

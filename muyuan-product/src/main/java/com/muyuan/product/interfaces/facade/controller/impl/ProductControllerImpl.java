@@ -1,7 +1,7 @@
 package com.muyuan.product.interfaces.facade.controller.impl;
 
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.product.domains.factories.ProductFactory;
 import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.domains.query.ProductQuery;

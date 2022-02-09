@@ -1,7 +1,7 @@
 package com.muyuan.member.infrastructure.common.util;
 
-import com.muyuan.common.constant.auth.SecurityConstants;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.constant.auth.SecurityConstants;
+import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;

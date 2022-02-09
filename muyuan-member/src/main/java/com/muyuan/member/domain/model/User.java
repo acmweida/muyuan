@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName Role
+ * @ClassName User
  * Description 用户 t_user
  * @Author 2456910384
  * @Date 2021/12/24 10:17

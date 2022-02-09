@@ -1,6 +1,6 @@
 package com.muyuan.gateway.base.config;
 
-import com.muyuan.common.constant.auth.SecurityConstants;
+import com.muyuan.common.core.constant.auth.SecurityConstants;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;

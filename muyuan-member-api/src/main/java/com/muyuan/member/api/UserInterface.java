@@ -1,8 +1,8 @@
 package com.muyuan.member.api;
 
-import com.muyuan.common.constant.ServiceTypeConst;
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

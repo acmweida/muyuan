@@ -1,9 +1,9 @@
 package com.muyuan.shop.interfaces.facade.controller.impl;
 
-import com.muyuan.common.exception.handler.UserNotFoundException;
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.JwtUtils;
+import com.muyuan.common.core.exception.handler.UserNotFoundException;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.JwtUtils;
 import com.muyuan.shop.domain.query.ShopQuery;
 import com.muyuan.shop.domain.vo.ShopVO;
 import com.muyuan.shop.interfaces.facade.controller.ShopController;

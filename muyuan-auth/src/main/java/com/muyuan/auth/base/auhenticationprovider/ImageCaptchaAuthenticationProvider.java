@@ -2,7 +2,7 @@ package com.muyuan.auth.base.auhenticationprovider;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
 import com.muyuan.auth.dto.UserInfo;
-import com.muyuan.common.util.EncryptUtil;
+import com.muyuan.common.core.util.EncryptUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;

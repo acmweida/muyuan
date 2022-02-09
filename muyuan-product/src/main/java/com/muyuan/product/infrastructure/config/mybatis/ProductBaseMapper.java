@@ -1,9 +1,9 @@
 package com.muyuan.product.infrastructure.config.mybatis;
 
-import com.muyuan.common.repo.base.id.IdGenerator;
-import com.muyuan.common.repo.jdbc.crud.CrudSqlProvider;
-import com.muyuan.common.repo.jdbc.multi.DataSource;
-import com.muyuan.common.repo.jdbc.mybatis.JdbcBaseMapper;
+import com.muyuan.common.mybatis.id.IdGenerator;
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
+import com.muyuan.common.mybatis.jdbc.multi.DataSource;
+import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
