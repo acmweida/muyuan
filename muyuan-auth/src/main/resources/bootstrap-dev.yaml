@@ -12,9 +12,10 @@ spring:
         namespace: caa5c680-3b24-4628-b100-67680cb48e9f
   application:
     name: auth
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 18790
-
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:

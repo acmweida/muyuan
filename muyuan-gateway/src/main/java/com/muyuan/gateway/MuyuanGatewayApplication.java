@@ -6,7 +6,6 @@ import org.springframework.cloud.gateway.discovery.GatewayDiscoveryClientAutoCon
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = GatewayDiscoveryClientAutoConfiguration.class)
-@ComponentScan(basePackages = {"com.muyuan"})
 public class MuyuanGatewayApplication {
 
     public static void main(String[] args) {

@@ -3,6 +3,7 @@ package com.muyuan.gateway.base.config;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
+import com.muyuan.gateway.base.config.swagger.SwaggerHeaderFilter;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -61,6 +63,9 @@ public class ResourceServerConfig {
                 .accessDeniedHandler(restfulAccessDeniedHandler) // 处理未授权
                 .authenticationEntryPoint(restAuthenticationEntryPoint) //处理未认证
                 .and().csrf().disable();
+
+        http.addFilterAfter(SwaggerHeaderFilter.getWebFilter(), SecurityWebFiltersOrder.FIRST);
+
 
         return http.build();
     }

@@ -24,6 +24,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class LoginControllerImpl implements LoginController {
 
+    public LoginControllerImpl() {
+        System.out.println("-------------");
+    }
+
     @Autowired
     private RedisTemplate redisTemplate;
 

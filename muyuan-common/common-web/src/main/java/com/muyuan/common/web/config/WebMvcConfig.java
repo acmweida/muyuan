@@ -14,7 +14,7 @@ import java.util.List;
 public class WebMvcConfig {
 
     @Bean
-    public HttpMessageConverters fastjsonConverters() {
+    public HttpMessageConverters jacksonConverters() {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter(JSONUtil.objectMapper);
         List<MediaType> mediaTypes = new ArrayList<>(16);
         mediaTypes.add(MediaType.APPLICATION_JSON);

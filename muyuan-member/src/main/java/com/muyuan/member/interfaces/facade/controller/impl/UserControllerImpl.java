@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.facade.controller.impl;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.core.util.JwtUtils;
+import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.MenuQuery;

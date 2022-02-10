@@ -1,6 +1,5 @@
 package com.muyuan.member.domain.query.impl;
 
-import com.muyuan.common.core.util.JwtUtils;
 import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.query.MenuQuery;
 import org.springframework.stereotype.Service;

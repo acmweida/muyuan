@@ -1,5 +1,5 @@
 
-package com.muyuan.common.web.config;
+package com.muyuan.common.feign.config;
 
 import feign.RequestInterceptor;
 import feign.codec.Encoder;

@@ -1,6 +1,7 @@
-package com.muyuan.common.core.util;
+package com.muyuan.common.redis.util;
 
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,9 @@ public class IdUtil {
 
         String localIp = IpUtil.getLocalAddress().getHostAddress();
         long machineId =  Math.abs(localIp.hashCode() % MAX_MACHINE_ID);
-        while ( hashOperations.hasKey(MACHINE_CODE_MAP,String.valueOf(machineId))){
-           machineId++;
-        }
+//        while ( hashOperations.hasKey(MACHINE_CODE_MAP,String.valueOf(machineId))){
+//           machineId++;
+//        }
         hashOperations.put(MACHINE_CODE_MAP,String.valueOf(machineId), RedisConst.SHORT_TRUE_VALUE);
         workerId = machineId & MAX_WORK_ID;
         datacentId = machineId >> 5;

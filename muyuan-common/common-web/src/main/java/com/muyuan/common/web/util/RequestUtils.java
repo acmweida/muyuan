@@ -1,10 +1,10 @@
-package com.muyuan.common.core.util;
+package com.muyuan.common.web.util;
 
-import com.github.xiaoymin.knife4j.core.util.StrUtil;
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.util.StrUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -50,7 +50,7 @@ public class RequestUtils {
         // 从请求头获取
         String basic = request.getHeader(SecurityConst.AUTHORIZATION_KEY);
         if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConst.BASIC_PREFIX)) {
-            basic = basic.replace(SecurityConst.BASIC_PREFIX, Strings.EMPTY);
+            basic = basic.replace(SecurityConst.BASIC_PREFIX, StringUtils.EMPTY);
             String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             clientId = basicPlainText.split(":")[0]; //client:secret
         }

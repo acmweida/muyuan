@@ -1,12 +1,13 @@
 package com.muyuan.common.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class StrUtil {
+public class StrUtil  extends StringUtils {
 
     /**
      * 驼峰转下划线

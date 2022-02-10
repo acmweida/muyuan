@@ -1,6 +1,6 @@
 package com.muyuan.common.mybatis.id;
 
-import com.muyuan.common.core.util.IdUtil;
+import com.muyuan.common.redis.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
