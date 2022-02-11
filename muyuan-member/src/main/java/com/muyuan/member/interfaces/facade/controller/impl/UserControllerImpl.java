@@ -1,5 +1,6 @@
 package com.muyuan.member.interfaces.facade.controller.impl;
 
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
@@ -65,7 +66,7 @@ public class UserControllerImpl implements UserController {
         Long id = user.getId();
         List<Role> roles = getUserRoles(id);
 
-        List<String> roleNames = roles.stream().map(item -> item.getName()).collect(Collectors.toList());
+        List<String> roleNames = roles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getName()).collect(Collectors.toList());
 
         UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
         userDTO.setRoles(roleNames);

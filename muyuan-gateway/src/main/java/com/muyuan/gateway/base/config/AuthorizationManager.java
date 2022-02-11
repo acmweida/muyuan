@@ -66,7 +66,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .map(GrantedAuthority::getAuthority)
                 .any(authority -> {
                     String roleCode = authority.substring(SecurityConst.AUTHORITY_PREFIX.length()); // 用户的角色
-                    if (SecurityConst.ROOT_ROLE_CODE.equals(roleCode)) {
+                    if (SecurityConst.SHOP_KEEPER_ROLE_CODE.equals(roleCode)) {
                         return true; // 如果是超级管理员则放行
                     }
                     boolean hasAuthorized = !CollectionUtils.isEmpty(finalAuthorities) && finalAuthorities.contains(roleCode);

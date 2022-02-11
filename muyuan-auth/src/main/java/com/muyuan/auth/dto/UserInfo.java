@@ -25,11 +25,6 @@ public class UserInfo implements UserDetails {
     private String username;
 
     /**
-     * 用户编号
-     */
-    private long userNo;
-
-    /**
      * 用户类型 0-会员 1-商家
      */
     private short type;

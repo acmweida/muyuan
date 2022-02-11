@@ -1,10 +1,12 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.auhenticationprovider.ImageCaptchaAuthenticationProvider;
+import com.muyuan.common.web.config.WebMvcConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@Import(WebMvcConfig.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

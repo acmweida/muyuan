@@ -1,18 +1,24 @@
 package com.muyuan.common.core.constant;
 
-public class GlobalConst {
+public interface GlobalConst {
 
-    public static final String ID = "id";
+    String ID = "id";
 
-    public static long KB = 1024;
+    long KB = 1024;
 
-    public static long MB =  KB << 10;
+    long MB = KB << 10;
 
-    public static long GB = MB << 10;
+    long GB = MB << 10;
 
-    public static Object NULL = null;
+    Object NULL = null;
 
-    public static final String TOKEN = "token";
+    String TOKEN = "token";
 
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+     String HTTP = "http://";
+
+     String HTTPS = "https://";
+
+    String UTF8 = "UTF-8";
 }

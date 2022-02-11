@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.muyuan.member.infrastructure.persistence.dao.MenuMapper">
+
+
+    <select id="selectMenuPermissionByRoleNames" resultType="java.lang.String">
+        select perms from (
+                              select perms,id from t_menu where type = 'F'
+                          ) menu
+                              left join  (
+            select * from t_role_menu
+        ) role_menu on menu.id  = role_menu.menu_id
+                              left join (
+            select id from t_role where name in
+                                  <foreach collection="rolesNames" open="(" close=")" item="item" >
+                                      #{item}
+                                  </foreach>
+        ) role on role.id = role_menu.role_id
+    </select>
+</mapper>

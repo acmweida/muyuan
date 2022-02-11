@@ -20,6 +20,7 @@ logging:
     io:
       lettuce: error
     com.muyuan.member.persistence.persistence.dao: debug
+    com.alibaba.nacos.client.*: warn
 
 mybatis:
   configuration:

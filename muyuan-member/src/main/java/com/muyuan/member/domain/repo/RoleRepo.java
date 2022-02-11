@@ -6,11 +6,5 @@ import java.util.List;
 
 public interface RoleRepo {
 
-//    Role find(int userNo);
-//
-//    Role selectOne(Map params);
-//
-//    void insert(Role dataObject);
-
     List<Role> selectRoleByUserId(Long userId);
 }

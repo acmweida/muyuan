@@ -1,5 +1,7 @@
 package com.muyuan.member.domain.query;
 
+import com.muyuan.member.domain.model.Menu;
+
 import java.util.List;
 import java.util.Set;
 
@@ -13,4 +15,6 @@ import java.util.Set;
 public interface MenuQuery {
 
     Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
+
+    List<Menu>  selectMenuByRoleNames(List<String> roleNames);
 }

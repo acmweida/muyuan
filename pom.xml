@@ -25,6 +25,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <knife4j.version>3.0.3</knife4j.version>
+        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,12 @@
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

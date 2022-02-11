@@ -32,6 +32,7 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
+    com.alibaba.nacos.client.*: warn
     io:
       lettuce: error
 security:

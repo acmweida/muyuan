@@ -11,6 +11,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,10 +61,12 @@ public class JwtUtils {
      * @return 角色列表
      */
     public static List<String> getRoles() {
-        List<String> roles = null;
+        List<String> roles = new ArrayList<>();
         JsonNode jsonNode = getJwtPayload();
         if (jsonNode.has(SecurityConst.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY).isArray()) {
-            roles = jsonNode.findValuesAsText(SecurityConst.JWT_AUTHORITIES_KEY);;
+            for (JsonNode node :  jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY) ) {
+                roles.add(node.asText());
+            }
         }
         return roles;
     }

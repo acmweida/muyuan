@@ -2,23 +2,23 @@ package com.muyuan.common.core.constant.auth;
 
 public interface SecurityConst {
 
-     String AUTHORITY_PREFIX = "ROLE_";
+    String AUTHORITY_PREFIX = "ROLE_";
 
     /**
      * 认证请求头key
      */
-     String AUTHORIZATION_KEY = "Authorization";
+    String AUTHORIZATION_KEY = "Authorization";
 
     /**
      * JWT存储权限属性
      */
-     String JWT_AUTHORITIES_KEY = "authorities";
+    String JWT_AUTHORITIES_KEY = "authorities";
 
-     String REQUEST_USER_PARAM = "username";
+    String REQUEST_USER_PARAM = "username";
 
-     String ROOT_ROLE_CODE = "ADMIN";
+    String ROOT_ROLE_CODE = "ADMIN";
 
-     String SHOP_KEEPER_ROLE_CODE = "SHOP_KEEPER";
+    String SHOP_KEEPER_ROLE_CODE = "SHOP_KEEPER";
 
     /**
      * JWT令牌前缀
@@ -64,4 +64,39 @@ public interface SecurityConst {
      * JWT ID 唯一标识
      */
     String JWT_EXP = "exp";
+
+    /**
+     * 用户ID字段
+     */
+    String DETAILS_USER_ID = "user_id";
+
+    /**
+     * 用户名字段
+     */
+    String DETAILS_USERNAME = "username";
+
+    /**
+     * 授权信息字段
+     */
+    String AUTHORIZATION_HEADER = "authorization";
+
+    /**
+     * 请求来源
+     */
+    String FROM_SOURCE = "from-source";
+
+    /**
+     * 内部请求
+     */
+    String INNER = "inner";
+
+    /**
+     * 用户标识
+     */
+    String USER_KEY = "user_key";
+
+    /**
+     * 登录用户
+     */
+    String LOGIN_USER = "login_user";
 }
