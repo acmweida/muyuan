@@ -1,12 +1,12 @@
 package com.muyuan.common.core.constant;
 
-public class JdbcValueConst {
+public interface JdbcValueConst {
 
-    public static final short SHORT_TRUE = 1;
+    short STATUS_TRUE = 0;
 
-    public static final short SHORT_FALSE = 0;
+    short STATUS_FALSE = 1;
 
-    public static final boolean BOOL_FALSE = false;
+    short DELETE_TRUE = 1;
 
-    public static final boolean BOOL_TRUE = true;
+    short DELETE_FALSE = 0;
 }

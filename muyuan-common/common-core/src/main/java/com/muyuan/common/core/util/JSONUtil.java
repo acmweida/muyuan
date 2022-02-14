@@ -6,12 +6,16 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.muyuan.common.core.constant.GlobalConst;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -65,6 +69,21 @@ public class JSONUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static  <T> T parseObject(String jsonStr, CollectionType clazz) {
+        try {
+            return   objectMapper.readValue(jsonStr,clazz);
+        } catch (JsonProcessingException e) {
+            log.error("Json parser error",e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Collection  parseObjectList(String jsonStr,Class<? extends Collection> collectionClazz,Class<?> elementClass) {
+        CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(collectionClazz, elementClass);
+        return  parseObject(jsonStr, collectionType);
     }
 
     public static <T> T coverValue(Map<String,Object> data,Class<T> clazz) {

@@ -18,7 +18,7 @@ public class FileRepoImpl implements FileRepo {
     public File selectOne(long fileId) {
         return fileMapper.selectOne(new SqlBuilder(File.class)
                 .eq("id",fileId)
-                .eq("delete", JdbcValueConst.BOOL_FALSE)
+                .eq("delete", JdbcValueConst.DELETE_FALSE)
                 .build());
     }
 

@@ -28,8 +28,10 @@ public class MenuControllerImpl implements MenuController {
     @Override
     public Result<RouterVo> getRouter() {
         List<String> roles = JwtUtils.getRoles();
-
+        List<Menu> menus = menuQuery.selectMenuByRoleNames(roles);
 
         return null;
     }
+
+
 }

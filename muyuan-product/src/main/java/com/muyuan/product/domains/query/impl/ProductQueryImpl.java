@@ -21,7 +21,7 @@ public class ProductQueryImpl implements ProductQuery {
     @Override
     public List<Product> queryProductsByShopInfo(ShopProductDTO shopProductDTO) {
         SqlBuilder sqlBuilder = new SqlBuilder(Product.class)
-                .eq("delete", JdbcValueConst.BOOL_FALSE)
+                .eq("delete", JdbcValueConst.DELETE_FALSE)
                 .eq("id",shopProductDTO.getShopId());
 
         if (!ObjectUtils.isEmpty(shopProductDTO.getCategoryId())) {

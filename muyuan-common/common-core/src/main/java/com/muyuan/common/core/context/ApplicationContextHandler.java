@@ -1,4 +1,4 @@
-package com.muyuan.common.web;
+package com.muyuan.common.core.context;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

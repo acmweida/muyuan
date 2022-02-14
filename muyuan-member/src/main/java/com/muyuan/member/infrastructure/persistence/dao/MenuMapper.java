@@ -18,5 +18,17 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends MemberBaseMapper<Menu> {
 
+    /**
+     * 通过角色名称查询权限
+     * @param roleNames
+     * @return
+     */
     List<String>  selectMenuPermissionByRoleNames(@Param("roleNames") List<String> roleNames);
+
+    /**
+     * 通过角色查询菜单权限
+     * @param roleNames
+     * @return
+     */
+    List<Menu>  selectMenuByRoleNames(@Param("roleNames") List<String> roleNames);
 }

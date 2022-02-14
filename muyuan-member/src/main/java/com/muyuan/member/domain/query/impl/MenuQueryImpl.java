@@ -37,13 +37,12 @@ public class MenuQueryImpl implements MenuQuery {
             for (Iterator<String> iterator = permList.iterator();iterator.hasNext();) {
                 perms.add(iterator.next());
             }
-
         }
         return perms;
     }
 
     @Override
     public List<Menu> selectMenuByRoleNames(List<String> roleNames) {
-        return null;
+        return menuRepo.selectMenuByRoleNames(roleNames);
     }
 }

@@ -1,10 +1,9 @@
 package com.muyuan.common.core.constant;
 
-public class ServiceTypeConst {
+public interface ServiceTypeConst {
 
-    public static final String MEMBER_SERVICE = "member";
+    String MEMBER_SERVICE = "member";
 
-    public static final String COMMON_SERVICE = "common";
-
+    String COMMON_SERVICE = "common";
 
 }

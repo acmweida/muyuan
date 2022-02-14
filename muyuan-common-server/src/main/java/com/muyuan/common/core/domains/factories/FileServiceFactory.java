@@ -4,7 +4,7 @@ import com.muyuan.common.core.domains.service.FileService;
 import com.muyuan.common.core.domains.service.impl.FastDFSFileService;
 import com.muyuan.common.core.infrastructure.util.FastDFSClient;
 import com.muyuan.common.core.domains.repo.FileRepo;
-import com.muyuan.common.web.ApplicationContextHandler;
+import com.muyuan.common.core.context.ApplicationContextHandler;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -14,7 +14,17 @@ import java.util.Set;
  */
 public interface MenuQuery {
 
+    /**
+     * 通过角色名称查询权限
+     * @param roleNames
+     * @return
+     */
     Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
 
+    /**
+     *通过角色名称查询目录 菜单
+     * @param roleNames
+     * @return
+     */
     List<Menu>  selectMenuByRoleNames(List<String> roleNames);
 }

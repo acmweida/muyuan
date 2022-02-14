@@ -33,7 +33,7 @@ public class RedisUtils {
      * @param time 时间(秒)
      * @return
      */
-    public boolean expire(String key, long time) {
+    protected boolean expire(String key, long time) {
         try {
             if (time > 0) {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);

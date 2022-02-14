@@ -16,9 +16,24 @@ public interface GlobalConst {
 
     String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-     String HTTP = "http://";
+    String HTTP = "http://";
 
-     String HTTPS = "https://";
+    String HTTPS = "https://";
 
     String UTF8 = "UTF-8";
+
+    /**
+     * 目录
+     */
+    String MENU_TYPE_M = "M";
+
+    /**
+     * 菜单
+     */
+    String MENU_TYPE_C = "C";
+
+    /**
+     * 按钮
+     */
+    String MENU_TYPE_F = "F";
 }

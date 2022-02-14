@@ -1,5 +1,7 @@
 package com.muyuan.member.domain.repo;
 
+import com.muyuan.member.domain.model.Menu;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,10 @@ import java.util.List;
 public interface MenuRepo {
 
     List<String>  selectMenuPermissionByRoleNames(List<String> roleNames);
+
+    List<String>  selectMenuPermissionByRoleName(String roleName);
+
+    List<Menu> selectMenuByRoleNames(List<String> roleNames);
+
+    List<Menu> selectMenuByRoleName(String roleName);
 }
