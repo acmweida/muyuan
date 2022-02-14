@@ -36,4 +36,5 @@ public interface GlobalConst {
      * 按钮
      */
     String MENU_TYPE_F = "F";
+
 }

@@ -7,6 +7,7 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.common.redis.util.RedisUtils;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.repo.MenuRepo;
@@ -32,10 +33,15 @@ public class MenuRepoImpl implements MenuRepo {
     @Autowired
     RedisUtils redisUtils;
 
+    @Autowired
+    RedisCacheManager redisCacheManager;
+
     @Override
     public List<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
         List<String> perms = new ArrayList<>();
         Iterator<String> it = roleNames.iterator();
+
+
 
         // 查询缓存
         while (it.hasNext()) {
@@ -69,20 +75,10 @@ public class MenuRepoImpl implements MenuRepo {
 
         // 查询缓存
         while (it.hasNext()) {
-            String cacheMenuJson = (String) redisUtils.get(RedisConst.ROLE_MENU_KEY_PREFIX + it.next());
-            if (null != cacheMenuJson) {
-                menus.addAll(JSONUtil.parseObjectList(cacheMenuJson, ArrayList.class, Menu.class));
-                it.remove();
-            }
-        }
-
-        for (String roleName : roleNames) {
-            if (StrUtil.isNotEmpty(roleName)) {
-                List<Menu> roleMenus = selectMenuByRoleName(roleName);
-                menus.addAll(roleMenus);
-                // 更新缓存
-                redisUtils.set(RedisConst.ROLE_MENU_KEY_PREFIX + roleNames, JSONUtil.toJsonString(roleMenus));
-            }
+            String rolename = it.next();
+            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX,rolename,
+                    () -> selectMenuByRoleName(rolename)
+            );
         }
         return menus;
     }

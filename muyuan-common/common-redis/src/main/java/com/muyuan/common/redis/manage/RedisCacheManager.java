@@ -1,5 +1,6 @@
 package com.muyuan.common.redis.manage;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.redis.util.RedisUtils;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +26,18 @@ public class RedisCacheManager extends RedisUtils implements CacheManager{
         String newKey = keyPrefix + key;
 
         Object result;
-        if (hasKey(newKey)) {
+        boolean hasKey = hasKey(newKey);
+        if (hasKey) {
             result = get(newKey);
         } else {
            result = supplier.get();
-           set(newKey,result);
+        }
+        // 当result 为null时 同样设置 防止null值直接查询到数据库
+        set(newKey,result);
+
+        // 第一次设置空值过期时间 以免常驻内存
+        if ( !hasKey && null == result) {
+            expire(newKey, 5 * 60);
         }
 
         return result;
