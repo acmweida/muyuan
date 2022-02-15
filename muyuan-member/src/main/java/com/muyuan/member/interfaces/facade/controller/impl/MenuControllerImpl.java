@@ -1,10 +1,13 @@
 package com.muyuan.member.interfaces.facade.controller.impl;
 
 import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.query.MenuQuery;
+import com.muyuan.member.domain.service.MenuService;
 import com.muyuan.member.domain.vo.RouterVo;
+import com.muyuan.member.interfaces.assembler.MenuAssembler;
 import com.muyuan.member.interfaces.facade.controller.MenuController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,12 +29,10 @@ public class MenuControllerImpl implements MenuController {
     MenuQuery menuQuery;
 
     @Override
-    public Result<RouterVo> getRouter() {
+    public Result<List<RouterVo>> getRouter() {
         List<String> roles = JwtUtils.getRoles();
         List<Menu> menus = menuQuery.selectMenuByRoleNames(roles);
 
-        return null;
+        return ResultUtil.render(MenuAssembler.buildMenus(menus));
     }
-
-
 }

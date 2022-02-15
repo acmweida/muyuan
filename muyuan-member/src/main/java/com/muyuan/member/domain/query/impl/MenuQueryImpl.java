@@ -4,6 +4,7 @@ import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.member.domain.repo.MenuRepo;
+import com.muyuan.member.domain.vo.MenuVO;
 import org.aspectj.lang.annotation.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,4 +46,5 @@ public class MenuQueryImpl implements MenuQuery {
     public List<Menu> selectMenuByRoleNames(List<String> roleNames) {
         return menuRepo.selectMenuByRoleNames(roleNames);
     }
+
 }

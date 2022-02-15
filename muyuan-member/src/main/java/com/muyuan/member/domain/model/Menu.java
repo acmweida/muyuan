@@ -86,6 +86,10 @@ public class Menu {
      */
     private Date createTime;
 
+
+    /** 是否缓存（0缓存 1不缓存） */
+    private byte cache;
+
     /**
      * 修改时间
      */

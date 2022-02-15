@@ -25,6 +25,6 @@ public class FileControllerImpl implements FileController {
 
         Optional<FileVO> fileVO = fileService.uploadFile(file);
 
-        return ResultUtil.render(fileVO);
+        return ResultUtil.render(fileVO.get());
     }
 }

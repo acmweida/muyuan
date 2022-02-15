@@ -22,19 +22,24 @@ public interface GlobalConst {
 
     String UTF8 = "UTF-8";
 
-    /**
-     * 目录
-     */
-    String MENU_TYPE_M = "M";
+    /** 菜单类型（目录） */
+     String TYPE_DIR = "M";
 
-    /**
-     * 菜单
-     */
-    String MENU_TYPE_C = "C";
+    /** 菜单类型（菜单） */
+    String TYPE_MENU = "C";
 
-    /**
-     * 按钮
-     */
-    String MENU_TYPE_F = "F";
+    /** 菜单类型（按钮） */
+    String TYPE_BUTTON = "F";
+
+    int NO_FRAME = 1;
+
+    /** Layout组件标识 */
+    String LAYOUT = "Layout";
+
+    /** InnerLink组件标识 */
+    String INNER_LINK = "InnerLink";
+
+    /** ParentView组件标识 */
+    String PARENT_VIEW = "ParentView";
 
 }

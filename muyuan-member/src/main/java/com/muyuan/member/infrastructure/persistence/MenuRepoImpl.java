@@ -31,9 +31,6 @@ public class MenuRepoImpl implements MenuRepo {
     MenuMapper menuMapper;
 
     @Autowired
-    RedisUtils redisUtils;
-
-    @Autowired
     RedisCacheManager redisCacheManager;
 
     @Override
@@ -41,25 +38,17 @@ public class MenuRepoImpl implements MenuRepo {
         List<String> perms = new ArrayList<>();
         Iterator<String> it = roleNames.iterator();
 
-
-
         // 查询缓存
         while (it.hasNext()) {
-            Set<Object> rolePerms = redisUtils.sGet(RedisConst.ROLE_PERM_KEY_PREFIX + it.next());
-            if (null != rolePerms) {
-                perms.addAll(roleNames);
-                it.remove();
+            String roleName = it.next();
+            if (StrUtil.isNotEmpty(roleName)) {
+                Set<String> rolePerms = redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, it.next(), () -> selectMenuPermissionByRoleName(roleName));
+                if (null != rolePerms) {
+                    perms.addAll(rolePerms);
+                }
             }
         }
 
-        for (String roleName : roleNames) {
-            if (StrUtil.isNotEmpty(roleName)) {
-                List<String> roleMenus = selectMenuPermissionByRoleName(roleName);
-                perms.addAll(roleMenus);
-                // 更新缓存
-                redisUtils.sSet(RedisConst.ROLE_PERM_KEY_PREFIX + roleNames, roleMenus);
-            }
-        }
         return perms;
     }
 
@@ -76,9 +65,12 @@ public class MenuRepoImpl implements MenuRepo {
         // 查询缓存
         while (it.hasNext()) {
             String rolename = it.next();
-            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX,rolename,
+            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX, rolename,
                     () -> selectMenuByRoleName(rolename)
             );
+            if (!StrUtil.isNotEmpty(cacheMenuJson)) {
+                menus.addAll(JSONUtil.parseObjectList(cacheMenuJson, ArrayList.class, Menu.class));
+            }
         }
         return menus;
     }

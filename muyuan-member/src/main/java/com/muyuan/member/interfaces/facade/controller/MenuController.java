@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @ClassName MenuController 接口
  * Description 菜单控制器
@@ -23,5 +25,5 @@ public interface MenuController {
 
     @GetMapping("/getRouter")
     @ApiOperation(value = "路由信息获取")
-    Result<RouterVo> getRouter();
+    Result<List<RouterVo>> getRouter();
 }

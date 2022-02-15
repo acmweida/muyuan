@@ -11,7 +11,7 @@ public class ResultUtil {
         return new Result(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg());
     }
 
-    public static Result render(Object data) {
+    public static <T> Result<T> render(T data) {
         return new Result(ResponseCode.SUCCESS.getCode(),"操作成功",data);
     }
 

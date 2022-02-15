@@ -8,4 +8,6 @@ package com.muyuan.member.domain.service;
  * @Version 1.0
  */
 public interface MenuService {
+
+
 }

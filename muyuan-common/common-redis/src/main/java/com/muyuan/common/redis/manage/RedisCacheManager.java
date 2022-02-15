@@ -1,9 +1,10 @@
 package com.muyuan.common.redis.manage;
 
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.redis.util.RedisUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -14,32 +15,58 @@ import java.util.function.Supplier;
  * @Version 1.0
  */
 @Component
-public class RedisCacheManager extends RedisUtils implements CacheManager{
+public class RedisCacheManager extends AbstractCacheManager implements CacheManager {
+
+    @Autowired
+    RedisUtils redisUtils;
 
     @Override
     public Object get(String keyPrefix, String key) {
-        return get(keyPrefix+key);
+        return redisUtils.get(keyPrefix + key);
     }
 
     @Override
     public Object get(String keyPrefix, String key, Supplier supplier) {
-        String newKey = keyPrefix + key;
+        return get(keyPrefix, key, supplier, NOT_EXPIRE);
+    }
 
-        Object result;
-        boolean hasKey = hasKey(newKey);
-        if (hasKey) {
-            result = get(newKey);
-        } else {
-           result = supplier.get();
-        }
-        // 当result 为null时 同样设置 防止null值直接查询到数据库
-        set(newKey,result);
+    @Override
+    public Object get(String keyPrefix, String key, Supplier supplier, long expireTime) {
+        return get(keyPrefix, key, supplier, expireTime, DEFAULT_EXPIRE_TIME);
+    }
 
-        // 第一次设置空值过期时间 以免常驻内存
-        if ( !hasKey && null == result) {
-            expire(newKey, 5 * 60);
-        }
+    @Override
+    public Object get(String keyPrefix, String key, Supplier<String> supplier, long expireTime, long nullExpire) {
+       return  getAndUpdateCache(keyPrefix,key,(k) -> (String) redisUtils.get(k),(k,v) -> redisUtils.set(k,v),supplier,expireTime,nullExpire);
+    }
 
-        return result;
+    @Override
+    public Set<Object> sGet(String keyPrefix, String key) {
+        return redisUtils.sGet(keyPrefix + key);
+    }
+
+    @Override
+    public Set<String> sGet(String keyPrefix, String key, Supplier supplier) {
+        return sGet(keyPrefix, key, supplier, NOT_EXPIRE);
+    }
+
+    @Override
+    public Set<String> sGet(String keyPrefix, String key, Supplier supplier, long expireTime) {
+        return sGet(keyPrefix, key, supplier, expireTime, DEFAULT_EXPIRE_TIME);
+    }
+
+    @Override
+    public Set sGet(String keyPrefix, String key, Supplier<Set> supplier, long expireTime, long nullExpire) {
+      return  getAndUpdateCache(keyPrefix,key,(k) -> redisUtils.sGet(k),(k, v) -> redisUtils.sSet(k,v),supplier,expireTime,nullExpire);
+    }
+
+    @Override
+    public boolean hasKey(String key) {
+        return redisUtils.hasKey(key);
+    }
+
+    @Override
+    public boolean expire(String key, long time) {
+        return redisUtils.expire(key,time);
     }
 }

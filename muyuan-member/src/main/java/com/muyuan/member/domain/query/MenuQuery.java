@@ -1,6 +1,7 @@
 package com.muyuan.member.domain.query;
 
 import com.muyuan.member.domain.model.Menu;
+import com.muyuan.member.domain.vo.MenuVO;
 
 import java.util.List;
 import java.util.Set;
@@ -27,4 +28,5 @@ public interface MenuQuery {
      * @return
      */
     List<Menu>  selectMenuByRoleNames(List<String> roleNames);
+
 }
