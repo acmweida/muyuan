@@ -74,11 +74,10 @@ public class MenuAssembler {
      * @param menus 菜单列表
      * @return 路由列表
      */
-    public static List<RouterVo> buildMenus(List<Menu> menus) {
+    public static List<RouterVo> buildMenus(List<MenuVO> menus) {
         List<RouterVo> routers = new LinkedList<RouterVo>();
 
-
-        for (Menu menu : menus) {
+        for (MenuVO menu : menus) {
             RouterVo router = new RouterVo();
             router.setHidden("1".equals(menu.getVisible()));
             router.setName(getRouteName(menu));
@@ -86,8 +85,8 @@ public class MenuAssembler {
             router.setComponent(getComponent(menu));
             router.setQuery(menu.getQuery());
             router.setMeta(new MetaVo(menu.getName(), menu.getIcon(), 1 == menu.getCache(), menu.getPath()));
-            List<Menu> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && cMenus.size() > 0 && UserConstants.TYPE_DIR.equals(menu.getMenuType())) {
+            List<MenuVO> cMenus = menu.getChildren();
+            if (!cMenus.isEmpty() && cMenus.size() > 0 && GlobalConst.TYPE_DIR.equals(menu.getType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
@@ -98,20 +97,20 @@ public class MenuAssembler {
                 children.setPath(menu.getPath());
                 children.setComponent(menu.getComponent());
                 children.setName(StringUtils.capitalize(menu.getPath()));
-                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+                children.setMeta(new MetaVo(menu.getName(), menu.getIcon(), 0 == menu.getCache(), menu.getPath()));
                 children.setQuery(menu.getQuery());
                 childrenList.add(children);
                 router.setChildren(childrenList);
             } else if (menu.getParentId().intValue() == 0 && isInnerLink(menu)) {
-                router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
+                router.setMeta(new MetaVo(menu.getName(), menu.getIcon()));
                 router.setPath("/inner");
                 List<RouterVo> childrenList = new ArrayList<RouterVo>();
                 RouterVo children = new RouterVo();
                 String routerPath = innerLinkReplaceEach(menu.getPath());
                 children.setPath(routerPath);
-                children.setComponent(UserConstants.INNER_LINK);
+                children.setComponent(GlobalConst.INNER_LINK);
                 children.setName(StringUtils.capitalize(routerPath));
-                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getPath()));
+                children.setMeta(new MetaVo(menu.getName(), menu.getIcon(), menu.getPath()));
                 childrenList.add(children);
                 router.setChildren(childrenList);
             }
@@ -127,7 +126,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 路由名称
      */
-    public String getRouteName(Menu menu) {
+    public static String getRouteName(MenuVO menu) {
         String routerName = StrUtil.capitalize(menu.getPath());
         // 非外链并且是一级目录（类型为目录）
         if (isMenuFrame(menu)) {
@@ -142,7 +141,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 结果
      */
-    public boolean isMenuFrame(Menu menu) {
+    public static boolean isMenuFrame(MenuVO menu) {
         return menu.getParentId().intValue() == 0 && GlobalConst.TYPE_MENU.equals(menu.getType())
                 && menu.getFrame() == GlobalConst.NO_FRAME;
     }
@@ -153,7 +152,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 路由地址
      */
-    public String getRouterPath(Menu menu) {
+    public static String getRouterPath(MenuVO menu) {
         String routerPath = menu.getPath();
         // 内链打开外网方式
         if (menu.getParentId().intValue() != 0 && isInnerLink(menu)) {
@@ -177,7 +176,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 结果
      */
-    public boolean isInnerLink(Menu menu) {
+    public static boolean isInnerLink(MenuVO menu) {
         return menu.getFrame() == GlobalConst.NO_FRAME && StrUtil.ishttp(menu.getPath());
     }
 
@@ -186,7 +185,7 @@ public class MenuAssembler {
      *
      * @return
      */
-    public String innerLinkReplaceEach(String path) {
+    public static String innerLinkReplaceEach(String path) {
         return StringUtils.replaceEach(path, new String[]{GlobalConst.HTTP, GlobalConst.HTTPS},
                 new String[]{"", ""});
     }
@@ -197,7 +196,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 组件信息
      */
-    public String getComponent(Menu menu) {
+    public static String getComponent(MenuVO menu) {
         String component = GlobalConst.LAYOUT;
         if (StringUtils.isNotEmpty(menu.getComponent()) && !isMenuFrame(menu)) {
             component = menu.getComponent();
@@ -215,7 +214,7 @@ public class MenuAssembler {
      * @param menu 菜单信息
      * @return 结果
      */
-    public boolean isParentView(Menu menu) {
+    public static boolean isParentView(MenuVO menu) {
         return menu.getParentId().intValue() != 0 && GlobalConst.TYPE_DIR.equals(menu.getType());
     }
 }

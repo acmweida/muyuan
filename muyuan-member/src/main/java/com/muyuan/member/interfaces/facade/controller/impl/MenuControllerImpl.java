@@ -32,7 +32,6 @@ public class MenuControllerImpl implements MenuController {
     public Result<List<RouterVo>> getRouter() {
         List<String> roles = JwtUtils.getRoles();
         List<Menu> menus = menuQuery.selectMenuByRoleNames(roles);
-
-        return ResultUtil.render(MenuAssembler.buildMenus(menus));
+        return ResultUtil.render(MenuAssembler.buildMenus(MenuAssembler.buildMenuTree(menus)));
     }
 }
