@@ -86,7 +86,7 @@ public class MenuAssembler {
             router.setQuery(menu.getQuery());
             router.setMeta(new MetaVo(menu.getName(), menu.getIcon(), 1 == menu.getCache(), menu.getPath()));
             List<MenuVO> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && cMenus.size() > 0 && GlobalConst.TYPE_DIR.equals(menu.getType())) {
+            if (!cMenus.isEmpty()  && GlobalConst.TYPE_DIR.equals(menu.getType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));

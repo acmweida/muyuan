@@ -8,6 +8,7 @@ import org.springframework.util.AntPathMatcher;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,31 @@ public class StrUtil  extends StringUtils {
             sb.delete(0, 1);
         }
         return sb.toString().toLowerCase();
+    }
+
+    /**
+     * 随机字符串生成
+     * @param length
+     * @return
+     */
+    public static String randomString(int length) {
+        StringBuffer name = new StringBuffer();
+        Random random = new Random();
+        char temp = 'a';
+        int t = 0;
+        for (int i=0;i<length;i++) {
+            t = random.nextInt(61);
+            if (t < 10) {
+                temp = (char) (48 + t);
+            } else if (t < 37) {
+                temp = (char) (55 + t);
+            } else {
+                temp = (char) (60 + t);
+            }
+            name.append(temp);
+        }
+
+        return name.toString();
     }
 
     public static String stringFormat(String format,Object ... args) {

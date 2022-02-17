@@ -10,28 +10,27 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
 public class IdUtil {
 
-    public static final String MACHINE_CODE_MAP = "MACHINE:CODEMAP";
+    public static final String MACHINE_CODE_PREFIX = "MACHINE:CODE:";
 
-    private static final long MAX_MACHINE_ID = 1 << 10;
+    private static final long MAX_MACHINE_ID = 1 << 8;
 
-    private static final long MAX_WORK_ID = (1 << 5) -1;
+    private static final long MAX_WORK_ID = (1 << 4) -1;
 
     private static long workerId = 1;
 
     private static long datacentId = 1;
 
-    private static final String NAME_PREFIX = "my_";
-
     private static IdWorker worker = null;
 
-    private static Random random = new Random();
-
     private RedisTemplate redisTemplate;
+
+    private static long expire;
 
     public IdUtil(@Autowired RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -40,26 +39,17 @@ public class IdUtil {
     }
 
     public static void  getMachineCode(RedisTemplate redisTemplate ) {
-        HashOperations hashOperations = redisTemplate.opsForHash();
-
         String localIp = IpUtil.getLocalAddress().getHostAddress();
         long machineId =  Math.abs(localIp.hashCode() % MAX_MACHINE_ID);
-//        while ( hashOperations.hasKey(MACHINE_CODE_MAP,String.valueOf(machineId))){
-//           machineId++;
-//        }
-        hashOperations.put(MACHINE_CODE_MAP,String.valueOf(machineId), RedisConst.SHORT_TRUE_VALUE);
+        while ( redisTemplate.hasKey(MACHINE_CODE_PREFIX+machineId)){
+           machineId++;
+        }
+
+        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX+machineId, RedisConst.SHORT_TRUE_VALUE,12, TimeUnit.HOURS);
+        expire = System.currentTimeMillis() + 12 * 3600;
         workerId = machineId & MAX_WORK_ID;
-        datacentId = machineId >> 5;
-        long finalMachineId = machineId;
+        datacentId = machineId >> 4;
         log.info("server machine id : {}",machineId);
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(
-                        () ->  {
-                            redisTemplate.opsForHash().delete(MACHINE_CODE_MAP, String.valueOf(finalMachineId));
-                            log.info("server machine id : {} cancel registration",finalMachineId);
-                        }
-                )
-        );
     }
 
     private static class IdWorker{
@@ -90,21 +80,21 @@ public class IdUtil {
         private long twepoch = 1288834974657L;
 
         //长度为5位
-        private long workerIdBits = 5L;
-        private long datacenterIdBits = 5L;
+        private long workerIdBits = 4L;
+        private long datacenterIdBits = 4L;
         //最大值
         private long maxWorkerId = -1L ^ (-1L << workerIdBits);
         private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
         //序列号id长度
-        private long sequenceBits = 12L;
+        private long sequenceBits = 13L;
         //序列号最大值
         private long sequenceMask = -1L ^ (-1L << sequenceBits);
 
-        //工作id需要左移的位数，12位
+        //工作id需要左移的位数，13位
         private long workerIdShift = sequenceBits;
-        //数据id需要左移位数 12+5=17位
+        //数据id需要左移位数 14+4=18位
         private long datacenterIdShift = sequenceBits + workerIdBits;
-        //时间戳需要左移位数 12+5+5=22位
+        //时间戳需要左移位数 14+4+4=22位
         private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
 
         //上次时间戳，初始值为负数
@@ -177,42 +167,11 @@ public class IdUtil {
     }
 
     public long  createId() {
-        return worker.nextId();
-    }
-
-
-    public static String randomString(int length) {
-        StringBuffer name = new StringBuffer();
-        Random random = new Random();
-        char temp = 'a';
-        int t = 0;
-        for (int i=0;i<length;i++) {
-            t = random.nextInt(61);
-            if (t < 10) {
-                temp = (char) (48 + t);
-            } else if (t < 37) {
-                temp = (char) (55 + t);
-            } else {
-                temp = (char) (60 + t);
-            }
-            name.append(temp);
+        if (expire < System.currentTimeMillis()) {
+            getMachineCode(redisTemplate);
+            worker =new IdWorker(workerId,datacentId,1);
         }
-
-        return name.toString();
-    }
-
-    public static String createUserName() {
-        StringBuffer name = new StringBuffer(NAME_PREFIX);
-        name.append(randomString(7));
-        name.append((random.nextInt(900)+100));
-        return name.toString();
-    }
-
-    public static long createUserNo() {
-        StringBuffer userNoStr = new StringBuffer().append(random.nextInt(4)+5);
-        userNoStr.append(DateTime.now().toString("MMyyddHHssmm")).append(System.currentTimeMillis() % 1000)
-                .append(random.nextInt(9));;
-        return Long.valueOf(userNoStr.toString());
+        return worker.nextId();
     }
 
 }

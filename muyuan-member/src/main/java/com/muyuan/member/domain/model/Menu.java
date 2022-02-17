@@ -54,17 +54,17 @@ public class Menu {
     /**
      * 菜单类型（M目录 C菜单 F按钮）
      */
-    private char type;
+    private String type;
 
     /**
      * 菜单状态（0显示 1隐藏）
      */
-    private char visible;
+    private String visible;
 
     /**
      * 菜单状态（0正常 1停用）
      */
-    private char status;
+    private String status;
 
     /**
      * 权限标识

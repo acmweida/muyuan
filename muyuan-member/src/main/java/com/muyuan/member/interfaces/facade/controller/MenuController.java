@@ -23,7 +23,7 @@ import java.util.List;
 @Api(tags = {"菜单接口"})
 public interface MenuController {
 
-    @GetMapping("/getRouter")
+    @GetMapping("/getRouters")
     @ApiOperation(value = "路由信息获取")
     Result<List<RouterVo>> getRouter();
 }

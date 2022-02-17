@@ -1,4 +1,4 @@
-package com.muyuan.member.infrastructure.common.enums.util;
+package com.muyuan.common.redis.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

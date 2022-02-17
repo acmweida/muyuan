@@ -3,6 +3,7 @@ package com.muyuan.member.domain.query.impl;
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.util.IdUtil;
+import com.muyuan.member.domain.entity.UserEntity;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.repo.UserRepo;
@@ -60,7 +61,7 @@ public class UserQueryImpl implements UserQuery {
 
         User user = new User();
         BeanUtils.copyProperties(registerInfo,user);
-        user.setNickName(IdUtil.createUserName());
+        user.setNickName(UserEntity.createUserName());
         user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
         user.setSalt(salt);
         user.setEncryptKey(encryptKey);
