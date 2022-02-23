@@ -13,7 +13,7 @@
         ) role_menu on menu.id  = role_menu.menu_id
                               left join (
             select id from t_role where name in
-                                  <foreach collection="rolesNames" open="(" close=")" item="item" >
+                                  <foreach collection="roleNames" open="(" close=")" item="item" >
                                       #{item}
                                   </foreach>
         ) role on role.id = role_menu.role_id

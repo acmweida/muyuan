@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
@@ -32,7 +33,8 @@ public class IdGeneratorAspect {
         } else {
             Object entity = args[0];
             Class target = null;
-            Method writeMethod = null;
+            Method setterMethod = null;
+            Field idField = null;
             if (entity instanceof Collection || entity.getClass().isArray()) {
                 Object[] entitys = null;
                 if (entity instanceof Collection) {
@@ -41,29 +43,55 @@ public class IdGeneratorAspect {
                     entitys = (Object[]) entity;
                 }
                 target = entitys[0].getClass();
-                writeMethod = getIdWriterMethod(target,idFieldName);
-                if (writeMethod == null) {
-                    log.info("id generator not found writer method!");
+                setterMethod = getIdSetterMethod(target,idFieldName);
+                idField = getIdField(target,idFieldName);
+                if (idField == null) {
+                    log.info("id generator not found id field!");
                     return;
                 }
                 for (Object item : entitys ) {
-                    writeMethod.invoke(item,idUtil.createId());
+                    Object value = idField.get(item);
+                    if (value == null || value.equals(0)) {
+                        setterMethod.invoke(item,idUtil.createId());
+                    }
                 }
             } else  {
                 target = entity.getClass();
-                writeMethod = getIdWriterMethod(target,idFieldName);
-                writeMethod.invoke(entity,idUtil.createId());
+                setterMethod = getIdSetterMethod(target,idFieldName);
+                idField = getIdField(target,idFieldName);
+                if (idField == null) {
+                    log.info("id generator not found id field!");
+                    return;
+                }
+
+                if (setterMethod == null) {
+                    log.info("id generator not found writer method!");
+                    return;
+                }
+                Object value = idField.get(entity);
+                if (value == null || value.equals(0)) {
+                    setterMethod.invoke(entity,idUtil.createId());
+                }
             }
         }
 
     }
 
-    public Method getIdWriterMethod(Class target,String idFieldName) {
+    public Method getIdSetterMethod(Class target,String idFieldName) {
         final PropertyDescriptor[] beanGetters = ReflectUtils.getBeanGetters(target);
         for (PropertyDescriptor propertyDescriptor : beanGetters) {
             if (propertyDescriptor.getName().equals(idFieldName)) {
                 return propertyDescriptor.getWriteMethod();
             }
+        }
+        return null;
+    }
+
+    public Field getIdField(Class target, String idFieldName) {
+        try {
+           return target.getField(idFieldName);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
         return null;
     }

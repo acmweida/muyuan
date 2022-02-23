@@ -18,15 +18,15 @@ public class IdUtil {
 
     public static final String MACHINE_CODE_PREFIX = "MACHINE:CODE:";
 
-    private static final long MAX_MACHINE_ID = 1 << 8;
+    private static final long MAX_MACHINE_ID = (1 << 10) - 1;
 
-    private static final long MAX_WORK_ID = (1 << 4) -1;
+    private static final long MAX_WORK_ID = (1 << 5) - 1;
 
     private static long workerId = 1;
 
     private static long datacentId = 1;
 
-    private static IdWorker worker = null;
+    private static SnowFlake worker = null;
 
     private RedisTemplate redisTemplate;
 
@@ -35,141 +35,136 @@ public class IdUtil {
     public IdUtil(@Autowired RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
         getMachineCode(redisTemplate);
-        worker =new IdWorker(workerId,datacentId,1);
+        worker = new SnowFlake(workerId, datacentId);
     }
 
-    public static void  getMachineCode(RedisTemplate redisTemplate ) {
+    public static void getMachineCode(RedisTemplate redisTemplate) {
         String localIp = IpUtil.getLocalAddress().getHostAddress();
-        long machineId =  Math.abs(localIp.hashCode() % MAX_MACHINE_ID);
-        while ( redisTemplate.hasKey(MACHINE_CODE_PREFIX+machineId)){
-           machineId++;
+        long machineId = Math.abs(localIp.hashCode() & MAX_MACHINE_ID);
+        while (redisTemplate.hasKey(MACHINE_CODE_PREFIX + machineId)) {
+            machineId++;
         }
 
-        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX+machineId, RedisConst.SHORT_TRUE_VALUE,12, TimeUnit.HOURS);
-        expire = System.currentTimeMillis() + 12 * 3600;
+        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX + machineId, RedisConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
+        // redis时间大于机器刷新时间 确保尽量使用停一ID
+        expire = System.currentTimeMillis() + 11 * 3600;
         workerId = machineId & MAX_WORK_ID;
-        datacentId = machineId >> 4;
-        log.info("server machine id : {}",machineId);
+        datacentId = machineId >> 5;
+        log.info("server machine id : {}", machineId);
     }
 
-    private static class IdWorker{
+    private static class SnowFlake {
 
-        //下面两个每个5位，加起来就是10位的工作机器id
-        private long workerId;    //工作id
-        private long datacenterId;   //数据id
-        //12位的序列号
-        private long sequence;
+        /**
+         * 起始的时间戳（可设置当前时间之前的邻近时间）
+         */
+        private final static long START_STAMP = 1645579399860L;
 
-        public IdWorker(long workerId, long datacenterId, long sequence){
-            // sanity check for workerId
-            if (workerId > maxWorkerId || workerId < 0) {
-                throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0",maxWorkerId));
+        /**
+         * 序列号占用的位数
+         */
+        private final static long SEQUENCE_BIT = 12;
+        /**
+         * 机器标识占用的位数
+         */
+        private final static long MACHINE_BIT = 5;
+        /**
+         * 数据中心占用的位数
+         */
+        private final static long DATA_CENTER_BIT = 5;
+
+        /**
+         * 每一部分的最大值
+         */
+        private final static long MAX_DATA_CENTER_NUM = ~(-1L << DATA_CENTER_BIT);
+        private final static long MAX_MACHINE_NUM = ~(-1L << MACHINE_BIT);
+        private final static long MAX_SEQUENCE = ~(-1L << SEQUENCE_BIT);
+
+        /**
+         * 每一部分向左的位移
+         */
+        private final static long MACHINE_LEFT = SEQUENCE_BIT;
+        private final static long DATA_CENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+        private final static long TIMESTAMP_LEFT = DATA_CENTER_LEFT + DATA_CENTER_BIT;
+
+        /**
+         * 数据中心ID(0~31)
+         */
+        private final long dataCenterId;
+        /**
+         * 工作机器ID(0~31)
+         */
+        private final long machineId;
+        /**
+         * 毫秒内序列(0~4095)
+         */
+        private long sequence = 0L;
+        /**
+         * 上次生成ID的时间截
+         */
+        private long lastStamp = -1L;
+
+        public SnowFlake(long dataCenterId, long machineId) {
+            if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
+                throw new IllegalArgumentException("dataCenterId can't be greater than MAX_DATA_CENTER_NUM or less than " +
+                        "0");
             }
-            if (datacenterId > maxDatacenterId || datacenterId < 0) {
-                throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0",maxDatacenterId));
+            if (machineId > MAX_MACHINE_NUM || machineId < 0) {
+                throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
             }
-            System.out.printf("worker starting. timestamp left shift %d, datacenter id bits %d, worker id bits %d, sequence bits %d, workerid %d",
-                    timestampLeftShift, datacenterIdBits, workerIdBits, sequenceBits, workerId);
-
-            this.workerId = workerId;
-            this.datacenterId = datacenterId;
-            this.sequence = sequence;
+            this.dataCenterId = dataCenterId;
+            this.machineId = machineId;
         }
 
-        //初始时间戳
-        private long twepoch = 1288834974657L;
-
-        //长度为5位
-        private long workerIdBits = 4L;
-        private long datacenterIdBits = 4L;
-        //最大值
-        private long maxWorkerId = -1L ^ (-1L << workerIdBits);
-        private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-        //序列号id长度
-        private long sequenceBits = 13L;
-        //序列号最大值
-        private long sequenceMask = -1L ^ (-1L << sequenceBits);
-
-        //工作id需要左移的位数，13位
-        private long workerIdShift = sequenceBits;
-        //数据id需要左移位数 14+4=18位
-        private long datacenterIdShift = sequenceBits + workerIdBits;
-        //时间戳需要左移位数 14+4+4=22位
-        private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-
-        //上次时间戳，初始值为负数
-        private long lastTimestamp = -1L;
-
-        public long getWorkerId(){
-            return workerId;
-        }
-
-        public long getDatacenterId(){
-            return datacenterId;
-        }
-
-        public long getTimestamp(){
-            return System.currentTimeMillis();
-        }
-
-        //下一个ID生成算法
+        /**
+         * 产生下一个ID
+         */
         public synchronized long nextId() {
-            long timestamp = timeGen();
-
-            //获取当前时间戳如果小于上次时间戳，则表示时间戳获取出现异常
-            if (timestamp < lastTimestamp) {
-                System.err.printf("clock is moving backwards.  Rejecting requests until %d.", lastTimestamp);
-                throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
-                        lastTimestamp - timestamp));
+            long currStamp = getNewStamp();
+            if (currStamp < lastStamp) {
+                throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
             }
 
-            //获取当前时间戳如果等于上次时间戳（同一毫秒内），则在序列号加一；否则序列号赋值为0，从0开始。
-            if (lastTimestamp == timestamp) {
-                sequence = (sequence + 1) & sequenceMask;
-                if (sequence == 0) {
-                    timestamp = tilNextMillis(lastTimestamp);
+            if (currStamp == lastStamp) {
+                //相同毫秒内，序列号自增
+                sequence = (sequence + 1) & MAX_SEQUENCE;
+                //同一毫秒的序列数已经达到最大
+                if (sequence == 0L) {
+                    //阻塞到下一个毫秒,获得新的时间戳
+                    currStamp = getNextMill();
                 }
             } else {
-                sequence = 0;
+                //不同毫秒内，序列号置为0
+                sequence = 0L;
             }
 
-            //将上次时间戳值刷新
-            lastTimestamp = timestamp;
+            lastStamp = currStamp;
 
-            /**
-             * 返回结果：
-             * (timestamp - twepoch) << timestampLeftShift) 表示将时间戳减去初始时间戳，再左移相应位数
-             * (datacenterId << datacenterIdShift) 表示将数据id左移相应位数
-             * (workerId << workerIdShift) 表示将工作id左移相应位数
-             * | 是按位或运算符，例如：x | y，只有当x，y都为0的时候结果才为0，其它情况结果都为1。
-             * 因为个部分只有相应位上的值有意义，其它位上都是0，所以将各部分的值进行 | 运算就能得到最终拼接好的id
-             */
-            return ((timestamp - twepoch) << timestampLeftShift) |
-                    (datacenterId << datacenterIdShift) |
-                    (workerId << workerIdShift) |
-                    sequence;
+            // 移位并通过或运算拼到一起组成64位的ID
+            return (currStamp - START_STAMP) << TIMESTAMP_LEFT //时间戳部分
+                    | dataCenterId << DATA_CENTER_LEFT       //数据中心部分
+                    | machineId << MACHINE_LEFT             //机器标识部分
+                    | sequence;                             //序列号部分
         }
 
-        //获取时间戳，并与上次时间戳比较
-        private long tilNextMillis(long lastTimestamp) {
-            long timestamp = timeGen();
-            while (timestamp <= lastTimestamp) {
-                timestamp = timeGen();
+        private long getNextMill() {
+            long mill = getNewStamp();
+            while (mill <= lastStamp) {
+                mill = getNewStamp();
             }
-            return timestamp;
+            return mill;
         }
 
-        //获取系统时间戳
-        private long timeGen(){
+        private long getNewStamp() {
             return System.currentTimeMillis();
         }
 
     }
 
-    public long  createId() {
+    public long createId() {
         if (expire < System.currentTimeMillis()) {
             getMachineCode(redisTemplate);
-            worker =new IdWorker(workerId,datacentId,1);
+            worker = new SnowFlake(workerId, datacentId);
         }
         return worker.nextId();
     }
