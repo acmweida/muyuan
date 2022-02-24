@@ -25,14 +25,16 @@ public abstract class AbstractCacheManager implements CacheManager{
             result = supplier.get();
             // 当result 为null时 同样设置 防止null值直接查询到数据库
             setCache.accept(newKey, result);
+
+            // 第一次设置空值过期时间 以免常驻内存
+            if (!hasKey && null == result && NOT_EXPIRE != expireTime) {
+                expire(newKey, nullExpire);
+            } else if (NOT_EXPIRE != expireTime) {
+                expire(newKey, expireTime);
+            }
+
         }
 
-        // 第一次设置空值过期时间 以免常驻内存
-        if (!hasKey && null == result && NOT_EXPIRE != expireTime) {
-            expire(newKey, nullExpire);
-        } else if (NOT_EXPIRE != expireTime) {
-            expire(newKey, expireTime);
-        }
 
         return result;
     }

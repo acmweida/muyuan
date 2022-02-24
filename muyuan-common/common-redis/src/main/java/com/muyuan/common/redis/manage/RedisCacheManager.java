@@ -4,6 +4,7 @@ import com.muyuan.common.redis.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -26,12 +27,12 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
     }
 
     @Override
-    public Object get(String keyPrefix, String key, Supplier supplier) {
+    public Object get(String keyPrefix, String key, Supplier<String> supplier) {
         return get(keyPrefix, key, supplier, NOT_EXPIRE);
     }
 
     @Override
-    public Object get(String keyPrefix, String key, Supplier supplier, long expireTime) {
+    public Object get(String keyPrefix, String key, Supplier<String> supplier, long expireTime) {
         return get(keyPrefix, key, supplier, expireTime, DEFAULT_EXPIRE_TIME);
     }
 
@@ -57,7 +58,7 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
 
     @Override
     public Set sGet(String keyPrefix, String key, Supplier<Set> supplier, long expireTime, long nullExpire) {
-        return getAndUpdateCache(keyPrefix, key, (k) -> redisUtils.sGet(k), (k, v) -> redisUtils.sSet(k, v), supplier, expireTime, nullExpire);
+        return getAndUpdateCache(keyPrefix, key, (k) -> redisUtils.sGet(k), (k, v) -> redisUtils.sSet(k, v.toArray()), supplier, expireTime, nullExpire);
     }
 
     @Override

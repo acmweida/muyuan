@@ -34,6 +34,11 @@ public class User {
     private String password;
 
     /**
+     * 头像图片
+     */
+    private String avatar;
+
+    /**
      * 加密salt
      */
     private String salt;

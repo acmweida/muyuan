@@ -34,6 +34,11 @@ public class UserVO {
      */
     private long shopNo;
 
+    /**
+     * 图片
+     */
+    private String avatar;
+
     private List<String> roles;
 
     private Set<String> permissions;

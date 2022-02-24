@@ -42,7 +42,7 @@ public class MenuRepoImpl implements MenuRepo {
         while (it.hasNext()) {
             String roleName = it.next();
             if (StrUtil.isNotEmpty(roleName)) {
-                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleName);
+//                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleName);
                 Set<String> rolePerms = redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, roleName, () -> new HashSet(selectMenuPermissionByRoleName(roleName)));
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
@@ -65,11 +65,12 @@ public class MenuRepoImpl implements MenuRepo {
 
         // 查询缓存
         while (it.hasNext()) {
-            String rolename = it.next();
-            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX, rolename,
-                    () -> selectMenuByRoleName(rolename)
+            String roleName = it.next();
+//            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleName);
+            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX, roleName,
+                    () -> JSONUtil.toJsonString(selectMenuByRoleName(roleName))
             );
-            if (!StrUtil.isNotEmpty(cacheMenuJson)) {
+            if (StrUtil.isNotEmpty(cacheMenuJson)) {
                 menus.addAll(JSONUtil.parseObjectList(cacheMenuJson, ArrayList.class, Menu.class));
             }
         }

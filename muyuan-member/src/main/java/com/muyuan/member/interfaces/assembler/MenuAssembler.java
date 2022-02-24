@@ -27,7 +27,9 @@ public class MenuAssembler {
      * @return
      */
     public static List<MenuVO> buildMenuTree(List<Menu> menus) {
-        List<MenuVO> roots = menus.stream().filter(item -> item.getParentId() == 0).map(item -> {
+        List<MenuVO> roots = menus.stream().filter(item -> {
+            return item.getParentId() == 0;
+        }).map(item -> {
             MenuVO menuVO = new MenuVO();
             BeanUtils.copyProperties(item, menuVO);
             return menuVO;
