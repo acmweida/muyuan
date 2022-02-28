@@ -27,7 +27,7 @@ public class ProductControllerImpl implements ProductController {
     public Result<List<ProductVO>> getProducts(ShopProductDTO productDTO) {
         List<Product> products = productQuery.queryProductsByShopInfo(productDTO);
         List<ProductVO> productVOs = ProductAssembler.buildProductVO(products);
-        return ResultUtil.render(productVOs);
+        return ResultUtil.success(productVOs);
     }
 
     @Override
@@ -36,9 +36,9 @@ public class ProductControllerImpl implements ProductController {
         ProductService productService = ProductFactory.createProductService(product);
         Optional<Long> aLong = productService.addProduct();
         if (aLong.isPresent()) {
-            return ResultUtil.render();
+            return ResultUtil.success();
         }
 
-        return ResultUtil.renderFail("商品添加失败");
+        return ResultUtil.fail("商品添加失败");
     }
 }

@@ -33,17 +33,17 @@ public class RepeatableRequestAdvice {
     public Object repeatableAdvice(ProceedingJoinPoint pjp, Repeatable repeatable) throws Throwable {
         Object token = RequestContextHolder.getRequestAttributes().getAttribute(repeatable.varName(), RequestAttributes.SCOPE_REQUEST);
         if (ObjectUtils.isEmpty(token)) {
-            return ResultUtil.renderFail(ResponseCode.TOKEN_NOT_FOUND_FAIL);
+            return ResultUtil.fail(ResponseCode.TOKEN_NOT_FOUND_FAIL);
         }
         ValueOperations valueOperations = redisTemplate.opsForValue();
         String tokenKey = RedisConst.TOKEN_KEY_PREFIX+token;
         if (!redisTemplate.hasKey(tokenKey)) {
-            return ResultUtil.renderFail(ResponseCode.TOKEN_INVALID_FAIL);
+            return ResultUtil.fail(ResponseCode.TOKEN_INVALID_FAIL);
         }
 
         short v = (short) valueOperations.get(tokenKey);
         if (RedisConst.SHORT_TRUE_VALUE == v) {
-            return ResultUtil.renderFail(ResponseCode.REPEATABLE_REQUEST_FAIL);
+            return ResultUtil.fail(ResponseCode.REPEATABLE_REQUEST_FAIL);
         }
 
         valueOperations.set(tokenKey,RedisConst.SHORT_TRUE_VALUE);

@@ -29,6 +29,6 @@ public class ShopControllerImpl implements ShopController {
             log.warn("user info not found use user id :{}",currentUserId);
             return new UserNotFoundException();
         });
-        return ResultUtil.render(shopVo.get());
+        return ResultUtil.success(shopVo.get());
     }
 }

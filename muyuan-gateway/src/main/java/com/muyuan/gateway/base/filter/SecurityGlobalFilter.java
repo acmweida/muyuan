@@ -1,7 +1,10 @@
 package com.muyuan.gateway.base.filter;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.gateway.util.ResponseUtils;
 import com.nimbusds.jose.JWSObject;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -70,9 +73,9 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         Map jsonObject =  JSONUtil.parseObject(payload, HashMap.class);
         String jti = (String) jsonObject.get(SecurityConst.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(SecurityConst.TOKEN_BLACKLIST_PREFIX + jti);
-//        if (isBlack) {
-//            return ResponseUtils.writeErrorInfo(response, ResultCode.TOKEN_ACCESS_FORBIDDEN);
-//        }
+        if (isBlack) {
+            return ResponseUtils.writeErrorInfo(response, ResponseCode.TOKEN_INVALID_FAIL);
+        }
 
         // 存在token且不是黑名单，request写入JWT的载体信息
         request = exchange.getRequest().mutate()

@@ -26,4 +26,7 @@ public interface MenuController {
     @GetMapping("/getRouters")
     @ApiOperation(value = "路由信息获取")
     Result<List<RouterVo>> getRouter();
+
+
+
 }

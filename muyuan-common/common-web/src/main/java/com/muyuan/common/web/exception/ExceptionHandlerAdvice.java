@@ -34,7 +34,7 @@ public class ExceptionHandlerAdvice {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
         log.error("hibernate-validator error", e);
-        return ResultUtil.renderFail(ResponseCode.ARGUMENT_EEORR,errorInfo);
+        return ResultUtil.fail(ResponseCode.ARGUMENT_EEORR,errorInfo);
     }
 
     @ExceptionHandler(MuyuanException.class)
@@ -50,14 +50,14 @@ public class ExceptionHandlerAdvice {
     public Result unknowRuntimeException(IllegalArgumentException e) {
         e.printStackTrace();
         log.error("argument error : {}",e.toString());
-        return ResultUtil.renderError();
+        return ResultUtil.error();
     }
 
     @ExceptionHandler(RuntimeException.class)
     public Result unknowRuntimeException(RuntimeException e) {
         e.printStackTrace();
         log.error("RuntimeException error : {}",e.toString());
-        return ResultUtil.renderError();
+        return ResultUtil.error();
     }
 
 }

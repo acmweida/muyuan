@@ -25,7 +25,7 @@ public interface TokenInterface {
             return new TokenInterface() {
                 @Override
                 public Result<TokenStatus> verify(String token) {
-                    return ResultUtil.render();
+                    return ResultUtil.success();
                 }
             };
         }

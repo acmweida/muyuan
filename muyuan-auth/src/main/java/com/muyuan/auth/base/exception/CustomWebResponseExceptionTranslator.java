@@ -70,7 +70,7 @@ public class CustomWebResponseExceptionTranslator  extends DefaultWebResponseExc
         headers.set("Pragma", "no-cache");
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 
-        Result result = ResultUtil.renderError(ResponseCode.AUTHORIZED_ERROR.getCode(), e.getMessage());
+        Result result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), e.getMessage());
 
         ResponseEntity<String> response = new ResponseEntity(JSONUtil.toJsonString(result), headers,HttpStatus.OK);
 

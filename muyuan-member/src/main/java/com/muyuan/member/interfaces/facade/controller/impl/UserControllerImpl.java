@@ -39,13 +39,13 @@ public class UserControllerImpl implements UserController {
         Long userId = JwtUtils.getUserId();
         final Optional<User> userInfo = userQuery.getUserInfo(userId);
         if (!userInfo.isPresent()) {
-            return ResultUtil.renderFail("用户信息不存在");
+            return ResultUtil.fail("用户信息不存在");
         }
         List<String> roleNames = JwtUtils.getRoles();
 
         Set<String> perms = getMenuPermissionByRoleNames(roleNames);
         UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(),roleNames,perms);
-        return ResultUtil.render(userVO);
+        return ResultUtil.success(userVO);
     }
 
     private List<Role> getUserRoles(Long id) {
@@ -60,7 +60,7 @@ public class UserControllerImpl implements UserController {
     public Result<UserDTO> getUserByUsername(String username) {
         final Optional<User> userInfo = userQuery.getUserByUsername(username);
         if (!userInfo.isPresent()) {
-            return ResultUtil.renderFail("用户信息不存在");
+            return ResultUtil.fail("用户信息不存在");
         }
         User user = userInfo.get();
         Long id = user.getId();
@@ -70,16 +70,16 @@ public class UserControllerImpl implements UserController {
 
         UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
         userDTO.setRoles(roleNames);
-        return ResultUtil.render(userDTO);
+        return ResultUtil.success(userDTO);
     }
 
     public Result accountRegister(RegisterDTO register) {
         int registerResult = userQuery.accountRegister(register);
         if (registerResult == 0) {
-            return   ResultUtil.render("注册成功");
+            return   ResultUtil.success("注册成功");
         } else if (registerResult == 1) {
-            return ResultUtil.renderFail("账号已存在");
+            return ResultUtil.fail("账号已存在");
         }
-        return ResultUtil.renderFail("注册失败");
+        return ResultUtil.fail("注册失败");
     }
 }

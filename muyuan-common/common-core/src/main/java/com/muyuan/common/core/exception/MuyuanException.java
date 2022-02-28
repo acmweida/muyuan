@@ -21,6 +21,6 @@ public class MuyuanException extends RuntimeException implements MuyuanException
     @Override
     public Result handle(MuyuanException e) {
         log.error("error code :{} -> message:{}",code,message);
-        return ResultUtil.renderFail(code,message);
+        return ResultUtil.fail(code,message);
     }
 }

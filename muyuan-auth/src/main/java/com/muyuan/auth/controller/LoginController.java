@@ -16,4 +16,9 @@ public interface LoginController {
     @GetMapping("/captchaImage")
     @ApiOperation(value = "获取登录验证码")
     Result captchaImage(HttpServletRequest httpServletRequest) throws IOException;
+
+
+    @GetMapping("/logout")
+    @ApiOperation(value = "注销登录")
+    Result logout();
 }

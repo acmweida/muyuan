@@ -1,16 +1,21 @@
 package com.muyuan.auth.controller.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.controller.LoginController;
 import com.muyuan.auth.vo.CaptchaVo;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.web.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
+import sun.security.util.SecurityConstants;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class LoginControllerImpl implements LoginController {
-
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -41,7 +45,7 @@ public class LoginControllerImpl implements LoginController {
             BufferedImage challenge = kaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
         } catch (IllegalArgumentException e) {
-            return ResultUtil.render();
+            return ResultUtil.success();
         }
 
         //定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
@@ -56,6 +60,23 @@ public class LoginControllerImpl implements LoginController {
         captchaVo.setUuid(uuid);
         log.info("验证码：{},key:{}",createText,uuid);
 
-        return ResultUtil.render(captchaVo);
+        return ResultUtil.success(captchaVo);
+    }
+
+    @Override
+    public Result logout() {
+        JsonNode payload = JwtUtils.getJwtPayload();
+        String jti = payload.get(SecurityConst.JWT_JTI).asText(); // JWT唯一标识
+        Long expireTime = payload.get(SecurityConst.JWT_EXP).asLong(); // JWT过期时间戳(单位：秒)
+        if (expireTime != null) {
+            long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
+            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                redisTemplate.opsForValue().set(SecurityConst.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+            }
+        } else { // token 永不过期则永久加入黑名单
+            redisTemplate.opsForValue().set(SecurityConst.TOKEN_BLACKLIST_PREFIX + jti, null);
+        }
+        log.info("用户：{} 注销登录",JwtUtils.getUserId());
+        return ResultUtil.success("注销成功");
     }
 }

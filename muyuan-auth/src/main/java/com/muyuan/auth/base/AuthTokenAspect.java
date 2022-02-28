@@ -29,7 +29,7 @@ public class AuthTokenAspect {
         if (proceed != null) {
             ResponseEntity responseEntity = (ResponseEntity) proceed;
             if (responseEntity.getBody() instanceof OAuth2AccessToken) {
-                return new ResponseEntity(ResultUtil.render(responseEntity.getBody()), HttpStatus.OK);
+                return new ResponseEntity(ResultUtil.success(responseEntity.getBody()), HttpStatus.OK);
             }
             return proceed;
         }

@@ -305,7 +305,7 @@ public class ServletUtils
     {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
-        Result<?> result = ResultUtil.renderFail(code, value.toString());
+        Result<?> result = ResultUtil.fail(code, value.toString());
         DataBuffer dataBuffer = response.bufferFactory().wrap(JSONUtil.toJsonString(result).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }

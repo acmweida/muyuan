@@ -134,7 +134,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, e) -> {
-            Result resultData = ResultUtil.renderError(ResponseCode.CLIENT_AUTHENTICATION_FAILED.getCode(), ResponseCode.CLIENT_AUTHENTICATION_FAILED.getMsg());
+            Result resultData = ResultUtil.error(ResponseCode.CLIENT_AUTHENTICATION_FAILED.getCode(), ResponseCode.CLIENT_AUTHENTICATION_FAILED.getMsg());
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.getWriter().write(JSONUtil.toJsonString(resultData));
         };

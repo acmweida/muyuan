@@ -17,7 +17,7 @@ public class FileControllerImpl implements FileController {
     public Result<FileVO> uploadFile(MultipartFile file) {
         long size = file.getSize();
         if (GlobalConst.MB < size){
-            return ResultUtil.renderFail("文件大小：{} 大于 1MB 无法上传",size);
+            return ResultUtil.fail("文件大小：{} 大于 1MB 无法上传",size);
         }
 
 
@@ -25,6 +25,6 @@ public class FileControllerImpl implements FileController {
 
         Optional<FileVO> fileVO = fileService.uploadFile(file);
 
-        return ResultUtil.render(fileVO.get());
+        return ResultUtil.success(fileVO.get());
     }
 }

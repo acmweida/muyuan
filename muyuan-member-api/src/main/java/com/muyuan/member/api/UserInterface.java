@@ -31,7 +31,7 @@ public interface UserInterface {
             return new UserInterface() {
                 @Override
                 public Result getUserByUsername(String username) {
-                    return ResultUtil.renderError();
+                    return ResultUtil.error();
                 }
             };
         }
