@@ -15,7 +15,7 @@
         <module>common-core</module>
         <module>common-redis</module>
         <module>common-web</module>
-        <module>common-feign</module>
+        <module>common-dubbo</module>
         <module>common-log</module>
     </modules>
 

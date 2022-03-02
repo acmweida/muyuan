@@ -48,30 +48,28 @@ public class UserControllerImpl implements UserController {
         return ResultUtil.success(userVO);
     }
 
-    private List<Role> getUserRoles(Long id) {
-          return  roleQuery.getRoleByUserId(id);
-    }
+
 
     private Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
         return menuQuery.selectMenuPermissionByRoleNames(roleIds);
     }
 
-    @Override
-    public Result<UserDTO> getUserByUsername(String username) {
-        final Optional<User> userInfo = userQuery.getUserByUsername(username);
-        if (!userInfo.isPresent()) {
-            return ResultUtil.fail("用户信息不存在");
-        }
-        User user = userInfo.get();
-        Long id = user.getId();
-        List<Role> roles = getUserRoles(id);
-
-        List<String> roleNames = roles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getName()).collect(Collectors.toList());
-
-        UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
-        userDTO.setRoles(roleNames);
-        return ResultUtil.success(userDTO);
-    }
+//    @Override
+//    public Result<UserDTO> getUserByUsername(String username) {
+//        final Optional<User> userInfo = userQuery.getUserByUsername(username);
+//        if (!userInfo.isPresent()) {
+//            return ResultUtil.fail("用户信息不存在");
+//        }
+//        User user = userInfo.get();
+//        Long id = user.getId();
+//        List<Role> roles = getUserRoles(id);
+//
+//        List<String> roleNames = roles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getName()).collect(Collectors.toList());
+//
+//        UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
+//        userDTO.setRoles(roleNames);
+//        return ResultUtil.success(userDTO);
+//    }
 
     public Result accountRegister(RegisterDTO register) {
         int registerResult = userQuery.accountRegister(register);

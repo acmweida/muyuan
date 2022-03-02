@@ -20,9 +20,9 @@ public interface UserController {
     @ApiOperation(value = "获取用户信息")
     Result<UserVO> getUserInfo();
 
-    @GetMapping("/getUserByUsername")
-    @ApiOperation(value = "通过账号获取用户信息")
-    Result<UserDTO> getUserByUsername(@RequestParam("username") @NotBlank String username);
+//    @GetMapping("/getUserByUsername")
+//    @ApiOperation(value = "通过账号获取用户信息")
+//    Result<UserDTO> getUserByUsername(@RequestParam("username") @NotBlank String username);
 
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/accountRegister")

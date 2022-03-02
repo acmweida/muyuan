@@ -12,6 +12,8 @@ spring:
         namespace: caa5c680-3b24-4628-b100-67680cb48e9f
   application:
     name: member
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 18890
 logging:
@@ -33,3 +35,13 @@ secure:
     - "/oauth/token"
     - "/oauth/authorize"
     - "/login/**"
+dubbo:
+  scan:
+    base-packages: com.muyuan.member.interfaces.facade.api
+  registry:
+    address: spring-cloud:127.0.0.1
+  application:
+    name: dubbo-member
+  protocol:
+    name: dubbo
+
