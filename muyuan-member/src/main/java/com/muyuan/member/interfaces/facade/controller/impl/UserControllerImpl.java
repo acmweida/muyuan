@@ -1,10 +1,8 @@
 package com.muyuan.member.interfaces.facade.controller.impl;
 
-import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
-import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.member.domain.query.RoleQuery;
@@ -12,7 +10,6 @@ import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
-import com.muyuan.member.interfaces.dto.UserDTO;
 import com.muyuan.member.interfaces.facade.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class UserControllerImpl implements UserController {

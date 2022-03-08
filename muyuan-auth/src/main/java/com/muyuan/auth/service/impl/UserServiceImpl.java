@@ -2,13 +2,14 @@ package com.muyuan.auth.service.impl;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.member.api.UserInterface;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserDetailsService {
 
-    @Autowired
+    @Reference(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0")
     UserInterface userInterFace;
 
     @Override

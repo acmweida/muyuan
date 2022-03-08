@@ -5,12 +5,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @ApiModel
-public class Result<T> {
+public class Result<T> implements Serializable {
 
     @ApiModelProperty(value = "响应码")
     private int code;

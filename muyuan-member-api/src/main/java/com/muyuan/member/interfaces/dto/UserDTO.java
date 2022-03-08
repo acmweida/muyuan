@@ -2,13 +2,16 @@ package com.muyuan.member.interfaces.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class UserDTO {
+public class UserDTO implements Serializable {
 
-    private long id;
+    static final long serialVersionUID = 123456789L;
+
+    private Long id;
 
     /**
      * 用户名 唯一用于登录
@@ -20,7 +23,7 @@ public class UserDTO {
     /**
      * 店铺号
      */
-    private long shopNo;
+    private Long shopNo;
 
     /**
      * 密码

@@ -3,6 +3,7 @@ package com.muyuan.common.core.result;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.core.enums.ResponseCode;
 
+import java.io.Serializable;
 import java.util.Collections;
 
 public class ResultUtil {
@@ -11,7 +12,7 @@ public class ResultUtil {
         return new Result(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg());
     }
 
-    public static <T> Result<T> success(T data) {
+    public static <T> Result success(T data) {
         return new Result(ResponseCode.SUCCESS.getCode(),"操作成功",data);
     }
 

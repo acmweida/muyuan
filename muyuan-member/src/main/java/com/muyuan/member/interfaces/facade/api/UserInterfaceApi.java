@@ -11,7 +11,7 @@ import com.muyuan.member.domain.query.RoleQuery;
 import com.muyuan.member.domain.query.UserQuery;
 import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
 import com.muyuan.member.interfaces.dto.UserDTO;
-import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 
 /**
  * @ClassName UserInterfaceApi
- * Description 内部接口
+ * Description 内部接口  用户
  * @Author 2456910384
  * @Date 2022/3/2 17:12
  * @Version 1.0
  */
-@DubboService(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0")
+@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0")
 public class UserInterfaceApi implements UserInterface {
 
     @Autowired

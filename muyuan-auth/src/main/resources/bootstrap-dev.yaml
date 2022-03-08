@@ -23,8 +23,19 @@ logging:
     org.springframework: debug
     io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+dubbo:
+  registry:
+    address: spring-cloud://127.0.0.1
+  protocol:
+    name: dubbo
+    port: 28790
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
