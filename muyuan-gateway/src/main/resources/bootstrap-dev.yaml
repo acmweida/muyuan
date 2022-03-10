@@ -27,7 +27,7 @@ spring:
     allow-bean-definition-overriding: true
 
 server:
-  port: 18990
+  port: 20000
 
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml

@@ -15,7 +15,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 server:
-  port: 18790
+  port: 20001
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
@@ -35,7 +35,9 @@ dubbo:
     address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
-    port: 28790
+    port: 21001
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
+  consumer:
+    check: false

@@ -11,11 +11,11 @@ spring:
         group: MUYUAN
         namespace: caa5c680-3b24-4628-b100-67680cb48e9f
   application:
-    name: member
+    name: system
   main:
     allow-bean-definition-overriding: true
 server:
-  port: 20002
+  port: 20003
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
@@ -43,7 +43,7 @@ dubbo:
     address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
-    port: 21002
+    port: 21003
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}

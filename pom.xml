@@ -7,6 +7,7 @@
         <module>muyuan-common</module>
         <module>muyuan-auth</module>
         <module>muyuan-member</module>
+        <module>muyuan-system-api</module>
     </modules>
 
     <parent>

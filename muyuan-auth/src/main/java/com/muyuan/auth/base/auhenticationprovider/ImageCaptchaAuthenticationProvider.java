@@ -2,6 +2,7 @@ package com.muyuan.auth.base.auhenticationprovider;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
 import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.muyuan.common.core.util.EncryptUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,9 +15,10 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
+
+import java.util.Map;
 
 /**
  * 自定义密码比较
@@ -31,13 +33,13 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
     private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
     private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
-    private UserDetailsService userDetailsService;
+    private UserServiceImpl userDetailsService;
 
-    public UserDetailsService getUserDetailsService() {
+    public UserServiceImpl getUserDetailsService() {
         return userDetailsService;
     }
 
-    public ImageCaptchaAuthenticationProvider(UserDetailsService userDetailsService) {
+    public ImageCaptchaAuthenticationProvider(UserServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -116,7 +118,9 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
     protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
             throws AuthenticationException {
         try {
-            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username);
+            Map<String,String> detial = (Map<String, String>) authentication.getDetails();
+            String userType = detial.get("user_type");
+            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username,userType);
             if (loadedUser == null) {
                 throw new InternalAuthenticationServiceException(
                         "UserDetailsService returned null, which is an interface contract violation");
