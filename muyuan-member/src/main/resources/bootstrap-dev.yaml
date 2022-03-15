@@ -12,13 +12,39 @@ spring:
         namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
   application:
     name: member
+  main:
+    allow-bean-definition-overriding: true
 server:
-  port: 18890
+  port: 20002
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
+    io:
+      lettuce: error
     com.muyuan.member.persistence.persistence.dao: debug
+    com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
+
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
   mapper-locations: classpath*:mapper/*.xml
+secure:
+  ignore:
+    - "/actuator/**"
+    - "/oauth/token"
+    - "/oauth/authorize"
+    - "/login/**"
+dubbo:
+  scan:
+    base-packages: com.muyuan.member.interfaces.facade.api
+  registry:
+    address: spring-cloud://127.0.0.1
+  protocol:
+    name: dubbo
+    port: 21002
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+

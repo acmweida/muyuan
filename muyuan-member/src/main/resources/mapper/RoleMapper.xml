@@ -9,7 +9,7 @@
                                select * from t_role where state = 0
                            ) role
                                inner join (
-            select * from t_user_role where user_id = #{userId} and status = 0
+            select * from t_user_role where user_id = #{userId}
         ) user_role on user_role.role_id = role.id
     </select>
 </mapper>

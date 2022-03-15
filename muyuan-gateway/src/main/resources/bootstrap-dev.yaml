@@ -11,6 +11,7 @@ spring:
         group: MUYUAN
         namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
     gateway:
+      api-prefix: /api
       discovery:
         locator:
           enabled: true
@@ -21,13 +22,17 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
 
 server:
-  port: 18990
+  port: 20000
 
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
+    com.alibaba.nacos.client.*: warn
     io:
       lettuce: error
 

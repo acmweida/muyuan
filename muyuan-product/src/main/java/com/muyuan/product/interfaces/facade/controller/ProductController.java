@@ -1,7 +1,7 @@
 package com.muyuan.product.interfaces.facade.controller;
 
-import com.muyuan.common.result.Result;
-import com.muyuan.common.spring.aspect.annotations.Repeatable;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.product.domains.vo.ProductVO;
 import com.muyuan.product.interfaces.dto.ProductDTO;
 import com.muyuan.product.interfaces.dto.ShopProductDTO;

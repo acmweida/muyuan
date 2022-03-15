@@ -21,7 +21,7 @@ import java.util.List;
  * @Date 2021/12/16 17:19
  * @Version 1.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class GatewayDiscoveryClientConfig extends GatewayDiscoveryClientAutoConfiguration {
 
     @Value("${spring.cloud.gateway.api-prefix:/api}")

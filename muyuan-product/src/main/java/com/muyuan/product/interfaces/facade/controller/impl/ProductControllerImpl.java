@@ -1,7 +1,7 @@
 package com.muyuan.product.interfaces.facade.controller.impl;
 
-import com.muyuan.common.result.Result;
-import com.muyuan.common.result.ResultUtil;
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.product.domains.factories.ProductFactory;
 import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.domains.query.ProductQuery;
@@ -26,8 +26,8 @@ public class ProductControllerImpl implements ProductController {
     @Override
     public Result<List<ProductVO>> getProducts(ShopProductDTO productDTO) {
         List<Product> products = productQuery.queryProductsByShopInfo(productDTO);
-        List<ProductVO> productVOS = ProductAssembler.buildProductVO(products);
-        return ResultUtil.render(productVOS);
+        List<ProductVO> productVOs = ProductAssembler.buildProductVO(products);
+        return ResultUtil.success(productVOs);
     }
 
     @Override
@@ -36,9 +36,9 @@ public class ProductControllerImpl implements ProductController {
         ProductService productService = ProductFactory.createProductService(product);
         Optional<Long> aLong = productService.addProduct();
         if (aLong.isPresent()) {
-            return ResultUtil.render();
+            return ResultUtil.success();
         }
 
-        return ResultUtil.renderFail("商品添加失败");
+        return ResultUtil.fail("商品添加失败");
     }
 }

@@ -5,6 +5,9 @@ import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+import java.util.Set;
+
 public class UserInfoAssembler {
 
     public static UserDTO buildUserDTO(User user) {
@@ -13,9 +16,12 @@ public class UserInfoAssembler {
         return userDTO;
     }
 
-    public static UserVO buildUserVO(User user) {
+    public static UserVO buildUserVO(User user, List<String> roleNames, Set<String> perms) {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user,userVO);
+
+        userVO.setRoles(roleNames);
+        userVO.setPermissions(perms);
         return userVO;
     }
 }

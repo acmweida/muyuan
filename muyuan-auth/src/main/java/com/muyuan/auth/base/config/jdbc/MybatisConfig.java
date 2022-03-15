@@ -1,6 +1,6 @@
 package com.muyuan.auth.base.config.jdbc;
 
-import com.muyuan.common.repo.jdbc.multi.DynamicDataSource;
+import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

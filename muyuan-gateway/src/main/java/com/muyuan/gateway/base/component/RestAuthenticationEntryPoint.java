@@ -1,8 +1,8 @@
 package com.muyuan.gateway.base.component;
 
-import com.muyuan.common.enums.ResponseCode;
-import com.muyuan.common.result.ResultUtil;
-import com.muyuan.common.util.JSONUtil;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.JSONUtil;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class RestAuthenticationEntryPoint implements ServerAuthenticationEntryPo
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        String body = JSONUtil.toJsonString(ResultUtil.renderFail(ResponseCode.UNAUTHORIZED));
+        String body = JSONUtil.toJsonString(ResultUtil.fail(ResponseCode.UNAUTHORIZED));
         DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }

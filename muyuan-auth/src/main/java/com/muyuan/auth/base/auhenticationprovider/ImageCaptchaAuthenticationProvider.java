@@ -1,8 +1,10 @@
 package com.muyuan.auth.base.auhenticationprovider;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
+import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
-import com.muyuan.common.util.EncryptUtil;
+import com.muyuan.auth.service.impl.UserServiceImpl;
+import com.muyuan.common.core.util.EncryptUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -14,9 +16,10 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
+
+import java.util.Map;
 
 /**
  * 自定义密码比较
@@ -31,13 +34,13 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
     private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
     private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
-    private UserDetailsService userDetailsService;
+    private UserServiceImpl userDetailsService;
 
-    public UserDetailsService getUserDetailsService() {
+    public UserServiceImpl getUserDetailsService() {
         return userDetailsService;
     }
 
-    public ImageCaptchaAuthenticationProvider(UserDetailsService userDetailsService) {
+    public ImageCaptchaAuthenticationProvider(UserServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -98,10 +101,22 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             throw new BadCredentialsException(this.messages
                     .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", "Bad credentials"));
         }
-        UserInfo userInfo = (UserInfo) userDetails;
+        String salt = "";
+        String encryptKey ="";
+        // 商户用户
+        if (userDetails instanceof UserInfo) {
+            UserInfo userInfo = (UserInfo) userDetails;
+            salt = userInfo.getSalt();
+            encryptKey = userInfo.getEncryptKey();
+            // 系统用户
+        } else if (userDetails instanceof SysUserInfo) {
+            SysUserInfo userInfo = (SysUserInfo) userDetails;
+            salt = userInfo.getSalt();
+            encryptKey = userInfo.getEncryptKey();
+        }
+
         String password = (String) authentication.getCredentials();
-        logger.info(userDetails);
-        final String presentedPassword = EncryptUtil.SHA1(password + userInfo.getSalt(), userInfo.getEncryptKey());
+        final String presentedPassword = EncryptUtil.SHA1(password + salt, encryptKey);
         if (!userDetails.getPassword().equals(presentedPassword)) {
             this.logger.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException(this.messages
@@ -117,7 +132,9 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
     protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
             throws AuthenticationException {
         try {
-            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username);
+            Map<String,String> detial = (Map<String, String>) authentication.getDetails();
+            String userType = detial.get("user_type");
+            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username,userType);
             if (loadedUser == null) {
                 throw new InternalAuthenticationServiceException(
                         "UserDetailsService returned null, which is an interface contract violation");

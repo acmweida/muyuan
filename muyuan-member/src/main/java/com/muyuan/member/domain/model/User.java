@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName Role
+ * @ClassName User
  * Description 用户 t_user
  * @Author 2456910384
  * @Date 2021/12/24 10:17
@@ -34,6 +34,11 @@ public class User {
     private String password;
 
     /**
+     * 头像图片
+     */
+    private String avatar;
+
+    /**
      * 加密salt
      */
     private String salt;
@@ -51,7 +56,7 @@ public class User {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private Boolean status;
+    private char status;
 
     /**
      * 创建时间

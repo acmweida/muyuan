@@ -9,10 +9,10 @@ public interface UserQuery {
 
     /**
      * 通过UserNO 获取用户信息
-     * @param userNo
+     * @param userId
      * @return
      */
-    Optional<User> getUserInfo(String userNo);
+    Optional<User> getUserInfo(Long userId);
 
     /**
      * 通过Uaccount 获取用户信息
@@ -21,4 +21,11 @@ public interface UserQuery {
      */
     Optional<User> getUserByUsername(String username);
 
+    /**
+     * 账户注册
+     * 0-注册成功 1-账户已存在
+     * @param registerInfo
+     * @return
+     */
+    int accountRegister(RegisterDTO registerInfo);
 }

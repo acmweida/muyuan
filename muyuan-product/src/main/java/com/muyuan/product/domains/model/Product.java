@@ -20,6 +20,9 @@ public class Product {
      */
     private String title;
 
+    /**
+     * 删除 0-否 1-是
+     */
     private boolean delete;
 
     /**

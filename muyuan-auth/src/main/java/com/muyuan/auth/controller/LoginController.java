@@ -1,6 +1,6 @@
 package com.muyuan.auth.controller;
 
-import com.muyuan.common.result.Result;
+import com.muyuan.common.core.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -16,4 +16,9 @@ public interface LoginController {
     @GetMapping("/captchaImage")
     @ApiOperation(value = "获取登录验证码")
     Result captchaImage(HttpServletRequest httpServletRequest) throws IOException;
+
+
+    @GetMapping("/logout")
+    @ApiOperation(value = "注销登录")
+    Result logout();
 }

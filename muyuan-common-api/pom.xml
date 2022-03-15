@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>MuyuanShop</artifactId>
+        <artifactId>muyuan-business</artifactId>
         <groupId>com.muyuan</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.muyuan</groupId>
+
     <artifactId>muyuan-common-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>muyuan-common-api</name>
@@ -18,19 +18,10 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-web-common</artifactId>
+            <artifactId>common-dubbo</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

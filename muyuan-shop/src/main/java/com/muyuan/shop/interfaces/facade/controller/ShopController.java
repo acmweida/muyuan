@@ -1,6 +1,6 @@
 package com.muyuan.shop.interfaces.facade.controller;
 
-import com.muyuan.common.result.Result;
+import com.muyuan.common.core.result.Result;
 import com.muyuan.shop.domain.vo.ShopVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
