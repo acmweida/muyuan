@@ -1,4 +1,4 @@
-package com.muyuan.system.domain.vo;
+package com.muyuan.system.application.vo;
 
 
 import com.muyuan.common.core.util.StrUtil;
@@ -6,7 +6,7 @@ import com.muyuan.common.core.util.StrUtil;
 /**
  * 路由显示信息
  * 
- * @author ruoyi
+ * @author
  */
 public class SysMetaVo
 {

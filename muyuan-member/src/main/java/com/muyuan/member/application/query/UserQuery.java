@@ -1,4 +1,4 @@
-package com.muyuan.member.domain.query;
+package com.muyuan.member.application.query;
 
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.interfaces.dto.RegisterDTO;

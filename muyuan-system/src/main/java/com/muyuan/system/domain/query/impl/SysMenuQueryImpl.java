@@ -1,10 +1,11 @@
 package com.muyuan.system.domain.query.impl;
 
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.query.SysMenuQuery;
 import com.muyuan.system.domain.repo.SysMenuRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,16 +21,16 @@ import java.util.Set;
  * @Version 1.0
  */
 @Service
+@AllArgsConstructor
 public class SysMenuQueryImpl implements SysMenuQuery {
 
-    @Autowired
     SysMenuRepo sysMenuRepo;
 
     @Override
     public Set<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
         Set<String> perms = new HashSet<>();
-        if (SysRoleEntity.isShopKeeper(roleNames)) {
-            perms.add("*:*:*");
+        if (SysRoleEntity.isAdmin(roleNames)) {
+            perms.add(SecurityConst.ALL_PERMISSION);
         } else {
             List<String> permList = sysMenuRepo.selectMenuPermissionByRoleNames(roleNames);
             for (Iterator<String> iterator = permList.iterator();iterator.hasNext();) {

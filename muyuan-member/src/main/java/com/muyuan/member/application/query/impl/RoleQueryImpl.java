@@ -1,7 +1,7 @@
-package com.muyuan.member.domain.query.impl;
+package com.muyuan.member.application.query.impl;
 
 import com.muyuan.member.domain.model.Role;
-import com.muyuan.member.domain.query.RoleQuery;
+import com.muyuan.member.application.query.RoleQuery;
 import com.muyuan.member.domain.repo.RoleRepo;
 import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;

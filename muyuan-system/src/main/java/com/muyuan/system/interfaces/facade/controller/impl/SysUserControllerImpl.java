@@ -3,15 +3,14 @@ package com.muyuan.system.interfaces.facade.controller.impl;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.system.application.vo.SysUserVO;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.query.SysMenuQuery;
-import com.muyuan.system.domain.query.SysRoleQuery;
 import com.muyuan.system.domain.query.SysUserQuery;
-import com.muyuan.system.domain.vo.SysUserVO;
 import com.muyuan.system.interfaces.assembler.SysUserInfoAssembler;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.facade.controller.SysUserController;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,16 +18,12 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
+@AllArgsConstructor
 public class SysUserControllerImpl implements SysUserController {
 
-    @Autowired
-    SysUserQuery sysUserQuery;
+    private SysUserQuery sysUserQuery;
 
-    @Autowired
-    SysRoleQuery sysRoleQuery;
-
-    @Autowired
-    SysMenuQuery sysMenuQuery;
+    private SysMenuQuery sysMenuQuery;
 
     @Override
     public Result<SysUserVO> getUserInfo() {

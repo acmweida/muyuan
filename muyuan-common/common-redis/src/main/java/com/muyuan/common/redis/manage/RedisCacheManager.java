@@ -1,10 +1,9 @@
 package com.muyuan.common.redis.manage;
 
 import com.muyuan.common.redis.util.RedisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -16,10 +15,14 @@ import java.util.function.Supplier;
  * @Version 1.0
  */
 @Component
+@AllArgsConstructor
 public class RedisCacheManager extends AbstractCacheManager implements CacheManager {
 
-    @Autowired
-    public RedisUtils redisUtils;
+    private RedisUtils redisUtils;
+
+    public RedisUtils getRedisUtils() {
+        return redisUtils;
+    }
 
     @Override
     public Object get(String keyPrefix, String key) {

@@ -7,7 +7,7 @@ import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -20,12 +20,11 @@ import java.util.*;
  * @Version 1.0
  */
 @Component
+@AllArgsConstructor
 public class SysMenuRepoImpl implements SysMenuRepo {
 
-    @Autowired
     SysMenuMapper sysMenuMapper;
 
-    @Autowired
     RedisCacheManager redisCacheManager;
 
     @Override

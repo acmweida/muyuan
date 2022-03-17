@@ -2,7 +2,6 @@ package com.muyuan.gateway.base.filter;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.gateway.util.ResponseUtils;
 import com.nimbusds.jose.JWSObject;
@@ -38,10 +37,6 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
     private final RedisTemplate redisTemplate;
 
-//
-//    @Value("${spring.profiles.active}")
-//    private String env;
-
     @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -49,17 +44,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-
-//        // 线上演示环境禁止修改和删除
-//        String requestPath = request.getPath().toString();
-//        if (env.equals("prod") && !SecurityConst.LOGOUT_PATH.equals(requestPath)
-//                && !StrUtil.contains(requestPath, "app-api")
-//                && (HttpMethod.DELETE.toString().equals(request.getMethodValue()) // 删除方法
-//                || HttpMethod.PUT.toString().equals(request.getMethodValue())// 修改方法
-//                || SecurityConst.SAVE_MENU_PATH.equals(request.getPath().toString()) // 新增路由
-//        )) {
-//            return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-//        }
+        log.info("remote:{} request url :{}",request.getRemoteAddress(),request.getPath());
 
         // 不是正确的的JWT不做解析处理
         String token = request.getHeaders().getFirst(SecurityConst.AUTHORIZATION_KEY);

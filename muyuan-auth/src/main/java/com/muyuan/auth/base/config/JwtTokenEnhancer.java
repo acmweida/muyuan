@@ -23,9 +23,11 @@ public class JwtTokenEnhancer implements TokenEnhancer {
         if (authentication.getUserAuthentication() instanceof UserInfo) {
             info.put(SecurityConst.USER_NAME_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
             info.put(SecurityConst.USER_ID_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+            info.put(SecurityConst.USER_PERMISSIONS_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getPermissions());
         } else {
             info.put(SecurityConst.USER_NAME_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
             info.put(SecurityConst.USER_ID_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+            info.put(SecurityConst.USER_PERMISSIONS_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getPermissions());
         }
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
         return accessToken;

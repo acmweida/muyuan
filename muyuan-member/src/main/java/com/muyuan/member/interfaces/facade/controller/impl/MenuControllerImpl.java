@@ -4,7 +4,7 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.member.domain.model.Menu;
-import com.muyuan.member.domain.query.MenuQuery;
+import com.muyuan.member.application.query.MenuQuery;
 import com.muyuan.member.domain.vo.RouterVo;
 import com.muyuan.member.interfaces.assembler.MenuAssembler;
 import com.muyuan.member.interfaces.facade.controller.MenuController;

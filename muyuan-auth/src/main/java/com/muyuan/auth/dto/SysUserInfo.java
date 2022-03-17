@@ -62,6 +62,8 @@ public class SysUserInfo implements UserDetails {
 
     private Set<GrantedAuthority> authorities;
 
+    private List<String> permissions;
+
     public SysUserInfo() {
     }
 

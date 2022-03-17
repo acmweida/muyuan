@@ -1,14 +1,12 @@
-package com.muyuan.member.domain.query.impl;
+package com.muyuan.member.application.query.impl;
 
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.model.Menu;
-import com.muyuan.member.domain.query.MenuQuery;
+import com.muyuan.member.application.query.MenuQuery;
 import com.muyuan.member.domain.repo.MenuRepo;
-import com.muyuan.member.domain.vo.MenuVO;
-import org.aspectj.lang.annotation.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,7 +30,7 @@ public class MenuQueryImpl implements MenuQuery {
     public Set<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
         Set<String> perms = new HashSet<>();
         if (RoleEntity.isShopKeeper(roleNames)) {
-            perms.add("*:*:*");
+            perms.add(SecurityConst.ALL_PERMISSION);
         } else {
             List<String> permList = menuRepo.selectMenuPermissionByRoleNames(roleNames);
             for (Iterator<String> iterator = permList.iterator();iterator.hasNext();) {

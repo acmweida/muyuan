@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService {
 
         userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
-        com.muyuan.auth.dto.UserInfo userInfo = new UserInfo();
+        UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userDTO, userInfo);
         userInfo.setAuthorities(authorities);
         return userInfo;

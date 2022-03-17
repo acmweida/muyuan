@@ -1,4 +1,4 @@
-package com.muyuan.common.web;
+package com.muyuan.common.web.aspect;
 
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -24,7 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
  */
 @Aspect
 @Component
-public class RepeatableRequestAdvice {
+public class RepeatableRequestAspect {
 
     @Autowired
     RedisTemplate redisTemplate;
