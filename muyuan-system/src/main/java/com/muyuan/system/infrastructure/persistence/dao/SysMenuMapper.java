@@ -30,4 +30,6 @@ public interface SysMenuMapper extends SystemBaseMapper<SysMenu> {
      * @return
      */
     List<SysMenu>  selectMenuByRoleNames(@Param("roleNames") List<String> roleNames);
+
+
 }

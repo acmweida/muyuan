@@ -1,10 +1,10 @@
-package com.muyuan.system.domain.query.impl;
+package com.muyuan.system.application.query.impl;
 
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.domain.query.SysUserQuery;
+import com.muyuan.system.application.query.SysUserQuery;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import org.springframework.beans.BeanUtils;

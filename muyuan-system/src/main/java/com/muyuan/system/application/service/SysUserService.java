@@ -1,4 +1,4 @@
-package com.muyuan.system.application;
+package com.muyuan.system.application.service;
 
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 

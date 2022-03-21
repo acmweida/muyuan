@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.system.api.SysUserInterface;
-import com.muyuan.system.application.SysUserService;
+import com.muyuan.system.application.service.SysUserService;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;

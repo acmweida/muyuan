@@ -25,7 +25,7 @@ public class IdGeneratorAspect {
     IdUtil idUtil;
 
     @Before("@annotation(idGenerator)")
-    public void changeDataSource(JoinPoint point, IdGenerator idGenerator) throws Throwable {
+    public void setId(JoinPoint point, IdGenerator idGenerator) throws Throwable {
         String idFieldName=idGenerator.fieldName();
         final Object[] args = point.getArgs();
         if (args.length != 1) {

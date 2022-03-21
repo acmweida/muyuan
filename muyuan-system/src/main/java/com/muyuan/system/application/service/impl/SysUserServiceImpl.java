@@ -1,12 +1,12 @@
-package com.muyuan.system.application.impl;
+package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.system.application.SysUserService;
+import com.muyuan.system.application.service.SysUserService;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.domain.query.SysMenuQuery;
-import com.muyuan.system.domain.query.SysRoleQuery;
-import com.muyuan.system.domain.query.SysUserQuery;
+import com.muyuan.system.application.query.SysMenuQuery;
+import com.muyuan.system.application.query.SysRoleQuery;
+import com.muyuan.system.application.query.SysUserQuery;
 import com.muyuan.system.interfaces.assembler.SysUserInfoAssembler;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
@@ -18,6 +18,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 用户聚合服务
+ */
 @Component
 @AllArgsConstructor
 public class SysUserServiceImpl implements SysUserService {

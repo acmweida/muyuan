@@ -1,9 +1,9 @@
-package com.muyuan.system.domain.query.impl;
+package com.muyuan.system.application.query.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.model.SysMenu;
-import com.muyuan.system.domain.query.SysMenuQuery;
+import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
