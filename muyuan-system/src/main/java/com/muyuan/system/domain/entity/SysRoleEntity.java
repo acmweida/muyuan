@@ -17,16 +17,16 @@ import java.util.List;
 public class SysRoleEntity extends SysRole {
 
     public boolean isShopKeeper() {
-        return isShopKeeper(this.getName());
+        return isAdmin(this.getName());
     }
 
-    public static boolean isShopKeeper(String roleName) {
-        return SecurityConst.SHOP_KEEPER_ROLE_CODE.equals(roleName);
+    public static boolean isAdmin(String roleName) {
+        return SecurityConst.ADMIN_ROOT_ROLE_CODE.equals(roleName);
     }
 
-    public static boolean isShopKeeper(List<String> roleNames) {
+    public static boolean isAdmin(List<String> roleNames) {
         for (String roleName : roleNames) {
-            if (isShopKeeper(roleName)) {
+            if (isAdmin(roleName)) {
                 return true;
             }
         }

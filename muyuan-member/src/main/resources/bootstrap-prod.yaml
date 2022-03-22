@@ -2,14 +2,14 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.56.105
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        server-addr: 119.29.77.107
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
         group: MUYUAN
         file-extension: properties
       discovery:
-        server-addr: 192.168.56.105
+        server-addr: 119.29.77.107
         group: MUYUAN
-        namespace: 9375dca0-5aca-4b73-9b18-ffe5ee639a6d
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
   application:
     name: member
 server:

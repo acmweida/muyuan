@@ -14,9 +14,7 @@ public interface SecurityConst {
      */
     String JWT_AUTHORITIES_KEY = "authorities";
 
-    String REQUEST_USER_PARAM = "username";
-
-    String ROOT_ROLE_CODE = "ADMIN";
+    String ADMIN_ROOT_ROLE_CODE = "ADMIN";
 
     String SHOP_KEEPER_ROLE_CODE = "SHOP_KEEPER";
 
@@ -43,6 +41,8 @@ public interface SecurityConst {
     String USER_ID_KEY = "userId";
 
     String USER_NAME_KEY = "username";
+
+    String USER_PERMISSIONS_KEY = "permissions";
 
     String GRANT_TYPE_KEY = "grant_type";
 
@@ -99,4 +99,6 @@ public interface SecurityConst {
      * 登录用户
      */
     String LOGIN_USER = "login_user";
+
+    String ALL_PERMISSION = "*:*:*";
 }

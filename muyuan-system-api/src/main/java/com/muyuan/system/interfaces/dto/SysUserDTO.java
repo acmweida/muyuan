@@ -69,4 +69,6 @@ public class SysUserDTO implements Serializable {
      * 角色
      */
     private List<String> roles;
+
+    private List<String> permissions;
 }

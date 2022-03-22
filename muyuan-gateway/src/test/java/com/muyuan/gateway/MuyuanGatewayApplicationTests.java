@@ -1,13 +1,14 @@
 package com.muyuan.gateway;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 //@SpringBootTest
 class MuyuanGatewayApplicationTests {
 
     @Test
     void contextLoads() {
-
+        System.out.println(new BCryptPasswordEncoder().encode("4+1NGoDdKIndl"));
     }
 
     @Test

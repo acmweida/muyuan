@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService {
 
         userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
-        com.muyuan.auth.dto.UserInfo userInfo = new UserInfo();
+        UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userDTO, userInfo);
         userInfo.setAuthorities(authorities);
         return userInfo;
@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserDetailsService {
             userInfo.setAuthorities(authorities);
             return userInfo;
         } else {
+            log.info("user_type:[{}] not found",userType);
             throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
         }
 

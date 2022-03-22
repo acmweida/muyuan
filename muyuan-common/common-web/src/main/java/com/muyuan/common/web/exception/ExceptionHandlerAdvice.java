@@ -26,6 +26,7 @@ public class ExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        e.printStackTrace();
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         Map errorInfo = new HashMap();
@@ -39,6 +40,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MuyuanException.class)
     public Result muyuanExceptionHaneler(MuyuanException e) {
+        e.printStackTrace();
         if (e instanceof MuyuanExceptionHandler) {
             MuyuanExceptionHandler handler = (MuyuanExceptionHandler) e;
             return handler.handle(e);

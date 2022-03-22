@@ -2,14 +2,14 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1
-        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
+        server-addr: 119.29.77.107
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
         group: MUYUAN
         file-extension: properties
       discovery:
-        server-addr: 127.0.0.1
+        server-addr: 119.29.77.107
         group: MUYUAN
-        namespace: caa5c680-3b24-4628-b100-67680cb48e9f
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
   application:
     name: system
   main:
@@ -30,12 +30,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:mapper/*.xml
-secure:
-  ignore:
-    - "/actuator/**"
-    - "/oauth/token"
-    - "/oauth/authorize"
-    - "/login/**"
+
 dubbo:
   scan:
     base-packages: com.muyuan.member.interfaces.facade.api

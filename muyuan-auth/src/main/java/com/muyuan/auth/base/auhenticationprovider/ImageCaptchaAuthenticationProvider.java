@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.auhenticationprovider;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
+import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.muyuan.common.core.util.EncryptUtil;
@@ -100,9 +101,22 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             throw new BadCredentialsException(this.messages
                     .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", "Bad credentials"));
         }
-        UserInfo userInfo = (UserInfo) userDetails;
+        String salt = "";
+        String encryptKey ="";
+        // 商户用户
+        if (userDetails instanceof UserInfo) {
+            UserInfo userInfo = (UserInfo) userDetails;
+            salt = userInfo.getSalt();
+            encryptKey = userInfo.getEncryptKey();
+            // 系统用户
+        } else if (userDetails instanceof SysUserInfo) {
+            SysUserInfo userInfo = (SysUserInfo) userDetails;
+            salt = userInfo.getSalt();
+            encryptKey = userInfo.getEncryptKey();
+        }
+
         String password = (String) authentication.getCredentials();
-        final String presentedPassword = EncryptUtil.SHA1(password + userInfo.getSalt(), userInfo.getEncryptKey());
+        final String presentedPassword = EncryptUtil.SHA1(password + salt, encryptKey);
         if (!userDetails.getPassword().equals(presentedPassword)) {
             this.logger.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException(this.messages

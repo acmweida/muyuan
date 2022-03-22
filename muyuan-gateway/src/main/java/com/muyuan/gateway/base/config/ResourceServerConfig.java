@@ -47,9 +47,8 @@ public class ResourceServerConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         // 1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey()) // 本地获取公钥
+                .publicKey(rsaPublicKey()); // 本地获取公钥
         //.jwkSetUri() // 远程获取公钥
-        ;
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
 //        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);

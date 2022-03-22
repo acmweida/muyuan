@@ -17,6 +17,7 @@
         <module>common-web</module>
         <module>common-dubbo</module>
         <module>common-log</module>
+        <module>common-mybatis</module>
     </modules>
 
     <properties>

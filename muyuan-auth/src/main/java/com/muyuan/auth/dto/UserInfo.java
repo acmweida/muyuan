@@ -62,6 +62,8 @@ public class UserInfo implements UserDetails {
 
     private Set<GrantedAuthority> authorities;
 
+    private List<String> permissions;
+
     public UserInfo() {
     }
 
