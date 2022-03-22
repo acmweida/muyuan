@@ -1,7 +1,6 @@
-package com.muyuan.system.domain.query;
+package com.muyuan.system.application.query;
 
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 
 import java.util.Optional;
 
@@ -21,11 +20,4 @@ public interface SysUserQuery {
      */
     Optional<SysUser> getUserByUsername(String username);
 
-    /**
-     * 账户注册
-     * 0-注册成功 1-账户已存在
-     * @param registerInfo
-     * @return
-     */
-    int accountRegister(RegisterDTO registerInfo);
 }

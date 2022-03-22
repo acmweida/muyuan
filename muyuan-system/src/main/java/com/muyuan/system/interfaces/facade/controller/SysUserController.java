@@ -18,5 +18,5 @@ public interface SysUserController {
 
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/user")
-    Result accountRegister(@RequestBody @Validated RegisterDTO register);
+    Result add(@RequestBody @Validated RegisterDTO register);
 }

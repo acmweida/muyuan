@@ -1,7 +1,7 @@
-package com.muyuan.system.domain.query.impl;
+package com.muyuan.system.application.query.impl;
 
 import com.muyuan.system.domain.model.SysRole;
-import com.muyuan.system.domain.query.SysRoleQuery;
+import com.muyuan.system.application.query.SysRoleQuery;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;

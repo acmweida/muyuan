@@ -70,8 +70,4 @@ public class UserDTO implements Serializable {
      */
     private List<String> roles;
 
-    /**
-     * 权限
-     */
-    private List<String> permissions;
 }

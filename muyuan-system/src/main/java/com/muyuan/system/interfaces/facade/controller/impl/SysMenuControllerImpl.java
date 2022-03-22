@@ -5,7 +5,7 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.system.application.vo.SysRouterVo;
 import com.muyuan.system.domain.model.SysMenu;
-import com.muyuan.system.domain.query.SysMenuQuery;
+import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
 import com.muyuan.system.interfaces.facade.controller.SysMenuController;
 import org.springframework.beans.factory.annotation.Autowired;

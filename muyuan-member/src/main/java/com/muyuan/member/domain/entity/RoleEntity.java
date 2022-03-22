@@ -21,7 +21,7 @@ public class RoleEntity extends Role {
     }
 
     public static boolean isShopKeeper(String roleName) {
-        return SecurityConst.SHOP_KEEPER_ROLE_CODE.equals(roleName);
+        return (SecurityConst.AUTHORITY_PREFIX+SecurityConst.SHOP_KEEPER_ROLE_CODE).equals(roleName);
     }
 
     public static boolean isShopKeeper(List<String> roleNames) {
