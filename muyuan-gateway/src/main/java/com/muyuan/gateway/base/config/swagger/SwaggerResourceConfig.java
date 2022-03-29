@@ -2,6 +2,7 @@ package com.muyuan.gateway.base.config.swagger;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -23,6 +24,9 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
     private final RouteLocator routeLocator;
     private final GatewayProperties gatewayProperties;
 
+    @Value("${spring.cloud.gateway.api-prefix:/api}")
+    private String prefix;
+
 
     @Override
     public List<SwaggerResource> get() {
@@ -33,7 +37,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
             route.getPredicates().stream()
                     .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
                     .forEach(predicateDefinition -> resources.add(swaggerResource(route.getId(),
-                            "/api"+predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
+                            prefix+predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
                                     .replace("**", "v3/api-docs"))));
         });
 

@@ -1,11 +1,9 @@
 package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
-import com.muyuan.system.application.vo.SysRouterVo;
+import com.muyuan.system.application.vo.SysMenuVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,12 +17,11 @@ import java.util.List;
  * @Version 1.0
  */
 @RestController
-@RequestMapping("/menu")
-@Api(tags = {"菜单接口"})
+@Api(tags = {"系统菜单接口"})
 public interface SysMenuController {
 
-    @GetMapping("/route")
-    @ApiOperation(value = "路由信息获取")
-    Result<List<SysRouterVo>> getRouter();
+    @GetMapping("/menus")
+    Result<List<SysMenuVO>> getMenus();
+
 
 }
