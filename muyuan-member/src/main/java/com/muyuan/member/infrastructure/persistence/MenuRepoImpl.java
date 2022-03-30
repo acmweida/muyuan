@@ -1,14 +1,9 @@
 package com.muyuan.member.infrastructure.persistence;
 
-import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.constant.JdbcValueConst;
 import com.muyuan.common.core.constant.RedisConst;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
-import com.muyuan.common.redis.util.RedisUtils;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.repo.MenuRepo;
 import com.muyuan.member.infrastructure.persistence.dao.MenuMapper;

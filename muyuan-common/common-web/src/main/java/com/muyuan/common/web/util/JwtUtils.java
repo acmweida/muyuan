@@ -2,13 +2,13 @@ package com.muyuan.common.web.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.exception.handler.UnAuthorizedException;
 import com.muyuan.common.core.util.JSONUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class JwtUtils {
     public static JsonNode getJwtPayload() {
         String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
         if (null == payload) {
-            throw new FileNotFoundException("请传入认证头");
+            throw new UnAuthorizedException();
         }
         JsonNode jsonNode = JSONUtil.readTree(URLDecoder.decode(payload,StandardCharsets.UTF_8.name()));
         return jsonNode;
@@ -68,19 +68,4 @@ public class JwtUtils {
         return roles;
     }
 
-    /**
-     * JWT获取用户权限
-     *
-     * @return 角色列表
-     */
-    public static List<String> getPermissions() {
-        List<String> roles = new ArrayList<>();
-        JsonNode jsonNode = getJwtPayload();
-        if (jsonNode.has(SecurityConst.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConst.USER_PERMISSIONS_KEY).isArray()) {
-            for (JsonNode node :  jsonNode.get(SecurityConst.USER_PERMISSIONS_KEY) ) {
-                roles.add(node.asText());
-            }
-        }
-        return roles;
-    }
 }

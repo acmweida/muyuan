@@ -1,10 +1,13 @@
 package com.muyuan.common.web.aspect;
 
 import com.muyuan.common.core.constant.Logical;
+import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.exception.NotPermissionException;
+import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.JwtUtils;
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +19,9 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 基于 Spring Aop 的注解鉴权
@@ -25,8 +30,12 @@ import java.util.List;
  */
 @Aspect
 @Component
+@AllArgsConstructor
 public class PreAuthorizeAspect
 {
+
+    private RedisCacheManager redisCacheManager;
+
     /**
      * 构建
      */
@@ -110,7 +119,7 @@ public class PreAuthorizeAspect
      */
     public void checkPermiAnd(String... permissions)
     {
-        List<String> permissionList = JwtUtils.getPermissions();
+        Set<String> permissionList = getUserPerm();
         for (String permission : permissions)
         {
             if (!hasPermi(permissionList, permission))
@@ -120,6 +129,18 @@ public class PreAuthorizeAspect
         }
     }
 
+    public Set<String> getUserPerm() {
+        List<String> roles = JwtUtils.getRoles();
+        Set<String> permissionList = new HashSet<>();
+        for (String role : roles) {
+            Set<String> objects =  redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, role);
+            if (null != objects){
+                permissionList.addAll(objects);
+            }
+        }
+        return permissionList;
+    }
+
     /**
      * 验证用户是否含有指定权限，只需包含其中一个
      *
@@ -127,7 +148,7 @@ public class PreAuthorizeAspect
      */
     public void checkPermiOr(String... permissions)
     {
-        List<String> permissionList = JwtUtils.getPermissions();
+        Set<String> permissionList = getUserPerm();
         for (String permission : permissions)
         {
             if (hasPermi(permissionList, permission))
