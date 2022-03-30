@@ -64,7 +64,7 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
                 throw ex;
             }
             throw new BadCredentialsException(this.messages
-                    .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", "Bad credentials"));
+                    .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", ex.getMessage()));
         }
         Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
         try {

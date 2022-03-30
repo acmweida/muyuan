@@ -6,6 +6,7 @@ import com.muyuan.system.application.query.DictDataQuery;
 import com.muyuan.system.application.vo.DictDataVO;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.interfaces.assembler.DictDataAssembler;
+import com.muyuan.system.interfaces.dto.DictDataDTO;
 import com.muyuan.system.interfaces.facade.controller.DictDataController;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DictDataControllerImpl implements DictDataController {
 
-    DictDataQuery dictDataQuery;
+    private DictDataQuery dictDataQuery;
 
     @Override
     public Result<List<DictDataVO>> get(String dictType) {
@@ -31,5 +32,10 @@ public class DictDataControllerImpl implements DictDataController {
         List<DictData> dictDatas = dictDataQuery.getByDataType(dictType);
 
         return ResultUtil.success(DictDataAssembler.buildDictDataVO(dictDatas));
+    }
+
+    @Override
+    public Result<List<DictDataVO>> add(DictDataDTO dictDataDTO) {
+        return null;
     }
 }

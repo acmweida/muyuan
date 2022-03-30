@@ -10,5 +10,5 @@ import java.util.Map;
  */
 public interface DictDataRepo {
 
-    List<DictData> select(Map dictType);
+    List<DictData> select(Map params);
 }

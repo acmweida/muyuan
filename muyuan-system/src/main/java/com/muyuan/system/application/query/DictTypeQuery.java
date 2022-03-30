@@ -1,16 +1,16 @@
 package com.muyuan.system.application.query;
 
-import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.DictType;
+import com.muyuan.system.interfaces.dto.DictTypeDTO;
 
 import java.util.List;
 
-public interface DictDataQuery {
+public interface DictTypeQuery {
 
     /**
      * 通过DataType 查询字典数据
-     * @param DataType
+     * @param dictTypeDTO
      * @return
      */
-    List<DictData> getByDataType(String DataType);
+    List<DictType> list(DictTypeDTO dictTypeDTO);
 }
