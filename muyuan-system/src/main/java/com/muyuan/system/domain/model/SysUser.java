@@ -72,7 +72,7 @@ public class SysUser {
 
     private Long updateUserId;
 
-    private Long createUserId;
+    private Long createBy;
 
     public SysUser() {
     }

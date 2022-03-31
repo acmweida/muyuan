@@ -30,7 +30,7 @@ public class DictTypeVO {
 
     private Date createTime;
 
-    private String createBy;
+    private Long createBy;
 
     private Date updateTime;
 

@@ -2,7 +2,6 @@ package com.muyuan.system.application.query.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.application.query.DictTypeQuery;
-import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
@@ -21,7 +20,7 @@ public class DictTypeQueryImpl implements DictTypeQuery {
     @Override
     public List<DictType> list(DictTypeDTO dictTypeDTO) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(DictData.class);
+        SqlBuilder sqlBuilder = new SqlBuilder(DictType.class);
         if (ObjectUtils.isNotEmpty(dictTypeDTO.getName())) {
             sqlBuilder.eq("name",dictTypeDTO.getName());
         }

@@ -13,10 +13,20 @@ import java.util.Map;
 @AllArgsConstructor
 public class DictTypeRepoImpl implements DictTypeRepo {
 
-    DictTypeMapper dictTypeMapper;
+    private   DictTypeMapper dictTypeMapper;
 
     @Override
     public List<DictType> select(Map params) {
         return  dictTypeMapper.selectList(params);
+    }
+
+    @Override
+    public boolean insert(DictType dictType) {
+        return dictTypeMapper.insert(dictType) > 0;
+    }
+
+    @Override
+    public DictType selectOne(Map params) {
+        return dictTypeMapper.selectOne(params);
     }
 }

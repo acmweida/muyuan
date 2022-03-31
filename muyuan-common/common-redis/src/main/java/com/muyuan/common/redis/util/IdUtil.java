@@ -1,18 +1,15 @@
 package com.muyuan.common.redis.util;
 
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.context.ApplicationContextHandler;
 import com.muyuan.common.core.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
-import java.util.Random;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-@Component
 @Slf4j
 public class IdUtil {
 
@@ -26,26 +23,26 @@ public class IdUtil {
 
     private static long datacentId = 1;
 
-    private static SnowFlake worker = null;
+    private static String applicationName = ApplicationContextHandler.getContext().getEnvironment().getProperty("spring.application.name",String.class);
 
-    private RedisTemplate redisTemplate;
+    private static RedisTemplate redisTemplate = ApplicationContextHandler.getContext().getBean("redisTemplate",RedisTemplate.class);
 
     private static long expire;
 
-    public IdUtil(@Autowired RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-        getMachineCode(redisTemplate);
-        worker = new SnowFlake(workerId, datacentId);
+    private static final Map<Class<?>,SnowFlake> workers = new ConcurrentHashMap<>();
+
+    static   {
+        getMachineCode(redisTemplate,applicationName);
     }
 
-    public static void getMachineCode(RedisTemplate redisTemplate) {
+    public static void getMachineCode(RedisTemplate redisTemplate,String applicationName) {
         String localIp = IpUtil.getLocalAddress().getHostAddress();
         long machineId = Math.abs(localIp.hashCode() & MAX_MACHINE_ID);
-        while (redisTemplate.hasKey(MACHINE_CODE_PREFIX + machineId)) {
+        while (redisTemplate.hasKey(MACHINE_CODE_PREFIX +applicationName+ machineId)) {
             machineId++;
         }
 
-        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX + machineId, RedisConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX +applicationName+ machineId, RedisConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
         // redis时间大于机器刷新时间 确保尽量使用停一ID
         expire = System.currentTimeMillis() + 11 * 3600;
         workerId = machineId & MAX_WORK_ID;
@@ -161,11 +158,20 @@ public class IdUtil {
 
     }
 
-    public long createId() {
+    public static long createId(Class<?> entityClass) {
         if (expire < System.currentTimeMillis()) {
-            getMachineCode(redisTemplate);
-            worker = new SnowFlake(workerId, datacentId);
+            getMachineCode(redisTemplate,applicationName);
+            workers.clear();
         }
+
+        if (workers.containsKey(entityClass)) {
+            return  workers.get(entityClass).nextId();
+        }
+
+
+        SnowFlake  worker = new SnowFlake(workerId, datacentId);
+        workers.put(entityClass,worker);
+
         return worker.nextId();
     }
 

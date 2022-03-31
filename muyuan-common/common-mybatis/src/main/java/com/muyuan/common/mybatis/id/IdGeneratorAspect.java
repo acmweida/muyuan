@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,9 +19,6 @@ import java.util.Collection;
 @Aspect
 @Slf4j
 public class IdGeneratorAspect {
-
-    @Autowired
-    IdUtil idUtil;
 
     @Before("@annotation(idGenerator)")
     public void setId(JoinPoint point, IdGenerator idGenerator) throws Throwable {
@@ -49,18 +45,32 @@ public class IdGeneratorAspect {
                     log.info("id generator not found id field!");
                     return;
                 }
+
+                AutoIncrement autoIncrement = idField.getAnnotation(AutoIncrement.class);
+                if (null != autoIncrement && autoIncrement.useGeneratedKeys()) {
+                    log.info("use auto increment for id [{}]",idFieldName);
+                    return;
+                }
+
                 for (Object item : entitys ) {
                     Object value = idField.get(item);
                     if (value == null || value.equals(0)) {
-                        setterMethod.invoke(item,idUtil.createId());
+                        setterMethod.invoke(item,IdUtil.createId(target));
                     }
                 }
             } else  {
                 target = entity.getClass();
                 setterMethod = getIdSetterMethod(target,idFieldName);
                 idField = getIdField(target,idFieldName);
+
                 if (idField == null) {
                     log.info("id generator not found id field!");
+                    return;
+                }
+
+                AutoIncrement autoIncrement = idField.getAnnotation(AutoIncrement.class);
+                if (null != autoIncrement && autoIncrement.useGeneratedKeys()) {
+                    log.info("use auto increment for id [{}]",idFieldName);
                     return;
                 }
 
@@ -70,7 +80,7 @@ public class IdGeneratorAspect {
                 }
                 Object value = idField.get(entity);
                 if (value == null || value.equals(0)) {
-                    setterMethod.invoke(entity,idUtil.createId());
+                    setterMethod.invoke(entity,IdUtil.createId(target));
                 }
             }
         }

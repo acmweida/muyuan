@@ -11,4 +11,8 @@ import java.util.Map;
 public interface DictTypeRepo {
 
     List<DictType> select(Map dictType);
+
+    boolean insert(DictType dataObject);
+
+    DictType selectOne(Map params);
 }

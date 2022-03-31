@@ -13,10 +13,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class DictDataRepoImpl implements DictDataRepo {
 
-    DictDataMapper dictDataMapper;
+    private DictDataMapper dictDataMapper;
 
     @Override
     public List<DictData> select(Map params) {
         return  dictDataMapper.selectList(params);
+    }
+
+    @Override
+    public DictData selectOne(Map params) {
+        return dictDataMapper.selectOne(params);
     }
 }

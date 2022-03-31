@@ -36,7 +36,7 @@ public class Role {
      */
     private Long parentId;
 
-    private String createBy;
+    private Long createBy;
 
     private String updateBy;
 

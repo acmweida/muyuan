@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 public class SysRole {
 
+    @AutoIncrement
     private Long id;
 
     /**
@@ -36,7 +38,7 @@ public class SysRole {
      */
     private Long parentId;
 
-    private String createBy;
+    private Long createBy;
 
     private String updateBy;
 

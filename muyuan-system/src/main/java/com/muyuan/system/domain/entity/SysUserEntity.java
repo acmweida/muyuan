@@ -2,6 +2,7 @@ package com.muyuan.system.domain.entity;
 
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.model.SysUserRole;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -54,6 +56,9 @@ public class SysUserEntity extends SysUser {
         setPassword(EncryptUtil.SHA1(getPassword() + salt, encryptKey));;
         setSalt(salt);
         setEncryptKey(encryptKey);
+
+        setCreateTime(new Date());
+        setCreateBy(JwtUtils.getUserId());
     }
 
 

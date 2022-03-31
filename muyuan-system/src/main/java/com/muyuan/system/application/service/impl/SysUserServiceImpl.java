@@ -82,7 +82,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public int add(RegisterDTO registerInfo) {
-        sysUserQuery.getUserByUsername(registerInfo.getUsername());
         SysUser account = sysUserRepo.selectOne(new SqlBuilder(SysUser.class).select("id")
                 .eq("username", registerInfo.getUsername())
                 .build());

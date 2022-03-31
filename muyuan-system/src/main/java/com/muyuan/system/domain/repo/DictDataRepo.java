@@ -11,4 +11,6 @@ import java.util.Map;
 public interface DictDataRepo {
 
     List<DictData> select(Map params);
+
+    DictData selectOne(Map params);
 }

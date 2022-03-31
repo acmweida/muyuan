@@ -95,7 +95,7 @@ public class Menu {
      */
     private Date updateTime;
 
-    private String createBy;
+    private Long createBy;
 
     private String updateBy;
 
