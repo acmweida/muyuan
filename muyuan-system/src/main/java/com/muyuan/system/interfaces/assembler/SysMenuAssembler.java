@@ -56,7 +56,9 @@ public class SysMenuAssembler {
                     }
                 } else {
                     // 父节点 parentId 没有遍历过 先创建保存当前节点到parentId的子节点列表
-                    treeMap.put(parentId, Arrays.asList(sysMenuVO));
+                    List<SysMenuVO> childrens = new ArrayList<>();
+                    childrens.add(sysMenuVO);
+                    treeMap.put(parentId, childrens);
                 }
                 // 当前接口已存在 而节点没有遍历 这次节点为非叶子节点 直接设置当前节点的字节点
                 if (treeMap.containsKey(id)) {

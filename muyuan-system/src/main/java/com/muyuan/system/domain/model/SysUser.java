@@ -70,7 +70,7 @@ public class SysUser {
      */
     private Date lastSignTime;
 
-    private Long updateUserId;
+    private Long updateBy;
 
     private Long createBy;
 

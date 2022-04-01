@@ -2,6 +2,7 @@ package com.muyuan.system.interfaces.facade.controller.impl;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.application.service.DictTypeService;
 import com.muyuan.system.application.vo.DictTypeVO;
 import com.muyuan.system.domain.model.DictType;
@@ -21,9 +22,11 @@ public class DictTypeControllerImpl implements DictTypeController {
 
     @Override
     public Result<List<DictTypeVO>> list(DictTypeDTO dictTypeDTO) {
-        List<DictType> list = dictTypeService.list(dictTypeDTO);
+        Page page  = dictTypeService.list(dictTypeDTO);
+        List<DictType> list  = page.getData();
 
-        return ResultUtil.success(DictTypeAssembler.buildDictDataVO(list));
+        page.setData(DictTypeAssembler.buildDictDataVO(list));
+        return ResultUtil.success(page);
     }
 
     @Override

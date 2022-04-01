@@ -1,10 +1,8 @@
 package com.muyuan.system.application.service;
 
 
-import com.muyuan.system.domain.model.DictType;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
-
-import java.util.List;
 
 /**
  * @ClassName DictTypeService
@@ -15,12 +13,12 @@ import java.util.List;
  */
 public interface DictTypeService {
 
-    List<DictType> list(DictTypeDTO dictTypeDTO);
+    Page list(DictTypeDTO dictTypeDTO);
 
     /**
      * 新增
      * 0-注册成功 1-账户已存在
-     * @param registerInfo
+     * @param dictTypeDTO
      * @return
      */
     int add(DictTypeDTO dictTypeDTO);

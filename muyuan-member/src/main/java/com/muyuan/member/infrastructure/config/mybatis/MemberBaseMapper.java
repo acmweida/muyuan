@@ -21,4 +21,21 @@ public interface MemberBaseMapper<T> extends JdbcBaseMapper<T> {
     @IdGenerator()
     @SelectProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insert(T dataObject);
+
+    /**
+     * 默认根据 id 更新
+     * @param entity
+     * @return
+     */
+    @SelectProvider(value = CrudSqlProvider.class,method = "update")
+    Integer update(T entity);
+
+    /**
+     * 更加指定字段更新
+     * @param entity
+     * @param column
+     * @return
+     */
+    @SelectProvider(value = CrudSqlProvider.class,method = "updateBy")
+    Integer updateBy(T entity,String... column);
 }

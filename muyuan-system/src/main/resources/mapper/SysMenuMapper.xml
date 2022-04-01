@@ -22,10 +22,10 @@
         select menu.* from (
         select * from t_sys_menu where type in ('M','C') order by order_num
         ) menu
-        left join  (
+        inner join  (
         select * from t_sys_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
-        left join (
+        inner join (
         select id from t_sys_role where name in
         <foreach collection="roleNames" open="(" close=")" item="item" >
             #{item}

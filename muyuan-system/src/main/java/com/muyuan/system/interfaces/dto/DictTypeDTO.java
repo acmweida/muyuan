@@ -36,4 +36,9 @@ public class DictTypeDTO {
      */
     @ApiModelProperty(value = "状态（0正常 1停用）")
     private int status;
+
+    private int pageNum = 1;
+
+    private int pageSize = 10;
+
 }

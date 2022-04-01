@@ -1,9 +1,8 @@
 package com.muyuan.system.application.query;
 
-import com.muyuan.system.domain.model.DictType;
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.application.vo.DictTypeVO;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
-
-import java.util.List;
 
 public interface DictTypeQuery {
 
@@ -12,5 +11,5 @@ public interface DictTypeQuery {
      * @param dictTypeDTO
      * @return
      */
-    List<DictType> list(DictTypeDTO dictTypeDTO);
+    Page list(DictTypeDTO dictTypeDTO);
 }

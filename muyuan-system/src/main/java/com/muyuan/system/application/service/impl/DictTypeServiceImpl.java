@@ -1,6 +1,7 @@
 package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.application.query.DictTypeQuery;
 import com.muyuan.system.application.service.DictTypeService;
 import com.muyuan.system.domain.entity.DictTypeEntity;
@@ -10,8 +11,6 @@ import com.muyuan.system.domain.repo.DictTypeRepo;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @ClassName DictTypeControlerImpl
@@ -30,7 +29,7 @@ public class DictTypeServiceImpl implements DictTypeService {
 
 
     @Override
-    public List<DictType> list(DictTypeDTO dictTypeDTO) {
+    public Page list(DictTypeDTO dictTypeDTO) {
         return dictTypeQuery.list(dictTypeDTO);
     }
 

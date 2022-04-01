@@ -1,19 +1,23 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.impl.EqConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.impl.InConditionSqlHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unchecked")
+@Slf4j
 public class CrudSqlProvider {
 
     private static ConcurrentHashMap<Option, ConditionSqlHandler> sqlHandlers = new ConcurrentHashMap<>();
@@ -34,6 +38,9 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
+            if (option == Option.PAGE) {
+                continue;
+            }
             if (option != Option.OR  && option != Option.AND) {
                 ConditionSqlHandler conditionSqlHandler = sqlHandlers.get(option);
                 if (null == conditionSqlHandler) {
@@ -70,6 +77,9 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
+            if (option == Option.PAGE) {
+                continue;
+            }
             if (option != Option.OR  && option != Option.AND) {
                 ConditionSqlHandler conditionSqlHandler = sqlHandlers.get(option);
                 if (null == conditionSqlHandler) {
@@ -102,7 +112,6 @@ public class CrudSqlProvider {
 
         List<String> values = new ArrayList<>();
         List<String> column = new ArrayList<>();
-        aClass.getDeclaredMethods();
 
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
@@ -117,6 +126,55 @@ public class CrudSqlProvider {
 
         sql.VALUES(StringUtils.arrayToDelimitedString(column.toArray(new String[column.size()]),","),
                 StringUtils.arrayToDelimitedString(values.toArray(new String[column.size()]),",") );
+        return sql.toString();
+    }
+
+
+    public String update(Object bean) {
+        return updateBy(bean, GlobalConst.ID);
+    }
+
+    public String updateBy(Object bean,String... fieldNamesArr) {
+        SQL sql = new SQL();
+        Class<?> aClass = bean.getClass();
+        String simpleName = aClass.getSimpleName();
+        sql.UPDATE(Constant.TABLE_PREFIX+ StrUtil.humpToUnderline(simpleName));
+
+        List<String> sets = new ArrayList<>();
+
+        List<String> fieldNamesList = Arrays.asList(fieldNamesArr);
+
+        Field[] declaredFields = aClass.getDeclaredFields();
+        for (Field propertyDescriptor : declaredFields) {
+            propertyDescriptor.setAccessible(true);
+            Object field = ReflectionUtils.getField(propertyDescriptor, bean);
+            if ( !fieldNamesList.contains(propertyDescriptor.getName())  &&  null != field) {
+                sets.add("#{" + propertyDescriptor.getName() + "} = "
+                        + StrUtil.humpToUnderline(propertyDescriptor.getName()) );
+            }
+        }
+
+        sql.SET(sets.toArray(new String[sets.size()]));
+
+        List<String> conditionSqls = new ArrayList<>();
+        Field field = null;
+        Object value = null;
+        for (String fieldName : fieldNamesArr) {
+            try {
+                field = aClass.getField(fieldName);
+                field.setAccessible(true);
+                value = field.get(bean);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+                log.error("{} not found  in {}",fieldName,aClass.getName());
+            }
+            if (value != null) {
+                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{" + field.getName() + "}");
+            }
+        }
+
+        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+
         return sql.toString();
     }
 

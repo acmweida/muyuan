@@ -1,6 +1,7 @@
 package com.muyuan.system.application.query.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.application.query.DictTypeQuery;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
@@ -18,7 +19,7 @@ public class DictTypeQueryImpl implements DictTypeQuery {
     private DictTypeRepo dictTypeRepo;
 
     @Override
-    public List<DictType> list(DictTypeDTO dictTypeDTO) {
+    public Page list(DictTypeDTO dictTypeDTO) {
 
         SqlBuilder sqlBuilder = new SqlBuilder(DictType.class);
         if (ObjectUtils.isNotEmpty(dictTypeDTO.getName())) {
@@ -31,8 +32,15 @@ public class DictTypeQueryImpl implements DictTypeQuery {
             sqlBuilder.eq("status",dictTypeDTO.getStatus());
         }
 
+        Page page = new Page();
+        page.setPageNum(dictTypeDTO.getPageNum());
+        page.setPageSize(dictTypeDTO.getPageSize());
+        sqlBuilder.page(page);
+
         List<DictType> list = dictTypeRepo.select(sqlBuilder.build());
 
-        return list;
+        page.setData(list);
+
+        return page;
     }
 }

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
 /**
  * @ClassName MenuRepoImpl
  * Description MenuRepoImpl
@@ -68,7 +71,12 @@ public class SysMenuRepoImpl implements SysMenuRepo {
                 menus.addAll(JSONUtil.parseObjectList(cacheMenuJson, ArrayList.class, SysMenu.class));
             }
         }
-        return menus;
+
+        // 去重
+        return menus.stream().collect(
+                collectingAndThen(
+                        toCollection(() -> new TreeSet<>(Comparator.comparing(SysMenu::getName))), ArrayList::new)
+        );
     }
 
     @Override

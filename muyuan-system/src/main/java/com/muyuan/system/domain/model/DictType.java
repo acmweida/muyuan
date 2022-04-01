@@ -36,7 +36,7 @@ public class DictType {
 
     private Date updateTime;
 
-    private String updateBy;
+    private Long updateBy;
 
     private String remark;
 }
