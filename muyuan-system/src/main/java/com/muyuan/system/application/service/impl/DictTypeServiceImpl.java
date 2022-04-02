@@ -12,6 +12,8 @@ import com.muyuan.system.interfaces.dto.DictTypeDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @ClassName DictTypeControlerImpl
  * Description 指点类型
@@ -50,5 +52,15 @@ public class DictTypeServiceImpl implements DictTypeService {
             return 0;
         }
         return -1;
+    }
+
+    @Override
+    public Optional<DictType> get(String id) {
+        DictType dictType = dictTypeQuery.get(id);
+        if (null == dictType) {
+            return Optional.empty();
+        }
+
+        return Optional.of(dictType);
     }
 }

@@ -2,7 +2,10 @@ package com.muyuan.system.application.service;
 
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
+
+import java.util.Optional;
 
 /**
  * @ClassName DictTypeService
@@ -13,6 +16,11 @@ import com.muyuan.system.interfaces.dto.DictTypeDTO;
  */
 public interface DictTypeService {
 
+    /**
+     * 通过DataType 查询字典数据
+     * @param dictTypeDTO
+     * @return
+     */
     Page list(DictTypeDTO dictTypeDTO);
 
     /**
@@ -22,4 +30,12 @@ public interface DictTypeService {
      * @return
      */
     int add(DictTypeDTO dictTypeDTO);
+
+
+    /**
+     * 字典详情查询
+     * @param id
+     * @return
+     */
+    Optional<DictType> get(String id);
 }

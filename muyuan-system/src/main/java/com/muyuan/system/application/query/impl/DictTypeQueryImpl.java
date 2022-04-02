@@ -39,8 +39,17 @@ public class DictTypeQueryImpl implements DictTypeQuery {
 
         List<DictType> list = dictTypeRepo.select(sqlBuilder.build());
 
-        page.setData(list);
+        page.setRows(list);
 
         return page;
+    }
+
+    @Override
+    public DictType get(String id) {
+        DictType dictType = dictTypeRepo.selectOne(new SqlBuilder(DictType.class)
+                .eq("id", id)
+                .build());
+
+        return dictType;
     }
 }

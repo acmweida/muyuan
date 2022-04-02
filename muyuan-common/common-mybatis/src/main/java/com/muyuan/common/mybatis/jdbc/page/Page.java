@@ -15,5 +15,5 @@ public class Page<T> {
 
     private int totalPage;
 
-    private List<T> data;
+    private List<T> rows;
 }

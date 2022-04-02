@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -23,9 +24,9 @@ public class DictTypeControllerImpl implements DictTypeController {
     @Override
     public Result<List<DictTypeVO>> list(DictTypeDTO dictTypeDTO) {
         Page page  = dictTypeService.list(dictTypeDTO);
-        List<DictType> list  = page.getData();
+        List<DictType> list  = page.getRows();
 
-        page.setData(DictTypeAssembler.buildDictDataVO(list));
+        page.setRows(DictTypeAssembler.buildDictDataVO(list));
         return ResultUtil.success(page);
     }
 
@@ -38,5 +39,15 @@ public class DictTypeControllerImpl implements DictTypeController {
             return ResultUtil.fail("账号已存在");
         }
         return ResultUtil.fail("注册失败");
+    }
+
+    @Override
+    public Result<DictTypeVO> get(String id) {
+        Optional<DictType> dictType = dictTypeService.get(id);
+        if (dictType.isPresent()) {
+            return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
+        }
+
+        return ResultUtil.fail("字典类型未找到");
     }
 }
