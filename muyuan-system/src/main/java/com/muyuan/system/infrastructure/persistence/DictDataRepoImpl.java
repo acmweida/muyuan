@@ -24,4 +24,15 @@ public class DictDataRepoImpl implements DictDataRepo {
     public DictData selectOne(Map params) {
         return dictDataMapper.selectOne(params);
     }
+
+    @Override
+    public boolean insert(DictData dictData) {
+        return dictDataMapper.insert(dictData) > 0;
+    }
+
+    @Override
+    public boolean delete(String... ids) {
+        Integer rows = dictDataMapper.deleteByIds(ids);
+        return rows > 0;
+    }
 }

@@ -25,15 +25,14 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(groupApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.xiaominfo.swagger.service.user.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.muyuan.member.interfaces.facade.controller"))
                 .paths(PathSelectors.any())
-
                 .build();
     }
 
     private ApiInfo groupApiInfo(){
         return new ApiInfoBuilder()
-                .title("swagger-bootstrap-ui很棒~~~！！！")
+                .title("member api")
                 .description("<div style='font-size:14px;color:red;'>swagger-bootstrap-ui-demo RESTful APIs</div>")
                 .termsOfServiceUrl("http://www.group.com/")
                 .contact(new Contact("HollanZang", "https://juejin.cn/user/352263461681214", "zhn.pop@gmail.com"))

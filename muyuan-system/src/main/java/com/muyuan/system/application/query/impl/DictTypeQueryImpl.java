@@ -45,7 +45,7 @@ public class DictTypeQueryImpl implements DictTypeQuery {
     }
 
     @Override
-    public DictType get(String id) {
+    public DictType getById(String id) {
         DictType dictType = dictTypeRepo.selectOne(new SqlBuilder(DictType.class)
                 .eq("id", id)
                 .build());

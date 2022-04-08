@@ -18,5 +18,5 @@ public interface DictTypeQuery {
      * @param id
      * @return
      */
-    DictType get(String id);
+    DictType getById(String id);
 }

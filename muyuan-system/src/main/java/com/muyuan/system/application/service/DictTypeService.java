@@ -37,5 +37,5 @@ public interface DictTypeService {
      * @param id
      * @return
      */
-    Optional<DictType> get(String id);
+    Optional<DictType> getById(String id);
 }

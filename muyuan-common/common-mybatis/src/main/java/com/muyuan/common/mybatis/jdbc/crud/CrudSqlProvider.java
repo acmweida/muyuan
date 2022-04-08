@@ -5,11 +5,13 @@ import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.impl.EqConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.impl.InConditionSqlHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -178,5 +180,32 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
+
+    public String deleteByIds(ProviderContext context,String... ids) {
+        SQL sql = new SQL();
+        sql.DELETE_FROM(tableName(context));
+        StringBuffer inSql = new StringBuffer("(");
+        for (int i = 0;i< ids.length ; i++) {
+            if (i != 0) {
+                inSql.append(",");
+            }
+            inSql.append(ids[i]);
+        }
+        inSql.append(")");
+
+        sql.WHERE("id in "+inSql);
+        return sql.toString();
+    }
+
+
+    public static String tableName(ProviderContext context) {
+        return Constant.TABLE_PREFIX+StrUtil.humpToUnderline(entityType(context).getSimpleName());
+    }
+
+    public static Class entityType(ProviderContext context) {
+        Class<?> mapperType = context.getMapperType();
+        return ((Class)((ParameterizedType)(mapperType.getGenericInterfaces()[0])).getActualTypeArguments()[0]);
+
+    }
 
 }

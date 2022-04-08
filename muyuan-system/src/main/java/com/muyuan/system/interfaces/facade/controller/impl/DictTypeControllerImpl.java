@@ -42,8 +42,8 @@ public class DictTypeControllerImpl implements DictTypeController {
     }
 
     @Override
-    public Result<DictTypeVO> get(String id) {
-        Optional<DictType> dictType = dictTypeService.get(id);
+    public Result<DictTypeVO> getById(String id) {
+        Optional<DictType> dictType = dictTypeService.getById(id);
         if (dictType.isPresent()) {
             return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
         }

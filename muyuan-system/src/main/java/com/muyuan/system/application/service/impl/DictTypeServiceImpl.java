@@ -55,8 +55,8 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public Optional<DictType> get(String id) {
-        DictType dictType = dictTypeQuery.get(id);
+    public Optional<DictType> getById(String id) {
+        DictType dictType = dictTypeQuery.getById(id);
         if (null == dictType) {
             return Optional.empty();
         }

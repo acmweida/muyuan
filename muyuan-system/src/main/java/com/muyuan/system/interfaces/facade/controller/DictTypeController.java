@@ -31,6 +31,6 @@ public interface DictTypeController {
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id",value = "字典类型主键",dataType = "String",paramType = "path",required = true)}
     )
-    Result<DictTypeVO> get(@PathVariable @NotBlank String id);
+    Result<DictTypeVO> getById(@PathVariable @NotBlank String id);
 
 }

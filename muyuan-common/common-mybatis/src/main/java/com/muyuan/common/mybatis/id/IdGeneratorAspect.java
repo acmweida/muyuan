@@ -99,7 +99,7 @@ public class IdGeneratorAspect {
 
     public Field getIdField(Class target, String idFieldName) {
         try {
-           return target.getField(idFieldName);
+           return target.getDeclaredField(idFieldName);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }

@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface AutoIncrement {
 
-    boolean useGeneratedKeys() default false;
+    boolean useGeneratedKeys() default true;
 }
