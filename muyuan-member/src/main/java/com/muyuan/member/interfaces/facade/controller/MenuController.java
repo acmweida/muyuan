@@ -1,10 +1,15 @@
 package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.member.application.query.MenuQuery;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.vo.RouterVo;
+import com.muyuan.member.interfaces.assembler.MenuAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,11 +26,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @Api(tags = {"菜单接口"})
-public interface MenuController {
+public class MenuController {
+
+    @Autowired
+    MenuQuery menuQuery;
 
     @GetMapping("/getRouters")
     @ApiOperation(value = "路由信息获取")
-    Result<List<RouterVo>> getRouter();
+    public Result<List<RouterVo>> getRouter() {
+        List<String> roles = JwtUtils.getRoles();
+        List<Menu> menus = menuQuery.selectMenuByRoleNames(roles);
+        return ResultUtil.success(MenuAssembler.buildMenus(MenuAssembler.buildMenuTree(menus)));
+    }
 
 
 

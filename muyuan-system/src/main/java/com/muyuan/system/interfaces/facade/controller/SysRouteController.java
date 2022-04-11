@@ -1,9 +1,15 @@
 package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.application.vo.SysRouterVo;
+import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,10 +17,17 @@ import java.util.List;
 
 @RestController
 @Api(tags = {"系统路由接口"})
-public interface SysRouteController {
+@AllArgsConstructor
+public class SysRouteController {
+
+    private SysMenuQuery sysMenuQuery;
 
     @GetMapping("/route")
     @ApiOperation(value = "路由信息获取")
-    Result<List<SysRouterVo>> getRouter();
+    Result<List<SysRouterVo>> getRouter() {
+        List<String> roles = JwtUtils.getRoles();
+        List<SysMenu> menus = sysMenuQuery.selectMenuByRoleNames(roles);
+        return ResultUtil.success(SysMenuAssembler.buildMenus(SysMenuAssembler.buildMenuTree(menus)));
+    }
 
 }

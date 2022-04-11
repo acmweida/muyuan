@@ -18,10 +18,12 @@ import java.util.List;
  */
 @RestController
 @Api(tags = {"系统菜单接口"})
-public interface SysMenuController {
+public class SysMenuController {
 
     @GetMapping("/menus")
-    Result<List<SysMenuVO>> getMenus();
+    public Result<List<SysMenuVO>> getMenus() {
+        return null;
+    }
 
 
 }

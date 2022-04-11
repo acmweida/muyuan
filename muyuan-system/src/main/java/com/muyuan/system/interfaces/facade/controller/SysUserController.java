@@ -1,22 +1,47 @@
 package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.system.application.service.SysUserService;
 import com.muyuan.system.application.vo.SysUserVO;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController()
 @Api(tags = {"系统用户接口"})
-public interface SysUserController {
+@AllArgsConstructor
+public class SysUserController {
+
+    private SysUserService sysUserService;
 
     @GetMapping("/user")
     @ApiOperation(value = "获取用户信息")
-    Result<SysUserVO> getUserInfo();
+    public Result<SysUserVO> getUserInfo() {
+        final Optional<SysUserVO> userInfo = sysUserService.getUserInfo();
+        if (!userInfo.isPresent()) {
+            return ResultUtil.fail("用户信息不存在");
+        }
+        return ResultUtil.success(userInfo.get());
+    }
 
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/user")
-    Result add(@RequestBody @Validated RegisterDTO register);
+   public Result add(@RequestBody @Validated RegisterDTO register) {
+        int registerResult = sysUserService.add(register);
+        if (registerResult == 0) {
+            return ResultUtil.success("注册成功");
+        } else if (registerResult == 1) {
+            return ResultUtil.fail("账号已存在");
+        }
+        return ResultUtil.fail("注册失败");
+    }
 }
