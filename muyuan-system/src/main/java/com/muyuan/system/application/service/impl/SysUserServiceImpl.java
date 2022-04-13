@@ -2,7 +2,7 @@ package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.application.query.SysRoleQuery;
 import com.muyuan.system.application.query.SysUserQuery;
@@ -50,7 +50,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         List<String> roleNames = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX + item.getName()).collect(Collectors.toList());
         // 默认角色
-        roleNames.add(SecurityConst.DEFAULT_ROLE);
+//        roleNames.add(SecurityConst.DEFAULT_ROLE);
 
         SysUserDTO userDTO = SysUserInfoAssembler.buildUserDTO(userInfo.get());
         userDTO.setRoles(roleNames);
@@ -67,13 +67,13 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Optional<SysUserVO> getUserInfo() {
-        Long userId = JwtUtils.getUserId();
+        Long userId = SecurityUtils.getUserId();
         final Optional<SysUser> userInfo = sysUserQuery.getUserInfo(userId);
         if (!userInfo.isPresent()) {
             log.info("userId :{} 未找到", userId);
             return Optional.empty();
         }
-        List<String> roleNames = JwtUtils.getRoles();
+        List<String> roleNames = SecurityUtils.getRoles();
 
         Set<String> perms = getMenuPermissionByRoleNames(roleNames);
         SysUserVO sysUserVO = SysUserInfoAssembler.buildUserVO(userInfo.get(), roleNames, perms);

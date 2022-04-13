@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.application.query.MenuQuery;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.vo.RouterVo;
@@ -34,7 +34,7 @@ public class MenuController {
     @GetMapping("/getRouters")
     @ApiOperation(value = "路由信息获取")
     public Result<List<RouterVo>> getRouter() {
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = SecurityUtils.getRoles();
         List<Menu> menus = menuQuery.selectMenuByRoleNames(roles);
         return ResultUtil.success(MenuAssembler.buildMenus(MenuAssembler.buildMenuTree(menus)));
     }

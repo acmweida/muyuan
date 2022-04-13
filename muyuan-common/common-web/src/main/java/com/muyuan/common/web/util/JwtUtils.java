@@ -11,8 +11,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * JWT工具类
@@ -32,40 +30,40 @@ public class JwtUtils {
         return jsonNode;
     }
 
-    /**
-     * 解析JWT获取用户ID
-     *
-     * @return
-     */
-    public static Long getUserId() {
-        Long id =   getJwtPayload().get(SecurityConst.USER_ID_KEY).asLong();
-        return id;
-    }
-
-    /**
-     * 解析JWT获取获取用户名
-     *
-     * @return
-     */
-    public static String getUsername() {
-        String username = getJwtPayload().get(SecurityConst.USER_NAME_KEY).asText();
-        return username;
-    }
-
-    /**
-     * JWT获取用户角色列表
-     *
-     * @return 角色列表
-     */
-    public static List<String> getRoles() {
-        List<String> roles = new ArrayList<>();
-        JsonNode jsonNode = getJwtPayload();
-        if (jsonNode.has(SecurityConst.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY).isArray()) {
-            for (JsonNode node :  jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY) ) {
-                roles.add(node.asText());
-            }
-        }
-        return roles;
-    }
+//    /**
+//     * 解析JWT获取用户ID
+//     *
+//     * @return
+//     */
+//    public static Long getUserId() {
+//        Long id =   getJwtPayload().get(SecurityConst.USER_ID_KEY).asLong();
+//        return id;
+//    }
+//
+//    /**
+//     * 解析JWT获取获取用户名
+//     *
+//     * @return
+//     */
+//    public static String getUsername() {
+//        String username = getJwtPayload().get(SecurityConst.USER_NAME_KEY).asText();
+//        return username;
+//    }
+//
+//    /**
+//     * JWT获取用户角色列表
+//     *
+//     * @return 角色列表
+//     */
+//    public static List<String> getRoles() {
+//        List<String> roles = new ArrayList<>();
+//        JsonNode jsonNode = getJwtPayload();
+//        if (jsonNode.has(SecurityConst.JWT_AUTHORITIES_KEY) && jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY).isArray()) {
+//            for (JsonNode node :  jsonNode.get(SecurityConst.JWT_AUTHORITIES_KEY) ) {
+//                roles.add(node.asText());
+//            }
+//        }
+//        return roles;
+//    }
 
 }

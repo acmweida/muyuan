@@ -24,12 +24,12 @@ public class SysUserInterfaceApi implements SysUserInterface {
 
     @Override
     public Result<SysUserDTO> getUserByUsername(String username) {
-        SysUserDTO userByUsername = sysUserService.getUserByUsername(username);
-        if (null == userByUsername) {
+        SysUserDTO sysUserDTO = sysUserService.getUserByUsername(username);
+        if (null == sysUserDTO) {
             return ResultUtil.fail("用户信息不存在");
         }
 
-        return ResultUtil.success(userByUsername);
+        return ResultUtil.success(sysUserDTO);
     }
 
 

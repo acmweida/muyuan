@@ -6,7 +6,7 @@ import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.exception.NotPermissionException;
 import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -130,7 +130,7 @@ public class PreAuthorizeAspect
     }
 
     public Set<String> getUserPerm() {
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = SecurityUtils.getRoles();
         Set<String> permissionList = new HashSet<>();
         for (String role : roles) {
             Set<String> objects =  redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, role);

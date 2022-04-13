@@ -2,7 +2,7 @@ package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.application.vo.SysRouterVo;
 import com.muyuan.system.domain.model.SysMenu;
@@ -25,7 +25,7 @@ public class SysRouteController {
     @GetMapping("/route")
     @ApiOperation(value = "路由信息获取")
     Result<List<SysRouterVo>> getRouter() {
-        List<String> roles = JwtUtils.getRoles();
+        List<String> roles = SecurityUtils.getRoles();
         List<SysMenu> menus = sysMenuQuery.selectMenuByRoleNames(roles);
         return ResultUtil.success(SysMenuAssembler.buildMenus(SysMenuAssembler.buildMenuTree(menus)));
     }

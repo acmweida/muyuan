@@ -2,7 +2,7 @@ package com.muyuan.system.domain.entity;
 
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.model.SysUserRole;
@@ -58,7 +58,7 @@ public class SysUserEntity extends SysUser {
         setEncryptKey(encryptKey);
 
         setCreateTime(new Date());
-        setCreateBy(JwtUtils.getUserId());
+        setCreateBy(SecurityUtils.getUserId());
     }
 
 

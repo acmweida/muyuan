@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.application.query.MenuQuery;
 import com.muyuan.member.application.query.RoleQuery;
 import com.muyuan.member.application.query.UserQuery;
@@ -40,12 +40,12 @@ public class UserController {
     @GetMapping("/getUserInfo")
     @ApiOperation(value = "获取用户信息")
     public Result<UserVO> getUserInfo() {
-        Long userId = JwtUtils.getUserId();
+        Long userId = SecurityUtils.getUserId();
         final Optional<User> userInfo = userQuery.getUserInfo(userId);
         if (!userInfo.isPresent()) {
             return ResultUtil.fail("用户信息不存在");
         }
-        List<String> roleNames = JwtUtils.getRoles();
+        List<String> roleNames = SecurityUtils.getRoles();
 
         Set<String> perms = getMenuPermissionByRoleNames(roleNames);
         UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(),roleNames,perms);

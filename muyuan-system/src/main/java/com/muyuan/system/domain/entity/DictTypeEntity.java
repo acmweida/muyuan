@@ -1,6 +1,6 @@
 package com.muyuan.system.domain.entity;
 
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class DictTypeEntity extends DictType {
      */
     public void initInstance() {
         setCreateTime(new Date());
-        setCreateBy(JwtUtils.getUserId());
+        setCreateBy(SecurityUtils.getUserId());
     }
 
 
