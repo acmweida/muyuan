@@ -32,6 +32,10 @@ public class SecurityUtils
         return SecurityContextHolder.getRoles();
     }
 
+    public static String getUserType() {
+        return SecurityContextHolder.getUserType();
+    }
+
     /**
      * 获取用户key
      */

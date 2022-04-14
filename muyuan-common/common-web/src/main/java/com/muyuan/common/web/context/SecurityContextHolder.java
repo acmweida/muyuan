@@ -49,16 +49,6 @@ public class SecurityContextHolder {
         THREAD_LOCAL.set(threadLocalMap);
     }
 
-    public static Long getUserId() {
-        Long userId = get(SecurityConst.DETAILS_USER_ID,Long.class);
-        if (null == userId) {
-            JsonNode jwtPayLoad = getJwtPayLoad();
-            userId = jwtPayLoad.get(SecurityConst.USER_ID_KEY).asLong();
-            set(SecurityConst.DETAILS_USER_ID,userId);
-        }
-        return userId;
-    }
-
     public static String getUserName() {
         return get(SecurityConst.DETAILS_USERNAME);
     }
@@ -71,6 +61,7 @@ public class SecurityContextHolder {
         THREAD_LOCAL.remove();
     }
 
+    // jwt info
     public static List<String> getRoles() {
         List<String> roles = get(SecurityConst.USER_ROLE, ArrayList.class);
         if (null == roles) {
@@ -93,5 +84,25 @@ public class SecurityContextHolder {
             set(SecurityConst.JWT_PAYLOAD_KEY, jwtPayLoad);
         }
         return jwtPayLoad;
+    }
+
+    public static Long getUserId() {
+        Long userId = get(SecurityConst.DETAILS_USER_ID,Long.class);
+        if (null == userId) {
+            JsonNode jwtPayLoad = getJwtPayLoad();
+            userId = jwtPayLoad.get(SecurityConst.USER_ID_KEY).asLong();
+            set(SecurityConst.DETAILS_USER_ID,userId);
+        }
+        return userId;
+    }
+
+    public static String getUserType() {
+        String userType = get(SecurityConst.USER_TYPE);
+        if (null == userType) {
+            JsonNode jwtPayLoad = getJwtPayLoad();
+            userType = jwtPayLoad.get(SecurityConst.USER_TYPE).asText();
+            set(SecurityConst.USER_TYPE,userType);
+        }
+        return userType;
     }
 }

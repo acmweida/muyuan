@@ -1,8 +1,8 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.system.domain.entity.SysUserEntity;
-import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
+import com.muyuan.system.domain.repo.SysUserRepo;
 
 public class SysUserFactory {
 

@@ -1,8 +1,8 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.system.infrastructure.persistence.dao.SysUserMapper;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.repo.SysUserRepo;
-import com.muyuan.system.infrastructure.persistence.dao.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

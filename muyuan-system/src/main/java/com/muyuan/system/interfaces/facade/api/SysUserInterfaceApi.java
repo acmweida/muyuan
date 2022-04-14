@@ -9,6 +9,9 @@ import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * @ClassName UserInterfaceApi
  * Description 内部接口  用户
@@ -32,5 +35,9 @@ public class SysUserInterfaceApi implements SysUserInterface {
         return ResultUtil.success(sysUserDTO);
     }
 
+    @Override
+    public Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
+        return sysUserService.getMenuPermissionByRoleNames(roleIds);
+    }
 
 }

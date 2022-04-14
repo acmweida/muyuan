@@ -1,13 +1,15 @@
 package com.muyuan.common.web.aspect;
 
 import com.muyuan.common.core.constant.Logical;
-import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.exception.NotPermissionException;
-import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.common.member.api.UserInterface;
+import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import lombok.AllArgsConstructor;
+import org.apache.dubbo.config.annotation.Reference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,11 +32,14 @@ import java.util.Set;
  */
 @Aspect
 @Component
-@AllArgsConstructor
 public class PreAuthorizeAspect
 {
 
-    private RedisCacheManager redisCacheManager;
+    @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    private SysUserInterface sysUserInterface;
+
+    @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    private UserInterface userInterFace;
 
     /**
      * 构建
@@ -132,11 +137,12 @@ public class PreAuthorizeAspect
     public Set<String> getUserPerm() {
         List<String> roles = SecurityUtils.getRoles();
         Set<String> permissionList = new HashSet<>();
-        for (String role : roles) {
-            Set<String> objects =  redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, role);
-            if (null != objects){
-                permissionList.addAll(objects);
-            }
+        switch (UserType.valueOf(SecurityUtils.getUserType())) {
+            case MEMBER:
+                permissionList = userInterFace.getMenuPermissionByRoleNames(roles);
+                break;
+            case SYSUSER:
+                permissionList=sysUserInterface.getMenuPermissionByRoleNames(roles);
         }
         return permissionList;
     }

@@ -1,8 +1,8 @@
 package com.muyuan.system.interfaces.assembler;
 
-import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.application.vo.SysUserVO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.domain.model.SysUser;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.system.infrastructure.persistence.dao.DictTypeMapper;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
-import com.muyuan.system.infrastructure.persistence.dao.DictTypeMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class DictTypeRepoImpl implements DictTypeRepo {
 
-    private   DictTypeMapper dictTypeMapper;
+    private DictTypeMapper dictTypeMapper;
 
     @Override
     public List<DictType> select(Map params) {

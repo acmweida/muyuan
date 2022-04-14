@@ -110,4 +110,6 @@ public interface SecurityConst {
     String ALL_PERMISSION = "*:*:*";
 
     String USER_ROLE = "user_role";
+
+    String USER_TYPE = "user_type";
 }

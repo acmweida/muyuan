@@ -1,8 +1,8 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.system.domain.entity.DictTypeEntity;
-import com.muyuan.system.domain.repo.DictTypeRepo;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
+import com.muyuan.system.domain.repo.DictTypeRepo;
 import org.springframework.beans.BeanUtils;
 
 public class DictTypeFactory {

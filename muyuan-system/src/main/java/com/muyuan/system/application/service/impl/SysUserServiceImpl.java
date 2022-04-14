@@ -2,13 +2,13 @@ package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.query.SysMenuQuery;
 import com.muyuan.system.application.query.SysRoleQuery;
 import com.muyuan.system.application.query.SysUserQuery;
 import com.muyuan.system.application.service.SysUserService;
 import com.muyuan.system.application.vo.SysUserVO;
-import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
@@ -57,7 +57,8 @@ public class SysUserServiceImpl implements SysUserService {
         return userDTO;
     }
 
-    private Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
+    @Override
+    public Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
         return sysMenuQuery.selectMenuPermissionByRoleNames(roleIds);
     }
 

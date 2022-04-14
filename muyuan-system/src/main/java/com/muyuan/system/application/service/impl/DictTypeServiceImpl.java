@@ -2,9 +2,9 @@ package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.domain.entity.DictTypeEntity;
 import com.muyuan.system.application.query.DictTypeQuery;
 import com.muyuan.system.application.service.DictTypeService;
-import com.muyuan.system.domain.entity.DictTypeEntity;
 import com.muyuan.system.domain.factories.DictTypeFactory;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;

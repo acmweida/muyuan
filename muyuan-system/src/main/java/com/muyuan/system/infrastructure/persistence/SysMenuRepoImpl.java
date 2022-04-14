@@ -4,9 +4,9 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
-import com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

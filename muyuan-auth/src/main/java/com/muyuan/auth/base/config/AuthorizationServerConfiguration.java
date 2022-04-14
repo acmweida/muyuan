@@ -6,6 +6,7 @@ import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
@@ -126,9 +127,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 if (authentication.getUserAuthentication().getPrincipal() instanceof UserInfo) {
                     info.put(SecurityConst.USER_NAME_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
                     info.put(SecurityConst.USER_ID_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    info.put(SecurityConst.USER_TYPE, UserType.MEMBER);
                 } else {
                     info.put(SecurityConst.USER_NAME_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
                     info.put(SecurityConst.USER_ID_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    info.put(SecurityConst.USER_TYPE, UserType.SYSUSER);
                 }
                 ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
                 return super.enhance(accessToken, authentication);

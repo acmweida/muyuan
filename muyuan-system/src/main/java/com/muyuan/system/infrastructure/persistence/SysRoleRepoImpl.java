@@ -1,8 +1,8 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
-import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
