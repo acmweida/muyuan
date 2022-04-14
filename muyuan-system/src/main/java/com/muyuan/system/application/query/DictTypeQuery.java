@@ -7,11 +7,11 @@ import com.muyuan.system.domain.repo.DictTypeRepo;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 @AllArgsConstructor
 public class DictTypeQuery {
 

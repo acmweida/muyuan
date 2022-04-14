@@ -5,7 +5,7 @@ import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.core.util.Assert;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @Date 2021/12/24 11:04
  * @Version 1.0
  */
-@Service
+@Component
 @AllArgsConstructor
 public class SysRoleQuery {
 

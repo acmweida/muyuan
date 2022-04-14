@@ -8,12 +8,12 @@ import com.muyuan.system.interfaces.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
-@Service
+@Component
 @AllArgsConstructor
 public class DictDataQuery {
 

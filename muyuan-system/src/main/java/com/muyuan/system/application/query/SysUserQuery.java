@@ -4,7 +4,7 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 /**
@@ -14,7 +14,7 @@ import java.util.Optional;
  * @Date 2022/2/9 16:21
  * @Version 1.0
  */
-@Service
+@Component
 @AllArgsConstructor
 public class SysUserQuery {
 

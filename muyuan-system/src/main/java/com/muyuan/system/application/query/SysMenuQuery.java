@@ -6,7 +6,7 @@ import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import lombok.AllArgsConstructor;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @Date 2022/2/9 16:21
  * @Version 1.0
  */
-@Service
+@Component
 @AllArgsConstructor
 public class SysMenuQuery {
 

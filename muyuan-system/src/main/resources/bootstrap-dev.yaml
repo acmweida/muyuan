@@ -33,7 +33,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.member.interfaces.facade.api
+    base-packages: com.muyuan.system.interfaces.facade.api
   registry:
     address: spring-cloud://127.0.0.1
   protocol:
@@ -42,4 +42,6 @@ dubbo:
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
+  consumer:
+    check: false
 

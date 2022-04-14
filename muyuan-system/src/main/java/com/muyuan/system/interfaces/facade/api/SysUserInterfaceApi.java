@@ -19,8 +19,8 @@ import java.util.Set;
  * @Date 2022/3/2 17:12
  * @Version 1.0
  */
-@Service(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0")
 @AllArgsConstructor
+@Service(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0",interfaceClass = SysUserInterface.class)
 public class SysUserInterfaceApi implements SysUserInterface {
 
     private SysUserService sysUserService;

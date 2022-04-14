@@ -47,4 +47,6 @@ dubbo:
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
+  consumer:
+    check: false
 
