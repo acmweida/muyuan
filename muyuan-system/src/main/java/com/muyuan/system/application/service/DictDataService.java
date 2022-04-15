@@ -42,6 +42,5 @@ public interface DictDataService {
      * @param ids
      * @return
      */
-    @RequirePermissions(value = "system:dict:remove")
     boolean deleteById(String... ids);
 }

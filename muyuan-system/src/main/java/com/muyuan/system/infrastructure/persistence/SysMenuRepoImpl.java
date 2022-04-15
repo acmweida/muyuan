@@ -26,9 +26,9 @@ import static java.util.stream.Collectors.toCollection;
 @AllArgsConstructor
 public class SysMenuRepoImpl implements SysMenuRepo {
 
-    SysMenuMapper sysMenuMapper;
+    private SysMenuMapper sysMenuMapper;
 
-    RedisCacheManager redisCacheManager;
+    private RedisCacheManager redisCacheManager;
 
     @Override
     public List<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
@@ -39,7 +39,6 @@ public class SysMenuRepoImpl implements SysMenuRepo {
         while (it.hasNext()) {
             String roleName = it.next();
             if (StrUtil.isNotEmpty(roleName)) {
-//                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleName);
                 Set<String> rolePerms = redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, roleName, () -> new HashSet(selectMenuPermissionByRoleName(roleName)));
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
@@ -82,5 +81,15 @@ public class SysMenuRepoImpl implements SysMenuRepo {
     @Override
     public List<SysMenu> selectMenuByRoleName(String roleName) {
         return sysMenuMapper.selectMenuByRoleNames(Arrays.asList(roleName));
+    }
+
+    @Override
+    public List<SysMenu> select(Map params) {
+        return sysMenuMapper.selectList(params);
+    }
+
+    @Override
+    public SysMenu selectOne(Map params) {
+        return sysMenuMapper.selectOne(params);
     }
 }

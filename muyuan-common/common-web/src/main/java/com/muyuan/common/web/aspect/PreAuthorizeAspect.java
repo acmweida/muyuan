@@ -27,25 +27,23 @@ import java.util.Set;
 
 /**
  * 基于 Spring Aop 的注解鉴权
- * 
+ *
  * @author kong
  */
 @Aspect
 @Component
-public class PreAuthorizeAspect
-{
+public class PreAuthorizeAspect {
 
-    @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @Reference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
     private SysUserInterface sysUserInterface;
 
     @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
-    private UserInterface userInterFace;
+    private UserInterface userInterface;
 
     /**
      * 构建
      */
-    public PreAuthorizeAspect()
-    {
+    public PreAuthorizeAspect() {
     }
 
     /**
@@ -57,31 +55,26 @@ public class PreAuthorizeAspect
      * 声明AOP签名
      */
     @Pointcut(POINTCUT_SIGN)
-    public void pointcut()
-    {
+    public void pointcut() {
     }
 
     /**
      * 环绕切入
-     * 
+     *
      * @param joinPoint 切面对象
      * @return 底层方法执行后的返回值
      * @throws Throwable 底层方法抛出的异常
      */
     @Around("pointcut()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable
-    {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 注解鉴权
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         checkMethodAnnotation(signature.getMethod());
-        try
-        {
+        try {
             // 执行原有逻辑
             Object obj = joinPoint.proceed();
             return obj;
-        }
-        catch (Throwable e)
-        {
+        } catch (Throwable e) {
             throw e;
         }
     }
@@ -89,13 +82,11 @@ public class PreAuthorizeAspect
     /**
      * 对一个Method对象进行注解检查
      */
-    public void checkMethodAnnotation(Method method)
-    {
+    public void checkMethodAnnotation(Method method) {
 
         // 校验 @RequiresPermissions 注解
         RequirePermissions requirePermissions = method.getAnnotation(RequirePermissions.class);
-        if (requirePermissions != null)
-        {
+        if (requirePermissions != null) {
             checkPermi(requirePermissions);
         }
     }
@@ -105,14 +96,10 @@ public class PreAuthorizeAspect
      *
      * @param requiresPermissions 注解对象
      */
-    public void checkPermi(RequirePermissions requiresPermissions)
-    {
-        if (requiresPermissions.logical() == Logical.AND)
-        {
+    public void checkPermi(RequirePermissions requiresPermissions) {
+        if (requiresPermissions.logical() == Logical.AND) {
             checkPermiAnd(requiresPermissions.value());
-        }
-        else
-        {
+        } else {
             checkPermiOr(requiresPermissions.value());
         }
     }
@@ -122,13 +109,10 @@ public class PreAuthorizeAspect
      *
      * @param permissions 权限列表
      */
-    public void checkPermiAnd(String... permissions)
-    {
+    public void checkPermiAnd(String... permissions) {
         Set<String> permissionList = getUserPerm();
-        for (String permission : permissions)
-        {
-            if (!hasPermi(permissionList, permission))
-            {
+        for (String permission : permissions) {
+            if (!hasPermi(permissionList, permission)) {
                 throw new NotPermissionException();
             }
         }
@@ -139,10 +123,10 @@ public class PreAuthorizeAspect
         Set<String> permissionList = new HashSet<>();
         switch (UserType.valueOf(SecurityUtils.getUserType())) {
             case MEMBER:
-                permissionList = userInterFace.getMenuPermissionByRoleNames(roles);
+                permissionList = userInterface.getMenuPermissionByRoleNames(roles);
                 break;
             case SYSUSER:
-                permissionList=sysUserInterface.getMenuPermissionByRoleNames(roles);
+                permissionList = sysUserInterface.getMenuPermissionByRoleNames(roles);
         }
         return permissionList;
     }
@@ -152,18 +136,14 @@ public class PreAuthorizeAspect
      *
      * @param permissions 权限码数组
      */
-    public void checkPermiOr(String... permissions)
-    {
+    public void checkPermiOr(String... permissions) {
         Set<String> permissionList = getUserPerm();
-        for (String permission : permissions)
-        {
-            if (hasPermi(permissionList, permission))
-            {
+        for (String permission : permissions) {
+            if (hasPermi(permissionList, permission)) {
                 return;
             }
         }
-        if (permissions.length > 0)
-        {
+        if (permissions.length > 0) {
             throw new NotPermissionException();
         }
     }
@@ -172,11 +152,10 @@ public class PreAuthorizeAspect
      * 判断是否包含权限
      *
      * @param authorities 权限列表
-     * @param permission 权限字符串
+     * @param permission  权限字符串
      * @return 用户是否具备某权限
      */
-    public boolean hasPermi(Collection<String> authorities, String permission)
-    {
+    public boolean hasPermi(Collection<String> authorities, String permission) {
         return authorities.stream().filter(StringUtils::hasText)
                 .anyMatch(x -> SecurityConst.ALL_PERMISSION.contains(x) || PatternMatchUtils.simpleMatch(x, permission));
     }

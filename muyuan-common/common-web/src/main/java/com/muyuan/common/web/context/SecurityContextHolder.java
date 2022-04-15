@@ -98,7 +98,7 @@ public class SecurityContextHolder {
 
     public static String getUserType() {
         String userType = get(SecurityConst.USER_TYPE);
-        if (null == userType) {
+        if (userType.isEmpty()) {
             JsonNode jwtPayLoad = getJwtPayLoad();
             userType = jwtPayLoad.get(SecurityConst.USER_TYPE).asText();
             set(SecurityConst.USER_TYPE,userType);

@@ -2,11 +2,16 @@ package com.muyuan.system.application.query;
 
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
+import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -51,6 +56,26 @@ public class SysMenuQuery {
      */
    public List<SysMenu>  selectMenuByRoleNames(List<String> roleNames) {
        return sysMenuRepo.selectMenuByRoleNames(roleNames);
+   }
+
+
+   public List<SysMenu> list(SysMenuDTO sysMenuDTO) {
+       SqlBuilder sqlBuilder= new SqlBuilder(SysMenu.class);
+       if (StrUtil.isNotBlank(sysMenuDTO.getName())) {
+           sqlBuilder.eq("name",sysMenuDTO.getName());
+       }
+       if (StrUtil.isNotBlank(sysMenuDTO.getStatus())) {
+           sqlBuilder.eq("status",sysMenuDTO.getStatus());
+       }
+       List<SysMenu> list = sysMenuRepo.select(sqlBuilder.build());
+       return list;
+   }
+
+   public SysMenu get(String id) {
+       SqlBuilder sqlBuilder= new SqlBuilder(SysMenu.class);
+       sqlBuilder.eq("status","1")
+               .eq("id",id);
+       return sysMenuRepo.selectOne(sqlBuilder.build());
    }
 
 }

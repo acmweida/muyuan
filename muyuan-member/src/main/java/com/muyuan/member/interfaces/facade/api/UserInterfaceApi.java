@@ -20,7 +20,7 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0")
+@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0",interfaceClass = UserInterface.class)
 public class UserInterfaceApi implements UserInterface {
 
     private UserService sysUserService;

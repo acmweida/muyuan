@@ -4,6 +4,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.annotations.Repeatable;
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,10 +25,10 @@ import org.springframework.web.context.request.RequestContextHolder;
  */
 @Aspect
 @Component
+@AllArgsConstructor
 public class RepeatableRequestAspect {
 
-    @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Around("@annotation(repeatable)")
     public Object repeatableAdvice(ProceedingJoinPoint pjp, Repeatable repeatable) throws Throwable {

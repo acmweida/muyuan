@@ -10,7 +10,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableAspectJAutoProxy(exposeProxy = true)
-@EnableDubbo
+@EnableDubbo(scanBasePackages = "com.muyuan.system.interfaces.facade.api")
 @ComponentScan(basePackages = {"com.muyuan"})
 public class MuyuanSystemApplication {
 

@@ -3,6 +3,7 @@ package com.muyuan.system.domain.repo;
 import com.muyuan.system.domain.model.SysMenu;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName MenuRepo
@@ -20,4 +21,8 @@ public interface SysMenuRepo {
     List<SysMenu> selectMenuByRoleNames(List<String> roleNames);
 
     List<SysMenu> selectMenuByRoleName(String roleName);
+
+    List<SysMenu> select(Map params);
+
+    SysMenu selectOne(Map params);
 }
