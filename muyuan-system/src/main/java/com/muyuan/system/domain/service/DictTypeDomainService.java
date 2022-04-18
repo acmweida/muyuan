@@ -1,4 +1,4 @@
-package com.muyuan.system.application.service;
+package com.muyuan.system.domain.service;
 
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * @Date 2022/3/31 11:42
  * @Version 1.0
  */
-public interface DictTypeService {
+public interface DictTypeDomainService {
 
     /**
      * 通过DataType 查询字典数据

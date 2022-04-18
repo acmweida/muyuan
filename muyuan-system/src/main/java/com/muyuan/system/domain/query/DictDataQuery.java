@@ -1,4 +1,4 @@
-package com.muyuan.system.application.query;
+package com.muyuan.system.domain.query;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;

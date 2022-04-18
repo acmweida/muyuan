@@ -1,12 +1,12 @@
 package com.muyuan.member.application.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.member.application.query.MenuQuery;
-import com.muyuan.member.application.query.RoleQuery;
-import com.muyuan.member.application.query.UserQuery;
-import com.muyuan.member.application.service.UserService;
+import com.muyuan.member.domain.query.MenuQuery;
+import com.muyuan.member.domain.query.RoleQuery;
+import com.muyuan.member.application.service.UserApplicationService;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.User;
+import com.muyuan.member.domain.service.UserDomainService;
 import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
 import com.muyuan.member.interfaces.dto.UserDTO;
 import lombok.AllArgsConstructor;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserApplicationServiceImpl implements UserApplicationService {
 
-    private UserQuery sysUserQuery;
+    private UserDomainService userDomainService;
 
     private RoleQuery sysRoleQuery;
 
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByUsername(String username) {
-        final Optional<User> userInfo = sysUserQuery.getUserByUsername(username);
+        final Optional<User> userInfo = userDomainService.getUserByUsername(username);
         if (!userInfo.isPresent()) {
             return null;
         }

@@ -1,11 +1,10 @@
 package com.muyuan.system.interfaces.facade.controller;
 
-import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.system.application.vo.SysMenuVO;
-import com.muyuan.system.application.service.SysMenuService;
+import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import io.swagger.annotations.Api;
@@ -35,7 +34,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SysMenuController {
 
-    private SysMenuService sysMenuService;
+    private SysMenuDomainService sysMenuDomainService;
 
     @RequirePermissions("system:menu:list")
     @GetMapping("/menu/list")
@@ -45,7 +44,7 @@ public class SysMenuController {
                     @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "query")}
     )
     public Result<List<SysMenuVO>> list(@ModelAttribute SysMenuDTO sysMenuDTO) {
-        List<SysMenu> list = sysMenuService.list(sysMenuDTO);
+        List<SysMenu> list = sysMenuDomainService.list(sysMenuDTO);
         return ResultUtil.success(list);
     }
 
@@ -57,7 +56,7 @@ public class SysMenuController {
     )
     public Result<SysMenuVO> get(@PathVariable @NotBlank(message = "菜单ID不能为空")
                                              String id) {
-        Optional<SysMenu> sysMenu = sysMenuService.get(id);
+        Optional<SysMenu> sysMenu = sysMenuDomainService.get(id);
         if (sysMenu.isPresent()) {
             ResultUtil.success(sysMenu.get());
         }

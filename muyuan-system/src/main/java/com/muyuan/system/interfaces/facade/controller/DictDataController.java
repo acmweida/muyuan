@@ -3,8 +3,8 @@ package com.muyuan.system.interfaces.facade.controller;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.application.service.DictDataService;
 import com.muyuan.system.application.vo.DictDataVO;
+import com.muyuan.system.domain.service.DictDataDomainService;
 import com.muyuan.system.interfaces.assembler.DictDataAssembler;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.system.domain.model.DictData;
@@ -26,13 +26,13 @@ import java.util.List;
 @AllArgsConstructor
 public class DictDataController {
 
-    private DictDataService dictDataService;
+    private DictDataDomainService dictDataDomainService;
 
     @GetMapping("/dictData/list")
     @ApiOperation(value = "字典数值列表查询")
     public Result<List<DictDataVO>> list(@ModelAttribute  DictDataDTO dictDataDTO) {
 
-        Page page  = dictDataService.list(dictDataDTO);
+        Page page  = dictDataDomainService.list(dictDataDTO);
         List<DictData> list  = page.getRows();
 
         page.setRows(DictDataAssembler.buildDictDataVO(list));
@@ -50,7 +50,7 @@ public class DictDataController {
             return ResultUtil.success(res);
         }
 
-        List<DictData> dictDatas = dictDataService.getByDataType(dictType);
+        List<DictData> dictDatas = dictDataDomainService.getByDataType(dictType);
 
         return ResultUtil.success(DictDataAssembler.buildDictDataVO(dictDatas));
     }
@@ -58,7 +58,7 @@ public class DictDataController {
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
    public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
-        Integer res = dictDataService.add(dictDataDTO);
+        Integer res = dictDataDomainService.add(dictDataDTO);
         if (res == 0) {
             return ResultUtil.success();
         } else if (res == 1) {
@@ -74,7 +74,7 @@ public class DictDataController {
             {@ApiImplicitParam(name = "ids",value = "字典类型主键",dataType = "String",paramType = "path",required = true)}
     )
     public Result delete(@PathVariable String... ids) {
-        if (dictDataService.deleteById(ids)) {
+        if (dictDataDomainService.deleteById(ids)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

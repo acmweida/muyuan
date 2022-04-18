@@ -2,8 +2,9 @@ package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.system.application.service.SysUserService;
+import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,12 +22,14 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SysUserController {
 
-    private SysUserService sysUserService;
+    private SysUserApplicationService sysUserApplicationService;
+
+    private SysUserDomainService sysUserDomainService;
 
     @GetMapping("/user")
     @ApiOperation(value = "获取用户信息")
     public Result<SysUserVO> getUserInfo() {
-        final Optional<SysUserVO> userInfo = sysUserService.getUserInfo();
+        final Optional<SysUserVO> userInfo = sysUserApplicationService.getUserInfo();
         if (!userInfo.isPresent()) {
             return ResultUtil.fail("用户信息不存在");
         }
@@ -36,7 +39,7 @@ public class SysUserController {
     @ApiOperation(value = "账号密码注册",code = 0)
     @PostMapping("/user")
    public Result add(@RequestBody @Validated RegisterDTO register) {
-        int registerResult = sysUserService.add(register);
+        int registerResult = sysUserDomainService.add(register);
         if (registerResult == 0) {
             return ResultUtil.success("注册成功");
         } else if (registerResult == 1) {

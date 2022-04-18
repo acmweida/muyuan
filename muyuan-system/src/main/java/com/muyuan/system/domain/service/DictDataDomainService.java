@@ -1,9 +1,9 @@
-package com.muyuan.system.application.service;
+package com.muyuan.system.domain.service;
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.interfaces.dto.DictDataDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @Date 2022/4/7 10:36
  * @Version 1.0
  */
-public interface DictDataService {
+public interface DictDataDomainService {
 
     /**
      * 查询字典数据

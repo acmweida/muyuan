@@ -11,10 +11,9 @@ public class DictTypeFactory {
      *  构建一个新用户实体 并初始化
      * @return
      */
-    public static DictTypeEntity newDictTypeEntity(DictTypeDTO dictTypeDTO, DictTypeRepo dictTypeRepo)  {
+    public static DictTypeEntity newDictTypeEntity(DictTypeDTO dictTypeDTO)  {
         DictTypeEntity dictTypeEntity = new DictTypeEntity();
         dictTypeEntity.initInstance();;
-        dictTypeEntity.setDictTypeRepo(dictTypeRepo);
         BeanUtils.copyProperties(dictTypeDTO,dictTypeEntity);
         return dictTypeEntity;
     }

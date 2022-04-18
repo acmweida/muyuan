@@ -38,8 +38,6 @@ public class SysUserEntity extends SysUser {
 
     private List<SysRole> sysRoles;
 
-    private SysUserRepo sysUserRepo;
-
     public SysUserEntity(String username,String password) {
         super(username,password);
     }
@@ -59,19 +57,6 @@ public class SysUserEntity extends SysUser {
 
         setCreateTime(new Date());
         setCreateBy(SecurityUtils.getUserId());
-    }
-
-
-    /**
-     * 保存用户信息
-     * @return
-     */
-    @Transactional
-    public boolean save() {
-        if (sysUserRepo.insert(this)) {
-            return true;
-        }
-        return false;
     }
 
 }

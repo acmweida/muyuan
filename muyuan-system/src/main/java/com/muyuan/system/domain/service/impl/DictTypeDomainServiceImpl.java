@@ -1,10 +1,10 @@
-package com.muyuan.system.application.service.impl;
+package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.entity.DictTypeEntity;
-import com.muyuan.system.application.query.DictTypeQuery;
-import com.muyuan.system.application.service.DictTypeService;
+import com.muyuan.system.domain.query.DictTypeQuery;
+import com.muyuan.system.domain.service.DictTypeDomainService;
 import com.muyuan.system.domain.factories.DictTypeFactory;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
-public class DictTypeServiceImpl implements DictTypeService {
+public class DictTypeDomainServiceImpl implements DictTypeDomainService {
 
     private DictTypeQuery dictTypeQuery;
 
@@ -46,9 +46,9 @@ public class DictTypeServiceImpl implements DictTypeService {
             return 1;
         }
 
-        DictTypeEntity dictTypeEntity = DictTypeFactory.newDictTypeEntity(dictTypeDTO, dictTypeRepo);
+        DictTypeEntity dictTypeEntity = DictTypeFactory.newDictTypeEntity(dictTypeDTO);
 
-        if (dictTypeEntity.save()) {
+        if (dictTypeRepo.insert(dictTypeEntity)) {
             return 0;
         }
         return -1;

@@ -3,7 +3,7 @@ package com.muyuan.system.interfaces.facade.controller;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.application.service.DictTypeService;
+import com.muyuan.system.domain.service.DictTypeDomainService;
 import com.muyuan.system.application.vo.DictTypeVO;
 import com.muyuan.system.interfaces.assembler.DictTypeAssembler;
 import com.muyuan.system.domain.model.DictType;
@@ -25,12 +25,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DictTypeController {
 
-    private DictTypeService dictTypeService;
+    private DictTypeDomainService dictTypeDomainService;
 
     @GetMapping("/dictType/list")
     @ApiOperation(value = "字典类型列表查询")
     public Result<List<DictTypeVO>> list(@ModelAttribute DictTypeDTO dictTypeDTO) {
-        Page page  = dictTypeService.list(dictTypeDTO);
+        Page page  = dictTypeDomainService.list(dictTypeDTO);
         List<DictType> list  = page.getRows();
 
         page.setRows(DictTypeAssembler.buildDictDataVO(list));
@@ -40,7 +40,7 @@ public class DictTypeController {
     @PostMapping("/dictType")
     @ApiOperation(value = "字典类型新增")
     public Result add(@RequestBody @Validated DictTypeDTO dictTypeDTO) {
-        int registerResult = dictTypeService.add(dictTypeDTO);
+        int registerResult = dictTypeDomainService.add(dictTypeDTO);
         if (registerResult == 0) {
             return ResultUtil.success("注册成功");
         } else if (registerResult == 1) {
@@ -56,7 +56,7 @@ public class DictTypeController {
             {@ApiImplicitParam(name = "id",value = "字典类型主键",dataType = "String",paramType = "path",required = true)}
     )
     public Result<DictTypeVO> getById(@PathVariable @NotBlank String id) {
-        Optional<DictType> dictType = dictTypeService.getById(id);
+        Optional<DictType> dictType = dictTypeDomainService.getById(id);
         if (dictType.isPresent()) {
             return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
         }

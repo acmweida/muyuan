@@ -76,4 +76,15 @@ public class User {
     private Long updateUserId;
 
     private Long createUserId;
+
+    public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 }

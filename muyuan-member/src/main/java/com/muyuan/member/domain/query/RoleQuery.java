@@ -1,4 +1,4 @@
-package com.muyuan.member.application.query;
+package com.muyuan.member.domain.query;
 
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.repo.RoleRepo;

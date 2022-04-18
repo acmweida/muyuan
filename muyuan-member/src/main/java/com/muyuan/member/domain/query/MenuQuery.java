@@ -1,4 +1,4 @@
-package com.muyuan.member.application.query;
+package com.muyuan.member.domain.query;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.member.domain.entity.RoleEntity;

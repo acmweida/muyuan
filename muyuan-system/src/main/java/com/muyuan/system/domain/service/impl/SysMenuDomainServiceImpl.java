@@ -1,0 +1,57 @@
+package com.muyuan.system.domain.service.impl;
+
+import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.system.domain.entity.SysRoleEntity;
+import com.muyuan.system.domain.query.SysMenuQuery;
+import com.muyuan.system.domain.service.SysMenuDomainService;
+import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.interfaces.dto.SysMenuDTO;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+/**
+ * @ClassName SysMenuServiceImpl
+ * Description 菜单服务实现
+ * @Author 2456910384
+ * @Date 2022/4/15 14:17
+ * @Version 1.0
+ */
+@Component
+@AllArgsConstructor
+@Slf4j
+public class SysMenuDomainServiceImpl implements SysMenuDomainService {
+
+    private SysMenuQuery sysMenuQuery;
+
+    @Override
+    public List<SysMenu> list(SysMenuDTO sysMenuDTO) {
+        return sysMenuQuery.list(sysMenuDTO);
+    }
+
+    @Override
+    public Optional<SysMenu> get(String id) {
+        SysMenu sysMenu = sysMenuQuery.get(id);
+        if (null != sysMenu) {
+            return Optional.of(sysMenu);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * 通过角色名称查询权限
+     * @param roleNames
+     * @return
+     */
+    public Set<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
+        Set<String> perms = new HashSet<>();
+        if (SysRoleEntity.isAdmin(roleNames)) {
+            perms.add(SecurityConst.ALL_PERMISSION);
+        } else {
+            perms = sysMenuQuery.selectMenuPermissionByRoleNames(roleNames);
+        }
+        return perms;
+    }
+}

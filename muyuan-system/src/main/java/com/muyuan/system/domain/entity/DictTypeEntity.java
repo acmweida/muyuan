@@ -11,28 +11,12 @@ import java.util.Date;
 @Data
 public class DictTypeEntity extends DictType {
 
-    private DictTypeRepo dictTypeRepo;
-
-
     /**
      * 初始化用户信息
      */
     public void initInstance() {
         setCreateTime(new Date());
         setCreateBy(SecurityUtils.getUserId());
-    }
-
-
-    /**
-     * 保存用户信息
-     * @return
-     */
-    @Transactional
-    public boolean save() {
-        if (dictTypeRepo.insert(this)) {
-            return true;
-        }
-        return false;
     }
 
 }

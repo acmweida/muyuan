@@ -2,7 +2,7 @@ package com.muyuan.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.system.application.query.SysMenuQuery;
+import com.muyuan.system.domain.query.SysMenuQuery;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.vo.SysRouterVo;
 import com.muyuan.system.domain.model.SysMenu;

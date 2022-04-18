@@ -1,10 +1,11 @@
-package com.muyuan.system.application.service;
+package com.muyuan.system.domain.service;
 
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @ClassName MenuService 接口
@@ -13,7 +14,7 @@ import java.util.Optional;
  * @Date 2022/2/14 9:38
  * @Version 1.0
  */
-public interface SysMenuService {
+public interface SysMenuDomainService {
 
     /**
      * 列表查询
@@ -28,4 +29,11 @@ public interface SysMenuService {
      * @return
      */
     Optional<SysMenu> get(String id);
+
+    /**
+     * 获取权限信息
+     * @param roleNames
+     * @return
+     */
+    Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
 }

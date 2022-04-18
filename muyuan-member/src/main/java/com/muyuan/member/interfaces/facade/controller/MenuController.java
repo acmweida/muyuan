@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.member.application.query.MenuQuery;
+import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.vo.RouterVo;

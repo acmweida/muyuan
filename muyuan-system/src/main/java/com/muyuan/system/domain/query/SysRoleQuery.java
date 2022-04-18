@@ -1,4 +1,4 @@
-package com.muyuan.system.application.query;
+package com.muyuan.system.domain.query;
 
 
 import com.muyuan.system.domain.model.SysRole;

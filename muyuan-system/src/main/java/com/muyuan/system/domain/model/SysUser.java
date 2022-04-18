@@ -16,6 +16,14 @@ import java.util.Date;
 @Data
 public class SysUser {
 
+    public SysUser(Long id) {
+        this.id = id;
+    }
+
+    public SysUser(String username) {
+        this.username = username;
+    }
+
     private Long id;
 
     /**

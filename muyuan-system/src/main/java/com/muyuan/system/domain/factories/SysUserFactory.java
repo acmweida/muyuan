@@ -10,10 +10,9 @@ public class SysUserFactory {
      *  构建一个新用户实体 并初始化
      * @return
      */
-    public static SysUserEntity newSysUserEntity(RegisterDTO registerDTO, SysUserRepo sysUserRepo)  {
+    public static SysUserEntity newSysUserEntity(RegisterDTO registerDTO)  {
         SysUserEntity sysUserEntity = new SysUserEntity(registerDTO.getUsername(), registerDTO.getPassword());
         sysUserEntity.initInstance();;
-        sysUserEntity.setSysUserRepo(sysUserRepo);
         return sysUserEntity;
     }
 }

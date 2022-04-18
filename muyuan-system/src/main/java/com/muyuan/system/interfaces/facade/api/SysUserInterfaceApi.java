@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.system.api.SysUserInterface;
-import com.muyuan.system.application.service.SysUserService;
+import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;
@@ -23,11 +23,11 @@ import java.util.Set;
 @Service(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0",interfaceClass = SysUserInterface.class)
 public class SysUserInterfaceApi implements SysUserInterface {
 
-    private SysUserService sysUserService;
+    private SysUserApplicationService sysUserApplicationService;
 
     @Override
     public Result<SysUserDTO> getUserByUsername(String username) {
-        SysUserDTO sysUserDTO = sysUserService.getUserByUsername(username);
+        SysUserDTO sysUserDTO = sysUserApplicationService.getUserByUsername(username);
         if (null == sysUserDTO) {
             return ResultUtil.fail("用户信息不存在");
         }
@@ -37,7 +37,7 @@ public class SysUserInterfaceApi implements SysUserInterface {
 
     @Override
     public Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
-        return sysUserService.getMenuPermissionByRoleNames(roleIds);
+        return sysUserApplicationService.getMenuPermissionByRoleNames(roleIds);
     }
 
 }

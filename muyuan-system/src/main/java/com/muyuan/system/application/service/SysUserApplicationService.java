@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 用户应用接口
  */
-public interface SysUserService {
+public interface SysUserApplicationService {
 
     /**
      * 登录获取用户信息 内部RPC
@@ -26,13 +26,6 @@ public interface SysUserService {
      */
     Optional<SysUserVO> getUserInfo();
 
-    /**
-     * 账户注册
-     * 0-注册成功 1-账户已存在
-     * @param registerInfo
-     * @return
-     */
-    int add(RegisterDTO registerInfo);
 
     /**
      * 获取权限

@@ -1,29 +1,30 @@
-package com.muyuan.system.application.service.impl;
+package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.application.query.DictDataQuery;
-import com.muyuan.system.application.service.DictDataService;
 import com.muyuan.system.domain.model.DictData;
+import com.muyuan.system.domain.query.DictDataQuery;
 import com.muyuan.system.domain.repo.DictDataRepo;
+import com.muyuan.system.domain.service.DictDataDomainService;
 import com.muyuan.system.interfaces.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * @ClassName DictDataServiceImpl
- * Description 字典数据
+ * @ClassName DictDataDomainService
+ * Description 字典数据领域服务
  * @Author 2456910384
- * @Date 2022/4/7 11:15
+ * @Date 2022/4/18 11:34
  * @Version 1.0
  */
 @Service
 @AllArgsConstructor
-public class DictDataServiceImpl implements DictDataService {
+public class DictDataDomainServiceImpl implements DictDataDomainService {
 
     private DictDataQuery dictTypeQuery;
 
@@ -40,6 +41,7 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
+    @Transactional
     public Integer add(DictDataDTO dictDataDTO) {
         DictData dictData = dictDataRepo.selectOne(new SqlBuilder(DictData.class)
                 .eq("type", dictDataDTO.getType())
@@ -66,4 +68,5 @@ public class DictDataServiceImpl implements DictDataService {
         }
         return dictDataRepo.delete(ids);
     }
+
 }

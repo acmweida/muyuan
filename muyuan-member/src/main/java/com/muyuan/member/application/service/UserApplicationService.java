@@ -5,7 +5,7 @@ import com.muyuan.member.interfaces.dto.UserDTO;
 import java.util.List;
 import java.util.Set;
 
-public interface UserService {
+public interface UserApplicationService {
 
     /**
      * 登录获取用户信息 内部RPC
