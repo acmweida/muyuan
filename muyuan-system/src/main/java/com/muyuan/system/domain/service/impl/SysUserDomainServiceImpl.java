@@ -53,7 +53,7 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
         }
 
         SysUserEntity sysUserEntity = SysUserFactory.newSysUserEntity(registerInfo);
-
+        sysUserEntity.initInstance();
         if (sysUserRepo.insert(sysUserEntity)) {
             return 0;
         }

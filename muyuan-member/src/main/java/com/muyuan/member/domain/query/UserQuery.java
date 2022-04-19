@@ -45,33 +45,5 @@ public class UserQuery {
         return Optional.of(user);
     }
 
-    /**
-     * 账户注册
-     * 0-注册成功 1-账户已存在
-     * @param registerInfo
-     * @return
-     */
-    public int accountRegister(RegisterDTO registerInfo) {
 
-        User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("username", registerInfo.getUsername())
-                .build());
-        if (null != account) {
-            return 1;
-        }
-
-        String salt = UUID.randomUUID().toString();
-        String encryptKey = UUID.randomUUID().toString();
-
-        User user = new User();
-        BeanUtils.copyProperties(registerInfo,user);
-        user.setNickName(UserEntity.createUserName());
-        user.setPassword(EncryptUtil.SHA1(registerInfo.getPassword() + salt, encryptKey));;
-        user.setSalt(salt);
-        user.setEncryptKey(encryptKey);
-
-        userRepo.insert(user);
-
-        return 0;
-    }
 }

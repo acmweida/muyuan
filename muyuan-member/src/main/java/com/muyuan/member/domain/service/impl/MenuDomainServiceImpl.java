@@ -1,10 +1,13 @@
-package com.muyuan.member.domain.query;
+package com.muyuan.member.domain.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.model.Menu;
+import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.member.domain.repo.MenuRepo;
+import com.muyuan.member.domain.service.MenuDomainService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -21,9 +24,12 @@ import java.util.Set;
  */
 @Service
 @AllArgsConstructor
-public class MenuQuery {
+@Slf4j
+public class MenuDomainServiceImpl implements MenuDomainService {
 
     public MenuRepo menuRepo;;
+
+    public MenuQuery menuQuery;
 
     /**
      * 通过角色名称查询权限
@@ -32,20 +38,14 @@ public class MenuQuery {
      */
     public Set<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
         Set<String> perms = new HashSet<>();
-        List<String> permList = menuRepo.selectMenuPermissionByRoleNames(roleNames);
-        for (Iterator<String> iterator = permList.iterator(); iterator.hasNext();) {
-            perms.add(iterator.next());
+        if (RoleEntity.isShopKeeper(roleNames)) {
+            perms.add(SecurityConst.ALL_PERMISSION);
+        } else {
+             perms = menuQuery.selectMenuPermissionByRoleNames(roleNames);
         }
         return perms;
     }
 
-    /**
-     *通过角色名称查询目录 菜单
-     * @param roleNames
-     * @return
-     */
-    public List<Menu>  selectMenuByRoleNames(List<String> roleNames) {
-        return menuRepo.selectMenuByRoleNames(roleNames);
-    }
+
 
 }

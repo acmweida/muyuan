@@ -12,7 +12,6 @@ public class SysUserFactory {
      */
     public static SysUserEntity newSysUserEntity(RegisterDTO registerDTO)  {
         SysUserEntity sysUserEntity = new SysUserEntity(registerDTO.getUsername(), registerDTO.getPassword());
-        sysUserEntity.initInstance();;
         return sysUserEntity;
     }
 }

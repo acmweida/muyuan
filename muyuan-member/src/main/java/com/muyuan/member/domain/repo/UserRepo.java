@@ -10,5 +10,5 @@ public interface UserRepo {
 
     User selectOne(Map params);
 
-    void insert(User dataObject);
+    boolean insert(User dataObject);
 }

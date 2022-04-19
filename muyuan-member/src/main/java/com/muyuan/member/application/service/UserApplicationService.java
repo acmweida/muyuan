@@ -1,8 +1,10 @@
 package com.muyuan.member.application.service;
 
+import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.dto.UserDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface UserApplicationService {
@@ -20,4 +22,10 @@ public interface UserApplicationService {
      * @return
      */
     Set<String> getMenuPermissionByRoleNames(List<String> roleIds);
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    Optional<UserVO> getUserInfo();
 }
