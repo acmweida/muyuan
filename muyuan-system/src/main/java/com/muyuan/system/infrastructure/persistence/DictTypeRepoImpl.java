@@ -21,8 +21,8 @@ public class DictTypeRepoImpl implements DictTypeRepo {
     }
 
     @Override
-    public boolean insert(DictType dictType) {
-        return dictTypeMapper.insert(dictType) > 0;
+    public int insert(DictType dictType) {
+        return dictTypeMapper.insert(dictType);
     }
 
     @Override

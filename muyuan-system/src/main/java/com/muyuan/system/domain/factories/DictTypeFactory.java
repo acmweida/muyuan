@@ -13,7 +13,6 @@ public class DictTypeFactory {
      */
     public static DictTypeEntity newDictTypeEntity(DictTypeDTO dictTypeDTO)  {
         DictTypeEntity dictTypeEntity = new DictTypeEntity();
-        dictTypeEntity.initInstance();;
         BeanUtils.copyProperties(dictTypeDTO,dictTypeEntity);
         return dictTypeEntity;
     }

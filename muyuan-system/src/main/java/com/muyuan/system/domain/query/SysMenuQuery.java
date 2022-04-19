@@ -1,20 +1,16 @@
 package com.muyuan.system.domain.query;
 
 
-import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName MenuQuery
@@ -67,10 +63,23 @@ public class SysMenuQuery {
         return list;
     }
 
-    public SysMenu get(String id) {
+    /**
+     * 查询
+     * condition
+     *      id
+     *      name
+     * @param sysMenu
+     * @return
+     */
+    public SysMenu get(SysMenu sysMenu) {
         SqlBuilder sqlBuilder = new SqlBuilder(SysMenu.class);
-        sqlBuilder.eq("status", "1")
-                .eq("id", id);
+        sqlBuilder.eq("status", "0");
+        if (!Objects.isNull(sysMenu.getId())) {
+            sqlBuilder.eq("id", sysMenu.getId());
+        }
+        if (!Objects.isNull(sysMenu.getName())) {
+            sqlBuilder.eq("name", sysMenu.getName());
+        }
         return sysMenuRepo.selectOne(sqlBuilder.build());
     }
 

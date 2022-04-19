@@ -51,7 +51,7 @@ public class SysMenu {
     /**
      * 是否为外链（0是 1否）
      */
-    private byte frame;
+    private String frame;
 
     /**
      * 菜单类型（M目录 C菜单 F按钮）
@@ -66,7 +66,7 @@ public class SysMenu {
     /**
      * 菜单状态（0正常 1停用）
      */
-    private byte status;
+    private String status;
 
     /**
      * 权限标识
@@ -90,7 +90,7 @@ public class SysMenu {
 
 
     /** 是否缓存（0缓存 1不缓存） */
-    private byte cache;
+    private String cache;
 
     /**
      * 修改时间
@@ -101,4 +101,14 @@ public class SysMenu {
 
     private String updateBy;
 
+    public SysMenu() {
+    }
+
+    public SysMenu(Long id) {
+        this.id = id;
+    }
+
+    public SysMenu(String name) {
+        this.name = name;
+    }
 }

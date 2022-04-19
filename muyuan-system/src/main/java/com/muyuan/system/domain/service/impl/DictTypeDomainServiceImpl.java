@@ -47,7 +47,7 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
         }
 
         DictTypeEntity dictTypeEntity = DictTypeFactory.newDictTypeEntity(dictTypeDTO);
-
+        dictTypeEntity.initInstance();
         if (dictTypeRepo.insert(dictTypeEntity)) {
             return 0;
         }

@@ -145,7 +145,7 @@ public class MenuAssembler {
      */
     public static boolean isMenuFrame(MenuVO menu) {
         return menu.getParentId().intValue() == 0 && GlobalConst.TYPE_MENU.equals(menu.getType())
-                && menu.getFrame() == GlobalConst.NO_FRAME;
+                &&  GlobalConst.NO_FRAME.equals(menu.getFrame());
     }
 
     /**
@@ -162,7 +162,7 @@ public class MenuAssembler {
         }
         // 非外链并且是一级目录（类型为目录）
         if (0 == menu.getParentId().intValue() && GlobalConst.TYPE_DIR.equals(menu.getType())
-                && GlobalConst.NO_FRAME == menu.getFrame()) {
+                && GlobalConst.NO_FRAME.equals(menu.getFrame())) {
             routerPath = "/" + menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
@@ -179,7 +179,7 @@ public class MenuAssembler {
      * @return 结果
      */
     public static boolean isInnerLink(MenuVO menu) {
-        return menu.getFrame() == GlobalConst.NO_FRAME && StrUtil.ishttp(menu.getPath());
+        return GlobalConst.NO_FRAME.equals(menu.getFrame())  && StrUtil.ishttp(menu.getPath());
     }
 
     /**

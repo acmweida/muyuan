@@ -25,7 +25,7 @@ public class SysUserRepoImpl implements SysUserRepo {
     }
 
     @Override
-    public boolean insert(SysUser dataObject) {
-         return userMapper.insert(dataObject) > 0;
+    public int insert(SysUser dataObject) {
+         return userMapper.insert(dataObject);
     }
 }

@@ -10,5 +10,5 @@ public interface SysUserRepo {
 
     SysUser selectOne(Map params);
 
-    boolean insert(SysUser dataObject);
+    int insert(SysUser dataObject);
 }

@@ -14,7 +14,7 @@ public interface DictDataRepo {
 
     DictData selectOne(Map params);
 
-    boolean insert(DictData dictData);
+    int insert(DictData dictData);
 
     boolean delete(String... ids);
 }

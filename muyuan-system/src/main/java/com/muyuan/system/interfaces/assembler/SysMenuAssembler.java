@@ -147,7 +147,7 @@ public class SysMenuAssembler {
      */
     public static boolean isMenuFrame(SysMenuVO menu) {
         return menu.getParentId().intValue() == 0 && GlobalConst.TYPE_MENU.equals(menu.getType())
-                && menu.getFrame() == GlobalConst.NO_FRAME;
+                && GlobalConst.NO_FRAME.equals(menu.getFrame());
     }
 
     /**

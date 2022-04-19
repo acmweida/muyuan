@@ -1,7 +1,9 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.system.application.vo.SysMenuVO;
 import com.muyuan.system.domain.service.SysMenuDomainService;
@@ -12,10 +14,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -62,6 +62,25 @@ public class SysMenuController {
         }
 
         return ResultUtil.fail("菜单不存在");
+    }
+
+    @RequirePermissions("system:menu:add")
+    @PostMapping("/menu")
+    @ApiOperation("菜单添加")
+    public Result add(@RequestBody @Validated SysMenuDTO sysMenuDTO) {
+
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setParentId(sysMenuDTO.getParentId());
+        sysMenu.setName(sysMenuDTO.getName());
+        if (GlobalConst.NOT_UNIQUE.equals(sysMenuDomainService.checkMenuNameUnique(sysMenu))) {
+            return ResultUtil.fail("菜单名已存在");
+        }
+        if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && StrUtil.ishttp(sysMenuDTO.getPath())) {
+            return ResultUtil.fail("新增菜单'" + sysMenuDTO.getName() + "'失败，地址必须以http(s)://开头");
+        }
+         sysMenuDomainService.add(sysMenuDTO);
+
+        return ResultUtil.success("新增失败");
     }
 
 }

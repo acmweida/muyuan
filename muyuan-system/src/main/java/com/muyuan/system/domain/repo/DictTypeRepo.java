@@ -12,7 +12,7 @@ public interface DictTypeRepo {
 
     List<DictType> select(Map dictType);
 
-    boolean insert(DictType dataObject);
+    int insert(DictType dataObject);
 
     DictType selectOne(Map params);
 }

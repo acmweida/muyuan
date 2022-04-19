@@ -1,13 +1,16 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.query.SysMenuQuery;
+import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -26,6 +29,8 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     private SysMenuQuery sysMenuQuery;
 
+    private SysMenuRepo sysMenuRepo;
+
     @Override
     public List<SysMenu> list(SysMenuDTO sysMenuDTO) {
         return sysMenuQuery.list(sysMenuDTO);
@@ -33,7 +38,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public Optional<SysMenu> get(String id) {
-        SysMenu sysMenu = sysMenuQuery.get(id);
+        SysMenu sysMenu = sysMenuQuery.get(new SysMenu(id));
         if (null != sysMenu) {
             return Optional.of(sysMenu);
         }
@@ -53,5 +58,17 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
             perms = sysMenuQuery.selectMenuPermissionByRoleNames(roleNames);
         }
         return perms;
+    }
+
+    @Override
+    public int add(SysMenuDTO sysMenuDTO) {
+        SysMenu sysMenu = new SysMenu();
+        BeanUtils.copyProperties(sysMenuDTO,sysMenu);
+        return sysMenuRepo.insert(sysMenu);
+    }
+
+    @Override
+    public String checkMenuNameUnique(SysMenu sysMenu) {
+        return null;
     }
 }

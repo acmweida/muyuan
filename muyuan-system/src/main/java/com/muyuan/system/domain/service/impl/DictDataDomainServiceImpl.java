@@ -54,9 +54,8 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
         dictData = new DictData();
         BeanUtils.copyProperties(dictDataDTO, dictData);
-        if (dictDataRepo.insert(dictData)) {
-            return 0;
-        }
+        
+        dictDataRepo.insert(dictData);
 
         return 1;
     }

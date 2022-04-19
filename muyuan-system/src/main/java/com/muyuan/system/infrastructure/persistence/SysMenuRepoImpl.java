@@ -92,4 +92,9 @@ public class SysMenuRepoImpl implements SysMenuRepo {
     public SysMenu selectOne(Map params) {
         return sysMenuMapper.selectOne(params);
     }
+
+    @Override
+    public int insert(SysMenu sysMenu) {
+        return sysMenuMapper.insert(sysMenu);
+    }
 }

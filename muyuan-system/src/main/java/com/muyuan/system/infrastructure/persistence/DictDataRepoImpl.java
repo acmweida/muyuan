@@ -26,8 +26,8 @@ public class DictDataRepoImpl implements DictDataRepo {
     }
 
     @Override
-    public boolean insert(DictData dictData) {
-        return dictDataMapper.insert(dictData) > 0;
+    public int insert(DictData dictData) {
+        return dictDataMapper.insert(dictData);
     }
 
     @Override

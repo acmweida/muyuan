@@ -36,4 +36,13 @@ public interface SysMenuDomainService {
      * @return
      */
     Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
+
+    /**
+     * 菜单添加
+     * @param sysMenuDTO
+     * @return
+     */
+    int add(SysMenuDTO sysMenuDTO);
+
+    String checkMenuNameUnique(SysMenu sysMenu);
 }
