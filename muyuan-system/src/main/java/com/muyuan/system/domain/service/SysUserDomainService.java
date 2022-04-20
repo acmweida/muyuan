@@ -33,9 +33,16 @@ public interface SysUserDomainService {
 
     /**
      * 账户注册
-     * 0-注册成功 1-账户已存在
+     * 0-注册成功
      * @param registerInfo
      * @return
      */
     int add(RegisterDTO registerInfo);
+
+    /**
+     * 检查唯一性
+     * @param sysUser
+     * @return
+     */
+    String checkAccountNameUnique(SysUser sysUser);
 }

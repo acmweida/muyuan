@@ -1,9 +1,11 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import io.swagger.annotations.Api;
@@ -36,15 +38,15 @@ public class SysUserController {
         return ResultUtil.success(userInfo.get());
     }
 
-    @ApiOperation(value = "账号密码注册",code = 0)
+    @ApiOperation(value = "账号密码注册", code = 0)
     @PostMapping("/user")
-   public Result add(@RequestBody @Validated RegisterDTO register) {
-        int registerResult = sysUserDomainService.add(register);
-        if (registerResult == 0) {
-            return ResultUtil.success("注册成功");
-        } else if (registerResult == 1) {
+    public Result add(@RequestBody @Validated RegisterDTO register) {
+        if (GlobalConst.UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(register.getUsername())))) {
             return ResultUtil.fail("账号已存在");
         }
-        return ResultUtil.fail("注册失败");
+
+        sysUserDomainService.add(register);
+        return ResultUtil.success("注册成功");
+
     }
 }

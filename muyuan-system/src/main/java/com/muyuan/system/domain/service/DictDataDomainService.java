@@ -43,4 +43,12 @@ public interface DictDataDomainService {
      * @return
      */
     boolean deleteById(String... ids);
+
+    /**
+     * 检查唯一性
+     *  类型 标签 值
+     * @param dictData
+     * @return
+     */
+    String checkUnique(DictData dictData);
 }

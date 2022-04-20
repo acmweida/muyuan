@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.entity.DictTypeEntity;
@@ -37,21 +38,10 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
 
     @Override
     public int add(DictTypeDTO dictTypeDTO) {
-        DictType account = dictTypeRepo.selectOne(new SqlBuilder(DictType.class).select("id")
-                .eq("name", dictTypeDTO.getName())
-                .or()
-                .eq("type",dictTypeDTO.getType())
-                .build());
-        if (null != account) {
-            return 1;
-        }
-
         DictTypeEntity dictTypeEntity = DictTypeFactory.newDictTypeEntity(dictTypeDTO);
-        dictTypeEntity.initInstance();
-        if (dictTypeRepo.insert(dictTypeEntity)) {
-            return 0;
-        }
-        return -1;
+        dictTypeEntity.init();
+        dictTypeRepo.insert(dictTypeEntity);
+        return 0;
     }
 
     @Override
@@ -62,5 +52,18 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
         }
 
         return Optional.of(dictType);
+    }
+
+    @Override
+    public String checkUnique(DictType dictType) {
+        Long id = null == dictType.getId() ? 0 : dictType.getId();
+        dictType = dictTypeRepo.selectOne(new SqlBuilder(DictType.class).select("id")
+                .eq("name", dictType.getName())
+                .eq("type",dictType.getType())
+                .build());
+        if (null != dictType && !id.equals(dictType.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
     }
 }

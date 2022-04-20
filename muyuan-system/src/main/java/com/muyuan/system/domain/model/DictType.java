@@ -39,4 +39,12 @@ public class DictType {
     private Long updateBy;
 
     private String remark;
+
+    public DictType(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public DictType() {
+    }
 }

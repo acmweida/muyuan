@@ -1,5 +1,6 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
@@ -30,8 +31,8 @@ public class DictTypeController {
     @GetMapping("/dictType/list")
     @ApiOperation(value = "字典类型列表查询")
     public Result<List<DictTypeVO>> list(@ModelAttribute DictTypeDTO dictTypeDTO) {
-        Page page  = dictTypeDomainService.list(dictTypeDTO);
-        List<DictType> list  = page.getRows();
+        Page page = dictTypeDomainService.list(dictTypeDTO);
+        List<DictType> list = page.getRows();
 
         page.setRows(DictTypeAssembler.buildDictDataVO(list));
         return ResultUtil.success(page);
@@ -40,20 +41,19 @@ public class DictTypeController {
     @PostMapping("/dictType")
     @ApiOperation(value = "字典类型新增")
     public Result add(@RequestBody @Validated DictTypeDTO dictTypeDTO) {
-        int registerResult = dictTypeDomainService.add(dictTypeDTO);
-        if (registerResult == 0) {
-            return ResultUtil.success("注册成功");
-        } else if (registerResult == 1) {
+        if (GlobalConst.UNIQUE.equals(dictTypeDomainService.checkUnique(new DictType(dictTypeDTO.getName(), dictTypeDTO.getType())))) {
             return ResultUtil.fail("账号已存在");
         }
-        return ResultUtil.fail("注册失败");
+
+        dictTypeDomainService.add(dictTypeDTO);
+        return ResultUtil.success("注册成功");
     }
 
 
     @GetMapping("/dictType/{id}")
     @ApiOperation(value = "字典类型详情查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id",value = "字典类型主键",dataType = "String",paramType = "path",required = true)}
+            {@ApiImplicitParam(name = "id", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
     )
     public Result<DictTypeVO> getById(@PathVariable @NotBlank String id) {
         Optional<DictType> dictType = dictTypeDomainService.getById(id);

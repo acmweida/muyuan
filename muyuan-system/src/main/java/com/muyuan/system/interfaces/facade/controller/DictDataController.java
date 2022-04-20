@@ -1,5 +1,6 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
@@ -58,13 +59,14 @@ public class DictDataController {
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
    public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
-        Integer res = dictDataDomainService.add(dictDataDTO);
-        if (res == 0) {
-            return ResultUtil.success();
-        } else if (res == 1) {
+        if (GlobalConst.UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataDTO.getLabel(),
+                dictDataDTO.getValue(),
+                dictDataDTO.getType())))) {
             return ResultUtil.fail("已存在相同字典数据");
         }
-        return ResultUtil.fail();
+
+        dictDataDomainService.add(dictDataDTO);
+        return ResultUtil.success();
     }
 
     @DeleteMapping("/dictData/{ids}")

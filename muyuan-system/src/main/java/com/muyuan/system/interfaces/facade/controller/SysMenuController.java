@@ -68,7 +68,6 @@ public class SysMenuController {
     @PostMapping("/menu")
     @ApiOperation("菜单添加")
     public Result add(@RequestBody @Validated SysMenuDTO sysMenuDTO) {
-
         SysMenu sysMenu = new SysMenu();
         sysMenu.setParentId(sysMenuDTO.getParentId());
         sysMenu.setName(sysMenuDTO.getName());

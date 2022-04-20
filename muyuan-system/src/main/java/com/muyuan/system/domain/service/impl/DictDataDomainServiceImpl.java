@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.DictData;
@@ -43,22 +44,13 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     @Override
     @Transactional
     public Integer add(DictDataDTO dictDataDTO) {
-        DictData dictData = dictDataRepo.selectOne(new SqlBuilder(DictData.class)
-                .eq("type", dictDataDTO.getType())
-                .eq("label", dictDataDTO.getLabel())
-                .eq("value", dictDataDTO.getValue())
-                .build());
-        if (null != dictData) {
-            return 1;
-        }
-
-        dictData = new DictData();
+        DictData dictData = new DictData();
         BeanUtils.copyProperties(dictDataDTO, dictData);
-        
-        dictDataRepo.insert(dictData);
 
-        return 1;
+        return dictDataRepo.insert(dictData);
     }
+
+
 
     @Override
     public boolean deleteById(String... ids) {
@@ -66,6 +58,20 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
             return true;
         }
         return dictDataRepo.delete(ids);
+    }
+
+    @Override
+    public String checkUnique(DictData dictData) {
+        Long id = null == dictData.getId() ? 0 : dictData.getId();
+        dictData = dictDataRepo.selectOne(new SqlBuilder(DictData.class).select("id")
+                .eq("type", dictData.getType())
+                .eq("label", dictData.getLabel())
+                .eq("value", dictData.getValue())
+                .build());
+        if (null != dictData && dictData.getId().equals(id)) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
     }
 
 }

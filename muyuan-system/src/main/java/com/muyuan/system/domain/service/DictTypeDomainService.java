@@ -25,7 +25,6 @@ public interface DictTypeDomainService {
 
     /**
      * 新增
-     * 0-注册成功 1-账户已存在
      * @param dictTypeDTO
      * @return
      */
@@ -38,4 +37,11 @@ public interface DictTypeDomainService {
      * @return
      */
     Optional<DictType> getById(String id);
+
+    /**
+     * 检查唯一性
+     * @param dictType
+     * @return
+     */
+    String checkUnique(DictType dictType);
 }

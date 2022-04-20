@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.factories.SysUserFactory;
@@ -45,18 +46,21 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
     @Override
     @Transactional
     public int add(RegisterDTO registerInfo) {
-        SysUser account = sysUserRepo.selectOne(new SqlBuilder(SysUser.class).select("id")
-                .eq("username", registerInfo.getUsername())
-                .build());
-        if (null != account) {
-            return 1;
-        }
-
         SysUserEntity sysUserEntity = SysUserFactory.newSysUserEntity(registerInfo);
-        sysUserEntity.initInstance();
-        if (sysUserRepo.insert(sysUserEntity)) {
-            return 0;
-        }
-        return -1;
+        sysUserEntity.init();
+        return sysUserRepo.insert(sysUserEntity);
     }
+
+    @Override
+    public String checkAccountNameUnique(SysUser sysUser) {
+        Long id = null == sysUser.getId() ? 0 : sysUser.getId();
+        SysUser account = sysUserRepo.selectOne(new SqlBuilder(SysUser.class).select("id")
+                .eq("username", sysUser.getUsername())
+                .build());
+        if (null != account && !id.equals(account.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
 }

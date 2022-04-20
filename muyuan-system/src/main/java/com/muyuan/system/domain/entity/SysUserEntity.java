@@ -24,6 +24,8 @@ public class SysUserEntity extends SysUser {
 
     private static Random random = new Random();
 
+
+
     public static String createUserName() {
         StringBuffer name = new StringBuffer(NAME_PREFIX);
         name.append(StrUtil.randomString(7));
@@ -45,7 +47,7 @@ public class SysUserEntity extends SysUser {
     /**
      * 初始化用户信息
      */
-    public void initInstance() {
+    public void init() {
         Assert.isTrue(!ObjectUtils.isEmpty(getPassword()),"SysUserEntity init fail, password is null");
         String salt = UUID.randomUUID().toString();
         String encryptKey = UUID.randomUUID().toString();

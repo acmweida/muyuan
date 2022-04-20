@@ -58,4 +58,12 @@ public class DictData {
 
     private String remark;
 
+    public DictData() {
+    }
+
+    public DictData(String label, String value, String type) {
+        this.label = label;
+        this.value = value;
+        this.type = type;
+    }
 }
