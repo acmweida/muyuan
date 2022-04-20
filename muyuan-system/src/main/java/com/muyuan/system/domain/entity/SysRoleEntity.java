@@ -21,7 +21,7 @@ public class SysRoleEntity extends SysRole {
     }
 
     public static boolean isAdmin(String roleName) {
-        return (SecurityConst.AUTHORITY_PREFIX+SecurityConst.ADMIN_ROOT_ROLE_CODE).equals(roleName);
+        return (SecurityConst.ADMIN_ROOT_ROLE_CODE).equals(roleName);
     }
 
     public static boolean isAdmin(List<String> roleNames) {

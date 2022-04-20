@@ -69,7 +69,7 @@ public class SecurityContextHolder {
             JsonNode jwtPayLoad = getJwtPayLoad();
             if (jwtPayLoad.has(SecurityConst.JWT_AUTHORITIES_KEY) && jwtPayLoad.get(SecurityConst.JWT_AUTHORITIES_KEY).isArray()) {
                 for (JsonNode node : jwtPayLoad.get(SecurityConst.JWT_AUTHORITIES_KEY)) {
-                    roles.add(node.asText());
+                    roles.add(node.asText().replace(SecurityConst.AUTHORITY_PREFIX,""));
                 }
             }
             set(SecurityConst.USER_ROLE,roles);
