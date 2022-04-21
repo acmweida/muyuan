@@ -53,9 +53,9 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
 
     @Override
-    public boolean deleteById(String... ids) {
+    public int deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return true;
+            return 0;
         }
         return dictDataRepo.delete(ids);
     }

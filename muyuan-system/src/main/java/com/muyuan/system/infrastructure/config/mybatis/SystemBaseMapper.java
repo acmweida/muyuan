@@ -30,8 +30,8 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
      * @param entity
      * @return
      */
-    @UpdateProvider(value = CrudSqlProvider.class,method = "update")
-    Integer update(T entity);
+    @UpdateProvider(value = CrudSqlProvider.class,method = "updateById")
+    Integer updateById(T entity);
 
     /**
      * 更加指定字段更新

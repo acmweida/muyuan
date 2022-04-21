@@ -42,7 +42,7 @@ public interface DictDataDomainService {
      * @param ids
      * @return
      */
-    boolean deleteById(String... ids);
+    int deleteById(String... ids);
 
     /**
      * 检查唯一性

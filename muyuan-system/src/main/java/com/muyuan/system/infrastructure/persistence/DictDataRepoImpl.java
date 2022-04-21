@@ -31,8 +31,7 @@ public class DictDataRepoImpl implements DictDataRepo {
     }
 
     @Override
-    public boolean delete(String... ids) {
-        Integer rows = dictDataMapper.deleteByIds(ids);
-        return rows > 0;
+    public int delete(String... ids) {
+        return dictDataMapper.deleteByIds(ids);
     }
 }

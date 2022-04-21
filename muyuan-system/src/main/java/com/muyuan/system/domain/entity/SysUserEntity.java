@@ -44,21 +44,6 @@ public class SysUserEntity extends SysUser {
         super(username,password);
     }
 
-    /**
-     * 初始化用户信息
-     */
-    public void init() {
-        Assert.isTrue(!ObjectUtils.isEmpty(getPassword()),"SysUserEntity init fail, password is null");
-        String salt = UUID.randomUUID().toString();
-        String encryptKey = UUID.randomUUID().toString();
 
-        setNickName(SysUserEntity.createUserName());
-        setPassword(EncryptUtil.SHA1(getPassword() + salt, encryptKey));;
-        setSalt(salt);
-        setEncryptKey(encryptKey);
-
-        setCreateTime(new Date());
-        setCreateBy(SecurityUtils.getUserId());
-    }
 
 }

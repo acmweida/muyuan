@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Optional;
@@ -58,10 +59,22 @@ public class SysMenuController {
                                              String id) {
         Optional<SysMenu> sysMenu = sysMenuDomainService.get(id);
         if (sysMenu.isPresent()) {
-            ResultUtil.success(sysMenu.get());
+           return ResultUtil.success(sysMenu.get());
         }
 
         return ResultUtil.fail("菜单不存在");
+    }
+
+    @RequirePermissions("system:menu:delete")
+    @DeleteMapping("/menu/{id}")
+    @ApiOperation(value = "删除菜单")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "id",value = "菜单ID",dataType = "String",paramType = "path",required = true)}
+    )
+    public Result<SysMenuVO> delete(@PathVariable @NotBlank(message = "菜单ID不能为空")
+                                         String id) {
+        sysMenuDomainService.deleteById(id);
+        return ResultUtil.success();
     }
 
     @RequirePermissions("system:menu:add")
@@ -79,7 +92,26 @@ public class SysMenuController {
         }
          sysMenuDomainService.add(sysMenuDTO);
 
-        return ResultUtil.success("新增失败");
+        return ResultUtil.success();
+    }
+
+    @RequirePermissions("system:menu:update")
+    @PutMapping("/menu")
+    @ApiOperation("菜单添加")
+    public Result update(@RequestBody @Validated SysMenuDTO sysMenuDTO) {
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setId(Long.getLong(sysMenuDTO.getId()));
+        sysMenu.setParentId(sysMenuDTO.getParentId());
+        sysMenu.setName(sysMenuDTO.getName());
+        if (GlobalConst.NOT_UNIQUE.equals(sysMenuDomainService.checkMenuNameUnique(sysMenu))) {
+            return ResultUtil.fail(StrUtil.format("变更菜单名[{}]已存在",sysMenu.getName()));
+        }
+        if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && StrUtil.ishttp(sysMenuDTO.getPath())) {
+            return ResultUtil.fail("新增菜单[{}]失败，地址必须以http(s)://开头", sysMenuDTO.getName());
+        }
+        sysMenuDomainService.update(sysMenuDTO);
+
+        return ResultUtil.success("更新成功");
     }
 
 }

@@ -16,5 +16,5 @@ public interface DictDataRepo {
 
     int insert(DictData dictData);
 
-    boolean delete(String... ids);
+    int delete(String... ids);
 }

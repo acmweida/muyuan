@@ -46,9 +46,8 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
     @Override
     @Transactional
     public int add(RegisterDTO registerInfo) {
-        SysUserEntity sysUserEntity = SysUserFactory.newSysUserEntity(registerInfo);
-        sysUserEntity.init();
-        return sysUserRepo.insert(sysUserEntity);
+        SysUser sysUser = SysUserFactory.newSysUser(registerInfo);
+        return sysUserRepo.insert(sysUser);
     }
 
     @Override

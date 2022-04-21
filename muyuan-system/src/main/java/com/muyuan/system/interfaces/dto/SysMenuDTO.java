@@ -3,8 +3,7 @@ package com.muyuan.system.interfaces.dto;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 /**
@@ -16,6 +15,9 @@ import java.util.Date;
  */
 @Data
 public class SysMenuDTO {
+
+    @Pattern(regexp = "\\d*",message = "主键必须是整数字符串")
+    private String id;
 
     /**
      * 菜单名称
@@ -32,7 +34,7 @@ public class SysMenuDTO {
     /**
      * 显示顺序
      */
-    @NotBlank(message = "菜单排序不能为空")
+    @NotNull(message = "菜单排序不能为空")
     private Integer orderNum;
 
     /**

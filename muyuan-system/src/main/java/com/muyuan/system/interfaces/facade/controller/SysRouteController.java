@@ -6,6 +6,7 @@ import com.muyuan.system.domain.query.SysMenuQuery;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.vo.SysRouterVo;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,13 +21,13 @@ import java.util.List;
 @AllArgsConstructor
 public class SysRouteController {
 
-    private SysMenuQuery sysMenuQuery;
+    private SysMenuDomainService sysMenuDomainService;
 
     @GetMapping("/route")
     @ApiOperation(value = "路由信息获取")
     Result<List<SysRouterVo>> getRouter() {
         List<String> roles = SecurityUtils.getRoles();
-        List<SysMenu> menus = sysMenuQuery.selectMenuByRoleNames(roles);
+        List<SysMenu> menus = sysMenuDomainService.selectMenuByRoleNames(roles);
         return ResultUtil.success(SysMenuAssembler.buildMenus(SysMenuAssembler.buildMenuTree(menus)));
     }
 

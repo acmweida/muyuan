@@ -37,6 +37,14 @@ public interface SysMenuDomainService {
      */
     Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
 
+
+    /**
+     * 通过角色获取菜单列表
+     * @param roleNames
+     * @return
+     */
+    List<SysMenu> selectMenuByRoleNames(List<String> roleNames);
+
     /**
      * 菜单添加
      * @param sysMenuDTO
@@ -44,5 +52,24 @@ public interface SysMenuDomainService {
      */
     int add(SysMenuDTO sysMenuDTO);
 
+    /**
+     * 更新
+     * @param sysMenuDTO
+     * @return
+     */
+    int update(SysMenuDTO sysMenuDTO);
+
+    /**
+     * 校验唯一性
+     * @param sysMenu
+     * @return
+     */
     String checkMenuNameUnique(SysMenu sysMenu);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    int deleteById(String... ids);
 }

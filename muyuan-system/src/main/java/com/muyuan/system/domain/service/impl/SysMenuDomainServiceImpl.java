@@ -4,15 +4,19 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.system.domain.entity.SysMenuEntity;
 import com.muyuan.system.domain.entity.SysRoleEntity;
+import com.muyuan.system.domain.factories.SysMenuFactory;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.query.SysMenuQuery;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +45,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public Optional<SysMenu> get(String id) {
-        SysMenu sysMenu = sysMenuQuery.get(new SysMenu(id));
+        SysMenu sysMenu = sysMenuQuery.get(new SysMenu(Long.valueOf(id)));
         if (null != sysMenu) {
             return Optional.of(sysMenu);
         }
@@ -64,10 +68,25 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     }
 
     @Override
+    public List<SysMenu> selectMenuByRoleNames(List<String> roleNames) {
+        if (ObjectUtils.isEmpty(roleNames)) {
+            return Collections.EMPTY_LIST;
+        }
+        return sysMenuQuery.selectMenuByRoleNames(roleNames);
+    }
+
+    @Override
     public int add(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = new SysMenu();
-        BeanUtils.copyProperties(sysMenuDTO,sysMenu);
+        SysMenu sysMenu = SysMenuFactory.newSysMenu(sysMenuDTO);
         return sysMenuRepo.insert(sysMenu);
+    }
+
+    @Override
+    public int update(SysMenuDTO sysMenuDTO) {
+        SysMenu sysMenu = SysMenuFactory.buildSysMenu(sysMenuDTO);
+        sysMenu.setUpdateTime(new Date());
+        sysMenu.setUpdateBy(SecurityUtils.getUserId());
+        return sysMenuRepo.updateById(sysMenu);
     }
 
     @Override
@@ -81,5 +100,13 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public int deleteById(String... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return 0;
+        }
+        return sysMenuRepo.deleteById(ids);
     }
 }

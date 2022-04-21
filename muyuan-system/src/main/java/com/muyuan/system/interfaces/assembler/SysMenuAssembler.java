@@ -2,10 +2,13 @@ package com.muyuan.system.interfaces.assembler;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.vo.SysMenuVO;
 import com.muyuan.system.application.vo.SysMetaVo;
 import com.muyuan.system.application.vo.SysRouterVo;
+import com.muyuan.system.domain.entity.SysMenuEntity;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
  * @Version 1.0
  */
 public class SysMenuAssembler {
+
 
     /**
      * 构建目录树结构
@@ -164,7 +168,7 @@ public class SysMenuAssembler {
         }
         // 非外链并且是一级目录（类型为目录）
         if (0 == menu.getParentId().intValue() && GlobalConst.TYPE_DIR.equals(menu.getType())
-                && GlobalConst.NO_FRAME == menu.getFrame()) {
+                && GlobalConst.NO_FRAME.equals(menu.getFrame())) {
             routerPath = "/" + menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
@@ -181,7 +185,7 @@ public class SysMenuAssembler {
      * @return 结果
      */
     public static boolean isInnerLink(SysMenuVO menu) {
-        return menu.getFrame() == GlobalConst.NO_FRAME && StrUtil.ishttp(menu.getPath());
+        return  GlobalConst.NO_FRAME.equals(menu.getFrame())  && StrUtil.ishttp(menu.getPath());
     }
 
     /**

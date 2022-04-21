@@ -31,10 +31,10 @@ public class DictDataController {
 
     @GetMapping("/dictData/list")
     @ApiOperation(value = "字典数值列表查询")
-    public Result<List<DictDataVO>> list(@ModelAttribute  DictDataDTO dictDataDTO) {
+    public Result<List<DictDataVO>> list(@ModelAttribute DictDataDTO dictDataDTO) {
 
-        Page page  = dictDataDomainService.list(dictDataDTO);
-        List<DictData> list  = page.getRows();
+        Page page = dictDataDomainService.list(dictDataDTO);
+        List<DictData> list = page.getRows();
 
         page.setRows(DictDataAssembler.buildDictDataVO(list));
 
@@ -58,7 +58,7 @@ public class DictDataController {
 
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
-   public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
+    public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
         if (GlobalConst.UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataDTO.getLabel(),
                 dictDataDTO.getValue(),
                 dictDataDTO.getType())))) {
@@ -73,13 +73,11 @@ public class DictDataController {
     @ApiOperation(value = "字典数据删除")
     @RequirePermissions(value = "system:dict:remove")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "ids",value = "字典类型主键",dataType = "String",paramType = "path",required = true)}
+            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
     )
     public Result delete(@PathVariable String... ids) {
-        if (dictDataDomainService.deleteById(ids)) {
-            return ResultUtil.success();
-        }
-        return ResultUtil.fail();
+        dictDataDomainService.deleteById(ids);
+        return ResultUtil.success();
     }
 
 }

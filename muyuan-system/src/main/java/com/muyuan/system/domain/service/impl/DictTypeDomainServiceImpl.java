@@ -38,10 +38,8 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
 
     @Override
     public int add(DictTypeDTO dictTypeDTO) {
-        DictTypeEntity dictTypeEntity = DictTypeFactory.newDictTypeEntity(dictTypeDTO);
-        dictTypeEntity.init();
-        dictTypeRepo.insert(dictTypeEntity);
-        return 0;
+        DictType dictType = DictTypeFactory.newDictType(dictTypeDTO);
+        return  dictTypeRepo.insert(dictType);
     }
 
     @Override

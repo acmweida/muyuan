@@ -1,6 +1,5 @@
 package com.muyuan.system.domain.repo;
 
-import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.SysMenu;
 
 import java.util.List;
@@ -28,4 +27,8 @@ public interface SysMenuRepo {
     SysMenu selectOne(Map params);
 
     int insert(SysMenu sysMenu);
+
+    int deleteById(String... id);
+
+    int updateById(SysMenu id);
 }

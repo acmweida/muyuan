@@ -132,7 +132,7 @@ public class CrudSqlProvider {
     }
 
 
-    public String update(Object bean) {
+    public String updateById(Object bean) {
         return updateBy(bean, GlobalConst.ID);
     }
 

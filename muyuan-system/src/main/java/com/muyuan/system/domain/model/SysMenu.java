@@ -99,7 +99,7 @@ public class SysMenu {
 
     private Long createBy;
 
-    private String updateBy;
+    private Long updateBy;
 
     public SysMenu() {
     }
@@ -111,4 +111,5 @@ public class SysMenu {
     public SysMenu(String name) {
         this.name = name;
     }
+
 }

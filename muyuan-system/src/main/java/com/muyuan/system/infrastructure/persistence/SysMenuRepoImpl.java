@@ -80,7 +80,8 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public List<SysMenu> selectMenuByRoleName(String roleName) {
-        return sysMenuMapper.selectMenuByRoleNames(Arrays.asList(roleName));
+        List<SysMenu> sysMenus = sysMenuMapper.selectMenuByRoleNames(Arrays.asList(roleName));
+        return sysMenus;
     }
 
     @Override
@@ -95,6 +96,16 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public int insert(SysMenu sysMenu) {
-        return sysMenuMapper.insert(sysMenu);
+        return sysMenuMapper.insert((SysMenu)sysMenu);
+    }
+
+    @Override
+    public int deleteById(String... id) {
+        return sysMenuMapper.deleteByIds(id);
+    }
+
+    @Override
+    public int updateById(SysMenu sysMenu) {
+        return sysMenuMapper.updateById(sysMenu);
     }
 }

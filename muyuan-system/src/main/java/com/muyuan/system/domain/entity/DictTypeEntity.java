@@ -11,12 +11,5 @@ import java.util.Date;
 @Data
 public class DictTypeEntity extends DictType {
 
-    /**
-     * 初始化用户信息
-     */
-    public void init() {
-        setCreateTime(new Date());
-        setCreateBy(SecurityUtils.getUserId());
-    }
 
 }
