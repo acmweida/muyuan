@@ -42,7 +42,7 @@ public class IdGeneratorAspect {
                 setterMethod = getIdSetterMethod(target,idFieldName);
                 idField = getIdField(target,idFieldName);
                 if (idField == null) {
-                    log.info("id generator not found id field!");
+                    log.error("id generator not found {} setter method!",idField);
                     return;
                 }
 
@@ -88,22 +88,45 @@ public class IdGeneratorAspect {
     }
 
     public Method getIdSetterMethod(Class target,String idFieldName) {
+       Method getter = getIdSetterMethodForClass(target,idFieldName);
+       if (null != getter) {
+           return  getter;
+       }
+        Class superClass = target.getSuperclass();
+        while (Object.class != superClass) {
+            getter = getIdSetterMethodForClass(superClass,idFieldName);
+            if (null != getter) {
+                return getter;
+            }
+            superClass = superClass.getSuperclass();
+        }
+        return null;
+    }
+
+    public Method getIdSetterMethodForClass(Class target,String idFieldName) {
         final PropertyDescriptor[] beanGetters = ReflectUtils.getBeanGetters(target);
         for (PropertyDescriptor propertyDescriptor : beanGetters) {
             if (propertyDescriptor.getName().equals(idFieldName)) {
                 return propertyDescriptor.getWriteMethod();
             }
         }
-        return null;
+        return  null;
     }
 
+
     public Field getIdField(Class target, String idFieldName) {
-        try {
-           return target.getDeclaredField(idFieldName);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+        Field declaredField = null;
+        while (Object.class != target) {
+            try {
+                declaredField = target.getDeclaredField(idFieldName);
+                if (null != declaredField) {
+                    return declaredField;
+                }
+            } catch (NoSuchFieldException e) {
+                target = target.getSuperclass();
+            }
         }
-        return null;
+        return declaredField;
     }
 
 }

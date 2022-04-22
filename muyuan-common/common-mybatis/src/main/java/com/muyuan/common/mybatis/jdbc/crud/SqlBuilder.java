@@ -111,7 +111,6 @@ public class SqlBuilder {
             String column = StrUtil.humpToUnderline(condition.getField());
             params.put(column,condition.getValue());
         }
-        params.put(Constant.TABLE_NAME,StrUtil.humpToUnderline(target.getSimpleName()));
         params.put(Constant.CONDITION,conditions);
         if (null == columns) {
             List<String> column = new ArrayList<>();

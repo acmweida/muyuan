@@ -29,12 +29,11 @@ public class CrudSqlProvider {
         sqlHandlers.put(Option.IN,new InConditionSqlHandler());
     }
 
-    public String selectOne(Map<String,Object> params) {
+    public String selectOne(Map<String,Object> params,ProviderContext context) {
         SQL sql = new SQL();
 
-        String table = (String) params.get(Constant.TABLE_NAME);
         String[] column = (String[]) params.get(Constant.COLUMN);
-        sql.SELECT(column).FROM(Constant.TABLE_PREFIX + table);
+        sql.SELECT(column).FROM(tableName(context));
         String conditionSql ;
         List<String> conditionSqls = new ArrayList<>();
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
@@ -68,12 +67,11 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
-    public String selectList(Map<String,Object> params) {
+    public String selectList(Map<String,Object> params,ProviderContext context) {
         SQL sql = new SQL();
 
-        String table = (String) params.get(Constant.TABLE_NAME);
         String[] column = (String[]) params.get(Constant.COLUMN);
-        sql.SELECT(column).FROM(Constant.TABLE_PREFIX + table);
+        sql.SELECT(column).FROM(tableName(context));
         String conditionSql ;
         List<String> conditionSqls = new ArrayList<>();
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
@@ -106,16 +104,14 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
-    public String insert(Object bean) {
+    public String insert(Object bean,ProviderContext context) {
         SQL sql = new SQL();
-        Class<?> aClass = bean.getClass();
-        String simpleName = aClass.getSimpleName();
-        sql.INSERT_INTO(Constant.TABLE_PREFIX+ StrUtil.humpToUnderline(simpleName));
+        sql.INSERT_INTO(tableName(context));
 
         List<String> values = new ArrayList<>();
         List<String> column = new ArrayList<>();
 
-        Field[] declaredFields = aClass.getDeclaredFields();
+        Field[] declaredFields = entityType(context).getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, bean);
@@ -132,15 +128,14 @@ public class CrudSqlProvider {
     }
 
 
-    public String updateById(Object bean) {
-        return updateBy(bean, GlobalConst.ID);
+    public String updateById(ProviderContext context,Object bean) {
+        return updateBy(context,bean, GlobalConst.ID);
     }
 
-    public String updateBy(Object bean,String... fieldNamesArr) {
+    public String updateBy(ProviderContext context,Object bean,String... fieldNamesArr) {
         SQL sql = new SQL();
-        Class<?> aClass = bean.getClass();
-        String simpleName = aClass.getSimpleName();
-        sql.UPDATE(Constant.TABLE_PREFIX+ StrUtil.humpToUnderline(simpleName));
+        Class<?> aClass =entityType(context);
+        sql.UPDATE(tableName(context));
 
         List<String> sets = new ArrayList<>();
 
@@ -151,8 +146,7 @@ public class CrudSqlProvider {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, bean);
             if ( !fieldNamesList.contains(propertyDescriptor.getName())  &&  null != field) {
-                sets.add("#{" + propertyDescriptor.getName() + "} = "
-                        + StrUtil.humpToUnderline(propertyDescriptor.getName()) );
+                sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{" + propertyDescriptor.getName() + "}  ");
             }
         }
 
