@@ -83,9 +83,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public int update(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.buildSysMenu(sysMenuDTO);
-        sysMenu.setUpdateTime(new Date());
-        sysMenu.setUpdateBy(SecurityUtils.getUserId());
+        SysMenu sysMenu = SysMenuFactory.updateSysMenu(sysMenuDTO);
         return sysMenuRepo.updateById(sysMenu);
     }
 

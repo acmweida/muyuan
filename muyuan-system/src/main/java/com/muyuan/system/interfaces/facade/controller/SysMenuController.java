@@ -17,9 +17,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -99,8 +99,12 @@ public class SysMenuController {
     @PutMapping("/menu")
     @ApiOperation("菜单添加")
     public Result update(@RequestBody @Validated SysMenuDTO sysMenuDTO) {
+        if (Objects.isNull(sysMenuDTO.getId())) {
+            return ResultUtil.fail("id不能为空");
+        }
+
         SysMenu sysMenu = new SysMenu();
-        sysMenu.setId(Long.getLong(sysMenuDTO.getId()));
+        sysMenu.setId(Long.valueOf(sysMenuDTO.getId()));
         sysMenu.setParentId(sysMenuDTO.getParentId());
         sysMenu.setName(sysMenuDTO.getName());
         if (GlobalConst.NOT_UNIQUE.equals(sysMenuDomainService.checkMenuNameUnique(sysMenu))) {

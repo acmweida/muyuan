@@ -93,18 +93,19 @@ public class SysMenuDTO {
 
 
     /** 是否缓存（0缓存 1不缓存） */
-    private byte cache;
+    private String cache;
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("SysMenuDTO{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", parentId=").append(parentId);
         sb.append(", orderNum=").append(orderNum);
         sb.append(", path='").append(path).append('\'');
         sb.append(", component='").append(component).append('\'');
         sb.append(", query='").append(query).append('\'');
-        sb.append(", frame=").append(frame);
+        sb.append(", frame='").append(frame).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", visible='").append(visible).append('\'');
         sb.append(", status='").append(status).append('\'');

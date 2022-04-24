@@ -68,7 +68,7 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
                 .eq("label", dictData.getLabel())
                 .eq("value", dictData.getValue())
                 .build());
-        if (null != dictData && dictData.getId().equals(id)) {
+        if (null != dictData && !dictData.getId().equals(id)) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;

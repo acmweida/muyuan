@@ -108,7 +108,7 @@ public class SqlBuilder {
             if (condition.getOption() == Option.OR) {
                 continue;
             }
-            String column = StrUtil.humpToUnderline(condition.getField());
+            String column = condition.getField();
             params.put(column,condition.getValue());
         }
         params.put(Constant.CONDITION,conditions);

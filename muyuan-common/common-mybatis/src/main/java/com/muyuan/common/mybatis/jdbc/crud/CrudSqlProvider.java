@@ -157,7 +157,7 @@ public class CrudSqlProvider {
         Object value = null;
         for (String fieldName : fieldNamesArr) {
             try {
-                field = aClass.getField(fieldName);
+                field = aClass.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 value = field.get(bean);
             } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -167,6 +167,10 @@ public class CrudSqlProvider {
             if (value != null) {
                 conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{" + field.getName() + "}");
             }
+        }
+        if (conditionSqls.size() == 0) {
+            log.error("update condition not found!");
+            return "";
         }
 
         sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));

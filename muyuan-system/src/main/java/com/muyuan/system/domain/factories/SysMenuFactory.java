@@ -34,9 +34,12 @@ public class SysMenuFactory {
      *  构建一个系统菜单 并初始化
      * @return
      */
-    public static SysMenu buildSysMenu(SysMenuDTO sysMenuDTO)  {
+    public static SysMenu updateSysMenu(SysMenuDTO sysMenuDTO)  {
         SysMenu sysMenu = new SysMenu();
         BeanUtils.copyProperties(sysMenuDTO,sysMenu);
+        sysMenu.setUpdateTime(new Date());
+        sysMenu.setUpdateBy(SecurityUtils.getUserId());
+        sysMenu.setId(Long.valueOf(sysMenuDTO.getId()));
         return sysMenu;
     }
 }
