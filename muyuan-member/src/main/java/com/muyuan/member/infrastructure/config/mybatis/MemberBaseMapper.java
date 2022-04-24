@@ -27,8 +27,8 @@ public interface MemberBaseMapper<T> extends JdbcBaseMapper<T> {
      * @param entity
      * @return
      */
-    @SelectProvider(value = CrudSqlProvider.class,method = "update")
-    Integer update(T entity);
+    @SelectProvider(value = CrudSqlProvider.class,method = "updateById")
+    Integer updateById(T entity);
 
     /**
      * 更加指定字段更新

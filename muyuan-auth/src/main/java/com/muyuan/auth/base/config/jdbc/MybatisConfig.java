@@ -24,7 +24,7 @@ public class MybatisConfig {
         authDataSource.setJdbcUrl(jdbcConfig.getUrl());
         authDataSource.setUsername(jdbcConfig.getUsername());
         authDataSource.setPassword(jdbcConfig.getPassword());
-        authDataSource.setMaximumPoolSize(32);
+        authDataSource.setMaximumPoolSize(4);
         authDataSource.setMinimumIdle(8);
         dataSourceMap.put(AuthJdbcConfig.DATASOURCE_NAME,authDataSource);
 
