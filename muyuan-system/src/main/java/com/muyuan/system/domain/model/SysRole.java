@@ -24,19 +24,16 @@ public class SysRole {
     private String name;
 
     /**
-     * 名称描述
+     * 角色编码
      */
-    private String nameDesc;
+    private String code;
+
+    private String sort;
 
     /**
-     * 状态 0-正常 1-删除
+     * 状态 0-正常 1-停用
      */
-    private short state;
-
-    /**
-     * 父角色ID
-     */
-    private Long parentId;
+    private String status;
 
     private Long createBy;
 

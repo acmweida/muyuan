@@ -1,6 +1,8 @@
 package com.muyuan.system.domain.service;
 
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.SysRole;
+import com.muyuan.system.interfaces.dto.SysRoleDTO;
 
 import java.util.List;
 
@@ -19,4 +21,11 @@ public interface SysRoleDomainService {
      * @return
      */
     List<SysRole> getRoleByUserId(Long userId);
+
+    /**
+     * 列表查询
+     * @param sysRoleDTO
+     * @return
+     */
+    Page list(SysRoleDTO sysRoleDTO);
 }

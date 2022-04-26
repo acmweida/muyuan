@@ -41,7 +41,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
         Long id = user.getId();
         List<SysRole> sysRoles = getUserRoles(id);
 
-        List<String> roleNames = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX + item.getName()).collect(Collectors.toList());
+        List<String> roleNames = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX + item.getCode()).collect(Collectors.toList());
         // 默认角色
 //        roleNames.add(SecurityConst.DEFAULT_ROLE);
 

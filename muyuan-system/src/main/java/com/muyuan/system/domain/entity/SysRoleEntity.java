@@ -17,7 +17,7 @@ import java.util.List;
 public class SysRoleEntity extends SysRole {
 
     public boolean isShopKeeper() {
-        return isAdmin(this.getName());
+        return isAdmin(this.getCode());
     }
 
     public static boolean isAdmin(String roleName) {

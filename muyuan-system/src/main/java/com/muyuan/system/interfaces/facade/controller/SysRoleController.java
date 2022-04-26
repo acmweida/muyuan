@@ -1,7 +1,16 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.system.domain.service.SysRoleDomainService;
+import com.muyuan.system.interfaces.dto.SysRoleDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,4 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"系统角色接口"})
 @AllArgsConstructor
 public class SysRoleController {
+
+    private SysRoleDomainService sysRoleDomainService;
+
+    @GetMapping("/role/list")
+    @ApiOperation(value = "角色查询")
+    @RequirePermissions("system:role:lise")
+    public Result list(@ModelAttribute SysRoleDTO sysRoleDTO) {
+        Page page = sysRoleDomainService.list(sysRoleDTO);
+
+        return ResultUtil.success(page);
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName RoleRepoImpl
@@ -24,5 +25,10 @@ public class SysRoleRepoImpl implements SysRoleRepo {
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
         return sysRoleMapper.selectRoleByUserId(userId);
+    }
+
+    @Override
+    public List<SysRole> select(Map params) {
+        return sysRoleMapper.selectList(params);
     }
 }
