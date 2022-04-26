@@ -4,16 +4,17 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.DictData;
-import com.muyuan.system.domain.query.DictDataQuery;
 import com.muyuan.system.domain.repo.DictDataRepo;
 import com.muyuan.system.domain.service.DictDataDomainService;
 import com.muyuan.system.interfaces.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,38 +28,9 @@ import java.util.List;
 @AllArgsConstructor
 public class DictDataDomainServiceImpl implements DictDataDomainService {
 
-    private DictDataQuery dictTypeQuery;
-
     private DictDataRepo dictDataRepo;
 
-    @Override
-    public Page list(DictDataDTO dictDataDTO) {
-        return dictTypeQuery.list(dictDataDTO);
-    }
-
-    @Override
-    public List<DictData> getByDataType(String dictType) {
-        return dictTypeQuery.getByDataType(dictType);
-    }
-
-    @Override
-    @Transactional
-    public Integer add(DictDataDTO dictDataDTO) {
-        DictData dictData = new DictData();
-        BeanUtils.copyProperties(dictDataDTO, dictData);
-
-        return dictDataRepo.insert(dictData);
-    }
-
-
-
-    @Override
-    public int deleteById(String... ids) {
-        if (ObjectUtils.isEmpty(ids)) {
-            return 0;
-        }
-        return dictDataRepo.delete(ids);
-    }
+    // ##############################  query ########################## //
 
     @Override
     public String checkUnique(DictData dictData) {
@@ -72,6 +44,73 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
+    }
+
+    /**
+     * 查询字典数据
+     * @param dictDataDTO
+     * @return
+     */
+    @Override
+    public Page list(DictDataDTO dictDataDTO) {
+
+        SqlBuilder sqlBuilder = new SqlBuilder(DictData.class);
+        if (ObjectUtils.isNotEmpty(dictDataDTO.getType())) {
+            sqlBuilder.eq("type",dictDataDTO.getType());
+        }
+        if (ObjectUtils.isNotEmpty(dictDataDTO.getStatus())) {
+            sqlBuilder.eq("status",dictDataDTO.getStatus());
+        }
+
+        Page page = new Page();
+        page.setPageNum(dictDataDTO.getPageNum());
+        page.setPageSize(dictDataDTO.getPageSize());
+        sqlBuilder.page(page);
+
+        List<DictData> list = dictDataRepo.select(sqlBuilder.build());
+
+        page.setRows(list);
+
+        return page;
+    }
+
+    /**
+     * 通过DataType 查询字典数据
+     * @param dictDataType
+     * @return
+     */
+    @Override
+    public List<DictData> getByDataType(String dictDataType) {
+
+        if (StringUtils.isBlank(dictDataType)) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<DictData> list = dictDataRepo.select(new SqlBuilder(DictData.class)
+                .eq("type", dictDataType)
+                .eq("status", 0)
+                .build());
+
+        return list;
+    }
+
+    // ##############################  query ########################## //
+
+    @Override
+    @Transactional
+    public Integer add(DictDataDTO dictDataDTO) {
+        DictData dictData = new DictData();
+        BeanUtils.copyProperties(dictDataDTO, dictData);
+
+        return dictDataRepo.insert(dictData);
+    }
+
+    @Override
+    public int deleteById(String... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return 0;
+        }
+        return dictDataRepo.delete(ids);
     }
 
 }

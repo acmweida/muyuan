@@ -1,23 +1,15 @@
 package com.muyuan.system.application.service.impl;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.query.SysMenuQuery;
-import com.muyuan.system.domain.query.SysRoleQuery;
-import com.muyuan.system.domain.query.SysUserQuery;
 import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.application.vo.SysUserVO;
-import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.assembler.SysUserInfoAssembler;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

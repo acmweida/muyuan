@@ -2,17 +2,17 @@ package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.domain.query.SysUserQuery;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -21,13 +21,11 @@ import java.util.Optional;
 @Slf4j
 public class SysUserDomainServiceImpl implements SysUserDomainService {
 
-    private SysUserQuery sysUserQuery;
-
     private SysUserRepo sysUserRepo;
 
     @Override
     public Optional<SysUser> getByyUsername(String username) {
-        final Optional<SysUser> userInfo = sysUserQuery.get(new SysUser(username));
+        final Optional<SysUser> userInfo = get(new SysUser(username));
         if (!userInfo.isPresent()) {
             return Optional.empty();
         }
@@ -36,7 +34,7 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     public Optional<SysUser> getByyId(Long userId) {
-        final Optional<SysUser> userInfo = sysUserQuery.get(new SysUser(userId));
+        final Optional<SysUser> userInfo = get(new SysUser(userId));
         if (!userInfo.isPresent()) {
             return Optional.empty();
         }
@@ -60,6 +58,30 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
+    }
+
+    /**
+     * 通过UserNO 获取用户信息
+     * @param sysUser
+     * @return
+     */
+    public Optional<SysUser> get(SysUser sysUser) {
+        Assert.isTrue(sysUser != null,"sys user query  is null");
+
+        SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class);
+        if (ObjectUtils.isNotEmpty(sysUser.getId())) {
+            sqlBuilder.eq("id", sysUser.getId());
+        }
+        if (ObjectUtils.isNotEmpty(sysUser.getUsername())) {
+            sqlBuilder.eq("username", sysUser.getUsername());
+        }
+        sqlBuilder.eq("status",0);
+
+        final SysUser user = sysUserRepo.selectOne(sqlBuilder.build());
+        if (null == user) {
+            return Optional.empty();
+        }
+        return Optional.of(user);
     }
 
 }

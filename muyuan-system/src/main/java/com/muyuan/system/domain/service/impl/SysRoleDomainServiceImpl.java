@@ -1,11 +1,11 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.system.domain.model.SysRole;
-import com.muyuan.system.domain.query.SysRoleQuery;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,12 +22,17 @@ import java.util.List;
 @Slf4j
 public class SysRoleDomainServiceImpl implements SysRoleDomainService {
 
-    private SysRoleQuery sysRoleQuery;
 
     private SysRoleRepo sysRoleRepo;
 
+    /**
+     * 根据用户id查询角色
+     * @param userId
+     * @return
+     */
     @Override
     public List<SysRole> getRoleByUserId(Long userId) {
-        return sysRoleQuery.getRoleByUserId(userId);
+        Assert.isNonEmpty(userId);
+        return sysRoleRepo.selectRoleByUserId(userId);
     }
 }
