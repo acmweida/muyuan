@@ -6,8 +6,8 @@ import com.muyuan.member.domain.repo.RoleRepo;
 import com.muyuan.member.domain.service.RoleDomainService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
      */
     @Override
     public List<Role> getRoleByUserId(Long userId) {
-        Assert.isNonEmpty(userId);
+        Assert.notNull(userId,"user id is null");
         return roleQuery.getRoleByUserId(userId);
     }
 

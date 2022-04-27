@@ -3,8 +3,8 @@ package com.muyuan.member.domain.query;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.repo.RoleRepo;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class RoleQuery {
      * @return
      */
     public List<Role> getRoleByUserId(Long userId) {
-        Assert.isNonEmpty(userId);
+        Assert.notNull(userId,"user Id is null");
         return roleRepo.selectRoleByUserId(userId);
     }
 

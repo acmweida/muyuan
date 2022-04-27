@@ -2,7 +2,6 @@ package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
@@ -10,8 +9,8 @@ import com.muyuan.system.interfaces.dto.SysRoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.logging.log4j.core.util.Assert;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
      */
     @Override
     public List<SysRole> getRoleByUserId(Long userId) {
-        Assert.isNonEmpty(userId);
+        Assert.notNull(userId,"user Id is null");
         return sysRoleRepo.selectRoleByUserId(userId);
     }
 

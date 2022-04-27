@@ -28,11 +28,6 @@
             <artifactId>netty-common</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.muyuan</groupId>
-            <artifactId>common-log</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <!-- 线程传递值 -->
         <dependency>

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -53,7 +52,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         }
 
         // 解析JWT获取jti，以jti为key判断redis的黑名单列表是否存在，存在则拦截访问
-        token = StringUtils.replace(token, SecurityConst.JWT_PREFIX, Strings.EMPTY);
+        token = StringUtils.replace(token, SecurityConst.JWT_PREFIX, StringUtils.EMPTY);
         String payload = JWSObject.parse(token).getPayload().toString();
         Map jsonObject =  JSONUtil.parseObject(payload, HashMap.class);
         String jti = (String) jsonObject.get(SecurityConst.JWT_JTI);
