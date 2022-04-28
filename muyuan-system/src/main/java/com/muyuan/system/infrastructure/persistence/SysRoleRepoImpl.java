@@ -31,4 +31,14 @@ public class SysRoleRepoImpl implements SysRoleRepo {
     public List<SysRole> select(Map params) {
         return sysRoleMapper.selectList(params);
     }
+
+    @Override
+    public SysRole selectOne(Map params) {
+        return sysRoleMapper.selectOne(params);
+    }
+
+    @Override
+    public int insert(SysRole sysRole) {
+        return sysRoleMapper.insert(sysRole);
+    }
 }

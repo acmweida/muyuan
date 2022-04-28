@@ -3,6 +3,7 @@ package com.muyuan.system.interfaces.facade.controller;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.service.DictTypeDomainService;
 import com.muyuan.system.application.vo.DictTypeVO;
@@ -55,12 +56,13 @@ public class DictTypeController {
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
     )
-    public Result<DictTypeVO> getById(@PathVariable @NotBlank String id) {
-        Optional<DictType> dictType = dictTypeDomainService.getById(id);
-        if (dictType.isPresent()) {
-            return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
+    public Result<DictTypeVO> getById(@PathVariable  String id) {
+        if (StrUtil.isNumeric(id)) {
+            Optional<DictType> dictType = dictTypeDomainService.getById(id);
+            if (dictType.isPresent()) {
+                return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
+            }
         }
-
         return ResultUtil.fail("字典类型未找到");
     }
 

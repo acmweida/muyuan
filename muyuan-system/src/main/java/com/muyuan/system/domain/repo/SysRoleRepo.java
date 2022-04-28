@@ -11,4 +11,8 @@ public interface SysRoleRepo {
     List<SysRole> selectRoleByUserId(Long userId);
 
     List<SysRole> select(Map params);
+
+    SysRole selectOne(Map params);
+
+    int insert(SysRole sysRole);
 }

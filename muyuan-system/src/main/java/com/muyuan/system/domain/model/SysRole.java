@@ -49,4 +49,15 @@ public class SysRole {
      */
     private Date updateTime;
 
+    public SysRole() {
+    }
+
+    public SysRole(String code) {
+        this.code = code;
+    }
+
+    public SysRole(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 }

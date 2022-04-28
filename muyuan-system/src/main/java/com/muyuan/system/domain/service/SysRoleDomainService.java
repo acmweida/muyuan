@@ -28,4 +28,18 @@ public interface SysRoleDomainService {
      * @return
      */
     Page list(SysRoleDTO sysRoleDTO);
+
+    /**
+     * 检验唯一性
+     * @param sysRole
+     * @return
+     */
+    String checkRoleCodeUnique(SysRole sysRole);
+
+
+    /**
+     * 添加角色
+     * @param sysRoleDTO
+     */
+    void add(SysRoleDTO sysRoleDTO);
 }

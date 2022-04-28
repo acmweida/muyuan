@@ -8,16 +8,19 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.system.application.vo.SysMenuVO;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,20 +53,31 @@ public class SysMenuController {
     }
 
     @RequirePermissions("system:menu:edit")
+    @GetMapping("/menu/treeselect")
+    @ApiOperation(value = "获取菜单选择结构")
+    public Result selectTree(@ModelAttribute SysMenuDTO sysMenuDTO) {
+        sysMenuDTO.setStatus("0");
+        List<SysMenu> list = sysMenuDomainService.list(sysMenuDTO);
+        return ResultUtil.success(SysMenuAssembler.buildMenuSelectTree(list));
+    }
+
+    @RequirePermissions("system:menu:edit")
     @GetMapping("/menu/{id}")
     @ApiOperation(value = "获取菜单详情")
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id",value = "菜单ID",dataType = "String",paramType = "path",required = true)}
     )
-    public Result<SysMenuVO> get(@PathVariable @NotBlank(message = "菜单ID不能为空")
-                                             String id) {
-        Optional<SysMenu> sysMenu = sysMenuDomainService.get(id);
-        if (sysMenu.isPresent()) {
-           return ResultUtil.success(sysMenu.get());
+    public Result<SysMenuVO> get(@PathVariable String id) {
+        if (StrUtil.isNumeric(id)) {
+            Optional<SysMenu> sysMenu = sysMenuDomainService.get(id);
+            if (sysMenu.isPresent()) {
+                return ResultUtil.success(sysMenu.get());
+            }
         }
-
         return ResultUtil.fail("菜单不存在");
     }
+
+
 
     @RequirePermissions("system:menu:delete")
     @DeleteMapping("/menu/{id}")

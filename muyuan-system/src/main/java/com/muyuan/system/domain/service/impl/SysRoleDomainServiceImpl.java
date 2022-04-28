@@ -1,7 +1,10 @@
 package com.muyuan.system.domain.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.domain.factories.SysRoleFactory;
+import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
@@ -10,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -60,5 +64,24 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         page.setRows(list);
 
         return page;
+    }
+
+    @Override
+    public String checkRoleCodeUnique(SysRole sysRole) {
+        Long id = null == sysRole.getId() ? 0 : sysRole.getId();
+        sysRole = sysRoleRepo.selectOne(new SqlBuilder(SysRole.class).select("id")
+                .eq("code", sysRole.getCode())
+                .build());
+        if (null != sysRole && !id.equals(sysRole.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void add(SysRoleDTO sysRoleDTO) {
+        sysRoleRepo.insert(SysRoleFactory.newSysRole(sysRoleDTO));
+        //
     }
 }
