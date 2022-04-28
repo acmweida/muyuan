@@ -62,6 +62,8 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
             sqlBuilder.eq("status",dictTypeDTO.getStatus());
         }
 
+        sqlBuilder.orderByDesc("updateTime","createTime");
+
         Page page = new Page();
         page.setPageNum(dictTypeDTO.getPageNum());
         page.setPageSize(dictTypeDTO.getPageSize());

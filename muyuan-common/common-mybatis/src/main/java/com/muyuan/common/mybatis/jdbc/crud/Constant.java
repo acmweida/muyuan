@@ -4,6 +4,8 @@ public class Constant {
 
     public static final String PAGE_FIELD = "#page";
 
+    public static final String ORDERBY = "#ORDERBY";
+
     public static final String[] ALL = new String[]{"*"};
 
     public static final String CONDITION_PREFIX = "$";

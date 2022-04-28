@@ -7,15 +7,13 @@ import com.muyuan.common.mybatis.jdbc.crud.impl.InConditionSqlHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unchecked")
@@ -70,6 +68,7 @@ public class CrudSqlProvider {
     public String selectList(Map<String,Object> params,ProviderContext context) {
         SQL sql = new SQL();
 
+        List<String> orderBY = new ArrayList();
         String[] column = (String[]) params.get(Constant.COLUMN);
         sql.SELECT(column).FROM(tableName(context));
         String conditionSql ;
@@ -78,6 +77,10 @@ public class CrudSqlProvider {
         for (Condition condition : conditions) {
             Option option = condition.getOption();
             if (option == Option.PAGE) {
+                continue;
+            }
+            if (option == option.ORDER) {
+                orderBY.add((String) condition.getValue());
                 continue;
             }
             if (option != Option.OR  && option != Option.AND) {
@@ -97,8 +100,13 @@ public class CrudSqlProvider {
                 }
             }
         }
+
         if (!conditions.isEmpty()) {
             sql.WHERE( conditionSqls.toArray(new String[conditionSqls.size()]));
+        }
+
+        if (!ObjectUtils.isEmpty(orderBY)) {
+            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(),"m"));
         }
 
         return sql.toString();

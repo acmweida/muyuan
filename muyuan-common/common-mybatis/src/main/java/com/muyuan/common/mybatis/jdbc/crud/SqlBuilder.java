@@ -2,6 +2,8 @@ package com.muyuan.common.mybatis.jdbc.crud;
 
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -94,6 +96,27 @@ public class SqlBuilder {
         condition.setField(Constant.PAGE_FIELD);
         condition.setOption(Option.PAGE);
         condition.setValue(page);
+        conditions.add(condition);
+        return this;
+    }
+
+    public SqlBuilder orderByAsc(String... fields) {
+        return orderBy(true,fields);
+    }
+
+    public SqlBuilder orderByDesc(String... fields) {
+        return orderBy(false,fields);
+    }
+
+    private SqlBuilder orderBy(boolean up,String... fields) {
+        Condition condition = new Condition();
+        condition.setField(Constant.ORDERBY);
+        condition.setOption(Option.ORDER);
+        List<String> columns = new ArrayList(fields.length);
+        for (String field : fields) {
+            columns.add(StrUtil.humpToUnderline(field));
+        }
+        condition.setValue(StringUtils.join(columns,",")+ (up ? " asc" : " desc") );
         conditions.add(condition);
         return this;
     }
