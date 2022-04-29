@@ -4,8 +4,8 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysRoleFactory;
-import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.model.SysRole;
+import com.muyuan.system.domain.model.SysRoleMenu;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import com.muyuan.system.interfaces.dto.SysRoleDTO;
@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -81,7 +83,18 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void add(SysRoleDTO sysRoleDTO) {
-        sysRoleRepo.insert(SysRoleFactory.newSysRole(sysRoleDTO));
-        //
+
+        SysRole sysRole = SysRoleFactory.newSysRole(sysRoleDTO);
+        sysRoleRepo.insert(sysRole);
+
+        List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
+        if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
+            Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
+                    item -> {
+                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(),Long.valueOf(item)));
+                    }
+            );
+        }
+        sysRoleRepo.batchInsert(sysRoleMenus);
     }
 }

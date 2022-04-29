@@ -1,8 +1,12 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.system.domain.model.SysRoleMenu;
+import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMenuMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +21,12 @@ import java.util.Map;
  * @Version 1.0
  */
 @Component
+@AllArgsConstructor
 public class SysRoleRepoImpl implements SysRoleRepo {
 
-    @Autowired
-    SysRoleMapper sysRoleMapper;
+    private SysRoleMapper sysRoleMapper;
+
+    private SysRoleMenuMapper sysRoleMenuMapper;
 
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
@@ -39,6 +45,11 @@ public class SysRoleRepoImpl implements SysRoleRepo {
 
     @Override
     public int insert(SysRole sysRole) {
-        return sysRoleMapper.insert(sysRole);
+        return sysRoleMapper.insertAuto(sysRole);
+    }
+
+    @Override
+    public int batchInsert(List<SysRoleMenu> sysRoleMenus) {
+        return sysRoleMenuMapper.batchInsert(sysRoleMenus);
     }
 }

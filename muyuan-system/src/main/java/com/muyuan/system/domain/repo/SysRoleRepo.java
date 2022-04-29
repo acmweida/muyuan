@@ -2,6 +2,7 @@ package com.muyuan.system.domain.repo;
 
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.SysRole;
+import com.muyuan.system.domain.model.SysRoleMenu;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +16,6 @@ public interface SysRoleRepo {
     SysRole selectOne(Map params);
 
     int insert(SysRole sysRole);
+
+    int batchInsert(List<SysRoleMenu> sysRoleMenus);
 }

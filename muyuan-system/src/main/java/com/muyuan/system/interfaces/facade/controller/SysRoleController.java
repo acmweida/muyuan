@@ -38,7 +38,7 @@ public class SysRoleController {
         return ResultUtil.success(page);
     }
 
-    @PutMapping("/role")
+    @PostMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:add")
     public  Result add(@RequestBody @Validated SysRoleDTO sysRoleDTO) {
