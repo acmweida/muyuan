@@ -28,4 +28,13 @@ public class SysRoleFactory {
         }
         return sysRole;
     }
+
+    public static SysRole updateSysRole(SysRoleDTO sysRoleDTO) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(sysRoleDTO,sysRole);
+        sysRole.setUpdateTime(new Date());
+        sysRole.setUpdateBy(SecurityUtils.getUserId());
+        sysRole.setId(sysRoleDTO.getId());
+        return sysRole;
+    }
 }

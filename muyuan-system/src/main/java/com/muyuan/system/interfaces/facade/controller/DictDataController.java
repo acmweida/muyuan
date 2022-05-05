@@ -59,7 +59,7 @@ public class DictDataController {
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
     public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
-        if (GlobalConst.UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataDTO.getLabel(),
+        if (GlobalConst.NOT_UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataDTO.getLabel(),
                 dictDataDTO.getValue(),
                 dictDataDTO.getType())))) {
             return ResultUtil.fail("已存在相同字典数据");

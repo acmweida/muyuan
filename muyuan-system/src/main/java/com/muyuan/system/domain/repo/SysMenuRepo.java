@@ -24,6 +24,8 @@ public interface SysMenuRepo {
 
     List<SysMenu> select(Map params);
 
+    List<SysMenu> listByRoleId(String... roleIds);
+
     SysMenu selectOne(Map params);
 
     int insert(SysMenu sysMenu);

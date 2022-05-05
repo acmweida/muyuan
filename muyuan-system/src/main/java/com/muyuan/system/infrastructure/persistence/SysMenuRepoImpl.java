@@ -90,6 +90,11 @@ public class SysMenuRepoImpl implements SysMenuRepo {
     }
 
     @Override
+    public List<SysMenu> listByRoleId(String... roleIds) {
+        return sysMenuMapper.selectMenuByRoleId(roleIds);
+    }
+
+    @Override
     public SysMenu selectOne(Map params) {
         return sysMenuMapper.selectOne(params);
     }

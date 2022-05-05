@@ -35,7 +35,7 @@ public class MybatisConfig {
         memberDataSource.setPassword(jdbcConfig.getPassword());
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
-        memberDataSource.setMaxLifetime(30);
+        memberDataSource.setMaxLifetime( 60 * 60 * 1000);
         dataSourceMap.put(SystemJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);

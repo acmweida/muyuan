@@ -186,20 +186,46 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
+    public String deleteBy(ProviderContext context,Object bean,String... fieldNamesArr) {
+        SQL sql = new SQL();
+        Class<?> aClass =entityType(context);
+        sql.DELETE_FROM(tableName(context));
+
+        List<String> conditionSqls = new ArrayList<>();
+        Field field = null;
+        Object value = null;
+        for (String fieldName : fieldNamesArr) {
+            try {
+                field = aClass.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                value = field.get(bean);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+                log.error("{} not found  in {}",fieldName,aClass.getName());
+            }
+            if (value != null) {
+                if (field.getType().isArray() || value instanceof Collections) {
+                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.IN.getOp() + "#{" + field.getName() + "}");
+                } else {
+                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{" + field.getName() + "}");
+                }
+            }
+        }
+        if (conditionSqls.size() == 0) {
+            log.error("update condition not found!");
+            return "";
+        }
+
+        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+
+        return sql.toString();
+    }
+
 
     public String deleteByIds(ProviderContext context,String... ids) {
         SQL sql = new SQL();
         sql.DELETE_FROM(tableName(context));
-        StringBuffer inSql = new StringBuffer("(");
-        for (int i = 0;i< ids.length ; i++) {
-            if (i != 0) {
-                inSql.append(",");
-            }
-            inSql.append(ids[i]);
-        }
-        inSql.append(")");
-
-        sql.WHERE("id in "+inSql);
+        sql.WHERE( sqlHandlers.get(Option.IN).buildSql(new Condition("id",ids,Option.IN)));
         return sql.toString();
     }
 

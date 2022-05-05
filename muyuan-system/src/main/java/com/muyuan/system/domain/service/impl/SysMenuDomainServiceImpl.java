@@ -16,6 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName SysMenuServiceImpl
@@ -91,6 +92,14 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
         }
         List<SysMenu> list = sysMenuRepo.select(sqlBuilder.build());
         return list;
+    }
+
+    @Override
+    public List<Long> listSelectIdByRoleId(String... roleIds) {
+        if (ObjectUtils.isEmpty(roleIds)) {
+            return Collections.EMPTY_LIST;
+        }
+        return sysMenuRepo.listByRoleId(roleIds).stream().map(SysMenu::getId).collect(Collectors.toList());
     }
 
     /**

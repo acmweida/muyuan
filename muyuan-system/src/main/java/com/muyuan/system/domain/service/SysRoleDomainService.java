@@ -5,6 +5,7 @@ import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.interfaces.dto.SysRoleDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName SysRoleDomainService
@@ -42,4 +43,17 @@ public interface SysRoleDomainService {
      * @param sysRoleDTO
      */
     void add(SysRoleDTO sysRoleDTO);
+
+    /**
+     * 添加角色
+     * @param sysRoleDTO
+     */
+    void update(SysRoleDTO sysRoleDTO);
+
+    /**
+     * 通过ID查询角色信息
+     * @param id
+     * @return
+     */
+    Optional<SysRole> getById(String id);
 }

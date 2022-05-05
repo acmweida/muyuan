@@ -30,4 +30,13 @@ public interface SysMenuMapper extends SystemBaseMapper<SysMenu> {
      * @return
      */
     List<SysMenu>  selectMenuByRoleNames(@Param("roleNames") List<String> roleNames);
+
+    /**
+     * 通过角色ID查询权限
+     * @param roleIds
+     * @return
+     */
+    List<SysMenu>  selectMenuByRoleId(@Param("roleIds") String...  roleIds);
+
+
 }

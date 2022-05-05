@@ -18,4 +18,6 @@ public interface SysRoleRepo {
     int insert(SysRole sysRole);
 
     int batchInsert(List<SysRoleMenu> sysRoleMenus);
+
+    int updateById(SysRole sysRole);
 }

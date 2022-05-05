@@ -1,5 +1,6 @@
 package com.muyuan.system.interfaces.facade.controller;
 
+import com.muyuan.common.core.bean.SelectValue;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
@@ -59,6 +60,15 @@ public class SysMenuController {
         sysMenuDTO.setStatus("0");
         List<SysMenu> list = sysMenuDomainService.list(sysMenuDTO);
         return ResultUtil.success(SysMenuAssembler.buildMenuSelectTree(list));
+    }
+
+    @RequirePermissions("system:menu:edit")
+    @GetMapping("/menu/roleNemuTreeselect/{roleIds}")
+    @ApiOperation(value = "获取菜单选择结构")
+    public Result selectKey(@PathVariable String... roleIds) {
+        List<Long> id = sysMenuDomainService.listSelectIdByRoleId(roleIds);
+        List<SysMenu> list = sysMenuDomainService.list(new SysMenuDTO());
+        return ResultUtil.success(new SelectValue(id,SysMenuAssembler.buildMenuSelectTree(list)));
     }
 
     @RequirePermissions("system:menu:edit")

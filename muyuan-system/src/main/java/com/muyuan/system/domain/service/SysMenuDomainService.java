@@ -23,6 +23,14 @@ public interface SysMenuDomainService {
      */
     List<SysMenu> list(SysMenuDTO sysMenuDTO);
 
+
+    /**
+     * 列表查询
+     * @param roleId
+     * @return
+     */
+    List<Long> listSelectIdByRoleId(String... roleId);
+
     /**
      * 根据Id获取菜单详情
      * @param id

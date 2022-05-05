@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 /**
  * @ClassName SysRoleController
  * Description 系统角色
@@ -38,6 +40,18 @@ public class SysRoleController {
         return ResultUtil.success(page);
     }
 
+    @GetMapping("/role/{id}")
+    @ApiOperation(value = "角色查询")
+    @RequirePermissions("system:role:lise")
+    public Result get(@PathVariable String id) {
+        Optional<SysRole> sysRoleInfo = sysRoleDomainService.getById(id);
+        if (sysRoleInfo.isPresent()) {
+            return ResultUtil.success(sysRoleInfo.get());
+        }
+
+        return ResultUtil.fail("角色信息未找到");
+    }
+
     @PostMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:add")
@@ -52,4 +66,21 @@ public class SysRoleController {
 
         return ResultUtil.success();
     }
+
+    @PutMapping("/role")
+    @ApiOperation(value = "角色添加")
+    @RequirePermissions("system:role:update")
+    public  Result update(@RequestBody @Validated SysRoleDTO sysRoleDTO) {
+
+        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new SysRole(sysRoleDTO.getCode())))) {
+            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在",sysRoleDTO.getCode()));
+        }
+
+        sysRoleDomainService.add(sysRoleDTO);
+
+
+        return ResultUtil.success();
+    }
+
+
 }

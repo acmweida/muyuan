@@ -37,7 +37,7 @@ public class SysRole {
 
     private Long createBy;
 
-    private String updateBy;
+    private Long updateBy;
 
     /**
      * 创建时间

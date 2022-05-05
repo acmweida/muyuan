@@ -19,6 +19,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName SysRoleDomainServiceImpl
@@ -55,6 +56,8 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         if (ObjectUtils.isNotEmpty(sysRoleDTO.getStatus())) {
             sqlBuilder.eq("status",sysRoleDTO.getStatus());
         }
+
+        sqlBuilder.orderByAsc("sort");
 
         Page page = new Page();
         page.setPageNum(sysRoleDTO.getPageNum());
@@ -96,5 +99,38 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
             );
         }
         sysRoleRepo.batchInsert(sysRoleMenus);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(SysRoleDTO sysRoleDTO) {
+        SysRole sysRole = SysRoleFactory.updateSysRole(sysRoleDTO);
+        sysRoleRepo.updateById(sysRole);
+
+        List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
+        if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
+            Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
+                    item -> {
+                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(),Long.valueOf(item)));
+                    }
+            );
+        }
+
+
+
+    }
+
+
+    @Override
+    public Optional<SysRole> getById(String id) {
+        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class);
+        sqlBuilder.eq("id",id);
+
+        SysRole sysRole = sysRoleRepo.selectOne(sqlBuilder.build());
+
+        if (null == sysRole) {
+            return Optional.empty();
+        }
+        return Optional.of(sysRole);
     }
 }

@@ -41,7 +41,7 @@ public class SysUserController {
     @ApiOperation(value = "账号密码注册", code = 0)
     @PostMapping("/user")
     public Result add(@RequestBody @Validated RegisterDTO register) {
-        if (GlobalConst.UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(register.getUsername())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(register.getUsername())))) {
             return ResultUtil.fail("账号已存在");
         }
 
