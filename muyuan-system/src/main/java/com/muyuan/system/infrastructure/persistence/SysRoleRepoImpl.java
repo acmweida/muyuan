@@ -1,5 +1,7 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.system.domain.model.SysRoleMenu;
 import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.domain.model.SysRole;
@@ -26,6 +28,8 @@ public class SysRoleRepoImpl implements SysRoleRepo {
 
     private SysRoleMenuMapper sysRoleMenuMapper;
 
+    private RedisCacheManager redisCacheManager;
+
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
         return sysRoleMapper.selectRoleByUserId(userId);
@@ -48,11 +52,24 @@ public class SysRoleRepoImpl implements SysRoleRepo {
 
     @Override
     public int batchInsert(List<SysRoleMenu> sysRoleMenus) {
-        return sysRoleMenuMapper.batchInsert(sysRoleMenus,SysRoleMenuMapper.class);
+        return sysRoleMenuMapper.batchInsert(sysRoleMenus);
     }
 
     @Override
     public int updateById(SysRole sysRole) {
         return sysRoleMapper.updateById(sysRole);
     }
+
+    @Override
+    public int deleteMenuBy(SysRoleMenu entity, String... fieldNames) {
+        return sysRoleMenuMapper.deleteBy(entity,fieldNames);
+    }
+
+    @Override
+    public void deleteCache(SysRole sysRole) {
+        redisCacheManager.del(RedisConst.ROLE_PERM_KEY_PREFIX,sysRole.getCode());
+        redisCacheManager.del(RedisConst.ROLE_MENU_KEY_PREFIX,sysRole.getCode());
+    }
+
+
 }

@@ -116,7 +116,11 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
             );
         }
 
+        sysRoleRepo.deleteMenuBy(new SysRoleMenu(sysRole.getId(),null),"id");
 
+        sysRoleRepo.batchInsert(sysRoleMenus);
+
+        sysRoleRepo.deleteCache(sysRole);
 
     }
 

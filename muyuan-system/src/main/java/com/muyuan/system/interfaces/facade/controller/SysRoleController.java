@@ -76,7 +76,7 @@ public class SysRoleController {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在",sysRoleDTO.getCode()));
         }
 
-        sysRoleDomainService.add(sysRoleDTO);
+        sysRoleDomainService.update(sysRoleDTO);
 
 
         return ResultUtil.success();

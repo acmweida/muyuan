@@ -205,14 +205,14 @@ public class CrudSqlProvider {
             }
             if (value != null) {
                 if (field.getType().isArray() || value instanceof Collections) {
-                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.IN.getOp() + "#{" + field.getName() + "}");
+                    conditionSqls.add(sqlHandlers.get(Option.IN).buildSql(new Condition(field.getName(),value,Option.IN)));
                 } else {
-                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{" + field.getName() + "}");
+                    conditionSqls.add(sqlHandlers.get(Option.EQ).buildSql(new Condition(field.getName(),value,Option.EQ)));
                 }
             }
         }
         if (conditionSqls.size() == 0) {
-            log.error("update condition not found!");
+            log.error("delete condition not found!");
             return "";
         }
 

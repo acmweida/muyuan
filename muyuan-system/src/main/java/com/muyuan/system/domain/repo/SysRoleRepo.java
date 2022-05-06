@@ -20,4 +20,8 @@ public interface SysRoleRepo {
     int batchInsert(List<SysRoleMenu> sysRoleMenus);
 
     int updateById(SysRole sysRole);
+
+    int deleteMenuBy(SysRoleMenu entity,String... fieldNames);
+
+    void deleteCache(SysRole sysRole);
 }

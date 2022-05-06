@@ -51,16 +51,25 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     @DeleteProvider(value = CrudSqlProvider.class,method = "deleteByIds")
     Integer deleteByIds(String... ids);
 
+    /**
+     * 删除
+     * @param entity
+     * @param column
+     * @return
+     */
+    @DeleteProvider(value = CrudSqlProvider.class,method = "deleteBy")
+    Integer deleteBy(T entity,String... column);
+
 
     @Transactional(rollbackFor = Exception.class)
     @IdGenerator
-    default int batchInsert(List<T> list,Class mapper) {
-        return batchInsert(list,mapper,DEFAULT_BATCH_SIZE);
+    default int batchInsert(List<T> list) {
+        return batchInsert(list,DEFAULT_BATCH_SIZE);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @IdGenerator
-    default int batchInsert(List<T> list,Class mapper,int batchSize)  {
+    default int batchInsert(List<T> list,int batchSize)  {
         if (list.isEmpty()) {
             return 0;
         }
