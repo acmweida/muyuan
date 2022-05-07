@@ -1,6 +1,5 @@
 package com.muyuan.system.domain.repo;
 
-import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysRoleMenu;
 
@@ -23,5 +22,4 @@ public interface SysRoleRepo {
 
     int deleteMenuBy(SysRoleMenu entity,String... fieldNames);
 
-    void deleteCache(SysRole sysRole);
 }

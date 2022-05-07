@@ -58,14 +58,14 @@ public interface SysMenuDomainService {
      * @param sysMenuDTO
      * @return
      */
-    int add(SysMenuDTO sysMenuDTO);
+    void add(SysMenuDTO sysMenuDTO);
 
     /**
      * 更新
      * @param sysMenuDTO
      * @return
      */
-    int update(SysMenuDTO sysMenuDTO);
+    void update(SysMenuDTO sysMenuDTO);
 
     /**
      * 校验唯一性
@@ -79,5 +79,5 @@ public interface SysMenuDomainService {
      * @param ids
      * @return
      */
-    int deleteById(String... ids);
+    void deleteById(String... ids);
 }

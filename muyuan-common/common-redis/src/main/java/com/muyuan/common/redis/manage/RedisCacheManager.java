@@ -1,5 +1,6 @@
 package com.muyuan.common.redis.manage;
 
+import com.muyuan.common.core.constant.RedisConst;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -134,6 +135,15 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
             }
         }
     }
+
+    public void del(String patternKey) {
+        Set<String> keys = keys(patternKey);
+        String[] keyArr = new String[keys.size()];
+        keys.toArray(keyArr);
+
+        del(keyArr);
+    }
+
     // ============================String(字符串)=============================
 
     /**

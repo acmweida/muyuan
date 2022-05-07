@@ -10,11 +10,15 @@ import java.util.Map;
  */
 public interface DictDataRepo {
 
-    List<DictData> select(Map params);
+    List<DictData> select(Map parms);
+
+    List<DictData> selectByDateType(String dataType);
 
     DictData selectOne(Map params);
 
     int insert(DictData dictData);
 
     int delete(String... ids);
+
+    void refreshCache(String dataDictType);
 }

@@ -59,7 +59,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
         if (SysRoleEntity.isAdmin(roleNames)) {
             perms.add(SecurityConst.ALL_PERMISSION);
         } else {
-            List<String> permList = sysMenuRepo.selectMenuPermissionByRoleNames(roleNames);
+            List<String> permList = sysMenuRepo.selectMenuPermissionByRoleCodes(roleNames);
             for (Iterator<String> iterator = permList.iterator(); iterator.hasNext(); ) {
                 perms.add(iterator.next());
             }
@@ -78,7 +78,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
         if (ObjectUtils.isEmpty(roleNames)) {
             return Collections.EMPTY_LIST;
         }
-        return sysMenuRepo.selectMenuByRoleNames(roleNames);
+        return sysMenuRepo.selectMenuByRoleCodes(roleNames);
     }
 
     @Override
@@ -134,25 +134,28 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     // ##############################  query ########################## //
 
     @Override
-    public int add(SysMenuDTO sysMenuDTO) {
+    public void add(SysMenuDTO sysMenuDTO) {
         SysMenu sysMenu = SysMenuFactory.newSysMenu(sysMenuDTO);
-        return sysMenuRepo.insert(sysMenu);
+        sysMenuRepo.insert(sysMenu);
+        sysMenuRepo.refreshCache();
     }
 
     @Override
-    public int update(SysMenuDTO sysMenuDTO) {
+    public void update(SysMenuDTO sysMenuDTO) {
         SysMenu sysMenu = SysMenuFactory.updateSysMenu(sysMenuDTO);
-        return sysMenuRepo.updateById(sysMenu);
+        sysMenuRepo.updateById(sysMenu);
+        sysMenuRepo.refreshCache();
     }
 
 
 
     @Override
-    public int deleteById(String... ids) {
+    public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return 0;
+            return ;
         }
-        return sysMenuRepo.deleteById(ids);
+        sysMenuRepo.deleteById(ids);
+        sysMenuRepo.refreshCache();
     }
 
 

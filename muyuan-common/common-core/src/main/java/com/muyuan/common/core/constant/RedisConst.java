@@ -15,4 +15,8 @@ public interface RedisConst {
     String ROLE_MENU_KEY_PREFIX = "ROLE:MENU:";
 
     String ROLE_PERM_KEY_PREFIX = "ROLE:PERM:";
+
+    String ALL_PLACE_HOLDER = "*";
+
+    String SYS_DATA_DICT = "SYS:DICT:";
 }

@@ -1,11 +1,13 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysRoleFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysRoleMenu;
+import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import com.muyuan.system.interfaces.dto.SysRoleDTO;
@@ -35,6 +37,8 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
 
 
     private SysRoleRepo sysRoleRepo;
+
+    private SysMenuRepo sysMenuRepo;
 
     /**
      * 根据用户id查询角色
@@ -120,7 +124,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
 
         sysRoleRepo.batchInsert(sysRoleMenus);
 
-        sysRoleRepo.deleteCache(sysRole);
+        sysMenuRepo.refreshCache(sysRole.getCode());
 
     }
 

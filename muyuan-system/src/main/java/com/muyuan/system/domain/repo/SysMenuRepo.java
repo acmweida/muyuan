@@ -14,13 +14,13 @@ import java.util.Map;
  */
 public interface SysMenuRepo {
 
-    List<String>  selectMenuPermissionByRoleNames(List<String> roleNames);
+    List<String>  selectMenuPermissionByRoleCodes(List<String> roleCodes);
 
-    List<String>  selectMenuPermissionByRoleName(String roleName);
+    List<String>  selectMenuPermissionByRoleCode(String roleCode);
 
-    List<SysMenu> selectMenuByRoleNames(List<String> roleNames);
+    List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes);
 
-    List<SysMenu> selectMenuByRoleName(String roleName);
+    List<SysMenu> selectMenuByRoleCode(String roleCode);
 
     List<SysMenu> select(Map params);
 
@@ -33,4 +33,8 @@ public interface SysMenuRepo {
     int deleteById(String... id);
 
     int updateById(SysMenu id);
+
+    void refreshCache(String roleCode);
+
+    void refreshCache();
 }

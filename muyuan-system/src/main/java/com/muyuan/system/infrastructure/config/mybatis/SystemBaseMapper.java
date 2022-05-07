@@ -45,11 +45,11 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
 
     /**
      * 根据ID删除记录
-     * @param ids
+     * @param id
      * @return
      */
     @DeleteProvider(value = CrudSqlProvider.class,method = "deleteByIds")
-    Integer deleteByIds(String... ids);
+    Integer deleteByIds(String... id);
 
     /**
      * 删除

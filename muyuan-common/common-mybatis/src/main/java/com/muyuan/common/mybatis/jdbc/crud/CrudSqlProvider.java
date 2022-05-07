@@ -222,10 +222,10 @@ public class CrudSqlProvider {
     }
 
 
-    public String deleteByIds(ProviderContext context,String... ids) {
+    public String deleteByIds(ProviderContext context,String... id) {
         SQL sql = new SQL();
         sql.DELETE_FROM(tableName(context));
-        sql.WHERE( sqlHandlers.get(Option.IN).buildSql(new Condition("id",ids,Option.IN)));
+        sql.WHERE( sqlHandlers.get(Option.IN).buildSql(new Condition("id",id,Option.IN)));
         return sql.toString();
     }
 

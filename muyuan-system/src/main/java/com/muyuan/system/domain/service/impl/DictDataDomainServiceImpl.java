@@ -89,10 +89,7 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
             return Collections.EMPTY_LIST;
         }
 
-        List<DictData> list = dictDataRepo.select(new SqlBuilder(DictData.class)
-                .eq("type", dictDataType)
-                .eq("status", 0)
-                .build());
+        List<DictData> list = dictDataRepo.selectByDateType(dictDataType);
 
         return list;
     }

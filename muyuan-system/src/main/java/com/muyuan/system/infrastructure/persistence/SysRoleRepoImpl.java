@@ -65,11 +65,5 @@ public class SysRoleRepoImpl implements SysRoleRepo {
         return sysRoleMenuMapper.deleteBy(entity,fieldNames);
     }
 
-    @Override
-    public void deleteCache(SysRole sysRole) {
-        redisCacheManager.del(RedisConst.ROLE_PERM_KEY_PREFIX,sysRole.getCode());
-        redisCacheManager.del(RedisConst.ROLE_MENU_KEY_PREFIX,sysRole.getCode());
-    }
-
 
 }

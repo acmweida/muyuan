@@ -26,7 +26,7 @@
         select * from t_sys_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
         inner join (
-        select id from t_sys_role where name in
+        select id from t_sys_role where code in
         <foreach collection="roleNames" open="(" close=")" item="item" >
             #{item}
         </foreach>
