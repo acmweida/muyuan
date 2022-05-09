@@ -43,7 +43,7 @@ public interface SysMenuDomainService {
      * @param roleNames
      * @return
      */
-    Set<String> selectMenuPermissionByRoleNames(List<String> roleNames);
+    Set<String> selectMenuPermissionByRoleCodes(List<String> roleNames);
 
 
     /**

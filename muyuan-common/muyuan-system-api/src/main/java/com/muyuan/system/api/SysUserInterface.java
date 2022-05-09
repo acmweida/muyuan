@@ -24,8 +24,8 @@ public interface SysUserInterface {
 
     /**
      * 通过角色获取权限集合
-     * @param roleIds
+     * @param roleCodes
      * @return
      */
-    Set<String> getMenuPermissionByRoleNames(List<String> roleIds);
+    Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes);
 }

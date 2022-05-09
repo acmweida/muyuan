@@ -20,13 +20,13 @@ public class SysRoleEntity extends SysRole {
         return isAdmin(this.getCode());
     }
 
-    public static boolean isAdmin(String roleName) {
-        return (SecurityConst.ADMIN_ROOT_ROLE_CODE).equals(roleName);
+    public static boolean isAdmin(String roleCode) {
+        return (SecurityConst.ADMIN_ROOT_ROLE_CODE).equals(roleCode);
     }
 
-    public static boolean isAdmin(List<String> roleNames) {
-        for (String roleName : roleNames) {
-            if (isAdmin(roleName)) {
+    public static boolean isAdmin(List<String> roleCodes) {
+        for (String roleCode : roleCodes) {
+            if (isAdmin(roleCode)) {
                 return true;
             }
         }

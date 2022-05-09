@@ -36,8 +36,8 @@ public class SysUserInterfaceApi implements SysUserInterface {
     }
 
     @Override
-    public Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
-        return sysUserApplicationService.getMenuPermissionByRoleNames(roleIds);
+    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
+        return sysUserApplicationService.getMenuPermissionByRoleCodes(roleCodes);
     }
 
 }

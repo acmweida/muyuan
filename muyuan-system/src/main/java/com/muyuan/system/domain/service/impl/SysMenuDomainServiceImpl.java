@@ -50,16 +50,16 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     /**
      * 通过角色名称查询权限
      *
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
     @Override
-    public Set<String> selectMenuPermissionByRoleNames(List<String> roleNames) {
+    public Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes) {
         Set<String> perms = new HashSet<>();
-        if (SysRoleEntity.isAdmin(roleNames)) {
+        if (SysRoleEntity.isAdmin(roleCodes)) {
             perms.add(SecurityConst.ALL_PERMISSION);
         } else {
-            List<String> permList = sysMenuRepo.selectMenuPermissionByRoleCodes(roleNames);
+            List<String> permList = sysMenuRepo.selectMenuPermissionByRoleCodes(roleCodes);
             for (Iterator<String> iterator = permList.iterator(); iterator.hasNext(); ) {
                 perms.add(iterator.next());
             }

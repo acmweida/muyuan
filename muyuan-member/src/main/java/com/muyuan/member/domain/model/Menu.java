@@ -97,6 +97,12 @@ public class Menu {
 
     private Long createBy;
 
-    private String updateBy;
+    private Long updateBy;
 
+    public Menu() {
+    }
+
+    public Menu(Long id) {
+        this.id = id;
+    }
 }

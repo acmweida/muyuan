@@ -21,7 +21,7 @@ public interface UserApplicationService {
      * @param roleIds
      * @return
      */
-    Set<String> getMenuPermissionByRoleNames(List<String> roleIds);
+    Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes);
 
     /**
      * 获取用户信息

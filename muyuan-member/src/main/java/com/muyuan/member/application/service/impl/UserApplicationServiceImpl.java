@@ -49,8 +49,8 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     }
 
     @Override
-    public Set<String> getMenuPermissionByRoleNames(List<String> roleIds) {
-        return menuDomainService.selectMenuPermissionByRoleNames(roleIds);
+    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
+        return menuDomainService.selectMenuPermissionByRoleCodes(roleCodes);
     }
 
     private List<Role> getUserRoles(Long id) {
@@ -65,10 +65,10 @@ public class UserApplicationServiceImpl implements UserApplicationService {
             log.info("userId :{} 未找到", userId);
             return Optional.empty();
         }
-        List<String> roleNames = SecurityUtils.getRoles();
+        List<String> roleCodes = SecurityUtils.getRoles();
 
-        Set<String> perms = getMenuPermissionByRoleNames(roleNames);
-        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(), roleNames, perms);
+        Set<String> perms = getMenuPermissionByRoleCodes(roleCodes);
+        UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(), roleCodes, perms);
         return Optional.of(userVO);
     }
 }

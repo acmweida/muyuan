@@ -123,10 +123,10 @@ public class PreAuthorizeAspect {
         Set<String> permissionList = new HashSet<>();
         switch (UserType.valueOf(SecurityUtils.getUserType())) {
             case MEMBER:
-                permissionList = userInterface.getMenuPermissionByRoleNames(roles);
+                permissionList = userInterface.getMenuPermissionByRoleCodes(roles);
                 break;
             case SYSUSER:
-                permissionList = sysUserInterface.getMenuPermissionByRoleNames(roles);
+                permissionList = sysUserInterface.getMenuPermissionByRoleCodes(roles);
         }
         return permissionList;
     }

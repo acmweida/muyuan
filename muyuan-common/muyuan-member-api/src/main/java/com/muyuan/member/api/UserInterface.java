@@ -21,6 +21,6 @@ public interface UserInterface {
      * @param roleIds
      * @return
      */
-    Set<String> getMenuPermissionByRoleNames(List<String> roleIds);
+    Set<String> getMenuPermissionByRoleCodes(List<String> roleIds);
 
 }
