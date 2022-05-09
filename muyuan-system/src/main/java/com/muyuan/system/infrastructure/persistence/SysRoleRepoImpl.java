@@ -1,6 +1,7 @@
 package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.system.domain.model.SysRoleMenu;
 import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
@@ -8,6 +9,7 @@ import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.infrastructure.persistence.dao.SysRoleMenuMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,24 +48,37 @@ public class SysRoleRepoImpl implements SysRoleRepo {
     }
 
     @Override
-    public int insert(SysRole sysRole) {
-        return sysRoleMapper.insert(sysRole);
+    public void insert(SysRole sysRole) {
+        sysRoleMapper.insert(sysRole);
     }
 
     @Override
-    public int batchInsert(List<SysRoleMenu> sysRoleMenus) {
-        return sysRoleMenuMapper.batchInsert(sysRoleMenus);
+    public void batchInsert(List<SysRoleMenu> sysRoleMenus) {
+        sysRoleMenuMapper.batchInsert(sysRoleMenus);
     }
 
     @Override
-    public int updateById(SysRole sysRole) {
-        return sysRoleMapper.updateById(sysRole);
+    public void updateById(SysRole sysRole) {
+        sysRoleMapper.updateBy(sysRole);
     }
 
     @Override
-    public int deleteMenuBy(SysRoleMenu entity, String... fieldNames) {
-        return sysRoleMenuMapper.deleteBy(entity,fieldNames);
+    public void deleteMenuByRoleId(Long  roleId) {
+        if (ObjectUtils.isEmpty(roleId)) {
+            return;
+        }
+        sysRoleMenuMapper.deleteBy(new SqlBuilder().eq(
+                "roleId",roleId
+        ).build());
     }
 
+    @Override
+    public void deleteById(String... id) {
+        sysRoleMapper.deleteBy(
+                new SqlBuilder().in("id",id)
+                        .notEq("id",1)
+                .build()
+        );
+    }
 
 }

@@ -2,12 +2,13 @@ package com.muyuan.common.mybatis.jdbc.crud.impl;
 
 import com.muyuan.common.mybatis.jdbc.crud.Condition;
 import com.muyuan.common.mybatis.jdbc.crud.ConditionSqlHandler;
+import com.muyuan.common.mybatis.jdbc.crud.Option;
 
 import java.lang.reflect.Array;
 import java.text.MessageFormat;
 import java.util.Collection;
 
-public class InConditionSqlHandler implements ConditionSqlHandler {
+public class CollectionConditionSqlHandler implements ConditionSqlHandler {
 
     @Override
     public String buildSql(Condition condition) {
@@ -27,6 +28,15 @@ public class InConditionSqlHandler implements ConditionSqlHandler {
             return "";
         }
         return  condition.getField() +  condition.getOption().getOp() + inExpression(condition.getField(),size);
+    }
+
+    @Override
+    public boolean supper(Option op) {
+        switch (op) {
+            case IN:
+                return true;
+            default:return false;
+        }
     }
 
     private String inExpression(String property, int size) {

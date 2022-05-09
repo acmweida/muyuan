@@ -3,11 +3,14 @@ package com.muyuan.system.interfaces.facade.controller;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.system.application.vo.SysRoleVO;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.service.SysRoleDomainService;
+import com.muyuan.system.interfaces.assembler.SysRoleAssembler;
 import com.muyuan.system.interfaces.dto.SysRoleDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +18,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,7 +38,6 @@ import java.util.Optional;
 public class SysRoleController {
 
     private SysRoleDomainService sysRoleDomainService;
-
 
     @GetMapping("/role/list")
     @ApiOperation(value = "角色查询")
@@ -78,9 +85,25 @@ public class SysRoleController {
 
         sysRoleDomainService.update(sysRoleDTO);
 
-
         return ResultUtil.success();
     }
 
+    @DeleteMapping("/role/{id}")
+    @ApiOperation(value = "角色删除")
+    @RequirePermissions("system:role:del")
+    public Result del(@PathVariable String... id) {
+        sysRoleDomainService.deleteById(id);
+        return ResultUtil.success();
+    }
+
+    @PostMapping("/role/export")
+    @ApiOperation(value = "角色下载")
+    @RequirePermissions("system:role:export")
+    public void export(@ModelAttribute SysRoleDTO sysRoleDTO, HttpServletResponse response) throws IOException {
+        sysRoleDTO.setEnablePage(false);
+        Page<SysRole> page = sysRoleDomainService.list(sysRoleDTO);
+        List<SysRole> rows = page.getRows();
+        ExcelUtil.export(response, SysRoleVO.class,"角色信息", SysRoleAssembler.buildSysRoleVO(rows));
+    }
 
 }

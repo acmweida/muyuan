@@ -1,6 +1,7 @@
 package com.muyuan.common.redis.manage;
 
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.thread.CommonThreadPool;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -331,6 +332,14 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
      */
     public void hdel(String key, Object... item) {
         redisTemplate.opsForHash().delete(key, item);
+    }
+
+    public void delayDoubleDel(String patternKey) {
+        Runnable task = () -> {
+            del(patternKey);
+        };
+        task.run();
+        CommonThreadPool.schedule(task,5);
     }
 
     /**

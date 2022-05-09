@@ -27,14 +27,6 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     Integer insert(T dataObject);
 
     /**
-     * 默认根据 id 更新
-     * @param entity
-     * @return
-     */
-    @UpdateProvider(value = CrudSqlProvider.class,method = "updateById")
-    Integer updateById(T entity);
-
-    /**
      * 更加指定字段更新
      * @param entity
      * @param column
@@ -44,21 +36,12 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     Integer updateBy(T entity,String... column);
 
     /**
-     * 根据ID删除记录
-     * @param id
-     * @return
-     */
-    @DeleteProvider(value = CrudSqlProvider.class,method = "deleteByIds")
-    Integer deleteByIds(String... id);
-
-    /**
      * 删除
-     * @param entity
-     * @param column
+     * @param param
      * @return
      */
     @DeleteProvider(value = CrudSqlProvider.class,method = "deleteBy")
-    Integer deleteBy(T entity,String... column);
+    Integer deleteBy(Map param);
 
 
     @Transactional(rollbackFor = Exception.class)

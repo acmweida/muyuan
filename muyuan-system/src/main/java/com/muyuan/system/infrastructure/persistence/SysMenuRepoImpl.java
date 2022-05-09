@@ -4,6 +4,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper;
 import com.muyuan.system.domain.model.SysMenu;
@@ -101,37 +102,28 @@ public class SysMenuRepoImpl implements SysMenuRepo {
     }
 
     @Override
-    public int insert(SysMenu sysMenu) {
-        return sysMenuMapper.insert((SysMenu)sysMenu);
+    public void insert(SysMenu sysMenu) {
+        sysMenuMapper.insert((SysMenu)sysMenu);
     }
 
     @Override
-    public int deleteById(String... id) {
-        return sysMenuMapper.deleteByIds(id);
+    public void deleteById(String... id) {
+         sysMenuMapper.deleteBy(new SqlBuilder().in("id",id).build());
     }
 
     @Override
-    public int updateById(SysMenu sysMenu) {
-        return sysMenuMapper.updateById(sysMenu);
+    public void updateById(SysMenu sysMenu) {
+        sysMenuMapper.updateBy(sysMenu,"id");
     }
 
     @Override
     public void refreshCache() {
-        Runnable task = () -> {
-            redisCacheManager.del(RedisConst.ROLE_PERM_KEY_PREFIX+RedisConst.ALL_PLACE_HOLDER);
-            redisCacheManager.del(RedisConst.ROLE_MENU_KEY_PREFIX+RedisConst.ALL_PLACE_HOLDER);
-        };
-        task.run();
-        CommonThreadPool.schedule(task,5);
+       refreshCache(RedisConst.ALL_PLACE_HOLDER);
     }
 
     @Override
     public void refreshCache(String roleCode) {
-        Runnable task = () -> {
-            redisCacheManager.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-            redisCacheManager.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
-        };
-        task.run();
-        CommonThreadPool.schedule(task,5);
+        redisCacheManager.delayDoubleDel(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
+        redisCacheManager.delayDoubleDel(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
     }
 }

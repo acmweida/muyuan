@@ -28,11 +28,11 @@ public interface SysMenuRepo {
 
     SysMenu selectOne(Map params);
 
-    int insert(SysMenu sysMenu);
+    void insert(SysMenu sysMenu);
 
-    int deleteById(String... id);
+    void deleteById(String... id);
 
-    int updateById(SysMenu id);
+    void updateById(SysMenu id);
 
     void refreshCache(String roleCode);
 

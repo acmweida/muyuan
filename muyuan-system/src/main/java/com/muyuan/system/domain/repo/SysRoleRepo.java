@@ -14,12 +14,14 @@ public interface SysRoleRepo {
 
     SysRole selectOne(Map params);
 
-    int insert(SysRole sysRole);
+    void insert(SysRole sysRole);
 
-    int batchInsert(List<SysRoleMenu> sysRoleMenus);
+    void batchInsert(List<SysRoleMenu> sysRoleMenus);
 
-    int updateById(SysRole sysRole);
+    void updateById(SysRole sysRole);
 
-    int deleteMenuBy(SysRoleMenu entity,String... fieldNames);
+    void deleteMenuByRoleId(Long roleId);
+
+    void deleteById(String... id);
 
 }

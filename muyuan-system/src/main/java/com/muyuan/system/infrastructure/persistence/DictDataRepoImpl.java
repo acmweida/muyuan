@@ -11,9 +11,7 @@ import com.muyuan.system.domain.repo.DictDataRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @AllArgsConstructor
@@ -50,18 +48,31 @@ public class DictDataRepoImpl implements DictDataRepo {
     }
 
     @Override
-    public int insert(DictData dictData) {
-        return dictDataMapper.insert(dictData);
+    public void insert(DictData dictData) {
+        dictDataMapper.insert(dictData);
+        refreshCache(dictData.getType());
     }
 
     @Override
-    public int delete(String... ids) {
-        return dictDataMapper.deleteByIds(ids);
+    public void delete(String... ids) {
+        List<DictData> id = dictDataMapper.selectList(new SqlBuilder(DictData.class)
+                .in("id", ids)
+                .build());
+        Set<String> typeSet = new HashSet<>();
+        id.forEach(item -> {
+            typeSet.add(item.getType());
+        });
+
+        dictDataMapper.deleteBy(new SqlBuilder().in("id",ids).build());
+
+        typeSet.forEach(type -> {
+            refreshCache(type);
+        });
     }
 
     @Override
     public void refreshCache(String dataDictType) {
-
+        redisCacheManager.delayDoubleDel(RedisConst.SYS_DATA_DICT+dataDictType);
     }
 
 }

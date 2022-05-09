@@ -35,14 +35,14 @@ public interface DictDataDomainService {
      * @param dictDataDTO
      * @return 0-成功 1-已存在 2-失败
      */
-    Integer add(DictDataDTO dictDataDTO);
+    void add(DictDataDTO dictDataDTO);
 
     /**
      * 根据ID删除记录
      * @param ids
      * @return
      */
-    int deleteById(String... ids);
+    void deleteById(String... ids);
 
     /**
      * 检查唯一性

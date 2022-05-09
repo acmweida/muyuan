@@ -98,19 +98,18 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
     @Override
     @Transactional
-    public Integer add(DictDataDTO dictDataDTO) {
+    public void add(DictDataDTO dictDataDTO) {
         DictData dictData = new DictData();
         BeanUtils.copyProperties(dictDataDTO, dictData);
-
-        return dictDataRepo.insert(dictData);
+        dictDataRepo.insert(dictData);
     }
 
     @Override
-    public int deleteById(String... ids) {
+    public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return 0;
+            return ;
         }
-        return dictDataRepo.delete(ids);
+         dictDataRepo.delete(ids);
     }
 
 }

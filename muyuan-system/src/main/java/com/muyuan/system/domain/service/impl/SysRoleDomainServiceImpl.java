@@ -64,9 +64,11 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         sqlBuilder.orderByAsc("sort");
 
         Page page = new Page();
-        page.setPageNum(sysRoleDTO.getPageNum());
-        page.setPageSize(sysRoleDTO.getPageSize());
-        sqlBuilder.page(page);
+        if (sysRoleDTO.isEnablePage()) {
+            page.setPageNum(sysRoleDTO.getPageNum());
+            page.setPageSize(sysRoleDTO.getPageSize());
+            sqlBuilder.page(page);
+        }
 
         List<SysRole> list = sysRoleRepo.select(sqlBuilder.build());
 
@@ -120,7 +122,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
             );
         }
 
-        sysRoleRepo.deleteMenuBy(new SysRoleMenu(sysRole.getId(),null),"id");
+        sysRoleRepo.deleteMenuByRoleId(sysRole.getId());
 
         sysRoleRepo.batchInsert(sysRoleMenus);
 
@@ -140,5 +142,10 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
             return Optional.empty();
         }
         return Optional.of(sysRole);
+    }
+
+    @Override
+    public void deleteById(String... id) {
+        sysRoleRepo.deleteById(id);
     }
 }

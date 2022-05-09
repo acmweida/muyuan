@@ -19,6 +19,10 @@ public class SqlBuilder {
 
     private String[] columns;
 
+    public SqlBuilder() {
+        conditions = new ArrayList<>();
+    }
+
     public SqlBuilder(Class target) {
         this.target = target;
         conditions = new ArrayList<>();
@@ -54,6 +58,15 @@ public class SqlBuilder {
     public SqlBuilder or() {
         Condition condition = new Condition();
         condition.setOption(Option.OR);
+        conditions.add(condition);
+        return this;
+    }
+
+    public SqlBuilder notEq(String field,Object value) {
+        Condition condition = new Condition();
+        condition.setField(field);
+        condition.setOption(Option.UNEQ);
+        condition.setValue(value);
         conditions.add(condition);
         return this;
     }
@@ -135,7 +148,7 @@ public class SqlBuilder {
             params.put(column,condition.getValue());
         }
         params.put(Constant.CONDITION,conditions);
-        if (null == columns) {
+        if (null == columns && null != target) {
             List<String> column = new ArrayList<>();
             Field[] declaredFields = target.getDeclaredFields();
             for (Field propertyDescriptor : declaredFields) {

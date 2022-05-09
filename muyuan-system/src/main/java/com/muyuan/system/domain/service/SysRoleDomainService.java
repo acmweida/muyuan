@@ -28,7 +28,7 @@ public interface SysRoleDomainService {
      * @param sysRoleDTO
      * @return
      */
-    Page list(SysRoleDTO sysRoleDTO);
+    Page<SysRole> list(SysRoleDTO sysRoleDTO);
 
     /**
      * 检验唯一性
@@ -56,4 +56,7 @@ public interface SysRoleDomainService {
      * @return
      */
     Optional<SysRole> getById(String id);
+
+
+    void deleteById(String... id);
 }
