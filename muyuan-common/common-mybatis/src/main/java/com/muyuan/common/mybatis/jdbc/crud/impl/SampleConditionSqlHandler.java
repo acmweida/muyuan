@@ -9,7 +9,7 @@ public class SampleConditionSqlHandler implements ConditionSqlHandler {
 
     @Override
     public String buildSql(Condition condition) {
-        return " "+ StrUtil.humpToUnderline(condition.getField()) + condition.getOption() + "#{" + condition.getField()+"}";
+        return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "#{" + condition.getField() + "}";
     }
 
     @Override
@@ -19,7 +19,8 @@ public class SampleConditionSqlHandler implements ConditionSqlHandler {
             case UNEQ:
             case LIKE:
                 return true;
-            default:return false;
+            default:
+                return false;
         }
     }
 }

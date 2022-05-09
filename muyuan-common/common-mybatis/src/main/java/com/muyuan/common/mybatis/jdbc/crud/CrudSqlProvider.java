@@ -1,6 +1,5 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.impl.CollectionConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.impl.SampleConditionSqlHandler;

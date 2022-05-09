@@ -27,7 +27,7 @@ public class CollectionConditionSqlHandler implements ConditionSqlHandler {
         if (0 == size) {
             return "";
         }
-        return  condition.getField() +  condition.getOption().getOp() + inExpression(condition.getField(),size);
+        return condition.getField() + condition.getOption().getOp() + inExpression(condition.getField(), size);
     }
 
     @Override
@@ -35,7 +35,8 @@ public class CollectionConditionSqlHandler implements ConditionSqlHandler {
         switch (op) {
             case IN:
                 return true;
-            default:return false;
+            default:
+                return false;
         }
     }
 
