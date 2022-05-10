@@ -91,6 +91,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
         if (StrUtil.isNotBlank(sysMenuDTO.getStatus())) {
             sqlBuilder.eq("status", sysMenuDTO.getStatus());
         }
+        sqlBuilder.orderByAsc("orderNum");
         List<SysMenu> list = sysMenuRepo.select(sqlBuilder.build());
         return list;
     }

@@ -80,6 +80,7 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         if (StrUtil.isNotBlank(sysMenuDTO.getStatus())) {
             sqlBuilder.eq("status", sysMenuDTO.getStatus());
         }
+        sqlBuilder.orderByAsc("orderNum");
         List<Menu> list = menuRepo.select(sqlBuilder.build());
         return list;
     }
