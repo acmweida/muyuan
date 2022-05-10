@@ -19,17 +19,17 @@ public interface SysMenuMapper extends SystemBaseMapper<SysMenu> {
 
     /**
      * 通过角色名称查询权限
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<String>  selectMenuPermissionByRoleNames(@Param("roleNames") List<String> roleNames);
+    List<String>  selectMenuPermissionByRoleCodes(@Param("roleCodes") List<String> roleCodes);
 
     /**
      * 通过角色查询菜单权限
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<SysMenu>  selectMenuByRoleNames(@Param("roleNames") List<String> roleNames);
+    List<SysMenu>  selectMenuByRoleCodes(@Param("roleCodes") List<String> roleCodes);
 
     /**
      * 通过角色ID查询权限

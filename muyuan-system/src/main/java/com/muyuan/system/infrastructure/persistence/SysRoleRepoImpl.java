@@ -30,8 +30,6 @@ public class SysRoleRepoImpl implements SysRoleRepo {
 
     private SysRoleMenuMapper sysRoleMenuMapper;
 
-    private RedisCacheManager redisCacheManager;
-
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
         return sysRoleMapper.selectRoleByUserId(userId);

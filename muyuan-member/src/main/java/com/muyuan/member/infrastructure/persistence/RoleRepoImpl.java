@@ -1,12 +1,18 @@
 package com.muyuan.member.infrastructure.persistence;
 
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.member.domain.model.Role;
+import com.muyuan.member.domain.model.RoleMenu;
 import com.muyuan.member.domain.repo.RoleRepo;
 import com.muyuan.member.infrastructure.persistence.dao.RoleMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.muyuan.member.infrastructure.persistence.dao.RoleMenuMapper;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName RoleRepoImpl
@@ -16,13 +22,60 @@ import java.util.List;
  * @Version 1.0
  */
 @Component
+@AllArgsConstructor
 public class RoleRepoImpl implements RoleRepo {
 
-    @Autowired
-    RoleMapper roleMapper;
+    private RoleMapper roleMapper;
+
+    private RoleMenuMapper roleMenuMapper;
+
 
     @Override
     public List<Role> selectRoleByUserId(Long userId) {
         return roleMapper.selectRoleByUserId(userId);
+    }
+
+    @Override
+    public List<Role> select(Map params) {
+        return roleMapper.selectList(params);
+    }
+
+    @Override
+    public Role selectOne(Map params) {
+        return roleMapper.selectOne(params);
+    }
+
+    @Override
+    public void insert(Role sysRole) {
+        roleMapper.insert(sysRole);
+    }
+
+    @Override
+    public void batchInsert(List<RoleMenu> sysRoleMenus) {
+        roleMenuMapper.batchInsert(sysRoleMenus);
+    }
+
+    @Override
+    public void updateById(Role sysRole) {
+        roleMapper.updateBy(sysRole);
+    }
+
+    @Override
+    public void deleteMenuByRoleId(Long  roleId) {
+        if (ObjectUtils.isEmpty(roleId)) {
+            return;
+        }
+        roleMenuMapper.deleteBy(new SqlBuilder().eq(
+                "roleId",roleId
+        ).build());
+    }
+
+    @Override
+    public void deleteById(String... id) {
+        roleMenuMapper.deleteBy(
+                new SqlBuilder().in("id",id)
+                        .notEq("id",1)
+                        .build()
+        );
     }
 }

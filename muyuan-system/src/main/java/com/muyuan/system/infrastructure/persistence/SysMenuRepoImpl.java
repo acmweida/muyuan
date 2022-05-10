@@ -1,14 +1,15 @@
 package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.common.core.constant.RedisConst;
-import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.system.domain.model.SysRoleMenu;
 import com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysMenuRepo;
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMenuMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,8 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     private SysMenuMapper sysMenuMapper;
 
+    private SysRoleMenuMapper sysRoleMenuMapper;
+
     private RedisCacheManager redisCacheManager;
 
     @Override
@@ -41,7 +44,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
-                Set<String> rolePerms = redisCacheManager.sGet(RedisConst.ROLE_PERM_KEY_PREFIX, roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
+                Set<String> rolePerms = redisCacheManager.sGet(RedisConst.SYS_ROLE_PERM_KEY_PREFIX, roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
                 }
@@ -53,7 +56,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public List<String> selectMenuPermissionByRoleCode(String roleCode) {
-        return sysMenuMapper.selectMenuPermissionByRoleNames(Arrays.asList(roleCode));
+        return sysMenuMapper.selectMenuPermissionByRoleCodes(Arrays.asList(roleCode));
     }
 
     @Override
@@ -65,7 +68,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleName);
-            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.ROLE_MENU_KEY_PREFIX, roleCode,
+            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.SYS_ROLE_MENU_KEY_PREFIX, roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
             if (StrUtil.isNotEmpty(cacheMenuJson)) {
@@ -76,13 +79,13 @@ public class SysMenuRepoImpl implements SysMenuRepo {
         // 去重
         return menus.stream().collect(
                 collectingAndThen(
-                        toCollection(() -> new TreeSet<>(Comparator.comparing(SysMenu::getName))), ArrayList::new)
+                        toCollection(() -> new TreeSet<>(Comparator.comparing(SysMenu::getId))), ArrayList::new)
         );
     }
 
     @Override
     public List<SysMenu> selectMenuByRoleCode(String roleCode) {
-        List<SysMenu> sysMenus = sysMenuMapper.selectMenuByRoleNames(Arrays.asList(roleCode));
+        List<SysMenu> sysMenus = sysMenuMapper.selectMenuByRoleCodes(Arrays.asList(roleCode));
         return sysMenus;
     }
 
@@ -103,7 +106,9 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public void insert(SysMenu sysMenu) {
-        sysMenuMapper.insert((SysMenu)sysMenu);
+        sysMenuMapper.insert(sysMenu);
+        // 默认管理员权限
+        sysRoleMenuMapper.insert(new SysRoleMenu(1L,sysMenu.getId()));
     }
 
     @Override
@@ -123,7 +128,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public void refreshCache(String roleCode) {
-        redisCacheManager.delayDoubleDel(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-        redisCacheManager.delayDoubleDel(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
+        redisCacheManager.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX+roleCode);
+        redisCacheManager.delayDoubleDel(RedisConst.SYS_ROLE_MENU_KEY_PREFIX+roleCode);
     }
 }

@@ -18,7 +18,7 @@ public interface MenuDomainService {
 
     /**
      * 获取权限信息
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
     Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes);
@@ -47,10 +47,10 @@ public interface MenuDomainService {
 
     /**
      * 通过角色获取菜单列表
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<Menu> selectMenuByRoleNames(List<String> roleNames);
+    List<Menu> selectMenuByRoleCodes(List<String> roleCodes);
 
     /**
      * 菜单添加

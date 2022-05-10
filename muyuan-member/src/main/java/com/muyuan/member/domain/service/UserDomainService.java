@@ -35,4 +35,11 @@ public interface UserDomainService {
      * @return
      */
     int add(RegisterDTO registerInfo);
+
+    /**
+     * 检查唯一性
+     * @param sysUser
+     * @return
+     */
+    String checkAccountNameUnique(User sysUser);
 }

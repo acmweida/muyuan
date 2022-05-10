@@ -1,8 +1,11 @@
 package com.muyuan.member.domain.service;
 
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.member.domain.model.Role;
+import com.muyuan.member.interfaces.dto.RoleDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName RoleQueryImpl
@@ -19,5 +22,42 @@ public interface RoleDomainService {
      * @return
      */
      List<Role> getRoleByUserId(Long userId);
+
+    /**
+     * 列表查询
+     * @param sysRoleDTO
+     * @return
+     */
+    Page<Role> list(RoleDTO sysRoleDTO);
+
+    /**
+     * 检验唯一性
+     * @param sysRole
+     * @return
+     */
+    String checkRoleCodeUnique(Role sysRole);
+
+
+    /**
+     * 添加角色
+     * @param sysRoleDTO
+     */
+    void add(RoleDTO sysRoleDTO);
+
+    /**
+     * 添加角色
+     * @param sysRoleDTO
+     */
+    void update(RoleDTO sysRoleDTO);
+
+    /**
+     * 通过ID查询角色信息
+     * @param id
+     * @return
+     */
+    Optional<Role> getById(String id);
+
+
+    void deleteById(String... id);
 
 }

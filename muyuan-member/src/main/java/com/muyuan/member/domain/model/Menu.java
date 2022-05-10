@@ -1,5 +1,6 @@
 package com.muyuan.member.domain.model;
 
+import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 public class Menu {
 
+    @AutoIncrement
     private Long id;
 
     /**
@@ -49,7 +51,7 @@ public class Menu {
     /**
      * 是否为外链（0是 1否）
      */
-    private byte frame;
+    private String frame;
 
     /**
      * 菜单类型（M目录 C菜单 F按钮）
@@ -88,7 +90,7 @@ public class Menu {
 
 
     /** 是否缓存（0缓存 1不缓存） */
-    private byte cache;
+    private String cache;
 
     /**
      * 修改时间
@@ -104,5 +106,9 @@ public class Menu {
 
     public Menu(Long id) {
         this.id = id;
+    }
+
+    public Menu(String name) {
+        this.name = name;
     }
 }

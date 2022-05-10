@@ -7,7 +7,6 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.factories.MenuFactory;
 import com.muyuan.member.domain.model.Menu;
-import com.muyuan.member.domain.query.MenuQuery;
 import com.muyuan.member.domain.repo.MenuRepo;
 import com.muyuan.member.domain.service.MenuDomainService;
 import com.muyuan.member.interfaces.dto.MenuDTO;
@@ -31,31 +30,26 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MenuDomainServiceImpl implements MenuDomainService {
 
-    public MenuRepo menuRepo;;
-
-    public MenuQuery menuQuery;
+    public MenuRepo menuRepo;
 
     /**
      * 通过角色名称查询权限
+     *
      * @param roleCodes
      * @return
      */
+    @Override
     public Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes) {
-        Set<String> perms = new HashSet<>();
-        if (RoleEntity.isShopKeeper(roleCodes)) {
-            perms.add(SecurityConst.ALL_PERMISSION);
-        } else {
-             perms = menuQuery.selectMenuPermissionByRoleNames(roleCodes);
-        }
-        return perms;
+        List<String> permList = menuRepo.selectMenuPermissionByRoleCodes(roleCodes);
+        return new HashSet<>(permList);
     }
 
     @Override
     public String checkMenuNameUnique(Menu menu) {
         Long id = null == menu.getId() ? 0 : menu.getId();
         menu = menuRepo.selectOne(new SqlBuilder(Menu.class)
-                .eq("name",menu.getName())
-                .eq("parentId",menu.getParentId())
+                .eq("name", menu.getName())
+                .eq("parentId", menu.getParentId())
                 .build());
         if (null != menu && id.equals(menu.getId())) {
             return GlobalConst.NOT_UNIQUE;
@@ -66,15 +60,15 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     /**
      * 通过角色名称查询目录 菜单
      *
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
     @Override
-    public List<Menu> selectMenuByRoleNames(List<String> roleNames) {
-        if (ObjectUtils.isEmpty(roleNames)) {
+    public List<Menu> selectMenuByRoleCodes(List<String> roleCodes) {
+        if (ObjectUtils.isEmpty(roleCodes)) {
             return Collections.EMPTY_LIST;
         }
-        return menuRepo.selectMenuByRoleCodes(roleNames);
+        return menuRepo.selectMenuByRoleCodes(roleCodes);
     }
 
     @Override
@@ -101,8 +95,9 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     /**
      * 查询
      * condition
-     *      id
-     *      name
+     * id
+     * name
+     *
      * @param sysMenu
      * @return
      */
@@ -144,17 +139,14 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     }
 
 
-
     @Override
     public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return ;
+            return;
         }
         menuRepo.deleteById(ids);
         menuRepo.refreshCache();
     }
-
-
 
 
 }

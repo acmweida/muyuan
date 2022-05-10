@@ -16,13 +16,11 @@ public interface MenuRepo {
 
     List<String>  selectMenuPermissionByRoleCodes(List<String> roleNames);
 
-    List<String>  selectMenuPermissionByRoleName(String roleName);
-
-    List<Menu> selectMenuByRoleNames(List<String> roleNames);
-
-    List<Menu> selectMenuByRoleName(String roleName);
+    List<String>  selectMenuPermissionByRoleCode(String roleName);
 
     List<Menu> selectMenuByRoleCodes(List<String> roleCodes);
+
+    List<Menu> selectMenuByRoleCode(String roleName);
 
     Menu selectOne(Map params);
 

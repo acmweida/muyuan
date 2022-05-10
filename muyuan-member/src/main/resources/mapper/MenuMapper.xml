@@ -4,7 +4,7 @@
 <mapper namespace="com.muyuan.member.infrastructure.persistence.dao.MenuMapper">
 
 
-    <select id="selectMenuPermissionByRoleNames" resultType="java.lang.String">
+    <select id="selectMenuPermissionByRoleCodes" resultType="java.lang.String">
         select perms from (
                               select perms,id from t_menu where type = 'F'
                           ) menu
@@ -12,13 +12,13 @@
             select * from t_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
                               left join (
-            select id from t_role where name in
-                                  <foreach collection="roleNames" open="(" close=")" item="item" >
+            select id from t_role where code in
+                                  <foreach collection="roleCodes" open="(" close=")" item="item" >
                                       #{item}
                                   </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleNames" resultType="com.muyuan.member.domain.model.Menu">
+    <select id="selectMenuByRoleCodes" resultType="com.muyuan.member.domain.model.Menu">
         select menu.* from (
         select * from t_menu where type in ('M','C') order by order_num
         ) menu
@@ -26,10 +26,23 @@
         select * from t_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
         left join (
-        select id from t_role where name in
-        <foreach collection="roleNames" open="(" close=")" item="item" >
+        select id from t_role where code in
+        <foreach collection="roleCodes" open="(" close=")" item="item" >
             #{item}
         </foreach>
         ) role on role.id = role_menu.role_id
+    </select>
+
+
+    <select id="selectMenuByRoleId" resultType="com.muyuan.member.domain.model.Menu">
+        select menu.* from (
+        select * from t_menu order by order_num
+        ) menu
+        inner join  (
+        select * from t_role_menu  where role_id in
+        <foreach collection="roleIds" open="(" close=")" item="item" >
+            #{item}
+        </foreach>
+        ) role_menu on menu.id  = role_menu.menu_id
     </select>
 </mapper>

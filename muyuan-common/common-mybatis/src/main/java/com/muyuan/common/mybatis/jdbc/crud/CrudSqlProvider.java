@@ -127,21 +127,21 @@ public class CrudSqlProvider {
     }
 
 
-    public String updateBy(ProviderContext context, Object bean, String... fieldNamesArr) {
+    public String updateBy(ProviderContext context, Object entity, String... column) {
         SQL sql = new SQL();
         Class<?> aClass = entityType(context);
         sql.UPDATE(tableName(context));
 
         List<String> sets = new ArrayList<>();
 
-        List<String> fieldNamesList = Arrays.asList(fieldNamesArr);
+        List<String> fieldNamesList = Arrays.asList(column);
 
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
             propertyDescriptor.setAccessible(true);
-            Object field = ReflectionUtils.getField(propertyDescriptor, bean);
+            Object field = ReflectionUtils.getField(propertyDescriptor, entity);
             if (!fieldNamesList.contains(propertyDescriptor.getName()) && null != field) {
-                sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{" + propertyDescriptor.getName() + "}  ");
+                sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
             }
         }
 
@@ -150,17 +150,17 @@ public class CrudSqlProvider {
         List<String> conditionSqls = new ArrayList<>();
         Field field = null;
         Object value = null;
-        for (String fieldName : fieldNamesArr) {
+        for (String fieldName : column) {
             try {
                 field = aClass.getDeclaredField(fieldName);
                 field.setAccessible(true);
-                value = field.get(bean);
+                value = field.get(entity);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
                 log.error("{} not found  in {}", fieldName, aClass.getName());
             }
             if (value != null) {
-                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{" + field.getName() + "}");
+                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
             }
         }
         if (conditionSqls.size() == 0) {

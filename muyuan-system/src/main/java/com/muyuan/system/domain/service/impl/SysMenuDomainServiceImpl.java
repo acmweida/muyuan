@@ -7,6 +7,7 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysMenuFactory;
 import com.muyuan.system.domain.repo.SysMenuRepo;
+import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
@@ -41,7 +42,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
                 .eq("name",sysMenu.getName())
                 .eq("parentId",sysMenu.getParentId())
                 .build());
-        if (null != sysMenu && id.equals(sysMenu.getId())) {
+        if (null != sysMenu && !id.equals(sysMenu.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
@@ -70,15 +71,15 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     /**
      * 通过角色名称查询目录 菜单
      *
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
     @Override
-    public List<SysMenu> selectMenuByRoleNames(List<String> roleNames) {
-        if (ObjectUtils.isEmpty(roleNames)) {
+    public List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes) {
+        if (ObjectUtils.isEmpty(roleCodes)) {
             return Collections.EMPTY_LIST;
         }
-        return sysMenuRepo.selectMenuByRoleCodes(roleNames);
+        return sysMenuRepo.selectMenuByRoleCodes(roleCodes);
     }
 
     @Override

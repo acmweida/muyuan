@@ -40,18 +40,18 @@ public interface SysMenuDomainService {
 
     /**
      * 获取权限信息
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    Set<String> selectMenuPermissionByRoleCodes(List<String> roleNames);
+    Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes);
 
 
     /**
      * 通过角色获取菜单列表
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<SysMenu> selectMenuByRoleNames(List<String> roleNames);
+    List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes);
 
     /**
      * 菜单添加

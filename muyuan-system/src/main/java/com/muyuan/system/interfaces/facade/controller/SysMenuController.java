@@ -6,7 +6,9 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.vo.SysMenuVO;
+import com.muyuan.system.application.vo.SysRouterVo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.assembler.SysMenuAssembler;
@@ -40,6 +42,14 @@ import java.util.Optional;
 public class SysMenuController {
 
     private SysMenuDomainService sysMenuDomainService;
+
+    @GetMapping("/menu/route")
+    @ApiOperation(value = "路由信息获取")
+    Result<List<SysRouterVo>> getRouter() {
+        List<String> roles = SecurityUtils.getRoles();
+        List<SysMenu> menus = sysMenuDomainService.selectMenuByRoleCodes(roles);
+        return ResultUtil.success(SysMenuAssembler.buildMenus(SysMenuAssembler.buildMenuTree(menus)));
+    }
 
     @RequirePermissions("system:menu:list")
     @GetMapping("/menu/list")
