@@ -56,8 +56,8 @@ public class SysRole {
         this.code = code;
     }
 
-    public SysRole(String name, String code) {
-        this.name = name;
+    public SysRole(Long id, String code) {
+        this.id = id;
         this.code = code;
     }
 }

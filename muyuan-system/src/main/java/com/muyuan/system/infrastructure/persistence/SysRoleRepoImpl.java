@@ -57,7 +57,7 @@ public class SysRoleRepoImpl implements SysRoleRepo {
 
     @Override
     public void updateById(SysRole sysRole) {
-        sysRoleMapper.updateBy(sysRole);
+        sysRoleMapper.updateBy(sysRole,"id");
     }
 
     @Override

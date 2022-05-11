@@ -79,7 +79,7 @@ public class SysRoleController {
     @RequirePermissions("system:role:update")
     public  Result update(@RequestBody @Validated SysRoleDTO sysRoleDTO) {
 
-        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new SysRole(sysRoleDTO.getCode())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new SysRole(sysRoleDTO.getId(),sysRoleDTO.getCode())))) {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在",sysRoleDTO.getCode()));
         }
 

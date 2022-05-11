@@ -119,7 +119,7 @@ public class MenuController {
         if (GlobalConst.NOT_UNIQUE.equals(menuDomainService.checkMenuNameUnique(sysMenu))) {
             return ResultUtil.fail("菜单名已存在");
         }
-        if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && StrUtil.ishttp(sysMenuDTO.getPath())) {
+        if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && !StrUtil.ishttp(sysMenuDTO.getPath())) {
             return ResultUtil.fail("新增菜单'" + sysMenuDTO.getName() + "'失败，地址必须以http(s)://开头");
         }
         menuDomainService.add(sysMenuDTO);

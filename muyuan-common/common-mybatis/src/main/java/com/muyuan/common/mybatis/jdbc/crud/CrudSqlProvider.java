@@ -122,7 +122,6 @@ public class CrudSqlProvider {
         sql.VALUES(StringUtils.arrayToDelimitedString(column.toArray(new String[column.size()]), ","),
                 StringUtils.arrayToDelimitedString(values.toArray(new String[column.size()]), ","));
 
-        log.info("insert sql:{}",sql);
         return sql.toString();
     }
 

@@ -6,7 +6,7 @@
 
     <select id="selectRoleByUserId" resultType="com.muyuan.member.domain.model.Role">
         select role.* from (
-                               select * from t_role where state = 0
+                               select * from t_role where status = 0
                            ) role
                                inner join (
             select * from t_user_role where user_id = #{userId}

@@ -56,9 +56,8 @@ public class Role {
         this.code = code;
     }
 
-    public Role(String name, String code) {
-        this.name = name;
+    public Role(Long id, String code) {
+        this.id = id;
         this.code = code;
     }
-
 }

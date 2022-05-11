@@ -41,10 +41,10 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         Long id = user.getId();
         List<Role> sysRoles = getUserRoles(id);
 
-        List<String> roleNames = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getName()).collect(Collectors.toList());
+        List<String> roleCodes = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getCode()).collect(Collectors.toList());
 
         UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
-        userDTO.setRoles(roleNames);
+        userDTO.setRoles(roleCodes);
         return userDTO;
     }
 

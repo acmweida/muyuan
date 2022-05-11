@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping(value = "/user")
-@Api(tags = {"用户接口"})
+@Api(tags = {"商家账号接口"})
 @AllArgsConstructor
 public class UserController {
 

@@ -60,24 +60,24 @@ public class RoleController {
     @PostMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:add")
-    public Result add(@RequestBody @Validated RoleDTO sysRoleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(sysRoleDTO.getCode())))) {
-            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", sysRoleDTO.getCode()));
+    public Result add(@RequestBody @Validated RoleDTO roleDTO) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode())))) {
+            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
-        sysRoleDomainService.add(sysRoleDTO);
+        sysRoleDomainService.add(roleDTO);
         return ResultUtil.success();
     }
 
     @PutMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:update")
-    public Result update(@RequestBody @Validated RoleDTO sysRoleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(sysRoleDTO.getCode())))) {
-            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", sysRoleDTO.getCode()));
+    public Result update(@RequestBody @Validated RoleDTO roleDTO) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode())))) {
+            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
-        sysRoleDomainService.update(sysRoleDTO);
+        sysRoleDomainService.update(roleDTO);
         return ResultUtil.success();
     }
 

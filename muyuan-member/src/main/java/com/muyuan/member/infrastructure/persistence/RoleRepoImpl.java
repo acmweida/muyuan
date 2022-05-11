@@ -56,8 +56,8 @@ public class RoleRepoImpl implements RoleRepo {
     }
 
     @Override
-    public void updateById(Role sysRole) {
-        roleMapper.updateBy(sysRole);
+    public void updateById(Role role) {
+        roleMapper.updateBy(role,"id");
     }
 
     @Override
@@ -74,7 +74,6 @@ public class RoleRepoImpl implements RoleRepo {
     public void deleteById(String... id) {
         roleMenuMapper.deleteBy(
                 new SqlBuilder().in("id",id)
-                        .notEq("id",1)
                         .build()
         );
     }
