@@ -27,10 +27,10 @@ public class DynamicDataSourceAspect {
         }
     }
 
-    @After("@annotation(dataSource)")
-    public void restoreDataSource(JoinPoint point, DataSource dataSource) {
-        log.info("恢复数据源-" + point.getSignature());
-
-        DynamicDataSourceContextHolder.clearDataSourceType();
-    }
+//    @After("@annotation(dataSource)")
+//    public void restoreDataSource(JoinPoint point, DataSource dataSource) {
+//        log.info("恢复数据源-" + point.getSignature());
+//
+//        DynamicDataSourceContextHolder.clearDataSourceType();
+//    }
 }

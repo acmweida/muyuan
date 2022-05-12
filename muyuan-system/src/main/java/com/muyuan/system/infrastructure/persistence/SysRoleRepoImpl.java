@@ -1,12 +1,19 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.system.domain.model.SysRoleMenu;
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
-import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMenuMapper;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName RoleRepoImpl
@@ -16,13 +23,60 @@ import java.util.List;
  * @Version 1.0
  */
 @Component
+@AllArgsConstructor
 public class SysRoleRepoImpl implements SysRoleRepo {
 
-    @Autowired
-    SysRoleMapper sysRoleMapper;
+    private SysRoleMapper sysRoleMapper;
+
+    private SysRoleMenuMapper sysRoleMenuMapper;
 
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
         return sysRoleMapper.selectRoleByUserId(userId);
     }
+
+    @Override
+    public List<SysRole> select(Map params) {
+        return sysRoleMapper.selectList(params);
+    }
+
+    @Override
+    public SysRole selectOne(Map params) {
+        return sysRoleMapper.selectOne(params);
+    }
+
+    @Override
+    public void insert(SysRole sysRole) {
+        sysRoleMapper.insert(sysRole);
+    }
+
+    @Override
+    public void batchInsert(List<SysRoleMenu> sysRoleMenus) {
+        sysRoleMenuMapper.batchInsert(sysRoleMenus);
+    }
+
+    @Override
+    public void updateById(SysRole sysRole) {
+        sysRoleMapper.updateBy(sysRole,"id");
+    }
+
+    @Override
+    public void deleteMenuByRoleId(Long  roleId) {
+        if (ObjectUtils.isEmpty(roleId)) {
+            return;
+        }
+        sysRoleMenuMapper.deleteBy(new SqlBuilder().eq(
+                "roleId",roleId
+        ).build());
+    }
+
+    @Override
+    public void deleteById(String... id) {
+        sysRoleMapper.deleteBy(
+                new SqlBuilder().in("id",id)
+                        .notEq("id",1)
+                .build()
+        );
+    }
+
 }

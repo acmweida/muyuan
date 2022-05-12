@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 public class SysRole {
 
+    @AutoIncrement
     private Long id;
 
     /**
@@ -22,23 +24,20 @@ public class SysRole {
     private String name;
 
     /**
-     * 名称描述
+     * 角色编码
      */
-    private String nameDesc;
+    private String code;
+
+    private String sort;
 
     /**
-     * 状态 0-正常 1-删除
+     * 状态 0-正常 1-停用
      */
-    private short state;
+    private String status;
 
-    /**
-     * 父角色ID
-     */
-    private Long parentId;
+    private Long createBy;
 
-    private String createBy;
-
-    private String updateBy;
+    private Long updateBy;
 
     /**
      * 创建时间
@@ -50,4 +49,15 @@ public class SysRole {
      */
     private Date updateTime;
 
+    public SysRole() {
+    }
+
+    public SysRole(String code) {
+        this.code = code;
+    }
+
+    public SysRole(Long id, String code) {
+        this.id = id;
+        this.code = code;
+    }
 }

@@ -20,7 +20,7 @@ public class CommonThreadPool {
 
     private static int MAX_THREAD_COUNT = CORE_THREAD_COUNT << 1;
 
-    private static ThreadPoolExecutor threadPoolExecutor = null;
+    private static ScheduledThreadPoolExecutor threadPoolExecutor = null;
 
     private static int KEEP_ALIVE_TIME = 5;
 
@@ -30,7 +30,7 @@ public class CommonThreadPool {
 
     static {
 
-        threadPoolExecutor = new ThreadPoolExecutor(CORE_THREAD_COUNT,MAX_THREAD_COUNT,KEEP_ALIVE_TIME, TimeUnit.HOURS,queue,FastThreadFactory.getInstance(),new ThreadPoolExecutor.AbortPolicy());
+        threadPoolExecutor = new ScheduledThreadPoolExecutor(CORE_THREAD_COUNT,FastThreadFactory.getInstance(),new ThreadPoolExecutor.CallerRunsPolicy());
         log.info("common thread pool init success!");
         Runtime.getRuntime().addShutdownHook(new Thread(
                 () -> {
@@ -52,6 +52,14 @@ public class CommonThreadPool {
         return threadPoolExecutor.invokeAll(tasks);
     }
 
+
+    public static  <T> Future  schedule(Callable tasks,long second) {
+        return threadPoolExecutor.schedule(tasks,second,TimeUnit.SECONDS);
+    }
+
+    public static  <T> Future  schedule(Runnable tasks,long second) {
+        return threadPoolExecutor.schedule(tasks,second,TimeUnit.SECONDS);
+    }
 
 
 }

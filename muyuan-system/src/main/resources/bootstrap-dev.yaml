@@ -19,11 +19,11 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    io:
-      lettuce: error
-    com.muyuan.member.persistence.persistence.dao: debug
+    com.muyuan.system.infrastructure.persistence.dao: debug
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
+    io.lettuce: error
+
 
 mybatis:
   configuration:
@@ -33,7 +33,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.member.interfaces.facade.api
+    base-packages: com.muyuan.system.interfaces.facade.api
   registry:
     address: spring-cloud://127.0.0.1
   protocol:
@@ -42,4 +42,6 @@ dubbo:
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
+  consumer:
+    check: false
 

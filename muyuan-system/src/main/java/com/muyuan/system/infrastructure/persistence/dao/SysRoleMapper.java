@@ -1,8 +1,11 @@
 package com.muyuan.system.infrastructure.persistence.dao;
 
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 
@@ -18,4 +21,5 @@ import java.util.List;
 public interface SysRoleMapper extends SystemBaseMapper<SysRole> {
 
     List<SysRole> selectRoleByUserId(Long userId);
+
 }

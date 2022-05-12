@@ -1,22 +1,16 @@
 package com.muyuan.member.interfaces.facade.api;
 
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.member.application.service.UserApplicationService;
 import com.muyuan.member.api.UserInterface;
-import com.muyuan.member.domain.model.Role;
-import com.muyuan.member.domain.model.User;
-import com.muyuan.member.application.query.RoleQuery;
-import com.muyuan.member.application.query.UserQuery;
-import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
 import com.muyuan.member.interfaces.dto.UserDTO;
+import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  * @ClassName UserInterfaceApi
@@ -25,34 +19,26 @@ import java.util.stream.Collectors;
  * @Date 2022/3/2 17:12
  * @Version 1.0
  */
-@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0")
+@AllArgsConstructor
+@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0",interfaceClass = UserInterface.class)
 public class UserInterfaceApi implements UserInterface {
 
-    @Autowired
-    UserQuery userQuery;
-
-    @Autowired
-    RoleQuery roleQuery;
-
+    private UserApplicationService sysUserApplicationService;
 
     @Override
     public Result<UserDTO> getUserByUsername(String username) {
-        final Optional<User> userInfo = userQuery.getUserByUsername(username);
-        if (!userInfo.isPresent()) {
+        UserDTO userByUsername = sysUserApplicationService.getUserByUsername(username);
+        if (null == userByUsername) {
             return ResultUtil.fail("用户信息不存在");
         }
-        User user = userInfo.get();
-        Long id = user.getId();
-        List<Role> roles = getUserRoles(id);
 
-        List<String> roleNames = roles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getName()).collect(Collectors.toList());
-
-        UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
-        userDTO.setRoles(roleNames);
-        return ResultUtil.success(userDTO);
+        return ResultUtil.success(userByUsername);
     }
 
-    private List<Role> getUserRoles(Long id) {
-        return  roleQuery.getRoleByUserId(id);
+    @Override
+    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
+        return sysUserApplicationService.getMenuPermissionByRoleCodes(roleCodes);
     }
+
+
 }

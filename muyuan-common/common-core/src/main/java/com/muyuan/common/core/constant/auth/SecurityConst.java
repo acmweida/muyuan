@@ -18,6 +18,11 @@ public interface SecurityConst {
 
     String SHOP_KEEPER_ROLE_CODE = "SHOP_KEEPER";
 
+//    /**
+//     * 默认角色
+//     */
+//    String DEFAULT_ROLE = AUTHORITY_PREFIX+"DEFAULT";
+
     /**
      * JWT令牌前缀
      */
@@ -47,6 +52,8 @@ public interface SecurityConst {
     String GRANT_TYPE_KEY = "grant_type";
 
     String CLIENT_ID_KEY = "client_id";
+
+    String TOKEN_KEY = "access_token";
 
     /**
      * Basic认证前缀
@@ -101,4 +108,8 @@ public interface SecurityConst {
     String LOGIN_USER = "login_user";
 
     String ALL_PERMISSION = "*:*:*";
+
+    String USER_ROLE = "user_role";
+
+    String USER_TYPE = "user_type";
 }

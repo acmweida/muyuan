@@ -1,6 +1,8 @@
 package com.muyuan.system.domain.model;
 
 import lombok.Data;
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 
@@ -13,6 +15,14 @@ import java.util.Date;
  */
 @Data
 public class SysUser {
+
+    public SysUser(Long id) {
+        this.id = id;
+    }
+
+    public SysUser(String username) {
+        this.username = username;
+    }
 
     private Long id;
 
@@ -68,7 +78,17 @@ public class SysUser {
      */
     private Date lastSignTime;
 
-    private Long updateUserId;
+    private Long updateBy;
 
-    private Long createUserId;
+    private Long createBy;
+
+    public SysUser() {
+    }
+
+    public SysUser(String username, String password) {
+        Assert.isTrue(!ObjectUtils.isEmpty(username),"username is null");
+        Assert.isTrue(!ObjectUtils.isEmpty(password),"password is null");
+        this.username = username;
+        this.password = password;
+    }
 }

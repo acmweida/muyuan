@@ -4,7 +4,7 @@
 <mapper namespace="com.muyuan.system.infrastructure.persistence.dao.SysMenuMapper">
 
 
-    <select id="selectMenuPermissionByRoleNames" resultType="java.lang.String">
+    <select id="selectMenuPermissionByRoleCodes" resultType="java.lang.String">
         select perms from (
                               select perms,id from t_sys_menu where type = 'F'
                           ) menu
@@ -12,24 +12,35 @@
             select * from t_sys_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
                               left join (
-            select id from t_sys_role where name in
-                                  <foreach collection="roleNames" open="(" close=")" item="item" >
+            select id from t_sys_role where code in
+                                  <foreach collection="roleCodes" open="(" close=")" item="item" >
                                       #{item}
                                   </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleNames" resultType="com.muyuan.system.domain.model.SysMenu">
+    <select id="selectMenuByRoleCodes" resultType="com.muyuan.system.domain.model.SysMenu">
         select menu.* from (
         select * from t_sys_menu where type in ('M','C') order by order_num
         ) menu
-        left join  (
+        inner join  (
         select * from t_sys_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
-        left join (
-        select id from t_sys_role where name in
-        <foreach collection="roleNames" open="(" close=")" item="item" >
+        inner join (
+        select id from t_sys_role where code in
+        <foreach collection="roleCodes" open="(" close=")" item="item" >
             #{item}
         </foreach>
         ) role on role.id = role_menu.role_id
+    </select>
+    <select id="selectMenuByRoleId" resultType="com.muyuan.system.domain.model.SysMenu">
+        select menu.* from (
+        select * from t_sys_menu order by order_num
+        ) menu
+        inner join  (
+        select * from t_sys_role_menu  where role_id in
+        <foreach collection="roleIds" open="(" close=")" item="item" >
+            #{item}
+        </foreach>
+        ) role_menu on menu.id  = role_menu.menu_id
     </select>
 </mapper>

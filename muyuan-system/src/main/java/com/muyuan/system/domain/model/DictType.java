@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
 public class DictType {
 
 
+    @AutoIncrement
     private Long id;
 
     /**
@@ -30,11 +32,19 @@ public class DictType {
 
     private Date createTime;
 
-    private String createBy;
+    private Long createBy;
 
     private Date updateTime;
 
-    private String updateBy;
+    private Long updateBy;
 
     private String remark;
+
+    public DictType(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public DictType() {
+    }
 }

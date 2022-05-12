@@ -2,7 +2,11 @@ package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.auth.base.granter.ImageCaptchaTokenGranter;
+import com.muyuan.auth.dto.SysUserInfo;
+import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
@@ -18,25 +22,25 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.TokenGranter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Configuration
 @EnableAuthorizationServer
@@ -58,9 +62,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    JwtTokenEnhancer jwtTokenEnhancer;
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder() {
@@ -69,29 +70,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 return  "{bcrypt}"+super.encode(rawPassword);
             }
         });
-//        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-//        clients.inMemory().withClient("client_1")
-//                .resourceIds("ORDER")
-//                .authorizedGrantTypes("client_credentials", "refresh_token", "image_captcha")
-//                .scopes("select")
-//                .authorities("oauth2")
-//                .secret(finalSecret)
-//                .and().withClient("client_2")
-//                .resourceIds("ORDER")
-//                .authorizedGrantTypes("password", "refresh_token")
-//                .scopes("server")
-//                .authorities("oauth2")
-//                .secret(finalSecret);
     }
 
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> delegates = new ArrayList<>();
-        delegates.add(jwtTokenEnhancer);
-        delegates.add(accessTokenConverter());
-
         // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 
@@ -102,14 +85,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
-        enhancerChain.setTokenEnhancers(delegates);
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
                 .tokenGranter(compositeTokenGranter)
                 .exceptionTranslator(new CustomWebResponseExceptionTranslator())
-//                .tokenStore(jwtTokenStore())
-                .tokenEnhancer(enhancerChain)
                 .reuseRefreshTokens(true)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
@@ -125,10 +105,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
         security
                 .authenticationEntryPoint(authenticationEntryPoint())
-                /* .allowFormAuthenticationForClients()*/ //如果使用表单认证则需要加上
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
-//        security.allowFormAuthenticationForClients();
     }
 
     @Bean
@@ -142,7 +120,26 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter() {
+            @Override
+            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+                Map<String,Object> info = new HashMap<>();
+                if (authentication.getUserAuthentication().getPrincipal() instanceof UserInfo) {
+                    info.put(SecurityConst.USER_NAME_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
+                    info.put(SecurityConst.USER_ID_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    info.put(SecurityConst.USER_TYPE, UserType.MEMBER);
+                } else {
+                    info.put(SecurityConst.USER_NAME_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
+                    info.put(SecurityConst.USER_ID_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    info.put(SecurityConst.USER_TYPE, UserType.SYSUSER);
+                }
+                ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
+                return super.enhance(accessToken, authentication);
+            }
+        };
+
+
+
         jwtAccessTokenConverter.setKeyPair(keyPair());
         return jwtAccessTokenConverter;
     }
@@ -154,9 +151,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
     }
 
-//    @Bean
-//    public TokenStore jwtTokenStore() {
-//        return new JwtTokenStore(accessTokenConverter());
-//    }
+    @Bean
+    public TokenStore jwtTokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
+    }
 
 }

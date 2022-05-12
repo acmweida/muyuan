@@ -50,7 +50,7 @@ public class SysMenuVO {
     /**
      * 是否为外链（0是 1否）
      */
-    private byte frame;
+    private String frame;
 
     /**
      * 菜单类型（M目录 C菜单 F按钮）

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Page {
+public class Page<T> {
 
     private int pageNum;
 
@@ -15,5 +15,5 @@ public class Page {
 
     private int totalPage;
 
-    private List data;
+    private List<T> rows;
 }

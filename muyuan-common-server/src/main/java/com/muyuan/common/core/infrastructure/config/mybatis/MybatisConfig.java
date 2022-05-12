@@ -20,7 +20,7 @@ public class MybatisConfig {
         dataSource.setJdbcUrl(jdbcConfig.getUrl());
         dataSource.setUsername(jdbcConfig.getUsername());
         dataSource.setPassword(jdbcConfig.getPassword());
-        dataSource.setMaximumPoolSize(32);
+        dataSource.setMaximumPoolSize(4);
         dataSource.setMinimumIdle(8);
         return dataSource;
     }

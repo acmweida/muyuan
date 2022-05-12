@@ -1,7 +1,9 @@
 package com.muyuan.common.web.util;
 
-import com.muyuan.common.core.context.SecurityContextHolder;
+import com.muyuan.common.web.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
 
 /**
  * 权限获取工具类
@@ -26,12 +28,20 @@ public class SecurityUtils
         return SecurityContextHolder.getUserName();
     }
 
+    public static List<String> getRoles() {
+        return SecurityContextHolder.getRoles();
+    }
+
+    public static String getUserType() {
+        return SecurityContextHolder.getUserType();
+    }
+
     /**
      * 获取用户key
      */
     public static String getUserKey()
     {
-        return SecurityContextHolder.getUserKey();
+        return SecurityUtils.getUserKey();
     }
 
     /**

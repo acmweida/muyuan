@@ -73,7 +73,23 @@ public class User {
      */
     private Date lastSignTime;
 
-    private Long updateUserId;
+    private Long updateBy;
 
-    private Long createUserId;
+    private Long createBy;
+
+    public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

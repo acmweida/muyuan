@@ -25,7 +25,7 @@ public class UserRepoImpl implements UserRepo {
     }
 
     @Override
-    public void insert(User dataObject) {
-        userMapper.insert(dataObject);
+    public boolean insert(User dataObject) {
+       return userMapper.insert(dataObject)  > 0;
     }
 }

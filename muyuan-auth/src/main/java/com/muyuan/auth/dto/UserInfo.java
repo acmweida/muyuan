@@ -25,11 +25,6 @@ public class UserInfo implements UserDetails {
     private String username;
 
     /**
-     * 用户类型 0-会员 1-商家
-     */
-    private short type;
-
-    /**
      * 密码
      */
     private String password;
@@ -61,8 +56,6 @@ public class UserInfo implements UserDetails {
     private Date lastSignTime;
 
     private Set<GrantedAuthority> authorities;
-
-    private List<String> permissions;
 
     public UserInfo() {
     }

@@ -6,11 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableAspectJAutoProxy
-@EnableDubbo
+@EnableAspectJAutoProxy(exposeProxy = true)
+@EnableDubbo(scanBasePackages = "com.muyuan.system.interfaces.facade.api")
 @ComponentScan(basePackages = {"com.muyuan"})
 public class MuyuanSystemApplication {
 

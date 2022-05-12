@@ -12,6 +12,8 @@ public class MuyuanException extends RuntimeException implements MuyuanException
 
     private String message;
 
+
+
     public MuyuanException(int code,String message) {
         super();
         this.code = code;

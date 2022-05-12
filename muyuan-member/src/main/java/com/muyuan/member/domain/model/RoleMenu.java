@@ -21,4 +21,12 @@ public class RoleMenu {
      * 菜单ID
      */
     private Long menuId;
+
+    public RoleMenu() {
+    }
+
+    public RoleMenu(Long roleId, Long menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
 }

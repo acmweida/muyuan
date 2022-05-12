@@ -25,7 +25,7 @@ public class DictDataVO {
 
     private int status;
 
-    private String createBy;
+    private Long createBy;
 
     private Date createTime;
 

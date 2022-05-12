@@ -1,9 +1,11 @@
 package com.muyuan.auth.base.auhenticationprovider;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
+import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.auth.service.impl.UserServiceImpl;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +66,7 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
                 throw ex;
             }
             throw new BadCredentialsException(this.messages
-                    .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", "Bad credentials"));
+                    .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", ex.getMessage()));
         }
         Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
         try {
@@ -136,16 +138,14 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             String userType = detial.get("user_type");
             UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username,userType);
             if (loadedUser == null) {
-                throw new InternalAuthenticationServiceException(
-                        "UserDetailsService returned null, which is an interface contract violation");
+//                throw new InternalAuthenticationServiceException(
+//                        "UserDetailsService returned null, which is an interface contract violation");
+                throw new InternalAuthenticationServiceException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             return loadedUser;
-        } catch (UsernameNotFoundException ex) {
-            throw ex;
-        } catch (InternalAuthenticationServiceException ex) {
-            throw ex;
         } catch (Exception ex) {
-            throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+            logger.error("认证异常",ex);
+            throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), ex);
         }
     }
 

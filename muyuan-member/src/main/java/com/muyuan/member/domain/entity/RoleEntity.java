@@ -16,20 +16,5 @@ import java.util.List;
 @Data
 public class RoleEntity extends Role {
 
-    public boolean isShopKeeper() {
-        return isShopKeeper(this.getName());
-    }
 
-    public static boolean isShopKeeper(String roleName) {
-        return SecurityConst.SHOP_KEEPER_ROLE_CODE.equals(roleName);
-    }
-
-    public static boolean isShopKeeper(List<String> roleNames) {
-        for (String roleName : roleNames) {
-            if (isShopKeeper(roleName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

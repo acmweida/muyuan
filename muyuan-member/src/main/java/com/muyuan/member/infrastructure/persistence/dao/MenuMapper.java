@@ -1,7 +1,6 @@
 package com.muyuan.member.infrastructure.persistence.dao;
 
 import com.muyuan.member.domain.model.Menu;
-import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.infrastructure.config.mybatis.MemberBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,15 +19,32 @@ public interface MenuMapper extends MemberBaseMapper<Menu> {
 
     /**
      * 通过角色名称查询权限
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<String>  selectMenuPermissionByRoleNames(@Param("roleNames") List<String> roleNames);
+    List<String>  selectMenuPermissionByRoleCodes(@Param("roleCodes") List<String> roleCodes);
 
     /**
      * 通过角色查询菜单权限
-     * @param roleNames
+     * @param roleCodes
      * @return
      */
-    List<Menu>  selectMenuByRoleNames(@Param("roleNames") List<String> roleNames);
+    List<Menu>  selectMenuByRoleCodes(@Param("roleCodes") List<String> roleCodes);
+
+
+    /**
+     * 通过角色ID查询权限
+     * @param roleIds
+     * @return
+     */
+    List<Menu>  selectMenuByRoleId(@Param("roleIds") String...  roleIds);
+
+
+    /**
+     * 删除没有父节点的菜单
+     * @return
+     */
+    int delete();
+
+
 }

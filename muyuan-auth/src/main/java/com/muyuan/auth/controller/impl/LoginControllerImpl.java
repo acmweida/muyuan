@@ -9,13 +9,12 @@ import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
-import sun.security.util.SecurityConstants;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -76,7 +75,7 @@ public class LoginControllerImpl implements LoginController {
         } else { // token 永不过期则永久加入黑名单
             redisTemplate.opsForValue().set(SecurityConst.TOKEN_BLACKLIST_PREFIX + jti, null);
         }
-        log.info("用户：{} 注销登录",JwtUtils.getUserId());
+        log.info("用户：{} 注销登录", SecurityUtils.getUserId());
         return ResultUtil.success("注销成功");
     }
 }

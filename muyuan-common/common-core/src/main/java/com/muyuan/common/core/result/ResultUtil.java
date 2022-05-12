@@ -1,15 +1,18 @@
 package com.muyuan.common.core.result;
 
-import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.util.StrUtil;
 
-import java.io.Serializable;
 import java.util.Collections;
 
 public class ResultUtil {
 
     public static Result success() {
         return new Result(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg());
+    }
+
+    public static Result fail() {
+        return new Result(ResponseCode.FAIL.getCode(), ResponseCode.FAIL.getMsg());
     }
 
     public static <T> Result success(T data) {
