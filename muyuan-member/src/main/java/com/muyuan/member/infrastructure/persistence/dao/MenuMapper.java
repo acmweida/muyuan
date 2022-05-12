@@ -40,4 +40,11 @@ public interface MenuMapper extends MemberBaseMapper<Menu> {
     List<Menu>  selectMenuByRoleId(@Param("roleIds") String...  roleIds);
 
 
+    /**
+     * 删除没有父节点的菜单
+     * @return
+     */
+    int delete();
+
+
 }

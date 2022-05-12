@@ -2,16 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.muyuan.member.infrastructure.persistence.dao.MenuMapper">
+    <delete id="delete">
+        delete  from t_menu where parent_id != 0
+        and parent_id not in (
+             select id from  (
+                    select id
+                    from t_menu
+                ) a
+            )
+    </delete>
 
 
     <select id="selectMenuPermissionByRoleCodes" resultType="java.lang.String">
         select perms from (
                               select perms,id from t_menu where type = 'F'
                           ) menu
-                              left join  (
+        inner join  (
             select * from t_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
-                              left join (
+                              inner join (
             select id from t_role where code in
                                   <foreach collection="roleCodes" open="(" close=")" item="item" >
                                       #{item}

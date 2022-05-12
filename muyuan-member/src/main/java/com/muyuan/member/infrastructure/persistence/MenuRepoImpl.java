@@ -8,9 +8,11 @@ import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.repo.MenuRepo;
 import com.muyuan.member.infrastructure.persistence.dao.MenuMapper;
+import com.muyuan.member.infrastructure.persistence.dao.RoleMenuMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -28,10 +30,10 @@ import static java.util.stream.Collectors.toCollection;
 @Component
 public class MenuRepoImpl implements MenuRepo {
 
-    @Autowired
     private MenuMapper menuMapper;
 
-    @Autowired
+    private RoleMenuMapper roleMenuMapper;
+
     private RedisCacheManager redisCacheManager;
 
     @Override
@@ -77,7 +79,9 @@ public class MenuRepoImpl implements MenuRepo {
         }
 
         // 去重
-        return menus.stream().collect(
+        return menus.stream().sorted(
+                (item1,item2 ) -> item1.getOrderNum() - item2.getOrderNum()
+        ).collect(
                 collectingAndThen(
                         toCollection(() -> new TreeSet<>(Comparator.comparing(Menu::getName))), ArrayList::new)
         );
@@ -110,8 +114,12 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
+    @Transactional
     public void deleteById(String... id) {
         menuMapper.deleteBy(new SqlBuilder().in("id",id).build());
+        while (menuMapper.delete() > 0) {
+        }
+        roleMenuMapper.delete();
     }
 
     @Override
