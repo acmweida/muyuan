@@ -2,18 +2,20 @@ package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
+import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -22,6 +24,24 @@ import java.util.Optional;
 public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     private SysUserRepo sysUserRepo;
+
+    @Override
+    public  Page<SysUser> list(SysUserDTO sysUserTO) {
+        Page<SysUser> page = new Page(sysUserTO.getPageNum(),sysUserTO.getPageSize());
+
+        SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class)
+                .eq("username", sysUserTO.getUsername())
+                .eq("status", sysUserTO.getStatus())
+                .eq("phone", sysUserTO.getStatus())
+                .gte("createTime", sysUserTO.getBeginCreateTime())
+                .lte("createTime", sysUserTO.getEndCreateTime())
+                .page(page);
+
+        List<SysUser> list = sysUserRepo.select(sqlBuilder.build());
+
+        page.setRows(list);
+        return page;
+    }
 
     @Override
     public Optional<SysUser> getByyUsername(String username) {
@@ -62,20 +82,17 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     /**
      * 通过UserNO 获取用户信息
+     *
      * @param sysUser
      * @return
      */
     public Optional<SysUser> get(SysUser sysUser) {
-        Assert.isTrue(sysUser != null,"sys user query  is null");
+        Assert.isTrue(sysUser != null, "sys user query  is null");
 
-        SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class);
-        if (ObjectUtils.isNotEmpty(sysUser.getId())) {
-            sqlBuilder.eq("id", sysUser.getId());
-        }
-        if (ObjectUtils.isNotEmpty(sysUser.getUsername())) {
-            sqlBuilder.eq("username", sysUser.getUsername());
-        }
-        sqlBuilder.eq("status",0);
+        SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class)
+                .eq("id", sysUser.getId())
+                .eq("username", sysUser.getUsername())
+                .eq("status", 0);
 
         final SysUser user = sysUserRepo.selectOne(sqlBuilder.build());
         if (null == user) {

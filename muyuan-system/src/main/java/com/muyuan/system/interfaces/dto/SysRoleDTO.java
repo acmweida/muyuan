@@ -1,8 +1,6 @@
 package com.muyuan.system.interfaces.dto;
 
-import com.muyuan.common.core.validator.annotions.In;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 

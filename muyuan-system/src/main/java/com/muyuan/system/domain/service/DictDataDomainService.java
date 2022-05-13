@@ -3,7 +3,6 @@ package com.muyuan.system.domain.service;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.interfaces.dto.DictDataDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

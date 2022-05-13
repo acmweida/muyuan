@@ -4,6 +4,7 @@ import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.Condition;
 import com.muyuan.common.mybatis.jdbc.crud.ConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.Option;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class SampleConditionSqlHandler implements ConditionSqlHandler {
 
@@ -18,6 +19,10 @@ public class SampleConditionSqlHandler implements ConditionSqlHandler {
             case EQ:
             case UNEQ:
             case LIKE:
+            case LT:
+            case LTE:
+            case GT:
+            case GTE:
                 return true;
             default:
                 return false;

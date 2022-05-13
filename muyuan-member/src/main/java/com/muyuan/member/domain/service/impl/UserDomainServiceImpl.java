@@ -10,7 +10,6 @@ import com.muyuan.member.domain.service.UserDomainService;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -51,6 +50,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     /**
      * 账户注册
      * 0-注册成功 1-账户已存在
+     *
      * @param registerInfo
      * @return
      */
@@ -78,20 +78,17 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     /**
      * 通过UserNO 获取用户信息
+     *
      * @param sysUser
      * @return
      */
     public Optional<User> get(User sysUser) {
-        Assert.isTrue(sysUser != null,"sys user query  is null");
+        Assert.isTrue(sysUser != null, "sys user query  is null");
 
-        SqlBuilder sqlBuilder = new SqlBuilder(User.class);
-        if (ObjectUtils.isNotEmpty(sysUser.getId())) {
-            sqlBuilder.eq("id", sysUser.getId());
-        }
-        if (ObjectUtils.isNotEmpty(sysUser.getUsername())) {
-            sqlBuilder.eq("username", sysUser.getUsername());
-        }
-        sqlBuilder.eq("status",0);
+        SqlBuilder sqlBuilder = new SqlBuilder(User.class)
+                .eq("id", sysUser.getId())
+                .eq("username", sysUser.getUsername())
+                .eq("status", 0);
 
         final User user = userRepo.selectOne(sqlBuilder.build());
         if (null == user) {

@@ -2,14 +2,12 @@ package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysMenuFactory;
-import com.muyuan.system.domain.repo.SysMenuRepo;
-import com.muyuan.system.domain.repo.SysRoleRepo;
-import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.domain.repo.SysMenuRepo;
+import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +37,8 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     public String checkMenuNameUnique(SysMenu sysMenu) {
         Long id = null == sysMenu.getId() ? 0 : sysMenu.getId();
         sysMenu = sysMenuRepo.selectOne(new SqlBuilder(SysMenu.class)
-                .eq("name",sysMenu.getName())
-                .eq("parentId",sysMenu.getParentId())
+                .eq("name", sysMenu.getName())
+                .eq("parentId", sysMenu.getParentId())
                 .build());
         if (null != sysMenu && !id.equals(sysMenu.getId())) {
             return GlobalConst.NOT_UNIQUE;
@@ -84,14 +82,10 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public List<SysMenu> list(SysMenuDTO sysMenuDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysMenu.class);
-        if (StrUtil.isNotBlank(sysMenuDTO.getName())) {
-            sqlBuilder.eq("name", sysMenuDTO.getName());
-        }
-        if (StrUtil.isNotBlank(sysMenuDTO.getStatus())) {
-            sqlBuilder.eq("status", sysMenuDTO.getStatus());
-        }
-        sqlBuilder.orderByAsc("orderNum");
+        SqlBuilder sqlBuilder = new SqlBuilder(SysMenu.class)
+                .eq("name", sysMenuDTO.getName())
+                .eq("status", sysMenuDTO.getStatus())
+                .orderByAsc("orderNum");
         List<SysMenu> list = sysMenuRepo.select(sqlBuilder.build());
         return list;
     }
@@ -107,20 +101,17 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     /**
      * 查询
      * condition
-     *      id
-     *      name
+     * id
+     * name
+     *
      * @param sysMenu
      * @return
      */
     public SysMenu get(SysMenu sysMenu) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysMenu.class);
-        sqlBuilder.eq("status", "0");
-        if (!Objects.isNull(sysMenu.getId())) {
-            sqlBuilder.eq("id", sysMenu.getId());
-        }
-        if (!Objects.isNull(sysMenu.getName())) {
-            sqlBuilder.eq("name", sysMenu.getName());
-        }
+        SqlBuilder sqlBuilder = new SqlBuilder(SysMenu.class)
+                .eq("status", "0")
+                .eq("id", sysMenu.getId())
+                .eq("name", sysMenu.getName());
         return sysMenu = sysMenuRepo.selectOne(sqlBuilder.build());
     }
 
@@ -150,11 +141,10 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     }
 
 
-
     @Override
     public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return ;
+            return;
         }
         sysMenuRepo.deleteById(ids);
         sysMenuRepo.refreshCache();

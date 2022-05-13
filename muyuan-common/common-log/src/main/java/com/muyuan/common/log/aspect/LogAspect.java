@@ -7,7 +7,7 @@ import com.muyuan.common.log.service.AsyncLogService;
 import com.muyuan.common.web.util.IpUtils;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.common.web.util.ServletUtils;
-import com.muyuan.system.interfaces.dto.SysOperLog;
+import com.muyuan.system.interfaces.to.SysOperLogTO;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -69,7 +69,7 @@ public class LogAspect
         try
         {
             // *========数据库日志=========*//
-            SysOperLog operLog = new SysOperLog();
+            SysOperLogTO operLog = new SysOperLogTO();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
@@ -113,7 +113,7 @@ public class LogAspect
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLogTO operLog, Object jsonResult) throws Exception
     {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
@@ -140,7 +140,7 @@ public class LogAspect
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog) throws Exception
+    private void setRequestValue(JoinPoint joinPoint, SysOperLogTO operLog) throws Exception
     {
         String requestMethod = operLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))

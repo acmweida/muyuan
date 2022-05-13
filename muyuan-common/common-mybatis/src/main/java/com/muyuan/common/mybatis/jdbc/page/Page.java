@@ -16,4 +16,12 @@ public class Page<T> {
     private int totalPage;
 
     private List<T> rows;
+
+    public Page() {
+    }
+
+    public Page(int pageNum, int pageSize) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+    }
 }

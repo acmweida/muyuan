@@ -1,9 +1,7 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.model.SysMenu;
-import com.muyuan.system.interfaces.dto.DictTypeDTO;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import org.springframework.beans.BeanUtils;
 

@@ -1,4 +1,4 @@
-package com.muyuan.system.interfaces.dto;
+package com.muyuan.member.interfaces.to;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class SysUserDTO implements Serializable {
+public class UserTO implements Serializable {
 
     static final long serialVersionUID = 123456789L;
 

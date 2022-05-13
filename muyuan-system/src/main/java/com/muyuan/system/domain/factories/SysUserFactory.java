@@ -5,7 +5,6 @@ import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
-import com.muyuan.system.domain.repo.SysUserRepo;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 

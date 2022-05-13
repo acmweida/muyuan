@@ -8,9 +8,9 @@ import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.member.api.UserInterface;
-import com.muyuan.member.interfaces.dto.UserDTO;
+import com.muyuan.member.interfaces.to.UserTO;
 import com.muyuan.system.api.SysUserInterface;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
@@ -36,20 +36,20 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Result<UserDTO> result = userInterFace.getUserByUsername(username);
+        Result<UserTO> result = userInterFace.getUserByUsername(username);
 
         if (!ResultUtil.isSuccess(result)) {
             throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
         }
 
         log.info("用户:{},登录成功", username);
-        UserDTO userDTO = result.getData();
+        UserTO userTO = result.getData();
         Set<GrantedAuthority> authorities = new HashSet<>();
 
-        userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+        userTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userDTO, userInfo);
+        BeanUtils.copyProperties(userTO, userInfo);
         userInfo.setAuthorities(authorities);
         return userInfo;
     }
@@ -64,29 +64,29 @@ public class UserServiceImpl implements UserDetailsService {
      */
     public UserDetails loadUserByUsername(String username, String userType) throws UsernameNotFoundException {
         if (UserType.MEMBER.name().equals(userType)) {
-            Result<UserDTO> result = userInterFace.getUserByUsername(username);
+            Result<UserTO> result = userInterFace.getUserByUsername(username);
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             log.info("商家用户:{},登录成功", username);
-            UserDTO userDTO = result.getData();
+            UserTO userTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
-            userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+            userTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
             UserInfo userInfo = new UserInfo();
-            BeanUtils.copyProperties(userDTO, userInfo);
+            BeanUtils.copyProperties(userTO, userInfo);
             userInfo.setAuthorities(authorities);
             return userInfo;
 
         } else if (UserType.SYSUSER.name().equals(userType)) {
-            Result<SysUserDTO> result = sysUserInterface.getUserByUsername(username);
+            Result<SysUserTO> result = sysUserInterface.getUserByUsername(username);
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
 
             log.info("管理用户:{},登录成功", username);
-            SysUserDTO userDTO = result.getData();
+            SysUserTO userDTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
             userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));

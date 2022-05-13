@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,21 +48,17 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
     /**
      * 查询字典数据
+     *
      * @param dictDataDTO
      * @return
      */
     @Override
     public Page list(DictDataDTO dictDataDTO) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(DictData.class);
-        if (ObjectUtils.isNotEmpty(dictDataDTO.getType())) {
-            sqlBuilder.eq("type",dictDataDTO.getType());
-        }
-        if (ObjectUtils.isNotEmpty(dictDataDTO.getStatus())) {
-            sqlBuilder.eq("status",dictDataDTO.getStatus());
-        }
-
-        sqlBuilder.orderByDesc("updateTime","createTime");
+        SqlBuilder sqlBuilder = new SqlBuilder(DictData.class)
+                .eq("type", dictDataDTO.getType())
+                .eq("status", dictDataDTO.getStatus())
+                .orderByDesc("updateTime", "createTime");
 
         Page page = new Page();
         page.setPageNum(dictDataDTO.getPageNum());
@@ -79,6 +74,7 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
     /**
      * 通过DataType 查询字典数据
+     *
      * @param dictDataType
      * @return
      */
@@ -107,9 +103,9 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     @Override
     public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return ;
+            return;
         }
-         dictDataRepo.delete(ids);
+        dictDataRepo.delete(ids);
     }
 
 }

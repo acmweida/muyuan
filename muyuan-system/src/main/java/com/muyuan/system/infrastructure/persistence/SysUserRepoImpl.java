@@ -6,6 +6,7 @@ import com.muyuan.system.domain.repo.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -27,5 +28,10 @@ public class SysUserRepoImpl implements SysUserRepo {
     @Override
     public int insert(SysUser dataObject) {
          return userMapper.insert(dataObject);
+    }
+
+    @Override
+    public List<SysUser> select(Map params) {
+        return userMapper.selectList(params);
     }
 }

@@ -1,7 +1,6 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysRoleFactory;
@@ -42,26 +41,22 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
 
     /**
      * 根据用户id查询角色
+     *
      * @param userId
      * @return
      */
     @Override
     public List<SysRole> getRoleByUserId(Long userId) {
-        Assert.notNull(userId,"user Id is null");
+        Assert.notNull(userId, "user Id is null");
         return sysRoleRepo.selectRoleByUserId(userId);
     }
 
     @Override
     public Page list(SysRoleDTO sysRoleDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class);
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getName())) {
-            sqlBuilder.eq("name",sysRoleDTO.getName());
-        }
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getStatus())) {
-            sqlBuilder.eq("status",sysRoleDTO.getStatus());
-        }
-
-        sqlBuilder.orderByAsc("sort");
+        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class)
+                .eq("name", sysRoleDTO.getName())
+                .eq("status", sysRoleDTO.getStatus())
+                .orderByAsc("sort");
 
         Page page = new Page();
         if (sysRoleDTO.isEnablePage()) {
@@ -100,7 +95,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
             Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
                     item -> {
-                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(),Long.valueOf(item)));
+                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(), Long.valueOf(item)));
                     }
             );
         }
@@ -117,7 +112,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
             Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
                     item -> {
-                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(),Long.valueOf(item)));
+                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(), Long.valueOf(item)));
                     }
             );
         }
@@ -133,8 +128,8 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
 
     @Override
     public Optional<SysRole> getById(String id) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class);
-        sqlBuilder.eq("id",id);
+        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class)
+                .eq("id", id);
 
         SysRole sysRole = sysRoleRepo.selectOne(sqlBuilder.build());
 

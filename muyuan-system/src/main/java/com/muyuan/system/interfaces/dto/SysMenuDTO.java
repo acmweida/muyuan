@@ -1,10 +1,8 @@
 package com.muyuan.system.interfaces.dto;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
-import java.util.Date;
 
 /**
  * @ClassName SysMenuDTO

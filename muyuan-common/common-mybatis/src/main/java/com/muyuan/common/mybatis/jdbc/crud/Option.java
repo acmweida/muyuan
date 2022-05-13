@@ -1,23 +1,20 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
 public enum Option {
-    EQ(" = ",(short) 1),UNEQ(" != ",(short) 2),
-    IN(" in ", (short) 3),LIKE(" like ",(short) 4),
-    PAGE("page ",(short) 5),OR("",(short) 6),
-    ORDER("order",(short) 8),
-    AND("and",(short) 7);
+    EQ(" = "),UNEQ(" != "),
+    IN(" in "),LIKE(" like "),
+    GT(" > "),LT(" < "),
+    GTE(" >= "),LTE(" <= "),
+    PAGE("page "),OR(""),
+    ORDER("order"),
+    AND("and");
 
     public String getOp() {
         return op;
     }
 
-    public short getCode() {
-        return code;
-    }
-
-    Option(String op, short code) {
+    Option(String op) {
         this.op = op;
-        this.code = code;
     }
 
     private String op;

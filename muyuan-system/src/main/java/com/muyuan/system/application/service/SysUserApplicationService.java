@@ -1,8 +1,7 @@
 package com.muyuan.system.application.service;
 
 import com.muyuan.system.application.vo.SysUserVO;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.interfaces.to.SysUserTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ public interface SysUserApplicationService {
      * @param username
      * @return
      */
-    SysUserDTO getUserByUsername(String username);
+    SysUserTO getUserByUsername(String username);
 
     /**
      * 获取用户信息

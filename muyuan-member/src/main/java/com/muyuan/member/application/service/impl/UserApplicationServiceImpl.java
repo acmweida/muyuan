@@ -10,7 +10,7 @@ import com.muyuan.member.domain.service.RoleDomainService;
 import com.muyuan.member.domain.service.UserDomainService;
 import com.muyuan.member.domain.vo.UserVO;
 import com.muyuan.member.interfaces.assembler.UserInfoAssembler;
-import com.muyuan.member.interfaces.dto.UserDTO;
+import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private MenuDomainService menuDomainService;
 
     @Override
-    public UserDTO getUserByUsername(String username) {
+    public UserTO getUserByUsername(String username) {
         final Optional<User> userInfo = userDomainService.getUserByUsername(username);
         if (!userInfo.isPresent()) {
             return null;
@@ -43,9 +43,9 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
         List<String> roleCodes = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getCode()).collect(Collectors.toList());
 
-        UserDTO userDTO = UserInfoAssembler.buildUserDTO(userInfo.get());
-        userDTO.setRoles(roleCodes);
-        return userDTO;
+        UserTO userTO = UserInfoAssembler.buildUserTO(userInfo.get());
+        userTO.setRoles(roleCodes);
+        return userTO;
     }
 
     @Override

@@ -34,32 +34,30 @@ import java.util.Optional;
 @Slf4j
 public class RoleDomainServiceImpl implements RoleDomainService {
 
-    private RoleRepo roleRepo;;
+    private RoleRepo roleRepo;
+    ;
 
-    private MenuRepo menuRepo;;
+    private MenuRepo menuRepo;
+    ;
 
     /**
      * 根据用户id查询角色
+     *
      * @param userId
      * @return
      */
     @Override
     public List<Role> getRoleByUserId(Long userId) {
-        Assert.notNull(userId,"user Id is null");
+        Assert.notNull(userId, "user Id is null");
         return roleRepo.selectRoleByUserId(userId);
     }
 
     @Override
     public Page list(RoleDTO sysRoleDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Role.class);
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getName())) {
-            sqlBuilder.eq("name",sysRoleDTO.getName());
-        }
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getStatus())) {
-            sqlBuilder.eq("status",sysRoleDTO.getStatus());
-        }
-
-        sqlBuilder.orderByAsc("sort");
+        SqlBuilder sqlBuilder = new SqlBuilder(Role.class)
+                .eq("name", sysRoleDTO.getName())
+                .eq("status", sysRoleDTO.getStatus())
+                .orderByAsc("sort");
 
         Page page = new Page();
         if (sysRoleDTO.isEnablePage()) {
@@ -98,7 +96,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
             Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
                     item -> {
-                        roleMenus.add(new RoleMenu(sysRole.getId(),Long.valueOf(item)));
+                        roleMenus.add(new RoleMenu(sysRole.getId(), Long.valueOf(item)));
                     }
             );
         }
@@ -115,7 +113,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
             Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
                     item -> {
-                        roleMenus.add(new RoleMenu(sysRole.getId(),Long.valueOf(item)));
+                        roleMenus.add(new RoleMenu(sysRole.getId(), Long.valueOf(item)));
                     }
             );
         }
@@ -131,8 +129,8 @@ public class RoleDomainServiceImpl implements RoleDomainService {
 
     @Override
     public Optional<Role> getById(String id) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Role.class);
-        sqlBuilder.eq("id",id);
+        SqlBuilder sqlBuilder = new SqlBuilder(Role.class)
+                .eq("id", id);
 
         Role sysRole = roleRepo.selectOne(sqlBuilder.build());
 

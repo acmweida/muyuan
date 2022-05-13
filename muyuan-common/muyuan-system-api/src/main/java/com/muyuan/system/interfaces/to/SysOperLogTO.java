@@ -1,4 +1,4 @@
-package com.muyuan.system.interfaces.dto;
+package com.muyuan.system.interfaces.to;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import java.util.Date;
  * 
  * @author ruoyi
  */
-public class SysOperLog {
+public class SysOperLogTO {
     private static final long serialVersionUID = 1L;
 
     /** 日志主键 */

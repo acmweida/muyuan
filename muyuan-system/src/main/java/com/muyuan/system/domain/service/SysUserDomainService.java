@@ -1,9 +1,11 @@
 package com.muyuan.system.domain.service;
 
-import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
+import com.muyuan.system.interfaces.dto.SysUserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,6 +16,13 @@ import java.util.Optional;
  * @Version 1.0
  */
 public interface SysUserDomainService {
+
+    /**
+     * 列表查询
+     * @param sysUserDTO
+     * @return
+     */
+    Page<SysUser> list(SysUserDTO sysUserDTO);
 
     /**
      * 获取用户信息
