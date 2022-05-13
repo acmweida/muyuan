@@ -1,10 +1,7 @@
 package com.muyuan.member.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.member.domain.entity.RoleEntity;
 import com.muyuan.member.domain.factories.MenuFactory;
 import com.muyuan.member.domain.model.Menu;
 import com.muyuan.member.domain.repo.MenuRepo;
@@ -73,14 +70,10 @@ public class MenuDomainServiceImpl implements MenuDomainService {
 
     @Override
     public List<Menu> list(MenuDTO sysMenuDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class);
-        if (StrUtil.isNotBlank(sysMenuDTO.getName())) {
-            sqlBuilder.eq("name", sysMenuDTO.getName());
-        }
-        if (StrUtil.isNotBlank(sysMenuDTO.getStatus())) {
-            sqlBuilder.eq("status", sysMenuDTO.getStatus());
-        }
-        sqlBuilder.orderByAsc("orderNum");
+        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class)
+                .eq("name", sysMenuDTO.getName())
+                .eq("status", sysMenuDTO.getStatus())
+                .orderByAsc("orderNum");
         List<Menu> list = menuRepo.select(sqlBuilder.build());
         return list;
     }
@@ -103,14 +96,10 @@ public class MenuDomainServiceImpl implements MenuDomainService {
      * @return
      */
     public Menu get(Menu sysMenu) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class);
-        sqlBuilder.eq("status", "0");
-        if (!Objects.isNull(sysMenu.getId())) {
-            sqlBuilder.eq("id", sysMenu.getId());
-        }
-        if (!Objects.isNull(sysMenu.getName())) {
-            sqlBuilder.eq("name", sysMenu.getName());
-        }
+        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class)
+                .eq("status", "0")
+                .eq("id", sysMenu.getId())
+                .eq("name", sysMenu.getName());
         return sysMenu = menuRepo.selectOne(sqlBuilder.build());
     }
 

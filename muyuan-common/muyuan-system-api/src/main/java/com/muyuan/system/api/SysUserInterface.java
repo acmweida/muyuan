@@ -1,7 +1,7 @@
 package com.muyuan.system.api;
 
 import com.muyuan.common.core.result.Result;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.interfaces.to.SysUserTO;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +20,7 @@ public interface SysUserInterface {
      * @param username 用户名
      * @return
      */
-    Result<SysUserDTO> getUserByUsername(String username);
+    Result<SysUserTO> getUserByUsername(String username);
 
     /**
      * 通过角色获取权限集合

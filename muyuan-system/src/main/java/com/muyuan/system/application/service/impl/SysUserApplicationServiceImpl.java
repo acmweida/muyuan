@@ -10,7 +10,7 @@ import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.assembler.SysUserInfoAssembler;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
     private SysMenuDomainService sysMenuDomainService;
 
     @Override
-    public SysUserDTO getUserByUsername(String username) {
+    public SysUserTO getUserByUsername(String username) {
         final Optional<SysUser> userInfo = sysUserDomainService.getByyUsername(username);
         if (!userInfo.isPresent()) {
             return null;
@@ -45,7 +45,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
         // 默认角色
 //        roleNames.add(SecurityConst.DEFAULT_ROLE);
 
-        SysUserDTO userDTO = SysUserInfoAssembler.buildUserDTO(userInfo.get());
+        SysUserTO userDTO = SysUserInfoAssembler.buildUserTO(userInfo.get());
         userDTO.setRoles(roleNames);
         return userDTO;
     }

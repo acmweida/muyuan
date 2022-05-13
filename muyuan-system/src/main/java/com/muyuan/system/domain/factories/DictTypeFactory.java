@@ -1,10 +1,8 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.entity.DictTypeEntity;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
-import com.muyuan.system.domain.repo.DictTypeRepo;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;

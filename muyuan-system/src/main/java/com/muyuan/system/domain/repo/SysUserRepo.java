@@ -2,6 +2,7 @@ package com.muyuan.system.domain.repo;
 
 import com.muyuan.system.domain.model.SysUser;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SysUserRepo {
@@ -11,4 +12,6 @@ public interface SysUserRepo {
     SysUser selectOne(Map params);
 
     int insert(SysUser dataObject);
+
+    List<SysUser> select(Map params);
 }

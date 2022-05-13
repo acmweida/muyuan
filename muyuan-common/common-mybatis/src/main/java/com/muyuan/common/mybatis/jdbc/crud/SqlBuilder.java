@@ -2,8 +2,8 @@ package com.muyuan.common.mybatis.jdbc.crud;
 
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -28,6 +28,20 @@ public class SqlBuilder {
         conditions = new ArrayList<>();
     }
 
+    public boolean valid(Object value) {
+        if (ObjectUtils.isEmpty(value)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean valid(Object... value) {
+        if (ObjectUtils.isEmpty(value)) {
+            return false;
+        }
+        return true;
+    }
+
     public SqlBuilder select(String column) {
         return select(new String[]{column});
     }
@@ -37,21 +51,59 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder eq(String field,Object value) {
+    private void buildCondition(String field,Option option,Object value) {
         Condition condition = new Condition();
         condition.setField(field);
-        condition.setOption(Option.EQ);
+        condition.setOption(option);
         condition.setValue(value);
         conditions.add(condition);
+    }
+
+    public SqlBuilder lt(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.LT,value);
         return this;
     }
 
-    public SqlBuilder in(String field,Object... params) {
-        Condition condition = new Condition();
-        condition.setField(field);
-        condition.setOption(Option.IN);
-        condition.setValue(params);
-        conditions.add(condition);
+    public SqlBuilder lte(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.LTE,value);
+        return this;
+    }
+
+    public SqlBuilder gt(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.GT,value);
+        return this;
+    }
+
+    public SqlBuilder gte(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.GTE,value);
+        return this;
+    }
+
+    public SqlBuilder eq(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.EQ,value);
+        return this;
+    }
+
+    public SqlBuilder in(String field,Object... value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.IN,value);
         return this;
     }
 
@@ -63,11 +115,10 @@ public class SqlBuilder {
     }
 
     public SqlBuilder notEq(String field,Object value) {
-        Condition condition = new Condition();
-        condition.setField(field);
-        condition.setOption(Option.UNEQ);
-        condition.setValue(value);
-        conditions.add(condition);
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.UNEQ,value);
         return this;
     }
 
@@ -78,29 +129,19 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder in(String field,List params) {
-        Condition condition = new Condition();
-        condition.setField(field);
-        condition.setOption(Option.IN);
-        condition.setValue(params);
-        conditions.add(condition);
+    public SqlBuilder in(String field,List value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.IN,value);
         return this;
     }
 
-    public SqlBuilder in(String field, int[] params) {
-        Condition condition = new Condition();
-        condition.setField(field);
-        condition.setOption(Option.IN);
-        condition.setValue(params);
-        conditions.add(condition);
-        return this;
-    }
-
-    public SqlBuilder page(int pageNum,int pageSize) {
-        Page page = new Page();
-        page.setPageNum(pageNum);
-        page.setPageSize(pageSize);
-        page(page);
+    public SqlBuilder in(String field, int[] value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field,Option.IN,value);
         return this;
     }
 
@@ -122,6 +163,9 @@ public class SqlBuilder {
     }
 
     private SqlBuilder orderBy(boolean up,String... fields) {
+        if (!valid(fields)) {
+            return this;
+        }
         Condition condition = new Condition();
         condition.setField(Constant.ORDERBY);
         condition.setOption(Option.ORDER);

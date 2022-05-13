@@ -27,6 +27,11 @@ public class SysUser {
     private Long id;
 
     /**
+     * 部门ID
+     */
+    private Long deptId;
+
+    /**
      * 用户名 唯一 用于登录
      */
     private String username;

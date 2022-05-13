@@ -3,9 +3,9 @@ package com.muyuan.member.interfaces.facade.api;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.member.application.service.UserApplicationService;
 import com.muyuan.member.api.UserInterface;
-import com.muyuan.member.interfaces.dto.UserDTO;
+import com.muyuan.member.application.service.UserApplicationService;
+import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -26,8 +26,8 @@ public class UserInterfaceApi implements UserInterface {
     private UserApplicationService sysUserApplicationService;
 
     @Override
-    public Result<UserDTO> getUserByUsername(String username) {
-        UserDTO userByUsername = sysUserApplicationService.getUserByUsername(username);
+    public Result<UserTO> getUserByUsername(String username) {
+        UserTO userByUsername = sysUserApplicationService.getUserByUsername(username);
         if (null == userByUsername) {
             return ResultUtil.fail("用户信息不存在");
         }

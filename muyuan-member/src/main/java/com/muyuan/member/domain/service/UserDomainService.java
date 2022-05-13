@@ -2,11 +2,8 @@ package com.muyuan.member.domain.service;
 
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.interfaces.dto.RegisterDTO;
-import com.muyuan.member.interfaces.dto.UserDTO;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * 用户域服务接口

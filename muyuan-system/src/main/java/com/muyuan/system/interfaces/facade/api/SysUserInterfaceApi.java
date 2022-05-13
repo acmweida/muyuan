@@ -5,7 +5,7 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.system.application.service.SysUserApplicationService;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
+import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -26,13 +26,13 @@ public class SysUserInterfaceApi implements SysUserInterface {
     private SysUserApplicationService sysUserApplicationService;
 
     @Override
-    public Result<SysUserDTO> getUserByUsername(String username) {
-        SysUserDTO sysUserDTO = sysUserApplicationService.getUserByUsername(username);
-        if (null == sysUserDTO) {
+    public Result<SysUserTO> getUserByUsername(String username) {
+        SysUserTO sysUserTO = sysUserApplicationService.getUserByUsername(username);
+        if (null == sysUserTO) {
             return ResultUtil.fail("用户信息不存在");
         }
 
-        return ResultUtil.success(sysUserDTO);
+        return ResultUtil.success(sysUserTO);
     }
 
     @Override

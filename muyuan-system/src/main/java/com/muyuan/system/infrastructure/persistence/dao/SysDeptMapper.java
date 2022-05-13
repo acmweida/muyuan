@@ -1,0 +1,10 @@
+package com.muyuan.system.infrastructure.persistence.dao;
+
+import com.muyuan.system.domain.model.DictData;
+import com.muyuan.system.domain.model.SysDept;
+import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface SysDeptMapper extends SystemBaseMapper<SysDept> {
+}

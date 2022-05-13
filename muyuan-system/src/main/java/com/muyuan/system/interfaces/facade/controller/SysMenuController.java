@@ -18,12 +18,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -58,12 +56,12 @@ public class SysMenuController {
             {@ApiImplicitParam(name = "name",value = "菜单名称",dataType = "String",paramType = "query"),
                     @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "query")}
     )
-    public Result<List<SysMenuVO>> list(@ModelAttribute SysMenuDTO sysMenuDTO) {
+    public Result<List<SysMenu>> list(@ModelAttribute SysMenuDTO sysMenuDTO) {
         List<SysMenu> list = sysMenuDomainService.list(sysMenuDTO);
         return ResultUtil.success(list);
     }
 
-    @RequirePermissions("system:menu:edit")
+    @RequirePermissions("system:menu:list")
     @GetMapping("/menu/treeselect")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute SysMenuDTO sysMenuDTO) {

@@ -10,7 +10,6 @@ import com.muyuan.member.domain.repo.MenuRepo;
 import com.muyuan.member.infrastructure.persistence.dao.MenuMapper;
 import com.muyuan.member.infrastructure.persistence.dao.RoleMenuMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,6 +116,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Transactional
     public void deleteById(String... id) {
         menuMapper.deleteBy(new SqlBuilder().in("id",id).build());
+        // 清楚无父菜单的子菜单
         while (menuMapper.delete() > 0) {
         }
         roleMenuMapper.delete();

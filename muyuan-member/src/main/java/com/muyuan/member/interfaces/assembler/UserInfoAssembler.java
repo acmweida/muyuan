@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.assembler;
 
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.vo.UserVO;
-import com.muyuan.member.interfaces.dto.UserDTO;
+import com.muyuan.member.interfaces.to.UserTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.Set;
 
 public class UserInfoAssembler {
 
-    public static UserDTO buildUserDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(user,userDTO);
-        return userDTO;
+    public static UserTO buildUserTO(User user) {
+        UserTO userTO = new UserTO();
+        BeanUtils.copyProperties(user, userTO);
+        return userTO;
     }
 
     public static UserVO buildUserVO(User user, List<String> roleNames, Set<String> perms) {

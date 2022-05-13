@@ -1,8 +1,8 @@
 package com.muyuan.system.interfaces.assembler;
 
 import com.muyuan.system.application.vo.SysUserVO;
-import com.muyuan.system.interfaces.dto.SysUserDTO;
 import com.muyuan.system.domain.model.SysUser;
+import com.muyuan.system.interfaces.to.SysUserTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.Set;
 
 public class SysUserInfoAssembler {
 
-    public static SysUserDTO buildUserDTO(SysUser user) {
-        SysUserDTO userDTO = new SysUserDTO();
+    public static SysUserTO buildUserTO(SysUser user) {
+        SysUserTO userDTO = new SysUserTO();
         BeanUtils.copyProperties(user,userDTO);
         return userDTO;
     }
