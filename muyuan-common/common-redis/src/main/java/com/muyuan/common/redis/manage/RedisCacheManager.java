@@ -1,6 +1,7 @@
 package com.muyuan.common.redis.manage;
 
-import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.cache.AbstractCacheManager;
+import com.muyuan.common.core.cache.CacheManager;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

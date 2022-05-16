@@ -34,12 +34,9 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
-            if (option == Option.PAGE) {
-                continue;
-            }
-            if (option != Option.OR && option != Option.AND) {
+            if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
-            } else {
+            } else if (option == Option.OR || option == Option.AND) {
                 sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
@@ -69,16 +66,9 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
-            if (option == Option.PAGE) {
-                continue;
-            }
-            if (option == option.ORDER) {
-                orderBY.add((String) condition.getValue());
-                continue;
-            }
-            if (option != Option.OR && option != Option.AND) {
+            if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
-            } else {
+            } else if (option == Option.OR || option == Option.AND) {
                 sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
@@ -206,7 +196,7 @@ public class CrudSqlProvider {
     public String buildSql(Condition condition) {
         ConditionSqlHandler conditionSqlHandler = null;
         for (ConditionSqlHandler handler : sqlHandlers) {
-            if (handler.supper(condition.getOption())) {
+            if (handler.suppert(condition.getOption())) {
                 conditionSqlHandler = handler;
             }
         }

@@ -19,6 +19,10 @@ public class SqlBuilder {
 
     private String[] columns;
 
+    private Page pageInfo;
+
+    private boolean page = false;
+
     public SqlBuilder() {
         conditions = new ArrayList<>();
     }
@@ -52,10 +56,15 @@ public class SqlBuilder {
     }
 
     private void buildCondition(String field,Option option,Object value) {
+       buildCondition(field,field,option,value);
+    }
+
+    private void buildCondition(String field,String expression,Option option,Object value) {
         Condition condition = new Condition();
         condition.setField(field);
         condition.setOption(option);
         condition.setValue(value);
+        condition.setExpression(expression);
         conditions.add(condition);
     }
 
@@ -63,7 +72,7 @@ public class SqlBuilder {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.LT,value);
+        buildCondition(field,Constant.LT_PREFIX+field, Option.LT,value);
         return this;
     }
 
@@ -71,7 +80,7 @@ public class SqlBuilder {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.LTE,value);
+        buildCondition(field,Constant.LTE_PREFIX+field, Option.LTE,value);
         return this;
     }
 
@@ -79,7 +88,7 @@ public class SqlBuilder {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.GT,value);
+        buildCondition(field,Constant.GT_PREFIX+field, Option.GT,value);
         return this;
     }
 
@@ -87,7 +96,7 @@ public class SqlBuilder {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.GTE,value);
+        buildCondition(field,Constant.GTE_PREFIX+field, Option.GTE,value);
         return this;
     }
 
@@ -145,13 +154,14 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder page(Page page) {
-        Condition condition = new Condition();
-        condition.setField(Constant.PAGE_FIELD);
-        condition.setOption(Option.PAGE);
-        condition.setValue(page);
-        conditions.add(condition);
+    public SqlBuilder page(Page pageInfo) {
+        this.pageInfo = pageInfo;
+        page = true;
         return this;
+    }
+
+    public SqlBuilder page(int pageNum,int pageSize) {
+        return page(new Page(pageNum,pageSize));
     }
 
     public SqlBuilder orderByAsc(String... fields) {
@@ -179,17 +189,15 @@ public class SqlBuilder {
     }
 
     public Map build() {
-        Map params = new HashMap();
+        Map<String,Object> params = new HashMap();
         for (Condition condition : conditions) {
-            if (condition.getOption() == Option.PAGE) {
-                params.put(Constant.PAGE_FIELD,condition.getValue());
-                continue;
+            if (condition.getOption().isParma()) {
+                String column = condition.getField();
+                params.put(column,condition.getValue());
             }
-            if (condition.getOption() == Option.OR) {
-                continue;
-            }
-            String column = condition.getField();
-            params.put(column,condition.getValue());
+        }
+        if (page) {
+            params.put(Constant.PAGE_FIELD,pageInfo);
         }
         params.put(Constant.CONDITION,conditions);
         if (null == columns && null != target) {

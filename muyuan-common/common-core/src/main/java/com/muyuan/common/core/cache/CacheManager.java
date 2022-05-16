@@ -1,4 +1,4 @@
-package com.muyuan.common.redis.manage;
+package com.muyuan.common.core.cache;
 
 import java.util.Set;
 import java.util.function.BiConsumer;

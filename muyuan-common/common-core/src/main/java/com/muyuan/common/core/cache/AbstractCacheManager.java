@@ -1,4 +1,4 @@
-package com.muyuan.common.redis.manage;
+package com.muyuan.common.core.cache;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * @Date 2022/2/15 9:22
  * @Version 1.0
  */
-public abstract class AbstractCacheManager implements CacheManager{
+public abstract class AbstractCacheManager implements CacheManager {
 
     @Override
     public <T> T getAndUpdateCache(String keyPrefix, String key, Function<String,T> getCache, BiConsumer<String,T> setCache, Supplier<T> supplier, long expireTime, long nullExpire) {
