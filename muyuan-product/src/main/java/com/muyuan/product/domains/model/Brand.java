@@ -9,11 +9,6 @@ public class Brand {
      */
     private String name;
 
-    /**
-     * 表名
-     */
-    private String asName;
-
     private String englishName;
 
     /**

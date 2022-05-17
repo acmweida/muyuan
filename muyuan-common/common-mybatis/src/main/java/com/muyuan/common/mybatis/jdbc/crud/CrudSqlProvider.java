@@ -41,7 +41,7 @@ public class CrudSqlProvider {
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
-                } else if (option == Option.AND) {
+                } else {
                     sql.AND();
                 }
             }
@@ -66,6 +66,7 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
+
             if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
             } else if (option == Option.OR || option == Option.AND) {
@@ -73,9 +74,11 @@ public class CrudSqlProvider {
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
-                } else if (option == Option.AND) {
+                } else  {
                     sql.AND();
                 }
+            } else  if (option == Option.ORDER) {
+                orderBY.add((String) condition.getValue());
             }
         }
 
@@ -84,7 +87,7 @@ public class CrudSqlProvider {
         }
 
         if (!ObjectUtils.isEmpty(orderBY)) {
-            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), "m"));
+            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), ","));
         }
 
         log.info("select sql:{}",sql);

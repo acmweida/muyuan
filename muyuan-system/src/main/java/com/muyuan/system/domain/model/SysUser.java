@@ -87,6 +87,11 @@ public class SysUser {
 
     private Long createBy;
 
+    /**
+     * 性别
+     */
+    private String sex;
+
     public SysUser() {
     }
 

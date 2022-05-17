@@ -6,7 +6,7 @@ public enum Option {
     GT(" > "),LT(" < "),
     GTE(" >= "),LTE(" <= "),
     OR("",false),
-    ORDER("order"),
+    ORDER("order by ",false),
     AND("and",false);
 
     public String getOp() {
