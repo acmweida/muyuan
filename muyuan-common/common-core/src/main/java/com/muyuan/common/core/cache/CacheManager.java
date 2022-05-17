@@ -1,7 +1,7 @@
 package com.muyuan.common.core.cache;
 
-import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -23,88 +23,24 @@ public interface CacheManager {
 
     /**
      * 获取缓存
-     * @param keyPrefix
+     *
      * @param key
      * @return
      */
-    Object get(String keyPrefix, String key);
+    Object get(String key);
 
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Object get(String keyPrefix, String key, Supplier<String> supplier);
+    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime);
 
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Object get(String keyPrefix, String key, Supplier<String> supplier,long expireTime);
+    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime, long nullExpire);
 
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Object get(String keyPrefix, String key, Supplier<String> supplier,long expireTime,long nullExpire);
+    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache);
 
-    /**
-     * 获取缓存
-     * @param keyPrefix
-     * @param key
-     * @return
-     */
-    Set sGet(String keyPrefix, String key);
+    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache);
 
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Set sGet(String keyPrefix, String key, Supplier<Set> supplier);
-
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Set sGet(String keyPrefix, String key, Supplier<Set> supplier,long expireTime);
-
-    /**
-     * 获取缓存并更新数据
-     * @param keyPrefix
-     * @param key
-     * @param supplier
-     * @return
-     */
-    Set sGet(String keyPrefix, String key, Supplier<Set> supplier,long expireTime,long nullExpire);
-
-    /**
-     * 获取并更新缓存
-     * @param keyPrefix
-     * @param key
-     * @param getCache
-     * @param supplier
-     * @param expireTime
-     * @param nullExpire
-     * @return
-     */
-    <T> T getAndUpdateCache(String keyPrefix, String key, Function<String,T> getCache, BiConsumer<String,T> setCache, Supplier<T> supplier, long expireTime , long nullExpire);
 
     /**
      * 判断key存在
+     *
      * @param key
      * @return
      */
@@ -112,6 +48,7 @@ public interface CacheManager {
 
     /**
      * 设置过期时间
+     *
      * @param key
      * @param time
      * @return

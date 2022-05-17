@@ -34,48 +34,6 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
     @Autowired
     private RedisTemplate redisTemplate;
 
-
-    @Override
-    public Object get(String keyPrefix, String key) {
-        return get(keyPrefix + key);
-    }
-
-    @Override
-    public Object get(String keyPrefix, String key, Supplier<String> supplier) {
-        return get(keyPrefix, key, supplier, NOT_EXPIRE);
-    }
-
-    @Override
-    public Object get(String keyPrefix, String key, Supplier<String> supplier, long expireTime) {
-        return get(keyPrefix, key, supplier, expireTime, DEFAULT_EXPIRE_TIME);
-    }
-
-    @Override
-    public Object get(String keyPrefix, String key, Supplier<String> supplier, long expireTime, long nullExpire) {
-        return getAndUpdateCache(keyPrefix, key, (k) -> (String) get(k), (k, v) -> set(k, v), supplier, expireTime, nullExpire);
-    }
-
-    @Override
-    public Set<String> sGet(String keyPrefix, String key) {
-        return sGet(keyPrefix + key);
-    }
-
-    @Override
-    public Set<String> sGet(String keyPrefix, String key, Supplier<Set> supplier) {
-        return sGet(keyPrefix, key, supplier, NOT_EXPIRE);
-    }
-
-    @Override
-    public Set<String> sGet(String keyPrefix, String key, Supplier<Set> supplier, long expireTime) {
-        return sGet(keyPrefix, key, supplier, expireTime, DEFAULT_EXPIRE_TIME);
-    }
-
-    @Override
-    public Set sGet(String keyPrefix, String key, Supplier<Set> supplier, long expireTime, long nullExpire) {
-        return getAndUpdateCache(keyPrefix, key, (k) -> sGet(k), (k, v) -> sSet(k, v.toArray()), supplier, expireTime, nullExpire);
-    }
-
-
     // =========================================================================================================================================================================//
 
     /**
@@ -156,6 +114,22 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
      */
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
+    }
+
+    public String getAndUpdate(String key, Supplier<String> supplier) {
+        return (String) getAndUpdate(key,
+                (k) -> get(k),
+                () -> supplier.get(),
+                (k,v) -> set(k, v)
+        );
+    }
+
+    public Set sGetAndUpdate(String key, Supplier<Set> supplier) {
+        return (Set) getAndUpdate(key,
+                (k) -> get(k),
+                () -> supplier.get(),
+                (k,v) -> set(k, v)
+        );
     }
 
     /**

@@ -1,6 +1,9 @@
 package com.muyuan.common.core.cache;
 
+import com.muyuan.common.core.util.FunctionUtil;
+
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -14,28 +17,42 @@ import java.util.function.Supplier;
 public abstract class AbstractCacheManager implements CacheManager {
 
     @Override
-    public <T> T getAndUpdateCache(String keyPrefix, String key, Function<String,T> getCache, BiConsumer<String,T> setCache, Supplier<T> supplier, long expireTime, long nullExpire) {
-        String newKey = keyPrefix + key;
+    public Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache) {
+        return  FunctionUtil.getIfNullThenRebuild(
+                () -> getCache.apply(key),
+                supplier,
+                setCache
+        ).get();
+    }
 
-        T result;
-        boolean hasKey = hasKey(newKey);
-        if (hasKey) {
-            result = getCache.apply(newKey);
-        } else {
-            result = supplier.get();
-            // 当result 为null时 同样设置 防止null值直接查询到数据库
-            setCache.accept(newKey, result);
+    @Override
+    public Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache) {
+        return  getAndUpdate(
+                key,
+                getCache,
+                supplier,
+                (value) -> {
+                    setCache.accept(key,value);
+                }
+        );
+    }
 
-            // 第一次设置空值过期时间 以免常驻内存
-            if (!hasKey && null == result && NOT_EXPIRE != expireTime) {
-                expire(newKey, nullExpire);
-            } else if (NOT_EXPIRE != expireTime) {
-                expire(newKey, expireTime);
-            }
+    @Override
+    public Object getAndUpdate(String key, Function<String, Object> getCache,Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime) {
+        return getAndUpdate(key,getCache, supplier,setCache, expireTime, DEFAULT_EXPIRE_TIME);
+    }
 
-        }
-
-
-        return result;
+    @Override
+    public Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime, long nullExpire) {
+        return getAndUpdate(key, getCache, supplier,
+                setCache.andThen(
+                        (k,v) ->  {
+                            if (v == null) {
+                                expire(k,nullExpire);
+                            } else {
+                                expire(k,expireTime);
+                            }
+                        }
+                ));
     }
 }
