@@ -1,9 +1,11 @@
 package com.muyuan.system.domain.entity;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.model.SysRole;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,5 +33,11 @@ public class SysRoleEntity extends SysRole {
             }
         }
         return false;
+    }
+
+    public SysRoleEntity update() {
+        this.setUpdateTime(new Date());
+        this.setUpdateBy(SecurityUtils.getUserId());
+        return this;
     }
 }

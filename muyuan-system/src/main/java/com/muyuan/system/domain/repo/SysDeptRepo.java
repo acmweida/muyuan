@@ -15,4 +15,10 @@ import java.util.Map;
 public interface SysDeptRepo {
 
     List<SysDept> select(Map params);
+
+    SysDept selectOne(Map params);
+
+    void insert(SysDept sysMenu);
+
+    void updateById(SysDept sysDept);
 }

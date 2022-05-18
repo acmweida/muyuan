@@ -1,7 +1,6 @@
 package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.system.domain.model.SysDept;
-import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.repo.SysDeptRepo;
 import com.muyuan.system.infrastructure.persistence.dao.SysDeptMapper;
 import lombok.AllArgsConstructor;
@@ -28,5 +27,20 @@ public class SysDeptRepoImpl implements SysDeptRepo {
     @Override
     public List<SysDept> select(Map params) {
         return sysDeptMapper.selectList(params);
+    }
+
+    @Override
+    public SysDept selectOne(Map params) {
+        return sysDeptMapper.selectOne(params);
+    }
+
+    @Override
+    public void insert(SysDept sysMenu) {
+        sysDeptMapper.insert(sysMenu);
+    }
+
+    @Override
+    public void updateById(SysDept sysDept) {
+        sysDeptMapper.updateBy(sysDept,"id");
     }
 }

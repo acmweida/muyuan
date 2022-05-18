@@ -1,5 +1,6 @@
 package com.muyuan.system.application.vo;
 
+import com.muyuan.system.domain.model.SysRole;
 import lombok.Data;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public class SysUserVO {
     private String avatar;
 
     private List<String> roles;
+
+    private List<SysRole> sysRoles;
 
     private Set<String> permissions;
 

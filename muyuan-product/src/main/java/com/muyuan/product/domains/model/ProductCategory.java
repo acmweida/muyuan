@@ -30,7 +30,7 @@ public class ProductCategory {
 
     private boolean publish;
 
-    private int sort;
+    private int orderNum;
 
     private String keywords;
 

@@ -14,6 +14,14 @@ import java.util.Date;
  */
 public class SysMenuEntity extends SysMenu {
 
-
+    /**
+     *  构建一个系统菜单 并初始化
+     * @return
+     */
+    public SysMenuEntity update()  {
+        this.setUpdateTime(new Date());
+        this.setUpdateBy(SecurityUtils.getUserId());
+        return this;
+    }
 
 }

@@ -32,7 +32,7 @@ public class SysRoleDTO {
 
     private String[] menuIds;
 
-    private String sort;
+    private String orderNum;
 
 
 }

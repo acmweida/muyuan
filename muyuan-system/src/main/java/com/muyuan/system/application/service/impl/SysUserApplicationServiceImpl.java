@@ -74,4 +74,18 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
         return Optional.of(sysUserVO);
     }
 
+    @Override
+    public Optional<SysUserVO> get(Long id) {
+        final Optional<SysUser> userInfo = sysUserDomainService.getByyId(id);
+        if (!userInfo.isPresent()) {
+            log.info("userId :{} 未找到", id);
+            return Optional.empty();
+        }
+
+        List<SysRole> roles = sysRoleDomainService.getRoleByUserId(id);
+
+        SysUserVO sysUserVO = SysUserInfoAssembler.buildUserVO(userInfo.get(), roles);
+        return Optional.of(sysUserVO);
+    }
+
 }

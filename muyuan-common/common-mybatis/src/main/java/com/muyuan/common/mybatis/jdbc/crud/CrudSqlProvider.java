@@ -49,6 +49,9 @@ public class CrudSqlProvider {
         if (!conditions.isEmpty()) {
             sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
             sql.LIMIT(1);
+        } else {
+            log.error("sql condition is empty");
+            return "";
         }
 
         log.info("select sql:{}",sql);

@@ -32,7 +32,7 @@ public class Brand {
     /**
      * 排序
      */
-    private int sort;
+    private int orderNum;
 
     /**
      * 描述

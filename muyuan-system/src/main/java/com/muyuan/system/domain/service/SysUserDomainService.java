@@ -2,10 +2,8 @@ package com.muyuan.system.domain.service;
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,7 +44,7 @@ public interface SysUserDomainService {
      * @param registerInfo
      * @return
      */
-    int add(RegisterDTO registerInfo);
+    int add(SysUserDTO registerInfo);
 
     /**
      * 检查唯一性

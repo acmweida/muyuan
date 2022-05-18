@@ -13,7 +13,7 @@ public class DictTypeFactory {
      *  构建一个新用户实体 并初始化
      * @return
      */
-    public static DictType newDictType(DictTypeDTO dictTypeDTO)  {
+    public static DictType newInstance(DictTypeDTO dictTypeDTO)  {
         DictType dictType = new DictType();
         BeanUtils.copyProperties(dictTypeDTO,dictType);
         dictType.setCreateTime(new Date());

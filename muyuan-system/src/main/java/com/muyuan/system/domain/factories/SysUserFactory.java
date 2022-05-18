@@ -5,6 +5,7 @@ import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.dto.RegisterDTO;
+import com.muyuan.system.interfaces.dto.SysUserDTO;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -17,7 +18,17 @@ public class SysUserFactory {
      *  构建一个新用户实体 并初始化
      * @return
      */
-    public static SysUser newSysUser(RegisterDTO registerDTO)  {
+    public static SysUser newInstance(RegisterDTO registerDTO)  {
+        SysUser sysUser = new SysUser(registerDTO.getUsername(), registerDTO.getPassword());
+        init(sysUser);
+        return sysUser;
+    }
+
+    /**
+     *  构建一个新用户实体 并初始化
+     * @return
+     */
+    public static SysUser newInstance(SysUserDTO registerDTO)  {
         SysUser sysUser = new SysUser(registerDTO.getUsername(), registerDTO.getPassword());
         init(sysUser);
         return sysUser;

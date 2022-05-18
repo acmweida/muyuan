@@ -7,7 +7,6 @@ import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysUserDomainService;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +32,7 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
                 .eq("username", sysUserTO.getUsername())
                 .eq("status", sysUserTO.getStatus())
                 .eq("phone", sysUserTO.getStatus())
+                .eq("deptId", sysUserTO.getDeptId())
                 .gte("createTime", sysUserTO.getBeginCreateTime())
                 .lte("createTime", sysUserTO.getEndCreateTime())
                 .page(page);
@@ -63,8 +63,8 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     @Transactional
-    public int add(RegisterDTO registerInfo) {
-        SysUser sysUser = SysUserFactory.newSysUser(registerInfo);
+    public int add(SysUserDTO registerInfo) {
+        SysUser sysUser = SysUserFactory.newInstance(registerInfo);
         return sysUserRepo.insert(sysUser);
     }
 

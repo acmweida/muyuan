@@ -3,6 +3,7 @@ package com.muyuan.system.domain.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysRoleFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysRoleMenu;
@@ -88,7 +89,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Transactional(rollbackFor = Exception.class)
     public void add(SysRoleDTO sysRoleDTO) {
 
-        SysRole sysRole = SysRoleFactory.newSysRole(sysRoleDTO);
+        SysRole sysRole = SysRoleFactory.newInstance(sysRoleDTO);
         sysRoleRepo.insert(sysRole);
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
@@ -105,7 +106,8 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleDTO sysRoleDTO) {
-        SysRole sysRole = SysRoleFactory.updateSysRole(sysRoleDTO);
+        SysRoleEntity sysRole = SysRoleFactory.buildEntity(sysRoleDTO);
+        sysRole.update();
         sysRoleRepo.updateById(sysRole);
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();

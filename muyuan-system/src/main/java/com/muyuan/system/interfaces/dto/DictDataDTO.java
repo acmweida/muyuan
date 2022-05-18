@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 public class DictDataDTO {
 
     @ApiModelProperty(value = "排序,默认值:0")
-    private int sort;
+    private int orderNum;
 
     @NotBlank(message = "字典标签不能为空")
     @ApiModelProperty(value = "字典标签")

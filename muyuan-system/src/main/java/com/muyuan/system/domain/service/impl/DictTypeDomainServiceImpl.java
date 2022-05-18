@@ -93,7 +93,7 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
 
     @Override
     public int add(DictTypeDTO dictTypeDTO) {
-        DictType dictType = DictTypeFactory.newDictType(dictTypeDTO);
+        DictType dictType = DictTypeFactory.newInstance(dictTypeDTO);
         return dictTypeRepo.insert(dictType);
     }
 

@@ -1,6 +1,11 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * @ClassName SysDeptDTO
@@ -12,8 +17,23 @@ import lombok.Data;
 @Data
 public class SysDeptDTO {
 
+    @NotBlank(message = "部门名称不能为空")
     private String name;
 
     private String status;
+
+    private Long parentId;
+
+    @NotNull(message = "排序号不能为空")
+    private Integer orderNum;
+
+    private String leader;
+
+    private String phone;
+
+    @Pattern(message = "email 不能为空",regexp = GlobalConst.DEFAULT_EMAIL_REGEX)
+    private String email;
+
+    private String id;
 
 }

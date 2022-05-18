@@ -3,6 +3,7 @@ package com.muyuan.system.domain.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.system.domain.entity.SysMenuEntity;
 import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysMenuFactory;
 import com.muyuan.system.domain.model.SysMenu;
@@ -128,18 +129,18 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public void add(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.newSysMenu(sysMenuDTO);
+        SysMenu sysMenu = SysMenuFactory.newInstance(sysMenuDTO);
         sysMenuRepo.insert(sysMenu);
         sysMenuRepo.refreshCache();
     }
 
     @Override
     public void update(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.updateSysMenu(sysMenuDTO);
-        sysMenuRepo.updateById(sysMenu);
+        SysMenuEntity sysMenuEntity = SysMenuFactory.buildEntity(sysMenuDTO);
+        sysMenuEntity.update();
+        sysMenuRepo.updateById(sysMenuEntity);
         sysMenuRepo.refreshCache();
     }
-
 
     @Override
     public void deleteById(String... ids) {
