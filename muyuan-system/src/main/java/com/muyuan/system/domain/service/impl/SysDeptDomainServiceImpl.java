@@ -68,9 +68,7 @@ public class SysDeptDomainServiceImpl implements SysDeptDomainService {
                 }
         ).get();
 
-        SysDeptEntity sysDept = SysDeptFactory.buildEntity(
-                SysDeptFactory.newInstance(sysDeptDTO)
-        );
+        SysDeptEntity sysDept = SysDeptFactory.newInstance(sysDeptDTO);
 
         sysDeptRepo.insert(sysDept);
         sysDept.setParent(parentDept);

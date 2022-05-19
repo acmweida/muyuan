@@ -2,7 +2,6 @@ package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.entity.SysMenuEntity;
-import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
 import org.springframework.beans.BeanUtils;
 
@@ -21,8 +20,8 @@ public class SysMenuFactory {
      *  构建一个系统菜单 并初始化
      * @return
      */
-    public static SysMenu newInstance(SysMenuDTO sysMenuDTO)  {
-        SysMenu sysMenu = new SysMenu();
+    public static SysMenuEntity newInstance(SysMenuDTO sysMenuDTO)  {
+        SysMenuEntity sysMenu = new SysMenuEntity();
         BeanUtils.copyProperties(sysMenuDTO,sysMenu);
         sysMenu.setCreateTime(new Date());
         sysMenu.setCreateBy(SecurityUtils.getUserId());

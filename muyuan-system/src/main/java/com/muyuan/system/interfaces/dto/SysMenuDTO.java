@@ -1,8 +1,12 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.system.domain.entity.SysMenuEntity;
 import lombok.Data;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @ClassName SysMenuDTO
@@ -12,10 +16,9 @@ import javax.validation.constraints.*;
  * @Version 1.0
  */
 @Data
-public class SysMenuDTO {
+public class SysMenuDTO extends BaseDTO<SysMenuDTO,SysMenuEntity> {
 
-    @Pattern(regexp = "\\d*",message = "主键必须是整数字符串")
-    private String id;
+    private Long id;
 
     /**
      * 菜单名称
@@ -113,5 +116,10 @@ public class SysMenuDTO {
         sb.append(", cache=").append(cache);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    protected SysMenuEntity newEntity() {
+        return new SysMenuEntity();
     }
 }

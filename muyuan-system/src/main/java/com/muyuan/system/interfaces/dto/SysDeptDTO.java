@@ -1,6 +1,8 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.system.domain.entity.SysDeptEntity;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +17,7 @@ import javax.validation.constraints.Pattern;
  * @Version 1.0
  */
 @Data
-public class SysDeptDTO {
+public class SysDeptDTO extends BaseDTO<SysDeptDTO,SysDeptEntity> {
 
     @NotBlank(message = "部门名称不能为空")
     private String name;
@@ -34,6 +36,11 @@ public class SysDeptDTO {
     @Pattern(message = "email 不能为空",regexp = GlobalConst.DEFAULT_EMAIL_REGEX)
     private String email;
 
-    private String id;
+    private Long id;
+
+    @Override
+    protected SysDeptEntity newEntity() {
+        return new SysDeptEntity();
+    }
 
 }

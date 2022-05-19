@@ -1,5 +1,7 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.system.domain.entity.DictTypeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,20 +17,20 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictTypeDTO {
+public class DictTypeDTO extends BaseDTO<DictTypeDTO,DictTypeEntity> {
 
     /**
      * 字典名称
      */
     @NotBlank(message = "字典名称不能为空")
-    @ApiModelProperty(value = "字典名称",required =true)
+    @ApiModelProperty(value = "字典名称", required = true)
     private String name;
 
     /**
      * 字典类型
      */
     @NotBlank(message = "字典类型不能为空")
-    @ApiModelProperty(value = "字典类型",required =true)
+    @ApiModelProperty(value = "字典类型", required = true)
     private String type;
 
     /**
@@ -41,4 +43,8 @@ public class DictTypeDTO {
 
     private int pageSize = 10;
 
+    @Override
+    protected DictTypeEntity newEntity() {
+        return new DictTypeEntity();
+    }
 }

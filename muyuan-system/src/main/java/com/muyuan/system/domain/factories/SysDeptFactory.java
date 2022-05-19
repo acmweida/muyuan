@@ -2,12 +2,10 @@ package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.entity.SysDeptEntity;
-import com.muyuan.system.domain.model.SysDept;
 import com.muyuan.system.interfaces.dto.SysDeptDTO;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @ClassName SysDeptFactory
@@ -18,28 +16,15 @@ import java.util.Date;
  */
 public class SysDeptFactory {
 
-    public static SysDept newInstance(SysDeptDTO sysDeptDTO) {
-        SysDept sysDept = buildInstance(sysDeptDTO);
+    public static SysDeptEntity newInstance(SysDeptDTO sysDeptDTO) {
+        SysDeptEntity sysDept = sysDeptDTO.convert();
         sysDept.setCreateTime(new Date());
         sysDept.setCreateBy(SecurityUtils.getUsername());
         sysDept.setCreateById(SecurityUtils.getUserId());
-        return sysDept;
-    }
-
-    public static SysDept buildInstance(SysDeptDTO sysDeptDTO) {
-        SysDept sysDept = new SysDept();
-        BeanUtils.copyProperties(sysDeptDTO,sysDept);
-        if (ObjectUtils.isEmpty(sysDeptDTO.getStatus())) {
+        if (Objects.isNull(sysDept.getStatus())) {
             sysDept.setStatus("0");
         }
         return sysDept;
     }
-
-    public static SysDeptEntity buildEntity(SysDept sysDept) {
-        SysDeptEntity sysDeptEntity = new SysDeptEntity();
-        BeanUtils.copyProperties(sysDept,sysDeptEntity);
-        return sysDeptEntity;
-    }
-
 
 }

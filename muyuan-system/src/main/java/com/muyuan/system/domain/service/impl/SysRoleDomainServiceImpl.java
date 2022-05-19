@@ -106,7 +106,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleDTO sysRoleDTO) {
-        SysRoleEntity sysRole = SysRoleFactory.buildEntity(sysRoleDTO);
+        SysRoleEntity sysRole = sysRoleDTO.convert();
         sysRole.update();
         sysRoleRepo.updateById(sysRole);
 
