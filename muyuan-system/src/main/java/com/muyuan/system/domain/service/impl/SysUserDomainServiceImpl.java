@@ -3,8 +3,10 @@ package com.muyuan.system.domain.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
+import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysUserDomainService;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,9 +66,14 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     @Transactional
-    public int add(SysUserDTO registerInfo) {
-        SysUser sysUser = SysUserFactory.newInstance(registerInfo);
-        return sysUserRepo.insert(sysUser);
+    public void add(SysUserDTO sysUserDTO) {
+        SysUserEntity sysUser = SysUserFactory.newInstance(sysUserDTO);
+        sysUserRepo.insert(sysUser);
+
+        List<SysUserRole> list = new ArrayList<>(sysUserDTO.getRoleIds().length);
+
+
+
     }
 
     @Override

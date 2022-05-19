@@ -39,12 +39,11 @@ public interface SysUserDomainService {
 
 
     /**
-     * 账户注册
-     * 0-注册成功
-     * @param registerInfo
+     * 系统用户新增
+     * @param sysUserDTO
      * @return
      */
-    int add(SysUserDTO registerInfo);
+    void add(SysUserDTO sysUserDTO);
 
     /**
      * 检查唯一性
