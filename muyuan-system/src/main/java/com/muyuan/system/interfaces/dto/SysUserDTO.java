@@ -56,6 +56,10 @@ public class SysUserDTO extends BaseDTO<SysUserDTO,SysUserEntity> {
 
     private String remark;
 
+    private Long id;
+
+    private Long roleId;
+
     @Override
     protected SysUserEntity newEntity() {
         return new SysUserEntity();

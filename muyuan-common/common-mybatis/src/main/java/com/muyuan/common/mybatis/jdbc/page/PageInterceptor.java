@@ -1,6 +1,7 @@
 package com.muyuan.common.mybatis.jdbc.page;
 
 import com.muyuan.common.mybatis.jdbc.crud.Constant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
@@ -24,6 +25,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Intercepts(@Signature(type = StatementHandler.class,args = {Connection.class,Integer.class},method = "prepare"))
 public class PageInterceptor implements Interceptor {
 
@@ -45,6 +47,8 @@ public class PageInterceptor implements Interceptor {
                 // 总条数
                 String countSql = "select count(1) from ( " + sql + " ) as temp";
                 metaObject.setValue("delegate.boundSql.sql",countSql);
+
+                log.info("count sql : {}",countSql);
 
                 List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
                 MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");

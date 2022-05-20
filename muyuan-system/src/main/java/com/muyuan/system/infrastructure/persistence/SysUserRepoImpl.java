@@ -44,4 +44,14 @@ public class SysUserRepoImpl implements SysUserRepo {
     public void batchInsert(List<SysUserRole> list) {
         sysUserRoleMapper.batchInsert(list);
     }
+
+    @Override
+    public List<SysUser> selectAllocatedList(Map params) {
+        return userMapper.selectAllocatedList(params);
+    }
+
+    @Override
+    public List<SysUser> selectUnallocatedList(Map params) {
+        return userMapper.selectUnallocatedList(params);
+    }
 }

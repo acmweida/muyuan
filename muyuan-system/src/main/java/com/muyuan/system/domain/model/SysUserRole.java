@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@Builder
 public class SysUserRole {
 
     private Long userId;

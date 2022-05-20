@@ -17,4 +17,8 @@ public interface SysUserRepo {
     List<SysUser> select(Map params);
 
     void batchInsert(List<SysUserRole> list);
+
+    List<SysUser> selectAllocatedList(Map params);
+
+    List<SysUser> selectUnallocatedList(Map params);
 }

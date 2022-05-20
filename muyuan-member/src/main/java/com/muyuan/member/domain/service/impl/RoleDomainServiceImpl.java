@@ -59,7 +59,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
                 .eq("status", sysRoleDTO.getStatus())
                 .orderByAsc("sort");
 
-        Page page = new Page();
+        Page page = Page.builder().build();
         if (sysRoleDTO.isEnablePage()) {
             page.setPageNum(sysRoleDTO.getPageNum());
             page.setPageSize(sysRoleDTO.getPageSize());

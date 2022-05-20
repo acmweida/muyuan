@@ -31,6 +31,13 @@ public interface SysRoleDomainService {
     Page<SysRole> list(SysRoleDTO sysRoleDTO);
 
     /**
+     * 选择用户
+     * @param roleId
+     * @param userIds
+     */
+    void selectUser(Long roleId,Long[] userIds);
+
+    /**
      * 检验唯一性
      * @param sysRole
      * @return

@@ -126,9 +126,9 @@ public class RedisCacheManager extends AbstractCacheManager implements CacheMana
 
     public Set sGetAndUpdate(String key, Supplier<Set> supplier) {
         return (Set) getAndUpdate(key,
-                (k) -> get(k),
+                (k) -> sGet(k),
                 () -> supplier.get(),
-                (k,v) -> set(k, v)
+                (k,v) -> sSet(k, ((Set)v).toArray())
         );
     }
 

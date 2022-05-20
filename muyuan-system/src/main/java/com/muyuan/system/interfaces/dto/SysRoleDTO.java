@@ -32,7 +32,7 @@ public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRoleEntity> {
     @NotNull(message = "角色编码不能为空")
     private String code;
 
-    private String[] menuIds;
+    private Long[] menuIds;
 
     private String orderNum;
 
@@ -40,4 +40,9 @@ public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRoleEntity> {
     protected SysRoleEntity newEntity() {
         return new SysRoleEntity();
     }
+
+
+    private String username;
+
+    private String phone;
 }

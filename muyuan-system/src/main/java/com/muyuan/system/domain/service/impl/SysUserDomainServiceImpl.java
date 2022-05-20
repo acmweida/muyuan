@@ -1,6 +1,7 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.entity.SysUserEntity;
@@ -29,7 +30,9 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     public  Page<SysUser> list(SysUserDTO sysUserTO) {
-        Page<SysUser> page = new Page(sysUserTO.getPageNum(),sysUserTO.getPageSize());
+
+        Page page = Page.builder().pageNum(sysUserTO.getPageNum())
+                .pageSize(sysUserTO.getPageSize()).build();
 
         SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class)
                 .eq("username", sysUserTO.getUsername())
@@ -43,6 +46,42 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
         List<SysUser> list = sysUserRepo.select(sqlBuilder.build());
 
         page.setRows(list);
+        return page;
+    }
+
+    @Override
+    public Page<SysUser> selectAllocatedList(SysUserDTO sysUserDTO) {
+        Page page = Page.builder()
+                .pageNum(sysUserDTO.getPageNum())
+                .pageSize(sysUserDTO.getPageSize()).build();
+
+        List<SysUser> sysUsers = sysUserRepo.selectAllocatedList(new SqlBuilder()
+                .eq("roleId", sysUserDTO.getRoleId())
+                .eq("username", sysUserDTO.getUsername())
+                .eq("phone", sysUserDTO.getPhone())
+                .page(page)
+                .build());
+
+        page.setRows(sysUsers);
+
+        return page;
+    }
+
+    @Override
+    public Page<SysUser> selectUnallocatedList(SysUserDTO sysUserDTO) {
+        Page page = Page.builder()
+                .pageNum(sysUserDTO.getPageNum())
+                .pageSize(sysUserDTO.getPageSize()).build();
+
+        List<SysUser> sysUsers = sysUserRepo.selectUnallocatedList(new SqlBuilder()
+                .eq("roleId", sysUserDTO.getRoleId())
+                .eq("username", sysUserDTO.getUsername())
+                .eq("phone", sysUserDTO.getPhone())
+                .page(page)
+                .build());
+
+        page.setRows(sysUsers);
+
         return page;
     }
 
@@ -70,9 +109,17 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
         SysUserEntity sysUser = SysUserFactory.newInstance(sysUserDTO);
         sysUserRepo.insert(sysUser);
 
-        List<SysUserRole> list = new ArrayList<>(sysUserDTO.getRoleIds().length);
-
-
+        FunctionUtil.getIfNotNullThen(
+                () -> sysUserDTO.getRoleIds(),
+                (v) -> {
+                    Long[] roles = (Long[]) v;
+                    List<SysUserRole> list = new ArrayList<>(roles.length);
+                    for (Long role : roles) {
+                        list.add(SysUserRole.builder().userId(sysUser.getId()).roleId(role).build());
+                    }
+                    sysUserRepo.batchInsert(list);
+                }
+        );
 
     }
 

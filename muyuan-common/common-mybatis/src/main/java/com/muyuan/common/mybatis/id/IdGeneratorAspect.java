@@ -78,6 +78,7 @@ public class IdGeneratorAspect {
                     log.info("id generator not found writer method!");
                     return;
                 }
+                idField.setAccessible(true);
                 Object value = idField.get(entity);
                 if (value == null || value.equals(0)) {
                     setterMethod.invoke(entity,IdUtil.createId(target));

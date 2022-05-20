@@ -23,6 +23,20 @@ public interface SysUserDomainService {
     Page<SysUser> list(SysUserDTO sysUserDTO);
 
     /**
+     * 列表查询
+     * @param sysUserDTO
+     * @return
+     */
+    Page<SysUser> selectAllocatedList(SysUserDTO sysUserDTO);
+
+    /**
+     * 列表查询 查询角色没有分配的用户
+     * @param sysUserDTO
+     * @return
+     */
+    Page<SysUser> selectUnallocatedList(SysUserDTO sysUserDTO);
+
+    /**
      * 获取用户信息
      * @param username
      * @return

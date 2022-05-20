@@ -66,7 +66,7 @@ public class SysUser {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private char status;
+    private String status;
 
     /**
      * 创建时间
@@ -86,6 +86,8 @@ public class SysUser {
     private Long updateBy;
 
     private Long createBy;
+
+    private String email;
 
     /**
      * 性别

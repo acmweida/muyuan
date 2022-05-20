@@ -162,7 +162,7 @@ public class SqlBuilder {
     }
 
     public SqlBuilder page(int pageNum, int pageSize) {
-        return page(new Page(pageNum, pageSize));
+        return page(Page.builder().pageNum(pageNum).pageSize(pageSize).build());
     }
 
     public SqlBuilder orderByAsc(String... fields) {

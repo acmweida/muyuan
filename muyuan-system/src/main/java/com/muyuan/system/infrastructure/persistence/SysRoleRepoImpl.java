@@ -1,13 +1,13 @@
 package com.muyuan.system.infrastructure.persistence;
 
-import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.redis.manage.RedisCacheManager;
-import com.muyuan.system.domain.model.SysRoleMenu;
-import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.domain.model.SysRole;
+import com.muyuan.system.domain.model.SysRoleMenu;
+import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.domain.repo.SysRoleRepo;
+import com.muyuan.system.infrastructure.persistence.dao.SysRoleMapper;
 import com.muyuan.system.infrastructure.persistence.dao.SysRoleMenuMapper;
+import com.muyuan.system.infrastructure.persistence.dao.SysUserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
@@ -29,6 +29,8 @@ public class SysRoleRepoImpl implements SysRoleRepo {
     private SysRoleMapper sysRoleMapper;
 
     private SysRoleMenuMapper sysRoleMenuMapper;
+
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     public List<SysRole> selectRoleByUserId(Long userId) {
@@ -53,6 +55,11 @@ public class SysRoleRepoImpl implements SysRoleRepo {
     @Override
     public void batchInsert(List<SysRoleMenu> sysRoleMenus) {
         sysRoleMenuMapper.batchInsert(sysRoleMenus);
+    }
+
+    @Override
+    public void batchInsertRole(List<SysUserRole> sysUserRoles) {
+        sysUserRoleMapper.batchInsert(sysUserRoles);
     }
 
     @Override

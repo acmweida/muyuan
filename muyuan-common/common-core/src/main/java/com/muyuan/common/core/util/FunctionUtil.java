@@ -1,5 +1,7 @@
 package com.muyuan.common.core.util;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -22,19 +24,27 @@ public class FunctionUtil {
         };
     }
 
+    public static void getIfNotNullThen(Supplier exec, Consumer then) {
+        Object o = exec.get();
+        if (ObjectUtils.isNotEmpty(o)) {
+            then.accept(o);
+        }
+    }
+
+
     public static Supplier getAndThen(Supplier exec, Consumer then) {
         return () -> {
-            Object  o = exec.get();
+            Object o = exec.get();
             then.accept(o);
             return o;
         };
     }
 
-    public static Supplier getIfNullThenRebuild(Supplier exec,Supplier rebuild,Consumer then) {
+    public static Supplier getIfNullThenRebuild(Supplier exec, Supplier rebuild, Consumer then) {
         return () -> {
             Object o = exec.get();
-            if (o == null) {
-              o = rebuild.get();
+            if (ObjectUtils.isEmpty(o)) {
+                o = rebuild.get();
             }
             then.accept(o);
             return o;
