@@ -116,7 +116,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Transactional
     public void deleteById(String... id) {
         menuMapper.deleteBy(new SqlBuilder().in("id",id).build());
-        // 清楚无父菜单的子菜单
+        // 清除无父菜单的子菜单
         while (menuMapper.delete() > 0) {
         }
         roleMenuMapper.delete();
@@ -137,6 +137,5 @@ public class MenuRepoImpl implements MenuRepo {
         redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode);
         redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode);
     }
-
 
 }

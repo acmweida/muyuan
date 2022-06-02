@@ -6,4 +6,20 @@
     <select id="find" resultType="com.muyuan.member.domain.model.User">
         select id from t_user where user_no = #{userNo}
     </select>
+    <select id="selectAllocatedList" resultType="com.muyuan.member.domain.model.User">
+        select id, username, nick_name, create_time, dept_id
+        from t_user
+        where status = 0
+        <if test="username != null and username != ''">
+            AND u.username like concat('%', #{username}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND u.phone like concat('%', #{phone}, '%')
+        </if>
+        and  exists (
+        select user_id
+        from t_user_role
+        where role_id = 28 and user_id = id
+        )
+    </select>
 </mapper>

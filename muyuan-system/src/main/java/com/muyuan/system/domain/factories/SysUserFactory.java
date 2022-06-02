@@ -2,7 +2,6 @@ package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import org.springframework.util.Assert;
@@ -18,8 +17,8 @@ public class SysUserFactory {
      *
      * @return
      */
-    public static SysUserEntity newInstance(SysUserDTO registerDTO) {
-        SysUserEntity sysUser = registerDTO.convert();
+    public static SysUser newInstance(SysUserDTO registerDTO) {
+        SysUser sysUser = registerDTO.convert();
         init(sysUser);
         return sysUser;
     }

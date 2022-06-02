@@ -5,7 +5,6 @@ import com.muyuan.common.core.exception.handler.ArgumentException;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.entity.SysDeptEntity;
 import com.muyuan.system.domain.factories.SysDeptFactory;
 import com.muyuan.system.domain.model.SysDept;
 import com.muyuan.system.domain.repo.SysDeptRepo;
@@ -68,7 +67,7 @@ public class SysDeptDomainServiceImpl implements SysDeptDomainService {
                 }
         ).get();
 
-        SysDeptEntity sysDept = SysDeptFactory.newInstance(sysDeptDTO);
+        SysDept sysDept = SysDeptFactory.newInstance(sysDeptDTO);
 
         sysDeptRepo.insert(sysDept);
         sysDept.setParent(parentDept);

@@ -1,7 +1,9 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 
@@ -54,5 +56,13 @@ public class SysDept {
     public SysDept(Long parentId, String name) {
         this.parentId = parentId;
         this.name = name;
+    }
+
+    private SysDept parent;
+
+    public void rebuildAncestors() {
+        Assert.notNull(getId(),"id 不能为空");
+        Assert.notNull(getParent(),"parent Dept 不能为空");
+        setAncestors(StrUtil.format("{}.{}",parent.getAncestors(),getId()));
     }
 }

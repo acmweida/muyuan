@@ -1,7 +1,7 @@
 package com.muyuan.system.interfaces.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.system.domain.entity.SysRoleEntity;
+import com.muyuan.system.domain.model.SysRole;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 @Data
-public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRoleEntity> {
+public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRole> {
 
     private Long id;
 
@@ -35,12 +35,6 @@ public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRoleEntity> {
     private Long[] menuIds;
 
     private String orderNum;
-
-    @Override
-    protected SysRoleEntity newEntity() {
-        return new SysRoleEntity();
-    }
-
 
     private String username;
 

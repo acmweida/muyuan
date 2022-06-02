@@ -2,7 +2,9 @@ package com.muyuan.member.domain.service;
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.member.domain.model.Role;
+import com.muyuan.member.domain.model.User;
 import com.muyuan.member.interfaces.dto.RoleDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,13 @@ public interface RoleDomainService {
      * @return
      */
     String checkRoleCodeUnique(Role sysRole);
+
+    /**
+     * 列表查询
+     * @param userDTO
+     * @return
+     */
+    Page<User> selectAllocatedList(UserDTO userDTO);
 
 
     /**

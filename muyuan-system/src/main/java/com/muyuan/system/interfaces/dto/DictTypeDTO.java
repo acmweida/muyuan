@@ -1,7 +1,7 @@
 package com.muyuan.system.interfaces.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.system.domain.entity.DictTypeEntity;
+import com.muyuan.system.domain.model.DictType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictTypeDTO extends BaseDTO<DictTypeDTO,DictTypeEntity> {
+public class DictTypeDTO extends BaseDTO<DictTypeDTO, DictType> {
 
     /**
      * 字典名称
@@ -43,8 +43,4 @@ public class DictTypeDTO extends BaseDTO<DictTypeDTO,DictTypeEntity> {
 
     private int pageSize = 10;
 
-    @Override
-    protected DictTypeEntity newEntity() {
-        return new DictTypeEntity();
-    }
 }

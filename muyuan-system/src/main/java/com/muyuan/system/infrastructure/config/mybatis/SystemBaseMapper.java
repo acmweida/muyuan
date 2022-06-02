@@ -36,6 +36,16 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     Integer updateBy(T entity,String... column);
 
     /**
+     * TODO:根据条件更新指定字段
+     * TODO: 复杂条件更新指定字段
+     * @param entity
+     * @param column
+     * @return
+     */
+//    @UpdateProvider(value = CrudSqlProvider.class,method = "updateBy")
+//    Integer updateBy(T entity,String... column);
+
+    /**
      * 删除
      * @param param
      * @return

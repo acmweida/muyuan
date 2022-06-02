@@ -1,5 +1,6 @@
 package com.muyuan.common.mybatis.jdbc.page;
 
+import com.muyuan.common.core.bean.Paging;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,4 +19,8 @@ public class Page<T> {
     private int totalPage;
 
     private List<T> rows;
+
+    public static Page newInstance(Paging paging) {
+        return Page.builder().pageNum(paging.getPageNum()).pageSize(paging.getPageSize()).build();
+    }
 }

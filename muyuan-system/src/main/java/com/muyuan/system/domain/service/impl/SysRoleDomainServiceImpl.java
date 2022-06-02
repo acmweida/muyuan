@@ -4,7 +4,6 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysRoleFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysRoleMenu;
@@ -119,7 +118,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleDTO sysRoleDTO) {
-        SysRoleEntity sysRole = sysRoleDTO.convert();
+        SysRole sysRole = sysRoleDTO.convert();
         sysRole.update();
         sysRoleRepo.updateById(sysRole);
 

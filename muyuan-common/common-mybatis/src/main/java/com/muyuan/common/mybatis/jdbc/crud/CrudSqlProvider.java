@@ -14,6 +14,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import static com.muyuan.common.mybatis.jdbc.crud.SqlBuilder.JDBC_TYPE;
+
 @SuppressWarnings("unchecked")
 @Slf4j
 public class CrudSqlProvider {
@@ -106,6 +108,9 @@ public class CrudSqlProvider {
 
         Field[] declaredFields = entityType(context).getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
+            if (!jdbcType(propertyDescriptor.getType())) {
+                continue;
+            }
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, bean);
             if (null != field) {
@@ -136,7 +141,9 @@ public class CrudSqlProvider {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
             if (!fieldNamesList.contains(propertyDescriptor.getName()) && null != field) {
-                sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
+                if (jdbcType(propertyDescriptor.getType())) {
+                    sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
+                }
             }
         }
 
@@ -148,6 +155,9 @@ public class CrudSqlProvider {
         for (String fieldName : column) {
             try {
                 field = aClass.getDeclaredField(fieldName);
+                if (!jdbcType(field.getType())) {
+                    continue;
+                }
                 field.setAccessible(true);
                 value = field.get(entity);
             } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -155,7 +165,7 @@ public class CrudSqlProvider {
                 log.error("{} not found  in {}", fieldName, aClass.getName());
             }
             if (value != null) {
-                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
+                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
             }
         }
         if (conditionSqls.size() == 0) {
@@ -211,6 +221,10 @@ public class CrudSqlProvider {
         }
         String conditionSql = conditionSqlHandler.buildSql(condition);
         return conditionSql;
+    }
+
+    private boolean jdbcType(Class c) {
+        return JDBC_TYPE.contains(c);
     }
 
 }

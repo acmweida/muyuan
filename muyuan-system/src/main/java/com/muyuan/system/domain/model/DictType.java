@@ -4,6 +4,7 @@ import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 字典类型
@@ -39,6 +40,8 @@ public class DictType {
     private Long updateBy;
 
     private String remark;
+
+    private List<DictData> dictDataList;
 
     public DictType(String name, String type) {
         this.name = name;

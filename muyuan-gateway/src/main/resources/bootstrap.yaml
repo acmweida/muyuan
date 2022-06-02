@@ -1,0 +1,46 @@
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
+        group: MUYUAN
+        file-extension: properties
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
+    gateway:
+      api-prefix: /api
+      discovery:
+        locator:
+          enabled: true
+  application:
+    name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+server:
+  port: 20000
+
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.alibaba.nacos.client.*: warn
+    io:
+      lettuce: error
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:${server.port}/auth/oauth/token
+      user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize #授权端点

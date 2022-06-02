@@ -1,7 +1,7 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.entity.SysRoleEntity;
+import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.interfaces.dto.SysRoleDTO;
 import org.springframework.util.ObjectUtils;
 
@@ -16,8 +16,8 @@ import java.util.Date;
  */
 public class SysRoleFactory {
 
-    public static SysRoleEntity newInstance(SysRoleDTO sysRoleDTO) {
-        SysRoleEntity sysRole = sysRoleDTO.convert();
+    public static SysRole newInstance(SysRoleDTO sysRoleDTO) {
+        SysRole sysRole = sysRoleDTO.convert();
         sysRole.setCreateTime(new Date());
         sysRole.setCreateBy(SecurityUtils.getUserId());
         // 默认启用

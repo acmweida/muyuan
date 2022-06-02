@@ -1,0 +1,47 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
+        group: MUYUAN
+        file-extension: properties
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: f650d0e5-398a-4230-9cfb-235548328981
+  application:
+    name: product
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 20004
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.muyuan.system.infrastructure.persistence.dao: debug
+    com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
+    io.lettuce: error
+
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*.xml
+
+dubbo:
+  scan:
+    base-packages: com.muyuan.product.interfaces.facade.api
+  registry:
+    address: spring-cloud://127.0.0.1
+  protocol:
+    name: dubbo
+    port: 21004
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+  consumer:
+    check: false
+

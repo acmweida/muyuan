@@ -1,7 +1,7 @@
 package com.muyuan.system.interfaces.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.system.domain.entity.SysMenuEntity;
+import com.muyuan.system.domain.model.SysMenu;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
  * @Version 1.0
  */
 @Data
-public class SysMenuDTO extends BaseDTO<SysMenuDTO,SysMenuEntity> {
+public class SysMenuDTO extends BaseDTO<SysMenuDTO, SysMenu> {
 
     private Long id;
 
@@ -118,8 +118,4 @@ public class SysMenuDTO extends BaseDTO<SysMenuDTO,SysMenuEntity> {
         return sb.toString();
     }
 
-    @Override
-    protected SysMenuEntity newEntity() {
-        return new SysMenuEntity();
-    }
 }

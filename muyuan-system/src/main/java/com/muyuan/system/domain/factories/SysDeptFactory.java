@@ -1,7 +1,7 @@
 package com.muyuan.system.domain.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.system.domain.entity.SysDeptEntity;
+import com.muyuan.system.domain.model.SysDept;
 import com.muyuan.system.interfaces.dto.SysDeptDTO;
 
 import java.util.Date;
@@ -16,8 +16,8 @@ import java.util.Objects;
  */
 public class SysDeptFactory {
 
-    public static SysDeptEntity newInstance(SysDeptDTO sysDeptDTO) {
-        SysDeptEntity sysDept = sysDeptDTO.convert();
+    public static SysDept newInstance(SysDeptDTO sysDeptDTO) {
+        SysDept sysDept = sysDeptDTO.convert();
         sysDept.setCreateTime(new Date());
         sysDept.setCreateBy(SecurityUtils.getUsername());
         sysDept.setCreateById(SecurityUtils.getUserId());

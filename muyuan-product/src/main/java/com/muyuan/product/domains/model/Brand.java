@@ -18,6 +18,10 @@ public class Brand {
 
     private boolean publish;
 
+    /**
+     * 分类id
+     */
+    private long categoryId;
 
     /**
      * 首字母

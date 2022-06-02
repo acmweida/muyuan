@@ -1,5 +1,6 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.bean.Paging;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictDataDTO {
+public class DictDataDTO implements Paging {
 
     @ApiModelProperty(value = "排序,默认值:0")
     private int orderNum;

@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName User
@@ -103,4 +104,11 @@ public class SysUser {
         this.username = username;
         this.password = password;
     }
+
+    /**
+     * 用户角色
+     */
+    private List<SysUserRole> sysUserRoles;
+
+    private List<SysRole> sysRoles;
 }

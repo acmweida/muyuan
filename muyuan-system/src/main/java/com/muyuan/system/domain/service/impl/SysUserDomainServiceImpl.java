@@ -4,7 +4,6 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.domain.entity.SysUserEntity;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.model.SysUserRole;
@@ -106,7 +105,7 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
     @Override
     @Transactional
     public void add(SysUserDTO sysUserDTO) {
-        SysUserEntity sysUser = SysUserFactory.newInstance(sysUserDTO);
+        SysUser sysUser = SysUserFactory.newInstance(sysUserDTO);
         sysUserRepo.insert(sysUser);
 
         FunctionUtil.getIfNotNullThen(
