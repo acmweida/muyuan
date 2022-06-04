@@ -31,7 +31,7 @@ public class CollectionConditionSqlHandler implements ConditionSqlHandler {
     }
 
     @Override
-    public boolean supper(Option op) {
+    public boolean suppert(Option op) {
         switch (op) {
             case IN:
                 return true;

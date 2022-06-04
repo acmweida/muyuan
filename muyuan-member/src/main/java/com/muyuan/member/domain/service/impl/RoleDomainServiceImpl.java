@@ -6,10 +6,13 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.member.domain.factories.RoleFactory;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.RoleMenu;
+import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.repo.MenuRepo;
 import com.muyuan.member.domain.repo.RoleRepo;
+import com.muyuan.member.domain.repo.UserRepo;
 import com.muyuan.member.domain.service.RoleDomainService;
 import com.muyuan.member.interfaces.dto.RoleDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -35,10 +38,10 @@ import java.util.Optional;
 public class RoleDomainServiceImpl implements RoleDomainService {
 
     private RoleRepo roleRepo;
-    ;
 
     private MenuRepo menuRepo;
-    ;
+
+    private UserRepo userRepo;
 
     /**
      * 根据用户id查询角色
@@ -57,9 +60,9 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         SqlBuilder sqlBuilder = new SqlBuilder(Role.class)
                 .eq("name", sysRoleDTO.getName())
                 .eq("status", sysRoleDTO.getStatus())
-                .orderByAsc("sort");
+                .orderByAsc("orderNum");
 
-        Page page = new Page();
+        Page page = Page.builder().build();
         if (sysRoleDTO.isEnablePage()) {
             page.setPageNum(sysRoleDTO.getPageNum());
             page.setPageSize(sysRoleDTO.getPageSize());
@@ -83,6 +86,24 @@ public class RoleDomainServiceImpl implements RoleDomainService {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public Page<User> selectAllocatedList(UserDTO userDTO) {
+        Page page = Page.builder()
+                .pageNum(userDTO.getPageNum())
+                .pageSize(userDTO.getPageSize()).build();
+
+        List<User> sysUsers = userRepo.selectAllocatedList(new SqlBuilder()
+                .eq("roleId", userDTO.getRoleId())
+                .eq("username", userDTO.getUsername())
+                .eq("phone", userDTO.getPhone())
+                .page(page)
+                .build());
+
+        page.setRows(sysUsers);
+
+        return page;
     }
 
     @Override

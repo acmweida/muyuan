@@ -5,20 +5,28 @@ public enum Option {
     IN(" in "),LIKE(" like "),
     GT(" > "),LT(" < "),
     GTE(" >= "),LTE(" <= "),
-    PAGE("page "),OR(""),
-    ORDER("order"),
-    AND("and");
+    OR("",false),
+    ORDER("order by ",false),
+    AND("and",false);
 
     public String getOp() {
         return op;
     }
 
     Option(String op) {
+        this(op,true);
+    }
+
+    Option(String op,boolean parma) {
         this.op = op;
+        this.parma = parma;
     }
 
     private String op;
 
-    private short code;
+    private boolean parma;
 
+    public boolean isParma() {
+        return parma;
+    }
 }

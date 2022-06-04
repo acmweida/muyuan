@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName User
@@ -66,7 +67,7 @@ public class SysUser {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private char status;
+    private String status;
 
     /**
      * 创建时间
@@ -87,6 +88,13 @@ public class SysUser {
 
     private Long createBy;
 
+    private String email;
+
+    /**
+     * 性别
+     */
+    private String sex;
+
     public SysUser() {
     }
 
@@ -96,4 +104,11 @@ public class SysUser {
         this.username = username;
         this.password = password;
     }
+
+    /**
+     * 用户角色
+     */
+    private List<SysUserRole> sysUserRoles;
+
+    private List<SysRole> sysRoles;
 }

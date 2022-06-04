@@ -20,4 +20,8 @@ public interface SysDeptDomainService {
      * @return
      */
     List<SysDept> list(SysDeptDTO sysDeptDTO);
+
+    String checkUnique(SysDept sysDeptDTO);
+
+    void add(SysDeptDTO sysDeptDTO);
 }

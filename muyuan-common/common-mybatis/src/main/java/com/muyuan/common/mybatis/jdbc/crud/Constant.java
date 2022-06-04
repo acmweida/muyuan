@@ -1,29 +1,37 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
-public class Constant {
+public interface Constant {
 
-    public static final String PAGE_FIELD = "#page";
+    String PAGE_FIELD = "#page";
 
-    public static final String ORDERBY = "#ORDERBY";
+    String ORDERBY = "#ORDERBY";
 
-    public static final String[] ALL = new String[]{"*"};
+    String[] ALL = new String[]{"*"};
 
-    public static final String CONDITION_PREFIX = "$";
+    String CONDITION_PREFIX = "$";
 
-    public static final String TABLE_PREFIX = "t_";
+    String TABLE_PREFIX = "t_";
 
-    public static final String SELECT = "select ";
+    String SELECT = "select ";
 
-    public static final String FROM = " from ";
+    String FROM = " from ";
 
-    public static final String WHERE = " where ";
+    String WHERE = " where ";
 
-    public static final String LIMIT = " limit ";
+    String LIMIT = " limit ";
 
-    public static final String AND = " and ";
+    String AND = " and ";
 
-    public static final String CONDITION = "$CONDITION";
+    String CONDITION = "$CONDITION";
 
-    public static final String COLUMN = "$column";
+    String COLUMN = "$column";
+
+    String GTE_PREFIX = "#GTE_";
+
+    String GT_PREFIX = "#GT_";
+
+    String LTE_PREFIX = "#LTE_";
+
+    String LT_PREFIX = "#LE_";
 
 }

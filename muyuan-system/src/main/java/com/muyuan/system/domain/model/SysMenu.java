@@ -1,6 +1,7 @@
 package com.muyuan.system.domain.model;
 
 import com.muyuan.common.mybatis.id.AutoIncrement;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 
 import java.util.Date;
@@ -110,6 +111,16 @@ public class SysMenu {
 
     public SysMenu(String name) {
         this.name = name;
+    }
+
+    /**
+     *  构建一个系统菜单 并初始化
+     * @return
+     */
+    public SysMenu update()  {
+        this.setUpdateTime(new Date());
+        this.setUpdateBy(SecurityUtils.getUserId());
+        return this;
     }
 
 }

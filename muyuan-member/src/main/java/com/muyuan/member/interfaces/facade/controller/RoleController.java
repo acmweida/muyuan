@@ -12,7 +12,10 @@ import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.service.RoleDomainService;
 import com.muyuan.member.interfaces.assembler.RoleAssembler;
 import com.muyuan.member.interfaces.dto.RoleDTO;
+import com.muyuan.member.interfaces.dto.UserDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -35,13 +38,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RoleController {
 
-    private RoleDomainService sysRoleDomainService;
+    private RoleDomainService roleDomainService;
 
     @GetMapping("/role/list")
     @ApiOperation(value = "角色查询")
     @RequirePermissions("member:role:lise")
     public Result list(@ModelAttribute RoleDTO sysRoleDTO) {
-        Page page = sysRoleDomainService.list(sysRoleDTO);
+        Page page = roleDomainService.list(sysRoleDTO);
         return ResultUtil.success(page);
     }
 
@@ -49,7 +52,7 @@ public class RoleController {
     @ApiOperation(value = "角色查询")
     @RequirePermissions("member:role:lise")
     public Result get(@PathVariable String id) {
-        Optional<Role> sysRoleInfo = sysRoleDomainService.getById(id);
+        Optional<Role> sysRoleInfo = roleDomainService.getById(id);
         if (sysRoleInfo.isPresent()) {
             return ResultUtil.success(sysRoleInfo.get());
         }
@@ -61,11 +64,11 @@ public class RoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:add")
     public Result add(@RequestBody @Validated RoleDTO roleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode())))) {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
-        sysRoleDomainService.add(roleDTO);
+        roleDomainService.add(roleDTO);
         return ResultUtil.success();
     }
 
@@ -73,11 +76,11 @@ public class RoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:update")
     public Result update(@RequestBody @Validated RoleDTO roleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysRoleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode())))) {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
-        sysRoleDomainService.update(roleDTO);
+        roleDomainService.update(roleDTO);
         return ResultUtil.success();
     }
 
@@ -85,7 +88,7 @@ public class RoleController {
     @ApiOperation(value = "角色删除")
     @RequirePermissions("member:role:del")
     public Result del(@PathVariable String... id) {
-        sysRoleDomainService.deleteById(id);
+        roleDomainService.deleteById(id);
         return ResultUtil.success();
     }
 
@@ -94,9 +97,22 @@ public class RoleController {
     @RequirePermissions("member:role:export")
     public void export(@ModelAttribute RoleDTO sysRoleDTO, HttpServletResponse response) throws IOException {
         sysRoleDTO.setEnablePage(false);
-        Page<Role> page = sysRoleDomainService.list(sysRoleDTO);
+        Page<Role> page = roleDomainService.list(sysRoleDTO);
         List<Role> rows = page.getRows();
         ExcelUtil.export(response, RoleVO.class, "角色信息", RoleAssembler.buildRoleVO(rows));
+    }
+
+    @ApiOperation(value = "角色分配用户查询")
+    @RequirePermissions("member:role:list")
+    @GetMapping("/role/authUser/allocatedList")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "query", required = true),
+                    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
+                    @ApiImplicitParam(name = "phone", value = "手机号", dataType = "String", paramType = "query")
+            }
+    )
+    public Result allocatedList(@ModelAttribute UserDTO userDTO) {
+        return ResultUtil.success(roleDomainService.selectAllocatedList(userDTO));
     }
 
 }

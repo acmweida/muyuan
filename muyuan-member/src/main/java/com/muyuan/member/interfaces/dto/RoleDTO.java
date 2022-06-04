@@ -32,7 +32,7 @@ public class RoleDTO {
 
     private String[] menuIds;
 
-    private String sort;
+    private String orderNum;
 
 
 }

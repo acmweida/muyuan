@@ -60,9 +60,8 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
                 .eq("status", dictDataDTO.getStatus())
                 .orderByDesc("updateTime", "createTime");
 
-        Page page = new Page();
-        page.setPageNum(dictDataDTO.getPageNum());
-        page.setPageSize(dictDataDTO.getPageSize());
+        Page page = Page.builder().pageNum(dictDataDTO.getPageNum())
+                .pageSize(dictDataDTO.getPageSize()).build();
         sqlBuilder.page(page);
 
         List<DictData> list = dictDataRepo.select(sqlBuilder.build());

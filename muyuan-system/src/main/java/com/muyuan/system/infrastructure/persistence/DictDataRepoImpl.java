@@ -4,10 +4,9 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
-import com.muyuan.system.domain.model.SysMenu;
-import com.muyuan.system.infrastructure.persistence.dao.DictDataMapper;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.repo.DictDataRepo;
+import com.muyuan.system.infrastructure.persistence.dao.DictDataMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,14 +28,14 @@ public class DictDataRepoImpl implements DictDataRepo {
     @Override
     public List<DictData> selectByDateType(String dataType) {
 
-       String dataDictJson =  (String)  redisCacheManager.get(RedisConst.SYS_DATA_DICT,dataType,
+        String dataDictJson = redisCacheManager.getAndUpdate(RedisConst.SYS_DATA_DICT+dataType,
                 () ->
-                    JSONUtil.toJsonString(
-                            dictDataMapper.selectList( new SqlBuilder(DictData.class)
-                                    .eq("type", dataType)
-                                    .eq("status", 0)
-                                    .build())
-                    )
+                        JSONUtil.toJsonString(
+                                dictDataMapper.selectList( new SqlBuilder(DictData.class)
+                                        .eq("type", dataType)
+                                        .eq("status", 0)
+                                        .build())
+                        )
                 );
 
         return new ArrayList<>(JSONUtil.parseObjectList(dataDictJson, ArrayList.class, DictData.class));

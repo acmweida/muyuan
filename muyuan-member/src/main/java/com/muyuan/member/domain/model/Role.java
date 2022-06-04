@@ -28,7 +28,7 @@ public class Role {
      */
     private String code;
 
-    private String sort;
+    private String orderNum;
 
     /**
      * 状态 0-正常 1-停用

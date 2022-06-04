@@ -3,16 +3,18 @@ package com.muyuan.member.infrastructure.persistence;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.repo.UserRepo;
 import com.muyuan.member.infrastructure.persistence.dao.UserMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
+@AllArgsConstructor
 public class UserRepoImpl implements UserRepo {
 
-    @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public User find(int userNo) {
@@ -28,4 +30,10 @@ public class UserRepoImpl implements UserRepo {
     public boolean insert(User dataObject) {
        return userMapper.insert(dataObject)  > 0;
     }
+
+    @Override
+    public List<User> selectAllocatedList(Map params) {
+        return userMapper.selectAllocatedList(params);
+    }
+
 }

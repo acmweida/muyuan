@@ -1,10 +1,13 @@
 package com.muyuan.common.mybatis.jdbc.page;
 
+import com.muyuan.common.core.bean.Paging;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Builder
 public class Page<T> {
 
     private int pageNum;
@@ -17,11 +20,7 @@ public class Page<T> {
 
     private List<T> rows;
 
-    public Page() {
-    }
-
-    public Page(int pageNum, int pageSize) {
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
+    public static Page newInstance(Paging paging) {
+        return Page.builder().pageNum(paging.getPageNum()).pageSize(paging.getPageSize()).build();
     }
 }

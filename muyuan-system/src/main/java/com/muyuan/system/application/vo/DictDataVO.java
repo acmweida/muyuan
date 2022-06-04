@@ -9,7 +9,7 @@ public class DictDataVO {
 
     private Long id;
 
-    private int sort;
+    private int orderNum;
 
     private String label;
 

@@ -1,13 +1,14 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysUserFactory;
 import com.muyuan.system.domain.model.SysUser;
+import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.domain.repo.SysUserRepo;
 import com.muyuan.system.domain.service.SysUserDomainService;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +29,15 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     public  Page<SysUser> list(SysUserDTO sysUserTO) {
-        Page<SysUser> page = new Page(sysUserTO.getPageNum(),sysUserTO.getPageSize());
+
+        Page page = Page.builder().pageNum(sysUserTO.getPageNum())
+                .pageSize(sysUserTO.getPageSize()).build();
 
         SqlBuilder sqlBuilder = new SqlBuilder(SysUser.class)
                 .eq("username", sysUserTO.getUsername())
                 .eq("status", sysUserTO.getStatus())
                 .eq("phone", sysUserTO.getStatus())
+                .eq("deptId", sysUserTO.getDeptId())
                 .gte("createTime", sysUserTO.getBeginCreateTime())
                 .lte("createTime", sysUserTO.getEndCreateTime())
                 .page(page);
@@ -40,6 +45,42 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
         List<SysUser> list = sysUserRepo.select(sqlBuilder.build());
 
         page.setRows(list);
+        return page;
+    }
+
+    @Override
+    public Page<SysUser> selectAllocatedList(SysUserDTO sysUserDTO) {
+        Page page = Page.builder()
+                .pageNum(sysUserDTO.getPageNum())
+                .pageSize(sysUserDTO.getPageSize()).build();
+
+        List<SysUser> sysUsers = sysUserRepo.selectAllocatedList(new SqlBuilder()
+                .eq("roleId", sysUserDTO.getRoleId())
+                .eq("username", sysUserDTO.getUsername())
+                .eq("phone", sysUserDTO.getPhone())
+                .page(page)
+                .build());
+
+        page.setRows(sysUsers);
+
+        return page;
+    }
+
+    @Override
+    public Page<SysUser> selectUnallocatedList(SysUserDTO sysUserDTO) {
+        Page page = Page.builder()
+                .pageNum(sysUserDTO.getPageNum())
+                .pageSize(sysUserDTO.getPageSize()).build();
+
+        List<SysUser> sysUsers = sysUserRepo.selectUnallocatedList(new SqlBuilder()
+                .eq("roleId", sysUserDTO.getRoleId())
+                .eq("username", sysUserDTO.getUsername())
+                .eq("phone", sysUserDTO.getPhone())
+                .page(page)
+                .build());
+
+        page.setRows(sysUsers);
+
         return page;
     }
 
@@ -63,9 +104,22 @@ public class SysUserDomainServiceImpl implements SysUserDomainService {
 
     @Override
     @Transactional
-    public int add(RegisterDTO registerInfo) {
-        SysUser sysUser = SysUserFactory.newSysUser(registerInfo);
-        return sysUserRepo.insert(sysUser);
+    public void add(SysUserDTO sysUserDTO) {
+        SysUser sysUser = SysUserFactory.newInstance(sysUserDTO);
+        sysUserRepo.insert(sysUser);
+
+        FunctionUtil.getIfNotNullThen(
+                () -> sysUserDTO.getRoleIds(),
+                (v) -> {
+                    Long[] roles = (Long[]) v;
+                    List<SysUserRole> list = new ArrayList<>(roles.length);
+                    for (Long role : roles) {
+                        list.add(SysUserRole.builder().userId(sysUser.getId()).roleId(role).build());
+                    }
+                    sysUserRepo.batchInsert(list);
+                }
+        );
+
     }
 
     @Override

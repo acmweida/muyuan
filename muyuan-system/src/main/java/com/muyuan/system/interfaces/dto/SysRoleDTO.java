@@ -1,5 +1,7 @@
 package com.muyuan.system.interfaces.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.system.domain.model.SysRole;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -12,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 @Data
-public class SysRoleDTO {
+public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRole> {
 
     private Long id;
 
@@ -30,9 +32,11 @@ public class SysRoleDTO {
     @NotNull(message = "角色编码不能为空")
     private String code;
 
-    private String[] menuIds;
+    private Long[] menuIds;
 
-    private String sort;
+    private String orderNum;
 
+    private String username;
 
+    private String phone;
 }

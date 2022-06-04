@@ -29,13 +29,13 @@ public class ExceptionHandlerAdvice {
         e.printStackTrace();
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
-        Map errorInfo = new HashMap();
+        Map<String,String> errorInfo = new HashMap();
 
         for (ObjectError error : allErrors) {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
-        log.error("hibernate-validator error", e);
-        return ResultUtil.fail(ResponseCode.ARGUMENT_EEORR,errorInfo);
+        log.error("hibernate-validator error,{}", errorInfo);
+        return ResultUtil.fail(ResponseCode.ARGUMENT_EEORR.getCode(),errorInfo.get(((FieldError)allErrors.get(0)).getField()));
     }
 
     @ExceptionHandler(MuyuanException.class)

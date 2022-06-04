@@ -4,17 +4,16 @@ import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.Condition;
 import com.muyuan.common.mybatis.jdbc.crud.ConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.Option;
-import org.apache.commons.lang3.ObjectUtils;
 
 public class SampleConditionSqlHandler implements ConditionSqlHandler {
 
     @Override
     public String buildSql(Condition condition) {
-        return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "#{" + condition.getField() + "}";
+        return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "#{" + condition.getExpression() + "}";
     }
 
     @Override
-    public boolean supper(Option op) {
+    public boolean suppert(Option op) {
         switch (op) {
             case EQ:
             case UNEQ:

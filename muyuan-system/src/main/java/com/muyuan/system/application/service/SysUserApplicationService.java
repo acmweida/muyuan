@@ -25,6 +25,12 @@ public interface SysUserApplicationService {
      */
     Optional<SysUserVO> getUserInfo();
 
+    /**
+     * 获取用户信息
+     * @return
+     */
+    Optional<SysUserVO> get(Long id);
+
 
     /**
      * 获取权限

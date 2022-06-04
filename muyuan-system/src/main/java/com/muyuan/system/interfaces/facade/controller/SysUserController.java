@@ -5,21 +5,23 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.application.vo.SysUserVO;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.service.SysUserDomainService;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +50,8 @@ public class SysUserController {
         return ResultUtil.success(list);
     }
 
-    @GetMapping("/user")
-    @ApiOperation(value = "获取用户信息")
+    @GetMapping("/getUserInfo")
+    @ApiOperation(value = "获取指定用户信息")
     public Result<SysUserVO> getUserInfo() {
         final Optional<SysUserVO> userInfo = sysUserApplicationService.getUserInfo();
         if (!userInfo.isPresent()) {
@@ -58,14 +60,42 @@ public class SysUserController {
         return ResultUtil.success(userInfo.get());
     }
 
-    @ApiOperation(value = "账号密码注册", code = 0)
+    @RequirePermissions("system:user:get")
+    @GetMapping({"/user/{id}","/user/"})
+    @ApiOperation(value = "获取用户信息")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "id",value = "用户ID",dataType = "String",paramType = "path",required = true)}
+    )
+    public Result<SysUserVO> get(@PathVariable(required = false) @Pattern(regexp = "\\d*",message = "用户ID格式错误") String id) {
+        final Optional<SysUserVO> userInfo = sysUserApplicationService.get(ObjectUtils.isEmpty(id) ? SecurityUtils.getUserId() :  Long.valueOf(id));
+        if (!userInfo.isPresent()) {
+            return ResultUtil.fail("用户信息不存在");
+        }
+        return ResultUtil.success(userInfo.get());
+    }
+
+    @ApiOperation(value = "系统用户新增", code = 0)
+    @RequirePermissions("system:user:add")
     @PostMapping("/user")
-    public Result add(@RequestBody @Validated RegisterDTO register) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(register.getUsername())))) {
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "username",value = "用户名,用户名只能由字母、数字、下划线组成，且长度是4-16位",dataType = "String",paramType = "body",required = true),
+                    @ApiImplicitParam(name = "password",value = "用户密码,最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符",dataType = "String",paramType = "body",required = true),
+                    @ApiImplicitParam(name = "nickName",value = "用户昵称",dataType = "String",paramType = "body",required = true),
+                    @ApiImplicitParam(name = "deptId",value = "部门ID",dataType = "Long",paramType = "body"),
+                    @ApiImplicitParam(name = "email",value = "邮箱",dataType = "String",paramType = "body"),
+                    @ApiImplicitParam(name = "phone",value = "手机号",dataType = "String",paramType = "body"),
+                    @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "body",defaultValue = "0"),
+                    @ApiImplicitParam(name = "roleIds",value = "角色ID",dataType = "Long[]",paramType = "body"),
+                    @ApiImplicitParam(name = "sex",value = "性别",dataType = "String",paramType = "body",required = true),
+                    @ApiImplicitParam(name = "remark",value = "备注",dataType = "String",paramType = "body")
+            }
+    )
+    public Result add(@RequestBody @Validated SysUserDTO sysUserDTO) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(sysUserDTO.getUsername())))) {
             return ResultUtil.fail("账号已存在");
         }
 
-        sysUserDomainService.add(register);
+        sysUserDomainService.add(sysUserDTO);
         return ResultUtil.success("注册成功");
 
     }

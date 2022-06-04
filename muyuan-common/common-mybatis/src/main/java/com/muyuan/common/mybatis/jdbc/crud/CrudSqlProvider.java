@@ -14,6 +14,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import static com.muyuan.common.mybatis.jdbc.crud.SqlBuilder.JDBC_TYPE;
+
 @SuppressWarnings("unchecked")
 @Slf4j
 public class CrudSqlProvider {
@@ -34,17 +36,14 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
-            if (option == Option.PAGE) {
-                continue;
-            }
-            if (option != Option.OR && option != Option.AND) {
+            if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
-            } else {
+            } else if (option == Option.OR || option == Option.AND) {
                 sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
-                } else if (option == Option.AND) {
+                } else {
                     sql.AND();
                 }
             }
@@ -52,6 +51,9 @@ public class CrudSqlProvider {
         if (!conditions.isEmpty()) {
             sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
             sql.LIMIT(1);
+        } else {
+            log.error("sql condition is empty");
+            return "";
         }
 
         log.info("select sql:{}",sql);
@@ -69,23 +71,19 @@ public class CrudSqlProvider {
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
             Option option = condition.getOption();
-            if (option == Option.PAGE) {
-                continue;
-            }
-            if (option == option.ORDER) {
-                orderBY.add((String) condition.getValue());
-                continue;
-            }
-            if (option != Option.OR && option != Option.AND) {
+
+            if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
-            } else {
+            } else if (option == Option.OR || option == Option.AND) {
                 sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
-                } else if (option == Option.AND) {
+                } else  {
                     sql.AND();
                 }
+            } else  if (option == Option.ORDER) {
+                orderBY.add((String) condition.getValue());
             }
         }
 
@@ -94,7 +92,7 @@ public class CrudSqlProvider {
         }
 
         if (!ObjectUtils.isEmpty(orderBY)) {
-            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), "m"));
+            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), ","));
         }
 
         log.info("select sql:{}",sql);
@@ -110,6 +108,9 @@ public class CrudSqlProvider {
 
         Field[] declaredFields = entityType(context).getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
+            if (!jdbcType(propertyDescriptor.getType())) {
+                continue;
+            }
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, bean);
             if (null != field) {
@@ -140,7 +141,9 @@ public class CrudSqlProvider {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
             if (!fieldNamesList.contains(propertyDescriptor.getName()) && null != field) {
-                sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
+                if (jdbcType(propertyDescriptor.getType())) {
+                    sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
+                }
             }
         }
 
@@ -152,6 +155,9 @@ public class CrudSqlProvider {
         for (String fieldName : column) {
             try {
                 field = aClass.getDeclaredField(fieldName);
+                if (!jdbcType(field.getType())) {
+                    continue;
+                }
                 field.setAccessible(true);
                 value = field.get(entity);
             } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -159,7 +165,7 @@ public class CrudSqlProvider {
                 log.error("{} not found  in {}", fieldName, aClass.getName());
             }
             if (value != null) {
-                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
+                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
             }
         }
         if (conditionSqls.size() == 0) {
@@ -206,7 +212,7 @@ public class CrudSqlProvider {
     public String buildSql(Condition condition) {
         ConditionSqlHandler conditionSqlHandler = null;
         for (ConditionSqlHandler handler : sqlHandlers) {
-            if (handler.supper(condition.getOption())) {
+            if (handler.suppert(condition.getOption())) {
                 conditionSqlHandler = handler;
             }
         }
@@ -215,6 +221,10 @@ public class CrudSqlProvider {
         }
         String conditionSql = conditionSqlHandler.buildSql(condition);
         return conditionSql;
+    }
+
+    private boolean jdbcType(Class c) {
+        return JDBC_TYPE.contains(c);
     }
 
 }

@@ -1,15 +1,18 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
+import com.muyuan.common.core.cache.localcache.LocalCacheManager;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class SqlBuilder {
 
@@ -18,6 +21,10 @@ public class SqlBuilder {
     private List<Condition> conditions;
 
     private String[] columns;
+
+    private Page pageInfo;
+
+    private boolean page = false;
 
     public SqlBuilder() {
         conditions = new ArrayList<>();
@@ -46,64 +53,69 @@ public class SqlBuilder {
         return select(new String[]{column});
     }
 
-    public SqlBuilder select(String ... columns) {
+    public SqlBuilder select(String... columns) {
         this.columns = columns;
         return this;
     }
 
-    private void buildCondition(String field,Option option,Object value) {
+    private void buildCondition(String field, Option option, Object value) {
+        buildCondition(field, field, option, value);
+    }
+
+    private void buildCondition(String field, String expression, Option option, Object value) {
         Condition condition = new Condition();
         condition.setField(field);
         condition.setOption(option);
         condition.setValue(value);
+        condition.setExpression(expression);
         conditions.add(condition);
     }
 
-    public SqlBuilder lt(String field,Object value) {
+    public SqlBuilder lt(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.LT,value);
+        buildCondition(field, Constant.LT_PREFIX + field, Option.LT, value);
         return this;
     }
 
-    public SqlBuilder lte(String field,Object value) {
+    public SqlBuilder lte(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.LTE,value);
+        buildCondition(field, Constant.LTE_PREFIX + field, Option.LTE, value);
         return this;
     }
 
-    public SqlBuilder gt(String field,Object value) {
+    public SqlBuilder gt(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.GT,value);
+        buildCondition(field, Constant.GT_PREFIX + field, Option.GT, value);
         return this;
     }
 
-    public SqlBuilder gte(String field,Object value) {
+    public SqlBuilder gte(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.GTE,value);
+        buildCondition(field, Constant.GTE_PREFIX + field, Option.GTE, value);
         return this;
     }
 
-    public SqlBuilder eq(String field,Object value) {
+    public SqlBuilder eq(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.EQ,value);
+        buildCondition(field, Option.EQ, value);
         return this;
     }
 
-    public SqlBuilder in(String field,Object... value) {
+    public SqlBuilder in(String field, Object... value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.IN,value);
+        buildCondition(field, Option.IN, value);
         return this;
     }
 
@@ -114,11 +126,11 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder notEq(String field,Object value) {
+    public SqlBuilder notEq(String field, Object value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.UNEQ,value);
+        buildCondition(field, Option.UNEQ, value);
         return this;
     }
 
@@ -129,11 +141,11 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder in(String field,List value) {
+    public SqlBuilder in(String field, List value) {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.IN,value);
+        buildCondition(field, Option.IN, value);
         return this;
     }
 
@@ -141,28 +153,29 @@ public class SqlBuilder {
         if (!valid(value)) {
             return this;
         }
-        buildCondition(field,Option.IN,value);
+        buildCondition(field, Option.IN, value);
         return this;
     }
 
-    public SqlBuilder page(Page page) {
-        Condition condition = new Condition();
-        condition.setField(Constant.PAGE_FIELD);
-        condition.setOption(Option.PAGE);
-        condition.setValue(page);
-        conditions.add(condition);
+    public SqlBuilder page(Page pageInfo) {
+        this.pageInfo = pageInfo;
+        page = true;
         return this;
+    }
+
+    public SqlBuilder page(int pageNum, int pageSize) {
+        return page(Page.builder().pageNum(pageNum).pageSize(pageSize).build());
     }
 
     public SqlBuilder orderByAsc(String... fields) {
-        return orderBy(true,fields);
+        return orderBy(true, fields);
     }
 
     public SqlBuilder orderByDesc(String... fields) {
-        return orderBy(false,fields);
+        return orderBy(false, fields);
     }
 
-    private SqlBuilder orderBy(boolean up,String... fields) {
+    private SqlBuilder orderBy(boolean up, String... fields) {
         if (!valid(fields)) {
             return this;
         }
@@ -173,43 +186,49 @@ public class SqlBuilder {
         for (String field : fields) {
             columns.add(StrUtil.humpToUnderline(field));
         }
-        condition.setValue(StringUtils.join(columns,",")+ (up ? " asc" : " desc") );
+        condition.setValue(StringUtils.join(columns, ",") + (up ? " asc" : " desc"));
         conditions.add(condition);
         return this;
     }
 
     public Map build() {
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap();
         for (Condition condition : conditions) {
-            if (condition.getOption() == Option.PAGE) {
-                params.put(Constant.PAGE_FIELD,condition.getValue());
-                continue;
+            if (condition.getOption().isParma()) {
+                String column = condition.getField();
+                params.put(column, condition.getValue());
             }
-            if (condition.getOption() == Option.OR) {
-                continue;
-            }
-            String column = condition.getField();
-            params.put(column,condition.getValue());
         }
-        params.put(Constant.CONDITION,conditions);
+        if (page) {
+            params.put(Constant.PAGE_FIELD, pageInfo);
+        }
+        params.put(Constant.CONDITION, conditions);
         if (null == columns && null != target) {
-            List<String> column = new ArrayList<>();
-            Field[] declaredFields = target.getDeclaredFields();
-            for (Field propertyDescriptor : declaredFields) {
-                column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " as "+propertyDescriptor.getName());
-            }
-            String[] columns = new String[column.size()];
-            column.toArray(columns);
-            params.put(Constant.COLUMN,columns);
+            String[] columns = (String[]) LocalCacheManager.getInstance().getAndUpdate(target.getName(),
+                    () -> {
+                        List<String> column = new ArrayList<>();
+                        Field[] declaredFields = target.getDeclaredFields();
+                        for (Field propertyDescriptor : declaredFields) {
+                            if (JDBC_TYPE.contains(propertyDescriptor.getType())) {
+                                column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " as " + propertyDescriptor.getName());
+                            }
+                        }
+                        String[] columnsNew = new String[column.size()];
+                        column.toArray(columnsNew);
+                        return columnsNew;
+                    }
+            );
+
+            params.put(Constant.COLUMN, columns);
         } else {
-            params.put(Constant.COLUMN,columns);
+            params.put(Constant.COLUMN, columns);
         }
         return params;
     }
 
-
-
-
-
+    public static final List<Class> JDBC_TYPE = Arrays.asList(int.class, Integer.class, String.class, Date.class, java.sql.Date.class,
+            boolean.class, Boolean.class, Character.class, char.class, byte.class, Byte.class, short.class, Short.class,
+            long.class, Long.class, float.class, Float.class, Double.class, double.class, byte[].class, Time.class,
+            Timestamp.class, BigDecimal.class, Clob.class, Blob.class);
 
 }

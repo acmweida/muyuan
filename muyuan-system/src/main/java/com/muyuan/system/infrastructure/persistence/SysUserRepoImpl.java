@@ -1,19 +1,24 @@
 package com.muyuan.system.infrastructure.persistence;
 
-import com.muyuan.system.infrastructure.persistence.dao.SysUserMapper;
 import com.muyuan.system.domain.model.SysUser;
+import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.domain.repo.SysUserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.muyuan.system.infrastructure.persistence.dao.SysUserMapper;
+import com.muyuan.system.infrastructure.persistence.dao.SysUserRoleMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
+@AllArgsConstructor
 public class SysUserRepoImpl implements SysUserRepo {
 
-    @Autowired
-    SysUserMapper userMapper;
+    private SysUserMapper userMapper;
+
+    private SysUserRoleMapper sysUserRoleMapper;
+
 
     @Override
     public SysUser find(int userNo) {
@@ -26,12 +31,27 @@ public class SysUserRepoImpl implements SysUserRepo {
     }
 
     @Override
-    public int insert(SysUser dataObject) {
-         return userMapper.insert(dataObject);
+    public void insert(SysUser dataObject) {
+         userMapper.insert(dataObject);
     }
 
     @Override
     public List<SysUser> select(Map params) {
         return userMapper.selectList(params);
+    }
+
+    @Override
+    public void batchInsert(List<SysUserRole> list) {
+        sysUserRoleMapper.batchInsert(list);
+    }
+
+    @Override
+    public List<SysUser> selectAllocatedList(Map params) {
+        return userMapper.selectAllocatedList(params);
+    }
+
+    @Override
+    public List<SysUser> selectUnallocatedList(Map params) {
+        return userMapper.selectUnallocatedList(params);
     }
 }

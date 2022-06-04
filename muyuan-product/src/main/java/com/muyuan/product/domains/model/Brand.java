@@ -9,11 +9,6 @@ public class Brand {
      */
     private String name;
 
-    /**
-     * 表名
-     */
-    private String asName;
-
     private String englishName;
 
     /**
@@ -23,6 +18,10 @@ public class Brand {
 
     private boolean publish;
 
+    /**
+     * 分类id
+     */
+    private long categoryId;
 
     /**
      * 首字母
@@ -37,7 +36,7 @@ public class Brand {
     /**
      * 排序
      */
-    private int sort;
+    private int orderNum;
 
     /**
      * 描述

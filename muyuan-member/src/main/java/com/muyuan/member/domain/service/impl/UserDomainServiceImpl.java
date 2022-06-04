@@ -2,7 +2,6 @@ package com.muyuan.member.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.member.domain.entity.UserEntity;
 import com.muyuan.member.domain.factories.UserFactory;
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.repo.UserRepo;
@@ -63,7 +62,7 @@ public class UserDomainServiceImpl implements UserDomainService {
             return 1;
         }
 
-        UserEntity userEntity = UserFactory.newUserEntity(registerInfo);
+        User userEntity = UserFactory.newUserEntity(registerInfo);
         userEntity.initInstance();
 
         userRepo.insert(userEntity);

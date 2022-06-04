@@ -1,6 +1,7 @@
 package com.muyuan.system.interfaces.assembler;
 
 import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.to.SysUserTO;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,14 @@ public class SysUserInfoAssembler {
 
         sysUserVO.setRoles(roleNames);
         sysUserVO.setPermissions(perms);
+        return sysUserVO;
+    }
+
+    public static SysUserVO buildUserVO(SysUser user, List<SysRole> roles) {
+        SysUserVO sysUserVO = new SysUserVO();
+        BeanUtils.copyProperties(user, sysUserVO);
+
+        sysUserVO.setSysRoles(roles);
         return sysUserVO;
     }
 }

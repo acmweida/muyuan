@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserDetailsService {
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
-            log.info("商家用户:{},登录成功", username);
+            log.info("商家用户:{},登录", username);
             UserTO userTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserDetailsService {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
 
-            log.info("管理用户:{},登录成功", username);
+            log.info("管理用户:{},登录", username);
             SysUserTO userDTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 

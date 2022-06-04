@@ -1,6 +1,5 @@
 package com.muyuan.common.web.context;
 
-import com.alibaba.ttl.TransmittableThreadLocal;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.util.Convert;
@@ -19,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author ruoyi
  */
 public class SecurityContextHolder {
-    private static final TransmittableThreadLocal<Map<String, Object>> THREAD_LOCAL = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<Map<String, Object>> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void set(String key, Object value) {
         Map<String, Object> map = getLocalMap();

@@ -3,9 +3,9 @@ package com.muyuan.system.domain.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.entity.SysRoleEntity;
 import com.muyuan.system.domain.factories.SysMenuFactory;
 import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.domain.service.SysMenuDomainService;
 import com.muyuan.system.interfaces.dto.SysMenuDTO;
@@ -55,7 +55,7 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     @Override
     public Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes) {
         Set<String> perms = new HashSet<>();
-        if (SysRoleEntity.isAdmin(roleCodes)) {
+        if (SysRole.isAdmin(roleCodes)) {
             perms.add(SecurityConst.ALL_PERMISSION);
         } else {
             List<String> permList = sysMenuRepo.selectMenuPermissionByRoleCodes(roleCodes);
@@ -128,18 +128,18 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
 
     @Override
     public void add(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.newSysMenu(sysMenuDTO);
+        SysMenu sysMenu = SysMenuFactory.newInstance(sysMenuDTO);
         sysMenuRepo.insert(sysMenu);
         sysMenuRepo.refreshCache();
     }
 
     @Override
     public void update(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.updateSysMenu(sysMenuDTO);
-        sysMenuRepo.updateById(sysMenu);
+        SysMenu sysMenuEntity = SysMenuFactory.buildEntity(sysMenuDTO);
+        sysMenuEntity.update();
+        sysMenuRepo.updateById(sysMenuEntity);
         sysMenuRepo.refreshCache();
     }
-
 
     @Override
     public void deleteById(String... ids) {

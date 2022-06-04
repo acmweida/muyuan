@@ -2,10 +2,8 @@ package com.muyuan.system.domain.service;
 
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.SysUser;
-import com.muyuan.system.interfaces.dto.RegisterDTO;
 import com.muyuan.system.interfaces.dto.SysUserDTO;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +23,20 @@ public interface SysUserDomainService {
     Page<SysUser> list(SysUserDTO sysUserDTO);
 
     /**
+     * 列表查询
+     * @param sysUserDTO
+     * @return
+     */
+    Page<SysUser> selectAllocatedList(SysUserDTO sysUserDTO);
+
+    /**
+     * 列表查询 查询角色没有分配的用户
+     * @param sysUserDTO
+     * @return
+     */
+    Page<SysUser> selectUnallocatedList(SysUserDTO sysUserDTO);
+
+    /**
      * 获取用户信息
      * @param username
      * @return
@@ -41,12 +53,11 @@ public interface SysUserDomainService {
 
 
     /**
-     * 账户注册
-     * 0-注册成功
-     * @param registerInfo
+     * 系统用户新增
+     * @param sysUserDTO
      * @return
      */
-    int add(RegisterDTO registerInfo);
+    void add(SysUserDTO sysUserDTO);
 
     /**
      * 检查唯一性

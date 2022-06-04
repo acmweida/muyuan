@@ -4,5 +4,5 @@ public interface ConditionSqlHandler {
 
     String buildSql(Condition condition);
 
-    boolean supper(Option op);
+    boolean suppert(Option op);
 }

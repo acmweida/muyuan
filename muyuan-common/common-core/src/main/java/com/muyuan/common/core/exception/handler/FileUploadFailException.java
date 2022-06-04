@@ -22,6 +22,7 @@ public class FileUploadFailException extends MuyuanException implements MuyuanEx
     public FileUploadFailException(String message) {
         this(ResponseCode.FILE_UPLOAD_FAIL.getCode(), message);
     }
+
     public FileUploadFailException(int code, String message) {
         super(code, message);
     }

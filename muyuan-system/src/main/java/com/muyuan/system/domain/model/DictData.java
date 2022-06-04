@@ -32,7 +32,7 @@ public class DictData {
     @AutoIncrement
     private Long id;
 
-    private int sort;
+    private int orderNum;
 
     private String label;
 

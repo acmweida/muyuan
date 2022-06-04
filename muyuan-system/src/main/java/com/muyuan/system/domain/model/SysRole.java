@@ -1,9 +1,12 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.id.AutoIncrement;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName Role
@@ -28,7 +31,7 @@ public class SysRole {
      */
     private String code;
 
-    private String sort;
+    private String orderNum;
 
     /**
      * 状态 0-正常 1-停用
@@ -59,5 +62,28 @@ public class SysRole {
     public SysRole(Long id, String code) {
         this.id = id;
         this.code = code;
+    }
+
+    public boolean isShopKeeper() {
+        return isAdmin(this.getCode());
+    }
+
+    public static boolean isAdmin(String roleCode) {
+        return (SecurityConst.ADMIN_ROOT_ROLE_CODE).equals(roleCode);
+    }
+
+    public static boolean isAdmin(List<String> roleCodes) {
+        for (String roleCode : roleCodes) {
+            if (isAdmin(roleCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public SysRole update() {
+        this.setUpdateTime(new Date());
+        this.setUpdateBy(SecurityUtils.getUserId());
+        return this;
     }
 }

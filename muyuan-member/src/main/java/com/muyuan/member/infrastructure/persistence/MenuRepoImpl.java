@@ -45,7 +45,7 @@ public class MenuRepoImpl implements MenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 //                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-                Set<String> rolePerms = redisCacheManager.sGet(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX, roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
+                Set<String> rolePerms = (Set<String>) redisCacheManager.sGetAndUpdate(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
                 }
@@ -69,7 +69,7 @@ public class MenuRepoImpl implements MenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
-            String cacheMenuJson = (String) redisCacheManager.get(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX, roleCode,
+            String cacheMenuJson =  redisCacheManager.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
             if (StrUtil.isNotEmpty(cacheMenuJson)) {
@@ -116,7 +116,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Transactional
     public void deleteById(String... id) {
         menuMapper.deleteBy(new SqlBuilder().in("id",id).build());
-        // 清楚无父菜单的子菜单
+        // 清除无父菜单的子菜单
         while (menuMapper.delete() > 0) {
         }
         roleMenuMapper.delete();
@@ -137,6 +137,5 @@ public class MenuRepoImpl implements MenuRepo {
         redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode);
         redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode);
     }
-
 
 }

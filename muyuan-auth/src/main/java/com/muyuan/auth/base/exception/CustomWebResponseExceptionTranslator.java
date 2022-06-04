@@ -4,6 +4,7 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +17,6 @@ import org.springframework.security.oauth2.provider.error.DefaultWebResponseExce
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-import javax.xml.ws.spi.http.HttpContext;
 import java.io.IOException;
 
 /**
@@ -26,6 +26,7 @@ import java.io.IOException;
  * @Date 2022/1/26 16:56
  * @Version 1.0
  */
+@Slf4j
 public class CustomWebResponseExceptionTranslator  extends DefaultWebResponseExceptionTranslator {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
@@ -69,8 +70,8 @@ public class CustomWebResponseExceptionTranslator  extends DefaultWebResponseExc
         headers.set("Cache-Control", "no-store");
         headers.set("Pragma", "no-cache");
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-
-        Result result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), e.getMessage());
+        log.error(e.toString());
+        Result result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), ResponseCode.AUTHORIZED_ERROR.getMsg());
 
         ResponseEntity<String> response = new ResponseEntity(JSONUtil.toJsonString(result), headers,HttpStatus.OK);
 

@@ -1,11 +1,13 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.factories.SysRoleFactory;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysRoleMenu;
+import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.domain.repo.SysMenuRepo;
 import com.muyuan.system.domain.repo.SysRoleRepo;
 import com.muyuan.system.domain.service.SysRoleDomainService;
@@ -17,10 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @ClassName SysRoleDomainServiceImpl
@@ -56,9 +55,9 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class)
                 .eq("name", sysRoleDTO.getName())
                 .eq("status", sysRoleDTO.getStatus())
-                .orderByAsc("sort");
+                .orderByAsc("orderNum");
 
-        Page page = new Page();
+        Page page = Page.builder().build();
         if (sysRoleDTO.isEnablePage()) {
             page.setPageNum(sysRoleDTO.getPageNum());
             page.setPageSize(sysRoleDTO.getPageSize());
@@ -70,6 +69,20 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
         page.setRows(list);
 
         return page;
+    }
+
+    @Override
+    public void selectUser(Long roleId,Long[] userIds) {
+        FunctionUtil.getIfNotNullThen(
+                () -> userIds,
+                (v) -> {
+                    List<SysUserRole> set = new ArrayList<>(userIds.length);
+                    for (Long userId : userIds) {
+                        set.add(SysUserRole.builder().roleId(roleId).userId(userId).build());
+                    }
+                    sysRoleRepo.batchInsertRole(set);
+                }
+        );
     }
 
     @Override
@@ -88,7 +101,7 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Transactional(rollbackFor = Exception.class)
     public void add(SysRoleDTO sysRoleDTO) {
 
-        SysRole sysRole = SysRoleFactory.newSysRole(sysRoleDTO);
+        SysRole sysRole = SysRoleFactory.newInstance(sysRoleDTO);
         sysRoleRepo.insert(sysRole);
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
@@ -105,7 +118,8 @@ public class SysRoleDomainServiceImpl implements SysRoleDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleDTO sysRoleDTO) {
-        SysRole sysRole = SysRoleFactory.updateSysRole(sysRoleDTO);
+        SysRole sysRole = sysRoleDTO.convert();
+        sysRole.update();
         sysRoleRepo.updateById(sysRole);
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
