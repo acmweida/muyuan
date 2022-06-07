@@ -1,5 +1,7 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.GenTable;
 import com.muyuan.system.domain.repo.GenTableRepo;
 import com.muyuan.system.infrastructure.persistence.dao.GenTableMapper;
@@ -8,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName GenTableRepoImpl
@@ -40,8 +41,8 @@ public class GenTableRepoImpl implements GenTableRepo {
     }
 
     @Override
-    public List<GenTable> selectGenTableList(Map params) {
-        return genTableMapper.selectList(params);
+    public List<GenTable> selectGenTableList(GenTableDTO genTable) {
+        return genTableMapper.selectGenTableList(genTable);
     }
 
     @Override
@@ -51,7 +52,18 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public List<GenTable> selectDbTableList(GenTableDTO genTable) {
-        return genTableMapper.selectDbTableList(genTable.convert());
+        return selectDbTableList(genTable,null);
+    }
+
+    @Override
+    public List<GenTable> selectDbTableList(GenTableDTO genTable,Page page) {
+       return genTableMapper.selectDbTableList(new SqlBuilder()
+               .eq("tableName",genTable.getTableName())
+               .eq("tableComment",genTable.getTableComment())
+               .eq("beginTime",genTable.getBeginTime())
+               .eq("endTime",genTable.getEndTime())
+               .page(page)
+               .build());
     }
 
     @Override

@@ -20,7 +20,7 @@ public interface GenTableDomainService
      * @param genTableDTO 业务信息
      * @return 业务集合
      */
-     Page<List<GenTable>> selectGenTableList(GenTableDTO genTableDTO);
+     Page<GenTable> selectGenTableList(GenTableDTO genTableDTO);
 
     /**
      * 查询据库列表
@@ -28,7 +28,7 @@ public interface GenTableDomainService
      * @param genTable 业务信息
      * @return 数据库表集合
      */
-    List<GenTable> selectDbTableList(GenTableDTO genTable);
+    Page<GenTable> selectDbTableList(GenTableDTO genTable);
 
     /**
      * 查询据库列表

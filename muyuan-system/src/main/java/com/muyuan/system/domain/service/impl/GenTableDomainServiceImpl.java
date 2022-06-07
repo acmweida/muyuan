@@ -6,7 +6,6 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.exception.handler.ArgumentException;
 import com.muyuan.common.core.exception.handler.FailException;
 import com.muyuan.common.core.util.CharsetKit;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.domain.model.GenTable;
@@ -78,17 +77,9 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
      * @return 业务集合
      */
     @Override
-    public Page<List<GenTable>> selectGenTableList(GenTableDTO genTableDTO) {
-        Page page = Page.newInstance(genTableDTO);
-        List<GenTable> genTables = genTableRepo.selectGenTableList(
-                new SqlBuilder(GenTable.class)
-                        .eq("tableName", genTableDTO.getTableName())
-                        .eq("tableComment", genTableDTO.getTableComment())
-                        .gte("createTime", genTableDTO.getBeginTime())
-                        .lte("createTime", genTableDTO.getEndTime())
-                        .page(page)
-                        .build()
-        );
+    public Page<GenTable> selectGenTableList(GenTableDTO genTableDTO) {
+        Page<GenTable> page = Page.newInstance(genTableDTO);
+        List<GenTable> genTables = genTableRepo.selectGenTableList(genTableDTO);
         page.setRows(genTables);
 
         return page;
@@ -101,8 +92,10 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
      * @return 数据库表集合
      */
     @Override
-    public List<GenTable> selectDbTableList(GenTableDTO genTable) {
-        return genTableRepo.selectDbTableList(genTable);
+    public Page<GenTable> selectDbTableList(GenTableDTO genTable) {
+        Page<GenTable> page = Page.newInstance(genTable);
+        page.setRows(genTableRepo.selectDbTableList(genTable,page));
+        return page;
     }
 
     /**
@@ -285,7 +278,7 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
             GenUtils.initColumnField(column, table);
             if (tableColumnMap.containsKey(column.getColumnName())) {
                 GenTableColumn prevColumn = tableColumnMap.get(column.getColumnName());
-                column.setColumnId(prevColumn.getColumnId());
+                column.setId(prevColumn.getId());
                 if (column.isList()) {
                     // 如果是列表，继续保留查询方式/字典类型选项
                     column.setDictType(prevColumn.getDictType());

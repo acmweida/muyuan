@@ -26,6 +26,12 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insert(T dataObject);
 
+
+
+    default String idField() {
+        return "id";
+    }
+
     /**
      * 更加指定字段更新
      * @param entity

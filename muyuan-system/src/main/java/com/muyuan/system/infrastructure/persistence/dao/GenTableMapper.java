@@ -2,9 +2,11 @@ package com.muyuan.system.infrastructure.persistence.dao;
 
 import com.muyuan.system.domain.model.GenTable;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
+import com.muyuan.system.interfaces.dto.GenTableDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -21,7 +23,7 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      * @param genTable 业务信息
      * @return 业务集合
      */
-    public List<GenTable> selectGenTableList(GenTable genTable);
+    List<GenTable> selectGenTableList(GenTableDTO genTable);
 
     /**
      * 查询据库列表
@@ -29,7 +31,7 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      * @param genTable 业务信息
      * @return 数据库表集合
      */
-    List<GenTable> selectDbTableList(GenTable genTable);
+    List<GenTable> selectDbTableList(Map genTable);
 
     /**
      * 查询据库列表

@@ -13,10 +13,9 @@ import java.util.Date;
 @Data
 public class GenTableColumn
 {
-    private static final long serialVersionUID = 1L;
 
     /** 编号 */
-    private Long columnId;
+    private Long id;
 
     /** 归属表编号 */
     private Long tableId;
@@ -78,6 +77,7 @@ public class GenTableColumn
     private Date updateTime;
 
     private String remark;
+
 
     public boolean isPk()
     {

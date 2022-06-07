@@ -95,6 +95,14 @@ public class PageInterceptor implements Interceptor {
             }
         } else if (args instanceof Page) {
             return (Page) args;
+        } else if (args.getClass().isArray()) {
+            Object[] arg = (Object[]) args;
+            for (Object item : arg) {
+                Page page = findPage(item);
+                if (page != null) {
+                    return page;
+                }
+            }
         }
         return null;
     }

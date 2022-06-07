@@ -44,7 +44,7 @@ public class GenController {
     @GetMapping("/list")
     public Result genList(GenTableDTO genTableDTO)
     {
-        Page<List<GenTable>> res = genTableDomainService.selectGenTableList(genTableDTO);
+        Page<GenTable> res = genTableDomainService.selectGenTableList(genTableDTO);
         return ResultUtil.success(res);
     }
 
@@ -72,8 +72,8 @@ public class GenController {
     @GetMapping("/db/list")
     public Result dataList(GenTableDTO genTableDTO)
     {
-        List<GenTable> list = genTableDomainService.selectDbTableList(genTableDTO);
-        return ResultUtil.success();
+        Page<GenTable> page = genTableDomainService.selectDbTableList(genTableDTO);
+        return ResultUtil.success(page);
     }
 
     /**
@@ -94,7 +94,7 @@ public class GenController {
      * 导入表结构（保存）
      */
     @RequirePermissions("tool:gen:import")
-    @Log(title = "代码生成", businessType = BusinessType.IMPORT)
+//    @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
     public Result importTableSave(String tables)
     {

@@ -42,7 +42,7 @@ public class IdGeneratorAspect {
                 setterMethod = getIdSetterMethod(target,idFieldName);
                 idField = getIdField(target,idFieldName);
                 if (idField == null) {
-                    log.error("id generator not found {} setter method!",idField);
+                    log.info("id generator not found {} setter method!",idField);
                     return;
                 }
 

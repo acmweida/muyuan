@@ -1,11 +1,11 @@
 package com.muyuan.system.domain.repo;
 
 
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.GenTable;
 import com.muyuan.system.interfaces.dto.GenTableDTO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName GenTableRepo
@@ -21,9 +21,11 @@ public interface GenTableRepo {
     GenTable selectGenTableById(Long id);
     GenTable selectGenTableByName(String tableName);
 
-    List<GenTable> selectGenTableList(Map params);
+    List<GenTable> selectGenTableList(GenTableDTO genTable);
 
     List<GenTable> selectGenTableAll();
+
+    List<GenTable> selectDbTableList(GenTableDTO genTable, Page page);
 
     List<GenTable> selectDbTableList(GenTableDTO genTable);
 

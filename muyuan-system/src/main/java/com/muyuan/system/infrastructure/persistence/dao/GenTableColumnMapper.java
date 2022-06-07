@@ -16,6 +16,7 @@ import java.util.List;
 @Mapper
 public interface GenTableColumnMapper extends SystemBaseMapper<GenTableColumn>
 {
+
     /**
      * 根据表名称查询列信息
      *
@@ -30,7 +31,7 @@ public interface GenTableColumnMapper extends SystemBaseMapper<GenTableColumn>
      * @param tableId 业务字段编号
      * @return 业务字段集合
      */
-    public List<GenTableColumn> selectGenTableColumnListByTableId(Long tableId);
+    List<GenTableColumn> selectGenTableColumnListByTableId(Long tableId);
 
     /**
      * 新增业务字段
