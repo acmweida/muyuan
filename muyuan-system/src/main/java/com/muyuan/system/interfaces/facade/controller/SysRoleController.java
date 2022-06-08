@@ -50,10 +50,10 @@ public class SysRoleController {
     @ApiOperation(value = "角色查询")
     @RequirePermissions("system:role:list")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "pageSize", value = "页数", dataType = "String", paramType = "query")
+            {@ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "pageNum", value = "页码", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "pageSize", value = "页数", dataTypeClass = String.class, paramType = "query")
             }
     )
     public Result list(@ModelAttribute SysRoleDTO sysRoleDTO) {
@@ -65,7 +65,7 @@ public class SysRoleController {
     @ApiOperation(value = "角色查询")
     @RequirePermissions("system:role:list")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "角色ID", dataType = "Long", paramType = "path")}
+            {@ApiImplicitParam(name = "id", value = "角色ID", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result get(@PathVariable String id) {
         Optional<SysRole> sysRoleInfo = sysRoleDomainService.getById(id);
@@ -80,9 +80,9 @@ public class SysRoleController {
     @RequirePermissions("system:role:list")
     @GetMapping("/role/authUser/allocatedList")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "query", required = true),
-                    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "phone", value = "手机号", dataType = "String", paramType = "query")
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),
+                    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
     public Result allocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
@@ -93,9 +93,9 @@ public class SysRoleController {
     @RequirePermissions("system:role:list")
     @GetMapping("/role/authUser/unallocatedList")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "query", required = true),
-                    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "phone", value = "手机号", dataType = "String", paramType = "query")
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),
+                    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
     public Result unallocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
@@ -106,8 +106,8 @@ public class SysRoleController {
     @RequirePermissions("system:role:edit")
     @PutMapping("/role/authUser/selectAll")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "userIds", value = "用户ID", dataType = "Long{]", paramType = "body",required = true)
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "userIds", value = "用户ID", dataType = "Long{]",dataTypeClass = Long.class,paramType = "body",required = true)
             }
     )
     @Valid
@@ -121,10 +121,10 @@ public class SysRoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:add")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "code", value = "角色编码", dataType = "Long", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]", paramType = "body"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataType = "String", paramType = "body")
+            {@ApiImplicitParam(name = "code", value = "角色编码", dataTypeClass = Long.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "name", value = "角色名称", dataTypeClass = String.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]",dataTypeClass = Long.class,paramType = "body"),
+                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "body")
             }
     )
     public Result add(@RequestBody @Valid SysRoleDTO sysRoleDTO) {
@@ -143,11 +143,11 @@ public class SysRoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:update")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "角色ID", dataType = "Long", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "code", value = "角色编码", dataType = "Long", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "body", required = true),
-                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]", paramType = "body"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataType = "String", paramType = "body")
+            {@ApiImplicitParam(name = "id", value = "角色ID", dataTypeClass = Long.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "code", value = "角色编码", dataTypeClass = Long.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "name", value = "角色名称", dataTypeClass = String.class, paramType = "body", required = true),
+                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]",dataTypeClass = Long.class, paramType = "body"),
+                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "body")
             }
     )
     public Result update(@RequestBody @Validated SysRoleDTO sysRoleDTO) {
@@ -164,7 +164,7 @@ public class SysRoleController {
     @ApiOperation(value = "角色删除")
     @RequirePermissions("system:role:del")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "角色ID", dataType = "Long[]", paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "id", value = "角色ID", dataType = "Long[]",dataTypeClass = Long.class, paramType = "path", required = true)}
     )
     public Result del(@PathVariable String... id) {
         sysRoleDomainService.deleteById(id);
@@ -175,8 +175,8 @@ public class SysRoleController {
     @ApiOperation(value = "角色下载")
     @RequirePermissions("system:role:export")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataType = "String", paramType = "query")}
+            {@ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "query")}
     )
     public void export(@ModelAttribute SysRoleDTO sysRoleDTO, HttpServletResponse response) throws IOException {
         sysRoleDTO.setEnablePage(false);

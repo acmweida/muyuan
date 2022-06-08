@@ -53,8 +53,8 @@ public class SysMenuController {
     @GetMapping("/menu/list")
     @ApiOperation(value = "菜单列表查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "name",value = "菜单名称",dataType = "String",paramType = "query"),
-                    @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "query")}
+            {@ApiImplicitParam(name = "name",value = "菜单名称",dataTypeClass = String.class,paramType = "query"),
+                    @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
     )
     public Result<List<SysMenu>> list(@ModelAttribute SysMenuDTO sysMenuDTO) {
         List<SysMenu> list = sysMenuDomainService.list(sysMenuDTO);
@@ -83,7 +83,7 @@ public class SysMenuController {
     @GetMapping("/menu/{id}")
     @ApiOperation(value = "获取菜单详情")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id",value = "菜单ID",dataType = "String",paramType = "path",required = true)}
+            {@ApiImplicitParam(name = "id",value = "菜单ID",dataTypeClass = String.class,paramType = "path",required = true)}
     )
     public Result<SysMenuVO> get(@PathVariable String id) {
         if (StrUtil.isNumeric(id)) {
@@ -101,7 +101,7 @@ public class SysMenuController {
     @DeleteMapping("/menu/{id}")
     @ApiOperation(value = "删除菜单")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id",value = "菜单ID",dataType = "String",paramType = "path",required = true)}
+            {@ApiImplicitParam(name = "id",value = "菜单ID",dataTypeClass = String.class,paramType = "path",required = true)}
     )
     public Result<SysMenuVO> delete(@PathVariable @NotBlank(message = "菜单ID不能为空")
                                          String id) {

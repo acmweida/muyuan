@@ -46,7 +46,7 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      *
      * @return 表信息集合
      */
-    public List<GenTable> selectGenTableAll();
+    List<GenTable> selectGenTableAll();
 
     /**
      * 查询表ID业务信息
@@ -62,7 +62,7 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      * @param tableName 表名称
      * @return 业务信息
      */
-    public GenTable selectGenTableByName(String tableName);
+    GenTable selectGenTableByName(String tableName);
 
     /**
      * 新增业务
@@ -78,7 +78,7 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      * @param genTable 业务信息
      * @return 结果
      */
-    public int updateGenTable(GenTable genTable);
+    int updateGenTable(GenTable genTable);
 
     /**
      * 批量删除业务

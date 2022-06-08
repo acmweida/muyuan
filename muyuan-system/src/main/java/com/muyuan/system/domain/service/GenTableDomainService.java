@@ -36,7 +36,7 @@ public interface GenTableDomainService
      * @param tableNames 表名称组
      * @return 数据库表集合
      */
-    public List<GenTable> selectDbTableListByNames(String[] tableNames);
+    List<GenTable> selectDbTableListByNames(String[] tableNames);
 
     /**
      * 查询所有表信息
@@ -59,7 +59,7 @@ public interface GenTableDomainService
      * @param genTable 业务信息
      * @return 结果
      */
-    public void updateGenTable(GenTableDTO genTable);
+    void updateGenTable(GenTableDTO genTable);
 
     /**
      * 删除业务信息
@@ -67,7 +67,7 @@ public interface GenTableDomainService
      * @param tableIds 需要删除的表数据ID
      * @return 结果
      */
-    public void deleteGenTableByIds(Long[] tableIds);
+    void deleteGenTableByIds(Long[] tableIds);
 
     /**
      * 导入表结构
@@ -82,7 +82,7 @@ public interface GenTableDomainService
      * @param tableId 表编号
      * @return 预览数据列表
      */
-    public Map<String, String> previewCode(Long tableId);
+    Map<String, String> previewCode(Long tableId);
 
     /**
      * 生成代码（下载方式）
@@ -90,7 +90,7 @@ public interface GenTableDomainService
      * @param tableName 表名称
      * @return 数据
      */
-    public byte[] downloadCode(String tableName);
+    byte[] downloadCode(String tableName);
 
     /**
      * 生成代码（自定义路径）
@@ -98,14 +98,14 @@ public interface GenTableDomainService
      * @param tableName 表名称
      * @return 数据
      */
-    public void generatorCode(String tableName);
+    void generatorCode(String tableName);
 
     /**
      * 同步数据库
      *
      * @param tableName 表名称
      */
-    public void synchDb(String tableName);
+    void synchDb(String tableName);
 
     /**
      * 批量生成代码（下载方式）
@@ -113,12 +113,12 @@ public interface GenTableDomainService
      * @param tableNames 表数组
      * @return 数据
      */
-    public byte[] downloadCode(String[] tableNames);
+    byte[] downloadCode(String[] tableNames);
 
     /**
      * 修改保存参数校验
      *
      * @param genTable 业务信息
      */
-    public void validateEdit(GenTableDTO genTable);
+    void validateEdit(GenTableDTO genTable);
 }

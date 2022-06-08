@@ -85,6 +85,9 @@ public class PageInterceptor implements Interceptor {
      * @return
      */
     private Page findPage(Object args) {
+        if (args == null) {
+            return null;
+        }
         if (args instanceof Map) {
             for (Map.Entry entry : ((Map<?, ?>) args).entrySet()) {
                 if (entry.getValue() instanceof Page) {

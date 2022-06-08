@@ -108,20 +108,6 @@ public class GenTableColumn
         return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark");
     }
 
-    public boolean isSuperColumn()
-    {
-        return isSuperColumn(this.javaField);
-    }
-
-    public static boolean isSuperColumn(String javaField)
-    {
-        return StringUtils.equalsAnyIgnoreCase(javaField,
-                // BaseEntity
-                "createBy", "createTime", "updateBy", "updateTime", "remark",
-                // TreeEntity
-                "parentName", "parentId", "orderNum", "ancestors");
-    }
-
     public boolean isInsert()
     {
         return isInsert(this.isInsert);

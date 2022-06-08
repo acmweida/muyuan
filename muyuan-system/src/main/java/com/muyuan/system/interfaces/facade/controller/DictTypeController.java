@@ -53,7 +53,7 @@ public class DictTypeController {
     @GetMapping("/dictType/{id}")
     @ApiOperation(value = "字典类型详情查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "id", value = "字典类型主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )
     public Result<DictTypeVO> getById(@PathVariable  String id) {
         if (StrUtil.isNumeric(id)) {

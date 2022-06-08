@@ -1,4 +1,4 @@
-package ${packageName}.service.impl;
+package ${packageName}.${moduleName}.domain.service.impl;
 
 import java.util.List;
 #foreach ($column in $columns)
@@ -7,17 +7,17 @@ import com.ruoyi.common.core.utils.DateUtils;
 #break
 #end
 #end
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 #if($table.sub)
 import java.util.ArrayList;
 import com.ruoyi.common.core.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
-import ${packageName}.domain.${subClassName};
+import ${packageName}.${moduleName}.domain.model.${subClassName};
 #end
-import ${packageName}.mapper.${ClassName}Mapper;
-import ${packageName}.domain.${ClassName};
-import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.${moduleName}.infrastructure.persistence.dao.${ClassName}Mapper;
+import ${packageName}.${moduleName}.domain.model.${ClassName};
+import ${packageName}.${moduleName}.domain.service.${ClassName}DomainService;
 
 /**
  * ${functionName}Service业务层处理
@@ -26,9 +26,9 @@ import ${packageName}.service.I${ClassName}Service;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+@AllArgsConstructor
+public class ${ClassName}ServiceImpl implements ${ClassName}DomainService
 {
-    @Autowired
     private ${ClassName}Mapper ${className}Mapper;
 
     /**

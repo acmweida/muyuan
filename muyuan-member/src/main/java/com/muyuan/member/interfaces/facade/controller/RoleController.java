@@ -106,9 +106,9 @@ public class RoleController {
     @RequirePermissions("member:role:list")
     @GetMapping("/role/authUser/allocatedList")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "query", required = true),
-                    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "phone", value = "手机号", dataType = "String", paramType = "query")
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),
+                    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
     public Result allocatedList(@ModelAttribute UserDTO userDTO) {

@@ -73,7 +73,7 @@ public class DictDataController {
     @ApiOperation(value = "字典数据删除")
     @RequirePermissions(value = "system:dict:remove")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )
     public Result delete(@PathVariable String... ids) {
         dictDataDomainService.deleteById(ids);

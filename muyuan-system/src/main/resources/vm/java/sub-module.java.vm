@@ -1,0 +1,36 @@
+package ${packageName}.${moduleName}.domain.model;
+
+#foreach ($import in $subImportList)
+import ${import};
+#end
+import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+/**
+ * ${subTable.functionName}对象 ${subTableName}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+public class ${subClassName}
+{
+
+#foreach ($column in $subTable.columns)
+#if(!$table.isSuperColumn($column.javaField))
+    /** $column.columnComment */
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#end
+    private $column.javaType $column.javaField;
+
+#end
+#end
+
+}

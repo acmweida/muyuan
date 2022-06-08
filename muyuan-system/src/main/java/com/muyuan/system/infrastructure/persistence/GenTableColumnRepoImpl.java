@@ -34,7 +34,7 @@ public class GenTableColumnRepoImpl implements GenTableColumnRepo {
 
     @Override
     public int updateGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.updateGenTableColumn(genTableColumn);
+        return genTableColumnMapper.updateBy(genTableColumn,"id");
     }
 
     @Override
