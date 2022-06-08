@@ -1,6 +1,5 @@
 package com.muyuan.member.domain.model;
 
-import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,7 +14,6 @@ import java.util.Date;
 @Data
 public class Role {
 
-    @AutoIncrement
     private Long id;
 
     /**

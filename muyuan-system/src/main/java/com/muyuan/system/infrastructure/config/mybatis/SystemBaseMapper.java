@@ -22,15 +22,9 @@ public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
     List<T> selectList(Map params);
 
     @IdGenerator()
-    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
+    @Options(useGeneratedKeys = true,keyProperty = "autoIncrement")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insert(T dataObject);
-
-
-
-    default String idField() {
-        return "id";
-    }
 
     /**
      * 更加指定字段更新

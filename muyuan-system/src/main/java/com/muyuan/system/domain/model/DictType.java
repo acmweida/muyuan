@@ -1,6 +1,5 @@
 package com.muyuan.system.domain.model;
 
-import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,7 +12,6 @@ import java.util.List;
 public class DictType {
 
 
-    @AutoIncrement
     private Long id;
 
     /**

@@ -1,7 +1,6 @@
 package com.muyuan.system.domain.model;
 
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.id.AutoIncrement;
 import lombok.Data;
 import org.springframework.util.Assert;
 
@@ -17,7 +16,6 @@ import java.util.Date;
 @Data
 public class SysDept {
 
-    @AutoIncrement
     private Long id;
 
     private Long parentId;

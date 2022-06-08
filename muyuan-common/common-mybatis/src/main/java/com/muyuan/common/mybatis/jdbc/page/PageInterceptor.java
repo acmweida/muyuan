@@ -48,8 +48,6 @@ public class PageInterceptor implements Interceptor {
                 String countSql = "select count(1) from ( " + sql + " ) as temp";
                 metaObject.setValue("delegate.boundSql.sql",countSql);
 
-                log.info("count sql : {}",countSql);
-
                 List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
                 MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
                 BoundSql countBoundSql = new BoundSql(mappedStatement.getConfiguration(),countSql,parameterMappings,parameterObject);

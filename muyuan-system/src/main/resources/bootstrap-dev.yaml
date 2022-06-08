@@ -19,7 +19,7 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.system.infrastructure.persistence.dao: debug
+    com.muyuan.system.infrastructure.persistence.dao.*: debug
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
     io.lettuce: error
@@ -29,6 +29,7 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+    lazy-loading-enabled: true
   mapper-locations: classpath*:mapper/*.xml
 
 dubbo:

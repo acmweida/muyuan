@@ -44,8 +44,8 @@ public class IdUtil {
 
         redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX +applicationName+ machineId, RedisConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
         // redis时间大于机器刷新时间 确保尽量使用停一ID
-        if (expire != 0 && expire < System.currentTimeMillis()) {
-            expire = System.currentTimeMillis() + 11 * 3600;
+        if (expire == 0 || expire < System.currentTimeMillis()) {
+            expire = System.currentTimeMillis() + 11 * 3600 * 10000;
         }
         workerId = machineId & MAX_WORK_ID;
         datacentId = machineId >> 5;

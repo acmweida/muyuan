@@ -78,6 +78,9 @@ public class GenTableColumn
 
     private String remark;
 
+    public void setAutoIncrement(Long id) {
+        this.id = id;
+    }
 
     public boolean isPk()
     {

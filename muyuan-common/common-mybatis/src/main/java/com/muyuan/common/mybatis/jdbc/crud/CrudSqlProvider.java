@@ -56,8 +56,6 @@ public class CrudSqlProvider {
             return "";
         }
 
-        log.info("select sql:{}",sql);
-
         return sql.toString();
     }
 
@@ -95,7 +93,6 @@ public class CrudSqlProvider {
             sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), ","));
         }
 
-        log.info("select sql:{}",sql);
         return sql.toString();
     }
 
@@ -175,7 +172,6 @@ public class CrudSqlProvider {
 
         sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
 
-        log.info("update sql:{}",sql);
         return sql.toString();
     }
 
@@ -195,7 +191,6 @@ public class CrudSqlProvider {
 
         sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
 
-        log.info("delete sql:{}",sql);
         return sql.toString();
     }
 

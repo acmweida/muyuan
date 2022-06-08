@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.cglib.core.ReflectUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -22,80 +23,101 @@ public class IdGeneratorAspect {
 
     @Before("@annotation(idGenerator)")
     public void setId(JoinPoint point, IdGenerator idGenerator) throws Throwable {
-        String idFieldName=idGenerator.fieldName();
+        String idFieldName = "id";
         final Object[] args = point.getArgs();
         if (args.length != 1) {
             log.error("id generator method must only have one param");
-        } else {
-            Object entity = args[0];
-            Class target = null;
-            Method setterMethod = null;
-            Field idField = null;
-            if (entity instanceof Collection || entity.getClass().isArray()) {
-                Object[] entitys = null;
-                if (entity instanceof Collection) {
-                    entitys = ((Collection)entity).toArray();
-                } else {
-                    entitys = (Object[]) entity;
-                }
-                target = entitys[0].getClass();
-                setterMethod = getIdSetterMethod(target,idFieldName);
-                idField = getIdField(target,idFieldName);
-                if (idField == null) {
-                    log.info("id generator not found {} setter method!",idField);
-                    return;
-                }
+            return;
+        }
+        Object entity = args[0];
+        Method setterMethod;
+        Field idField;
 
-                AutoIncrement autoIncrement = idField.getAnnotation(AutoIncrement.class);
-                if (null != autoIncrement && autoIncrement.useGeneratedKeys()) {
-                    log.info("use auto increment for id [{}]",idFieldName);
-                    return;
-                }
+        Class target = getClass(entity);
+        if (!needSetid(target)) {
+            return;
+        }
 
-                for (Object item : entitys ) {
-                    Object value = idField.get(item);
-                    if (value == null || value.equals(0)) {
-                        setterMethod.invoke(item,IdUtil.createId(target));
-                    }
-                }
-            } else  {
-                target = entity.getClass();
-                setterMethod = getIdSetterMethod(target,idFieldName);
-                idField = getIdField(target,idFieldName);
+        if (hasIdAnnotation(target)) {
+            idFieldName = getIdFieldName(target);
+        }
+        setterMethod = getIdSetterMethod(target, idFieldName);
+        idField = getIdField(target, idFieldName);
 
-                if (idField == null) {
-                    log.info("id generator not found id field!");
-                    return;
-                }
+        if (idField == null) {
+            log.info("id generator not found {} setter method!", idField);
+            return;
+        }
 
-                AutoIncrement autoIncrement = idField.getAnnotation(AutoIncrement.class);
-                if (null != autoIncrement && autoIncrement.useGeneratedKeys()) {
-                    log.info("use auto increment for id [{}]",idFieldName);
-                    return;
-                }
+        if (setterMethod == null) {
+            log.info("id generator not found {} setter method!", idFieldName);
+            return;
+        }
+        idField.setAccessible(true);
 
-                if (setterMethod == null) {
-                    log.info("id generator not found writer method!");
-                    return;
-                }
-                idField.setAccessible(true);
-                Object value = idField.get(entity);
+        if (entity instanceof Collection || entity.getClass().isArray()) {
+            Object[] entitys = (Object[]) entity;
+            for (Object item : entitys) {
+                Object value = idField.get(item);
                 if (value == null || value.equals(0)) {
-                    setterMethod.invoke(entity,IdUtil.createId(target));
+                    setterMethod.invoke(item, IdUtil.createId(target));
                 }
+            }
+        } else {
+            Object value = idField.get(entity);
+            if (value == null || value.equals(0)) {
+                setterMethod.invoke(entity, IdUtil.createId(target));
             }
         }
 
     }
 
-    public Method getIdSetterMethod(Class target,String idFieldName) {
-       Method getter = getIdSetterMethodForClass(target,idFieldName);
-       if (null != getter) {
-           return  getter;
-       }
+    public Class getClass(Object entity) {
+        if (entity instanceof Collection || entity.getClass().isArray()) {
+            Object[] entitys;
+            if (entity instanceof Collection) {
+                entitys = ((Collection) entity).toArray();
+            } else {
+                entitys = (Object[]) entity;
+            }
+             return entitys[0].getClass();
+        } else {
+            return entity.getClass();
+        }
+    }
+
+    public boolean needSetid(Class clazz) {
+        if (hasIdAnnotation(clazz) && useGeneratedKeys(clazz)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasIdAnnotation(Class clazz) {
+        final Id id = AnnotationUtils.findAnnotation(clazz, Id.class);
+        if (id != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getIdFieldName(Class clazz) {
+        return AnnotationUtils.findAnnotation(clazz, Id.class).fieldName();
+    }
+
+    public boolean useGeneratedKeys(Class clazz) {
+        return AnnotationUtils.findAnnotation(clazz, Id.class).useGeneratedKeys();
+    }
+
+
+    public Method getIdSetterMethod(Class target, String idFieldName) {
+        Method getter = getIdSetterMethodForClass(target, idFieldName);
+        if (null != getter) {
+            return getter;
+        }
         Class superClass = target.getSuperclass();
         while (Object.class != superClass) {
-            getter = getIdSetterMethodForClass(superClass,idFieldName);
+            getter = getIdSetterMethodForClass(superClass, idFieldName);
             if (null != getter) {
                 return getter;
             }
@@ -104,14 +126,14 @@ public class IdGeneratorAspect {
         return null;
     }
 
-    public Method getIdSetterMethodForClass(Class target,String idFieldName) {
+    public Method getIdSetterMethodForClass(Class target, String idFieldName) {
         final PropertyDescriptor[] beanGetters = ReflectUtils.getBeanGetters(target);
         for (PropertyDescriptor propertyDescriptor : beanGetters) {
             if (propertyDescriptor.getName().equals(idFieldName)) {
                 return propertyDescriptor.getWriteMethod();
             }
         }
-        return  null;
+        return null;
     }
 
 

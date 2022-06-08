@@ -94,7 +94,7 @@ public class GenController {
      * 导入表结构（保存）
      */
     @RequirePermissions("tool:gen:import")
-//    @Log(title = "代码生成", businessType = BusinessType.IMPORT)
+    @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
     public Result importTableSave(String tables)
     {
