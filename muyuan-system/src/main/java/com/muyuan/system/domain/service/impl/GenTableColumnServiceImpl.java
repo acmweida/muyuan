@@ -1,6 +1,7 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.util.Convert;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.model.GenTableColumn;
 import com.muyuan.system.domain.service.GenTableColumnService;
 import com.muyuan.system.infrastructure.persistence.dao.GenTableColumnMapper;
@@ -66,6 +67,8 @@ public class GenTableColumnServiceImpl implements GenTableColumnService
 	@Override
 	public int deleteGenTableColumnByIds(String ids)
 	{
-		return genTableColumnMapper.deleteGenTableColumnByIds(Convert.toLongArray(ids));
+		return genTableColumnMapper.deleteBy(new SqlBuilder()
+				.in("id",Convert.toLongArray(ids))
+				.build());
 	}
 }

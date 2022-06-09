@@ -68,7 +68,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public int updateGenTable(GenTableDTO genTableDTO) {
-        return genTableMapper.updateGenTable(genTableDTO.convert());
+        return genTableMapper.updateBy(genTableDTO.convert(),"tableId");
     }
 
     @Override
@@ -78,6 +78,8 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public int deleteGenTableByIds(Long[] ids) {
-        return genTableMapper.deleteGenTableByIds(ids);
+        return  genTableMapper.deleteBy(new SqlBuilder()
+                .in("tableId",ids)
+                .build());
     }
 }

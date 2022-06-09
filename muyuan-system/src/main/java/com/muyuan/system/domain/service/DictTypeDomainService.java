@@ -5,6 +5,7 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +23,12 @@ public interface DictTypeDomainService {
      * @return
      */
     Page list(DictTypeDTO dictTypeDTO);
+
+    /**
+     * 查询所有
+     * @return
+     */
+    List<DictType> selectDictTypeAll();
 
     /**
      * 新增

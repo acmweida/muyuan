@@ -65,4 +65,15 @@ public class DictTypeController {
         return ResultUtil.fail("字典类型未找到");
     }
 
+    /**
+     * 获取字典选择框列表
+     */
+    @GetMapping("/dictType/optionselect")
+    @ApiOperation(value = "字典类型全列表")
+    public Result optionselect()
+    {
+        List<DictType> dictTypes = dictTypeDomainService.selectDictTypeAll();
+        return ResultUtil.success(dictTypes);
+    }
+
 }

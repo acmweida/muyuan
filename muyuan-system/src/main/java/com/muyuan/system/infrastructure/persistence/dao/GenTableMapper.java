@@ -72,19 +72,5 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      */
     int insertGenTable(GenTable genTable);
 
-    /**
-     * 修改业务
-     *
-     * @param genTable 业务信息
-     * @return 结果
-     */
-    int updateGenTable(GenTable genTable);
 
-    /**
-     * 批量删除业务
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    int deleteGenTableByIds(Long[] ids);
 }

@@ -57,11 +57,4 @@ public interface GenTableColumnMapper extends SystemBaseMapper<GenTableColumn>
      */
     int deleteGenTableColumns(List<GenTableColumn> genTableColumns);
 
-    /**
-     * 批量删除业务字段
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    int deleteGenTableColumnByIds(Long[] ids);
 }

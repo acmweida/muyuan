@@ -110,13 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteGenTableColumnByIds" parameterType="Long">
-        delete from t_gen_table_column where table_id in
-        <foreach collection="array" item="tableId" open="(" separator="," close=")">
-            #{tableId}
-        </foreach>
-    </delete>
-
     <delete id="deleteGenTableColumns">
         delete from t_gen_table_column where id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
