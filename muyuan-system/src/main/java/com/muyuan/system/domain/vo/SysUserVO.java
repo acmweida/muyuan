@@ -1,4 +1,4 @@
-package com.muyuan.system.application.vo;
+package com.muyuan.system.domain.vo;
 
 import com.muyuan.system.domain.model.SysRole;
 import lombok.Data;

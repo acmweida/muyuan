@@ -1,4 +1,4 @@
-package com.muyuan.system.application.vo;
+package com.muyuan.system.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

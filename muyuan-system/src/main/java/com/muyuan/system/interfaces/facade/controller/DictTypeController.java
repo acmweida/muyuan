@@ -6,7 +6,7 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.service.DictTypeDomainService;
-import com.muyuan.system.application.vo.DictTypeVO;
+import com.muyuan.system.domain.vo.DictTypeVO;
 import com.muyuan.system.interfaces.assembler.DictTypeAssembler;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;

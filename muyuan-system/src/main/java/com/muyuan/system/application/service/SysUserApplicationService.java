@@ -1,6 +1,6 @@
 package com.muyuan.system.application.service;
 
-import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.vo.SysUserVO;
 import com.muyuan.system.interfaces.to.SysUserTO;
 
 import java.util.List;

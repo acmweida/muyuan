@@ -3,7 +3,7 @@ package com.muyuan.system.application.service.impl;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.service.SysUserApplicationService;
-import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.vo.SysUserVO;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.service.SysMenuDomainService;

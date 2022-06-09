@@ -7,7 +7,7 @@ import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.system.application.vo.SysRoleVO;
+import com.muyuan.system.domain.vo.SysRoleVO;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.service.SysRoleDomainService;
 import com.muyuan.system.domain.service.SysUserDomainService;

@@ -7,7 +7,7 @@ import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.member.application.vo.RoleVO;
+import com.muyuan.member.domain.vo.RoleVO;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.service.RoleDomainService;
 import com.muyuan.member.interfaces.assembler.RoleAssembler;

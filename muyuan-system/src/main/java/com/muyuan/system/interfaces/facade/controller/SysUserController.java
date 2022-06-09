@@ -7,7 +7,7 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.application.service.SysUserApplicationService;
-import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.vo.SysUserVO;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.domain.service.SysUserDomainService;

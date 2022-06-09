@@ -1,9 +1,7 @@
-package com.muyuan.system.application.vo;
+package com.muyuan.system.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @ClassName SysRoleVO

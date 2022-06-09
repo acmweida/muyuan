@@ -1,4 +1,4 @@
-package com.muyuan.member.application.vo;
+package com.muyuan.member.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;

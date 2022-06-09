@@ -1,12 +1,13 @@
-package com.muyuan.product.domains.model;
-
-import lombok.Data;
+package com.muyuan.product.domains.vo;
 
 /**
- * 商品分类
+ * @ClassName CategoryVO
+ * Description 产品分类展示
+ * @Author 2456910384
+ * @Date 2022/6/9 15:30
+ * @Version 1.0
  */
-@Data
-public class ProductCategory {
+public class ProductCategoryVO {
 
     private  Long id;
 
@@ -33,5 +34,4 @@ public class ProductCategory {
     private int orderNum;
 
     private String keywords;
-
 }

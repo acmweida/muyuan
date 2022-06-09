@@ -1,6 +1,6 @@
 package com.muyuan.system.interfaces.assembler;
 
-import com.muyuan.system.application.vo.SysRoleVO;
+import com.muyuan.system.domain.vo.SysRoleVO;
 import com.muyuan.system.domain.model.SysRole;
 import org.springframework.beans.BeanUtils;
 
