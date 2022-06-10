@@ -2,7 +2,7 @@ package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.system.domain.model.SysDept;
 import com.muyuan.system.domain.repo.SysDeptRepo;
-import com.muyuan.system.infrastructure.persistence.dao.SysDeptMapper;
+import com.muyuan.system.infrastructure.persistence.mapper.SysDeptMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

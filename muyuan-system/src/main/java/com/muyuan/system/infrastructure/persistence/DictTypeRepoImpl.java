@@ -1,6 +1,6 @@
 package com.muyuan.system.infrastructure.persistence;
 
-import com.muyuan.system.infrastructure.persistence.dao.DictTypeMapper;
+import com.muyuan.system.infrastructure.persistence.mapper.DictTypeMapper;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.domain.repo.DictTypeRepo;
 import lombok.AllArgsConstructor;

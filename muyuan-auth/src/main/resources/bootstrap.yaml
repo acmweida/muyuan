@@ -1,4 +1,3 @@
-
 spring:
   cloud:
     nacos:
@@ -22,8 +21,13 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            logging: error
     com.muyuan.member.repo.dao: debug
-    org.springframework: debug
+    org.springframework: error
     io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error

@@ -119,4 +119,14 @@ public class GenTable
     {
         return isTree(this.tplCategory);
     }
+
+    public void init(String createBy) {
+        this.createTime = new Date();
+        this.createBy = createBy;
+    }
+
+    public void update(String updateBy) {
+        this.updateTime = new Date();
+        this.updateBy = updateBy;
+    }
 }

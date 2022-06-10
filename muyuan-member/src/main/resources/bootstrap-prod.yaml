@@ -17,7 +17,7 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.member.persistence.persistence.dao: debug
+    com.muyuan.member.persistence.persistence.mapper: debug
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

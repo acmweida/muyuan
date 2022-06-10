@@ -24,9 +24,7 @@ public abstract class BaseDTO<T extends BaseDTO, E> implements Converter<T, E>,P
         Class<E> clazz = (Class<E>) pt.getActualTypeArguments()[1];
         try {
             return clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;

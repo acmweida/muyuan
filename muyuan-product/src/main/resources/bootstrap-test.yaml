@@ -19,7 +19,7 @@ server:
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
-    com.muyuan.system.infrastructure.persistence.dao: debug
+    com.muyuan.system.infrastructure.persistence.mapper: debug
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
     io.lettuce: error

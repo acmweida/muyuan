@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.muyuan.system.infrastructure.persistence.dao.GenTableMapper">
+<mapper namespace="com.muyuan.system.infrastructure.persistence.mapper.GenTableMapper">
 
 	<resultMap type="com.muyuan.system.domain.model.GenTable" id="GenTableResult">
 	    <id     property="tableId"        column="table_id"          />
@@ -132,39 +132,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 LEFT JOIN t_gen_table_column c ON t.table_id = c.table_id
 		order by c.sort
 	</select>
-
-	<insert id="insertGenTable" parameterType="com.muyuan.system.domain.model.GenTable" useGeneratedKeys="true" keyProperty="tableId">
-        insert into t_gen_table (
-			<if test="tableName != null">table_name,</if>
-			<if test="tableComment != null and tableComment != ''">table_comment,</if>
-			<if test="className != null and className != ''">class_name,</if>
-			<if test="tplCategory != null and tplCategory != ''">tpl_category,</if>
-			<if test="packageName != null and packageName != ''">package_name,</if>
-			<if test="moduleName != null and moduleName != ''">module_name,</if>
-			<if test="businessName != null and businessName != ''">business_name,</if>
-			<if test="functionName != null and functionName != ''">function_name,</if>
-			<if test="functionAuthor != null and functionAuthor != ''">function_author,</if>
-			<if test="genType != null and genType != ''">gen_type,</if>
-			<if test="genPath != null and genPath != ''">gen_path,</if>
-			<if test="remark != null and remark != ''">remark,</if>
- 			<if test="createBy != null and createBy != ''">create_by,</if>
-			create_time
-         )values(
-			<if test="tableName != null">#{tableName},</if>
-			<if test="tableComment != null and tableComment != ''">#{tableComment},</if>
-			<if test="className != null and className != ''">#{className},</if>
-			<if test="tplCategory != null and tplCategory != ''">#{tplCategory},</if>
-			<if test="packageName != null and packageName != ''">#{packageName},</if>
-			<if test="moduleName != null and moduleName != ''">#{moduleName},</if>
-			<if test="businessName != null and businessName != ''">#{businessName},</if>
-			<if test="functionName != null and functionName != ''">#{functionName},</if>
-			<if test="functionAuthor != null and functionAuthor != ''">#{functionAuthor},</if>
-			<if test="genType != null and genType != ''">#{genType},</if>
-			<if test="genPath != null and genPath != ''">#{genPath},</if>
-			<if test="remark != null and remark != ''">#{remark},</if>
- 			<if test="createBy != null and createBy != ''">#{createBy},</if>
-			sysdate()
-         )
-    </insert>
 
 </mapper>

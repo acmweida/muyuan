@@ -163,6 +163,7 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
         for (GenTable table : tableList) {
             String tableName = table.getTableName();
             GenUtils.initTable(table, operName);
+            table.init(operName);
             genTableRepo.insert(table);
             // 保存列信息
             List<GenTableColumn> genTableColumns = genTableColumnRepo.selectDbTableColumnsByName(tableName);

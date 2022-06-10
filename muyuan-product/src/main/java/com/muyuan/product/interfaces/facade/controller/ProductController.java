@@ -9,10 +9,8 @@ import com.muyuan.product.domains.service.ProductDomainService;
 import com.muyuan.product.domains.vo.ProductVO;
 import com.muyuan.product.interfaces.assembler.ProductAssembler;
 import com.muyuan.product.interfaces.dto.ProductDTO;
-import com.muyuan.product.interfaces.dto.ShopProductDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +25,11 @@ import java.util.Optional;
 @RestController
 public class ProductController {
 
-    @Autowired
-    ProductDomainService productDomainService;
 
     @PostMapping("/getProduct")
     @ApiOperation(value = "通过商店信息查询商品列表")
-    public Result<List<ProductVO>> getProducts(@RequestBody @Validated ShopProductDTO productDTO) {
-        List<Product> products = productDomainService.queryProductsByShopInfo(productDTO);
+    public Result<List<ProductVO>> getProducts(@RequestBody @Validated ProductDTO productDTO) {
+        List<Product> products = ProductFactory.createProductService(productDTO.convert()).queryProductsByShopInfo(productDTO);
         List<ProductVO> productVOs = ProductAssembler.buildProductVO(products);
         return ResultUtil.success(productVOs);
     }

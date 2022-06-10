@@ -1,9 +1,12 @@
-package com.muyuan.system.infrastructure.persistence.dao;
+package com.muyuan.system.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.system.domain.model.GenTable;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import com.muyuan.system.interfaces.dto.GenTableDTO;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,11 @@ import java.util.Map;
 @Mapper
 public interface GenTableMapper extends SystemBaseMapper<GenTable>
 {
+
+    @Options(useGeneratedKeys = true, keyProperty = "tableId")
+    @InsertProvider(value = CrudSqlProvider.class, method = "insert")
+    Integer insertAuto(GenTable dataObject);
+
     /**
      * 查询业务列表
      *
@@ -63,14 +71,5 @@ public interface GenTableMapper extends SystemBaseMapper<GenTable>
      * @return 业务信息
      */
     GenTable selectGenTableByName(String tableName);
-
-    /**
-     * 新增业务
-     *
-     * @param genTable 业务信息
-     * @return 结果
-     */
-    int insertGenTable(GenTable genTable);
-
 
 }

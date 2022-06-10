@@ -1,11 +1,13 @@
 package com.muyuan.product.domains.model;
 
+import com.muyuan.common.mybatis.id.Id;
 import lombok.Data;
 
 /**
  * 商品分类
  */
 @Data
+@Id(useGeneratedKeys = true)
 public class ProductCategory {
 
     private  Long id;
@@ -33,5 +35,7 @@ public class ProductCategory {
     private int orderNum;
 
     private String keywords;
+
+    private String ancestors;
 
 }

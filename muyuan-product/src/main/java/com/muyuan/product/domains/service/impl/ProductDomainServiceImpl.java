@@ -7,7 +7,8 @@ import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.domains.model.Sku;
 import com.muyuan.product.domains.repo.ProductRepo;
 import com.muyuan.product.domains.service.ProductDomainService;
-import com.muyuan.product.interfaces.dto.ShopProductDTO;
+import com.muyuan.product.interfaces.dto.ProductDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
  * @Date 2021/10/13 15:28
  * @Version 1.0
  */
+@Slf4j
 public class ProductDomainServiceImpl implements ProductDomainService {
 
     private Product product;
@@ -50,7 +52,7 @@ public class ProductDomainServiceImpl implements ProductDomainService {
     }
 
     @Override
-    public List<Product> queryProductsByShopInfo(ShopProductDTO shopProductDTO) {
+    public List<Product> queryProductsByShopInfo(ProductDTO shopProductDTO) {
         SqlBuilder sqlBuilder = new SqlBuilder(Product.class)
                 .eq("delete", JdbcValueConst.DELETE_FALSE)
                 .eq("id",shopProductDTO.getShopId());

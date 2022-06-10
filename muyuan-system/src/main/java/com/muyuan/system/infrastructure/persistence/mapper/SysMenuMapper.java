@@ -1,8 +1,11 @@
-package com.muyuan.system.infrastructure.persistence.dao;
+package com.muyuan.system.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.system.domain.model.SysMenu;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,6 +19,10 @@ import java.util.List;
  */
 @Mapper
 public interface SysMenuMapper extends SystemBaseMapper<SysMenu> {
+
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @InsertProvider(value = CrudSqlProvider.class, method = "insert")
+    Integer insertAuto(SysMenu dataObject);
 
     /**
      * 通过角色名称查询权限

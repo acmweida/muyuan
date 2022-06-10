@@ -1,4 +1,4 @@
-package ${packageName}.${moduleName}.infrastructure.persistence.dao;
+package ${packageName}.${moduleName}.infrastructure.persistence.mapper;
 
 import ${packageName}.${moduleName}.domain.model.${ClassName};
 

@@ -9,5 +9,8 @@ package com.muyuan.product.interfaces.dto;
  */
 public class ProductCategoryDTO {
 
+    private String name;
+
+    private String status;
 
 }

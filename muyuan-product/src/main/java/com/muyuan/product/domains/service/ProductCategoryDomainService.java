@@ -1,5 +1,10 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.product.domains.model.ProductCategory;
+import com.muyuan.product.interfaces.dto.ProductCategoryDTO;
+
+import java.util.List;
+
 /**
  * @ClassName ProductCategoryDomainService 接口
  * Description 产品分类域服务
@@ -9,5 +14,11 @@ package com.muyuan.product.domains.service;
  */
 public interface ProductCategoryDomainService {
 
+    /**
+     * 分类列表查询
+     * @param productCategoryDTO
+     * @return
+     */
+    List<ProductCategory> list(ProductCategoryDTO productCategoryDTO);
 
 }

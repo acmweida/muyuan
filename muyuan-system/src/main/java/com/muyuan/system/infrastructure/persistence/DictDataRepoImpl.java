@@ -6,7 +6,7 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.repo.DictDataRepo;
-import com.muyuan.system.infrastructure.persistence.dao.DictDataMapper;
+import com.muyuan.system.infrastructure.persistence.mapper.DictDataMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

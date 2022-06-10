@@ -1,5 +1,7 @@
 package com.muyuan.product.interfaces.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.product.domains.model.Product;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,7 +17,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ApiModel("商品信息DTO")
-public class ProductDTO {
+public class ProductDTO extends BaseDTO<ProductDTO, Product> {
 
     private String token;
 

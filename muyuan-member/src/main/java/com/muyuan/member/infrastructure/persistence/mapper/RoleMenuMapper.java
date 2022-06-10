@@ -1,4 +1,4 @@
-package com.muyuan.member.infrastructure.persistence.dao;
+package com.muyuan.member.infrastructure.persistence.mapper;
 
 import com.muyuan.member.domain.model.RoleMenu;
 import com.muyuan.member.infrastructure.config.mybatis.MemberBaseMapper;

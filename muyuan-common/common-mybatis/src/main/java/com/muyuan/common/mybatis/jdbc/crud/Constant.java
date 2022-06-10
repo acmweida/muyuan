@@ -1,5 +1,14 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 public interface Constant {
 
     String PAGE_FIELD = "#page";
@@ -26,6 +35,8 @@ public interface Constant {
 
     String COLUMN = "$column";
 
+    String EXCLUDE_COLUMN = "$exclude_column";
+
     String GTE_PREFIX = "#GTE_";
 
     String GT_PREFIX = "#GT_";
@@ -33,5 +44,17 @@ public interface Constant {
     String LTE_PREFIX = "#LTE_";
 
     String LT_PREFIX = "#LE_";
+
+    List<Class> JDBC_TYPE = Arrays.asList(int.class, Integer.class, String.class, Date.class, java.sql.Date.class,
+            boolean.class, Boolean.class, Character.class, char.class, byte.class, Byte.class, short.class, Short.class,
+            long.class, Long.class, float.class, Float.class, Double.class, double.class, byte[].class, Time.class,
+            Timestamp.class, BigDecimal.class, Clob.class, Blob.class);
+
+    String serialVersionUID = "serialVersionUID";
+
+
+    String[] DEFAULT_EXCLUDE_COLUMN = new String[]{serialVersionUID};
+
+
 
 }

@@ -8,12 +8,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.*;
+
+import static com.muyuan.common.mybatis.jdbc.crud.Constant.*;
 
 public class SqlBuilder {
 
@@ -224,9 +221,9 @@ public class SqlBuilder {
                         List<String> column = new ArrayList<>();
                         Field[] declaredFields = target.getDeclaredFields();
                         ColumnExclude columnExclude = (ColumnExclude) target.getDeclaredAnnotation(ColumnExclude.class);
-                        String[] exclude = new String[]{};
+                        String[] exclude = DEFAULT_EXCLUDE_COLUMN;
                         if (null != columnExclude) {
-                            exclude = columnExclude.value();
+                            exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
                         }
 
                         for (Field propertyDescriptor : declaredFields) {
@@ -250,11 +247,8 @@ public class SqlBuilder {
         return params;
     }
 
-    public static final List<Class> JDBC_TYPE = Arrays.asList(int.class, Integer.class, String.class, Date.class, java.sql.Date.class,
-            boolean.class, Boolean.class, Character.class, char.class, byte.class, Byte.class, short.class, Short.class,
-            long.class, Long.class, float.class, Float.class, Double.class, double.class, byte[].class, Time.class,
-            Timestamp.class, BigDecimal.class, Clob.class, Blob.class);
 
-    public static final String serialVersionUID = "serialVersionUID";
+
+
 
 }

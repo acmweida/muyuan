@@ -2,9 +2,8 @@ package com.muyuan.member.infrastructure.persistence;
 
 import com.muyuan.member.domain.model.User;
 import com.muyuan.member.domain.repo.UserRepo;
-import com.muyuan.member.infrastructure.persistence.dao.UserMapper;
+import com.muyuan.member.infrastructure.persistence.mapper.UserMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

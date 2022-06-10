@@ -8,6 +8,7 @@ import com.ruoyi.common.core.utils.DateUtils;
 #end
 #end
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 #if($table.sub)
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import com.ruoyi.common.core.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.${moduleName}.domain.model.${subClassName};
 #end
-import ${packageName}.${moduleName}.infrastructure.persistence.dao.${ClassName}Mapper;
+import ${packageName}.${moduleName}.infrastructure.persistence.mapper.${ClassName}Mapper;
 import ${packageName}.${moduleName}.domain.model.${ClassName};
 import ${packageName}.${moduleName}.domain.service.${ClassName}DomainService;
 
@@ -27,6 +28,7 @@ import ${packageName}.${moduleName}.domain.service.${ClassName}DomainService;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ${ClassName}ServiceImpl implements ${ClassName}DomainService
 {
     private ${ClassName}Mapper ${className}Mapper;

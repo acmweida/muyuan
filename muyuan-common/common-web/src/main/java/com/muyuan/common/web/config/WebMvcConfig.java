@@ -1,17 +1,20 @@
 package com.muyuan.common.web.config;
 
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.web.interceptor.HeaderInterceptor;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class WebMvcConfig {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public HttpMessageConverters jacksonConverters() {
@@ -27,4 +30,17 @@ public class WebMvcConfig {
         return new HttpMessageConverters(jackson2HttpMessageConverter);
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(getHeaderInterceptor());
+    }
+
+
+    /**
+     * 自定义请求头拦截器
+     */
+    public HeaderInterceptor getHeaderInterceptor()
+    {
+        return new HeaderInterceptor();
+    }
 }

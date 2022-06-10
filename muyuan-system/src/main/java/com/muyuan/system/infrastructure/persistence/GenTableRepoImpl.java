@@ -4,7 +4,7 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.GenTable;
 import com.muyuan.system.domain.repo.GenTableRepo;
-import com.muyuan.system.infrastructure.persistence.dao.GenTableMapper;
+import com.muyuan.system.infrastructure.persistence.mapper.GenTableMapper;
 import com.muyuan.system.interfaces.dto.GenTableDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public void insert(GenTable genTable) {
-        genTableMapper.insertGenTable(genTable);
+        genTableMapper.insertAuto(genTable);
     }
 
     @Override

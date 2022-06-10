@@ -20,11 +20,11 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.system.infrastructure.persistence.dao")
+@MapperScan("com.muyuan.system.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(SystemJdbcConfig jdbcConfig) {
+    public DataSource dataSource(ProductJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -36,7 +36,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime( 60 * 60 * 1000);
-        dataSourceMap.put(SystemJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(ProductJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);

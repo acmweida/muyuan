@@ -1,4 +1,4 @@
-package com.muyuan.product.infrastructure.persistence.dao;
+package com.muyuan.product.infrastructure.persistence.mapper;
 
 import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.infrastructure.config.mybatis.ProductBaseMapper;

@@ -1,4 +1,4 @@
-package com.muyuan.system.infrastructure.persistence.dao;
+package com.muyuan.system.infrastructure.persistence.mapper;
 
 
 import com.muyuan.system.domain.model.GenTableColumn;

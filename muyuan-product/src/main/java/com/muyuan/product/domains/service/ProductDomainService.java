@@ -1,7 +1,7 @@
 package com.muyuan.product.domains.service;
 
 import com.muyuan.product.domains.model.Product;
-import com.muyuan.product.interfaces.dto.ShopProductDTO;
+import com.muyuan.product.interfaces.dto.ProductDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +21,5 @@ public interface ProductDomainService {
      */
     Optional<Long> addProduct();
 
-    List<Product> queryProductsByShopInfo(ShopProductDTO shopProductDTO);
+    List<Product> queryProductsByShopInfo(ProductDTO shopProductDTO);
 }

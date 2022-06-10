@@ -1,6 +1,5 @@
-package com.muyuan.system.infrastructure.persistence.dao;
+package com.muyuan.system.infrastructure.persistence.mapper;
 
-import com.muyuan.system.domain.model.SysRoleMenu;
 import com.muyuan.system.domain.model.SysUserRole;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import org.apache.ibatis.annotations.Mapper;

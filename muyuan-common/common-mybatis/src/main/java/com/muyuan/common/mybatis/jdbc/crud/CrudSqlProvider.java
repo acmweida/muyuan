@@ -4,17 +4,24 @@ import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.impl.CollectionConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.impl.SampleConditionSqlHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-import static com.muyuan.common.mybatis.jdbc.crud.SqlBuilder.JDBC_TYPE;
+import static com.muyuan.common.mybatis.jdbc.crud.Constant.DEFAULT_EXCLUDE_COLUMN;
+import static com.muyuan.common.mybatis.jdbc.crud.Constant.JDBC_TYPE;
+
 
 @SuppressWarnings("unchecked")
 @Slf4j
@@ -103,9 +110,14 @@ public class CrudSqlProvider {
         List<String> values = new ArrayList<>();
         List<String> column = new ArrayList<>();
 
-        Field[] declaredFields = entityType(context).getDeclaredFields();
+        Class target = entityType(context);
+        String[] exclude = excludeColumn(target);
+
+        Field[] declaredFields = target.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
-            if (!jdbcType(propertyDescriptor.getType())) {
+            if (ArrayUtils.contains(exclude,propertyDescriptor.getName())
+                    || propertyDescriptor.isSynthetic()
+                    || !jdbcType(propertyDescriptor.getType())) {
                 continue;
             }
             propertyDescriptor.setAccessible(true);
@@ -126,9 +138,10 @@ public class CrudSqlProvider {
 
     public String updateBy(ProviderContext context, Object entity, String... column) {
         SQL sql = new SQL();
-        Class<?> aClass = entityType(context);
+        Class aClass = entityType(context);
         sql.UPDATE(tableName(context));
 
+        String[] exclude = excludeColumn(aClass);
         List<String> sets = new ArrayList<>();
 
         List<String> fieldNamesList = Arrays.asList(column);
@@ -138,7 +151,7 @@ public class CrudSqlProvider {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
             if (!fieldNamesList.contains(propertyDescriptor.getName()) && null != field) {
-                if (jdbcType(propertyDescriptor.getType())) {
+                if (!ArrayUtils.contains(exclude,propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
                     sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
                 }
             }
@@ -220,6 +233,15 @@ public class CrudSqlProvider {
 
     private boolean jdbcType(Class c) {
         return JDBC_TYPE.contains(c);
+    }
+
+    private String[] excludeColumn(Class target) {
+        ColumnExclude columnExclude =AnnotationUtils.findAnnotation(target,ColumnExclude.class);
+        String[] exclude = DEFAULT_EXCLUDE_COLUMN;
+        if (null != columnExclude) {
+            exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
+        }
+        return exclude;
     }
 
 }
