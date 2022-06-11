@@ -1,6 +1,5 @@
 package com.muyuan.system.domain.model;
 
-import com.muyuan.common.mybatis.id.AutoIncrement;
 import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 @Data
 public class SysMenu {
 
-    @AutoIncrement
     private Long id;
 
     /**

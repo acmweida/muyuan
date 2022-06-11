@@ -1,6 +1,6 @@
 package com.muyuan.system.interfaces.assembler;
 
-import com.muyuan.system.application.vo.DictTypeVO;
+import com.muyuan.system.domain.vo.DictTypeVO;
 import com.muyuan.system.domain.model.DictType;
 import org.springframework.beans.BeanUtils;
 

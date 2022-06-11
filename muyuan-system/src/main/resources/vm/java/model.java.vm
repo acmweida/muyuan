@@ -1,0 +1,40 @@
+package ${packageName}.${moduleName}.domain.model;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.Data;
+
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+public class ${ClassName} {
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+    /** $column.columnComment */
+        #if($column.list)
+            #set($parentheseIndex=$column.columnComment.indexOf("（"))
+            #if($parentheseIndex != -1)
+                #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+            #else
+                #set($comment=$column.columnComment)
+            #end
+        #end
+    private $column.javaType $column.javaField;
+
+    #end
+#end
+
+#if($table.sub)
+/** $table.subTable.functionName信息 */
+private List<${subClassName}> ${subclassName}List;
+
+#end
+
+}

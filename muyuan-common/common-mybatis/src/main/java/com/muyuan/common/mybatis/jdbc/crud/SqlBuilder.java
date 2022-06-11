@@ -3,16 +3,14 @@ package com.muyuan.common.mybatis.jdbc.crud;
 import com.muyuan.common.core.cache.localcache.LocalCacheManager;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.*;
+
+import static com.muyuan.common.mybatis.jdbc.crud.Constant.*;
 
 public class SqlBuilder {
 
@@ -21,6 +19,8 @@ public class SqlBuilder {
     private List<Condition> conditions;
 
     private String[] columns;
+
+    private String noSelect;
 
     private Page pageInfo;
 
@@ -57,6 +57,16 @@ public class SqlBuilder {
         this.columns = columns;
         return this;
     }
+
+    public SqlBuilder unselect(String column) {
+        return select(new String[]{column});
+    }
+
+    public SqlBuilder unselect(String... columns) {
+        this.columns = columns;
+        return this;
+    }
+
 
     private void buildCondition(String field, Option option, Object value) {
         buildCondition(field, field, option, value);
@@ -158,8 +168,10 @@ public class SqlBuilder {
     }
 
     public SqlBuilder page(Page pageInfo) {
-        this.pageInfo = pageInfo;
-        page = true;
+        if (null != pageInfo) {
+            this.pageInfo = pageInfo;
+            page = true;
+        }
         return this;
     }
 
@@ -208,8 +220,17 @@ public class SqlBuilder {
                     () -> {
                         List<String> column = new ArrayList<>();
                         Field[] declaredFields = target.getDeclaredFields();
+                        ColumnExclude columnExclude = (ColumnExclude) target.getDeclaredAnnotation(ColumnExclude.class);
+                        String[] exclude = DEFAULT_EXCLUDE_COLUMN;
+                        if (null != columnExclude) {
+                            exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
+                        }
+
                         for (Field propertyDescriptor : declaredFields) {
-                            if (JDBC_TYPE.contains(propertyDescriptor.getType())) {
+                            if (JDBC_TYPE.contains(propertyDescriptor.getType())
+                                    && !serialVersionUID.equals(propertyDescriptor.getName())
+                                    && !ArrayUtils.contains(exclude, propertyDescriptor.getName())
+                            ) {
                                 column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " as " + propertyDescriptor.getName());
                             }
                         }
@@ -226,9 +247,8 @@ public class SqlBuilder {
         return params;
     }
 
-    public static final List<Class> JDBC_TYPE = Arrays.asList(int.class, Integer.class, String.class, Date.class, java.sql.Date.class,
-            boolean.class, Boolean.class, Character.class, char.class, byte.class, Byte.class, short.class, Short.class,
-            long.class, Long.class, float.class, Float.class, Double.class, double.class, byte[].class, Time.class,
-            Timestamp.class, BigDecimal.class, Clob.class, Blob.class);
+
+
+
 
 }

@@ -6,7 +6,7 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.service.DictTypeDomainService;
-import com.muyuan.system.application.vo.DictTypeVO;
+import com.muyuan.system.domain.vo.DictTypeVO;
 import com.muyuan.system.interfaces.assembler.DictTypeAssembler;
 import com.muyuan.system.domain.model.DictType;
 import com.muyuan.system.interfaces.dto.DictTypeDTO;
@@ -53,7 +53,7 @@ public class DictTypeController {
     @GetMapping("/dictType/{id}")
     @ApiOperation(value = "字典类型详情查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "id", value = "字典类型主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )
     public Result<DictTypeVO> getById(@PathVariable  String id) {
         if (StrUtil.isNumeric(id)) {
@@ -63,6 +63,17 @@ public class DictTypeController {
             }
         }
         return ResultUtil.fail("字典类型未找到");
+    }
+
+    /**
+     * 获取字典选择框列表
+     */
+    @GetMapping("/dictType/optionselect")
+    @ApiOperation(value = "字典类型全列表")
+    public Result optionselect()
+    {
+        List<DictType> dictTypes = dictTypeDomainService.selectDictTypeAll();
+        return ResultUtil.success(dictTypes);
     }
 
 }

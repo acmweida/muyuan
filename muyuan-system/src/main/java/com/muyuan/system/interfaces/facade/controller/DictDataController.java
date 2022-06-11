@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.system.application.vo.DictDataVO;
+import com.muyuan.system.domain.vo.DictDataVO;
 import com.muyuan.system.domain.service.DictDataDomainService;
 import com.muyuan.system.interfaces.assembler.DictDataAssembler;
 import com.muyuan.common.web.annotations.RequirePermissions;
@@ -73,7 +73,7 @@ public class DictDataController {
     @ApiOperation(value = "字典数据删除")
     @RequirePermissions(value = "system:dict:remove")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataType = "String", paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )
     public Result delete(@PathVariable String... ids) {
         dictDataDomainService.deleteById(ids);

@@ -13,10 +13,9 @@ import java.util.Date;
 @Data
 public class GenTableColumn
 {
-    private static final long serialVersionUID = 1L;
 
     /** 编号 */
-    private Long columnId;
+    private Long id;
 
     /** 归属表编号 */
     private Long tableId;
@@ -79,6 +78,10 @@ public class GenTableColumn
 
     private String remark;
 
+    public void setAutoIncrement(Long id) {
+        this.id = id;
+    }
+
     public boolean isPk()
     {
         return isPk(this.isPk);
@@ -103,20 +106,6 @@ public class GenTableColumn
     {
         // isSuperColumn()中的名单用于避免生成多余Domain属性，若某些属性在生成页面时需要用到不能忽略，则放在此处白名单
         return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark");
-    }
-
-    public boolean isSuperColumn()
-    {
-        return isSuperColumn(this.javaField);
-    }
-
-    public static boolean isSuperColumn(String javaField)
-    {
-        return StringUtils.equalsAnyIgnoreCase(javaField,
-                // BaseEntity
-                "createBy", "createTime", "updateBy", "updateTime", "remark",
-                // TreeEntity
-                "parentName", "parentId", "orderNum", "ancestors");
     }
 
     public boolean isInsert()

@@ -48,8 +48,6 @@ public class PageInterceptor implements Interceptor {
                 String countSql = "select count(1) from ( " + sql + " ) as temp";
                 metaObject.setValue("delegate.boundSql.sql",countSql);
 
-                log.info("count sql : {}",countSql);
-
                 List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
                 MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
                 BoundSql countBoundSql = new BoundSql(mappedStatement.getConfiguration(),countSql,parameterMappings,parameterObject);
@@ -87,6 +85,9 @@ public class PageInterceptor implements Interceptor {
      * @return
      */
     private Page findPage(Object args) {
+        if (args == null) {
+            return null;
+        }
         if (args instanceof Map) {
             for (Map.Entry entry : ((Map<?, ?>) args).entrySet()) {
                 if (entry.getValue() instanceof Page) {
@@ -95,6 +96,14 @@ public class PageInterceptor implements Interceptor {
             }
         } else if (args instanceof Page) {
             return (Page) args;
+        } else if (args.getClass().isArray()) {
+            Object[] arg = (Object[]) args;
+            for (Object item : arg) {
+                Page page = findPage(item);
+                if (page != null) {
+                    return page;
+                }
+            }
         }
         return null;
     }

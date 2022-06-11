@@ -1,5 +1,6 @@
 package com.muyuan.system.domain.model;
 
+import com.muyuan.common.mybatis.jdbc.crud.ColumnExclude;
 import com.muyuan.system.infrastructure.common.GenConstants;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
@@ -13,6 +14,7 @@ import java.util.List;
  * 
  */
 @Data
+@ColumnExclude({"treeCode","treeParentCode","treeName","parentMenuId","parentMenuName"})
 public class GenTable
 {
     private static final long serialVersionUID = 1L;
@@ -116,5 +118,15 @@ public class GenTable
     public boolean isTree()
     {
         return isTree(this.tplCategory);
+    }
+
+    public void init(String createBy) {
+        this.createTime = new Date();
+        this.createBy = createBy;
+    }
+
+    public void update(String updateBy) {
+        this.updateTime = new Date();
+        this.updateBy = updateBy;
     }
 }

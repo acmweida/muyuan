@@ -68,6 +68,11 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
         return page;
     }
 
+    @Override
+    public List<DictType> selectDictTypeAll() {
+        return dictTypeRepo.select(new SqlBuilder(DictType.class).build());
+    }
+
     /**
      * 字典类类型详情查询
      *

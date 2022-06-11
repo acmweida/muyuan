@@ -2,7 +2,7 @@ package com.muyuan.product.infrastructure.persistence;
 
 import com.muyuan.product.domains.model.Product;
 import com.muyuan.product.domains.repo.ProductRepo;
-import com.muyuan.product.infrastructure.persistence.dao.ProductMapper;
+import com.muyuan.product.infrastructure.persistence.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

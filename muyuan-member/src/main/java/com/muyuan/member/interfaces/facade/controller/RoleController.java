@@ -7,7 +7,7 @@ import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.member.application.vo.RoleVO;
+import com.muyuan.member.domain.vo.RoleVO;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.service.RoleDomainService;
 import com.muyuan.member.interfaces.assembler.RoleAssembler;
@@ -106,9 +106,9 @@ public class RoleController {
     @RequirePermissions("member:role:list")
     @GetMapping("/role/authUser/allocatedList")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataType = "Long", paramType = "query", required = true),
-                    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", paramType = "query"),
-                    @ApiImplicitParam(name = "phone", value = "手机号", dataType = "String", paramType = "query")
+            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),
+                    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
+                    @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
     public Result allocatedList(@ModelAttribute UserDTO userDTO) {

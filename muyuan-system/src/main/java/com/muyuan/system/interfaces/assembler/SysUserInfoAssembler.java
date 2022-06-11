@@ -1,6 +1,6 @@
 package com.muyuan.system.interfaces.assembler;
 
-import com.muyuan.system.application.vo.SysUserVO;
+import com.muyuan.system.domain.vo.SysUserVO;
 import com.muyuan.system.domain.model.SysRole;
 import com.muyuan.system.domain.model.SysUser;
 import com.muyuan.system.interfaces.to.SysUserTO;

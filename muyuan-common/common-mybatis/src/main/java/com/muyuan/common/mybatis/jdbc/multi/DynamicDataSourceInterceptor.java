@@ -33,9 +33,10 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
         if (!DynamicDataSourceContextHolder.containsDataSource(dsId)) {
             log.info("数据源:{} 不存在-",dsId);
         } else {
-            log.info("使用数据源:{}" , dsId);
-
-            DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
+            if ( !dsId.equals(DynamicDataSourceContextHolder.getDataSourceType())) {
+                log.info("使用数据源:{}", dsId);
+                DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
+            }
         }
     }
 
@@ -59,8 +60,8 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
         }
         changeDataSource(dataSource);
         Object ret =  methodInvocation.proceed();
-        log.info("clear datasource {} meth:{}",dataSource.value(),methodInvocation.getMethod().getName());
-        restoreDataSource();
+//        log.info("clear datasource {} meth:{}",dataSource.value(),methodInvocation.getMethod().getName());
+//        restoreDataSource();
         return ret;
 
     }

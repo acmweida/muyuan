@@ -37,8 +37,8 @@ public class SysDeptController {
     @GetMapping("/dept/list")
     @ApiOperation(value = "部门列表查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "name",value = "部门名称",dataType = "String",paramType = "query"),
-                    @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "query")}
+            {@ApiImplicitParam(name = "name",value = "部门名称",dataTypeClass = String.class,paramType = "query"),
+                    @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
     )
     public Result<List<SysDept>> list(@ModelAttribute SysDeptDTO sysDeptDTO) {
         List<SysDept> list = sysDeptDomainService.list(sysDeptDTO);
@@ -58,13 +58,13 @@ public class SysDeptController {
     @PostMapping("/dept")
     @ApiOperation(value = "新增部门")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "name",value = "部门名称",dataType = "String",paramType = "Body",required = true),
-            @ApiImplicitParam(name = "parentId",value = "父部门ID",dataType = "Long",paramType = "Body",required = true),
-            @ApiImplicitParam(name = "sort",value = "显示顺序",dataType = "int",paramType = "Body",required = true),
-            @ApiImplicitParam(name = "leader",value = "负责人",dataType = "String",paramType = "Body"),
-            @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "Body"),
-            @ApiImplicitParam(name = "email",value = "email",dataType = "String",paramType = "Body"),
-                    @ApiImplicitParam(name = "status",value = "状态",dataType = "String",paramType = "Body",defaultValue = "0")}
+            {@ApiImplicitParam(name = "name",value = "部门名称",dataTypeClass = String.class,paramType = "Body",required = true),
+            @ApiImplicitParam(name = "parentId",value = "父部门ID",dataTypeClass = Long.class,paramType = "Body",required = true),
+            @ApiImplicitParam(name = "sort",value = "显示顺序",dataTypeClass = Integer.class,paramType = "Body",required = true),
+            @ApiImplicitParam(name = "leader",value = "负责人",dataTypeClass = String.class,paramType = "Body"),
+            @ApiImplicitParam(name = "phone",value = "电话",dataTypeClass = String.class,paramType = "Body"),
+            @ApiImplicitParam(name = "email",value = "email",dataTypeClass = String.class,paramType = "Body"),
+                    @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "Body",defaultValue = "0")}
     )
     public Result add(@RequestBody @Validated SysDeptDTO sysDeptDTO) {
         if (GlobalConst.NOT_UNIQUE.equals(sysDeptDomainService.checkUnique(new SysDept(sysDeptDTO.getParentId(),sysDeptDTO.getName())))) {

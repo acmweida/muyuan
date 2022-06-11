@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.product.infrastructure.persistence.dao")
+@MapperScan("com.muyuan.product.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
     @Bean

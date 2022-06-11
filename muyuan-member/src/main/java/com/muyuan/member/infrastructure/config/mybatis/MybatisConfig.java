@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.member.infrastructure.persistence.dao")
+@MapperScan("com.muyuan.member.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
     @Bean

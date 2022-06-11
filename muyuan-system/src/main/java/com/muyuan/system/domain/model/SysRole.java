@@ -1,7 +1,6 @@
 package com.muyuan.system.domain.model;
 
 import com.muyuan.common.core.constant.auth.SecurityConst;
-import com.muyuan.common.mybatis.id.AutoIncrement;
 import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 
@@ -18,7 +17,6 @@ import java.util.List;
 @Data
 public class SysRole {
 
-    @AutoIncrement
     private Long id;
 
     /**

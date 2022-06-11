@@ -1,12 +1,11 @@
 package com.muyuan.member.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.redis.manage.RedisCacheManager;
 import com.muyuan.member.domain.model.Role;
 import com.muyuan.member.domain.model.RoleMenu;
 import com.muyuan.member.domain.repo.RoleRepo;
-import com.muyuan.member.infrastructure.persistence.dao.RoleMapper;
-import com.muyuan.member.infrastructure.persistence.dao.RoleMenuMapper;
+import com.muyuan.member.infrastructure.persistence.mapper.RoleMapper;
+import com.muyuan.member.infrastructure.persistence.mapper.RoleMenuMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;

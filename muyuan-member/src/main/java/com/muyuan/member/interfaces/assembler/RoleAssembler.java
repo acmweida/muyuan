@@ -1,6 +1,6 @@
 package com.muyuan.member.interfaces.assembler;
 
-import com.muyuan.member.application.vo.RoleVO;
+import com.muyuan.member.domain.vo.RoleVO;
 import com.muyuan.member.domain.model.Role;
 import org.springframework.beans.BeanUtils;
 

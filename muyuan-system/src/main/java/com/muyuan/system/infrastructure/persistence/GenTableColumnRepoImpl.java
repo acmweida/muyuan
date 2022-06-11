@@ -1,8 +1,9 @@
 package com.muyuan.system.infrastructure.persistence;
 
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.system.domain.model.GenTableColumn;
 import com.muyuan.system.domain.repo.GenTableColumnRepo;
-import com.muyuan.system.infrastructure.persistence.dao.GenTableColumnMapper;
+import com.muyuan.system.infrastructure.persistence.mapper.GenTableColumnMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +35,16 @@ public class GenTableColumnRepoImpl implements GenTableColumnRepo {
 
     @Override
     public int updateGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.updateGenTableColumn(genTableColumn);
+        return genTableColumnMapper.updateBy(genTableColumn,"id");
     }
 
     @Override
     public int deleteGenTableColumnByIds(Long[] ids) {
-        return genTableColumnMapper.deleteGenTableColumnByIds(ids);
+        return genTableColumnMapper.deleteBy(
+                new SqlBuilder()
+                        .in("id",ids)
+                        .build()
+        );
     }
 
     @Override
