@@ -11,6 +11,8 @@ spring:
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
+  profiles:
+    active:
 
 server:
   port: 20000
