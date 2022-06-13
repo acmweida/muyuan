@@ -1,32 +1,18 @@
-
 spring:
-  cloud:
-    nacos:
-      config:
-        server-addr: 119.29.77.107
-        namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
-        group: MUYUAN
-        file-extension: properties
-      discovery:
-        server-addr: 119.29.77.107
-        group: MUYUAN
-        namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
   application:
     name: auth
   main:
     allow-bean-definition-overriding: true
-  profiles:
-    active: dev
 server:
   port: 20001
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
-    org.springframework: debug
     io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
+
 management:
   endpoints:
     web:

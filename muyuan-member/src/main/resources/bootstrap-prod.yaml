@@ -10,15 +10,3 @@ spring:
         server-addr: 119.29.77.107
         group: MUYUAN
         namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
-  application:
-    name: member
-server:
-  port: 18890
-logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
-  level:
-    com.muyuan.member.persistence.persistence.dao: debug
-mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath*:mapper/*.xml

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-@DataSource(ProductJdbcConfig.DATASOURCE_NAME)
+@DataSource(SystemJdbcConfig.DATASOURCE_NAME)
 public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
 
     @SelectProvider(value = CrudSqlProvider.class, method = "selectOne")

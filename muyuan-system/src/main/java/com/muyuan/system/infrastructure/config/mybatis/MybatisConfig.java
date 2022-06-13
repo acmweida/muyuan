@@ -24,7 +24,7 @@ import java.util.Map;
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(ProductJdbcConfig jdbcConfig) {
+    public DataSource dataSource(SystemJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -36,7 +36,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime( 60 * 60 * 1000);
-        dataSourceMap.put(ProductJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(SystemJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);
