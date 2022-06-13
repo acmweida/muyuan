@@ -1,6 +1,7 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.mybatis.common.Constant;
 import com.muyuan.common.mybatis.jdbc.crud.impl.CollectionConditionSqlHandler;
 import com.muyuan.common.mybatis.jdbc.crud.impl.SampleConditionSqlHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.muyuan.common.mybatis.jdbc.crud.Constant.DEFAULT_EXCLUDE_COLUMN;
-import static com.muyuan.common.mybatis.jdbc.crud.Constant.JDBC_TYPE;
+import static com.muyuan.common.mybatis.common.Constant.DEFAULT_EXCLUDE_COLUMN;
+import static com.muyuan.common.mybatis.common.Constant.JDBC_TYPE;
 
 
 @SuppressWarnings("unchecked")

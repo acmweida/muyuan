@@ -2,6 +2,9 @@ package com.muyuan.common.core.constant;
 
 public interface GlobalConst {
 
+    String MASTER_PREFIX = "MASTER_P";
+    String SLAVE_PREFIX = "SLAVE_";
+
     String ID = "id";
 
     long KB = 1024;

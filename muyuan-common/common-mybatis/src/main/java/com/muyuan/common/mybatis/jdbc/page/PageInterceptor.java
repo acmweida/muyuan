@@ -1,6 +1,6 @@
 package com.muyuan.common.mybatis.jdbc.page;
 
-import com.muyuan.common.mybatis.jdbc.crud.Constant;
+import com.muyuan.common.mybatis.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;

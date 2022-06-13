@@ -2,6 +2,7 @@ package com.muyuan.common.mybatis.jdbc.crud;
 
 import com.muyuan.common.core.cache.localcache.LocalCacheManager;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.mybatis.common.Constant;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -10,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static com.muyuan.common.mybatis.jdbc.crud.Constant.*;
+import static com.muyuan.common.mybatis.common.Constant.*;
 
 public class SqlBuilder {
 

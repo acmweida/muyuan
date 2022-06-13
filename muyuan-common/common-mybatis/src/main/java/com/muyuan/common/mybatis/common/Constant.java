@@ -1,4 +1,4 @@
-package com.muyuan.common.mybatis.jdbc.crud;
+package com.muyuan.common.mybatis.common;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
