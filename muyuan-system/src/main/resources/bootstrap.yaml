@@ -39,3 +39,7 @@ gen:
   packageName: com.muyuan
   autoRemovePre: true
   tablePrefix: t_
+
+db:
+  read-mehod-prefix: select,find,get
+  write-mehod-prefix: insert,update,delete,del

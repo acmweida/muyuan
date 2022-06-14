@@ -10,11 +10,15 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return DynamicDataSourceContextHolder.getDataSourceType();
     }
 
+    public void setMutiDateSourceConfig(MutiDataSourceConfig config) {
+        DynamicDataSourceContextHolder.setMutiDataSourceConfig(config);
+    }
+
     @Override
     public void setTargetDataSources(Map<Object, Object> targetDataSources) {
         super.setTargetDataSources(targetDataSources);
         targetDataSources.forEach((k,v) -> {
-            DynamicDataSourceContextHolder.getDataSourceIds().add((String) k);
+            DynamicDataSourceContextHolder.getDataSourceIds().add(k);
         });
     }
 }

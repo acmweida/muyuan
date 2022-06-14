@@ -28,15 +28,41 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
 //        DynamicDataSourceContextHolder.clearDataSourceType();
 //    }
 
-    public void changeDataSource(DataSource dataSource) throws Throwable {
+    public void changeDataSource(DataSource dataSource,String methodName) {
         String dsId = dataSource.value();
-        if (!DynamicDataSourceContextHolder.containsDataSource(dsId)) {
-            log.info("数据源:{} 不存在-",dsId);
+        boolean splitFlag = DynamicDataSourceContextHolder.isSplit();
+        // 读写分离
+        if (splitFlag && DynamicDataSourceContextHolder.getMutiDataSourceConfig().isReadWriteSplitDateSource(dsId)) {
+            changeSourceSplit(dsId,methodName);
         } else {
-            if ( !dsId.equals(DynamicDataSourceContextHolder.getDataSourceType())) {
-                log.info("使用数据源:{}", dsId);
-                DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
-            }
+            changeSource(dsId);
+        }
+    }
+
+    public void changeSourceSplit(String dsId,String methodName) {
+        MutiDataSourceConfig mutiDataSourceConfig = DynamicDataSourceContextHolder.getMutiDataSourceConfig();
+        if ( !mutiDataSourceConfig.isReadWriteSplitDateSource(dsId) ) {
+            log.error("数据源:{} 不存在-",dsId);
+        }
+        // 读写分离配置判断
+        if (mutiDataSourceConfig.isReadMethod(methodName)) {
+            dsId = mutiDataSourceConfig.getReadDateSourceId(dsId);
+        } else {
+            dsId = mutiDataSourceConfig.getWriteDateSourceId(dsId);
+        }
+        if (!dsId.equals(DynamicDataSourceContextHolder.getDataSourceType())) {
+            log.info("使用数据源:{}", dsId);
+            DynamicDataSourceContextHolder.setDataSourceType(dsId);
+        }
+    }
+
+    public void changeSource(String dsId) {
+        if ( !DynamicDataSourceContextHolder.containsDataSource(dsId)) {
+            log.error("数据源:{} 不存在-",dsId);
+        }
+        if (!dsId.equals(DynamicDataSourceContextHolder.getDataSourceType())) {
+            log.info("使用数据源:{}", dsId);
+            DynamicDataSourceContextHolder.setDataSourceType(dsId);
         }
     }
 
@@ -58,7 +84,7 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
         } else {
             log.info("use default datasource");
         }
-        changeDataSource(dataSource);
+        changeDataSource(dataSource,methodInvocation.getMethod().getName());
         Object ret =  methodInvocation.proceed();
 //        log.info("clear datasource {} meth:{}",dataSource.value(),methodInvocation.getMethod().getName());
 //        restoreDataSource();
