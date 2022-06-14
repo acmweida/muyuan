@@ -28,13 +28,14 @@ public class ProductCategory {
 
     private short level;
 
-    private int ProductCount;
+    private Integer productCount;
 
-    private String publish;
+    /**
+     * 状态
+     */
+    private String status;
 
-    private int orderNum;
-
-    private String keywords;
+    private Integer orderNum;
 
     private String ancestors;
 

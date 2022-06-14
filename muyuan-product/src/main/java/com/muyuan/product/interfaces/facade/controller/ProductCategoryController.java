@@ -39,7 +39,7 @@ public class ProductCategoryController {
                     @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
     )
     public Result list(@ModelAttribute ProductCategoryDTO categoryDTO) {
-        List<ProductCategory> lise = productCategoryDomainService.list(categoryDTO);
-        return ResultUtil.success(lise);
+        List<ProductCategory> list = productCategoryDomainService.list(categoryDTO);
+        return ResultUtil.success(list);
     }
 }

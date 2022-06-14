@@ -6,15 +6,17 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
+import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.muyuan.common.core.constant.GlobalConst;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -40,61 +42,106 @@ public class JSONUtil {
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         objectMapper.setDateFormat(new SimpleDateFormat(GlobalConst.DEFAULT_DATE_FORMAT));
         // 字段保留，将null值转为""
-        objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>()
-        {
+        objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
             @Override
             public void serialize(Object o, JsonGenerator jsonGenerator,
                                   SerializerProvider serializerProvider)
-                    throws IOException
-            {
+                    throws IOException {
                 jsonGenerator.writeString("");
             }
         });
+
+        // 定义数组和集合元素为0时,返回“[]”
+        objectMapper.setSerializerFactory(
+                objectMapper.getSerializerFactory()
+                        .withSerializerModifier(new BeanSerializerModifier() {
+
+                            @Override
+                            public JsonSerializer<?> modifyArraySerializer(SerializationConfig config, ArrayType valueType, BeanDescription beanDesc, JsonSerializer<?> serializer) {
+                                JsonSerializer<?> jsonSerializer = super.modifyArraySerializer(config, valueType, beanDesc, serializer);
+                                return  new EmptyGenericArrayJsonSerializer(jsonSerializer);
+                            }
+
+                            @Override
+                            public JsonSerializer<?> modifyCollectionSerializer(SerializationConfig config, CollectionType valueType, BeanDescription beanDesc, JsonSerializer<?> serializer) {
+                                return new EmptyGenericArrayJsonSerializer(super.modifyCollectionSerializer(config, valueType, beanDesc, serializer));
+                            }
+
+                        })
+        );
     }
 
-    public static String toJsonString(Object o)  {
+    static class EmptyGenericArrayJsonSerializer extends JsonSerializer<Object> {
+
+        private JsonSerializer defaultSerializer;
+
+        public EmptyGenericArrayJsonSerializer(JsonSerializer defaultSerializer) {
+            this.defaultSerializer = defaultSerializer;
+        }
+
+        @Override
+        public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            if (isArrayType(value)) {
+                if ( (value.getClass().isArray() && ArrayUtils.getLength(value) == 0)
+                        || CollectionUtils.isEmpty((Collection<?>) value)) {
+                    gen.writeStartArray();
+                    gen.writeEndArray();
+                }  else {
+                    defaultSerializer.serialize(value,gen,serializers);
+                }
+            }
+        }
+
+        public boolean isArrayType(Object value) {
+            Class<?> rawClass = value.getClass();
+            return rawClass.isArray() || Collection.class.isAssignableFrom(rawClass);
+        }
+    }
+
+
+    public static String toJsonString(Object o) {
         try {
             return objectMapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            log.error("JSON Parse ERROR",e);
+            log.error("JSON Parse ERROR", e);
         }
         return null;
     }
 
-    public static  <T> T parseObject(String jsonStr, Class<T> clazz) {
+    public static <T> T parseObject(String jsonStr, Class<T> clazz) {
         try {
-          return   objectMapper.readValue(jsonStr,clazz);
+            return objectMapper.readValue(jsonStr, clazz);
         } catch (JsonProcessingException e) {
-            log.error("Json parser error",e);
+            log.error("Json parser error", e);
             e.printStackTrace();
         }
         return null;
     }
 
-    public static  <T> T parseObject(String jsonStr, CollectionType clazz) {
+    public static <T> T parseObject(String jsonStr, CollectionType clazz) {
         try {
-            return   objectMapper.readValue(jsonStr,clazz);
+            return objectMapper.readValue(jsonStr, clazz);
         } catch (JsonProcessingException e) {
-            log.error("Json parser error",e);
+            log.error("Json parser error", e);
             e.printStackTrace();
         }
         return null;
     }
 
-    public static Collection  parseObjectList(String jsonStr,Class<? extends Collection> collectionClazz,Class<?> elementClass) {
+    public static Collection parseObjectList(String jsonStr, Class<? extends Collection> collectionClazz, Class<?> elementClass) {
         CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(collectionClazz, elementClass);
-        return  parseObject(jsonStr, collectionType);
+        return parseObject(jsonStr, collectionType);
     }
 
-    public static <T> T coverValue(Map<String,Object> data,Class<T> clazz) {
-       return objectMapper.convertValue(data,clazz);
+    public static <T> T coverValue(Map<String, Object> data, Class<T> clazz) {
+        return objectMapper.convertValue(data, clazz);
     }
 
     public static JsonNode readTree(String content) {
         try {
             return objectMapper.readTree(content);
         } catch (JsonProcessingException e) {
-            log.error("Json parser error",e);
+            log.error("Json parser error", e);
             e.printStackTrace();
         }
         return null;

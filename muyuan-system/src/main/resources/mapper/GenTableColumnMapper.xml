@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by ordinal_position
 	</select>
 
-    <insert id="insertGenTableColumn" parameterType="com.muyuan.system.domain.model.GenTableColumn" useGeneratedKeys="true" keyProperty="columnId">
+    <insert id="insertGenTableColumn" parameterType="com.muyuan.system.domain.model.GenTableColumn" useGeneratedKeys="true" keyProperty="id">
         insert into t_gen_table_column (
 			<if test="tableId != null and tableId != ''">table_id,</if>
 			<if test="columnName != null and columnName != ''">column_name,</if>
@@ -113,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteGenTableColumns">
         delete from t_gen_table_column where id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item.columnId}
+            #{item.id}
         </foreach>
     </delete>
 
