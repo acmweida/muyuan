@@ -1,14 +1,12 @@
-package com.muyuan.common.core.util;
+package com.muyuan.common.util;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.thread.CommonThreadPool;
+import com.muyuan.common.core.util.CollectionAssert;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
-import org.csource.fastdfs.StorageClient1;
-import org.csource.fastdfs.UploadCallback;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.csource.fastdfs.*;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -25,23 +23,20 @@ import java.util.concurrent.*;
  * @Date 2021/10/11 15:13
  * @Version 1.0
  */
-@Component
 @Slf4j
 public class FastDFSClient {
 
-    @Autowired
-    StorageClient1 storageClient1;
 
     /**
      * 小文件上传  1MB 以内
-     * @param fileExtendName
+     * @param fileName
      * @param fileStream
      * @return
      * @throws MyException
      * @throws IOException
      */
-    public String uploadFile(String fileExtendName,InputStream fileStream) throws MyException, IOException {
-        return uploadFile(null,fileExtendName,fileStream);
+    public static String uploadFile(String fileName,InputStream fileStream) throws MyException, IOException {
+        return uploadFile(null,fileName,fileStream);
     }
 
     /**
@@ -53,10 +48,29 @@ public class FastDFSClient {
      * @throws MyException
      * @throws IOException
      */
-    public String uploadFile(String group,String fileExtendName,InputStream fileStream) throws MyException, IOException {
-        Assert.isTrue(fileStream.available() <= GlobalConst.MB,"file size > 1MB");
-        String filePath = storageClient1.upload_file1(group, fileStream.available(),new UploadFaction(fileStream), fileExtendName, new NameValuePair[]{});
+    public static String uploadFile(String group,String fileName,InputStream fileStream) throws MyException, IOException {
+        Assert.isTrue(fileStream.available() <= GlobalConst.MB * 500,"file size > 500MB");
+        NameValuePair[] metaList = new NameValuePair[1];
+        metaList[0] = new NameValuePair("fileName", fileName);
+
+        String fileExtendName = fileName.substring(fileName.lastIndexOf(".")+1);
+
+        String filePath = newStorageClient().upload_file1(group,fileStream.available(), new UploadFaction(fileStream),fileExtendName, metaList);
         return filePath;
+    }
+
+    private static StorageClient1 newStorageClient() {
+        TrackerServer trackerServer;
+        StorageClient1 storageClient = null;
+        StorageServer storageServer = null;
+        try {
+            TrackerClient tracker = new TrackerClient();
+            trackerServer = tracker.getTrackerServer();
+            storageClient = new StorageClient1(trackerServer, storageServer);
+        } catch (IOException  e) {
+            e.printStackTrace();
+        }
+         return  storageClient;
     }
 
     /**
@@ -69,7 +83,7 @@ public class FastDFSClient {
      * @throws ExecutionException
      * @throws TimeoutException
      */
-    public String[] uploadFiles(String group, String[] fileExtendNames, List<InputStream> fileStreams) throws InterruptedException, ExecutionException, TimeoutException {
+    public static String[] uploadFiles(String group, String[] fileExtendNames, List<InputStream> fileStreams) throws InterruptedException, ExecutionException, TimeoutException {
         Assert.notEmpty(fileExtendNames,"fileExtendNames is empty");
         Assert.notEmpty(fileStreams,"fileStreams is empty");
         Assert.isTrue(fileExtendNames.length == fileStreams.size(),"fileExtendNames length not equal fileStreams length");
@@ -80,7 +94,7 @@ public class FastDFSClient {
         List<UploadTask> tasks = new ArrayList<>();
         int index = 0;
         for (String fileExtendName : fileExtendNames) {
-            tasks.add(new UploadTask(fileStreams.get(index),storageClient1,group,fileExtendName));
+            tasks.add(new UploadTask(fileStreams.get(index),newStorageClient(),group,fileExtendName));
         }
 
         final List<Future<String>> futures = CommonThreadPool.invokeAll(tasks);
@@ -110,9 +124,20 @@ public class FastDFSClient {
 
         @Override
         public int send(OutputStream outputStream) throws IOException {
-            int readByteCount = fileStream.read(temp, start, (int) GlobalConst.KB);
-            outputStream.write(temp, 0, readByteCount);
-            return readByteCount;
+            int readBytes;
+
+            try {
+                while ((readBytes = fileStream.read(temp)) >= 0) {
+                    if (readBytes == 0) {
+                        continue;
+                    }
+                    outputStream.write(temp, 0, readBytes);
+                }
+            } finally {
+                fileStream.close();
+            }
+
+            return 0;
         }
 
     }
@@ -120,7 +145,7 @@ public class FastDFSClient {
     /**
      * 文件上传
      */
-    public static class UploadTask extends UploadFaction implements  Callable<String> {
+    public static class UploadTask extends UploadFaction implements Callable<String> {
         private StorageClient1 storageClient1;
         private String group;
         private String fileExtendName;

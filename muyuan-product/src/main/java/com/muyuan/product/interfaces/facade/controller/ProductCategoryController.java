@@ -10,11 +10,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -41,5 +39,18 @@ public class ProductCategoryController {
     public Result list(@ModelAttribute ProductCategoryDTO categoryDTO) {
         List<ProductCategory> list = productCategoryDomainService.list(categoryDTO);
         return ResultUtil.success(list);
+    }
+
+    @PostMapping()
+    @RequirePermissions("product:category:add")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "name",value = "商品分类名称",dataTypeClass = String.class,paramType = "body"),
+            @ApiImplicitParam(name = "code",value = "商品分类编码",dataTypeClass = String.class,paramType = "body"),
+            @ApiImplicitParam(name = "logo",value = "分类图标",dataTypeClass = String.class,paramType = "body"),
+                    @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
+    )
+    public Result add(@RequestBody @Valid ProductCategoryDTO productCategoryDTO) {
+        productCategoryDomainService.add(productCategoryDTO);
+        return ResultUtil.success();
     }
 }

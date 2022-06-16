@@ -1,4 +1,4 @@
-package com.muyuan.common.core.base.config.mybatis;
+package com.muyuan.common.base.config.mybatis;
 
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;

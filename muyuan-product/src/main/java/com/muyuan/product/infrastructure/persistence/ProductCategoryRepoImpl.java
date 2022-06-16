@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName ProductCategoryRepoImpl
@@ -26,6 +27,30 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
     @Override
     public List<ProductCategory> list(ProductCategoryDTO productCategoryDTO) {
         return productCategoryMapper.selectList(new SqlBuilder(ProductCategory.class)
+                .eq("name",productCategoryDTO.getName())
+                .eq("code",productCategoryDTO.getCode())
                 .build());
     }
+
+    @Override
+    public void add(ProductCategory productCategory) {
+        productCategoryMapper.insertAuto(productCategory);
+    }
+
+    @Override
+    public ProductCategory selectOne(Map params) {
+        return productCategoryMapper.selectOne(params);
+    }
+
+    @Override
+    public void insert(ProductCategory product) {
+        productCategoryMapper.insertAuto(product);
+    }
+
+    @Override
+    public void update(ProductCategory productCategory) {
+        productCategoryMapper.updateBy(productCategory,"id");
+    }
+
+
 }

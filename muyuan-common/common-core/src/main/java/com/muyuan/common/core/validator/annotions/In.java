@@ -1,6 +1,5 @@
 package com.muyuan.common.core.validator.annotions;
 
-import com.muyuan.common.core.validator.impl.AtLeastOneNotEmptyValidator;
 import com.muyuan.common.core.validator.impl.InValidator;
 
 import javax.validation.Constraint;

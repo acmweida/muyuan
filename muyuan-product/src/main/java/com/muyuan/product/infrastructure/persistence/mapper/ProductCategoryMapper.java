@@ -1,8 +1,11 @@
 package com.muyuan.product.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.product.domains.model.ProductCategory;
 import com.muyuan.product.infrastructure.config.mybatis.ProductBaseMapper;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 
 /**
  * @ClassName ProductCategoryMapper 接口
@@ -13,4 +16,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ProductCategoryMapper extends ProductBaseMapper<ProductCategory> {
+
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @InsertProvider(value = CrudSqlProvider.class, method = "insert")
+    Integer insertAuto(ProductCategory dataObject);
 }

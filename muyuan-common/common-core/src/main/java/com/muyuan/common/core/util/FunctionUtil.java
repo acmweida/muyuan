@@ -12,7 +12,25 @@ import java.util.function.Supplier;
  * @Date 2022/5/17 11:41
  * @Version 1.0
  */
-public class FunctionUtil {
+public class FunctionUtil<T> {
+
+    public T value;
+
+    private FunctionUtil(T value) {
+        this.value = value;
+    }
+
+    public static <T>  FunctionUtil<T>  of(T value) {
+      return new FunctionUtil<T>(value);
+    }
+
+    public  void ifThen(Runnable ifNull, Consumer<T> ifNotNull ) {
+        if (ObjectUtils.isEmpty(value)) {
+            ifNull.run();
+        } else {
+            ifNotNull.accept(value);
+        }
+    }
 
     public static Supplier getIfNullThen(Supplier exec, Supplier then) {
         return () -> {

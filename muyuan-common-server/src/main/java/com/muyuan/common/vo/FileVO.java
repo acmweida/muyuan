@@ -1,4 +1,4 @@
-package com.muyuan.common.core.vo;
+package com.muyuan.common.vo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -8,4 +8,8 @@ import lombok.Data;
 public class FileVO {
 
     private String url;
+
+    private String name;
+
+    private String id;
 }

@@ -21,4 +21,6 @@ public interface ProductCategoryDomainService {
      */
     List<ProductCategory> list(ProductCategoryDTO productCategoryDTO);
 
+    void add(ProductCategoryDTO productCategoryDTO);
+
 }

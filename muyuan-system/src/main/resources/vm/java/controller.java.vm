@@ -1,13 +1,11 @@
 package ${packageName}.${moduleName}.interfaces.facade.controller;
 
 import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 
 import com.muyuan.common.core.result.Result;
-import com.muyuan.common.log.annotion.Log;
-import com.muyuan.common.log.enums.BusinessType;
-import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.common.core.log.annotion.Log;
+import com.muyuan.common.core.log.enums.BusinessType;
+import com.muyuan.common.core.web.annotations.RequirePermissions;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

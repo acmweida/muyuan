@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: common
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 20005
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.muyuan.common.dao.*: debug
+    com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
+    io.lettuce: error
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: true
+  mapper-locations: classpath*:mapper/*.xml
+
+dubbo:
+  scan:
+    base-packages: com.muyuan.system.interfaces.facade.api
+  registry:
+    address: spring-cloud://127.0.0.1
+  protocol:
+    name: dubbo
+    port: 21005
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+  consumer:
+    check: false
+
+fastDFS:
+  profiles:
+    active: fastDFS-${spring.profiles.active}.properties
