@@ -36,14 +36,14 @@ public class SqlBuilder {
         conditions = new ArrayList<>();
     }
 
-    public boolean valid(Object value) {
+    private boolean valid(Object value) {
         if (ObjectUtils.isEmpty(value)) {
             return false;
         }
         return true;
     }
 
-    public boolean valid(Object... value) {
+    private boolean valid(Object... value) {
         if (ObjectUtils.isEmpty(value)) {
             return false;
         }
@@ -111,6 +111,14 @@ public class SqlBuilder {
             return this;
         }
         buildCondition(field, Constant.GTE_PREFIX + field, Option.GTE, value);
+        return this;
+    }
+
+    public SqlBuilder like(String field, Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildCondition(field, Option.LIKE, value);
         return this;
     }
 

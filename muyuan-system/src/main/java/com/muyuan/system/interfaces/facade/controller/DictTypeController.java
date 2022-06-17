@@ -42,7 +42,7 @@ public class DictTypeController {
     @ApiOperation(value = "字典类型新增")
     public Result add(@RequestBody @Validated DictTypeDTO dictTypeDTO) {
         if (GlobalConst.NOT_UNIQUE.equals(dictTypeDomainService.checkUnique(new DictType(dictTypeDTO.getName(), dictTypeDTO.getType())))) {
-            return ResultUtil.fail("账号已存在");
+            return ResultUtil.fail("字典已存在");
         }
 
         dictTypeDomainService.add(dictTypeDTO);

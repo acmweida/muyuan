@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
@@ -71,7 +72,15 @@ public class CustomWebResponseExceptionTranslator  extends DefaultWebResponseExc
         headers.set("Pragma", "no-cache");
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         log.error(e.toString());
-        Result result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), ResponseCode.AUTHORIZED_ERROR.getMsg());
+        Result result = null;
+         if (ImageCaptchaException.class.isAssignableFrom(e.getClass())) {
+            result =  ResultUtil.error(ResponseCode.CAPTCHA_ERROR.getCode(),ResponseCode.CAPTCHA_ERROR.getMsg());
+        } else if (InvalidGrantException.class.isAssignableFrom(e.getClass())) {
+            result = ResultUtil.error(ResponseCode.LOGIN_INFO_ERROR.getCode(),ResponseCode.LOGIN_INFO_ERROR.getMsg());
+        } else {
+            result =  ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(),ResponseCode.AUTHORIZED_ERROR.getMsg());
+        }
+
 
         ResponseEntity<String> response = new ResponseEntity(JSONUtil.toJsonString(result), headers,HttpStatus.OK);
 

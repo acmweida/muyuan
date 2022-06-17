@@ -36,6 +36,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
     @Transactional
     public void add(ProductCategoryDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryDTO.convert();
+        productCategory.init();
         if (ObjectUtils.isNotEmpty(productCategory.getParentId())) {
             productCategoryRepo.insert(productCategory);
             ProductCategory parent = productCategoryRepo.selectOne(new SqlBuilder(ProductCategory.class)
@@ -44,11 +45,11 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
 
             productCategory.linkParent(parent);
             productCategoryRepo.update(productCategory);
+            productCategoryRepo.update(parent);
 
         } else {
             productCategory.clearParentId();
             productCategoryRepo.insert(productCategory);
-
         }
 
     }

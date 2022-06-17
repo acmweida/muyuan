@@ -30,4 +30,6 @@ public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCatego
 
     @NotBlank(message = "分类编码不能为空")
     private String code;
+
+    private Integer orderNum;
 }

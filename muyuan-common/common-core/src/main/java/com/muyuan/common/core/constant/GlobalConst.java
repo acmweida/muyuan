@@ -5,6 +5,10 @@ public interface GlobalConst {
     String MASTER_PREFIX = "MASTER_";
     String SLAVE_PREFIX = "SLAVE_";
 
+    String TRUE ="0";
+
+    String FALSE = "1";
+
     String ID = "id";
 
     long KB = 1024;

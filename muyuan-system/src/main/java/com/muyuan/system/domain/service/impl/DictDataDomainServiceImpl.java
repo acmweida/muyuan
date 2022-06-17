@@ -1,7 +1,6 @@
 package com.muyuan.system.domain.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.domain.repo.DictDataRepo;
@@ -10,12 +9,12 @@ import com.muyuan.system.interfaces.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictDataDomainService
@@ -35,11 +34,7 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     @Override
     public String checkUnique(DictData dictData) {
         Long id = null == dictData.getId() ? 0 : dictData.getId();
-        dictData = dictDataRepo.selectOne(new SqlBuilder(DictData.class).select("id")
-                .eq("type", dictData.getType())
-                .eq("label", dictData.getLabel())
-                .eq("value", dictData.getValue())
-                .build());
+        dictData = dictDataRepo.selectOne(dictData);
         if (null != dictData && !dictData.getId().equals(id)) {
             return GlobalConst.NOT_UNIQUE;
         }
@@ -53,22 +48,36 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
      * @return
      */
     @Override
-    public Page list(DictDataDTO dictDataDTO) {
-
-        SqlBuilder sqlBuilder = new SqlBuilder(DictData.class)
-                .eq("type", dictDataDTO.getType())
-                .eq("status", dictDataDTO.getStatus())
-                .orderByDesc("updateTime", "createTime");
+    public Page page(DictDataDTO dictDataDTO) {
 
         Page page = Page.builder().pageNum(dictDataDTO.getPageNum())
                 .pageSize(dictDataDTO.getPageSize()).build();
-        sqlBuilder.page(page);
 
-        List<DictData> list = dictDataRepo.select(sqlBuilder.build());
+        List<DictData> list = dictDataRepo.select(dictDataDTO,page);
 
         page.setRows(list);
 
         return page;
+    }
+
+    /**
+     * 查询字典数据
+     *
+     * @param dictDataDTO
+     * @return
+     */
+    @Override
+    public List<DictData> list(DictDataDTO dictDataDTO) {
+
+        List<DictData> list = dictDataRepo.select(dictDataDTO);
+        return list;
+    }
+
+    @Override
+    public Optional<DictData> get(DictDataDTO dictDataDTO) {
+        return Optional.ofNullable(
+                dictDataRepo.selectOne(dictDataDTO.convert())
+        );
     }
 
     /**
@@ -84,7 +93,7 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
             return Collections.EMPTY_LIST;
         }
 
-        List<DictData> list = dictDataRepo.selectByDateType(dictDataType);
+        List<DictData> list = dictDataRepo.selectByDataType(dictDataType);
 
         return list;
     }
@@ -94,9 +103,14 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     @Override
     @Transactional
     public void add(DictDataDTO dictDataDTO) {
-        DictData dictData = new DictData();
-        BeanUtils.copyProperties(dictDataDTO, dictData);
+        DictData dictData = dictDataDTO.convert();
         dictDataRepo.insert(dictData);
+    }
+
+    @Override
+    public void update(DictDataDTO dictDataDTO) {
+        DictData dictData = dictDataDTO.convert();
+        dictDataRepo.update(dictData);
     }
 
     @Override

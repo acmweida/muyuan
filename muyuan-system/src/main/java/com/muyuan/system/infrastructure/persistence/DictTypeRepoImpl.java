@@ -22,7 +22,7 @@ public class DictTypeRepoImpl implements DictTypeRepo {
 
     @Override
     public int insert(DictType dictType) {
-        return dictTypeMapper.insert(dictType);
+        return dictTypeMapper.insertAuto(dictType);
     }
 
     @Override

@@ -21,6 +21,10 @@ public interface ProductCategoryDomainService {
      */
     List<ProductCategory> list(ProductCategoryDTO productCategoryDTO);
 
+    /**
+     * 新增分类
+     * @param productCategoryDTO
+     */
     void add(ProductCategoryDTO productCategoryDTO);
 
 }

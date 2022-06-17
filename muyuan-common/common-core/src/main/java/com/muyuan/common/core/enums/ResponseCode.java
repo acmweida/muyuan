@@ -15,6 +15,8 @@ public enum ResponseCode {
     CLIENT_AUTHENTICATION_FAILED(406,"OAUTH2 CLIENT认证错误"),
 
     AUTHORIZED_ERROR(407,"认证异常"),
+    CAPTCHA_ERROR(408,"验证码错误"),
+    LOGIN_INFO_ERROR(409,"用户名或密码错误"),
 
     USER_ONT_FOUND(801,"用户信息没有查询到"),
     FILE_UPLOAD_FAIL(601,"文件上传失败"),

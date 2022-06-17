@@ -11,14 +11,23 @@ public class DictDataAssembler {
 
     public static List<DictDataVO> buildDictDataVO(List<DictData> dictDatas) {
         List<DictDataVO> list = new ArrayList<>();
-        for (DictData dictData: dictDatas) {
+        for (DictData dictData : dictDatas) {
             if (null != dictData) {
                 DictDataVO temp = new DictDataVO();
-                BeanUtils.copyProperties(dictData,temp);
+                BeanUtils.copyProperties(dictData, temp);
                 list.add(temp);
             }
         }
 
         return list;
+    }
+
+    public static DictDataVO buildDictDataVO(DictData dictData) {
+        if (null != dictData) {
+            DictDataVO temp = new DictDataVO();
+            BeanUtils.copyProperties(dictData, temp);
+            return temp;
+        }
+        return null;
     }
 }

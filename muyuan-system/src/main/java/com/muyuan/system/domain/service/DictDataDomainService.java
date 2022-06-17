@@ -5,6 +5,7 @@ import com.muyuan.system.domain.model.DictData;
 import com.muyuan.system.interfaces.dto.DictDataDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictDataService
@@ -20,7 +21,16 @@ public interface DictDataDomainService {
      * @param dictDataDTO
      * @return
      */
-    Page list(DictDataDTO dictDataDTO);
+    Page page(DictDataDTO dictDataDTO);
+
+    /**
+     * 查询字典数据
+     * @param dictDataDTO
+     * @return
+     */
+    List<DictData> list(DictDataDTO dictDataDTO);
+
+    Optional<DictData> get(DictDataDTO dictDataDTO);
 
     /**
      * 通过DataType 查询字典数据
@@ -29,12 +39,19 @@ public interface DictDataDomainService {
      */
     List<DictData> getByDataType(String dictType);
 
+
     /**
      * 字典数据添加
      * @param dictDataDTO
-     * @return 0-成功 1-已存在 2-失败
      */
     void add(DictDataDTO dictDataDTO);
+
+    /**
+     * 字典数据更新
+     * @param dictDataDTO
+     * @return
+     */
+    void update(DictDataDTO dictDataDTO);
 
     /**
      * 根据ID删除记录

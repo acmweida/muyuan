@@ -27,8 +27,9 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
     @Override
     public List<ProductCategory> list(ProductCategoryDTO productCategoryDTO) {
         return productCategoryMapper.selectList(new SqlBuilder(ProductCategory.class)
-                .eq("name",productCategoryDTO.getName())
+                .like("name",productCategoryDTO.getName())
                 .eq("code",productCategoryDTO.getCode())
+                .eq("parentId",productCategoryDTO.getParentId())
                 .build());
     }
 

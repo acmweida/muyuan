@@ -21,6 +21,10 @@ public class SelectTree {
 
     private List<SelectTree> children;
 
+    private String value;
+
+    private boolean leaf;
+
     public SelectTree(Long id, String label) {
         this.id = id;
         this.label = label;
@@ -29,5 +33,12 @@ public class SelectTree {
 
     public SelectTree() {
 
+    }
+
+    public SelectTree(String value, String label, boolean leaf) {
+        this.value = value;
+        this.label = label;
+        this.children = new ArrayList<>();
+        this.leaf = leaf;
     }
 }

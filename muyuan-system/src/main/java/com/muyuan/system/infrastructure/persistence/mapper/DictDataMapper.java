@@ -6,12 +6,11 @@ import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
-import org.apache.poi.ss.formula.functions.T;
 
 @Mapper
 public interface DictDataMapper extends SystemBaseMapper<DictData> {
 
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
-    Integer insertAuto(T dataObject);
+    Integer insertAuto(DictData dataObject);
 }
