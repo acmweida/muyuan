@@ -26,7 +26,7 @@ public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCatego
     @NotBlank(message = "分类图标不能为空")
     private String logo;
 
-    private String parentId;
+    private Long parentId;
 
     @NotBlank(message = "分类编码不能为空")
     private String code;

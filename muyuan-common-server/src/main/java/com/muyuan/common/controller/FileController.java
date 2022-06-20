@@ -3,18 +3,24 @@ package com.muyuan.common.controller;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.dto.FileDTO;
 import com.muyuan.common.factories.FileServiceFactory;
+import com.muyuan.common.model.File;
 import com.muyuan.common.service.FileService;
 import com.muyuan.common.vo.FileVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.io.IOUtils;
+import org.csource.common.MyException;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Optional;
 
 @RestController
@@ -39,5 +45,37 @@ public class FileController {
         Optional<FileVO> fileVO = fileService.uploadFile(fileDTO);
 
         return ResultUtil.success(fileVO.get());
+    }
+
+
+    @GetMapping("/{fileUrl}")
+    @ApiOperation(value = "下载单个文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileUrl",value = "文件路径",required = true,type ="path")
+    })
+    public void view(@PathVariable  String fileUrl, HttpServletResponse response) throws MyException, IOException {
+        FileService fileService = FileServiceFactory.createFastDFSFileService();
+        Optional<File> fileInfo = fileService.getFileInfo(fileUrl);
+        if (!fileInfo.isPresent()) {
+            response.reset();
+            response.getWriter().write(JSONUtil.toJsonString(ResultUtil.fail("文件未找到")));
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            return;
+        }
+
+        File file = fileInfo.get();
+
+        response.reset();
+        response.setCharacterEncoding(GlobalConst.UTF8);
+        response.setContentType("application/octet-stream");
+        response.addHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(file.getName(),GlobalConst.UTF8));
+
+        if (fileInfo.get().getSize() < (5 << 10 << 10)) {
+            IOUtils.write(fileService.view(file.getFilePath()), response.getOutputStream());
+            return;
+        }
+
+        fileService.view(file.getFilePath(),response.getOutputStream());
+
     }
 }

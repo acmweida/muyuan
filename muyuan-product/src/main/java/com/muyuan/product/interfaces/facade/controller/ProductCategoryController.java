@@ -63,7 +63,7 @@ public class ProductCategoryController {
     )
     public Result treeSelect(@ModelAttribute ProductCategoryDTO productCategoryDTO) {
         if (ObjectUtils.isEmpty(productCategoryDTO.getParentId())) {
-            productCategoryDTO.setParentId("0");
+            productCategoryDTO.setParentId(0l);
         }
         List<ProductCategory> list = productCategoryDomainService.list(productCategoryDTO);
         return ResultUtil.success(ProductCategoryAssembler.buildSelectTree(list));

@@ -64,13 +64,25 @@ public class ProductCategory {
      */
     private String leaf;
 
-    public boolean isLeaf() {
+    public String getLeaf() {
+        return leaf;
+    }
+
+    public void setLeaf(String leaf) {
+        this.leaf = leaf;
+    }
+
+    public boolean leaf() {
         return GlobalConst.TRUE.equals(leaf);
     }
+
+
+
 
     public void init() {
         status = "1";
         productCount = 0;
+        level = 1;
         leaf = GlobalConst.TRUE;
         createTime = DateTime.now().toDate();
         creator = SecurityUtils.getUsername();
@@ -100,6 +112,7 @@ public class ProductCategory {
                             status = p.status;
                             ancestors = StringUtils.join(p.ancestors, ",", id);
                             p.leaf = GlobalConst.FALSE;
+                            p.update();
                         }
                 );
     }

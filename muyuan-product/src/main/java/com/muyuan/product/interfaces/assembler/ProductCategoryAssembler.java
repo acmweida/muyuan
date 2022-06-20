@@ -20,7 +20,7 @@ public class ProductCategoryAssembler {
         for (ProductCategory productCategory : productCategories) {
             selectTrees.add(new SelectTree(String.valueOf(productCategory.getId())
                     ,productCategory.getName()
-                    ,productCategory.isLeaf()));
+                    ,productCategory.leaf()));
         }
         return selectTrees;
     }

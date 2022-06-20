@@ -18,6 +18,11 @@ public class File {
 
     private String url;
 
+    /**
+     * FastDFS路径
+     */
+    private String filePath;
+
     private String suffix;
 
     private Date createTime;

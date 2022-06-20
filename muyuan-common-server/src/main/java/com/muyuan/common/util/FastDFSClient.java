@@ -3,6 +3,7 @@ package com.muyuan.common.util;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.CollectionAssert;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 /**
@@ -42,7 +44,6 @@ public class FastDFSClient {
     /**
      * 小文件上传  1MB 以内
      * @param group
-     * @param fileExtendName
      * @param fileStream
      * @return
      * @throws MyException
@@ -161,6 +162,62 @@ public class FastDFSClient {
         @Override
         public String call() throws Exception {
             return  storageClient1.upload_file1(group, super.fileStream.available(),new UploadFaction(super.fileStream), fileExtendName, new NameValuePair[]{});
+        }
+    }
+
+
+    // download
+
+    public static byte[] download(String filePath) throws MyException, IOException {
+        return newStorageClient().download_file(getGroupName(filePath),getRemoteFilename(filePath));
+    }
+
+    public static void download(String filePath,OutputStream out) throws MyException, IOException {
+        newStorageClient().download_file(getGroupName(filePath),getRemoteFilename(filePath),new DownloadCallback(out));
+    }
+
+    public static Optional<FileInfo> getFileInfo(String filePath) throws MyException, IOException {
+        return Optional.of(newStorageClient().get_file_info(getGroupName(filePath), getRemoteFilename(filePath)));
+    }
+
+    /**
+     * 获取服务器组名
+     *
+     * @param filePath /ys/M00/00/00/CtUhCGElvNyASKbzAAM7XqG9OnA557.jpg
+     * @return 服务器组名 ys
+     */
+    private static String getGroupName(String filePath) {
+        final String[] path = filePath.split("/");
+        return path[0];
+    }
+
+    /**
+     * 获取远程文件名
+     *
+     * @param filePath /ys/M00/00/00/CtUhCGElvNyASKbzAAM7XqG9OnA557.jpg
+     * @return 远程文件名 M00/00/00/CtUhCGElvNyASKbzAAM7XqG9OnA557.jpg
+     */
+    private static String getRemoteFilename(String filePath) {
+        final String[] path = filePath.split("/");
+        return filePath.substring(path[0].length() + 1);
+    }
+
+    static class DownloadCallback implements org.csource.fastdfs.DownloadCallback {
+
+        private OutputStream outputStream;
+
+        private int length = 0;
+
+        public DownloadCallback(OutputStream outputStream) {
+            this.outputStream = outputStream;
+        }
+
+        @SneakyThrows
+        @Override
+        public int recv(long l, byte[] bytes, int i) {
+            outputStream.write(bytes);
+            length+=i;
+            return (int) (l - length);
         }
     }
 }
