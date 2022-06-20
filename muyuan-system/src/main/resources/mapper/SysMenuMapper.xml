@@ -8,10 +8,10 @@
         select perms from (
                               select perms,id from t_sys_menu where type = 'F'
                           ) menu
-                              left join  (
+                              inner join  (
             select * from t_sys_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
-                              left join (
+                               inner join (
             select id from t_sys_role where code in
                                   <foreach collection="roleCodes" open="(" close=")" item="item" >
                                       #{item}
