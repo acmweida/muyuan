@@ -3,6 +3,8 @@ package com.muyuan.product.interfaces.dto;
 import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.product.domains.model.ProductCategory;
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -16,6 +18,8 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @ApiModel("商品分类DTO")
+@AllArgsConstructor
+@Builder
 public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCategory> {
 
     @NotBlank(message = "分类名称不能为空")
@@ -28,8 +32,11 @@ public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCatego
 
     private Long parentId;
 
-    @NotBlank(message = "分类编码不能为空")
     private String code;
 
     private Integer orderNum;
+
+    private Integer level;
+
+    private Long id;
 }

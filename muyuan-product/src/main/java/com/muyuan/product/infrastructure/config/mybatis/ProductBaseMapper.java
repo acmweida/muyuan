@@ -21,6 +21,9 @@ public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
     @SelectProvider(value = CrudSqlProvider.class, method = "selectList")
     List<T> selectList(Map params);
 
+    @SelectProvider(value = CrudSqlProvider.class, method = "count")
+    int count(Map params);
+
     /**
      * 如果需要数据库自动生成ID 请子接口中定义如下方法
      * <p>

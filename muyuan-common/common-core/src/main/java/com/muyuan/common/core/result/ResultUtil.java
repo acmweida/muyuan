@@ -39,7 +39,7 @@ public class ResultUtil {
         return new Result(codeMessage.getCode(),codeMessage.getMsg());
     }
 
-    public static Result fail(ResponseCode codeMessage,Object data) {
+    public static Result fail(ResponseCode codeMessage,String data) {
         return new Result(codeMessage.getCode(),codeMessage.getMsg(),data);
     }
 

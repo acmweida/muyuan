@@ -4,7 +4,6 @@ import com.muyuan.product.domains.model.ProductCategory;
 import com.muyuan.product.interfaces.dto.ProductCategoryDTO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName ProductCategoryRepo 接口
@@ -19,10 +18,12 @@ public interface ProductCategoryRepo {
 
     void add(ProductCategory productCategory);
 
-    ProductCategory selectOne(Map params);
+    ProductCategory selectOne(ProductCategory productCategory);
 
     void insert(ProductCategory productCategory);
 
     void update(ProductCategory productCategory);
+
+    int count(ProductCategoryDTO productCategoryDTO);
 
 }

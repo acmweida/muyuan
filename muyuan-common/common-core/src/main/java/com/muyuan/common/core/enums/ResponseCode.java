@@ -8,11 +8,15 @@ public enum ResponseCode {
 
     FAIL(400,"操作失败"),
 
+
     AUTH_FAIL(403,"没有权限"),
     TOKEN_INVALID_FAIL(402,"TOKEN无效"),
     TOKEN_NOT_FOUND_FAIL(403,"TOKEN参数未传递"),
     UNAUTHORIZED(405,"没有登录或者token失效"),
     CLIENT_AUTHENTICATION_FAILED(406,"OAUTH2 CLIENT认证错误"),
+
+    ADD_EXIST(410,"新增内容已存在"),
+    QUERY_NOT_EXIST(411,"数据未找到"),
 
     AUTHORIZED_ERROR(407,"认证异常"),
     CAPTCHA_ERROR(408,"验证码错误"),

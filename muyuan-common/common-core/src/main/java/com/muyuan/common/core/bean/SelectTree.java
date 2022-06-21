@@ -25,6 +25,8 @@ public class SelectTree {
 
     private boolean leaf;
 
+    private boolean disabled = true;
+
     public SelectTree(Long id, String label) {
         this.id = id;
         this.label = label;
@@ -40,5 +42,13 @@ public class SelectTree {
         this.label = label;
         this.children = new ArrayList<>();
         this.leaf = leaf;
+    }
+
+    public SelectTree(String value, String label, boolean leaf,boolean disabled) {
+        this.value = value;
+        this.label = label;
+        this.children = new ArrayList<>();
+        this.leaf = leaf;
+        this.disabled = disabled;
     }
 }

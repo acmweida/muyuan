@@ -4,6 +4,7 @@ import com.muyuan.product.domains.model.ProductCategory;
 import com.muyuan.product.interfaces.dto.ProductCategoryDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName ProductCategoryDomainService 接口
@@ -26,5 +27,25 @@ public interface ProductCategoryDomainService {
      * @param productCategoryDTO
      */
     void add(ProductCategoryDTO productCategoryDTO);
+
+    /**
+     * 更新分类
+     * @param productCategoryDTO
+     */
+    void update(ProductCategoryDTO productCategoryDTO);
+
+    /**
+     * 唯一性查询
+     * @param productCategory
+     * @return
+     */
+    String checkUnique(ProductCategory productCategory);
+
+    /**
+     * 获取详情
+     * @param id
+     * @return
+     */
+    Optional<ProductCategory> get(String id);
 
 }

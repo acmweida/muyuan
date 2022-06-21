@@ -18,9 +18,12 @@ public class ProductCategoryAssembler {
     public static List<SelectTree> buildSelectTree(List<ProductCategory> productCategories) {
         List<SelectTree> selectTrees = new ArrayList<>();
         for (ProductCategory productCategory : productCategories) {
-            selectTrees.add(new SelectTree(String.valueOf(productCategory.getId())
+            selectTrees.add(new SelectTree(
+                    String.valueOf(productCategory.getId())
                     ,productCategory.getName()
-                    ,productCategory.leaf()));
+                    ,productCategory.leaf()
+                    ,productCategory.getLevel() == 3
+            ));
         }
         return selectTrees;
     }

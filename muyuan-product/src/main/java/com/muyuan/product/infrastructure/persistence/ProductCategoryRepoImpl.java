@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName ProductCategoryRepoImpl
@@ -39,8 +38,12 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
     }
 
     @Override
-    public ProductCategory selectOne(Map params) {
-        return productCategoryMapper.selectOne(params);
+    public ProductCategory selectOne(ProductCategory productCategory) {
+        return productCategoryMapper.selectOne(new SqlBuilder(ProductCategory.class)
+                .eq("id",productCategory.getId())
+                .eq("name", productCategory.getName())
+                .eq("parentId",productCategory.getParentId())
+                .build());
     }
 
     @Override
@@ -51,6 +54,13 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
     @Override
     public void update(ProductCategory productCategory) {
         productCategoryMapper.updateBy(productCategory,"id");
+    }
+
+    @Override
+    public int count(ProductCategoryDTO productCategoryDTO) {
+        return productCategoryMapper.count(new SqlBuilder(ProductCategory.class)
+                .eq("level",productCategoryDTO.getLevel())
+                .build());
     }
 
 

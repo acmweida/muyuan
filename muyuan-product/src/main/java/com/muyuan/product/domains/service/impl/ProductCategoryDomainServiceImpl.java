@@ -1,6 +1,6 @@
 package com.muyuan.product.domains.service.impl;
 
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.product.domains.model.ProductCategory;
 import com.muyuan.product.domains.repo.ProductCategoryRepo;
 import com.muyuan.product.domains.service.ProductCategoryDomainService;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName ProductCategoryDomainServiceImpl
@@ -39,18 +40,45 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         productCategory.init();
         if (ObjectUtils.isNotEmpty(productCategory.getParentId())) {
             productCategoryRepo.insert(productCategory);
-            ProductCategory parent = productCategoryRepo.selectOne(new SqlBuilder(ProductCategory.class)
-                    .eq("id",productCategory.getParentId())
-                    .build());
+            ProductCategory parent = productCategoryRepo.selectOne(
+                    ProductCategory.builder().id(productCategoryDTO.getParentId()).build());
 
             productCategory.linkParent(parent);
             productCategoryRepo.update(productCategory);
             productCategoryRepo.update(parent);
 
         } else {
-            productCategory.clearParentId();
+            int rootCount = productCategoryRepo.count(ProductCategoryDTO.builder().level(1).build());
+            productCategory.initRoot(rootCount+1);
             productCategoryRepo.insert(productCategory);
         }
 
+    }
+
+    @Override
+    public void update(ProductCategoryDTO productCategoryDTO) {
+        ProductCategory productCategory = productCategoryDTO.convert();
+        productCategoryRepo.update(productCategory);
+    }
+
+    @Override
+    public String checkUnique(ProductCategory productCategory) {
+        Long id = null == productCategory.getId() ? 0 : productCategory.getId();
+        productCategory = productCategoryRepo.selectOne(
+                ProductCategory.builder().name(productCategory.getName())
+                        .parentId(productCategory.getParentId()).build());
+        if (null != productCategory && !id.equals(productCategory.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public Optional<ProductCategory> get(String id) {
+        ProductCategory productCategory = productCategoryRepo.selectOne(ProductCategory.builder()
+                .id(Long.valueOf(id))
+                .build());
+
+        return Optional.ofNullable(productCategory);
     }
 }
