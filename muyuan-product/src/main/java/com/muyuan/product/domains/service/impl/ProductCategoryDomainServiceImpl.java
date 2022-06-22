@@ -39,26 +39,43 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         ProductCategory productCategory = productCategoryDTO.convert();
         productCategory.init();
         if (ObjectUtils.isNotEmpty(productCategory.getParentId())) {
-            productCategoryRepo.insert(productCategory);
             ProductCategory parent = productCategoryRepo.selectOne(
                     ProductCategory.builder().id(productCategoryDTO.getParentId()).build());
-
-            productCategory.linkParent(parent);
-            productCategoryRepo.update(productCategory);
-            productCategoryRepo.update(parent);
-
+            if (ObjectUtils.isEmpty(parent)) {
+                addRootCategory(productCategory);
+            } else {
+                addSubNodeCategory(productCategory,parent);
+            }
         } else {
-            int rootCount = productCategoryRepo.count(ProductCategoryDTO.builder().level(1).build());
-            productCategory.initRoot(rootCount+1);
-            productCategoryRepo.insert(productCategory);
+            addRootCategory(productCategory);
         }
-
     }
+
+    private void  addRootCategory(ProductCategory productCategory) {
+        int rootCount = productCategoryRepo.count(ProductCategoryDTO.builder().level(1).build());
+        productCategory.initRoot(rootCount);
+        productCategory.save(productCategoryRepo);
+        productCategory.setAncestors(String.valueOf(productCategory.getId()));
+        productCategory.save(productCategoryRepo);
+    }
+
+    private void addSubNodeCategory(ProductCategory productCategory,ProductCategory parent) {
+        productCategory.save(productCategoryRepo);
+        // 查询兄弟节点数量 用于生成Code
+        int count = productCategoryRepo.count(ProductCategoryDTO.builder()
+                .level(parent.getLevel() + 1)
+                .parentId(parent.getId())
+                .build());
+        productCategory.linkParent(parent,count);
+        productCategory.save(productCategoryRepo);
+        parent.save(productCategoryRepo);
+    }
+
 
     @Override
     public void update(ProductCategoryDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryDTO.convert();
-        productCategoryRepo.update(productCategory);
+        productCategory.save(productCategoryRepo);
     }
 
     @Override
@@ -80,5 +97,13 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
                 .build());
 
         return Optional.ofNullable(productCategory);
+    }
+
+    @Override
+    public void delete(String[] ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return;
+        }
+        productCategoryRepo.delete(ids);
     }
 }

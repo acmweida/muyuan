@@ -48,4 +48,10 @@ public interface ProductCategoryDomainService {
      */
     Optional<ProductCategory> get(String id);
 
+    /**
+     * 删除ID
+     * @param ids
+     */
+    void delete(String[] ids);
+
 }

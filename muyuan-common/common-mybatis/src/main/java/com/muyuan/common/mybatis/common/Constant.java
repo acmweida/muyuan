@@ -35,7 +35,11 @@ public interface Constant {
 
     String COLUMN = "$column";
 
+    String UPDATE = "$update";
+
     String EXCLUDE_COLUMN = "$exclude_column";
+
+    String UPDATE_PREFIX = "#UPDATE_";
 
     String GTE_PREFIX = "#GTE_";
 

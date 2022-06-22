@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
@@ -20,6 +21,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel("商品分类DTO")
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCategory> {
 
     @NotBlank(message = "分类名称不能为空")
@@ -39,4 +41,5 @@ public class ProductCategoryDTO extends BaseDTO<ProductCategoryDTO,ProductCatego
     private Integer level;
 
     private Long id;
+
 }

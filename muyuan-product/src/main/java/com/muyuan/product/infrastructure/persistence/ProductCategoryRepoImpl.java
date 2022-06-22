@@ -1,6 +1,7 @@
 package com.muyuan.product.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.model.ProductCategory;
 import com.muyuan.product.domains.repo.ProductCategoryRepo;
 import com.muyuan.product.infrastructure.persistence.mapper.ProductCategoryMapper;
@@ -29,12 +30,8 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
                 .like("name",productCategoryDTO.getName())
                 .eq("code",productCategoryDTO.getCode())
                 .eq("parentId",productCategoryDTO.getParentId())
+                .notEq("status","2")
                 .build());
-    }
-
-    @Override
-    public void add(ProductCategory productCategory) {
-        productCategoryMapper.insertAuto(productCategory);
     }
 
     @Override
@@ -60,6 +57,17 @@ public class ProductCategoryRepoImpl implements ProductCategoryRepo {
     public int count(ProductCategoryDTO productCategoryDTO) {
         return productCategoryMapper.count(new SqlBuilder(ProductCategory.class)
                 .eq("level",productCategoryDTO.getLevel())
+                .eq("parentId",productCategoryDTO.getParentId())
+                .build());
+    }
+
+    @Override
+    public void delete(String[] ids) {
+        productCategoryMapper.update(new SqlBuilder()
+                .set("status","2")
+                .set("updater", SecurityUtils.getUsername())
+                .set("updateBy", SecurityUtils.getUserId())
+                .in("id",ids)
                 .build());
     }
 

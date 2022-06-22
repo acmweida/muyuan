@@ -3,13 +3,17 @@ package com.muyuan.common.mybatis.jdbc.crud;
 import com.muyuan.common.core.cache.localcache.LocalCacheManager;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.common.Constant;
+import com.muyuan.common.mybatis.common.SqlType;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.muyuan.common.mybatis.common.Constant.*;
 
@@ -19,16 +23,19 @@ public class SqlBuilder {
 
     private List<Condition> conditions;
 
-    private String[] columns;
+    private List<Condition> updates;
 
-    private String noSelect;
+    private String[] columns;
 
     private Page pageInfo;
 
     private boolean page = false;
 
+    private SqlType sqlType = SqlType.SELECT;
+
     public SqlBuilder() {
         conditions = new ArrayList<>();
+        updates = new ArrayList<>();
     }
 
     public SqlBuilder(Class target) {
@@ -48,6 +55,14 @@ public class SqlBuilder {
             return false;
         }
         return true;
+    }
+
+    public SqlBuilder set(String field,Object value) {
+        if (!valid(value)) {
+            return this;
+        }
+        buildUpdate(field, UPDATE_PREFIX+ field, Option.EQ, value);
+        return this;
     }
 
     public SqlBuilder select(String column) {
@@ -71,6 +86,15 @@ public class SqlBuilder {
 
     private void buildCondition(String field, Option option, Object value) {
         buildCondition(field, field, option, value);
+    }
+
+    private void buildUpdate(String field, String expression, Option option, Object value) {
+        Condition update = new Condition();
+        update.setField(field);
+        update.setOption(option);
+        update.setValue(value);
+        update.setExpression(expression);
+        updates.add(update);
     }
 
     private void buildCondition(String field, String expression, Option option, Object value) {
@@ -214,16 +238,52 @@ public class SqlBuilder {
 
     public Map build() {
         Map<String, Object> params = new HashMap();
+        sqlType();
+        switch (sqlType) {
+            case SELECT:
+                buildPage(params);
+                buildSelectColumn(params);
+                break;
+            case UPDATE:
+                buildUpdateCondition(params);
+        }
+        buildWhereCondition(params);
+        return params;
+    }
+
+    private void sqlType() {
+        if (ObjectUtils.isNotEmpty(updates)) {
+            sqlType = SqlType.UPDATE;
+        }
+    }
+
+    private void  buildWhereCondition(Map params) {
         for (Condition condition : conditions) {
             if (condition.getOption().isParma()) {
-                String column = condition.getField();
+                String column = condition.getExpression();
                 params.put(column, condition.getValue());
             }
         }
+        params.put(Constant.CONDITION, conditions);
+    }
+
+    private void  buildUpdateCondition(Map params) {
+        params.put(UPDATE, updates);
+        for (Condition condition : updates) {
+            if (condition.getOption().isParma()) {
+                String column = condition.getExpression();
+                params.put(column, condition.getValue());
+            }
+        }
+    }
+
+    private void buildPage(Map params) {
         if (page) {
             params.put(Constant.PAGE_FIELD, pageInfo);
         }
-        params.put(Constant.CONDITION, conditions);
+    }
+
+    public void buildSelectColumn(Map params) {
         if (null == columns && null != target) {
             String[] columns = (String[]) LocalCacheManager.getInstance().getAndUpdate(target.getName(),
                     () -> {
@@ -253,11 +313,7 @@ public class SqlBuilder {
         } else {
             params.put(Constant.COLUMN, columns);
         }
-        return params;
     }
-
-
-
 
 
 }

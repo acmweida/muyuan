@@ -16,8 +16,6 @@ public interface ProductCategoryRepo {
 
     List<ProductCategory> list(ProductCategoryDTO productCategoryDTO);
 
-    void add(ProductCategory productCategory);
-
     ProductCategory selectOne(ProductCategory productCategory);
 
     void insert(ProductCategory productCategory);
@@ -25,5 +23,7 @@ public interface ProductCategoryRepo {
     void update(ProductCategory productCategory);
 
     int count(ProductCategoryDTO productCategoryDTO);
+
+    void delete(String[] ids);
 
 }

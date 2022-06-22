@@ -1,11 +1,14 @@
 package com.muyuan.product.domains.model;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.id.Id;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.product.domains.repo.ProductCategoryRepo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -18,6 +21,7 @@ import java.util.Optional;
  * 商品分类
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Id(useGeneratedKeys = true)
 @Builder
@@ -86,7 +90,6 @@ public class ProductCategory {
         return GlobalConst.TRUE.equals(leaf);
     }
 
-
     public void init() {
         status = "1";
         productCount = 0;
@@ -98,20 +101,20 @@ public class ProductCategory {
         createBy = SecurityUtils.getUserId();
     }
 
-    public void update() {
+    private void update() {
         updateTime = DateTime.now().toDate();
         updateBy = SecurityUtils.getUserId();
         updater = SecurityUtils.getUsername();
     }
 
-    public void initRoot(long code) {
+    public void initRoot(int rootCount) {
         parentId = null;
         level = 1;
-        this.code = code;
+        newCode(null, rootCount + 1);
         ancestors = String.valueOf(id);
     }
 
-    public void linkParent(ProductCategory parent) {
+    public void linkParent(ProductCategory parent, int count) {
         Assert.notNull(id, "id can not be null!");
 
         Optional.ofNullable(parent)
@@ -122,24 +125,36 @@ public class ProductCategory {
                     ancestors = StringUtils.join(p.ancestors, ",", id);
                     p.leaf = GlobalConst.FALSE;
                     p.subCount += 1;
-                    p.update();
-                    newCode(parent);
+                    newCode(parent, count + 1);
                 });
     }
 
-    private void newCode(ProductCategory parent) {
-        Assert.isTrue(level > 1,"level must grant than 2");
+    private void newCode(ProductCategory parent, long index) {
         if (ObjectUtils.isNotEmpty(parent)) {
             switch (level) {
                 case 2:
-                    // 父节点code * 1000 + subCount
-                    code = code * 10000 + parent.subCount;
+                    // 父节点code  + (1000+index) << 14
+                    code = parent.code + ((1000 + index) << 14);
                     break;
                 case 3:
-                    // 父节点 code * 100000 + subCoount
-                    code = code * 100000 + parent.subCount;
+                    // 父节点 code + index
+                    code = parent.code + index;
             }
+        } else {
+            this.code = (100 + index) << 30;
         }
+    }
+
+    public void save(ProductCategoryRepo productCategoryRepo) {
+        Assert.notNull(productCategoryRepo,"repo is null");
+        FunctionUtil.of(id)
+                .ifThen(
+                        () -> productCategoryRepo.insert(this),
+                        id -> {
+                            update();
+                            productCategoryRepo.update(this);
+                        }
+                );
     }
 
 }

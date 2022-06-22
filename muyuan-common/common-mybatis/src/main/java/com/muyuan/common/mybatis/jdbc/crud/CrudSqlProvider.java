@@ -104,6 +104,38 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
+
+    public String count(Map<String, Object> params, ProviderContext context) {
+        SQL sql = new SQL();
+
+        sql.SELECT("count(1) ").FROM(tableName(context));
+        List<String> conditionSqls = new ArrayList<>();
+        List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
+        for (Condition condition : conditions) {
+            Option option = condition.getOption();
+            if (option.isParma()) {
+                conditionSqls.add(buildSql(condition));
+            } else if (option == Option.OR || option == Option.AND) {
+                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                conditionSqls.clear();
+                if (option == Option.OR) {
+                    sql.OR();
+                } else {
+                    sql.AND();
+                }
+            }
+        }
+        if (!conditions.isEmpty()) {
+            sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+            sql.LIMIT(1);
+        } else {
+            log.error("sql condition is empty");
+            return "";
+        }
+
+        return sql.toString();
+    }
+
     public String insert(Object bean, ProviderContext context) {
         SQL sql = new SQL();
         sql.INSERT_INTO(tableName(context));
@@ -132,6 +164,46 @@ public class CrudSqlProvider {
 
         sql.VALUES(StringUtils.arrayToDelimitedString(column.toArray(new String[column.size()]), ","),
                 StringUtils.arrayToDelimitedString(values.toArray(new String[column.size()]), ","));
+
+        return sql.toString();
+    }
+
+    public String update(Map<String, Object> param,ProviderContext context) {
+        SQL sql = new SQL();
+        sql.UPDATE(tableName(context));
+
+        List<String> sets = new ArrayList<>();
+
+        List<Condition> updateCondition = (List<Condition>) param.get(Constant.UPDATE);
+        for (Condition condition : updateCondition) {
+            sets.add(buildSql(condition));
+        }
+        sql.SET(sets.toArray(new String[sets.size()]));
+
+        List<Condition> whereCondition = (List<Condition>) param.get(Constant.CONDITION);
+
+        List<String> conditionSqls = new ArrayList<>();
+        for (Condition condition : whereCondition) {
+            Option option = condition.getOption();
+            if (option.isParma()) {
+                conditionSqls.add(buildSql(condition));
+            } else if (option == Option.OR || option == Option.AND) {
+                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                conditionSqls.clear();
+                if (option == Option.OR) {
+                    sql.OR();
+                } else {
+                    sql.AND();
+                }
+            }
+        }
+
+        if (conditionSqls.size() == 0) {
+            log.error("where condition not found!");
+            return "";
+        }
+
+        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
 
         return sql.toString();
     }

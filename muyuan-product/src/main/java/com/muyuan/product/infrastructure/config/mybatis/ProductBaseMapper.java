@@ -48,6 +48,15 @@ public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
     /**
      * 更加指定字段更新
      *
+     * @param param
+     * @return
+     */
+    @UpdateProvider(value = CrudSqlProvider.class, method = "update")
+    Integer update(Map param);
+
+    /**
+     * 更加指定字段更新
+     *
      * @param entity
      * @param column
      * @return

@@ -107,4 +107,14 @@ public class ProductCategoryController {
         }
         return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST,"商品分类信息未找到");
     }
+
+    @DeleteMapping("/{ids}")
+    @RequirePermissions("product:category:remove")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
+    )
+    public Result get(@PathVariable String[] ids) {
+        productCategoryDomainService.delete(ids);
+        return ResultUtil.success();
+    }
 }

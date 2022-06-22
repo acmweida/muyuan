@@ -49,7 +49,13 @@ public class SecurityContextHolder {
     }
 
     public static String getUserName() {
-        return get(SecurityConst.DETAILS_USERNAME);
+        String userName = get(SecurityConst.DETAILS_USERNAME,String.class);
+        if (null == userName) {
+            JsonNode jwtPayLoad = getJwtPayLoad();
+            userName = jwtPayLoad.get(SecurityConst.DETAILS_USERNAME).asText();
+            set(SecurityConst.DETAILS_USERNAME,userName);
+        }
+        return userName;
     }
 
     public static String getUserKey() {
