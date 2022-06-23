@@ -1,6 +1,6 @@
 package com.muyuan.member.infrastructure.persistence.mapper;
 
-import com.muyuan.member.domain.model.User;
+import com.muyuan.member.domains.model.User;
 import com.muyuan.member.infrastructure.config.mybatis.MemberBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

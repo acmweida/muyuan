@@ -1,0 +1,31 @@
+package ${packageName}.${moduleName}.domains.repo;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import ${packageName}.${moduleName}.domains.model.${ClassName};
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import ${packageName}.${moduleName}.domains.dto.${ClassName}DTO;
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+
+public interface ${ClassName}Repo {
+
+    List<${ClassName}> select(${ClassName}DTO ${className}DTO);
+
+    List<${ClassName}> select(${ClassName}DTO ${className}DTO, Page page);
+
+    ${ClassName} selectOne(${ClassName} ${className}DTO);
+
+    void insert(${ClassName} ${className});
+
+    void update(${ClassName} ${className});
+
+    void delete(String... ids);
+
+}

@@ -4,7 +4,7 @@
 <mapper namespace="com.muyuan.member.infrastructure.persistence.mapper.RoleMapper">
 
 
-    <select id="selectRoleByUserId" resultType="com.muyuan.member.domain.model.Role">
+    <select id="selectRoleByUserId" resultType="com.muyuan.member.domains.model.Role">
         select role.* from (
                                select * from t_role where status = 0
                            ) role

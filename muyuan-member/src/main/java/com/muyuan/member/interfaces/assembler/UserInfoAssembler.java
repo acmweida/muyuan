@@ -1,7 +1,7 @@
 package com.muyuan.member.interfaces.assembler;
 
-import com.muyuan.member.domain.model.User;
-import com.muyuan.member.domain.vo.UserVO;
+import com.muyuan.member.domains.model.User;
+import com.muyuan.member.domains.vo.UserVO;
 import com.muyuan.member.interfaces.to.UserTO;
 import org.springframework.beans.BeanUtils;
 

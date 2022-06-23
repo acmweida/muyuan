@@ -3,10 +3,10 @@
 
 <mapper namespace="com.muyuan.member.infrastructure.persistence.mapper.UserMapper">
 
-    <select id="find" resultType="com.muyuan.member.domain.model.User">
+    <select id="find" resultType="com.muyuan.member.domains.model.User">
         select id from t_user where user_no = #{userNo}
     </select>
-    <select id="selectAllocatedList" resultType="com.muyuan.member.domain.model.User">
+    <select id="selectAllocatedList" resultType="com.muyuan.member.domains.model.User">
         select id, username, nick_name, create_time, dept_id
         from t_user
         where status = 0

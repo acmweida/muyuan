@@ -1,10 +1,10 @@
 package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.system.domain.model.SysRole;
-import com.muyuan.system.domain.model.SysRoleMenu;
-import com.muyuan.system.domain.model.SysUserRole;
-import com.muyuan.system.domain.repo.SysRoleRepo;
+import com.muyuan.system.domains.model.SysRole;
+import com.muyuan.system.domains.model.SysRoleMenu;
+import com.muyuan.system.domains.model.SysUserRole;
+import com.muyuan.system.domains.repo.SysRoleRepo;
 import com.muyuan.system.infrastructure.persistence.mapper.SysRoleMapper;
 import com.muyuan.system.infrastructure.persistence.mapper.SysRoleMenuMapper;
 import com.muyuan.system.infrastructure.persistence.mapper.SysUserRoleMapper;

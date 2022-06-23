@@ -27,7 +27,7 @@
                                   </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleCodes" resultType="com.muyuan.member.domain.model.Menu">
+    <select id="selectMenuByRoleCodes" resultType="com.muyuan.member.domains.model.Menu">
         select menu.* from (
         select * from t_menu where type in ('M','C') order by order_num
         ) menu
@@ -43,7 +43,7 @@
     </select>
 
 
-    <select id="selectMenuByRoleId" resultType="com.muyuan.member.domain.model.Menu">
+    <select id="selectMenuByRoleId" resultType="com.muyuan.member.domains.model.Menu">
         select menu.* from (
         select * from t_menu order by order_num
         ) menu

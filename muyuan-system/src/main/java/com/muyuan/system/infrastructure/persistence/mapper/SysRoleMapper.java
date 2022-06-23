@@ -1,6 +1,6 @@
 package com.muyuan.system.infrastructure.persistence.mapper;
 
-import com.muyuan.system.domain.model.SysRole;
+import com.muyuan.system.domains.model.SysRole;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

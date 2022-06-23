@@ -1,7 +1,7 @@
 package com.muyuan.system.interfaces.assembler;
 
-import com.muyuan.system.domain.vo.DictDataVO;
-import com.muyuan.system.domain.model.DictData;
+import com.muyuan.system.domains.vo.DictDataVO;
+import com.muyuan.system.domains.model.DictData;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

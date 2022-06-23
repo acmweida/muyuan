@@ -1,8 +1,8 @@
 package com.muyuan.system.infrastructure.persistence;
 
 import com.muyuan.system.infrastructure.persistence.mapper.DictTypeMapper;
-import com.muyuan.system.domain.model.DictType;
-import com.muyuan.system.domain.repo.DictTypeRepo;
+import com.muyuan.system.domains.model.DictType;
+import com.muyuan.system.domains.repo.DictTypeRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

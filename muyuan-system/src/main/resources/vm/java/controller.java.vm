@@ -3,9 +3,10 @@ package ${packageName}.${moduleName}.interfaces.facade.controller;
 import java.util.List;
 
 import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.log.annotion.Log;
-import com.muyuan.common.core.log.enums.BusinessType;
-import com.muyuan.common.core.web.annotations.RequirePermissions;
+import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.log.annotion.Log;
+import com.muyuan.common.log.enums.BusinessType;
+import com.muyuan.common.web.annotations.RequirePermissions;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ${packageName}.domain.${ClassName};
-import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.${moduleName}.domains.model.${ClassName};
+import ${packageName}.${moduleName}.domains.service.${ClassName}DomainService;
 
 /**
  * ${functionName}Controller
@@ -34,20 +35,19 @@ public class ${ClassName}Controller {
     /**
      * 查询${functionName}列表
      */
-    @RequiresPermissions("${permissionPrefix}:list")
+    @RequirePermissions("${permissionPrefix}:list")
     @GetMapping("/list")
 #if($table.crud || $table.sub)
     public Result list(${ClassName} ${className})
     {
-        startPage();
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return getDataTable(list);
+        List<${ClassName}> list = ${className}DomainService.select${ClassName}List(${className});
+        return ResultUtil.success(list);
     }
 #elseif($table.tree)
     public Result list(${ClassName} ${className})
     {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return AjaxResult.success(list);
+        List<${ClassName}> list = ${className}DomainService.select${ClassName}List(${className});
+        return ResultUtil.success(list);
     }
 #end
 
@@ -60,39 +60,39 @@ public class ${ClassName}Controller {
     @GetMapping(value = "/{${pkColumn.javaField}}")
     public Result getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
-        return Result.success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+        return ResultUtil.success(${className}DomainService.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
     /**
      * 新增${functionName}
      */
-    @RequiresPermissions("${permissionPrefix}:add")
+    @RequirePermissions("${permissionPrefix}:add")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
     public Result add(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+        return ResultUtil.success(${className}DomainService.insert${ClassName}(${className}));
     }
 
     /**
      * 修改${functionName}
      */
-    @RequiresPermissions("${permissionPrefix}:edit")
+    @RequirePermissions("${permissionPrefix}:edit")
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @PutMapping
     public Result edit(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+        return ResultUtil.success(${className}DomainService.update${ClassName}(${className}));
     }
 
     /**
      * 删除${functionName}
      */
-    @RequiresPermissions("${permissionPrefix}:remove")
+    @RequirePermissions("${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{${pkColumn.javaField}s}")
     public Result remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
-        return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+        return ResultUtil.success(${className}DomainService.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
     }
 }

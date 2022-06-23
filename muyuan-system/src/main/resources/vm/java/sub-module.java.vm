@@ -1,4 +1,4 @@
-package ${packageName}.${moduleName}.domain.model;
+package ${packageName}.${moduleName}.domains.model;
 
 #foreach ($import in $subImportList)
 import ${import};

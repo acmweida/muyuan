@@ -3,8 +3,8 @@ package com.muyuan.system.infrastructure.common.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.system.domain.model.GenTable;
-import com.muyuan.system.domain.model.GenTableColumn;
+import com.muyuan.system.domains.model.GenTable;
+import com.muyuan.system.domains.model.GenTableColumn;
 import com.muyuan.system.infrastructure.common.GenConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -135,10 +135,13 @@ public class VelocityUtils
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/model.java.vm");
         templates.add("vm/java/mapper.java.vm");
+        templates.add("vm/java/repo.java.vm");
+        templates.add("vm/java/repoImpl.java.vm");
+        templates.add("vm/java/dto.java.vm");
         templates.add("vm/java/service.java.vm");
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
-//        templates.add("vm/xml/mapper.xml.vm");
+        templates.add("vm/xml/mapper.xml.vm");
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory))
@@ -179,23 +182,34 @@ public class VelocityUtils
 
         if (template.contains("model.java.vm"))
         {
-            fileName = StrUtil.format("{}/domain/model/{}.java", javaPath,className);
+            fileName = StrUtil.format("{}/domains/model/{}.java", javaPath,className);
+        }
+        if (template.contains("repo.java.vm"))
+        {
+            fileName = StrUtil.format("{}/domains/repo/{}Repo.java", javaPath,className);
+        }
+        if (template.contains("dto.java.vm"))
+        {
+            fileName = StrUtil.format("{}/domains/dto/{}DTO.java", javaPath,className);
         }
         if (template.contains("sub-model.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory()))
         {
-            fileName = StrUtil.format("{}/domain/model/{}.java", javaPath, genTable.getSubTable().getClassName());
+            fileName = StrUtil.format("{}/domains/model/{}.java", javaPath, genTable.getSubTable().getClassName());
         }
         else if (template.contains("mapper.java.vm"))
         {
-            fileName = StrUtil.format("{}/infrastructure/persistence/dao/{}Mapper.java", javaPath, className);
+            fileName = StrUtil.format("{}/infrastructure/persistence/mapper/{}Mapper.java", javaPath, className);
+        } else if (template.contains("repoImpl.java.vm"))
+        {
+            fileName = StrUtil.format("{}/infrastructure/persistence/{}RepoImpl.java", javaPath, className);
         }
         else if (template.contains("service.java.vm"))
         {
-            fileName = StrUtil.format("{}/domain/service/{}DomainService.java", javaPath, className);
+            fileName = StrUtil.format("{}/domains/service/{}DomainService.java", javaPath, className);
         }
         else if (template.contains("serviceImpl.java.vm"))
         {
-            fileName = StrUtil.format("{}/domain/service/impl/{}DomainServiceImpl.java", javaPath, className);
+            fileName = StrUtil.format("{}/domains/service/impl/{}DomainServiceImpl.java", javaPath, className);
         }
         else if (template.contains("controller.java.vm"))
         {
@@ -203,7 +217,7 @@ public class VelocityUtils
         }
         else if (template.contains("mapper.xml.vm"))
         {
-            fileName = StrUtil.format("{}/{}Mapper.xml", mybatisPath, className);
+            fileName = StrUtil.format("{}/{}Mapper.xml", MYBATIS_PATH, className);
         }
         else if (template.contains("sql.vm"))
         {

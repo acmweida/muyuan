@@ -1,7 +1,7 @@
 package com.muyuan.member.interfaces.assembler;
 
-import com.muyuan.member.domain.vo.RoleVO;
-import com.muyuan.member.domain.model.Role;
+import com.muyuan.member.domains.vo.RoleVO;
+import com.muyuan.member.domains.model.Role;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

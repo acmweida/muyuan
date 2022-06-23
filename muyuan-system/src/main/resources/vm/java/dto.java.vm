@@ -1,0 +1,36 @@
+package ${packageName}.${moduleName}.domains.dto;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import com.muyuan.common.core.bean.BaseDTO;
+import lombok.Data;
+import ${packageName}.${moduleName}.domains.model.${ClassName};
+
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+public class ${ClassName}DTO extends BaseDTO<${ClassName}DTO,${ClassName}> {
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+    /** $column.columnComment */
+        #if($column.list)
+            #set($parentheseIndex=$column.columnComment.indexOf("（"))
+            #if($parentheseIndex != -1)
+                #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+            #else
+                #set($comment=$column.columnComment)
+            #end
+        #end
+    private $column.javaType $column.javaField;
+
+    #end
+#end
+
+}

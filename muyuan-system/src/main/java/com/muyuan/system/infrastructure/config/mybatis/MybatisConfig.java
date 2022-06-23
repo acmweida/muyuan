@@ -50,7 +50,7 @@ public class MybatisConfig {
         memberDataSource.setPassword(jdbcConfig.getPassword());
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
-        memberDataSource.setMaxLifetime( 60 * 60 * 1000);
+        memberDataSource.setMaxLifetime(30 * 1000);
         dataSourceMap.put(SystemJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
@@ -100,7 +100,7 @@ public class MybatisConfig {
             dataSource.setPassword(jdbcConfig.getPassword());
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
-            dataSource.setMaxLifetime(60 * 60 * 1000);
+            dataSource.setMaxLifetime(30 * 1000);
             dataSourceId = String.format("%s%s[%s]",GlobalConst.MASTER_PREFIX,dataSourceName,i++);
             dataSourceMap.put(dataSourceId, dataSource);
             masterIds.add(dataSourceId);
@@ -115,7 +115,7 @@ public class MybatisConfig {
             dataSource.setPassword(jdbcConfig.getPassword());
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
-            dataSource.setMaxLifetime(60 * 60 * 1000);
+            dataSource.setMaxLifetime(30 * 1000);
             dataSourceId = String.format("%s%s[%s]",GlobalConst.SLAVE_PREFIX,dataSourceName,i++);
             dataSourceMap.put(dataSourceId, dataSource);
             slaveIds.add(dataSourceId);

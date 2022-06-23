@@ -1,6 +1,6 @@
 package com.muyuan.member.application.service;
 
-import com.muyuan.member.domain.vo.UserVO;
+import com.muyuan.member.domains.vo.UserVO;
 import com.muyuan.member.interfaces.to.UserTO;
 
 import java.util.List;

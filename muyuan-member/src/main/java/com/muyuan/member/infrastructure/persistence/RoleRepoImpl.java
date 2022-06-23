@@ -1,9 +1,9 @@
 package com.muyuan.member.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.member.domain.model.Role;
-import com.muyuan.member.domain.model.RoleMenu;
-import com.muyuan.member.domain.repo.RoleRepo;
+import com.muyuan.member.domains.model.Role;
+import com.muyuan.member.domains.model.RoleMenu;
+import com.muyuan.member.domains.repo.RoleRepo;
 import com.muyuan.member.infrastructure.persistence.mapper.RoleMapper;
 import com.muyuan.member.infrastructure.persistence.mapper.RoleMenuMapper;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.muyuan.system.infrastructure.persistence.mapper;
 
 
-import com.muyuan.system.domain.model.GenTableColumn;
+import com.muyuan.system.domains.model.GenTableColumn;
 import com.muyuan.system.infrastructure.config.mybatis.SystemBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

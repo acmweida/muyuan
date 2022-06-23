@@ -26,6 +26,7 @@ public class MybatisConfig {
         authDataSource.setPassword(jdbcConfig.getPassword());
         authDataSource.setMaximumPoolSize(4);
         authDataSource.setMinimumIdle(8);
+        authDataSource.setMaxLifetime(30 * 1000);
         dataSourceMap.put(AuthJdbcConfig.DATASOURCE_NAME,authDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);

@@ -4,8 +4,8 @@ import com.muyuan.common.core.exception.handler.UserNotFoundException;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.shop.domain.query.ShopQuery;
-import com.muyuan.shop.domain.vo.ShopVO;
+import com.muyuan.shop.domains.query.ShopQuery;
+import com.muyuan.shop.domains.vo.ShopVO;
 import com.muyuan.shop.interfaces.facade.controller.ShopController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ShopControllerImpl implements ShopController {
 
     @Autowired
-    ShopQuery shopQuery;
+    private ShopQuery shopQuery;
 
     @Override
     public Result<ShopVO> getShopBaseInfo() {

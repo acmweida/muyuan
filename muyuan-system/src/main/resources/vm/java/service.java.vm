@@ -1,7 +1,7 @@
-package ${packageName}.${moduleName}.domain.service;
+package ${packageName}.${moduleName}.domains.service;
 
 import java.util.List;
-import ${packageName}.${moduleName}.domain.model.${ClassName};
+import ${packageName}.${moduleName}.domains.model.${ClassName};
 
 /**
  * ${functionName}Service接口
@@ -13,7 +13,7 @@ public interface ${ClassName}DomainService
 {
     /**
      * 查询${functionName}
-     * 
+     *
      * @param ${pkColumn.javaField} ${functionName}主键
      * @return ${functionName}
      */
@@ -21,7 +21,7 @@ public interface ${ClassName}DomainService
 
     /**
      * 查询${functionName}列表
-     * 
+     *
      * @param ${className} ${functionName}
      * @return ${functionName}集合
      */
@@ -53,7 +53,7 @@ public interface ${ClassName}DomainService
 
     /**
      * 删除${functionName}信息
-     * 
+     *
      * @param ${pkColumn.javaField} ${functionName}主键
      * @return 结果
      */

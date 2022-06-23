@@ -3,10 +3,10 @@
 
 <mapper namespace="com.muyuan.system.infrastructure.persistence.mapper.SysUserMapper">
 
-    <select id="find" resultType="com.muyuan.system.domain.model.SysUser">
+    <select id="find" resultType="com.muyuan.system.domains.model.SysUser">
         select id from t_sys_user where user_no = #{userNo}
     </select>
-    <select id="selectAllocatedList" resultType="com.muyuan.system.domain.model.SysUser">
+    <select id="selectAllocatedList" resultType="com.muyuan.system.domains.model.SysUser">
         select id, username, nick_name, create_time, dept_id
         from t_sys_user
         where status = 0
@@ -22,7 +22,7 @@
         where role_id = 28 and user_id = id
         )
     </select>
-    <select id="selectUnallocatedList" resultType="com.muyuan.system.domain.model.SysUser">
+    <select id="selectUnallocatedList" resultType="com.muyuan.system.domains.model.SysUser">
         select id, username, nick_name, create_time, dept_id
         from t_sys_user
         where status = 0

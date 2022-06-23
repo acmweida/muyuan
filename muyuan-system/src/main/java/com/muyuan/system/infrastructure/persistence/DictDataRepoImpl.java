@@ -5,10 +5,10 @@ import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.redis.manage.RedisCacheManager;
-import com.muyuan.system.domain.model.DictData;
-import com.muyuan.system.domain.repo.DictDataRepo;
+import com.muyuan.system.domains.model.DictData;
+import com.muyuan.system.domains.repo.DictDataRepo;
 import com.muyuan.system.infrastructure.persistence.mapper.DictDataMapper;
-import com.muyuan.system.interfaces.dto.DictDataDTO;
+import com.muyuan.system.domains.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

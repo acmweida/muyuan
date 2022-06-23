@@ -1,0 +1,61 @@
+package ${packageName}.${moduleName}.infrastructure.persistence;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import ${packageName}.${moduleName}.domains.model.${ClassName};
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import ${packageName}.${moduleName}.interfaces.dto.${ClassName}DTO;
+import ${packageName}.${moduleName}.infrastructure.persistence.mapper.${ClassName}Mapper;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Component
+@AllArgsConstructor
+public class  ${ClassName}RepoImpl implements ${ClassName}Repo {
+
+    private ${ClassName}Mapper ${className}Mapper;
+
+    @Override
+    public List<${ClassName}> select(${ClassName}DTO ${className}DTO) {
+        return select(${className}DTO,null);
+    }
+
+    @Override
+    public List<${ClassName}> select(${ClassName}DTO ${className}DTO, Page page) {
+        return  ${className}Mapper.selectList(new SqlBuilder(${ClassName}.class)
+                .page(page)
+                .build());
+    }
+
+    @Override
+    public ${ClassName} selectOne(${ClassName} ${className}DTO) {
+        return ${className}Mapper.selectOne(new SqlBuilder(${ClassName}.class)
+                .build());
+    }
+
+    @Override
+    public void insert(${ClassName} ${className}) {
+        ${className}Mapper.insert(${className});
+    }
+
+    @Override
+    public void update(${ClassName} ${className}) {
+        ${className}Mapper.updateBy(${className},"id");
+    }
+
+    @Override
+    public void delete(String... ids) {
+         ${className}Mapper.deleteBy(new SqlBuilder(${ClassName}.class)
+                .in("id",ids)
+                .build());
+    }
+
+}

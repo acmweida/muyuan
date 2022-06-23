@@ -3,10 +3,10 @@ package com.muyuan.system.interfaces.assembler;
 import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.system.domain.vo.SysMenuVO;
-import com.muyuan.system.domain.vo.SysMetaVo;
-import com.muyuan.system.domain.vo.SysRouterVo;
-import com.muyuan.system.domain.model.SysMenu;
+import com.muyuan.system.domains.vo.SysMenuVO;
+import com.muyuan.system.domains.vo.SysMetaVo;
+import com.muyuan.system.domains.vo.SysRouterVo;
+import com.muyuan.system.domains.model.SysMenu;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
