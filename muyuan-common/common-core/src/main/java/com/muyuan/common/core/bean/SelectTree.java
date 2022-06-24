@@ -25,7 +25,7 @@ public class SelectTree {
 
     private boolean leaf;
 
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     public SelectTree(Long id, String label) {
         this.id = id;

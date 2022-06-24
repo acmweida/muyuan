@@ -3,16 +3,17 @@ package com.muyuan.system.domains.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.system.domains.dto.SysMenuDTO;
 import com.muyuan.system.domains.factories.SysMenuFactory;
 import com.muyuan.system.domains.model.SysMenu;
 import com.muyuan.system.domains.model.SysRole;
 import com.muyuan.system.domains.repo.SysMenuRepo;
 import com.muyuan.system.domains.service.SysMenuDomainService;
-import com.muyuan.system.domains.dto.SysMenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -142,13 +143,29 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
     }
 
     @Override
+    @Transactional
     public void deleteById(String... ids) {
         if (ObjectUtils.isEmpty(ids)) {
             return;
         }
-        sysMenuRepo.deleteById(ids);
+        List<String> removeIds = new ArrayList<>(Arrays.asList(ids));
+        List<SysMenu> menuList;
+        do {
+             menuList = sysMenuRepo.select(new SqlBuilder()
+                    .select("id")
+                    .in("parentId", ids)
+                    .build());
+             if (menuList.isEmpty()) {
+                 List<String> collect = menuList.stream().map(SysMenu::getId)
+                            .map(String::valueOf)
+                         .collect(Collectors.toList());
+                 removeIds.addAll(collect);
+                 ids = collect.toArray(new String[0]);
+             }
+        } while (!menuList.isEmpty());
+
+        sysMenuRepo.deleteById(removeIds.toArray(new String[0]));
         sysMenuRepo.refreshCache();
     }
-
 
 }

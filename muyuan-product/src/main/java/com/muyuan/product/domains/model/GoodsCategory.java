@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -72,6 +73,8 @@ public class GoodsCategory {
     private Long updateBy;
 
     private Date updateTime;
+
+    private List<CategoryAttribute> attributes;
 
     /**
      * 是否叶子节点 0-是 1-否
