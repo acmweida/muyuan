@@ -40,6 +40,8 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
                 .eq("id", goodsCategory.getId())
                 .eq("name", goodsCategory.getName())
                 .eq("parentId", goodsCategory.getParentId())
+                .eq("code", goodsCategory.getCode())
+                .eq("level", goodsCategory.getLevel())
                 .notEq("status","2")
                 .build());
     }

@@ -1,6 +1,9 @@
 package com.muyuan.product.domains.vo;
 
+import com.muyuan.product.domains.model.CategoryAttribute;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @ClassName CategoryVO
@@ -17,12 +20,14 @@ public class GoodsCategoryVO {
     /**
      * 分类编码
      */
-    private String code;
+    private Long code;
 
     /**
      * 父分类ID
      */
     private Long parentId;
+
+    private String status;
 
     private String name;
 
@@ -39,4 +44,6 @@ public class GoodsCategoryVO {
     private String keywords;
 
     private boolean hasChildren;
+
+    private List<CategoryAttribute> attributes;
 }

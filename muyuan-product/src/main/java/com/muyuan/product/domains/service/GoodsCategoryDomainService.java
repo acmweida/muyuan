@@ -46,7 +46,7 @@ public interface GoodsCategoryDomainService {
      * @param id
      * @return
      */
-    Optional<GoodsCategory> get(String id);
+    Optional<GoodsCategory> get(GoodsCategory id);
 
     /**
      * 删除ID

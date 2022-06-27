@@ -91,11 +91,8 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     }
 
     @Override
-    public Optional<GoodsCategory> get(String id) {
-        GoodsCategory goodsCategory = goodsCategoryRepo.selectOne(GoodsCategory.builder()
-                .id(Long.valueOf(id))
-                .build());
-
+    public Optional<GoodsCategory> get(GoodsCategory category) {
+        GoodsCategory goodsCategory = goodsCategoryRepo.selectOne(category);
         return Optional.ofNullable(goodsCategory);
     }
 

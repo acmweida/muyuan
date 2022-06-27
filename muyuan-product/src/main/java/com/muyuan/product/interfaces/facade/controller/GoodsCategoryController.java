@@ -106,11 +106,32 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
-        Optional<GoodsCategory> productCategory = productCategoryDomainService.get(id);
+        Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
         if (productCategory.isPresent()) {
             return ResultUtil.success(productCategory.get());
         }
-        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST,"商品分类信息未找到");
+        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
+    }
+
+    /**
+     * 通过商品编码 获取三级目录信息
+     * @param code
+     * @return
+     */
+    @GetMapping("/3th/{code}")
+    @RequirePermissions("product:category:query")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
+    )
+    public Result get3th(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
+        Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder()
+                .code(Long.valueOf(code))
+                .level(GlobalConst.GOODS_LAST_LEVEL)
+                .build());
+        if (productCategory.isPresent()) {
+            return ResultUtil.success(productCategory.get());
+        }
+        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
     }
 
     @DeleteMapping("/{ids}")
