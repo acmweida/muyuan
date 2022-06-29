@@ -8,6 +8,7 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.service.GoodsCategoryDomainService;
+import com.muyuan.product.domains.vo.GoodsCategoryVO;
 import com.muyuan.product.interfaces.assembler.GoodsCategoryAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -107,6 +108,20 @@ public class GoodsCategoryController {
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
         Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
+        if (productCategory.isPresent()) {
+            return ResultUtil.success(productCategory.get());
+        }
+        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
+    }
+
+
+    @GetMapping("/detail/{id}")
+    @RequirePermissions("product:category:query")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
+    )
+    public Result detail(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
+        Optional<GoodsCategoryVO> productCategory = productCategoryDomainService.detail(GoodsCategory.builder().id(Long.valueOf(id)).build());
         if (productCategory.isPresent()) {
             return ResultUtil.success(productCategory.get());
         }

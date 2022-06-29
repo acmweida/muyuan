@@ -25,14 +25,6 @@ public class CategoryAttributeController {
 
     private CategoryAttributeDomainService categoryAttributeDomainService;
 
-//    @RequirePermissions("product:category:attribute:list")
-//    @GetMapping("/list")
-//    public Result get(CategoryAttribute categoryAttribute)
-//    {
-//        List<CategoryAttribute> list = categoryAttributeDomainService.selectCategoryAttributeList(categoryAttribute);
-//        return ResultUtil.success(list);
-//    }
-
 
     /**
      * 查询商品分类属性列表

@@ -45,5 +45,23 @@ public class GoodsCategoryVO {
 
     private boolean hasChildren;
 
-    private List<CategoryAttribute> attributes;
+    /**
+     * 销售属性
+     */
+    private List<CategoryAttribute> saleAttribute;
+
+    /**
+     * 关键属性
+     */
+    private List<CategoryAttribute> keyAttributes;
+
+    /**
+     * 公共属性
+     */
+    private List<CategoryAttribute> commonAttributes;
+
+    /**
+     * 其他属性
+     */
+    private List<CategoryAttribute> normalAttributes;
 }

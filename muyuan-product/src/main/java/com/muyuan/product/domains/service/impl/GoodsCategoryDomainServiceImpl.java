@@ -1,10 +1,12 @@
 package com.muyuan.product.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.product.domains.dto.GoodsCategoryDTO;
+import com.muyuan.product.domains.factories.GoodsFactory;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
 import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import com.muyuan.product.domains.dto.GoodsCategoryDTO;
+import com.muyuan.product.domains.vo.GoodsCategoryVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -44,14 +46,14 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
             if (ObjectUtils.isEmpty(parent)) {
                 addRootCategory(goodsCategory);
             } else {
-                addSubNodeCategory(goodsCategory,parent);
+                addSubNodeCategory(goodsCategory, parent);
             }
         } else {
             addRootCategory(goodsCategory);
         }
     }
 
-    private void  addRootCategory(GoodsCategory goodsCategory) {
+    private void addRootCategory(GoodsCategory goodsCategory) {
         int rootCount = goodsCategoryRepo.count(GoodsCategoryDTO.builder().level(1).build());
         goodsCategory.initRoot(rootCount);
         goodsCategory.save(goodsCategoryRepo);
@@ -66,7 +68,7 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
                 .level(parent.getLevel() + 1)
                 .parentId(parent.getId())
                 .build());
-        goodsCategory.linkParent(parent,count);
+        goodsCategory.linkParent(parent, count);
         goodsCategory.save(goodsCategoryRepo);
         parent.save(goodsCategoryRepo);
     }
@@ -94,6 +96,17 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     public Optional<GoodsCategory> get(GoodsCategory category) {
         GoodsCategory goodsCategory = goodsCategoryRepo.selectOne(category);
         return Optional.ofNullable(goodsCategory);
+    }
+
+    @Override
+    public Optional<GoodsCategoryVO> detail(GoodsCategory goodsCategory) {
+        GoodsCategory category = goodsCategoryRepo.selectDetail(goodsCategory);
+        GoodsCategoryVO categoryVO = null;
+        if (ObjectUtils.isNotEmpty(category)) {
+            categoryVO = GoodsFactory.convert(category);
+        }
+
+        return Optional.of(categoryVO);
     }
 
     @Override

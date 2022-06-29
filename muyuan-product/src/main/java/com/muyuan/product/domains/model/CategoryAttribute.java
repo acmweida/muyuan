@@ -44,6 +44,8 @@ public class CategoryAttribute {
     /**  */
     private String updater;
 
+    private Integer input_type;
 
+    private Integer status;
 
 }

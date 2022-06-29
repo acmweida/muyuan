@@ -2,11 +2,14 @@ package com.muyuan.product.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
+import com.muyuan.product.infrastructure.persistence.mapper.CategoryAttributeMapper;
 import com.muyuan.product.infrastructure.persistence.mapper.GoodsCategoryMapper;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +26,8 @@ import java.util.List;
 public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
 
     private GoodsCategoryMapper goodsCategoryMapper;
+
+    private CategoryAttributeMapper categoryAttributeMapper;
 
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
@@ -44,6 +49,21 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
                 .eq("level", goodsCategory.getLevel())
                 .notEq("status","2")
                 .build());
+    }
+
+    @Override
+    public GoodsCategory selectDetail(GoodsCategory goodsCategory) {
+        GoodsCategory category = goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
+                .eq("id", goodsCategory.getId())
+                .build());
+        if (ObjectUtils.isEmpty(category)) {
+            return null;
+        }
+        List<CategoryAttribute> attributes = categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
+                .eq("categoryId", category.getId())
+                .build());
+        category.setAttributes(attributes);
+        return category;
     }
 
     @Override

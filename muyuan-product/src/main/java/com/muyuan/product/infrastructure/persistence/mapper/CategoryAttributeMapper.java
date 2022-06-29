@@ -2,6 +2,7 @@ package com.muyuan.product.infrastructure.persistence.mapper;
 
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.infrastructure.config.mybatis.ProductBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ${author}
  * @date 2022-06-23T14:17:01.512+08:00
  */
+@Mapper
 public interface CategoryAttributeMapper extends ProductBaseMapper<CategoryAttribute> {
 
     /**

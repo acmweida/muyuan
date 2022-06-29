@@ -149,7 +149,7 @@ public class GoodsCategory {
     }
 
     public void save(GoodsCategoryRepo goodsCategoryRepo) {
-        Assert.notNull(goodsCategoryRepo,"repo is null");
+        Assert.notNull(goodsCategoryRepo, "repo is null");
         FunctionUtil.of(id)
                 .ifThen(
                         () -> goodsCategoryRepo.insert(this),
@@ -163,5 +163,6 @@ public class GoodsCategory {
     public boolean hasChildren() {
         return !leaf();
     }
+
 
 }

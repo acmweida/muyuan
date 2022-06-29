@@ -18,6 +18,13 @@ public interface GoodsCategoryRepo {
 
     GoodsCategory selectOne(GoodsCategory goodsCategory);
 
+    /**
+     * 详情查询
+     * @param goodsCategory
+     * @return
+     */
+    GoodsCategory selectDetail(GoodsCategory goodsCategory);
+
     void insert(GoodsCategory goodsCategory);
 
     void update(GoodsCategory goodsCategory);
