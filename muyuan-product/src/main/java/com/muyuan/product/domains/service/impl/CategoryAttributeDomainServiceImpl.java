@@ -1,6 +1,8 @@
 package com.muyuan.product.domains.service.impl;
 
+import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
+import com.muyuan.product.domains.repo.CategoryAttributeRepo;
 import com.muyuan.product.domains.service.CategoryAttributeDomainService;
 import com.muyuan.product.infrastructure.persistence.mapper.CategoryAttributeMapper;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ import java.util.List;
 public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDomainService
 {
     private CategoryAttributeMapper categoryAttributeMapper;
+
+    private CategoryAttributeRepo categoryAttributeRepo;
 
     /**
      * 查询商品分类属性
@@ -54,10 +58,12 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
      * @return 结果
      */
     @Override
-    public int insertCategoryAttribute(CategoryAttribute categoryAttribute)
+    public void add(CategoryAttributeDTO categoryAttribute)
     {
-        categoryAttribute.setCreateTime(DateTime.now().toDate());
-        return categoryAttributeMapper.insertCategoryAttribute(categoryAttribute);
+        CategoryAttribute attribute = categoryAttribute.convert();
+        attribute.init();
+        attribute.save(categoryAttributeRepo);
+
     }
 
     /**

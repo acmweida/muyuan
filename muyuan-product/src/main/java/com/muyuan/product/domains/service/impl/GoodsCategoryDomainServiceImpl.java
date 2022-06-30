@@ -101,12 +101,9 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     @Override
     public Optional<GoodsCategoryVO> detail(GoodsCategory goodsCategory) {
         GoodsCategory category = goodsCategoryRepo.selectDetail(goodsCategory);
-        GoodsCategoryVO categoryVO = null;
-        if (ObjectUtils.isNotEmpty(category)) {
-            categoryVO = GoodsFactory.convert(category);
-        }
 
-        return Optional.of(categoryVO);
+        return Optional.ofNullable(category)
+                .map(GoodsFactory::convert);
     }
 
     @Override

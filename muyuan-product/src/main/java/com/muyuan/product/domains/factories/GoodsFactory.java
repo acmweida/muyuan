@@ -7,7 +7,9 @@ import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsRepo;
 import com.muyuan.product.domains.service.GoodsDomainService;
 import com.muyuan.product.domains.service.impl.GoodsDomainServiceImpl;
+import com.muyuan.product.domains.vo.CategoryAttributeVO;
 import com.muyuan.product.domains.vo.GoodsCategoryVO;
+import com.muyuan.product.infrastructure.common.constant.Const;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
@@ -25,33 +27,22 @@ public class GoodsFactory {
         GoodsCategoryVO categoryVO = new GoodsCategoryVO();
         BeanUtils.copyProperties(category, categoryVO);
 
-        List<CategoryAttribute> common = new ArrayList<>();
-        List<CategoryAttribute> key = new ArrayList<>();
-        List<CategoryAttribute> sale = new ArrayList<>();
-
+        List<CategoryAttributeVO> attributeVOS = new LinkedList<>();
+        CategoryAttributeVO categoryAttributeVO;
         if (ObjectUtils.isNotEmpty(category.getAttributes())) {
-            List<CategoryAttribute> attributes = new LinkedList<>(category.getAttributes());
-            Iterator<CategoryAttribute> it = attributes.iterator();
+            Iterator<CategoryAttribute> it = category.getAttributes().iterator();
 
             while (it.hasNext()) {
                 CategoryAttribute attribute = it.next();
-                Long type = attribute.getType();
-                if (ObjectUtils.isNotEmpty(attribute)) {
-                    if ((type & 1) > 0) {
-                        common.add(attribute);
-                    } else if ((type & 2) > 0) {
-                        sale.add(attribute);
-                    } else if ((type & 4) > 0) {
-                        key.add(attribute);
-                    }
-                    it.remove();
-                }
+                categoryAttributeVO = new CategoryAttributeVO();
+                BeanUtils.copyProperties(attribute, categoryAttributeVO);
+                categoryAttributeVO.setCommon(attribute.isType(Const.CATEGORY_ATTRIBUTE_COMMON));
+                categoryAttributeVO.setSale(attribute.isType(Const.CATEGORY_ATTRIBUTE_SALE));
+                categoryAttributeVO.setKey(attribute.isType(Const.CATEGORY_ATTRIBUTE_KEY));
+                categoryAttributeVO.setNormal(attribute.isType(Const.CATEGORY_ATTRIBUTE_NORMAL));
+                attributeVOS.add(categoryAttributeVO);
             }
 
-            categoryVO.setCommonAttributes(common);
-            categoryVO.setSaleAttribute(sale);
-            categoryVO.setKeyAttributes(key);
-            categoryVO.setNormalAttributes(attributes);
         }
         return categoryVO;
     }

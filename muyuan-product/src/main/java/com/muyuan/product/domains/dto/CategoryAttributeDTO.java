@@ -4,7 +4,8 @@ import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import lombok.Data;
 
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -20,31 +21,15 @@ public class CategoryAttributeDTO extends BaseDTO<CategoryAttributeDTO,CategoryA
     private Long id;
 
     /** 属性名称 */
+    @NotBlank(message = "属性名称不能为空")
     private String name;
 
+    @NotNull(message = "categoryCode 分类Id不能为空")
     /** 商品分类ID */
-    private Long categoryId;
+    private Long categoryCode;
 
+    @NotNull(message = "属性类型不能为空")
     /** 属性类型 1:关键属性 2:销售属性 3:非关键属性 */
-    private Long type;
-
-    /** 创建时间 */
-    private Date createTime;
-
-    /** 修改时间 */
-    private Date updateTime;
-
-    /**  */
-    private Long createBy;
-
-    /**  */
-    private String creator;
-
-    /**  */
-    private Long updateBy;
-
-    /**  */
-    private String updater;
-
+    private Integer type;
 
 }

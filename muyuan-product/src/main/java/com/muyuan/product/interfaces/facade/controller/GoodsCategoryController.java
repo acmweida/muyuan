@@ -108,24 +108,21 @@ public class GoodsCategoryController {
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
         Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
-        if (productCategory.isPresent()) {
-            return ResultUtil.success(productCategory.get());
-        }
-        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
+        return productCategory.map(ResultUtil::success)
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
 
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail/{code}")
     @RequirePermissions("product:category:query")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
+            {@ApiImplicitParam(name = "code", value = "code", dataTypeClass = Long.class, paramType = "path")}
     )
-    public Result detail(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
-        Optional<GoodsCategoryVO> productCategory = productCategoryDomainService.detail(GoodsCategory.builder().id(Long.valueOf(id)).build());
-        if (productCategory.isPresent()) {
-            return ResultUtil.success(productCategory.get());
-        }
-        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
+    public Result detail(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
+        Optional<GoodsCategoryVO> productCategory = productCategoryDomainService.detail(GoodsCategory.builder()
+                .code(Long.valueOf(code)).build());
+        return productCategory.map(ResultUtil::success)
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
 
     /**
@@ -143,10 +140,8 @@ public class GoodsCategoryController {
                 .code(Long.valueOf(code))
                 .level(GlobalConst.GOODS_LAST_LEVEL)
                 .build());
-        if (productCategory.isPresent()) {
-            return ResultUtil.success(productCategory.get());
-        }
-        return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"商品分类信息未找到");
+        return productCategory.map(ResultUtil::success)
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
 
     @DeleteMapping("/{ids}")

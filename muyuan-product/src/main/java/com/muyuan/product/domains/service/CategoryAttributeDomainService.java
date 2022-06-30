@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface CategoryAttributeDomainService
      * @param categoryAttribute 商品分类属性
      * @return 结果
      */
-    int insertCategoryAttribute(CategoryAttribute categoryAttribute);
+    void add(CategoryAttributeDTO categoryAttribute);
 
     /**
      * 修改商品分类属性

@@ -55,6 +55,7 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
     public GoodsCategory selectDetail(GoodsCategory goodsCategory) {
         GoodsCategory category = goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
                 .eq("id", goodsCategory.getId())
+                .eq("code", goodsCategory.getCode())
                 .build());
         if (ObjectUtils.isEmpty(category)) {
             return null;

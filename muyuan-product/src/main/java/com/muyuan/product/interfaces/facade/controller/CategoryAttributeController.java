@@ -5,12 +5,12 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.service.CategoryAttributeDomainService;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 商品分类属性Controller
@@ -24,19 +24,6 @@ import java.util.List;
 public class CategoryAttributeController {
 
     private CategoryAttributeDomainService categoryAttributeDomainService;
-
-
-    /**
-     * 查询商品分类属性列表
-     */
-    @RequirePermissions("product:category:attribute:query")
-    @GetMapping("/list")
-    public Result list(CategoryAttribute categoryAttribute)
-    {
-        List<CategoryAttribute> list = categoryAttributeDomainService.selectCategoryAttributeList(categoryAttribute);
-        return ResultUtil.success(list);
-    }
-
 
 
     /**
@@ -55,9 +42,10 @@ public class CategoryAttributeController {
     @RequirePermissions("product:category:attribute:add")
     @Log(title = "商品分类属性", businessType = BusinessType.INSERT)
     @PostMapping
-    public Result add(@RequestBody CategoryAttribute categoryAttribute)
+    public Result add(@RequestBody @Validated CategoryAttributeDTO categoryAttribute)
     {
-        return ResultUtil.success(categoryAttributeDomainService.insertCategoryAttribute(categoryAttribute));
+        categoryAttributeDomainService.add(categoryAttribute);
+        return ResultUtil.success();
     }
 
     /**

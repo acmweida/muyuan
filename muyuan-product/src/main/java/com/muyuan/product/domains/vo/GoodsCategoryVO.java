@@ -1,6 +1,5 @@
 package com.muyuan.product.domains.vo;
 
-import com.muyuan.product.domains.model.CategoryAttribute;
 import lombok.Data;
 
 import java.util.List;
@@ -46,22 +45,7 @@ public class GoodsCategoryVO {
     private boolean hasChildren;
 
     /**
-     * 销售属性
+     * 属性
      */
-    private List<CategoryAttribute> saleAttribute;
-
-    /**
-     * 关键属性
-     */
-    private List<CategoryAttribute> keyAttributes;
-
-    /**
-     * 公共属性
-     */
-    private List<CategoryAttribute> commonAttributes;
-
-    /**
-     * 其他属性
-     */
-    private List<CategoryAttribute> normalAttributes;
+    private List<CategoryAttributeVO> attributes;
 }
