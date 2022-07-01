@@ -33,7 +33,7 @@ public class Goods {
     /**
      * 分类id
      */
-    private long categoryId;
+    private long categoryCode;
 
     /**
      * 店铺ID

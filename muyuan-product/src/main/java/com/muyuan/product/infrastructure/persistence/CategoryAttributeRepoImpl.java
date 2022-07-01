@@ -24,11 +24,6 @@ public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
     private CategoryAttributeMapper categoryAttributeMapper;
 
     @Override
-    public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO) {
-        return select(categoryAttributeDTO,null);
-    }
-
-    @Override
     public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO, Page page) {
         return  categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
                 .page(page)
@@ -36,14 +31,8 @@ public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
     }
 
     @Override
-    public CategoryAttribute selectOne(CategoryAttribute categoryAttributeDTO) {
-        return categoryAttributeMapper.selectOne(new SqlBuilder(CategoryAttribute.class)
-                .build());
-    }
-
-    @Override
     public void insert(CategoryAttribute categoryAttribute) {
-        categoryAttributeMapper.insert(categoryAttribute);
+        categoryAttributeMapper.insertAuto(categoryAttribute);
     }
 
     @Override

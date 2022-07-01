@@ -2,11 +2,9 @@ package com.muyuan.product.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
-import com.muyuan.product.domains.factories.GoodsFactory;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
 import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import com.muyuan.product.domains.vo.GoodsCategoryVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -99,11 +97,10 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     }
 
     @Override
-    public Optional<GoodsCategoryVO> detail(GoodsCategory goodsCategory) {
+    public Optional<GoodsCategory> detail(GoodsCategory goodsCategory) {
         GoodsCategory category = goodsCategoryRepo.selectDetail(goodsCategory);
 
-        return Optional.ofNullable(category)
-                .map(GoodsFactory::convert);
+        return Optional.ofNullable(category);
     }
 
     @Override

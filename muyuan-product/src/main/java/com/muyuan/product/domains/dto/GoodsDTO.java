@@ -45,7 +45,7 @@ public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
      */
     @ApiModelProperty("分类id")
     @NotNull(message="分类id不能为null")
-    private Long categoryId;
+    private Long categoryCode;
 
     /**
      * 店铺ID

@@ -15,11 +15,8 @@ import java.util.List;
 
 public interface CategoryAttributeRepo {
 
-    List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO);
 
     List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO, Page page);
-
-    CategoryAttribute selectOne(CategoryAttribute categoryAttributeDTO);
 
     void insert(CategoryAttribute categoryAttribute);
 

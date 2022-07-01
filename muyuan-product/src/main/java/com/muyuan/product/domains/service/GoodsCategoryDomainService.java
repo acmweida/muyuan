@@ -2,7 +2,6 @@ package com.muyuan.product.domains.service;
 
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
-import com.muyuan.product.domains.vo.GoodsCategoryVO;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +53,7 @@ public interface GoodsCategoryDomainService {
      * @param id
      * @return
      */
-    Optional<GoodsCategoryVO> detail(GoodsCategory id);
+    Optional<GoodsCategory> detail(GoodsCategory id);
 
     /**
      * 删除ID

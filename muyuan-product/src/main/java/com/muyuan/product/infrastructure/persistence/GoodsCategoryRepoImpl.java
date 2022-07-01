@@ -61,7 +61,7 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
             return null;
         }
         List<CategoryAttribute> attributes = categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
-                .eq("categoryId", category.getId())
+                .eq("categoryCode", category.getCode())
                 .build());
         category.setAttributes(attributes);
         return category;

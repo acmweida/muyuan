@@ -32,4 +32,7 @@ public class CategoryAttributeDTO extends BaseDTO<CategoryAttributeDTO,CategoryA
     /** 属性类型 1:关键属性 2:销售属性 3:非关键属性 */
     private Integer type;
 
+    @NotNull(message = "取值类型不能为空")
+    private Integer inputType;
+
 }

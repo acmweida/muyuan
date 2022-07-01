@@ -8,7 +8,6 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import com.muyuan.product.domains.vo.GoodsCategoryVO;
 import com.muyuan.product.interfaces.assembler.GoodsCategoryAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -119,7 +118,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "code", value = "code", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result detail(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
-        Optional<GoodsCategoryVO> productCategory = productCategoryDomainService.detail(GoodsCategory.builder()
+        Optional<GoodsCategory> productCategory = productCategoryDomainService.detail(GoodsCategory.builder()
                 .code(Long.valueOf(code)).build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));

@@ -27,16 +27,6 @@ public class CategoryAttributeController {
 
 
     /**
-     * 获取商品分类属性详细信息
-     */
-    @RequirePermissions("product:category:attribute:query")
-    @GetMapping(value = "/{id}")
-    public Result getInfo(@PathVariable("id") Long id)
-    {
-        return ResultUtil.success(categoryAttributeDomainService.selectCategoryAttributeById(id));
-    }
-
-    /**
      * 新增商品分类属性
      */
     @RequirePermissions("product:category:attribute:add")
@@ -54,9 +44,10 @@ public class CategoryAttributeController {
     @RequirePermissions("product:category:attribute:edit")
     @Log(title = "商品分类属性", businessType = BusinessType.UPDATE)
     @PutMapping
-    public Result edit(@RequestBody CategoryAttribute categoryAttribute)
+    public Result update(@RequestBody CategoryAttribute categoryAttribute)
     {
-        return ResultUtil.success(categoryAttributeDomainService.updateCategoryAttribute(categoryAttribute));
+        categoryAttributeDomainService.update(categoryAttribute);
+        return ResultUtil.success();
     }
 
     /**
@@ -65,8 +56,9 @@ public class CategoryAttributeController {
     @RequirePermissions("product:category:attribute:remove")
     @Log(title = "商品分类属性", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public Result remove(@PathVariable Long[] ids)
+    public Result remove(@PathVariable String[] ids)
     {
-        return ResultUtil.success(categoryAttributeDomainService.deleteCategoryAttributeByIds(ids));
+        categoryAttributeDomainService.delete(ids);
+        return ResultUtil.success();
     }
 }

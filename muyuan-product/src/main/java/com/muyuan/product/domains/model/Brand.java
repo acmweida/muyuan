@@ -21,7 +21,7 @@ public class Brand {
     /**
      * 分类id
      */
-    private long categoryId;
+    private long categoryCode;
 
     /**
      * 首字母

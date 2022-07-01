@@ -22,29 +22,4 @@ public class GoodsFactory {
         return new GoodsDomainServiceImpl(goods, ApplicationContextHandler.getContext().getBean(GoodsRepo.class));
     }
 
-    public static GoodsCategoryVO convert(GoodsCategory category) {
-        Assert.notNull(category, "category must not be null");
-        GoodsCategoryVO categoryVO = new GoodsCategoryVO();
-        BeanUtils.copyProperties(category, categoryVO);
-
-        List<CategoryAttributeVO> attributeVOS = new LinkedList<>();
-        CategoryAttributeVO categoryAttributeVO;
-        if (ObjectUtils.isNotEmpty(category.getAttributes())) {
-            Iterator<CategoryAttribute> it = category.getAttributes().iterator();
-
-            while (it.hasNext()) {
-                CategoryAttribute attribute = it.next();
-                categoryAttributeVO = new CategoryAttributeVO();
-                BeanUtils.copyProperties(attribute, categoryAttributeVO);
-                categoryAttributeVO.setCommon(attribute.isType(Const.CATEGORY_ATTRIBUTE_COMMON));
-                categoryAttributeVO.setSale(attribute.isType(Const.CATEGORY_ATTRIBUTE_SALE));
-                categoryAttributeVO.setKey(attribute.isType(Const.CATEGORY_ATTRIBUTE_KEY));
-                categoryAttributeVO.setNormal(attribute.isType(Const.CATEGORY_ATTRIBUTE_NORMAL));
-                attributeVOS.add(categoryAttributeVO);
-            }
-
-        }
-        return categoryVO;
-    }
-
 }

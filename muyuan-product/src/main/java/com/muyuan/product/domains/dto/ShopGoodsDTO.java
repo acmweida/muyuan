@@ -15,6 +15,6 @@ public class ShopGoodsDTO {
     private Long shopId;
 
     @ApiModelProperty(name = "商品分类ID")
-    private Long categoryId;
+    private Long categoryCode;
 
 }

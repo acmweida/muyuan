@@ -9,7 +9,6 @@ import com.muyuan.product.domains.model.Sku;
 import com.muyuan.product.domains.repo.GoodsRepo;
 import com.muyuan.product.domains.service.GoodsDomainService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +46,6 @@ public class GoodsDomainServiceImpl implements GoodsDomainService {
     public Optional<Long> addGoods() {
 
 
-
         return Optional.empty();
     }
 
@@ -56,10 +54,7 @@ public class GoodsDomainServiceImpl implements GoodsDomainService {
         SqlBuilder sqlBuilder = new SqlBuilder(Goods.class)
                 .eq("delete", JdbcValueConst.DELETE_FALSE)
                 .eq("id", shopGoodsDTO.getShopId());
-
-        if (!ObjectUtils.isEmpty(shopGoodsDTO.getCategoryId())) {
-            sqlBuilder.eq("categoryId", shopGoodsDTO.getCategoryId());
-        }
+        sqlBuilder.eq("categoryCode", shopGoodsDTO.getCategoryCode());
 
         List<Goods> goodsList = goodsRepo.queryList(sqlBuilder.build());
 
