@@ -148,7 +148,7 @@ public class GoodsCategoryController {
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
     )
-    public Result delete(@PathVariable String[] ids) {
+    public Result delete(@PathVariable Long[] ids) {
         productCategoryDomainService.delete(ids);
         return ResultUtil.success();
     }

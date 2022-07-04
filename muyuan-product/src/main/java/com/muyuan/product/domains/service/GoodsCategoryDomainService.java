@@ -59,6 +59,6 @@ public interface GoodsCategoryDomainService {
      * 删除ID
      * @param ids
      */
-    void delete(String[] ids);
+    void delete(Long[] ids);
 
 }

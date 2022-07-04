@@ -160,6 +160,13 @@ public class GoodsCategory {
                 );
     }
 
+    public void update(GoodsCategoryRepo goodsCategoryRepo,String... column) {
+        Assert.notNull(goodsCategoryRepo, "repo is null");
+        Assert.notNull(id, "id is null");
+        update();
+        goodsCategoryRepo.update(this,column);
+    }
+
     public boolean hasChildren() {
         return !leaf();
     }

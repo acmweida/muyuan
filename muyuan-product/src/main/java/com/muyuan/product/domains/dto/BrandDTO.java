@@ -1,11 +1,20 @@
-package com.muyuan.product.domains.model;
+package com.muyuan.product.domains.dto;
 
+import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.product.domains.model.Brand;
 import lombok.Data;
 
 import java.util.Date;
 
+
+/**
+ * 品牌对象 t_brand
+ *
+ * @author ${author}
+ * @date 2022-07-04T14:16:24.789+08:00
+ */
 @Data
-public class Brand {
+public class BrandDTO extends BaseDTO<BrandDTO,Brand> {
 
     /**  */
     private Long id;
@@ -17,13 +26,13 @@ public class Brand {
     private String logo;
 
     /** 排序 */
-    private Integer orderNum;
+    private Long ordernum;
 
     /** 英文名称 */
     private String englishName;
 
     /** 商品数量
-     */
+ */
     private Long productCount;
 
     /** 状态  0-上架 1-下架 3-删除 4-禁用 */
@@ -51,5 +60,7 @@ public class Brand {
     private Long createById;
 
     /** 审核状态  1-审核中  0-审核通过 2-审核失败 */
-    private Integer auditStatus;
+    private Long auditStatus;
+
+
 }

@@ -6,7 +6,7 @@ import ${import};
 import ${packageName}.${moduleName}.domains.model.${ClassName};
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import ${packageName}.${moduleName}.interfaces.dto.${ClassName}DTO;
+import ${packageName}.${moduleName}.domains.dto.${ClassName}DTO;
 import ${packageName}.${moduleName}.infrastructure.persistence.mapper.${ClassName}Mapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

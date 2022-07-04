@@ -55,14 +55,25 @@ public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
     Integer update(Map param);
 
     /**
-     * 更加指定字段更新
+     * 根据指定字段更新指
      *
      * @param entity
-     * @param column
+     * @param byColumn
      * @return
      */
     @UpdateProvider(value = CrudSqlProvider.class, method = "updateBy")
-    Integer updateBy(T entity, String... column);
+    Integer updateBy(T entity, String... byColumn);
+
+    /**
+     * 根据指定字段更新指定字段
+     *
+     * @param entity
+     * @param column
+     * @param byColumn
+     * @return
+     */
+    @UpdateProvider(value = CrudSqlProvider.class, method = "updateColumnBy")
+    Integer updateColumnBy(T entity, String[] column, String... byColumn);
 
     /**
      * TODO:根据条件更新指定字段

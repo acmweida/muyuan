@@ -11,8 +11,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName ProductCategoryDomainServiceImpl
@@ -52,17 +55,17 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     }
 
     private void addRootCategory(GoodsCategory goodsCategory) {
-        int rootCount = goodsCategoryRepo.count(GoodsCategoryDTO.builder().level(1).build());
+        int rootCount = goodsCategoryRepo.countAll(GoodsCategoryDTO.builder().level(1).build());
         goodsCategory.initRoot(rootCount);
         goodsCategory.save(goodsCategoryRepo);
         goodsCategory.setAncestors(String.valueOf(goodsCategory.getId()));
-        goodsCategory.save(goodsCategoryRepo);
+        goodsCategory.update(goodsCategoryRepo,"ancestors");
     }
 
     private void addSubNodeCategory(GoodsCategory goodsCategory, GoodsCategory parent) {
         goodsCategory.save(goodsCategoryRepo);
         // 查询兄弟节点数量 用于生成Code
-        int count = goodsCategoryRepo.count(GoodsCategoryDTO.builder()
+        int count = goodsCategoryRepo.countAll(GoodsCategoryDTO.builder()
                 .level(parent.getLevel() + 1)
                 .parentId(parent.getId())
                 .build());
@@ -104,10 +107,24 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     }
 
     @Override
-    public void delete(String[] ids) {
+    public void delete(Long[] ids) {
         if (ObjectUtils.isEmpty(ids)) {
             return;
         }
-        goodsCategoryRepo.delete(ids);
+        List<Long> toDelete = new ArrayList<>(Arrays.asList(ids));
+
+        Long[] parentIds = ids;
+        List<GoodsCategory> sub;
+        do {
+            /**
+             * TODO:判断是否有商品关联分类
+             */
+            sub = goodsCategoryRepo.list(GoodsCategoryDTO.builder().parentIds(parentIds).build());
+            if (!sub.isEmpty()) {
+                toDelete.addAll(sub.stream().map(GoodsCategory::getId).collect(Collectors.toList()));
+            }
+        } while (!sub.isEmpty());
+
+        goodsCategoryRepo.delete(toDelete.toArray(new Long[0]));
     }
 }

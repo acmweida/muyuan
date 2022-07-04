@@ -16,6 +16,8 @@ public interface GoodsCategoryRepo {
 
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
 
+    List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO,String... column);
+
     GoodsCategory selectOne(GoodsCategory goodsCategory);
 
     /**
@@ -29,8 +31,22 @@ public interface GoodsCategoryRepo {
 
     void update(GoodsCategory goodsCategory);
 
+    void update(GoodsCategory goodsCategory,String... column);
+
+    /**
+     * Count 兄弟节点
+     * @param goodsCategoryDTO
+     * @return
+     */
     int count(GoodsCategoryDTO goodsCategoryDTO);
 
-    void delete(String[] ids);
+    /**
+     * Count 兄弟节点 包括被删除节点
+     * @param goodsCategoryDTO
+     * @return
+     */
+    int countAll(GoodsCategoryDTO goodsCategoryDTO);
+
+    void delete(Long[] ids);
 
 }

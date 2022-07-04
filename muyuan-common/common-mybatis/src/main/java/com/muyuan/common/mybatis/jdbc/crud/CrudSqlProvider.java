@@ -85,10 +85,10 @@ public class CrudSqlProvider {
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
-                } else  {
+                } else {
                     sql.AND();
                 }
-            } else  if (option == Option.ORDER) {
+            } else if (option == Option.ORDER) {
                 orderBY.add((String) condition.getValue());
             }
         }
@@ -148,7 +148,7 @@ public class CrudSqlProvider {
 
         Field[] declaredFields = target.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
-            if (ArrayUtils.contains(exclude,propertyDescriptor.getName())
+            if (ArrayUtils.contains(exclude, propertyDescriptor.getName())
                     || propertyDescriptor.isSynthetic()
                     || !jdbcType(propertyDescriptor.getType())) {
                 continue;
@@ -168,7 +168,7 @@ public class CrudSqlProvider {
         return sql.toString();
     }
 
-    public String update(Map<String, Object> param,ProviderContext context) {
+    public String update(Map<String, Object> param, ProviderContext context) {
         SQL sql = new SQL();
         sql.UPDATE(tableName(context));
 
@@ -209,7 +209,24 @@ public class CrudSqlProvider {
     }
 
 
-    public String updateBy(ProviderContext context, Object entity, String... column) {
+    public String updateBy(ProviderContext context, Object entity, String... byColumn) {
+        Class aClass = entityType(context);
+        String[] exclude = excludeColumn(aClass);
+        List<String> sets = new ArrayList<>();
+
+        Field[] declaredFields = aClass.getDeclaredFields();
+        for (Field propertyDescriptor : declaredFields) {
+            propertyDescriptor.setAccessible(true);
+            Object field = ReflectionUtils.getField(propertyDescriptor, entity);
+            if (null != field && !ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
+                sets.add(propertyDescriptor.getName());
+            }
+        }
+
+        return updateColumnBy(context,entity,sets.toArray(new String[0]),byColumn);
+    }
+
+    public String updateColumnBy(ProviderContext context, Object entity, String[] column, String... byColumn) {
         SQL sql = new SQL();
         Class aClass = entityType(context);
         sql.UPDATE(tableName(context));
@@ -217,25 +234,27 @@ public class CrudSqlProvider {
         String[] exclude = excludeColumn(aClass);
         List<String> sets = new ArrayList<>();
 
-        List<String> fieldNamesList = Arrays.asList(column);
+        List<String> fieldNamesList = Arrays.asList(byColumn);
 
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
-            if (!fieldNamesList.contains(propertyDescriptor.getName()) && null != field) {
-                if (!ArrayUtils.contains(exclude,propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
+            if (!fieldNamesList.contains(propertyDescriptor.getName())
+                    && ArrayUtils.contains(column, propertyDescriptor.getName())
+                    && null != field) {
+                if (!ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
                     sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
                 }
             }
         }
 
-        sql.SET(sets.toArray(new String[sets.size()]));
+        sql.SET(sets.toArray(new String[0]));
 
         List<String> conditionSqls = new ArrayList<>();
         Field field = null;
         Object value = null;
-        for (String fieldName : column) {
+        for (String fieldName : byColumn) {
             try {
                 field = aClass.getDeclaredField(fieldName);
                 if (!jdbcType(field.getType())) {
@@ -248,7 +267,7 @@ public class CrudSqlProvider {
                 log.error("{} not found  in {}", fieldName, aClass.getName());
             }
             if (value != null) {
-                    conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
+                conditionSqls.add(" " + StrUtil.humpToUnderline(field.getName()) + Option.EQ.getOp() + "#{entity." + field.getName() + "}");
             }
         }
         if (conditionSqls.size() == 0) {
@@ -309,10 +328,10 @@ public class CrudSqlProvider {
     }
 
     private String[] excludeColumn(Class target) {
-        ColumnExclude columnExclude =AnnotationUtils.findAnnotation(target,ColumnExclude.class);
+        ColumnExclude columnExclude = AnnotationUtils.findAnnotation(target, ColumnExclude.class);
         String[] exclude = DEFAULT_EXCLUDE_COLUMN;
         if (null != columnExclude) {
-            exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
+            exclude = ArrayUtils.addAll(columnExclude.value(), exclude);
         }
         return exclude;
     }
