@@ -8,14 +8,7 @@ import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ${packageName}.${moduleName}.domains.model.${ClassName};
 import ${packageName}.${moduleName}.domains.service.${ClassName}DomainService;
 
@@ -38,7 +31,7 @@ public class ${ClassName}Controller {
     @RequirePermissions("${permissionPrefix}:list")
     @GetMapping("/list")
 #if($table.crud || $table.sub)
-    public Result list(${ClassName} ${className})
+    public Result list(@ModelAttribute ${ClassName} ${className})
     {
         List<${ClassName}> list = ${className}DomainService.select${ClassName}List(${className});
         return ResultUtil.success(list);
@@ -58,7 +51,7 @@ public class ${ClassName}Controller {
      */
     @RequirePermissions("${permissionPrefix}:query")
     @GetMapping(value = "/{${pkColumn.javaField}}")
-    public Result getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
+    public Result get(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
         return ResultUtil.success(${className}DomainService.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }

@@ -1,16 +1,22 @@
 package com.muyuan.product.interfaces.facade.controller;
 
+import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.service.BrandDomainService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 品牌Controller
@@ -28,11 +34,20 @@ public class BrandController {
     /**
      * 查询品牌列表
      */
+    @ApiOperation("品牌分页查询")
     @RequirePermissions("product:brand:list")
     @GetMapping("/list")
-    public Result list(Brand brand)
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "name", value = "品牌名称", dataTypeClass = String.class, paramType = "body"),
+                    @ApiImplicitParam(name = "status", value = "状态 字典名称:product_brand_status", dataTypeClass = Long.class, paramType = "body"),
+                    @ApiImplicitParam(name = "auditStatus", value = "审核状态:product_brand_audit_status", dataTypeClass = Integer.class, paramType = "body"),
+                    @ApiImplicitParam(name = "pageSize", value = "", dataTypeClass = Integer.class, paramType = "body"),
+                    @ApiImplicitParam(name = "pageNum", value = "", dataTypeClass = Integer.class, paramType = "body")
+            }
+    )
+    public Result<Page> page(@ModelAttribute BrandDTO brandDTO)
     {
-        List<Brand> list = brandDomainService.selectBrandList(brand);
+        Page<Brand> list = brandDomainService.page(brandDTO);
         return ResultUtil.success(list);
     }
 
@@ -43,7 +58,7 @@ public class BrandController {
      */
     @RequirePermissions("product:brand:query")
     @GetMapping(value = "/{id}")
-    public Result getInfo(@PathVariable("id") Long id)
+    public Result get(@PathVariable("id") Long id)
     {
         return ResultUtil.success(brandDomainService.selectBrandById(id));
     }
@@ -54,9 +69,18 @@ public class BrandController {
     @RequirePermissions("product:brand:add")
     @Log(title = "品牌", businessType = BusinessType.INSERT)
     @PostMapping
-    public Result add(@RequestBody Brand brand)
+    public Result add(@RequestBody @Validated BrandDTO brandDTOb)
     {
-        return ResultUtil.success(brandDomainService.insertBrand(brand));
+        if (GlobalConst.NOT_UNIQUE.equals(
+                brandDomainService.checkUnique(Brand.builder()
+                        .name(brandDTOb.getName())
+                        .build())
+        )) {
+            return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"品牌名称已存在");
+        }
+
+        brandDomainService.add(brandDTOb);
+        return ResultUtil.success();
     }
 
     /**

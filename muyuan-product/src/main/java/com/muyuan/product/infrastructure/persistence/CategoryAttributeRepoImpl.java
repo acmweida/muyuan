@@ -47,4 +47,13 @@ public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
                 .build());
     }
 
+    @Override
+    public CategoryAttribute selectOne(CategoryAttribute categoryAttribute) {
+        return categoryAttributeMapper.selectOne(new SqlBuilder(CategoryAttribute.class)
+                .eq("id",categoryAttribute.getId())
+                .eq("name",categoryAttribute.getName())
+                .eq("categoryCode",categoryAttribute.getCategoryCode())
+                .build());
+    }
+
 }

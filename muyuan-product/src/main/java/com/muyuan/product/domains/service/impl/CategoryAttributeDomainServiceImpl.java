@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
@@ -24,6 +25,16 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
     private CategoryAttributeRepo categoryAttributeRepo;
 
 
+    @Override
+    public String checkUnique(CategoryAttribute categoryAttribute) {
+        Long id = null == categoryAttribute.getId() ? 0 : categoryAttribute.getId();
+        categoryAttribute = categoryAttributeRepo.selectOne(categoryAttribute);
+        if (null != categoryAttribute && !categoryAttribute.getId().equals(id)) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
     /**
      * 新增商品分类属性
      * 
@@ -45,9 +56,9 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
      * @return 结果
      */
     @Override
-    public void update(CategoryAttribute categoryAttribute)
+    public void update(CategoryAttributeDTO categoryAttribute)
     {
-        categoryAttribute.save(categoryAttributeRepo);
+        categoryAttribute.convert().save(categoryAttributeRepo);
     }
 
     /**

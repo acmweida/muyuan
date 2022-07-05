@@ -12,6 +12,7 @@ import com.muyuan.product.interfaces.assembler.GoodsCategoryAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
@@ -65,12 +66,13 @@ public class GoodsCategoryController {
     }
 
     @PutMapping()
+    @ApiOperation("商品分类更新")
     @RequirePermissions("product:category:edit")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "商品分类ID", dataTypeClass = String.class, paramType = "body"),
-            @ApiImplicitParam(name = "name", value = "商品分类名称", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "orderNum", value = "显示顺序", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "logo", value = "分类图标", dataTypeClass = String.class, paramType = "body")}
+            {@ApiImplicitParam(name = "id", value = "商品分类ID", dataTypeClass = Long.class, paramType = "body",required = true),
+            @ApiImplicitParam(name = "name", value = "商品分类名称", dataTypeClass = String.class, paramType = "body",required = true),
+                    @ApiImplicitParam(name = "orderNum", value = "显示顺序", dataTypeClass = String.class, paramType = "body",required = true),
+                    @ApiImplicitParam(name = "logo", value = "分类图标", dataTypeClass = String.class, paramType = "body",required = true)}
     )
     public Result update(@RequestBody @Valid GoodsCategoryDTO goodsCategoryDTO) {
         if (ObjectUtils.isEmpty(goodsCategoryDTO.getId())) {
@@ -89,6 +91,7 @@ public class GoodsCategoryController {
 
     @GetMapping("/treeSelect")
     @RequirePermissions("product:category:query")
+    @ApiOperation("商品分类树型结构查询")
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "parentId", value = "父节点ID", dataTypeClass = String.class, paramType = "body", defaultValue = "0")}
     )
@@ -100,10 +103,11 @@ public class GoodsCategoryController {
         return ResultUtil.success(GoodsCategoryAssembler.buildSelectTree(list));
     }
 
+    @ApiOperation("商品分类简单查询")
     @GetMapping("/{id}")
     @RequirePermissions("product:category:query")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
+            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path",required = true)}
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
         Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
@@ -111,11 +115,11 @@ public class GoodsCategoryController {
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
 
-
+    @ApiOperation("商品分类详细查询")
     @GetMapping("/detail/{code}")
     @RequirePermissions("product:category:query")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "code", value = "code", dataTypeClass = Long.class, paramType = "path")}
+            {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result detail(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
         Optional<GoodsCategory> productCategory = productCategoryDomainService.detail(GoodsCategory.builder()
@@ -125,10 +129,11 @@ public class GoodsCategoryController {
     }
 
     /**
-     * 通过商品编码 获取三级目录信息
+     * 通过商品编码 获取三级分类信息
      * @param code
      * @return
      */
+    @ApiOperation("通过商品编码 获取三级分类信息")
     @GetMapping("/3th/{code}")
     @RequirePermissions("product:category:query")
     @ApiImplicitParams(
@@ -143,6 +148,7 @@ public class GoodsCategoryController {
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
 
+    @ApiOperation("商品分类删除")
     @DeleteMapping("/{ids}")
     @RequirePermissions("product:category:remove")
     @ApiImplicitParams(

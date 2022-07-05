@@ -1,8 +1,8 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
-
-import java.util.List;
 
 /**
  * 品牌Service接口
@@ -21,20 +21,27 @@ public interface BrandDomainService
     Brand selectBrandById(Long id);
 
     /**
+     * 唯一性查询
+     * @param brand
+     * @return
+     */
+    String checkUnique(Brand brand);
+
+    /**
      * 查询品牌列表
      *
      * @param brand 品牌
      * @return 品牌集合
      */
-    List<Brand> selectBrandList(Brand brand);
+    Page<Brand> page(BrandDTO brand);
 
     /**
      * 新增品牌
      * 
-     * @param brand 品牌
-     * @return 结果
+     * @param brandDTO 品牌
+     * @return
      */
-    int insertBrand(Brand brand);
+    void add(BrandDTO brandDTO);
 
     /**
      * 修改品牌

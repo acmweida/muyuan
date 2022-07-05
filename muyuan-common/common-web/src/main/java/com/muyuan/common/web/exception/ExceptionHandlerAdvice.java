@@ -35,7 +35,7 @@ public class ExceptionHandlerAdvice {
             errorInfo.put(((FieldError)error).getField(),((FieldError)error).getDefaultMessage());
         }
         log.error("hibernate-validator error,{}", errorInfo);
-        return ResultUtil.fail(ResponseCode.ARGUMENT_EEORR.getCode(),errorInfo.get(((FieldError)allErrors.get(0)).getField()));
+        return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),errorInfo.get(((FieldError)allErrors.get(0)).getField()));
     }
 
     @ExceptionHandler(MuyuanException.class)

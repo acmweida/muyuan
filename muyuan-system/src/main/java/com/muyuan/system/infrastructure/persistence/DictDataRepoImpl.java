@@ -48,6 +48,7 @@ public class DictDataRepoImpl implements DictDataRepo {
                                 dictDataMapper.selectList( new SqlBuilder(DictData.class)
                                         .eq("type", dataType)
                                         .eq("status", 0)
+                                        .orderByAsc("orderNum")
                                         .build())
                         )
                 );

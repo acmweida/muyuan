@@ -25,6 +25,8 @@ public interface BrandRepo {
 
     void update(Brand brand);
 
+    void update(Brand brand, String... column);
+
     void delete(String... ids);
 
 }

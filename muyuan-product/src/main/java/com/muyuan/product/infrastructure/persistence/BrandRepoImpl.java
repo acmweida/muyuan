@@ -31,6 +31,9 @@ public class  BrandRepoImpl implements BrandRepo {
     @Override
     public List<Brand> select(BrandDTO brandDTO, Page page) {
         return  brandMapper.selectList(new SqlBuilder(Brand.class)
+                .like("name",brandDTO.getName())
+                .eq("status",brandDTO.getStatus())
+                .eq("auditStatus",brandDTO.getAuditStatus())
                 .page(page)
                 .build());
     }
@@ -38,6 +41,8 @@ public class  BrandRepoImpl implements BrandRepo {
     @Override
     public Brand selectOne(Brand brandDTO) {
         return brandMapper.selectOne(new SqlBuilder(Brand.class)
+                .eq("id",brandDTO.getId())
+                .eq("name",brandDTO.getName())
                 .build());
     }
 
@@ -49,6 +54,11 @@ public class  BrandRepoImpl implements BrandRepo {
     @Override
     public void update(Brand brand) {
         brandMapper.updateBy(brand,"id");
+    }
+
+    @Override
+    public void update(Brand brand, String... column) {
+        brandMapper.updateColumnBy(brand,column,"id");
     }
 
     @Override

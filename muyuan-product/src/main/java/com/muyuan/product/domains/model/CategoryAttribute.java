@@ -3,6 +3,7 @@ package com.muyuan.product.domains.model;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
+import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
@@ -18,6 +19,7 @@ import java.util.Date;
  * @date 2022-06-23T10:46:02.101+08:00
  */
 @Data
+@Builder
 public class CategoryAttribute {
 
     /**  */
@@ -50,6 +52,9 @@ public class CategoryAttribute {
     /**  */
     private String updater;
 
+    /**
+     * 输入类型
+     */
     private Integer inputType;
 
     private Integer status;

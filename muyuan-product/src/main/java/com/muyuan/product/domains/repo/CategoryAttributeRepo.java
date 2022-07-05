@@ -24,4 +24,6 @@ public interface CategoryAttributeRepo {
 
     void delete(String... ids);
 
+    CategoryAttribute selectOne(CategoryAttribute categoryAttribute);
+
 }

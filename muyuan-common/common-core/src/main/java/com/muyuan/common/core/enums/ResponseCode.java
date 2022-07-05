@@ -3,7 +3,7 @@ package com.muyuan.common.core.enums;
 public enum ResponseCode {
     SUCCESS(0,"操作成功"),
 
-    ARGUMENT_EEORR(100,"参数错误"),
+    ARGUMENT_ERROR(100,"参数错误"),
 
 
     FAIL(400,"操作失败"),

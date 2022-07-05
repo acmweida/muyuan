@@ -26,7 +26,7 @@ public interface CategoryAttributeDomainService
      * @param categoryAttribute 商品分类属性
      * @return 结果
      */
-    void update(CategoryAttribute categoryAttribute);
+    void update(CategoryAttributeDTO categoryAttribute);
 
     /**
      * 批量删除商品分类属性
@@ -35,5 +35,13 @@ public interface CategoryAttributeDomainService
      * @return 结果
      */
     void delete(String[] ids);
+
+    /**
+     * 唯一性查询
+     * @param categoryAttribute
+     * @return
+     */
+    String checkUnique(CategoryAttribute categoryAttribute);
+
 
 }

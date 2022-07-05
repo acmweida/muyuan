@@ -15,7 +15,7 @@ public class ArgumentException  extends MuyuanException implements MuyuanExcepti
 
 
     public ArgumentException(String message) {
-        this(ResponseCode.ARGUMENT_EEORR.getCode(),message);
+        this(ResponseCode.ARGUMENT_ERROR.getCode(),message);
     }
 
 
