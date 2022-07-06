@@ -6,16 +6,16 @@ import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.repo.BrandRepo;
 import com.muyuan.product.domains.service.BrandDomainService;
-import com.muyuan.product.infrastructure.persistence.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 品牌Service业务层处理
  * 
- * @author ${author}
+ * @author 2456910384
  * @date 2022-07-04T14:16:24.789+08:00
  */
 @Service
@@ -25,8 +25,6 @@ public class BrandDomainServiceImpl implements BrandDomainService
 {
     private BrandRepo brandRepo;
 
-    private BrandMapper brandMapper;
-
     /**
      * 查询品牌
      * 
@@ -34,9 +32,13 @@ public class BrandDomainServiceImpl implements BrandDomainService
      * @return 品牌
      */
     @Override
-    public Brand selectBrandById(Long id)
+    public Optional<Brand> get(Long id)
     {
-        return brandMapper.selectBrandById(id);
+      return  Optional.ofNullable(brandRepo.selectOne(
+              Brand.builder()
+                      .id(id)
+                      .build()
+      ));
     }
 
     /**
@@ -82,14 +84,30 @@ public class BrandDomainServiceImpl implements BrandDomainService
     /**
      * 修改品牌
      * 
-     * @param brand 品牌
+     * @param brandDTO 品牌
      * @return 结果
      */
     @Override
-    public int updateBrand(Brand brand)
+    public void update(BrandDTO brandDTO)
     {
-        brand.setUpdateTime(DateTime.now().toDate());
-        return brandMapper.updateBrand(brand);
+        Brand brand = brandDTO.convert();
+        brand.update(brandRepo);
+    }
+
+    /**
+     * 审核品牌
+     *
+     * @param brandDTO 品牌
+     * @return 结果
+     */
+    @Override
+    public void audit(BrandDTO brandDTO)
+    {
+        Brand brand = Brand.builder()
+                .id(brandDTO.getId())
+                .auditStatus(brandDTO.getAuditStatus())
+                .build();
+        brand.audit(brandRepo);
     }
 
     /**
@@ -99,20 +117,9 @@ public class BrandDomainServiceImpl implements BrandDomainService
      * @return 结果
      */
     @Override
-    public int deleteBrandByIds(Long[] ids)
+    public void delete(Long... ids)
     {
-        return brandMapper.deleteBrandByIds(ids);
+        brandRepo.delete(ids);
     }
 
-    /**
-     * 删除品牌信息
-     * 
-     * @param id 品牌主键
-     * @return 结果
-     */
-    @Override
-    public int deleteBrandById(Long id)
-    {
-        return brandMapper.deleteBrandById(id);
-    }
 }

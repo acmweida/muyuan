@@ -5,30 +5,22 @@ import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.MutiDataSourceConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
-import com.muyuan.common.mybatis.jdbc.page.PageInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Configuration
-@EnableTransactionManagement
 @MapperScan("com.muyuan.system.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
@@ -127,20 +119,4 @@ public class MybatisConfig {
         return dataSourceMap;
     }
 
-
-
-
-    @Bean
-    @Qualifier("sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws IOException {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource);
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        configuration.setMapUnderscoreToCamelCase(true);
-        configuration.addInterceptor(new PageInterceptor());
-        sqlSessionFactoryBean.setConfiguration(configuration);
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
-        return sqlSessionFactoryBean;
-    }
 }

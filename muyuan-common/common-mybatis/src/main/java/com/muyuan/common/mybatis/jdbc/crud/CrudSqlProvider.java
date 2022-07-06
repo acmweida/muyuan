@@ -81,7 +81,7 @@ public class CrudSqlProvider {
             if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
             } else if (option == Option.OR || option == Option.AND) {
-                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                sql.WHERE(conditionSqls.toArray(new String[0]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
@@ -94,11 +94,11 @@ public class CrudSqlProvider {
         }
 
         if (!conditions.isEmpty()) {
-            sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+            sql.WHERE(conditionSqls.toArray(new String[0]));
         }
 
         if (!ObjectUtils.isEmpty(orderBY)) {
-            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.stream().toArray(), ","));
+            sql.ORDER_BY(StringUtils.arrayToDelimitedString(orderBY.toArray(), ","));
         }
 
         return sql.toString();
@@ -116,7 +116,7 @@ public class CrudSqlProvider {
             if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
             } else if (option == Option.OR || option == Option.AND) {
-                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                sql.WHERE(conditionSqls.toArray(new String[0]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
@@ -126,7 +126,7 @@ public class CrudSqlProvider {
             }
         }
         if (!conditions.isEmpty()) {
-            sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+            sql.WHERE(conditionSqls.toArray(new String[0]));
             sql.LIMIT(1);
         } else {
             log.error("sql condition is empty");
@@ -155,14 +155,14 @@ public class CrudSqlProvider {
             }
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, bean);
-            if (null != field) {
+            if (!ObjectUtils.isEmpty(field)) {
                 values.add("#{" + propertyDescriptor.getName() + "}");
                 column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()));
             }
         }
 
 
-        sql.VALUES(StringUtils.arrayToDelimitedString(column.toArray(new String[column.size()]), ","),
+        sql.VALUES(StringUtils.arrayToDelimitedString(column.toArray(new String[0]), ","),
                 StringUtils.arrayToDelimitedString(values.toArray(new String[column.size()]), ","));
 
         return sql.toString();
@@ -178,7 +178,7 @@ public class CrudSqlProvider {
         for (Condition condition : updateCondition) {
             sets.add(buildSql(condition));
         }
-        sql.SET(sets.toArray(new String[sets.size()]));
+        sql.SET(sets.toArray(new String[0]));
 
         List<Condition> whereCondition = (List<Condition>) param.get(Constant.CONDITION);
 
@@ -188,7 +188,7 @@ public class CrudSqlProvider {
             if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
             } else if (option == Option.OR || option == Option.AND) {
-                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                sql.WHERE(conditionSqls.toArray(new String[0]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
@@ -203,7 +203,7 @@ public class CrudSqlProvider {
             return "";
         }
 
-        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+        sql.WHERE(conditionSqls.toArray(new String[0]));
 
         return sql.toString();
     }
@@ -218,7 +218,7 @@ public class CrudSqlProvider {
         for (Field propertyDescriptor : declaredFields) {
             propertyDescriptor.setAccessible(true);
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
-            if (null != field && !ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
+            if (!ObjectUtils.isEmpty(field) && !ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
                 sets.add(propertyDescriptor.getName());
             }
         }
@@ -242,7 +242,7 @@ public class CrudSqlProvider {
             Object field = ReflectionUtils.getField(propertyDescriptor, entity);
             if (!fieldNamesList.contains(propertyDescriptor.getName())
                     && ArrayUtils.contains(column, propertyDescriptor.getName())
-                    && null != field) {
+                    && !ObjectUtils.isEmpty(field)) {
                 if (!ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
                     sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
                 }
@@ -275,7 +275,7 @@ public class CrudSqlProvider {
             return "";
         }
 
-        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+        sql.WHERE(conditionSqls.toArray(new String[0]));
 
         return sql.toString();
     }
@@ -294,7 +294,7 @@ public class CrudSqlProvider {
             return "";
         }
 
-        sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+        sql.WHERE(conditionSqls.toArray(new String[0]));
 
         return sql.toString();
     }

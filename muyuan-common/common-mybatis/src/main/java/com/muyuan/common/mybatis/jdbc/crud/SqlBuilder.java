@@ -41,6 +41,7 @@ public class SqlBuilder {
     public SqlBuilder(Class target) {
         this.target = target;
         conditions = new ArrayList<>();
+        updates = new ArrayList<>();
     }
 
     private boolean valid(Object value) {

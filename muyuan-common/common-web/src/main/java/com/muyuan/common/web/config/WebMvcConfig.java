@@ -1,10 +1,15 @@
 package com.muyuan.common.web.config;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.web.aspect.PreAuthorizeAspect;
+import com.muyuan.common.web.aspect.RepeatableRequestAspect;
 import com.muyuan.common.web.interceptor.HeaderInterceptor;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@Import({PreAuthorizeAspect.class, RepeatableRequestAspect.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
@@ -25,6 +31,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         mediaTypes.add(MediaType.APPLICATION_CBOR);
         mediaTypes.add(MediaType.APPLICATION_FORM_URLENCODED);
         mediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
+
+        // 解决前端JS损失 Long精度问题
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+        JSONUtil.objectMapper.registerModule(simpleModule);
 
         jackson2HttpMessageConverter.setSupportedMediaTypes(mediaTypes);
         return new HttpMessageConverters(jackson2HttpMessageConverter);
@@ -43,4 +55,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     {
         return new HeaderInterceptor();
     }
+
 }

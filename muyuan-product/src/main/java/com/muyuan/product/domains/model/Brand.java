@@ -3,8 +3,10 @@ package com.muyuan.product.domains.model;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.repo.BrandRepo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
@@ -12,6 +14,7 @@ import java.util.Date;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class Brand {
 
     /**  */
@@ -61,6 +64,9 @@ public class Brand {
     private Integer auditStatus;
 
 
+    public Brand() {
+    }
+
     public void init() {
         status = 3;
         auditStatus = 1;
@@ -87,10 +93,18 @@ public class Brand {
                 );
     }
 
+    public void update(BrandRepo brandRepo) {
+        brandRepo.update(this);
+    }
+
     public void update(BrandRepo brandRepo, String... column) {
         Assert.notNull(brandRepo, "repo is null");
         Assert.notNull(id, "id is null");
         update();
-        brandRepo.update(this,column);
+        brandRepo.update(this,ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
+    }
+
+    public void audit(BrandRepo brandRepo) {
+        update(brandRepo,"auditStatus");
     }
 }

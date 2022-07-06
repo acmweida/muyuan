@@ -4,6 +4,8 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 
+import java.util.Optional;
+
 /**
  * 品牌Service接口
  * 
@@ -18,7 +20,7 @@ public interface BrandDomainService
      * @param id 品牌主键
      * @return 品牌
      */
-    Brand selectBrandById(Long id);
+    Optional<Brand> get(Long id);
 
     /**
      * 唯一性查询
@@ -46,18 +48,19 @@ public interface BrandDomainService
     /**
      * 修改品牌
      * 
-     * @param brand 品牌
+     * @param brandDTO 品牌
      * @return 结果
      */
-    int updateBrand(Brand brand);
+    void update(BrandDTO brandDTO);
 
     /**
-     * 批量删除品牌
-     * 
-     * @param ids 需要删除的品牌主键集合
+     * 审核品牌
+     *
+     * @param brandDTO 品牌
      * @return 结果
      */
-    int deleteBrandByIds(Long[] ids);
+    void audit(BrandDTO brandDTO);
+
 
     /**
      * 删除品牌信息
@@ -65,5 +68,5 @@ public interface BrandDomainService
      * @param id 品牌主键
      * @return 结果
      */
-    int deleteBrandById(Long id);
+    void delete(Long... id);
 }
