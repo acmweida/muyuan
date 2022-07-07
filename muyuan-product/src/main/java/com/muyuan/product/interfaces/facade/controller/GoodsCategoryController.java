@@ -134,18 +134,33 @@ public class GoodsCategoryController {
      * @return
      */
     @ApiOperation("通过商品编码 获取三级分类信息")
-    @GetMapping("/3th/{code}")
+    @GetMapping("/leaf/{code}")
     @RequirePermissions("product:category:query")
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
-    public Result get3th(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
+    public Result getLeaf(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
         Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder()
                 .code(Long.valueOf(code))
-                .level(GlobalConst.GOODS_LAST_LEVEL)
+                .leaf(GlobalConst.TRUE)
                 .build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
+    }
+
+
+    /**
+     * 通过商品编码 获取三级分类信息
+     * @return
+     */
+    @ApiOperation("列表查询所有最终分类")
+    @GetMapping("/leaf/selectOption")
+    @RequirePermissions("product:category:query")
+    public Result selectOption() {
+        List<GoodsCategory> productCategorys = productCategoryDomainService.list(GoodsCategoryDTO.builder()
+                .leaf(GlobalConst.TRUE)
+                .build());
+        return ResultUtil.success(GoodsCategoryAssembler.buildSelect(productCategorys));
     }
 
     @ApiOperation("商品分类删除")

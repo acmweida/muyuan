@@ -35,6 +35,7 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
                 .like("name", goodsCategoryDTO.getName())
                 .eq("code", goodsCategoryDTO.getCode())
                 .eq("parentId", goodsCategoryDTO.getParentId())
+                .eq("leaf",goodsCategoryDTO.getLeaf())
                 .notEq("status","2")
                 .build());
     }

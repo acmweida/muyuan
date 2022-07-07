@@ -19,4 +19,11 @@ public interface Const {
 
     /** 其他属性 */
     int CATEGORY_ATTRIBUTE_NORMAL = 1 << 3;
+
+
+    /**
+     * 商品最高分级
+     */
+    int GOODS_LAST_LEVEL = 3;
+
 }

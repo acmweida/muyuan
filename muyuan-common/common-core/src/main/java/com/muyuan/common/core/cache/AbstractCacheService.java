@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @Date 2022/2/15 9:22
  * @Version 1.0
  */
-public abstract class AbstractCacheManager implements CacheManager {
+public abstract class AbstractCacheService implements CacheService {
 
     @Override
     public Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache) {

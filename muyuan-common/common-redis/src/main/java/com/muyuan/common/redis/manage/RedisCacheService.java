@@ -1,12 +1,10 @@
 package com.muyuan.common.redis.manage;
 
-import com.muyuan.common.core.cache.AbstractCacheManager;
-import com.muyuan.common.core.cache.CacheManager;
+import com.muyuan.common.core.cache.AbstractCacheService;
+import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -23,15 +21,13 @@ import java.util.function.Supplier;
  * @Date 2022/2/14 17:05
  * @Version 1.0
  */
-@Component
 @AllArgsConstructor
-public class RedisCacheManager extends AbstractCacheManager implements CacheManager {
+public class RedisCacheService extends AbstractCacheService implements CacheService {
 
 
     /**
      * 注入redisTemplate bean
      */
-    @Autowired
     private RedisTemplate redisTemplate;
 
     // =========================================================================================================================================================================//

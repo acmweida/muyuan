@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.system.domains.model.SysMenu;
 import com.muyuan.system.domains.model.SysRoleMenu;
 import com.muyuan.system.domains.repo.SysMenuRepo;
@@ -33,7 +33,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     private SysRoleMenuMapper sysRoleMenuMapper;
 
-    private RedisCacheManager redisCacheManager;
+    private RedisCacheService redisCacheService;
 
     @Override
     public List<String> selectMenuPermissionByRoleCodes(List<String> roleCodes) {
@@ -45,7 +45,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 
-                Set rolePerms = (Set) redisCacheManager.sGetAndUpdate(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode,
+                Set rolePerms = (Set) redisCacheService.sGetAndUpdate(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode,
                         () -> new HashSet(selectMenuPermissionByRoleCode(roleCode))
                 );
 
@@ -72,7 +72,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleName);
-            String cacheMenuJson = redisCacheManager.getAndUpdate(RedisConst.SYS_ROLE_MENU_KEY_PREFIX + roleCode,
+            String cacheMenuJson = redisCacheService.getAndUpdate(RedisConst.SYS_ROLE_MENU_KEY_PREFIX + roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
 
@@ -133,7 +133,7 @@ public class SysMenuRepoImpl implements SysMenuRepo {
 
     @Override
     public void refreshCache(String roleCode) {
-        redisCacheManager.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode);
-        redisCacheManager.delayDoubleDel(RedisConst.SYS_ROLE_MENU_KEY_PREFIX + roleCode);
+        redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode);
+        redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_MENU_KEY_PREFIX + roleCode);
     }
 }

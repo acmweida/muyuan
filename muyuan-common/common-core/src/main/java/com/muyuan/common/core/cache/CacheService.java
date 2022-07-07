@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @Date 2022/2/14 16:54
  * @Version 1.0
  */
-public interface CacheManager {
+public interface CacheService {
 
     long NOT_EXPIRE = -1;
 

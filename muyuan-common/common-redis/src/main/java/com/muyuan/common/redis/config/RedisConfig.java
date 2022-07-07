@@ -1,5 +1,6 @@
 package com.muyuan.common.redis.config;
 
+import com.muyuan.common.redis.manage.RedisCacheService;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
@@ -39,6 +40,11 @@ public class RedisConfig {
         template.setHashKeySerializer(new StringRedisSerializer());
         template.afterPropertiesSet();
         return template;
+    }
+
+    @Bean
+    public RedisCacheService redisCacheManager1(RedisTemplate redisTemplate) {
+        return new RedisCacheService(redisTemplate);
     }
 
 

@@ -30,6 +30,19 @@ public class GoodsCategoryAssembler {
         return selectTrees;
     }
 
+    public static List<SelectTree> buildSelect(List<GoodsCategory> productCategories) {
+        List<SelectTree> selectTrees = new ArrayList<>();
+        for (GoodsCategory goodsCategory : productCategories) {
+            selectTrees.add(new SelectTree(
+                    String.valueOf(goodsCategory.getId())
+                    , goodsCategory.getName()
+                    , goodsCategory.leaf()
+            ));
+        }
+        return selectTrees;
+    }
+
+
     public static List<GoodsCategoryVO> buildListTree(List<GoodsCategory> productCategories) {
         List<GoodsCategoryVO> listTrees = new ArrayList<>();
         for (GoodsCategory goodsCategory : productCategories) {

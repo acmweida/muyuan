@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.member.domains.model.Menu;
 import com.muyuan.member.domains.repo.MenuRepo;
 import com.muyuan.member.infrastructure.persistence.mapper.MenuMapper;
@@ -33,7 +33,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     private RoleMenuMapper roleMenuMapper;
 
-    private RedisCacheManager redisCacheManager;
+    private RedisCacheService redisCacheService;
 
     @Override
     public List<String> selectMenuPermissionByRoleCodes(List<String> roleCodes) {
@@ -45,7 +45,7 @@ public class MenuRepoImpl implements MenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 //                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-                Set<String> rolePerms = (Set<String>) redisCacheManager.sGetAndUpdate(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
+                Set<String> rolePerms = (Set<String>) redisCacheService.sGetAndUpdate(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
                 }
@@ -69,7 +69,7 @@ public class MenuRepoImpl implements MenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
-            String cacheMenuJson =  redisCacheManager.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
+            String cacheMenuJson =  redisCacheService.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
             if (StrUtil.isNotEmpty(cacheMenuJson)) {
@@ -134,8 +134,8 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public void refreshCache(String roleCode) {
-        redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode);
-        redisCacheManager.delayDoubleDel(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode);
+        redisCacheService.delayDoubleDel(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode);
+        redisCacheService.delayDoubleDel(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode);
     }
 
 }

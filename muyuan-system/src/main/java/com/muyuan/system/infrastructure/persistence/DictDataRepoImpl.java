@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.common.redis.manage.RedisCacheManager;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.system.domains.model.DictData;
 import com.muyuan.system.domains.repo.DictDataRepo;
 import com.muyuan.system.infrastructure.persistence.mapper.DictDataMapper;
@@ -20,7 +20,7 @@ public class DictDataRepoImpl implements DictDataRepo {
 
     private DictDataMapper dictDataMapper;
 
-    private RedisCacheManager redisCacheManager;
+    private RedisCacheService redisCacheService;
 
     @Override
     public List<DictData> select(DictDataDTO dictDataDTO) {
@@ -42,7 +42,7 @@ public class DictDataRepoImpl implements DictDataRepo {
     @Override
     public List<DictData> selectByDataType(String dataType) {
 
-        String dataDictJson = redisCacheManager.getAndUpdate(RedisConst.SYS_DATA_DICT+dataType,
+        String dataDictJson = redisCacheService.getAndUpdate(RedisConst.SYS_DATA_DICT+dataType,
                 () ->
                         JSONUtil.toJsonString(
                                 dictDataMapper.selectList( new SqlBuilder(DictData.class)
@@ -98,7 +98,7 @@ public class DictDataRepoImpl implements DictDataRepo {
 
     @Override
     public void refreshCache(String dataDictType) {
-        redisCacheManager.delayDoubleDel(RedisConst.SYS_DATA_DICT+dataDictType);
+        redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dataDictType);
     }
 
 }

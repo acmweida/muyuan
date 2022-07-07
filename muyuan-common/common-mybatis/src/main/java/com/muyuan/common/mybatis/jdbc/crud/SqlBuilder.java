@@ -1,6 +1,6 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
-import com.muyuan.common.core.cache.localcache.LocalCacheManager;
+import com.muyuan.common.core.cache.localcache.LocalCacheService;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.common.Constant;
 import com.muyuan.common.mybatis.common.SqlType;
@@ -286,7 +286,7 @@ public class SqlBuilder {
 
     public void buildSelectColumn(Map params) {
         if (null == columns && null != target) {
-            String[] columns = (String[]) LocalCacheManager.getInstance().getAndUpdate(target.getName(),
+            String[] columns = (String[]) LocalCacheService.getInstance().getAndUpdate(target.getName(),
                     () -> {
                         List<String> column = new ArrayList<>();
                         Field[] declaredFields = target.getDeclaredFields();

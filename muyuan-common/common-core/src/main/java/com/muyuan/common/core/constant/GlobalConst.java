@@ -75,8 +75,4 @@ public interface GlobalConst {
 
     String DEFAULT_EMAIL_REGEX = "^[a-z0-9A-Z]+[-|a-z0-9A-Z._]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$";
 
-    /**
-     * 商品最高分级
-     */
-    Integer GOODS_LAST_LEVEL = 3;
 }

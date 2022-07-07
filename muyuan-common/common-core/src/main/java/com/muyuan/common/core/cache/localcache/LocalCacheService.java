@@ -2,7 +2,7 @@ package com.muyuan.common.core.cache.localcache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.muyuan.common.core.cache.CacheManager;
+import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.util.MathUtil;
 
 import java.util.ArrayList;
@@ -17,22 +17,22 @@ import java.util.function.Supplier;
  * @Date 2022/5/16 10:00
  * @Version 1.0
  */
-public class LocalCacheManager extends ListCacheManager<Cache<String, Object>> implements CacheManager {
+public class LocalCacheService extends ListCacheService<Cache<String, Object>> implements CacheService {
 
 
     private static final Cache<String, Object> normalCache = Caffeine.newBuilder().build();
 
     private static final List<Cache<String, Object>> expireCache = new ArrayList<>();
 
-    private LocalCacheManager() {
+    private LocalCacheService() {
 
     }
 
-    private static LocalCacheManager instance = null;
+    private static LocalCacheService instance = null;
 
-    public static LocalCacheManager getInstance() {
+    public static LocalCacheService getInstance() {
         if (instance == null) {
-            instance = new LocalCacheManager();
+            instance = new LocalCacheService();
         }
         return instance;
     }
