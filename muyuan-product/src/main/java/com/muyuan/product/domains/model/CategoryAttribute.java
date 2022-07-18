@@ -3,8 +3,10 @@ package com.muyuan.product.domains.model;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
@@ -20,6 +22,8 @@ import java.util.Date;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryAttribute {
 
     /**  */

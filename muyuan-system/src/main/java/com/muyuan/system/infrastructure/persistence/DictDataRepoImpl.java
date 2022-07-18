@@ -51,7 +51,7 @@ public class DictDataRepoImpl implements DictDataRepo {
                                         .orderByAsc("orderNum")
                                         .build())
                         )
-                );
+        );
 
         return new ArrayList<>(JSONUtil.parseObjectList(dataDictJson, ArrayList.class, DictData.class));
     }

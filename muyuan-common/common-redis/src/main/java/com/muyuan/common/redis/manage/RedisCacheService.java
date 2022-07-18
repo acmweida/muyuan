@@ -3,14 +3,12 @@ package com.muyuan.common.redis.manage;
 import com.muyuan.common.core.cache.AbstractCacheService;
 import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.thread.CommonThreadPool;
+import com.muyuan.common.core.util.JSONUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -112,13 +110,31 @@ public class RedisCacheService extends AbstractCacheService implements CacheServ
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
-    public String getAndUpdate(String key, Supplier<String> supplier) {
+    public String getAndUpdate(String key, Supplier<Object> supplier) {
         return (String) getAndUpdate(key,
-                (k) -> get(k),
-                () -> supplier.get(),
-                (k,v) -> set(k, v)
+                (k) ->  get(k),
+                () -> JSONUtil.toJsonString(supplier.get()),
+                (k,v) -> set(k, JSONUtil.toJsonString(v))
         );
     }
+
+    public <T> T getAndUpdate(String key, Supplier<Object> supplier, Class<T> type) {
+        return (T) JSONUtil.parseObject((String) getAndUpdate(key,
+                (k) -> get(k),
+                () -> JSONUtil.toJsonString(supplier.get()),
+                (k,v) -> set(k, v)
+        ),type);
+    }
+
+    public  <T>  List<T> getAndUpdateList(String key, Supplier<Object> supplier, Class<T> type) {
+        return (List<T>) JSONUtil.parseObjectList((String) getAndUpdate(key,
+                (k) ->  get(k),
+                () -> JSONUtil.toJsonString(supplier.get()),
+                (k,v) -> set(k, v)
+        ),ArrayList.class,type);
+    }
+
+
 
     public Set sGetAndUpdate(String key, Supplier<Set> supplier) {
         return (Set) getAndUpdate(key,

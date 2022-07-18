@@ -15,6 +15,8 @@ import java.util.Optional;
  */
 public interface GoodsCategoryDomainService {
 
+
+
     /**
      * 分类列表查询
      * @param goodsCategoryDTO

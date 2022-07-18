@@ -69,7 +69,7 @@ public class MenuRepoImpl implements MenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
-            String cacheMenuJson =  redisCacheService.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
+            String cacheMenuJson = (String) redisCacheService.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
             if (StrUtil.isNotEmpty(cacheMenuJson)) {

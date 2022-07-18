@@ -1,6 +1,7 @@
 package com.muyuan.product.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainService {
 
     private GoodsCategoryRepo goodsCategoryRepo;
+
+    private RedisCacheService redisCacheService;
 
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
@@ -101,6 +104,7 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
 
     @Override
     public Optional<GoodsCategory> detail(GoodsCategory goodsCategory) {
+
         GoodsCategory category = goodsCategoryRepo.selectDetail(goodsCategory);
 
         return Optional.ofNullable(category);

@@ -14,6 +14,10 @@ import java.util.List;
  */
 public interface GoodsCategoryRepo {
 
+    String CATEGORY_KEY_PREFIX = "category:";
+
+    String CATEGORY_ATTRIBUTE_KEY_PREFIX = "category:attribute:";
+
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
 
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO,String... column);

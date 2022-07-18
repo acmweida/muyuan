@@ -1,6 +1,7 @@
 package com.muyuan.product.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.model.GoodsCategory;
@@ -28,6 +29,8 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
     private GoodsCategoryMapper goodsCategoryMapper;
 
     private CategoryAttributeMapper categoryAttributeMapper;
+
+    private RedisCacheService redisCacheService;
 
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
@@ -64,18 +67,25 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
 
     @Override
     public GoodsCategory selectDetail(GoodsCategory goodsCategory) {
-        GoodsCategory category = goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
-                .eq("id", goodsCategory.getId())
-                .eq("code", goodsCategory.getCode())
-                .notEq("status","2")
-                .build());
+
+        GoodsCategory category = redisCacheService.getAndUpdate(CATEGORY_KEY_PREFIX+goodsCategory.getCode(),() -> {
+           return goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
+                    .eq("code", goodsCategory.getCode())
+                    .notEq("status","2")
+                    .build());
+        },GoodsCategory.class);
+
         if (ObjectUtils.isEmpty(category)) {
             return null;
         }
-        List<CategoryAttribute> attributes = categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
-                .eq("categoryCode", category.getCode())
-                .orderByAsc("type")
-                .build());
+
+        List<CategoryAttribute> attributes = redisCacheService.getAndUpdateList(CATEGORY_ATTRIBUTE_KEY_PREFIX+goodsCategory.getCode(),() -> {
+            return   categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
+                    .eq("categoryCode", category.getCode())
+                    .orderByAsc("type")
+                    .build());
+        },CategoryAttribute.class);
+
         category.setAttributes(attributes);
         return category;
     }
