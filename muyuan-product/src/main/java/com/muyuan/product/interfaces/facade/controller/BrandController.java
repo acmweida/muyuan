@@ -125,7 +125,7 @@ public class BrandController {
     @ApiImplicitParams(
             {
                     @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "auditStatus", value = "审核状态", dataTypeClass = Integer.class, paramType = "body")
+                    @ApiImplicitParam(name = "auditStatus", value = "审核状态", dataTypeClass = Integer.class, paramType = "body",required = true)
             }
     )
     public Result audit(@RequestBody BrandDTO brandDTO) {
@@ -150,4 +150,42 @@ public class BrandController {
         brandDomainService.delete(ids);
         return ResultUtil.success();
     }
+
+    /**
+     * 修改品牌
+     */
+    @RequirePermissions("product:brand:linkCategory")
+    @Log(title = "品牌", businessType = BusinessType.UPDATE)
+    @PutMapping("/category")
+    @ApiOperation("品牌关联分类")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "body",required = true),
+                    @ApiImplicitParam(name = "categoryCodes", value = "分类Code列表", dataTypeClass = Long[].class, paramType = "body")
+            }
+    )
+    public Result link(@RequestBody BrandDTO brandDTO) {
+        if (ObjectUtils.isEmpty(brandDTO.getId())) {
+            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
+        }
+        brandDomainService.linkCategory(brandDTO);
+        return ResultUtil.success();
+    }
+
+    /**
+     * 修改品牌
+     */
+    @RequirePermissions("product:brand:queryCategory")
+    @Log(title = "品牌", businessType = BusinessType.UPDATE)
+    @GetMapping("/category/{id}")
+    @ApiOperation("品牌关联分类查询")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "path",required = true),
+            }
+    )
+    public Result queryBrandCategory(@PathVariable Long id) {
+        return ResultUtil.success(brandDomainService.getBrandCategory(id));
+    }
+
 }

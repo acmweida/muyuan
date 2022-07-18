@@ -4,6 +4,7 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -69,4 +70,12 @@ public interface BrandDomainService
      * @return 结果
      */
     void delete(Long... id);
+
+    /**
+     * 品牌联结分类
+     * @param brandDTO
+     */
+    void linkCategory(BrandDTO brandDTO);
+
+    List<Long> getBrandCategory(Long id);
 }

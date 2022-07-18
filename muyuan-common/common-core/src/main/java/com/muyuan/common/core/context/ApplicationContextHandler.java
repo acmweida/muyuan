@@ -3,7 +3,6 @@ package com.muyuan.common.core.context;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 /**
  * @ClassName ApplicatoinContextHandler
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @Date 2021/10/13 16:36
  * @Version 1.0
  */
-@Component
 public class ApplicationContextHandler implements ApplicationContextAware {
 
     private static ApplicationContext context;

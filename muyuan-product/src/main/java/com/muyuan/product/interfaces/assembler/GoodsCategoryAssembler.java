@@ -34,7 +34,7 @@ public class GoodsCategoryAssembler {
         List<SelectTree> selectTrees = new ArrayList<>();
         for (GoodsCategory goodsCategory : productCategories) {
             selectTrees.add(new SelectTree(
-                    String.valueOf(goodsCategory.getId())
+                    String.valueOf(goodsCategory.getCode())
                     , goodsCategory.getName()
                     , goodsCategory.leaf()
             ));

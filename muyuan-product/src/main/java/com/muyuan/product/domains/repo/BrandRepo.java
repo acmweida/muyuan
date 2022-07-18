@@ -3,6 +3,7 @@ package com.muyuan.product.domains.repo;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
+import com.muyuan.product.domains.model.BrandCategory;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface BrandRepo {
 
     List<Brand> select(BrandDTO brandDTO, Page page);
 
-    Brand selectOne(Brand brandDTO);
+    Brand selectOne(Brand brand);
 
     void insert(Brand brand);
 
@@ -28,5 +29,11 @@ public interface BrandRepo {
     void update(Brand brand, String... column);
 
     void delete(Long... ids);
+
+    List<BrandCategory> selectLinkCategoryCode(Long brandId);
+
+    void deleteLink(BrandCategory... brandCategory);
+
+    void insertLink(List<BrandCategory> brandCategories);
 
 }

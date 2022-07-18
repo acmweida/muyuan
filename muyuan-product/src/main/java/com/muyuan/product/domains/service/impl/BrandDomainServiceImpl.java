@@ -4,13 +4,18 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
+import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.repo.BrandRepo;
 import com.muyuan.product.domains.service.BrandDomainService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 品牌Service业务层处理
@@ -120,6 +125,62 @@ public class BrandDomainServiceImpl implements BrandDomainService
     public void delete(Long... ids)
     {
         brandRepo.delete(ids);
+    }
+
+    @Override
+    @Transactional
+    public void linkCategory(BrandDTO brandDTO) {
+        Brand brand = brandRepo.selectOne(Brand.builder()
+                .id(brandDTO.getId())
+                .build());
+        if (ObjectUtils.isEmpty(brand)) {
+            return;
+        }
+
+        Long[] categoryCodes = brandDTO.getCategoryCodes();
+        if (ObjectUtils.isEmpty(categoryCodes)) {
+            brandRepo.deleteLink(BrandCategory.builder()
+                    .brandId(brand.getId())
+                    .build());
+        } else {
+            List<BrandCategory> brandCategories = brandRepo.selectLinkCategoryCode(brand.getId());
+            List<Long> codes = brandCategories.stream().map(BrandCategory::getCategoryCode).collect(Collectors.toList());
+            List<Long> common = ListUtils.retainAll(Arrays.asList(categoryCodes), codes);
+
+            // 删除
+            List<BrandCategory> temp = new ArrayList<>();
+            for (Long code : codes) {
+                if (!common.contains(code)) {
+                    temp.add(BrandCategory.builder()
+                            .brandId(brand.getId())
+                            .categoryCode(code)
+                            .build());
+                }
+            }
+            brandRepo.deleteLink(temp.toArray(new BrandCategory[0]));
+            // 新增
+            temp.clear();
+            for (Long code : categoryCodes) {
+                if (!common.contains(code)) {
+                    temp.add(BrandCategory.builder()
+                            .brandId(brand.getId())
+                            .categoryCode(code)
+                            .build());
+                }
+            }
+
+            brandRepo.insertLink(temp);
+
+        }
+
+    }
+
+    @Override
+    public List<Long> getBrandCategory(Long id) {
+        if (ObjectUtils.isEmpty(id)) {
+            return Collections.EMPTY_LIST;
+        }
+        return  brandRepo.selectLinkCategoryCode(id).stream().map(BrandCategory::getCategoryCode).collect(Collectors.toList());
     }
 
 }

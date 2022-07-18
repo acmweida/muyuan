@@ -118,4 +118,5 @@ public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
     default int batchUpdate() {
         return 0;
     }
+
 }

@@ -5,10 +5,13 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
+import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.repo.BrandRepo;
+import com.muyuan.product.infrastructure.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.product.infrastructure.persistence.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +26,8 @@ import java.util.List;
 public class BrandRepoImpl implements BrandRepo {
 
     private BrandMapper brandMapper;
+
+    private BrandCategoryMapper brandCategoryMapper;
 
     @Override
     public List<Brand> select(BrandDTO brandDTO) {
@@ -41,10 +46,10 @@ public class BrandRepoImpl implements BrandRepo {
     }
 
     @Override
-    public Brand selectOne(Brand brandDTO) {
+    public Brand selectOne(Brand brand) {
         return brandMapper.selectOne(new SqlBuilder(Brand.class)
-                .eq("id", brandDTO.getId())
-                .eq("name", brandDTO.getName())
+                .eq("id", brand.getId())
+                .eq("name", brand.getName())
                 .build());
     }
 
@@ -69,6 +74,30 @@ public class BrandRepoImpl implements BrandRepo {
                 .set("del", GlobalConst.TRUE)
                 .in("id", ids)
                 .build());
+    }
+
+    @Override
+    public List<BrandCategory> selectLinkCategoryCode(Long brandId) {
+        return brandCategoryMapper.selectList(new SqlBuilder(BrandCategory.class)
+                .eq("brandId", brandId)
+                .build());
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteLink(BrandCategory... brandCategorys) {
+        for (BrandCategory brandCategory : brandCategorys) {
+            brandCategoryMapper.deleteBy(new SqlBuilder(BrandCategory.class)
+                    .eq("brandId", brandCategory.getBrandId())
+                    .eq("categoryCode",brandCategory.getCategoryCode())
+                    .build());
+        }
+    }
+
+    @Override
+    public void insertLink(List<BrandCategory> brandCategories) {
+        brandCategoryMapper.batchInsert(brandCategories);
     }
 
 }

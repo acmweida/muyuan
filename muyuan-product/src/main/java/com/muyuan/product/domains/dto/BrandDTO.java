@@ -45,5 +45,7 @@ public class BrandDTO extends BaseDTO<BrandDTO,Brand> {
     @Range(message = "状态码输入错误",min = 0,max = 4)
     private Integer status;
 
+    private Long[] categoryCodes;
+
 
 }
