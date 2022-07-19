@@ -44,6 +44,8 @@ public class GoodsCategoryDTO extends BaseDTO<GoodsCategoryDTO, GoodsCategory> {
 
     private Long id;
 
+    private Long[] ids;
+
     private Long[] parentIds;
 
 }

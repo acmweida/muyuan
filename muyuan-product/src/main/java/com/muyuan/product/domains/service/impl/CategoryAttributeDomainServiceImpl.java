@@ -1,6 +1,8 @@
 package com.muyuan.product.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
@@ -24,6 +26,7 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
 
     private CategoryAttributeRepo categoryAttributeRepo;
 
+    private RedisCacheService redisCacheService;
 
     @Override
     public String checkUnique(CategoryAttribute categoryAttribute) {
@@ -59,6 +62,7 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
     public void update(CategoryAttributeDTO categoryAttribute)
     {
         categoryAttribute.convert().save(categoryAttributeRepo);
+        redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+categoryAttribute.getCategoryCode());
     }
 
     /**
@@ -71,6 +75,7 @@ public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDoma
     public void delete(String[] ids)
     {
         categoryAttributeRepo.delete(ids);
+        redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+ RedisConst.ALL_PLACE_HOLDER);
     }
 
 }

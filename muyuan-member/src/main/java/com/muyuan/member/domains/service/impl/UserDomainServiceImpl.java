@@ -1,12 +1,14 @@
 package com.muyuan.member.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.member.domains.dto.RegisterDTO;
 import com.muyuan.member.domains.factories.UserFactory;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.domains.service.UserDomainService;
-import com.muyuan.member.domains.dto.RegisterDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -48,31 +50,26 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     /**
      * 账户注册
-     * 0-注册成功 1-账户已存在
      *
-     * @param registerInfo
+     * @param register
      * @return
      */
-    public int add(RegisterDTO registerInfo) {
+    public void add(RegisterDTO register) {
 
-        User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("username", registerInfo.getUsername())
-                .build());
-        if (null != account) {
-            return 1;
+        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(new User(register.getUsername())))) {
+            throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "账号名已存在");
         }
 
-        User userEntity = UserFactory.newUserEntity(registerInfo);
-        userEntity.initInstance();
-
-        userRepo.insert(userEntity);
-
-        if (userRepo.insert(userEntity)) {
-            return 0;
+        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(User.builder()
+                .phone(register.getPhone())
+                .build()))) {
+            throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "手机号已存在");
         }
 
-        return -1;
+        User user = UserFactory.newUserEntity(register);
+        user.initInstance();
 
+        user.save(userRepo);
     }
 
     /**
@@ -101,6 +98,7 @@ public class UserDomainServiceImpl implements UserDomainService {
         Long id = null == sysUser.getId() ? 0 : sysUser.getId();
         User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
                 .eq("username", sysUser.getUsername())
+                .eq("phone", sysUser.getPhone())
                 .build());
         if (null != account && !id.equals(account.getId())) {
             return GlobalConst.NOT_UNIQUE;

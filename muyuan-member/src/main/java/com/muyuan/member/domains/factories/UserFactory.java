@@ -10,7 +10,11 @@ public class UserFactory {
      * @return
      */
     public static User newUserEntity(RegisterDTO registerDTO)  {
-        User userEntity = new User(registerDTO.getUsername(), registerDTO.getPassword());
-        return userEntity;
+        User user = User.builder()
+                .username(registerDTO.getUsername())
+                .password(registerDTO.getPassword())
+                .phone(registerDTO.getPhone())
+                .build();
+        return user;
     }
 }

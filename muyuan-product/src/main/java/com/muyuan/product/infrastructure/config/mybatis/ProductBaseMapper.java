@@ -15,6 +15,7 @@ import java.util.Map;
 @DataSource(ProductJdbcConfig.DATASOURCE_NAME)
 public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
 
+
     @SelectProvider(value = CrudSqlProvider.class, method = "selectOne")
     T selectOne(Map params);
 

@@ -14,6 +14,13 @@ import ${packageName}.${moduleName}.domain.model.${subClassName};
  */
 public interface ${ClassName}Mapper extends ${ModuleName}BaseMapper<${ClassName}> {
 
+
+    #foreach ($column in $columns)
+        #if(!$columns.isIgnoreColumn())
+            String $column.upperCaseJavaField = "$column.javaField";
+        #end
+    #end
+
     /**
      * 查询${functionName}
      *

@@ -112,34 +112,34 @@ public class RedisCacheService extends AbstractCacheService implements CacheServ
 
     public String getAndUpdate(String key, Supplier<Object> supplier) {
         return (String) getAndUpdate(key,
-                (k) ->  get(k),
-                () -> JSONUtil.toJsonString(supplier.get()),
-                (k,v) -> set(k, JSONUtil.toJsonString(v))
+                this::get,
+                () -> supplier.get(),
+                (k,v) -> set(k, v)
         );
     }
 
     public <T> T getAndUpdate(String key, Supplier<Object> supplier, Class<T> type) {
         return (T) JSONUtil.parseObject((String) getAndUpdate(key,
-                (k) -> get(k),
+                this::get,
                 () -> JSONUtil.toJsonString(supplier.get()),
-                (k,v) -> set(k, v)
+                this::set
         ),type);
     }
 
-    public  <T>  List<T> getAndUpdateList(String key, Supplier<Object> supplier, Class<T> type) {
+    public  <T> List<T> getAndUpdateList(String key, Supplier<Object> supplier, Class<T> type) {
         return (List<T>) JSONUtil.parseObjectList((String) getAndUpdate(key,
-                (k) ->  get(k),
+                this::get,
                 () -> JSONUtil.toJsonString(supplier.get()),
-                (k,v) -> set(k, v)
+                this::set
         ),ArrayList.class,type);
     }
 
-
+    // ============================Set(集合)=============================
 
     public Set sGetAndUpdate(String key, Supplier<Set> supplier) {
         return (Set) getAndUpdate(key,
-                (k) -> sGet(k),
-                () -> supplier.get(),
+                this::sGet,
+                supplier::get,
                 (k,v) -> sSet(k, ((Set)v).toArray())
         );
     }

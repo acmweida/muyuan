@@ -10,6 +10,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -298,6 +299,7 @@ public class SqlBuilder {
 
                         for (Field propertyDescriptor : declaredFields) {
                             if (JDBC_TYPE.contains(propertyDescriptor.getType())
+                                    && !Modifier.isStatic(propertyDescriptor.getModifiers())
                                     && !serialVersionUID.equals(propertyDescriptor.getName())
                                     && !ArrayUtils.contains(exclude, propertyDescriptor.getName())
                             ) {

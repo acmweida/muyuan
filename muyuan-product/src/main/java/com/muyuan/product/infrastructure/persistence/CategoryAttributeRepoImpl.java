@@ -23,11 +23,17 @@ public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
 
     private CategoryAttributeMapper categoryAttributeMapper;
 
+
     @Override
     public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO, Page page) {
         return  categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
                 .page(page)
                 .build());
+    }
+
+    @Override
+    public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO) {
+        return select(categoryAttributeDTO,null);
     }
 
     @Override

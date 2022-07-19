@@ -5,6 +5,9 @@ public interface GlobalConst {
     String MASTER_PREFIX = "MASTER_";
     String SLAVE_PREFIX = "SLAVE_";
 
+    String CAPTCHA_KEY_PREFIX = "captcha:";
+
+
     String TRUE ="0";
 
     String FALSE = "1";
@@ -74,5 +77,7 @@ public interface GlobalConst {
     String NOT_UNIQUE = "1";
 
     String DEFAULT_EMAIL_REGEX = "^[a-z0-9A-Z]+[-|a-z0-9A-Z._]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$";
+
+    String DEFAULT_PHONE_REGEX = "^1(3\\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\\d|9[0-35-9])\\d{8}$";
 
 }

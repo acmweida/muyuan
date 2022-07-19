@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 
-import java.util.List;
-
 /**
  * 商品分类属性Mapper接口
  * 
@@ -17,6 +15,8 @@ import java.util.List;
  */
 @Mapper
 public interface CategoryAttributeMapper extends ProductBaseMapper<CategoryAttribute> {
+
+    String CATEGORY_CODE = "categoryCode";
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class, method = "insert")

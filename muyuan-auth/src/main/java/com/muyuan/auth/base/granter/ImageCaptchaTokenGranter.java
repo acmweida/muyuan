@@ -1,10 +1,13 @@
 package com.muyuan.auth.base.granter;
 
 import com.muyuan.auth.base.authenticationtoken.ImageCaptchaAuthenticationToken;
-import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.base.exception.ImageCaptchaException;
+import com.muyuan.common.core.constant.GlobalConst;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
@@ -47,15 +50,15 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
         // Protect from downstream leaks of password
         parameters.remove("password");
 
-        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid)) {
+        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(GlobalConst.CAPTCHA_KEY_PREFIX+uuid)) {
             throw  new  ImageCaptchaException("验证码验证失败");
         }
 
-        final Object captcha = redisTemplate.opsForValue().get(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
+        final Object captcha = redisTemplate.opsForValue().get(GlobalConst.CAPTCHA_KEY_PREFIX+uuid);
         if (!captcha.toString().equals(captchaInput)) {
             throw new ImageCaptchaException("验证码错误");
         }
-        redisTemplate.delete(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid);
+        redisTemplate.delete(GlobalConst.CAPTCHA_KEY_PREFIX+uuid);
 
 
         Authentication userAuth = new ImageCaptchaAuthenticationToken(username, password);

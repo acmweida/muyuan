@@ -11,6 +11,7 @@ import com.muyuan.product.domains.model.CategoryAttribute;
  */
 public interface CategoryAttributeDomainService
 {
+    String CATEGORY_ATTRIBUTE_KEY_PREFIX = "category:attribute:";
 
     /**
      * 新增商品分类属性

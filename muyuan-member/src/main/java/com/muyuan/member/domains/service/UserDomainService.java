@@ -27,11 +27,10 @@ public interface UserDomainService {
 
     /**
      * 账户注册
-     * 0-注册成功 1-账户已存在
      * @param registerInfo
      * @return
      */
-    int add(RegisterDTO registerInfo);
+    void add(RegisterDTO registerInfo);
 
     /**
      * 检查唯一性

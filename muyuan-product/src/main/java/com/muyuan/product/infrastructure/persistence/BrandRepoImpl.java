@@ -81,7 +81,6 @@ public class BrandRepoImpl implements BrandRepo {
         return brandCategoryMapper.selectList(new SqlBuilder(BrandCategory.class)
                 .eq("brandId", brandId)
                 .build());
-
     }
 
     @Override

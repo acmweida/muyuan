@@ -3,16 +3,19 @@ package com.muyuan.member.interfaces.facade.controller;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.member.application.service.UserApplicationService;
-import com.muyuan.member.domains.model.User;
+import com.muyuan.member.domains.dto.RegisterDTO;
 import com.muyuan.member.domains.service.UserDomainService;
 import com.muyuan.member.domains.vo.UserVO;
-import com.muyuan.member.domains.dto.RegisterDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -24,6 +27,8 @@ public class UserController {
     private UserApplicationService userApplicationService;
 
     private UserDomainService userDomainService;
+
+    private RedisCacheService redisCacheService;
 
     @GetMapping("/user")
     @ApiOperation(value = "获取用户信息")
@@ -38,8 +43,9 @@ public class UserController {
     @ApiOperation(value = "账号密码注册", code = 0)
     @PostMapping("/user")
     public Result add(@RequestBody @Validated RegisterDTO register) {
-        if (GlobalConst.NOT_UNIQUE.equals(userDomainService.checkAccountNameUnique(new User(register.getUsername())))) {
-            return ResultUtil.fail("账号已存在");
+
+        if (!register.getCode().equals(redisCacheService.get(GlobalConst.CAPTCHA_KEY_PREFIX+register.getUuid()))) {
+            return ResultUtil.fail("验证码过期或错误");
         }
 
         userDomainService.add(register);

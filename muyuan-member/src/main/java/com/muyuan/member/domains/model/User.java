@@ -1,9 +1,14 @@
 package com.muyuan.member.domains.model;
 
 import com.muyuan.common.core.util.EncryptUtil;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.member.domains.repo.UserRepo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -19,6 +24,8 @@ import java.util.UUID;
  * @Version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
 public class User {
 
     private Long id;
@@ -63,7 +70,7 @@ public class User {
     /**
      * 账号状态 0-正常 1-删除 2-锁定
      */
-    private char status;
+    private Integer status;
 
     /**
      * 创建时间
@@ -82,7 +89,14 @@ public class User {
 
     private Long updateBy;
 
-    private Long createBy;
+    private String updater;
+
+
+    private void update() {
+        updateTime = DateTime.now().toDate();
+        updateBy = SecurityUtils.getUserId();
+        updater = SecurityUtils.getUsername();
+    }
 
     public User() {
     }
@@ -125,6 +139,17 @@ public class User {
         setEncryptKey(encryptKey);
 
         setCreateTime(new Date());
-        setCreateBy(SecurityUtils.getUserId());
+    }
+
+    public void save(UserRepo userRepo) {
+        Assert.notNull(userRepo, "repo is null");
+        FunctionUtil.of(id)
+                .ifThen(
+                        () -> userRepo.insert(this),
+                        id -> {
+                            update();
+                            userRepo.update(this);
+                        }
+                );
     }
 }

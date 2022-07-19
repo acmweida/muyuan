@@ -11,5 +11,8 @@ import com.muyuan.product.infrastructure.config.mybatis.ProductBaseMapper;
  */
 public interface BrandCategoryMapper extends ProductBaseMapper<BrandCategory> {
 
+    String BRAND_ID = "brandId";
+
+    String CATEGORY_CODE = "categoryCode";
 
 }

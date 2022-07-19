@@ -2,7 +2,10 @@ package com.muyuan.product.domains.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,6 +18,9 @@ import javax.validation.constraints.NotNull;
  * @date 2022-06-23T14:17:01.512+08:00
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryAttributeDTO extends BaseDTO<CategoryAttributeDTO,CategoryAttribute> {
 
     /**  */

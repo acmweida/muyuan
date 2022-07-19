@@ -2,9 +2,9 @@ package com.muyuan.auth.controller.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.controller.LoginController;
 import com.muyuan.auth.vo.CaptchaVo;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
@@ -53,8 +53,8 @@ public class LoginControllerImpl implements LoginController {
         String base64Image = encoder.encode(captchaChallengeAsJpeg);
         CaptchaVo captchaVo = new CaptchaVo();
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForValue().set(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid,createText);
-        redisTemplate.expire(LoginMessageConst.CAPTCHA_KEY_PREFIX+uuid,5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(GlobalConst.CAPTCHA_KEY_PREFIX+uuid,createText);
+        redisTemplate.expire(GlobalConst.CAPTCHA_KEY_PREFIX+uuid,5, TimeUnit.MINUTES);
         captchaVo.setImg(base64Image);
         captchaVo.setUuid(uuid);
         log.info("验证码：{},key:{}",createText,uuid);

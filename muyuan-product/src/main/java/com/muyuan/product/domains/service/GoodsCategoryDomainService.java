@@ -15,10 +15,12 @@ import java.util.Optional;
  */
 public interface GoodsCategoryDomainService {
 
+    String CATEGORY_KEY_PREFIX = "category:";
 
 
     /**
      * 分类列表查询
+     *
      * @param goodsCategoryDTO
      * @return
      */
@@ -26,18 +28,21 @@ public interface GoodsCategoryDomainService {
 
     /**
      * 新增分类
+     *
      * @param goodsCategoryDTO
      */
     void add(GoodsCategoryDTO goodsCategoryDTO);
 
     /**
      * 更新分类
+     *
      * @param goodsCategoryDTO
      */
     void update(GoodsCategoryDTO goodsCategoryDTO);
 
     /**
      * 唯一性查询
+     *
      * @param goodsCategory
      * @return
      */
@@ -45,6 +50,7 @@ public interface GoodsCategoryDomainService {
 
     /**
      * 获取详情
+     *
      * @param id
      * @return
      */
@@ -52,6 +58,7 @@ public interface GoodsCategoryDomainService {
 
     /**
      * 获取详情
+     *
      * @param id
      * @return
      */
@@ -59,6 +66,7 @@ public interface GoodsCategoryDomainService {
 
     /**
      * 删除ID
+     *
      * @param ids
      */
     void delete(Long[] ids);

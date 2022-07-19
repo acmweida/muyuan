@@ -1,16 +1,14 @@
 package com.muyuan.product.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.product.domains.model.CategoryAttribute;
+import com.muyuan.product.domains.dto.GoodsCategoryDTO;
+import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
-import com.muyuan.product.infrastructure.persistence.mapper.CategoryAttributeMapper;
+import com.muyuan.product.infrastructure.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.product.infrastructure.persistence.mapper.GoodsCategoryMapper;
-import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,66 +26,41 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
 
     private GoodsCategoryMapper goodsCategoryMapper;
 
-    private CategoryAttributeMapper categoryAttributeMapper;
-
-    private RedisCacheService redisCacheService;
+    private BrandCategoryMapper brandCategoryMapper;
 
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
         return goodsCategoryMapper.selectList(new SqlBuilder(GoodsCategory.class)
-                .like("name", goodsCategoryDTO.getName())
-                .eq("code", goodsCategoryDTO.getCode())
-                .eq("parentId", goodsCategoryDTO.getParentId())
-                .eq("leaf",goodsCategoryDTO.getLeaf())
-                .notEq("status","2")
+                .like(GoodsCategoryMapper.NAME, goodsCategoryDTO.getName())
+                .eq(GoodsCategoryMapper.CODE, goodsCategoryDTO.getCode())
+                .eq(GoodsCategoryMapper.PARENT_ID, goodsCategoryDTO.getParentId())
+                .in(GoodsCategoryMapper.PARENT_ID, goodsCategoryDTO.getParentIds())
+                .in(GoodsCategoryMapper.ID,  goodsCategoryDTO.getIds())
+                .eq(GoodsCategoryMapper.LEAF, goodsCategoryDTO.getLeaf())
+                .in(GoodsCategoryMapper.STATUS, GoodsCategoryMapper.STATUS_OK)
                 .build());
     }
 
-    public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO,String... column) {
+    public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO, String... column) {
         return goodsCategoryMapper.selectList(new SqlBuilder(GoodsCategory.class)
                 .select(column)
-                .eq("code", goodsCategoryDTO.getCode())
-                .eq("parentId", goodsCategoryDTO.getParentId())
-                .in("parentId", (Object) goodsCategoryDTO.getParentIds())
-                .notEq("status","2")
+                .eq(GoodsCategoryMapper.CODE, goodsCategoryDTO.getCode())
+                .eq(GoodsCategoryMapper.PARENT_ID, goodsCategoryDTO.getParentId())
+                .in(GoodsCategoryMapper.PARENT_ID, (Object) goodsCategoryDTO.getParentIds())
+                .in(GoodsCategoryMapper.STATUS, GoodsCategoryMapper.STATUS_OK)
                 .build());
     }
 
     @Override
     public GoodsCategory selectOne(GoodsCategory goodsCategory) {
         return goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
-                .eq("id", goodsCategory.getId())
-                .eq("name", goodsCategory.getName())
-                .eq("parentId", goodsCategory.getParentId())
-                .eq("code", goodsCategory.getCode())
-                .eq("level", goodsCategory.getLevel())
-                .notEq("status","2")
+                .eq(GoodsCategoryMapper.ID, goodsCategory.getId())
+                .eq(GoodsCategoryMapper.NAME, goodsCategory.getName())
+                .eq(GoodsCategoryMapper.PARENT_ID, goodsCategory.getParentId())
+                .eq(GoodsCategoryMapper.CODE, goodsCategory.getCode())
+                .eq(GoodsCategoryMapper.LEVEL, goodsCategory.getLevel())
+                .in(GoodsCategoryMapper.STATUS, GoodsCategoryMapper.STATUS_OK)
                 .build());
-    }
-
-    @Override
-    public GoodsCategory selectDetail(GoodsCategory goodsCategory) {
-
-        GoodsCategory category = redisCacheService.getAndUpdate(CATEGORY_KEY_PREFIX+goodsCategory.getCode(),() -> {
-           return goodsCategoryMapper.selectOne(new SqlBuilder(GoodsCategory.class)
-                    .eq("code", goodsCategory.getCode())
-                    .notEq("status","2")
-                    .build());
-        },GoodsCategory.class);
-
-        if (ObjectUtils.isEmpty(category)) {
-            return null;
-        }
-
-        List<CategoryAttribute> attributes = redisCacheService.getAndUpdateList(CATEGORY_ATTRIBUTE_KEY_PREFIX+goodsCategory.getCode(),() -> {
-            return   categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
-                    .eq("categoryCode", category.getCode())
-                    .orderByAsc("type")
-                    .build());
-        },CategoryAttribute.class);
-
-        category.setAttributes(attributes);
-        return category;
     }
 
     @Override
@@ -97,40 +70,47 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
 
     @Override
     public void update(GoodsCategory goodsCategory) {
-        goodsCategoryMapper.updateBy(goodsCategory,"id");
+        goodsCategoryMapper.updateBy(goodsCategory, GoodsCategoryMapper.ID);
+
     }
 
     @Override
     public void update(GoodsCategory goodsCategory, String... column) {
-        goodsCategoryMapper.updateColumnBy(goodsCategory,column,"id");
+        goodsCategoryMapper.updateColumnBy(goodsCategory, column, GoodsCategoryMapper.ID);
     }
 
     @Override
     public int count(GoodsCategoryDTO goodsCategoryDTO) {
         return goodsCategoryMapper.count(new SqlBuilder(GoodsCategory.class)
-                .eq("level", goodsCategoryDTO.getLevel())
-                .eq("parentId", goodsCategoryDTO.getParentId())
-                .notEq("status","2")
+                .eq(GoodsCategoryMapper.LEVEL, goodsCategoryDTO.getLevel())
+                .eq(GoodsCategoryMapper.PARENT_ID, goodsCategoryDTO.getParentId())
+                .in(GoodsCategoryMapper.STATUS, GoodsCategoryMapper.STATUS_OK)
                 .build());
     }
 
     @Override
     public int countAll(GoodsCategoryDTO goodsCategoryDTO) {
         return goodsCategoryMapper.count(new SqlBuilder(GoodsCategory.class)
-                .eq("level", goodsCategoryDTO.getLevel())
-                .eq("parentId", goodsCategoryDTO.getParentId())
+                .eq(GoodsCategoryMapper.LEVEL, goodsCategoryDTO.getLevel())
+                .eq(GoodsCategoryMapper.PARENT_ID, goodsCategoryDTO.getParentId())
                 .build());
     }
 
     @Override
     public void delete(Long[] ids) {
         goodsCategoryMapper.update(new SqlBuilder()
-                .set("status","2")
-                .set("updater", SecurityUtils.getUsername())
-                .set("updateBy", SecurityUtils.getUserId())
-                .in("id",ids)
+                .set(GoodsCategoryMapper.STATUS, GoodsCategoryMapper.STATUS_DELETE)
+                .set(GoodsCategoryMapper.UPDATER, SecurityUtils.getUsername())
+                .set(GoodsCategoryMapper.UPDATE_BY, SecurityUtils.getUserId())
+                .in(GoodsCategoryMapper.ID, ids)
                 .build());
     }
 
+    @Override
+    public List<BrandCategory> selectBrand(Long... categoryCode) {
+        return brandCategoryMapper.selectList(new SqlBuilder(BrandCategory.class)
+                .in(BrandCategoryMapper.CATEGORY_CODE, categoryCode)
+                .build());
+    }
 
 }

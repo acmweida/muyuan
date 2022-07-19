@@ -14,4 +14,6 @@ public interface UserRepo {
     boolean insert(User dataObject);
 
     List<User> selectAllocatedList(Map params);
+
+    void update(User user);
 }

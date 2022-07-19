@@ -31,10 +31,10 @@
         select menu.* from (
         select * from t_menu where type in ('M','C') order by order_num
         ) menu
-        left join  (
+        inner join  (
         select * from t_role_menu
         ) role_menu on menu.id  = role_menu.menu_id
-        left join (
+        inner join (
         select id from t_role where code in
         <foreach collection="roleCodes" open="(" close=")" item="item" >
             #{item}

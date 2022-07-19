@@ -1,5 +1,6 @@
 package com.muyuan.member.infrastructure.persistence;
 
+import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.infrastructure.persistence.mapper.UserMapper;
@@ -33,6 +34,11 @@ public class UserRepoImpl implements UserRepo {
     @Override
     public List<User> selectAllocatedList(Map params) {
         return userMapper.selectAllocatedList(params);
+    }
+
+    @Override
+    public void update(User user) {
+        userMapper.updateBy(user, JdbcBaseMapper.ID);
     }
 
 }

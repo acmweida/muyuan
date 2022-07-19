@@ -18,6 +18,8 @@ public interface CategoryAttributeRepo {
 
     List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO, Page page);
 
+    List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO);
+
     void insert(CategoryAttribute categoryAttribute);
 
     void update(CategoryAttribute categoryAttribute);
@@ -25,5 +27,6 @@ public interface CategoryAttributeRepo {
     void delete(String... ids);
 
     CategoryAttribute selectOne(CategoryAttribute categoryAttribute);
+
 
 }
