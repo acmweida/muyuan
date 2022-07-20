@@ -21,13 +21,6 @@ logging:
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
 
-secure:
-  ignore:
-    - "/actuator/**"
-    - "/oauth/token"
-    - "/oauth/authorize"
-    - "/login/**"
-
 dubbo:
   scan:
     base-packages: com.muyuan.member.interfaces.facade.api

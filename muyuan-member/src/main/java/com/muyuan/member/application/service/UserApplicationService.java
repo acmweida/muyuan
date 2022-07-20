@@ -1,5 +1,6 @@
 package com.muyuan.member.application.service;
 
+import com.muyuan.member.domains.dto.RegisterDTO;
 import com.muyuan.member.domains.vo.UserVO;
 import com.muyuan.member.interfaces.to.UserTO;
 
@@ -28,4 +29,11 @@ public interface UserApplicationService {
      * @return
      */
     Optional<UserVO> getUserInfo();
+
+    /**
+     * 账户注册
+     * @param registerInfo
+     * @return
+     */
+    void add(RegisterDTO registerInfo);
 }

@@ -1,6 +1,10 @@
 package com.muyuan.member.domains.model;
 
+import com.muyuan.common.core.constant.auth.SecurityConst;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,6 +16,9 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
 
     private Long id;
@@ -47,9 +54,6 @@ public class Role {
      */
     private Date updateTime;
 
-    public Role() {
-    }
-
     public Role(String code) {
         this.code = code;
     }
@@ -57,5 +61,9 @@ public class Role {
     public Role(Long id, String code) {
         this.id = id;
         this.code = code;
+    }
+
+    public static boolean isAdmin(String roleCode) {
+        return (SecurityConst.SHOP_KEEPER_ROLE_CODE).equals(roleCode);
     }
 }

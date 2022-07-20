@@ -20,6 +20,10 @@ public class SecurityUtils
         return SecurityContextHolder.getUserId();
     }
 
+    public static boolean isLogin() {
+        return SecurityContextHolder.isLogin();
+    }
+
     /**
      * 获取用户名称
      */

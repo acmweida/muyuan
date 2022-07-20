@@ -1,34 +1,21 @@
 package com.muyuan.shop.domains.model;
 
 import lombok.Data;
+import org.joda.time.DateTime;
 
 import java.util.Date;
 
 @Data
 public class Shop {
 
-    private long id;
+    private static int num = 1;
+
+    private Long id;
 
     /**
      * 店铺名称
      */
     private String name;
-
-
-    /**
-     * 商店编码
-     */
-    private String shopNo;
-
-    /**
-     * 关联会员号
-     */
-    private String memberNo;
-
-    /**
-     * 关联会员ID
-     */
-    private long memberId;
 
     /**
      * 创建时间
@@ -43,25 +30,39 @@ public class Shop {
     /**
      * 类型 1-普通店铺 2-官方店铺 3-自营店铺
      */
-    private short type;
+    private Integer type;
 
-    /**
-     * 店铺地址
-     */
-    private long addressId;
+//    /**
+//     * 店铺地址
+//     */
+//    private long addressId;
 
-    /**
-     * 主营品牌
-     */
-    private String brands;
+//    /**
+//     * 主营品牌
+//     */
+//    private String brands;
+//
+//    /**
+//     * 支付账号信息
+//     */
+//    private long accountId;
+//
+//    /**
+//     * 营业证照ID
+//     */
+//    private long certificateId;
 
-    /**
-     * 支付账号信息
-     */
-    private long accountId;
+    public void buildId(Long userId) {
+        DateTime now = DateTime.now();
+        Long id = Long.valueOf(now.toString("yyMMddHHmmss"));
+        id = (id * 10000 + userId % 10000 ) * 10000 + num ++;
 
-    /**
-     * 营业证照ID
-     */
-    private long certificateId;
+    }
+
+    public static void main(String[] args) {
+        DateTime now = DateTime.now();
+        Long id = Long.valueOf(now.toString("yyMMddHH"));
+        id = (id * 10000 + (53289965500530688l % 10000) ) * 1000 + num ++;
+        System.out.println(id);
+    }
 }

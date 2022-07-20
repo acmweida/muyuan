@@ -4,8 +4,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.member.domains.dto.RegisterDTO;
-import com.muyuan.member.domains.factories.UserFactory;
+import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.domains.service.UserDomainService;
@@ -51,25 +50,29 @@ public class UserDomainServiceImpl implements UserDomainService {
     /**
      * 账户注册
      *
-     * @param register
+     * @param user
      * @return
      */
-    public void add(RegisterDTO register) {
+    public void add(User user) {
 
-        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(new User(register.getUsername())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(new User(user.getUsername())))) {
             throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "账号名已存在");
         }
 
         if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(User.builder()
-                .phone(register.getPhone())
+                .phone(user.getPhone())
                 .build()))) {
             throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "手机号已存在");
         }
 
-        User user = UserFactory.newUserEntity(register);
         user.initInstance();
 
         user.save(userRepo);
+    }
+
+    @Override
+    public void addRole(User user, Role role) {
+        user.addRole(userRepo,role);
     }
 
     /**

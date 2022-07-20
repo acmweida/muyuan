@@ -12,6 +12,7 @@ import com.muyuan.member.interfaces.to.UserTO;
 import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -72,7 +73,9 @@ public class UserServiceImpl implements UserDetailsService {
             UserTO userTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
-            userTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+            if (ObjectUtils.isNotEmpty(userTO.getRoles())) {
+                userTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+            }
 
             UserInfo userInfo = new UserInfo();
             BeanUtils.copyProperties(userTO, userInfo);

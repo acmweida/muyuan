@@ -3,6 +3,8 @@ package com.muyuan.member.application.service.impl;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.application.service.UserApplicationService;
+import com.muyuan.member.domains.dto.RegisterDTO;
+import com.muyuan.member.domains.factories.UserFactory;
 import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.service.MenuDomainService;
@@ -14,6 +16,7 @@ import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +72,27 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
         Set<String> perms = getMenuPermissionByRoleCodes(roleCodes);
         UserVO userVO = UserInfoAssembler.buildUserVO(userInfo.get(), roleCodes, perms);
+
         return Optional.of(userVO);
+    }
+
+    /**
+     * 账户注册
+     *
+     * @param register
+     * @return
+     */
+    @Transactional
+    public void add(RegisterDTO register) {
+
+        User user = UserFactory.newUserEntity(register);
+        userDomainService.add(user);
+
+        Optional<Role> role = roleDomainService.get(Role.builder()
+                .code(SecurityConst.SHOP_KEEPER_ROLE_CODE)
+                .build());
+        role.ifPresent(
+                item -> userDomainService.addRole(user,item)
+        );
     }
 }

@@ -6,23 +6,30 @@ import com.muyuan.common.core.exception.handler.UnAuthorizedException;
 import com.muyuan.common.core.util.JSONUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * JWT工具类
  *
- * @author xianrui
+ * @author
  */
 @Slf4j
 public class JwtUtils {
 
+    public static boolean hasJwtPayload() {
+        return ObjectUtils.isNotEmpty(RequestContextHolder.getRequestAttributes())
+                && ObjectUtils.isNotEmpty(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY));
+    }
+
     @SneakyThrows
     public static JsonNode getJwtPayload() {
-        String payload = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
+        String payload = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
         if (null == payload) {
             throw new UnAuthorizedException();
         }

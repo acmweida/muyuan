@@ -27,12 +27,12 @@ public class UserVO {
     /**
      * 用户类型 0-个人 1-企业
      */
-    private short type;
+    private Integer type;
 
     /**
      * 店铺号
      */
-    private long shopNo;
+    private Long shopNo;
 
     /**
      * 图片

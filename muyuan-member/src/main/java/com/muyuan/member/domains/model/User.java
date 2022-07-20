@@ -91,6 +91,10 @@ public class User {
 
     private String updater;
 
+    private String creator;
+
+    private Long createBy;
+
 
     private void update() {
         updateTime = DateTime.now().toDate();
@@ -139,6 +143,10 @@ public class User {
         setEncryptKey(encryptKey);
 
         setCreateTime(new Date());
+        if (SecurityUtils.isLogin()) {
+            setCreateBy(SecurityUtils.getUserId());
+            setCreator(SecurityUtils.getUsername());
+        }
     }
 
     public void save(UserRepo userRepo) {
@@ -151,5 +159,15 @@ public class User {
                             userRepo.update(this);
                         }
                 );
+    }
+
+    public void addRole(UserRepo userRepo,Role role) {
+        Assert.notNull(userRepo,"repo is null");
+        Assert.notNull(role,"role is null");
+        Assert.notNull(id,"id is null");
+        userRepo.insert(UserRole.builder()
+                .roleId(role.getId())
+                .userId(id)
+                .build());
     }
 }

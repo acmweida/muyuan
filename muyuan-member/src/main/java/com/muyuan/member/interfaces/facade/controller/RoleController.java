@@ -51,7 +51,7 @@ public class RoleController {
     @GetMapping("/role/{id}")
     @ApiOperation(value = "角色查询")
     @RequirePermissions("member:role:lise")
-    public Result get(@PathVariable String id) {
+    public Result get(@PathVariable Long id) {
         Optional<Role> sysRoleInfo = roleDomainService.getById(id);
         if (sysRoleInfo.isPresent()) {
             return ResultUtil.success(sysRoleInfo.get());

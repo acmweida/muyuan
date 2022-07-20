@@ -2,6 +2,7 @@ package com.muyuan.member.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.member.domains.factories.RoleFactory;
 import com.muyuan.member.domains.model.Role;
@@ -13,6 +14,7 @@ import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.domains.service.RoleDomainService;
 import com.muyuan.member.domains.dto.RoleDTO;
 import com.muyuan.member.domains.dto.UserDTO;
+import com.muyuan.member.infrastructure.persistence.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -149,16 +151,18 @@ public class RoleDomainServiceImpl implements RoleDomainService {
 
 
     @Override
-    public Optional<Role> getById(String id) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Role.class)
-                .eq("id", id);
+    public Optional<Role> getById(Long id) {
+       return get(Role.builder().id(id).build());
+    }
 
-        Role sysRole = roleRepo.selectOne(sqlBuilder.build());
-
-        if (null == sysRole) {
-            return Optional.empty();
-        }
-        return Optional.of(sysRole);
+    @Override
+    public Optional<Role> get(Role role) {
+        return Optional.ofNullable(
+                roleRepo.selectOne(new SqlBuilder(Role.class)
+                        .eq(JdbcBaseMapper.ID,role.getId())
+                        .eq(RoleMapper.CODE,role.getCode())
+                        .build())
+        );
     }
 
     @Override

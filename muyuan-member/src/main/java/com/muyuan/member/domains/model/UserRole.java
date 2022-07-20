@@ -1,6 +1,9 @@
 package com.muyuan.member.domains.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName UserRole
@@ -10,6 +13,9 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRole {
 
     private Long userId;

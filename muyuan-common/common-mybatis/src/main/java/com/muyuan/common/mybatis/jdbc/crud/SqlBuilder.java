@@ -202,7 +202,7 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder page(Page pageInfo) {
+    public SqlBuilder page(Page<Object> pageInfo) {
         if (null != pageInfo) {
             this.pageInfo = pageInfo;
             page = true;
@@ -238,7 +238,7 @@ public class SqlBuilder {
         return this;
     }
 
-    public Map build() {
+    public Map<String,Object> build() {
         Map<String, Object> params = new HashMap();
         sqlType();
         switch (sqlType) {
@@ -259,7 +259,7 @@ public class SqlBuilder {
         }
     }
 
-    private void  buildWhereCondition(Map params) {
+    private void  buildWhereCondition(Map<String,Object> params) {
         for (Condition condition : conditions) {
             if (condition.getOption().isParma()) {
                 String column = condition.getExpression();
@@ -269,7 +269,7 @@ public class SqlBuilder {
         params.put(Constant.CONDITION, conditions);
     }
 
-    private void  buildUpdateCondition(Map params) {
+    private void  buildUpdateCondition(Map<String,Object> params) {
         params.put(UPDATE, updates);
         for (Condition condition : updates) {
             if (condition.getOption().isParma()) {
@@ -279,13 +279,13 @@ public class SqlBuilder {
         }
     }
 
-    private void buildPage(Map params) {
+    private void buildPage(Map<String,Object> params) {
         if (page) {
             params.put(Constant.PAGE_FIELD, pageInfo);
         }
     }
 
-    public void buildSelectColumn(Map params) {
+    public void buildSelectColumn(Map<String,Object> params) {
         if (null == columns && null != target) {
             String[] columns = (String[]) LocalCacheService.getInstance().getAndUpdate(target.getName(),
                     () -> {

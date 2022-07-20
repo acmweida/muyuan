@@ -16,5 +16,8 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends MemberBaseMapper<Role> {
 
+    String CODE = "code";
+
+
     List<Role> selectRoleByUserId(Long userId);
 }

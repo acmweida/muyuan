@@ -82,6 +82,10 @@ public class SecurityContextHolder {
         return roles;
     }
 
+    public static boolean isLogin() {
+        return JwtUtils.hasJwtPayload();
+    }
+
     private static JsonNode getJwtPayLoad() {
         JsonNode jwtPayLoad = get(SecurityConst.JWT_PAYLOAD_KEY, JsonNode.class);
         if (null == jwtPayLoad) {

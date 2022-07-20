@@ -14,6 +14,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,6 +150,7 @@ public class CrudSqlProvider {
         Field[] declaredFields = target.getDeclaredFields();
         for (Field propertyDescriptor : declaredFields) {
             if (ArrayUtils.contains(exclude, propertyDescriptor.getName())
+                    || Modifier.isStatic(propertyDescriptor.getModifiers())
                     || propertyDescriptor.isSynthetic()
                     || !jdbcType(propertyDescriptor.getType())) {
                 continue;

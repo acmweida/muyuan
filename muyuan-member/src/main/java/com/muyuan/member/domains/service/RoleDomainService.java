@@ -64,7 +64,14 @@ public interface RoleDomainService {
      * @param id
      * @return
      */
-    Optional<Role> getById(String id);
+    Optional<Role> getById(Long id);
+
+    /**
+     * 获取角色详情
+     * @param role
+     * @return
+     */
+   Optional<Role> get(Role role);
 
 
     void deleteById(String... id);

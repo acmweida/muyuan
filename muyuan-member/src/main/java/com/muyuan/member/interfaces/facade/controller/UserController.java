@@ -6,7 +6,6 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.member.application.service.UserApplicationService;
 import com.muyuan.member.domains.dto.RegisterDTO;
-import com.muyuan.member.domains.service.UserDomainService;
 import com.muyuan.member.domains.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,8 +24,6 @@ import java.util.Optional;
 public class UserController {
 
     private UserApplicationService userApplicationService;
-
-    private UserDomainService userDomainService;
 
     private RedisCacheService redisCacheService;
 
@@ -48,7 +45,7 @@ public class UserController {
             return ResultUtil.fail("验证码过期或错误");
         }
 
-        userDomainService.add(register);
+        userApplicationService.add(register);
         return ResultUtil.success("注册成功");
 
     }

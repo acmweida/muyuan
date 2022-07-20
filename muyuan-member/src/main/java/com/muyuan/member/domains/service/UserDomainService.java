@@ -1,7 +1,7 @@
 package com.muyuan.member.domains.service;
 
+import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.User;
-import com.muyuan.member.domains.dto.RegisterDTO;
 
 import java.util.Optional;
 
@@ -27,10 +27,17 @@ public interface UserDomainService {
 
     /**
      * 账户注册
-     * @param registerInfo
+     * @param user
      * @return
      */
-    void add(RegisterDTO registerInfo);
+    void add(User user);
+
+    /**
+     * 用户添加角色
+     * @param user
+     * @param role
+     */
+    void addRole(User user, Role role);
 
     /**
      * 检查唯一性
