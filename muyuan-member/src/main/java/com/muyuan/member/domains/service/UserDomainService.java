@@ -41,8 +41,15 @@ public interface UserDomainService {
 
     /**
      * 检查唯一性
-     * @param sysUser
+     * @param user
      * @return
      */
-    String checkAccountNameUnique(User sysUser);
+    String checkAccountNameUnique(User user);
+
+    /**
+     * 设置店铺ID
+     * @param shopId
+     */
+    void linkShop(Long shopId);
+
 }

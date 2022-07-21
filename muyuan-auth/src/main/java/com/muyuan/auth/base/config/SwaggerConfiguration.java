@@ -25,7 +25,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(groupApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.xiaominfo.swagger.service.user.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.muyuan.auth.controller"))
                 .paths(PathSelectors.any())
 
                 .build();

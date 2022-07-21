@@ -36,4 +36,5 @@ public interface UserApplicationService {
      * @return
      */
     void add(RegisterDTO registerInfo);
+
 }

@@ -45,6 +45,7 @@ public class AtLeastOneNotEmptyValidator implements ConstraintValidator<AtLeastO
         }
         Class<?> aClass = object.getClass();
         Field field = aClass.getDeclaredField(fieldName);
+        field.setAccessible(true);
         Object fieldValue = field.get(object);
         return fieldValue;
     }

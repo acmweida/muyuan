@@ -7,7 +7,7 @@ import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.system.application.service.SysUserApplicationService;
 import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.AllArgsConstructor;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@Service(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0",interfaceClass = SysUserInterface.class)
+@DubboService(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0",interfaceClass = SysUserInterface.class)
 public class SysUserInterfaceApi implements SysUserInterface {
 
     private SysUserApplicationService sysUserApplicationService;

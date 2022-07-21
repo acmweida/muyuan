@@ -19,7 +19,7 @@ logging:
     io.lettuce: error
     com.muyuan.member.persistence.persistence.mapper: debug
     com.alibaba.nacos.client.*: warn
-    com.alibaba.cloud.dubbo.*: error
+    org.apache.dubbo.*: error
 
 dubbo:
   scan:

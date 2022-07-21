@@ -5,11 +5,11 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.exception.NotPermissionException;
-import com.muyuan.member.api.UserInterface;
-import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import org.apache.dubbo.config.annotation.Reference;
+import com.muyuan.member.api.UserInterface;
+import com.muyuan.system.api.SysUserInterface;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,10 +34,10 @@ import java.util.Set;
 @Component
 public class PreAuthorizeAspect {
 
-    @Reference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
     private SysUserInterface sysUserInterface;
 
-    @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
     private UserInterface userInterface;
 
     /**

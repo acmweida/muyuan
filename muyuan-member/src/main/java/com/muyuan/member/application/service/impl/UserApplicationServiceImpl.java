@@ -95,4 +95,6 @@ public class UserApplicationServiceImpl implements UserApplicationService {
                 item -> userDomainService.addRole(user,item)
         );
     }
+
+
 }

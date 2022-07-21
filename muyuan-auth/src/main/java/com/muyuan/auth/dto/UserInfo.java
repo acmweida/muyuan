@@ -55,6 +55,8 @@ public class UserInfo implements UserDetails {
      */
     private Date lastSignTime;
 
+    private Long shopId;
+
     private Set<GrantedAuthority> authorities;
 
     public UserInfo() {

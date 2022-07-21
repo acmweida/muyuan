@@ -13,7 +13,7 @@ import com.muyuan.system.api.SysUserInterface;
 import com.muyuan.system.interfaces.to.SysUserTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,10 +29,10 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserDetailsService {
 
-    @Reference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
     UserInterface userInterFace;
 
-    @Reference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
     SysUserInterface sysUserInterface;
 
     @Override

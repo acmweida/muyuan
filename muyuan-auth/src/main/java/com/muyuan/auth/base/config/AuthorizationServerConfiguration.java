@@ -125,13 +125,17 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 Map<String,Object> info = new HashMap<>();
                 if (authentication.getUserAuthentication().getPrincipal() instanceof UserInfo) {
-                    info.put(SecurityConst.USER_NAME_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
-                    info.put(SecurityConst.USER_ID_KEY,((UserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    UserInfo user = (UserInfo) (authentication.getUserAuthentication()).getPrincipal();
+                    info.put(SecurityConst.USER_NAME_KEY,user.getUsername());
+                    info.put(SecurityConst.USER_ID_KEY,user.getId());
                     info.put(SecurityConst.USER_TYPE, UserType.MEMBER);
+                    info.put(SecurityConst.SHOP_ID_KEY, user.getShopId());
                 } else {
-                    info.put(SecurityConst.USER_NAME_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getUsername());
-                    info.put(SecurityConst.USER_ID_KEY,((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal()).getId());
+                    SysUserInfo sysUserInfo = ((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal());
+                    info.put(SecurityConst.USER_NAME_KEY,sysUserInfo.getUsername());
+                    info.put(SecurityConst.USER_ID_KEY,sysUserInfo.getId());
                     info.put(SecurityConst.USER_TYPE, UserType.SYSUSER);
+                    info.put(SecurityConst.SHOP_ID_KEY, "");
                 }
                 ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
                 return super.enhance(accessToken, authentication);

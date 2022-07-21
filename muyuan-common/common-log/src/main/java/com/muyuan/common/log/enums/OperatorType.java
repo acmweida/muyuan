@@ -18,6 +18,11 @@ public enum OperatorType
     MANAGE,
 
     /**
+     * WEB
+     */
+    WEB,
+
+    /**
      * 手机端用户
      */
     MOBILE

@@ -24,4 +24,11 @@ public interface UserInterface {
      */
     Set<String> getMenuPermissionByRoleCodes(List<String> roleIds);
 
+
+    /**
+     * 账户关联店铺ID
+     * @param shopId
+     * @return
+     */
+    void linkShop(Long shopId);
 }

@@ -105,6 +105,16 @@ public class SecurityContextHolder {
         return userId;
     }
 
+    public static Long getShopId() {
+        Long shopId = get(SecurityConst.DETAILS_SHOP_ID,Long.class);
+        if (null == shopId) {
+            JsonNode jwtPayLoad = getJwtPayLoad();
+            shopId = jwtPayLoad.get(SecurityConst.SHOP_ID_KEY).asLong();
+            set(SecurityConst.DETAILS_SHOP_ID,shopId);
+        }
+        return shopId;
+    }
+
     public static String getUserType() {
         String userType = get(SecurityConst.USER_TYPE);
         if (userType.isEmpty()) {

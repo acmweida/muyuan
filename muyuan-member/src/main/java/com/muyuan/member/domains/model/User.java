@@ -40,7 +40,7 @@ public class User {
     /**
      * 店铺号
      */
-    private Long shopNo;
+    private Long shopId;
 
     /**
      * 密码

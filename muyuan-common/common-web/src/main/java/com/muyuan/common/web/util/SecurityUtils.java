@@ -20,6 +20,15 @@ public class SecurityUtils
         return SecurityContextHolder.getUserId();
     }
 
+    /**
+     * 获取用户ID
+     */
+    public static Long getShopId()
+    {
+        Long shopId = SecurityContextHolder.getShopId();
+        return  shopId == 0 ? null : shopId;
+    }
+
     public static boolean isLogin() {
         return SecurityContextHolder.isLogin();
     }

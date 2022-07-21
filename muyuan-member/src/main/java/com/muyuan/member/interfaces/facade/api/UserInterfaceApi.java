@@ -5,9 +5,11 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.member.api.UserInterface;
 import com.muyuan.member.application.service.UserApplicationService;
+import com.muyuan.member.domains.service.UserDomainService;
 import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.List;
 import java.util.Set;
@@ -20,10 +22,15 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@Service(group = ServiceTypeConst.MEMBER_SERVICE,version = "1.0",interfaceClass = UserInterface.class)
+@DubboService(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0"
+        , interfaceClass = UserInterface.class,
+        methods = {@Method(name="linkShop",retries = 0)}
+)
 public class UserInterfaceApi implements UserInterface {
 
     private UserApplicationService sysUserApplicationService;
+
+    private UserDomainService userDomainService;
 
     @Override
     public Result<UserTO> getUserByUsername(String username) {
@@ -38,6 +45,11 @@ public class UserInterfaceApi implements UserInterface {
     @Override
     public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
         return sysUserApplicationService.getMenuPermissionByRoleCodes(roleCodes);
+    }
+
+    @Override
+    public void linkShop(Long shopId) {
+        userDomainService.linkShop(shopId);
     }
 
 

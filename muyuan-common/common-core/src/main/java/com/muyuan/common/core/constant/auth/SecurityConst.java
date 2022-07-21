@@ -45,6 +45,8 @@ public interface SecurityConst {
 
     String USER_ID_KEY = "userId";
 
+    String SHOP_ID_KEY = "shopId";
+
     String USER_NAME_KEY = "username";
 
     String USER_PERMISSIONS_KEY = "permissions";
@@ -76,6 +78,11 @@ public interface SecurityConst {
      * 用户ID字段
      */
     String DETAILS_USER_ID = "user_id";
+
+    /**
+     * 店铺ID字段
+     */
+    String DETAILS_SHOP_ID = "shop_id";
 
     /**
      * 用户名字段

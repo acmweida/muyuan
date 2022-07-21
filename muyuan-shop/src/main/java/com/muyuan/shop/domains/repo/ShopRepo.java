@@ -4,5 +4,8 @@ import com.muyuan.shop.domains.model.Shop;
 
 public interface ShopRepo {
 
-    Shop getShopByShopId(long shopId);
+    void insert(Shop shop);
+
+    void update(Shop shop);
+
 }

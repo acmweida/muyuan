@@ -21,11 +21,6 @@ public class UserRepoImpl implements UserRepo {
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public User find(int userNo) {
-        return userMapper.find(userNo);
-    }
-
-    @Override
     public User selectOne(Map params) {
         return userMapper.selectOne(params);
     }

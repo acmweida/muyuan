@@ -18,7 +18,7 @@ public enum ResponseCode {
     ADD_EXIST(410,"新增内容已存在"),
     QUERY_NOT_EXIST(411,"数据未找到"),
 
-    AUTHORIZED_ERROR(407,"认证异常"),
+    AUTHORIZED_ERROR(407,"认证异常,请联系管理员!"),
     CAPTCHA_ERROR(408,"验证码错误"),
     LOGIN_INFO_ERROR(409,"用户名或密码错误"),
 

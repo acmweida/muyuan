@@ -48,6 +48,8 @@ public class ExceptionHandlerAdvice {
         return unknowRuntimeException(e);
     }
 
+
+
     @ExceptionHandler(IllegalArgumentException.class)
     public Result unknowRuntimeException(IllegalArgumentException e) {
         e.printStackTrace();
