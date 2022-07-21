@@ -11,6 +11,7 @@ logging:
     com.muyuan.system.infrastructure.persistence.mapper.*: debug
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
+    org.apache.dubbo.*: error
     io.lettuce: error
 
 
