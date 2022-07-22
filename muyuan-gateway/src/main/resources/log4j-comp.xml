@@ -65,15 +65,17 @@
 
     <Loggers>
         <!-- 开发环境使用 -->
-<!--        <Root level="${LOG_INFO_LEVEL}">-->
-<!--          <appender-ref ref="console" />-->
-<!--        </Root>-->
-
-<!--         测试，生产环境使用-->
         <Root level="${LOG_INFO_LEVEL}">
+          <appender-ref ref="console" />
             <AppenderRef ref="info"/>
             <AppenderRef ref="err"/>
         </Root>
+
+<!--         测试，生产环境使用-->
+<!--        <Root level="${LOG_INFO_LEVEL}">-->
+<!--            <AppenderRef ref="info"/>-->
+<!--            <AppenderRef ref="err"/>-->
+<!--        </Root>-->
     </Loggers>
 
 </Configuration>
