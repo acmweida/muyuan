@@ -1,7 +1,7 @@
 
 package com.muyuan.common.dubbo.config;
 
-import com.muyuan.common.dubbo.exception.ExceptionHandlerAdvice;
+import com.muyuan.common.dubbo.exception.DubboExceptionHandlerAdvice;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
  */
 
 @Configuration
-@Import(ExceptionHandlerAdvice.class)
+@Import(DubboExceptionHandlerAdvice.class)
 public class DubboConfig {
 
 }

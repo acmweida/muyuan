@@ -10,6 +10,7 @@ import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -48,8 +49,10 @@ public class UserInterfaceApi implements UserInterface {
     }
 
     @Override
-    public void linkShop(Long shopId) {
-        userDomainService.linkShop(shopId);
+    public void linkShop(Long userId,Long shopId) {
+        Assert.notNull(shopId,"shopId is null");
+        Assert.notNull(userId,"userId is null");
+        userDomainService.linkShop(userId,shopId);
     }
 
 

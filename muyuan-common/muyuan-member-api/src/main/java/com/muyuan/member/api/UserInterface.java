@@ -27,8 +27,9 @@ public interface UserInterface {
 
     /**
      * 账户关联店铺ID
+     * @param userId
      * @param shopId
      * @return
      */
-    void linkShop(Long shopId);
+    void linkShop(Long userId,Long shopId);
 }

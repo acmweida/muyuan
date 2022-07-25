@@ -1,0 +1,2 @@
+jstProvider=com.muyuan.common.web.filter.dubbo.JwtProviderFilter
+jstConsumer=com.muyuan.common.web.filter.dubbo.JwtConsumerFilter

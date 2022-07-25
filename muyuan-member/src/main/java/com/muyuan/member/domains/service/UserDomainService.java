@@ -48,8 +48,9 @@ public interface UserDomainService {
 
     /**
      * 设置店铺ID
+     * @param userId
      * @param shopId
      */
-    void linkShop(Long shopId);
+    void linkShop(Long userId,Long shopId);
 
 }

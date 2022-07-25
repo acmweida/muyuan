@@ -7,6 +7,7 @@ import com.muyuan.common.core.util.JSONUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -23,19 +24,44 @@ import java.util.Objects;
 public class JwtUtils {
 
     public static boolean hasJwtPayload() {
+        return hasJwtPayloadWeb() || hasJwtPayloadRpc();
+    }
+
+    public static boolean hasJwtPayloadWeb() {
         return ObjectUtils.isNotEmpty(RequestContextHolder.getRequestAttributes())
+                && ObjectUtils.isNotEmpty(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest())
                 && ObjectUtils.isNotEmpty(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY));
+    }
+
+    public static boolean hasJwtPayloadRpc() {
+        return ObjectUtils.isNotEmpty(getJwtPayloadRpc());
+    }
+
+
+    public static String getJwtPayloadRpc() {
+        return RpcContext.getContext().getAttachment(SecurityConst.JWT_PAYLOAD_KEY);
+    }
+
+    public static String getJwtPayloadWeb() {
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
     }
 
     @SneakyThrows
     public static JsonNode getJwtPayload() {
-        String payload = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest().getHeader(SecurityConst.JWT_PAYLOAD_KEY);
+        String payload = hasJwtPayloadWeb() ? getJwtPayloadWeb() : hasJwtPayloadRpc() ? getJwtPayloadRpc() : null;
         if (null == payload) {
             throw new UnAuthorizedException();
         }
-        JsonNode jsonNode = JSONUtil.readTree(URLDecoder.decode(payload,StandardCharsets.UTF_8.name()));
+        JsonNode jsonNode = JSONUtil.readTree(URLDecoder.decode(payload, StandardCharsets.UTF_8.name()));
         return jsonNode;
     }
+
+    @SneakyThrows
+    public static JsonNode getJwtPayload(String jwtPayLoad) {
+        JsonNode jsonNode = JSONUtil.readTree(URLDecoder.decode(jwtPayLoad, StandardCharsets.UTF_8.name()));
+        return jsonNode;
+    }
+
 
 //    /**
 //     * 解析JWT获取用户ID

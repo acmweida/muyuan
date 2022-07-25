@@ -4,7 +4,6 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.repo.UserRepo;
@@ -101,10 +100,9 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public void linkShop(Long shopId) {
-        Assert.notNull(shopId,"shopId is null");
+    public void linkShop(Long userId,Long shopId) {
         Optional<User> user = get(User.builder()
-                .id(SecurityUtils.getUserId()).build());
+                .id(userId).build());
         if (!ObjectUtils.isEmpty(user.get().getShopId())) {
             throw new MuyuanException(ResponseCode.FAIL.getCode(), "该账户已绑定店铺");
         }

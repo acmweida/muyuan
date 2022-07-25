@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-public class ExceptionHandlerAdvice {
+public class DubboExceptionHandlerAdvice {
 
     @ExceptionHandler(DubboRpcException.class)
     public Result muyuanExceptionHaneler(DubboRpcException e) {

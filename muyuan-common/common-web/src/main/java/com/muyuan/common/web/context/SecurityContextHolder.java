@@ -95,6 +95,10 @@ public class SecurityContextHolder {
         return jwtPayLoad;
     }
 
+    public static void setJwtPayLoad(String jwtPayLoad) {
+        set(SecurityConst.JWT_PAYLOAD_KEY, JwtUtils.getJwtPayload(jwtPayLoad));
+    }
+
     public static Long getUserId() {
         Long userId = get(SecurityConst.DETAILS_USER_ID,Long.class);
         if (null == userId) {
