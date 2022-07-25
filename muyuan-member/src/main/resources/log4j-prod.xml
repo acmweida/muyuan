@@ -24,6 +24,13 @@
 
     <Appenders>
 
+        <Console name="console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="${LOG_INFO_LEVEL}" onMatch="ACCEPT" onMismatch="ACCEPT"/>
+        </Console>
+
         <!-- 这个会打印出所有的info级别以上，error级别一下的日志，每次大小超过size或者满足TimeBasedTriggeringPolicy，则日志会自动存入按年月日建立的文件夹下面并进行压缩，作为存档-->
         <RollingRandomAccessFile name="info"
                                  fileName="${LOG_HOME}/log"
@@ -58,8 +65,8 @@
     </Appenders>
 
     <Loggers>
-        <!-- 测试，生产环境使用 -->
         <Root level="${LOG_INFO_LEVEL}">
+            <AppenderRef ref="console" />
             <AppenderRef ref="info"/>
             <AppenderRef ref="err"/>
         </Root>

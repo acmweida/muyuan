@@ -297,13 +297,9 @@ public class SqlBuilder {
                             exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
                         }
 
-                        for (Field propertyDescriptor : declaredFields) {
-                            if (JDBC_TYPE.contains(propertyDescriptor.getType())
-                                    && !Modifier.isStatic(propertyDescriptor.getModifiers())
-                                    && !serialVersionUID.equals(propertyDescriptor.getName())
-                                    && !ArrayUtils.contains(exclude, propertyDescriptor.getName())
-                            ) {
-                                column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " as " + propertyDescriptor.getName());
+                        for (Field field : declaredFields) {
+                            if (isColumn(field,exclude)) {
+                                column.add(StrUtil.humpToUnderline(field.getName()) + " as " + field.getName());
                             }
                         }
                         String[] columnsNew = new String[column.size()];
@@ -316,6 +312,13 @@ public class SqlBuilder {
         } else {
             params.put(Constant.COLUMN, columns);
         }
+    }
+
+    private boolean isColumn(Field field,String[] exclude) {
+       return JDBC_TYPE.contains(field.getType())
+                && !Modifier.isStatic(field.getModifiers())
+                && !serialVersionUID.equals(field.getName())
+                && !ArrayUtils.contains(exclude, field.getName());
     }
 
 

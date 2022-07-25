@@ -21,8 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.muyuan.common.mybatis.common.Constant.DEFAULT_EXCLUDE_COLUMN;
-import static com.muyuan.common.mybatis.common.Constant.JDBC_TYPE;
+import static com.muyuan.common.mybatis.common.Constant.*;
 
 
 @SuppressWarnings("unchecked")
@@ -48,7 +47,7 @@ public class CrudSqlProvider {
             if (option.isParma()) {
                 conditionSqls.add(buildSql(condition));
             } else if (option == Option.OR || option == Option.AND) {
-                sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+                sql.WHERE(conditionSqls.toArray(new String[0]));
                 conditionSqls.clear();
                 if (option == Option.OR) {
                     sql.OR();
@@ -58,7 +57,7 @@ public class CrudSqlProvider {
             }
         }
         if (!conditions.isEmpty()) {
-            sql.WHERE(conditionSqls.toArray(new String[conditionSqls.size()]));
+            sql.WHERE(conditionSqls.toArray(new String[0]));
             sql.LIMIT(1);
         } else {
             log.error("sql condition is empty");
@@ -148,18 +147,15 @@ public class CrudSqlProvider {
         String[] exclude = excludeColumn(target);
 
         Field[] declaredFields = target.getDeclaredFields();
-        for (Field propertyDescriptor : declaredFields) {
-            if (ArrayUtils.contains(exclude, propertyDescriptor.getName())
-                    || Modifier.isStatic(propertyDescriptor.getModifiers())
-                    || propertyDescriptor.isSynthetic()
-                    || !jdbcType(propertyDescriptor.getType())) {
+        for (Field field : declaredFields) {
+            if (!isColumn(field,exclude)) {
                 continue;
             }
-            propertyDescriptor.setAccessible(true);
-            Object field = ReflectionUtils.getField(propertyDescriptor, bean);
-            if (!ObjectUtils.isEmpty(field)) {
-                values.add("#{" + propertyDescriptor.getName() + "}");
-                column.add(StrUtil.humpToUnderline(propertyDescriptor.getName()));
+            field.setAccessible(true);
+            Object value = ReflectionUtils.getField(field, bean);
+            if (!ObjectUtils.isEmpty(value)) {
+                values.add("#{" + field.getName() + "}");
+                column.add(StrUtil.humpToUnderline(field.getName()));
             }
         }
 
@@ -168,6 +164,13 @@ public class CrudSqlProvider {
                 StringUtils.arrayToDelimitedString(values.toArray(new String[column.size()]), ","));
 
         return sql.toString();
+    }
+
+    private boolean isColumn(Field field,String[] exclude) {
+        return JDBC_TYPE.contains(field.getType())
+                && !Modifier.isStatic(field.getModifiers())
+                && !serialVersionUID.equals(field.getName())
+                && !ArrayUtils.contains(exclude, field.getName());
     }
 
     public String update(Map<String, Object> param, ProviderContext context) {
@@ -217,11 +220,11 @@ public class CrudSqlProvider {
         List<String> sets = new ArrayList<>();
 
         Field[] declaredFields = aClass.getDeclaredFields();
-        for (Field propertyDescriptor : declaredFields) {
-            propertyDescriptor.setAccessible(true);
-            Object field = ReflectionUtils.getField(propertyDescriptor, entity);
-            if (!ObjectUtils.isEmpty(field) && !ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
-                sets.add(propertyDescriptor.getName());
+        for (Field field : declaredFields) {
+            field.setAccessible(true);
+            Object value = ReflectionUtils.getField(field, entity);
+            if (!ObjectUtils.isEmpty(value) && isColumn(field,exclude)) {
+                sets.add(field.getName());
             }
         }
 
@@ -239,14 +242,14 @@ public class CrudSqlProvider {
         List<String> fieldNamesList = Arrays.asList(byColumn);
 
         Field[] declaredFields = aClass.getDeclaredFields();
-        for (Field propertyDescriptor : declaredFields) {
-            propertyDescriptor.setAccessible(true);
-            Object field = ReflectionUtils.getField(propertyDescriptor, entity);
-            if (!fieldNamesList.contains(propertyDescriptor.getName())
-                    && ArrayUtils.contains(column, propertyDescriptor.getName())
-                    && !ObjectUtils.isEmpty(field)) {
-                if (!ArrayUtils.contains(exclude, propertyDescriptor.getName()) && jdbcType(propertyDescriptor.getType())) {
-                    sets.add(StrUtil.humpToUnderline(propertyDescriptor.getName()) + " = #{entity." + propertyDescriptor.getName() + "}  ");
+        for (Field field : declaredFields) {
+            field.setAccessible(true);
+            Object value = ReflectionUtils.getField(field, entity);
+            if (!fieldNamesList.contains(field.getName())
+                    && ArrayUtils.contains(column, field.getName())
+                    && !ObjectUtils.isEmpty(value)) {
+                if (isColumn(field,exclude)) {
+                    sets.add(StrUtil.humpToUnderline(field.getName()) + " = #{entity." + field.getName() + "}  ");
                 }
             }
         }
