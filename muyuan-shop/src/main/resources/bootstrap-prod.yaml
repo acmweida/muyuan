@@ -10,3 +10,7 @@ spring:
         server-addr: 192.168.1.7:8948
         group: MUYUAN
         namespace: 4eb5e274-e616-4f17-ab53-b4820777ddbe
+
+dubbo:
+  registry:
+    address: spring-cloud://192.168.1.7:8948
