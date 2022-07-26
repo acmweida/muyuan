@@ -20,8 +20,6 @@ public class RoleDTO {
 
     private int pageSize = 10;
 
-    private boolean enablePage = true;
-
     @NotNull(message = "角色名称不能为空")
     private String name;
 
@@ -33,6 +31,5 @@ public class RoleDTO {
     private String[] menuIds;
 
     private String orderNum;
-
 
 }

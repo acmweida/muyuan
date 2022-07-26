@@ -1,14 +1,23 @@
 package com.muyuan.member.domains.repo;
 
+import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.model.UserRole;
 
 import java.util.List;
 import java.util.Map;
 
-public interface UserRepo {
+public interface UserRepo extends BaseRepo {
 
-    User selectOne(Map params);
+    String PHONE = "phone";
+
+    String SHOP_ID = "shopId";
+
+    String USERNAME = "username";
+
+    int STATUS_OK = 0;
+
+    User selectOne(User user);
 
     void insert(User dataObject);
 
@@ -17,4 +26,6 @@ public interface UserRepo {
     void update(User user);
 
     void insert(UserRole userRole);
+
+    void update(User brand, String... column);
 }

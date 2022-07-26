@@ -1,5 +1,6 @@
 package com.muyuan.system.domains.model;
 
+import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import com.muyuan.system.infrastructure.common.GenConstants;
@@ -185,15 +186,11 @@ public class GenTableColumn {
         return StringUtils.upperCase(StrUtil.humpToUnderline(javaField));
     }
 
-    public static void main(String[] args) {
-        System.out.println(StringUtils.upperCase(StrUtil.humpToUnderline("categoryCode")));
-    }
-
     public boolean isIgnoreColumn() {
         return StringUtils.equalsAnyIgnoreCase(javaField,
                 ArrayUtils.addAll(ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY),
-                        JdbcBaseMapper.ID, JdbcBaseMapper.STATUS, JdbcBaseMapper.TYPE, JdbcBaseMapper.UPDATER, JdbcBaseMapper.UPDATE_BY,
-                        JdbcBaseMapper.CREATOR, JdbcBaseMapper.CREATE_BY, JdbcBaseMapper.CREATE_TIME, JdbcBaseMapper.UPDATE_TIME
+                        BaseRepo.ID, BaseRepo.STATUS, BaseRepo.TYPE, BaseRepo.UPDATER, BaseRepo.UPDATE_BY,
+                        BaseRepo.CREATOR, BaseRepo.CREATE_BY, BaseRepo.CREATE_TIME, BaseRepo.UPDATE_TIME
                 ));
     }
 }

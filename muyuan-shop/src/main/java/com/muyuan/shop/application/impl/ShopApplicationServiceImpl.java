@@ -39,7 +39,7 @@ public class ShopApplicationServiceImpl implements ShopApplicationService {
         if (ObjectUtils.isEmpty(SecurityUtils.getShopId())) {
             shopDomainService.addShop(shop, ShopType.SETTlED);
 
-            userInterface.linkShop(SecurityUtils.getUserId(),shop.getId());
+            userInterface.linkShop(shop.getId());
         }else {
             throw new MuyuanException(ResponseCode.FAIL.getCode(), "该账户已绑定店铺");
         }

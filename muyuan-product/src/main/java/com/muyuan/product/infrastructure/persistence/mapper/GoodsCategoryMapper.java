@@ -17,21 +17,6 @@ import org.apache.ibatis.annotations.Options;
 @Mapper
 public interface GoodsCategoryMapper extends ProductBaseMapper<GoodsCategory> {
 
-    String LEVEL = "level";
-
-    String NAME = "name";
-
-    String CODE = "code";
-
-    String PARENT_ID = "parentId";
-
-    String LEAF = "leaf";
-
-    String STATUS_DELETE = "2";
-
-    Object[] STATUS_OK = new String[]{"0","1"};
-
-
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class, method = "insert")
     Integer insertAuto(GoodsCategory dataObject);

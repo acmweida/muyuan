@@ -8,6 +8,7 @@ import com.muyuan.member.domains.repo.UserRepo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -159,6 +160,13 @@ public class User {
                             userRepo.update(this);
                         }
                 );
+    }
+
+    public void update(UserRepo userRepo, String... column) {
+        Assert.notNull(userRepo, "repo is null");
+        Assert.notNull(id, "id is null");
+        update();
+        userRepo.update(this, ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
     }
 
     public void addRole(UserRepo userRepo,Role role) {

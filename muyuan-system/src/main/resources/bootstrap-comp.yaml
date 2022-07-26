@@ -10,7 +10,3 @@ spring:
         server-addr: 119.29.77.107
         group: MUYUAN
         namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
-
-dubbo:
-  registry:
-    address: spring-cloud://119.29.77.107

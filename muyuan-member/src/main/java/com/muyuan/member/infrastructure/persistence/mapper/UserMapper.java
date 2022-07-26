@@ -10,8 +10,6 @@ import java.util.Map;
 @Mapper
 public interface UserMapper extends MemberBaseMapper<User> {
 
-    String PHONE = "phone";
-
     User find(int userNo);
 
     List<User> selectAllocatedList(Map params);

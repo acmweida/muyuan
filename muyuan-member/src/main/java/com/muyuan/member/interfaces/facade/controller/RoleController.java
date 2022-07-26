@@ -44,7 +44,7 @@ public class RoleController {
     @ApiOperation(value = "角色查询")
     @RequirePermissions("member:role:lise")
     public Result list(@ModelAttribute RoleDTO sysRoleDTO) {
-        Page page = roleDomainService.list(sysRoleDTO);
+        Page page = roleDomainService.page(sysRoleDTO);
         return ResultUtil.success(page);
     }
 
@@ -96,9 +96,7 @@ public class RoleController {
     @ApiOperation(value = "角色下载")
     @RequirePermissions("member:role:export")
     public void export(@ModelAttribute RoleDTO sysRoleDTO, HttpServletResponse response) throws IOException {
-        sysRoleDTO.setEnablePage(false);
-        Page<Role> page = roleDomainService.list(sysRoleDTO);
-        List<Role> rows = page.getRows();
+        List<Role> rows = roleDomainService.list(sysRoleDTO);
         ExcelUtil.export(response, RoleVO.class, "角色信息", RoleAssembler.buildRoleVO(rows));
     }
 

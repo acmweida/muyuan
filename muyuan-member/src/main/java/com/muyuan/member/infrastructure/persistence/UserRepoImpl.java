@@ -1,6 +1,7 @@
 package com.muyuan.member.infrastructure.persistence;
 
-import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
+import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.model.UserRole;
 import com.muyuan.member.domains.repo.UserRepo;
@@ -21,8 +22,14 @@ public class UserRepoImpl implements UserRepo {
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public User selectOne(Map params) {
-        return userMapper.selectOne(params);
+    public User selectOne(User user) {
+        return userMapper.selectOne(new SqlBuilder(User.class)
+                .eq(UserRepo.ID, user.getId())
+                .eq(UserRepo.USERNAME, user.getUsername())
+                .eq(UserRepo.STATUS, STATUS_OK)
+                .eq(UserRepo.PHONE, user.getPhone())
+                .build()
+        );
     }
 
     @Override
@@ -37,12 +44,17 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void update(User user) {
-        userMapper.updateBy(user, JdbcBaseMapper.ID);
+        userMapper.updateBy(user, GlobalConst.ID);
     }
 
     @Override
     public void insert(UserRole userRole) {
         userRoleMapper.insert(userRole);
+    }
+
+    @Override
+    public void update(User brand, String... column) {
+        userMapper.updateBy(brand,column);
     }
 
 }

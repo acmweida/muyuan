@@ -20,8 +20,6 @@ management:
         include: "*"
 
 dubbo:
-  registry:
-    address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
     port: 21001

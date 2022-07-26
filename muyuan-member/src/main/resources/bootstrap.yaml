@@ -24,8 +24,6 @@ logging:
 dubbo:
   scan:
     base-packages: com.muyuan.member.interfaces.facade.api
-  registry:
-    address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
     port: 21002
@@ -36,3 +34,5 @@ dubbo:
     check: false
   cloud:
     subscribed-services: system
+  provider:
+    timeout: 10000

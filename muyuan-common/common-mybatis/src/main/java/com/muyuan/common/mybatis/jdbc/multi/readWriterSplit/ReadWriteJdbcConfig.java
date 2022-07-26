@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 public class ReadWriteJdbcConfig {
 
+    private String defaultDateSource;
+
     private List<JdbcConfig> masters;
 
     private List<JdbcConfig> slaves;

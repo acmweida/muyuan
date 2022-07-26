@@ -49,10 +49,9 @@ public class UserInterfaceApi implements UserInterface {
     }
 
     @Override
-    public void linkShop(Long userId,Long shopId) {
+    public void linkShop(Long shopId) {
         Assert.notNull(shopId,"shopId is null");
-        Assert.notNull(userId,"userId is null");
-        userDomainService.linkShop(userId,shopId);
+        userDomainService.linkShop(shopId);
     }
 
 

@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.shop.infrastructure.db.dao")
+@MapperScan("com.muyuan.shop.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
     @Value("${db.read-method-prefix:select,find,get}")
@@ -34,14 +34,22 @@ public class MybatisConfig {
 
     @Bean
     public DataSource dataSource(ShopJdbcConfig jdbcConfig) {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
-        dataSource.setJdbcUrl(jdbcConfig.getUrl());
-        dataSource.setUsername(jdbcConfig.getUsername());
-        dataSource.setPassword(jdbcConfig.getPassword());
-        dataSource.setMaximumPoolSize(4);
-        dataSource.setMinimumIdle(8);
-        return dataSource;
+        DynamicDataSource dataSources = new DynamicDataSource();
+        Map<Object,Object> dataSourceMap = new HashMap<>();
+
+        HikariDataSource authDataSource = new HikariDataSource();
+        authDataSource.setDriverClassName(jdbcConfig.getDriverClassName());
+        authDataSource.setJdbcUrl(jdbcConfig.getUrl());
+        authDataSource.setUsername(jdbcConfig.getUsername());
+        authDataSource.setPassword(jdbcConfig.getPassword());
+        authDataSource.setMaximumPoolSize(4);
+        authDataSource.setMinimumIdle(8);
+        authDataSource.setMaxLifetime(30 * 1000);
+        dataSourceMap.put(ShopJdbcConfig.DATASOURCE_NAME,authDataSource);
+
+        dataSources.setTargetDataSources(dataSourceMap);
+        dataSources.setDefaultTargetDataSource(authDataSource);
+        return dataSources;
     }
 
     @Bean
@@ -61,6 +69,7 @@ public class MybatisConfig {
 
         dataSources.setMutiDateSourceConfig(config);
         dataSources.setTargetDataSources(dataSourceMap);
+        dataSources.setDefaultTargetDataSource(config.getDefaultDateSource());
         return dataSources;
     }
 
@@ -87,6 +96,9 @@ public class MybatisConfig {
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
             dataSource.setMaxLifetime(30 * 1000);
+            if (i == 0) {
+                mutiDataSourceConfig.setDefaultDateSource(dataSource);
+            }
             dataSourceId = String.format("%s%s[%s]",GlobalConst.MASTER_PREFIX,dataSourceName,i++);
             dataSourceMap.put(dataSourceId, dataSource);
             masterIds.add(dataSourceId);

@@ -30,7 +30,14 @@ public interface RoleDomainService {
      * @param sysRoleDTO
      * @return
      */
-    Page<Role> list(RoleDTO sysRoleDTO);
+    Page<Role> page(RoleDTO sysRoleDTO);
+
+    /**
+     * 列表查询
+     * @param sysRoleDTO
+     * @return
+     */
+    List<Role> list(RoleDTO sysRoleDTO);
 
     /**
      * 检验唯一性

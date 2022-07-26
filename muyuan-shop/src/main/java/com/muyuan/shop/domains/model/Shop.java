@@ -83,12 +83,11 @@ public class Shop {
     private void buildId(Long userId) {
         DateTime now = DateTime.now();
         long id = Long.parseLong(now.toString("yyMMddHHmmss"));
-        this.id = (id * 10000 + userId % 10000) * 10000 + Integer.parseInt(Integer.toString(num++, 3));
+        this.id = (id * 1000 + userId % 1000) * 100 + Integer.parseInt(Integer.toString(num++, 3));
     }
 
     public void initInstance(ShopType shopType) {
         Assert.isNull(id, "init must id is null");
-        buildId(SecurityUtils.getUserId());
         setStatus(ShopStatus.OK.code);
         setCreateTime(new Date());
         setType(shopType.code);
@@ -106,7 +105,10 @@ public class Shop {
         Assert.notNull(shopRepo, "repo is null");
         FunctionUtil.of(id)
                 .ifThen(
-                        () -> shopRepo.insert(this),
+                        () -> {
+                            buildId(SecurityUtils.getUserId());
+                            shopRepo.insert(this);
+                        },
                         id -> {
                             update();
                             shopRepo.update(this);

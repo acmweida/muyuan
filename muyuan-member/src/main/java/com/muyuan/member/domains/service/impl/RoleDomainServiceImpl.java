@@ -2,8 +2,9 @@ package com.muyuan.member.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.member.domains.dto.RoleDTO;
+import com.muyuan.member.domains.dto.UserDTO;
 import com.muyuan.member.domains.factories.RoleFactory;
 import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.RoleMenu;
@@ -12,8 +13,6 @@ import com.muyuan.member.domains.repo.MenuRepo;
 import com.muyuan.member.domains.repo.RoleRepo;
 import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.domains.service.RoleDomainService;
-import com.muyuan.member.domains.dto.RoleDTO;
-import com.muyuan.member.domains.dto.UserDTO;
 import com.muyuan.member.infrastructure.persistence.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,24 +57,22 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     }
 
     @Override
-    public Page list(RoleDTO sysRoleDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Role.class)
-                .eq("name", sysRoleDTO.getName())
-                .eq("status", sysRoleDTO.getStatus())
-                .orderByAsc("orderNum");
+    public Page page(RoleDTO roleDTO) {
+        Page page = Page.builder()
+                .pageNum(roleDTO.getPageNum())
+                .pageSize(roleDTO.getPageSize())
+                .build();
 
-        Page page = Page.builder().build();
-        if (sysRoleDTO.isEnablePage()) {
-            page.setPageNum(sysRoleDTO.getPageNum());
-            page.setPageSize(sysRoleDTO.getPageSize());
-            sqlBuilder.page(page);
-        }
-
-        List<Role> list = roleRepo.select(sqlBuilder.build());
+        List<Role> list = roleRepo.select(roleDTO,page);
 
         page.setRows(list);
 
         return page;
+    }
+
+    @Override
+    public List<Role> list(RoleDTO roleDTO) {
+        return roleRepo.select(roleDTO);
     }
 
     @Override
@@ -159,7 +156,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     public Optional<Role> get(Role role) {
         return Optional.ofNullable(
                 roleRepo.selectOne(new SqlBuilder(Role.class)
-                        .eq(JdbcBaseMapper.ID,role.getId())
+                        .eq(GlobalConst.ID,role.getId())
                         .eq(RoleMapper.CODE,role.getCode())
                         .build())
         );

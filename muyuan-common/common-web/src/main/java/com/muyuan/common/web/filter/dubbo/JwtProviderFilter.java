@@ -22,14 +22,18 @@ public class JwtProviderFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-
-        if (GenericService.class != invoker.getInterface()) {
-            String jwtPayload = invocation.getAttachments().get(SecurityConst.JWT_PAYLOAD_KEY);
-            if (ObjectUtils.isNotEmpty(jwtPayload)) {
-                SecurityContextHolder.setJwtPayLoad(jwtPayload);
+        Result result;
+        try {
+            if (GenericService.class != invoker.getInterface()) {
+                String jwtPayload = invocation.getAttachments().get(SecurityConst.JWT_PAYLOAD_KEY);
+                if (ObjectUtils.isNotEmpty(jwtPayload)) {
+                    SecurityContextHolder.setJwtPayLoad(jwtPayload);
+                }
             }
-
+            result = invoker.invoke(invocation);
+        } finally {
+            SecurityContextHolder.remove();
         }
-        return invoker.invoke(invocation);
+        return result;
     }
 }

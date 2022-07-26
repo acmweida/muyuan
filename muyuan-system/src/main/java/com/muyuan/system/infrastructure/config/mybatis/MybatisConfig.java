@@ -67,6 +67,8 @@ public class MybatisConfig {
 
         dataSources.setMutiDateSourceConfig(config);
         dataSources.setTargetDataSources(dataSourceMap);
+
+        dataSources.setDefaultTargetDataSource(config.getDefaultDateSource());
         return dataSources;
     }
 
@@ -85,6 +87,7 @@ public class MybatisConfig {
         int i=0;
         String dataSourceId;
         for (JdbcConfig jdbcConfig : masters) {
+
             HikariDataSource dataSource = new HikariDataSource();
             dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
             dataSource.setJdbcUrl(jdbcConfig.getUrl());
@@ -93,6 +96,10 @@ public class MybatisConfig {
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
             dataSource.setMaxLifetime(30 * 1000);
+
+            if (i == 0) {
+                mutiDataSourceConfig.setDefaultDateSource(dataSource);
+            }
             dataSourceId = String.format("%s%s[%s]",GlobalConst.MASTER_PREFIX,dataSourceName,i++);
             dataSourceMap.put(dataSourceId, dataSource);
             masterIds.add(dataSourceId);
@@ -115,6 +122,7 @@ public class MybatisConfig {
 
         mutiDataSourceConfig.getReadWriteSplit().put(GlobalConst.MASTER_PREFIX + dataSourceName,masterIds);
         mutiDataSourceConfig.getReadWriteSplit().put(GlobalConst.SLAVE_PREFIX + dataSourceName,slaveIds);
+
 
         return dataSourceMap;
     }

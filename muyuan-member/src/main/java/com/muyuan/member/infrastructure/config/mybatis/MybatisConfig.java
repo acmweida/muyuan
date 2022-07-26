@@ -67,6 +67,7 @@ public class MybatisConfig {
 
         dataSources.setMutiDateSourceConfig(config);
         dataSources.setTargetDataSources(dataSourceMap);
+        dataSources.setDefaultTargetDataSource(config.getDefaultDateSource());
         return dataSources;
     }
 
@@ -93,6 +94,9 @@ public class MybatisConfig {
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
             dataSource.setMaxLifetime(30 * 1000);
+            if (i == 0) {
+                mutiDataSourceConfig.setDefaultDateSource(dataSource);
+            }
             dataSourceId = String.format("%s%s[%s]",GlobalConst.MASTER_PREFIX,dataSourceName,i++);
             dataSourceMap.put(dataSourceId, dataSource);
             masterIds.add(dataSourceId);

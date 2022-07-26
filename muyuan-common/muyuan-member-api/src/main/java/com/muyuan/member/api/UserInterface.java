@@ -31,5 +31,5 @@ public interface UserInterface {
      * @param shopId
      * @return
      */
-    void linkShop(Long userId,Long shopId);
+    void linkShop(Long shopId);
 }

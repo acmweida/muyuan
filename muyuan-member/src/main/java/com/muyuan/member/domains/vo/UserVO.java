@@ -32,7 +32,7 @@ public class UserVO {
     /**
      * 店铺号
      */
-    private Long shopNo;
+    private Long shopId;
 
     /**
      * 图片

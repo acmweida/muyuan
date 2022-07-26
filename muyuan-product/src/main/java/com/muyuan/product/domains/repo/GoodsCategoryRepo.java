@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.repo;
 
+import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
@@ -13,7 +14,21 @@ import java.util.List;
  * @Date 2022/6/10 11:37
  * @Version 1.0
  */
-public interface GoodsCategoryRepo {
+public interface GoodsCategoryRepo extends BaseRepo {
+
+    String LEVEL = "level";
+
+    String NAME = "name";
+
+    String CODE = "code";
+
+    String PARENT_ID = "parentId";
+
+    String LEAF = "leaf";
+
+    String STATUS_DELETE = "2";
+
+    Object[] STATUS_OK = new String[]{"0","1"};
 
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
 

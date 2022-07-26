@@ -3,12 +3,11 @@ package com.muyuan.member.domains.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.User;
 import com.muyuan.member.domains.repo.UserRepo;
 import com.muyuan.member.domains.service.UserDomainService;
-import com.muyuan.member.infrastructure.persistence.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -77,22 +76,13 @@ public class UserDomainServiceImpl implements UserDomainService {
      */
     public Optional<User> get(User user) {
         Assert.isTrue(user != null, "sys user query  is null");
-
-        SqlBuilder sqlBuilder = new SqlBuilder(User.class)
-                .eq(UserMapper.ID, user.getId())
-                .eq("username", user.getUsername())
-                .eq(UserMapper.STATUS, 0);
-
-        return Optional.ofNullable(userRepo.selectOne(sqlBuilder.build()));
+        return Optional.ofNullable(userRepo.selectOne(user));
     }
 
     @Override
     public String checkAccountNameUnique(User user) {
         Long id = null == user.getId() ? 0 : user.getId();
-        User account = userRepo.selectOne(new SqlBuilder(User.class).select("id")
-                .eq("username", user.getUsername())
-                .eq("phone", user.getPhone())
-                .build());
+        User account = userRepo.selectOne(user);
         if (null != account && !id.equals(account.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
@@ -100,14 +90,14 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public void linkShop(Long userId,Long shopId) {
+    public void linkShop(Long shopId) {
         Optional<User> user = get(User.builder()
-                .id(userId).build());
+                .id(SecurityUtils.getUserId()).build());
         if (!ObjectUtils.isEmpty(user.get().getShopId())) {
             throw new MuyuanException(ResponseCode.FAIL.getCode(), "该账户已绑定店铺");
         }
 
         user.get().setShopId(shopId);
-        user.get().save(userRepo);
+        user.get().update(userRepo, UserRepo.SHOP_ID);
     }
 }

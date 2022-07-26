@@ -23,8 +23,6 @@ mybatis:
 dubbo:
   scan:
     base-packages: com.muyuan.system.interfaces.facade.api
-  registry:
-    address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
     port: 21005

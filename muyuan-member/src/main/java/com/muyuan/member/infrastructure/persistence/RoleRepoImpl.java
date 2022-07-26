@@ -1,6 +1,8 @@
 package com.muyuan.member.infrastructure.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.member.domains.dto.RoleDTO;
 import com.muyuan.member.domains.model.Role;
 import com.muyuan.member.domains.model.RoleMenu;
 import com.muyuan.member.domains.repo.RoleRepo;
@@ -35,8 +37,17 @@ public class RoleRepoImpl implements RoleRepo {
     }
 
     @Override
-    public List<Role> select(Map params) {
-        return roleMapper.selectList(params);
+    public List<Role> select(RoleDTO roleDTO) {
+        return select(roleDTO,null);
+    }
+
+    @Override
+    public List<Role> select(RoleDTO roleDTO, Page page) {
+        return roleMapper.selectList( new SqlBuilder(Role.class)
+                .eq(RoleRepo.NAME, roleDTO.getName())
+                .eq(RoleRepo.STATUS, roleDTO.getStatus())
+                .page(page)
+                .orderByAsc(RoleRepo.ORDER_NUM).build());
     }
 
     @Override
@@ -56,7 +67,7 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public void updateById(Role role) {
-        roleMapper.updateBy(role,"id");
+        roleMapper.updateBy(role,ID);
     }
 
     @Override
@@ -65,14 +76,14 @@ public class RoleRepoImpl implements RoleRepo {
             return;
         }
         roleMenuMapper.deleteBy(new SqlBuilder().eq(
-                "roleId",roleId
+                ROLE_ID,roleId
         ).build());
     }
 
     @Override
     public void deleteById(String... id) {
         roleMenuMapper.deleteBy(
-                new SqlBuilder().in("id",id)
+                new SqlBuilder().in(ID,id)
                         .build()
         );
     }
