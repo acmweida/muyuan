@@ -169,7 +169,6 @@ public class CrudSqlProvider {
     private boolean isColumn(Field field,String[] exclude) {
         return JDBC_TYPE.contains(field.getType())
                 && !Modifier.isStatic(field.getModifiers())
-                && !serialVersionUID.equals(field.getName())
                 && !ArrayUtils.contains(exclude, field.getName());
     }
 
@@ -223,7 +222,9 @@ public class CrudSqlProvider {
         for (Field field : declaredFields) {
             field.setAccessible(true);
             Object value = ReflectionUtils.getField(field, entity);
-            if (!ObjectUtils.isEmpty(value) && isColumn(field,exclude)) {
+            if (
+                    !ObjectUtils.isEmpty(value) &&
+                    isColumn(field,exclude)) {
                 sets.add(field.getName());
             }
         }
@@ -247,7 +248,8 @@ public class CrudSqlProvider {
             Object value = ReflectionUtils.getField(field, entity);
             if (!fieldNamesList.contains(field.getName())
                     && ArrayUtils.contains(column, field.getName())
-                    && !ObjectUtils.isEmpty(value)) {
+                    && !ObjectUtils.isEmpty(value)
+            ) {
                 if (isColumn(field,exclude)) {
                     sets.add(StrUtil.humpToUnderline(field.getName()) + " = #{entity." + field.getName() + "}  ");
                 }

@@ -1,6 +1,14 @@
 package com.muyuan.product.domains.model;
 
+import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.product.domains.repo.GoodsRepo;
 import lombok.Data;
+import org.joda.time.DateTime;
+import org.springframework.util.Assert;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 商品基本信息
@@ -8,12 +16,12 @@ import lombok.Data;
 @Data
 public class Goods {
 
-    private long id;
+    private Long id;
 
     /**
      * todo:物流模板
      */
-    private long wuliouModel;
+    private Long wuliouModel;
 
     /**
      * 商品标题
@@ -23,27 +31,27 @@ public class Goods {
     /**
      * 删除 0-否 1-是
      */
-    private boolean delete;
+    private String delete;
 
     /**
      * 品牌ID
      */
-    private long brandId;
+    private Long brandId;
 
     /**
      * 分类id
      */
-    private long categoryCode;
+    private Long categoryCode;
 
     /**
      * 店铺ID
      */
-    private long shopId;
+    private Long shopId;
 
     /**
      * 是否上架
      */
-    private boolean publish;
+    private String publish;
 
     /***
      * 详情页面
@@ -59,5 +67,41 @@ public class Goods {
      * 商品标签
      */
     private String tags;
+
+
+    private List<Sku> skus;
+
+    /** 更新时间 */
+    private Date updateTime;
+
+    /** 更新人 */
+    private String updater;
+
+    /** 创建人 */
+    private String creator;
+
+    /** 更吓人ID */
+    private Long updateBy;
+
+    /** 创建人ID */
+    private Long createBy;
+
+    private void update() {
+        updateTime = DateTime.now().toDate();
+        updateBy = SecurityUtils.getUserId();
+        updater = SecurityUtils.getUsername();
+    }
+
+    public void save(GoodsRepo goodsRepo) {
+        Assert.notNull(goodsRepo, "repo is null");
+        FunctionUtil.of(id)
+                .ifThen(
+                        () -> goodsRepo.insert(this),
+                        id -> {
+                            update();
+                            goodsRepo.update(this);
+                        }
+                );
+    }
 
 }

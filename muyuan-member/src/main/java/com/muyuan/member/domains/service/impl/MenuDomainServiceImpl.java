@@ -1,12 +1,11 @@
 package com.muyuan.member.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.member.domains.dto.MenuDTO;
 import com.muyuan.member.domains.factories.MenuFactory;
 import com.muyuan.member.domains.model.Menu;
 import com.muyuan.member.domains.repo.MenuRepo;
 import com.muyuan.member.domains.service.MenuDomainService;
-import com.muyuan.member.domains.dto.MenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -44,11 +43,9 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     @Override
     public String checkMenuNameUnique(Menu menu) {
         Long id = null == menu.getId() ? 0 : menu.getId();
-        menu = menuRepo.selectOne(new SqlBuilder(Menu.class)
-                .eq("name", menu.getName())
-                .eq("parentId", menu.getParentId())
-                .build());
-        if (null != menu && id.equals(menu.getId())) {
+        menu.setId(null);
+        menu = menuRepo.selectOne(menu);
+        if (null != menu && !id.equals(menu.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
@@ -69,12 +66,8 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     }
 
     @Override
-    public List<Menu> list(MenuDTO sysMenuDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class)
-                .eq("name", sysMenuDTO.getName())
-                .eq("status", sysMenuDTO.getStatus())
-                .orderByAsc("orderNum");
-        List<Menu> list = menuRepo.select(sqlBuilder.build());
+    public List<Menu> list(MenuDTO menuDTO) {
+        List<Menu> list = menuRepo.select(menuDTO);
         return list;
     }
 
@@ -92,15 +85,14 @@ public class MenuDomainServiceImpl implements MenuDomainService {
      * id
      * name
      *
-     * @param sysMenu
+     * @param menu
      * @return
      */
-    public Menu get(Menu sysMenu) {
-        SqlBuilder sqlBuilder = new SqlBuilder(Menu.class)
-                .eq("status", "0")
-                .eq("id", sysMenu.getId())
-                .eq("name", sysMenu.getName());
-        return sysMenu = menuRepo.selectOne(sqlBuilder.build());
+    public Menu get(Menu menu) {
+        return menuRepo.selectOne(Menu.builder()
+                .id(menu.getId())
+                .name(menu.getName())
+                .build());
     }
 
     @Override

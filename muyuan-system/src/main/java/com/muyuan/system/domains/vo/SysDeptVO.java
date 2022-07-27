@@ -18,7 +18,7 @@ public class SysDeptVO {
 
     private Long id;
 
-    private String parent_id;
+    private String parentId;
 
     private String ancestors;
 

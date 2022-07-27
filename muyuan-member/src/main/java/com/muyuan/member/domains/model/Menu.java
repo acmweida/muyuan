@@ -1,5 +1,7 @@
 package com.muyuan.member.domains.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
 public class Menu {
 
     private Long id;

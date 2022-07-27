@@ -202,7 +202,7 @@ public class SqlBuilder {
         return this;
     }
 
-    public SqlBuilder page(Page<Object> pageInfo) {
+    public SqlBuilder page(Page pageInfo) {
         if (null != pageInfo) {
             this.pageInfo = pageInfo;
             page = true;
@@ -317,9 +317,7 @@ public class SqlBuilder {
     private boolean isColumn(Field field,String[] exclude) {
        return JDBC_TYPE.contains(field.getType())
                 && !Modifier.isStatic(field.getModifiers())
-                && !serialVersionUID.equals(field.getName())
                 && !ArrayUtils.contains(exclude, field.getName());
     }
-
 
 }

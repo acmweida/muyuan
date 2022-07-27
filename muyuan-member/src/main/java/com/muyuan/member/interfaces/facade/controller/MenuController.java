@@ -130,22 +130,23 @@ public class MenuController {
     @RequirePermissions("system:menu:update")
     @PutMapping("/menu")
     @ApiOperation("菜单添加")
-    public Result update(@RequestBody @Validated MenuDTO sysMenuDTO) {
-        if (Objects.isNull(sysMenuDTO.getId())) {
+    public Result update(@RequestBody @Validated MenuDTO menuDTO) {
+        if (Objects.isNull(menuDTO.getId())) {
             return ResultUtil.fail("id不能为空");
         }
 
-        Menu sysMenu = new Menu();
-        sysMenu.setId(Long.valueOf(sysMenuDTO.getId()));
-        sysMenu.setParentId(sysMenuDTO.getParentId());
-        sysMenu.setName(sysMenuDTO.getName());
-        if (GlobalConst.NOT_UNIQUE.equals(menuDomainService.checkMenuNameUnique(sysMenu))) {
-            return ResultUtil.fail(StrUtil.format("变更菜单名[{}]已存在",sysMenu.getName()));
+        Menu menu = new Menu();
+        menu.setId(Long.valueOf(menuDTO.getId()));
+        menu.setParentId(menuDTO.getParentId());
+        menu.setName(menuDTO.getName());
+        menu.setType(menuDTO.getType());
+        if (GlobalConst.NOT_UNIQUE.equals(menuDomainService.checkMenuNameUnique(menu))) {
+            return ResultUtil.fail(StrUtil.format("变更菜单名[{}]已存在",menu.getName()));
         }
-        if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && StrUtil.ishttp(sysMenuDTO.getPath())) {
-            return ResultUtil.fail("新增菜单[{}]失败，地址必须以http(s)://开头", sysMenuDTO.getName());
+        if (GlobalConst.YES_FRAME.equals(menuDTO.getFrame()) && StrUtil.ishttp(menuDTO.getPath())) {
+            return ResultUtil.fail("新增菜单[{}]失败，地址必须以http(s)://开头", menuDTO.getName());
         }
-        menuDomainService.update(sysMenuDTO);
+        menuDomainService.update(menuDTO);
 
         return ResultUtil.success("更新成功");
     }

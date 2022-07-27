@@ -30,7 +30,6 @@ public class RoleRepoImpl implements RoleRepo {
 
     private RoleMenuMapper roleMenuMapper;
 
-
     @Override
     public List<Role> selectRoleByUserId(Long userId) {
         return roleMapper.selectRoleByUserId(userId);
@@ -38,12 +37,12 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public List<Role> select(RoleDTO roleDTO) {
-        return select(roleDTO,null);
+        return select(roleDTO, null);
     }
 
     @Override
     public List<Role> select(RoleDTO roleDTO, Page page) {
-        return roleMapper.selectList( new SqlBuilder(Role.class)
+        return roleMapper.selectList(new SqlBuilder(Role.class)
                 .eq(RoleRepo.NAME, roleDTO.getName())
                 .eq(RoleRepo.STATUS, roleDTO.getStatus())
                 .page(page)
@@ -67,23 +66,23 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public void updateById(Role role) {
-        roleMapper.updateBy(role,ID);
+        roleMapper.updateBy(role, ID);
     }
 
     @Override
-    public void deleteMenuByRoleId(Long  roleId) {
+    public void deleteMenuByRoleId(Long roleId) {
         if (ObjectUtils.isEmpty(roleId)) {
             return;
         }
         roleMenuMapper.deleteBy(new SqlBuilder().eq(
-                ROLE_ID,roleId
+                ROLE_ID, roleId
         ).build());
     }
 
     @Override
     public void deleteById(String... id) {
         roleMenuMapper.deleteBy(
-                new SqlBuilder().in(ID,id)
+                new SqlBuilder().in(ID, id)
                         .build()
         );
     }

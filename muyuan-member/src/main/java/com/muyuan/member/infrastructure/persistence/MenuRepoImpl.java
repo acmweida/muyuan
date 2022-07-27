@@ -5,6 +5,7 @@ import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.member.domains.dto.MenuDTO;
 import com.muyuan.member.domains.model.Menu;
 import com.muyuan.member.domains.repo.MenuRepo;
 import com.muyuan.member.infrastructure.persistence.mapper.MenuMapper;
@@ -93,8 +94,11 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
-    public List<Menu> select(Map params) {
-        return menuMapper.selectList(params);
+    public List<Menu> select(MenuDTO menuDTO) {
+        return menuMapper.selectList(new SqlBuilder(Menu.class)
+                .eq(NAME, menuDTO.getName())
+                .eq(STATUS, menuDTO.getStatus())
+                .orderByAsc(ORDER_NUM).build());
     }
 
     @Override
@@ -103,8 +107,14 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
-    public Menu selectOne(Map params) {
-        return menuMapper.selectOne(params);
+    public Menu selectOne(Menu menu) {
+        return menuMapper.selectOne(new SqlBuilder(Menu.class)
+                .eq(NAME, menu.getName())
+                .eq(PARENT_ID, menu.getParentId())
+                .eq(TYPE, menu.getType())
+                .eq(STATUS, STATUS_OK)
+                .eq(ID, menu.getId())
+                .build());
     }
 
     @Override
@@ -115,7 +125,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Override
     @Transactional
     public void deleteById(String... id) {
-        menuMapper.deleteBy(new SqlBuilder().in("id",id).build());
+        menuMapper.deleteBy(new SqlBuilder().in(ID,id).build());
         // 清除无父菜单的子菜单
         while (menuMapper.delete() > 0) {
         }
@@ -124,7 +134,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public void updateById(Menu menu) {
-        menuMapper.updateBy(menu,"id");
+        menuMapper.updateBy(menu, ID);
     }
 
     @Override

@@ -35,4 +35,4 @@ dubbo:
   cloud:
     subscribed-services: system
   provider:
-    timeout: 10000
+    timeout: 3000

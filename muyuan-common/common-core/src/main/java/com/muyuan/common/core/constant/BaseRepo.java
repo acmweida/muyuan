@@ -29,5 +29,13 @@ public interface BaseRepo {
 
     String UPDATE_TIME = "updateTime";
 
-    String ORDER_NUM = "orderName";
+    String ORDER_NUM = "orderNum";
+
+    String PARENT_ID = "parentId";
+
+    String CATEGORY_CODE = "categoryCode";
+
+    String DELETE = "delete";
+
+    short DELETE_FALSE = 0;
 }

@@ -9,7 +9,6 @@ import com.muyuan.member.domains.service.UserDomainService;
 import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.config.annotation.Method;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -24,8 +23,7 @@ import java.util.Set;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0"
-        , interfaceClass = UserInterface.class,
-        methods = {@Method(name="linkShop",retries = 0)}
+        , interfaceClass = UserInterface.class
 )
 public class UserInterfaceApi implements UserInterface {
 

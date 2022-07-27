@@ -1,9 +1,10 @@
 package com.muyuan.member.domains.repo;
 
+import com.muyuan.common.core.constant.BaseRepo;
+import com.muyuan.member.domains.dto.MenuDTO;
 import com.muyuan.member.domains.model.Menu;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName MenuRepo
@@ -12,7 +13,9 @@ import java.util.Map;
  * @Date 2022/2/11 16:28
  * @Version 1.0
  */
-public interface MenuRepo {
+public interface MenuRepo extends BaseRepo {
+
+    String STATUS_OK = "0";
 
     List<String>  selectMenuPermissionByRoleCodes(List<String> roleNames);
 
@@ -22,11 +25,11 @@ public interface MenuRepo {
 
     List<Menu> selectMenuByRoleCode(String roleName);
 
-    Menu selectOne(Map params);
+    Menu selectOne(Menu menu);
 
     void insert(Menu sysMenu);
 
-    List<Menu> select(Map params);
+    List<Menu> select(MenuDTO menuDTO);
 
     List<Menu> listByRoleId(String... roleIds);
 

@@ -56,7 +56,6 @@ public interface Constant {
 
     String serialVersionUID = "serialVersionUID";
 
-
     String[] DEFAULT_EXCLUDE_COLUMN = new String[]{serialVersionUID};
 
 }

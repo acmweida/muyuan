@@ -22,8 +22,6 @@ public interface GoodsCategoryRepo extends BaseRepo {
 
     String CODE = "code";
 
-    String PARENT_ID = "parentId";
-
     String LEAF = "leaf";
 
     String STATUS_DELETE = "2";

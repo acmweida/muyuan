@@ -1,9 +1,9 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.model.Goods;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,5 +21,5 @@ public interface GoodsDomainService {
      */
     Optional<Long> addGoods();
 
-    List<Goods> queryGoodsByShopInfo(GoodsDTO shopGoodsDTO);
+    Page<Goods> page(GoodsDTO goodsDTO,Long shopId);
 }
