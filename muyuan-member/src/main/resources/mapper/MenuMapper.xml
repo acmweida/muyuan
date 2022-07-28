@@ -15,7 +15,7 @@
 
     <select id="selectMenuPermissionByRoleCodes" resultType="java.lang.String">
         select perms from (
-                              select perms,id from t_menu where type = 'F'
+                              select perms,id from t_menu where perms is not null
                           ) menu
         inner join  (
             select * from t_role_menu

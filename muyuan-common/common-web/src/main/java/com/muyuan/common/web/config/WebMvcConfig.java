@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.web.aspect.PreAuthorizeAspect;
 import com.muyuan.common.web.aspect.RepeatableRequestAspect;
+import com.muyuan.common.web.exception.ExceptionHandlerAdvice;
 import com.muyuan.common.web.interceptor.HeaderInterceptor;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@Import({PreAuthorizeAspect.class, RepeatableRequestAspect.class})
+@Import({PreAuthorizeAspect.class, RepeatableRequestAspect.class, ExceptionHandlerAdvice.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean

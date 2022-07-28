@@ -18,20 +18,30 @@ public class Goods {
 
     private Long id;
 
-    /**
-     * todo:物流模板
-     */
-    private Long wuliouModel;
+//    /**
+//     * todo:物流模板
+//     */
+//    private Long wuliouModel;
 
     /**
      * 商品标题
      */
-    private String title;
+    private String name;
+
+    /**
+     * 价格
+     */
+    private Double price;
+
+    /**
+     * 销量
+     */
+    private Integer sales;
 
     /**
      * 删除 0-否 1-是
      */
-    private String delete;
+    private String status;
 
     /**
      * 品牌ID
@@ -49,19 +59,9 @@ public class Goods {
     private Long shopId;
 
     /**
-     * 是否上架
-     */
-    private String publish;
-
-    /***
-     * 详情页面
-     */
-    private String detailUrl;
-
-    /**
      * 主图
      */
-    private String mainPictureUrl;
+    private String picture;
 
     /**
      * 商品标签
@@ -69,7 +69,7 @@ public class Goods {
     private String tags;
 
 
-    private List<Sku> skus;
+    private Date createTime;
 
     /** 更新时间 */
     private Date updateTime;
@@ -86,10 +86,20 @@ public class Goods {
     /** 创建人ID */
     private Long createBy;
 
+    private List<Sku> skus;
+
     private void update() {
         updateTime = DateTime.now().toDate();
         updateBy = SecurityUtils.getUserId();
         updater = SecurityUtils.getUsername();
+    }
+
+    public void initInstance() {
+        createTime = DateTime.now().toDate();
+        createBy = SecurityUtils.getUserId();
+        creator = SecurityUtils.getUsername();
+
+        shopId = SecurityUtils.getShopId();
     }
 
     public void save(GoodsRepo goodsRepo) {
@@ -102,6 +112,12 @@ public class Goods {
                             goodsRepo.update(this);
                         }
                 );
+    }
+
+    /**
+     *
+     */
+    private void buildId() {
     }
 
 }

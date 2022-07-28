@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @ClassName ProductServiceImpl
@@ -27,11 +26,6 @@ public class GoodsDomainServiceImpl implements GoodsDomainService {
     private GoodsRepo goodsRepo;
 
     @Override
-    public Optional<Long> addGoods() {
-        return Optional.empty();
-    }
-
-    @Override
     public Page<Goods> page(GoodsDTO shopGoodsDTO,Long shopId) {
         Page page = Page.builder()
                 .pageSize(shopGoodsDTO.getPageSize())
@@ -43,5 +37,13 @@ public class GoodsDomainServiceImpl implements GoodsDomainService {
         page.setRows(goodsList);
 
         return page;
+    }
+
+    @Override
+    public void add(GoodsDTO goodsDTO) {
+        Goods goods = goodsDTO.convert();
+        goods.initInstance();
+        goods.save(goodsRepo);
+
     }
 }

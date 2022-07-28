@@ -36,3 +36,5 @@ dubbo:
     subscribed-services: system
   provider:
     timeout: 3000
+  registry:
+    address: spring-cloud://localhost

@@ -18,12 +18,6 @@ public class GoodsAssembler {
         return buildProductVO(Arrays.asList(product)).get(0);
     }
 
-    public static Goods buildProduct(GoodsDTO goodsDTO) {
-        Assert.notNull(goodsDTO,"productDTO not be bull");
-        Goods product = new Goods();
-        BeanUtils.copyProperties(goodsDTO,product);
-        return product;
-    }
 
     public static List<GoodsVO> buildProductVO(List<Goods> goodsList) {
         Assert.notNull(goodsList,"products not be bull");

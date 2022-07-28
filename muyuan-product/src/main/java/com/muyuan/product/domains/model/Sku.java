@@ -1,30 +1,28 @@
 package com.muyuan.product.domains.model;
 
 import lombok.Data;
+import org.joda.time.DateTime;
+
+import java.util.Date;
 
 @Data
 public class Sku {
 
-    private long id;
+    private Long id;
 
-    private long ProductId;
+    private Long goodsId;
 
     /**
      * 售价
      */
-    private double price;
+    private Double price;
 
     private String pic;
 
     /**
      * 锁定库存
      */
-    private double lockStock;
-
-    /**
-     * 销量
-     */
-    private double sale;
+    private Integer stockLock;
 
     /**
      * sku编码
@@ -34,8 +32,16 @@ public class Sku {
     /**
      * 库存
      */
-    private double stock;
+    private Integer stock;
 
-    private String skuData;
+    private String context;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    public void initInstance() {
+        createTime = DateTime.now().toDate();
+    }
 
 }

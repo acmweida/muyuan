@@ -33,5 +33,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: system,common
+    subscribed-services: system,common,member
+  registry:
+    address: spring-cloud://localhost
 

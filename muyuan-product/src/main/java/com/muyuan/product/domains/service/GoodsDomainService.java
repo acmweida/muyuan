@@ -4,8 +4,6 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.model.Goods;
 
-import java.util.Optional;
-
 /**
  * @ClassName ProductService
  * Description 商品域服务接口
@@ -15,11 +13,8 @@ import java.util.Optional;
  */
 public interface GoodsDomainService {
 
-    /**
-     * 添加商品
-     * @return
-     */
-    Optional<Long> addGoods();
-
     Page<Goods> page(GoodsDTO goodsDTO,Long shopId);
+
+
+    void add(GoodsDTO goodsDTO);
 }

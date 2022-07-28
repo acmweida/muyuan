@@ -35,7 +35,4 @@ public interface BaseRepo {
 
     String CATEGORY_CODE = "categoryCode";
 
-    String DELETE = "delete";
-
-    short DELETE_FALSE = 0;
 }

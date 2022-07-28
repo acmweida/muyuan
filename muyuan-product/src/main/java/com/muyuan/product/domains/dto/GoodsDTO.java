@@ -2,11 +2,13 @@ package com.muyuan.product.domains.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.product.domains.model.Goods;
+import com.muyuan.product.domains.model.Sku;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @ClassName ProductDTO
@@ -31,7 +33,7 @@ public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
      */
     @ApiModelProperty("商品标题")
     @NotNull(message = "商品标题不能为null")
-    private String title;
+    private String name;
 
     /**
      * 品牌ID
@@ -80,4 +82,6 @@ public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
      */
     @ApiModelProperty(value = "商品标签,多个“，”隔开",example = "毛衣,韩版，春季，青年")
     private String tags;
+
+    private List<Sku> skus;
 }

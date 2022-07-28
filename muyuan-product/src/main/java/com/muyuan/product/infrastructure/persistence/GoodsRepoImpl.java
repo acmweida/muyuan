@@ -25,7 +25,6 @@ public class GoodsRepoImpl implements GoodsRepo {
     @Override
     public List<Goods> list(GoodsDTO goodsDTO, Page page) {
         return goodsMapper.selectList(new SqlBuilder(Goods.class)
-                .eq(DELETE, DELETE_FALSE)
                 .eq(ID, goodsDTO.getShopId())
                 .eq(CATEGORY_CODE, goodsDTO.getCategoryCode())
                 .build());
