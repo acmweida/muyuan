@@ -1,10 +1,8 @@
 package com.muyuan.product.domains.service.impl;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
-import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.BrandCategory;
@@ -12,12 +10,10 @@ import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
-import com.muyuan.product.domains.service.CategoryAttributeDomainService;
-import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import lombok.AllArgsConstructor;
+import com.muyuan.product.domains.service.GoodsCategoryService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -33,16 +29,18 @@ import java.util.stream.Collectors;
  * @Date 2022/6/10 8:57
  * @Version 1.0
  */
-@Service
 @Slf4j
-@AllArgsConstructor
-public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainService {
+@Data
+public class GoodsCategoryServiceImpl implements GoodsCategoryService {
 
-    private GoodsCategoryRepo goodsCategoryRepo;
+    public GoodsCategoryServiceImpl(GoodsCategoryRepo goodsCategoryRepo, CategoryAttributeRepo categoryAttributeRepo) {
+        this.goodsCategoryRepo = goodsCategoryRepo;
+        this.categoryAttributeRepo = categoryAttributeRepo;
+    }
 
-    private CategoryAttributeRepo categoryAttributeRepo;
+    protected GoodsCategoryRepo goodsCategoryRepo;
 
-    private RedisCacheService redisCacheService;
+    protected CategoryAttributeRepo categoryAttributeRepo;
 
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
@@ -72,7 +70,7 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
         goodsCategory.initRoot(rootCount);
         goodsCategory.save(goodsCategoryRepo);
         goodsCategory.setAncestors(String.valueOf(goodsCategory.getId()));
-        goodsCategory.update(goodsCategoryRepo, "ancestors");
+        goodsCategory.update(goodsCategoryRepo, GoodsCategoryRepo.ANCESTORS);
     }
 
     private void addSubNodeCategory(GoodsCategory goodsCategory, GoodsCategory parent) {
@@ -92,7 +90,6 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     public void update(GoodsCategoryDTO goodsCategoryDTO) {
         GoodsCategory goodsCategory = goodsCategoryDTO.convert();
         goodsCategory.save(goodsCategoryRepo);
-        deleteCategoryCache(goodsCategory);
     }
 
     @Override
@@ -116,25 +113,21 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
     @Override
     public Optional<GoodsCategory> detail(GoodsCategory goodsCategory) {
 
-        GoodsCategory category = redisCacheService.getAndUpdate(CATEGORY_KEY_PREFIX + goodsCategory.getCode(), () ->
-                goodsCategoryRepo.selectOne(GoodsCategory.builder()
-                        .code(goodsCategory.getCode())
-                        .build())
-        ,GoodsCategory.class);
+        GoodsCategory category = goodsCategoryRepo.selectOne(GoodsCategory.builder()
+                .code(goodsCategory.getCode())
+                .build());
 
         if (ObjectUtils.isEmpty(category)) {
             return Optional.empty();
         }
 
-        List<CategoryAttribute> attributes = redisCacheService.getAndUpdateList(CategoryAttributeDomainService.CATEGORY_ATTRIBUTE_KEY_PREFIX + goodsCategory.getCode(), () ->
-                        categoryAttributeRepo.select(CategoryAttributeDTO.builder()
-                                .categoryCode(goodsCategory.getCode())
-                                .build())
-                , CategoryAttribute.class);
+        List<CategoryAttribute> attributes = categoryAttributeRepo.select(CategoryAttributeDTO.builder()
+                .categoryCode(goodsCategory.getCode())
+                .build());
 
         category.setAttributes(attributes);
 
-        return Optional.ofNullable(category);
+        return Optional.of(category);
     }
 
     @Override
@@ -163,12 +156,7 @@ public class GoodsCategoryDomainServiceImpl implements GoodsCategoryDomainServic
         }
 
         goodsCategoryRepo.delete(toDelete.toArray(new Long[0]));
-
-        redisCacheService.del(CATEGORY_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
     }
 
 
-    private void deleteCategoryCache(GoodsCategory goodsCategory) {
-        redisCacheService.del(CATEGORY_KEY_PREFIX + goodsCategory);
-    }
 }

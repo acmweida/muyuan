@@ -1,4 +1,4 @@
-package com.muyuan.product.interfaces.facade.controller;
+package com.muyuan.product.interfaces.controller;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -10,7 +10,7 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
-import com.muyuan.product.domains.service.BrandDomainService;
+import com.muyuan.product.domains.service.BrandService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BrandController {
 
-    private BrandDomainService brandDomainService;
+    private BrandService brandService;
 
     /**
      * 查询品牌列表
@@ -49,7 +49,7 @@ public class BrandController {
             }
     )
     public Result<Page> page(@ModelAttribute BrandDTO brandDTO) {
-        Page<Brand> list = brandDomainService.page(brandDTO);
+        Page<Brand> list = brandService.page(brandDTO);
         return ResultUtil.success(list);
     }
 
@@ -60,7 +60,7 @@ public class BrandController {
     @RequirePermissions("product:brand:query")
     @GetMapping(value = "/{id}")
     public Result get(@PathVariable("id") Long id) {
-        Optional<Brand> brand = brandDomainService.get(id);
+        Optional<Brand> brand = brandService.get(id);
         return brand.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
     }
@@ -79,14 +79,14 @@ public class BrandController {
     )
     public Result add(@RequestBody @Validated BrandDTO brandDTOb) {
         if (GlobalConst.NOT_UNIQUE.equals(
-                brandDomainService.checkUnique(Brand.builder()
+                brandService.checkUnique(Brand.builder()
                         .name(brandDTOb.getName())
                         .build())
         )) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(), "品牌名称已存在");
         }
 
-        brandDomainService.add(brandDTOb);
+        brandService.add(brandDTOb);
         return ResultUtil.success();
     }
 
@@ -111,7 +111,7 @@ public class BrandController {
         if (ObjectUtils.isEmpty(brandDTO.getId())) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
         }
-        brandDomainService.update(brandDTO);
+        brandService.update(brandDTO);
         return ResultUtil.success();
     }
 
@@ -136,7 +136,7 @@ public class BrandController {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"认证状态不能为空");
         }
 
-        brandDomainService.audit(brandDTO);
+        brandService.audit(brandDTO);
         return ResultUtil.success();
     }
 
@@ -147,7 +147,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public Result remove(@PathVariable Long... ids) {
-        brandDomainService.delete(ids);
+        brandService.delete(ids);
         return ResultUtil.success();
     }
 
@@ -168,7 +168,7 @@ public class BrandController {
         if (ObjectUtils.isEmpty(brandDTO.getId())) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
         }
-        brandDomainService.linkCategory(brandDTO);
+        brandService.linkCategory(brandDTO);
         return ResultUtil.success();
     }
 
@@ -185,7 +185,7 @@ public class BrandController {
             }
     )
     public Result queryBrandCategory(@PathVariable Long id) {
-        return ResultUtil.success(brandDomainService.getBrandCategory(id));
+        return ResultUtil.success(brandService.getBrandCategory(id));
     }
 
 }

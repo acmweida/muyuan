@@ -1,4 +1,4 @@
-package com.muyuan.product.interfaces.facade.controller;
+package com.muyuan.product.interfaces.controller;
 
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
@@ -11,7 +11,7 @@ import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.application.GoodsApplicationService;
 import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.model.Goods;
-import com.muyuan.product.domains.service.GoodsDomainService;
+import com.muyuan.product.domains.service.GoodsService;
 import com.muyuan.product.domains.vo.GoodsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,15 +25,15 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class GoodsController {
 
-    private GoodsDomainService goodsDomainService;
+    private GoodsService goodsService;
 
     private GoodsApplicationService goodsApplicationService;
 
     @ApiOperation(value = "通过商店信息查询商品列表")
     @RequirePermissions("product:goods:list")
     @GetMapping("/list")
-    public Result<Page<GoodsVO>> getProducts(@ModelAttribute GoodsDTO goodsDTO) {
-        Page<Goods> page = goodsDomainService.page(goodsDTO, SecurityUtils.getShopId());
+    public Result<Page<GoodsVO>> list(@ModelAttribute GoodsDTO goodsDTO) {
+        Page<Goods> page = goodsService.page(goodsDTO, SecurityUtils.getShopId());
         return ResultUtil.success(page);
     }
 
@@ -42,7 +42,7 @@ public class GoodsController {
     @RequirePermissions("product:goods:add")
     @Log(title = "商品", businessType = BusinessType.INSERT)
     @PostMapping
-    Result addProduct(@RequestBody @Validated GoodsDTO goodsDTO) {
+    public Result add(@RequestBody @Validated GoodsDTO goodsDTO) {
         goodsApplicationService.addGoods(goodsDTO);
         return ResultUtil.success("商品添加成功");
     }

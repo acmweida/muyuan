@@ -13,10 +13,9 @@ import java.util.Optional;
  * @Date 2022/6/9 15:41
  * @Version 1.0
  */
-public interface GoodsCategoryDomainService {
+public interface GoodsCategoryService {
 
     String CATEGORY_KEY_PREFIX = "category:";
-
 
     /**
      * 分类列表查询

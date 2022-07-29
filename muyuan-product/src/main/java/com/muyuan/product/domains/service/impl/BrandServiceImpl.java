@@ -6,7 +6,7 @@ import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.repo.BrandRepo;
-import com.muyuan.product.domains.service.BrandDomainService;
+import com.muyuan.product.domains.service.BrandService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class BrandDomainServiceImpl implements BrandDomainService
+public class BrandServiceImpl implements BrandService
 {
     private BrandRepo brandRepo;
 

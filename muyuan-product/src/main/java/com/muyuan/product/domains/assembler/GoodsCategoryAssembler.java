@@ -1,4 +1,4 @@
-package com.muyuan.product.interfaces.assembler;
+package com.muyuan.product.domains.assembler;
 
 import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.product.domains.model.GoodsCategory;

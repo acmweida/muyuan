@@ -9,7 +9,7 @@ import com.muyuan.product.domains.model.CategoryAttribute;
  * @author ${author}
  * @date 2022-06-23T14:17:01.512+08:00
  */
-public interface CategoryAttributeDomainService
+public interface CategoryAttributeService
 {
     String CATEGORY_ATTRIBUTE_KEY_PREFIX = "category:attribute:";
 

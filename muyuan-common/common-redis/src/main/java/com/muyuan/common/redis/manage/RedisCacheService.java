@@ -50,6 +50,25 @@ public class RedisCacheService extends AbstractCacheService implements CacheServ
     }
 
     /**
+     * 设置数据和过期时间
+     * @param key
+     * @param value
+     * @param time
+     * @return
+     */
+    public boolean setExpire(String key,String value,long time) {
+        try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key,value,time,TimeUnit.SECONDS);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * 根据key获取过期时间
      *
      * @param key 键 不能为null

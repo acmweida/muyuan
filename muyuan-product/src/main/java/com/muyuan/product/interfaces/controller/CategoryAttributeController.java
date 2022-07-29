@@ -1,4 +1,4 @@
-package com.muyuan.product.interfaces.facade.controller;
+package com.muyuan.product.interfaces.controller;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -9,7 +9,7 @@ import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
-import com.muyuan.product.domains.service.CategoryAttributeDomainService;
+import com.muyuan.product.domains.service.CategoryAttributeService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CategoryAttributeController {
 
-    private CategoryAttributeDomainService categoryAttributeDomainService;
+    private CategoryAttributeService categoryAttributeService;
 
 
     /**
@@ -49,7 +49,7 @@ public class CategoryAttributeController {
     public Result add(@RequestBody @Validated CategoryAttributeDTO categoryAttribute)
     {
         if (GlobalConst.NOT_UNIQUE.equals(
-                categoryAttributeDomainService.checkUnique(CategoryAttribute.builder()
+                categoryAttributeService.checkUnique(CategoryAttribute.builder()
                         .name(categoryAttribute.getName())
                         .categoryCode(categoryAttribute.getCategoryCode())
                         .build())
@@ -57,7 +57,7 @@ public class CategoryAttributeController {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"属性名称已存在");
         }
 
-        categoryAttributeDomainService.add(categoryAttribute);
+        categoryAttributeService.add(categoryAttribute);
         return ResultUtil.success();
     }
 
@@ -81,7 +81,7 @@ public class CategoryAttributeController {
         if (ObjectUtils.isEmpty(categoryAttribute.getId()))  {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"Id不能为NULl");
         }
-            categoryAttributeDomainService.update(categoryAttribute);
+            categoryAttributeService.update(categoryAttribute);
         return ResultUtil.success();
     }
 
@@ -97,7 +97,7 @@ public class CategoryAttributeController {
     @DeleteMapping("/{ids}")
     public Result remove(@PathVariable String[] ids)
     {
-        categoryAttributeDomainService.delete(ids);
+        categoryAttributeService.delete(ids);
         return ResultUtil.success();
     }
 }

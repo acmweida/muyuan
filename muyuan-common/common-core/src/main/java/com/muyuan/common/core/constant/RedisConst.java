@@ -23,4 +23,6 @@ public interface RedisConst {
     String ALL_PLACE_HOLDER = "*";
 
     String SYS_DATA_DICT = "SYS:DICT:";
+
+    String COUNT_KEY = "COUNT:";
 }

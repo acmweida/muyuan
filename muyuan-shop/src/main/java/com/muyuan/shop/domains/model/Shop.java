@@ -1,6 +1,10 @@
 package com.muyuan.shop.domains.model;
 
+import com.muyuan.common.core.context.ApplicationContextHandler;
+import com.muyuan.common.core.global.Counter;
 import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.common.redis.util.RedisCounter;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.shop.domains.repo.ShopRepo;
 import com.muyuan.shop.infrastructure.common.enums.ShopStatus;
@@ -20,7 +24,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class Shop {
 
-    private static int num = 1;
+
+    private static Counter counter = new RedisCounter("shop", ApplicationContextHandler.getContext().getBean(RedisCacheService.class));
 
     private Long id;
 
@@ -80,11 +85,12 @@ public class Shop {
 
     private String updater;
 
-    private void buildId(Long userId) {
+    private void buildId() {
         DateTime now = DateTime.now();
-        long id = Long.parseLong(now.toString("yyMMddHHmmss"));
-        this.id = (id * 1000 + userId % 1000) * 100 + Integer.parseInt(Integer.toString(num++, 3));
+        long id =  ( (now.getYear() - 2000) * 1000  +now.getDayOfYear() ) * 100000l + now.getSecondOfDay();
+        this.id = (id * 10000) + (counter.next() % 10000);
     }
+
 
     public void initInstance(ShopType shopType) {
         Assert.isNull(id, "init must id is null");
@@ -106,7 +112,7 @@ public class Shop {
         FunctionUtil.of(id)
                 .ifThen(
                         () -> {
-                            buildId(SecurityUtils.getUserId());
+                            buildId();
                             shopRepo.insert(this);
                         },
                         id -> {

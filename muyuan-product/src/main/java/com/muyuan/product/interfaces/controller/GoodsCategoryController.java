@@ -1,14 +1,14 @@
-package com.muyuan.product.interfaces.facade.controller;
+package com.muyuan.product.interfaces.controller;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.product.domains.assembler.GoodsCategoryAssembler;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
-import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import com.muyuan.product.interfaces.assembler.GoodsCategoryAssembler;
+import com.muyuan.product.domains.service.cache.GoodsCategoryCache;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -35,7 +35,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GoodsCategoryController {
 
-    private GoodsCategoryDomainService productCategoryDomainService;
+    private GoodsCategoryCache goodsCategoryService;
 
     @GetMapping("/list")
     @RequirePermissions("product:category:query")
@@ -44,7 +44,7 @@ public class GoodsCategoryController {
                     @ApiImplicitParam(name = "status", value = "状态", dataTypeClass = String.class, paramType = "query")}
     )
     public Result list(@ModelAttribute GoodsCategoryDTO categoryDTO) {
-        List<GoodsCategory> list = productCategoryDomainService.list(categoryDTO);
+        List<GoodsCategory> list = goodsCategoryService.list(categoryDTO);
         return ResultUtil.success(GoodsCategoryAssembler.buildListTree(list));
     }
 
@@ -58,10 +58,10 @@ public class GoodsCategoryController {
     )
     public Result add(@RequestBody @Valid GoodsCategoryDTO goodsCategoryDTO) {
         GoodsCategory category = goodsCategoryDTO.convert();
-        if (GlobalConst.NOT_UNIQUE.equals(productCategoryDomainService.checkUnique(category))) {
+        if (GlobalConst.NOT_UNIQUE.equals(goodsCategoryService.checkUnique(category))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"商品分类已存在");
         }
-        productCategoryDomainService.add(goodsCategoryDTO);
+        goodsCategoryService.add(goodsCategoryDTO);
         return ResultUtil.success();
     }
 
@@ -80,11 +80,11 @@ public class GoodsCategoryController {
         }
 
         GoodsCategory category = goodsCategoryDTO.convert();
-        if (GlobalConst.NOT_UNIQUE.equals(productCategoryDomainService.checkUnique(category))) {
+        if (GlobalConst.NOT_UNIQUE.equals(goodsCategoryService.checkUnique(category))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"商品分类已存在");
         }
 
-        productCategoryDomainService.update(goodsCategoryDTO);
+        goodsCategoryService.update(goodsCategoryDTO);
         return ResultUtil.success();
     }
 
@@ -93,13 +93,16 @@ public class GoodsCategoryController {
     @RequirePermissions("product:category:query")
     @ApiOperation("商品分类树型结构查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "parentId", value = "父节点ID", dataTypeClass = String.class, paramType = "body", defaultValue = "0")}
+            {
+                    @ApiImplicitParam(name = "parentId", value = "父节点ID", dataTypeClass = String.class, paramType = "body", defaultValue = "0"),
+                    @ApiImplicitParam(name = "level", value = "层级", dataTypeClass = Integer.class, paramType = "body", defaultValue = "0")
+            }
     )
     public Result treeSelect(@ModelAttribute GoodsCategoryDTO goodsCategoryDTO) {
-        if (ObjectUtils.isEmpty(goodsCategoryDTO.getParentId())) {
-            goodsCategoryDTO.setParentId(0l);
+        if (ObjectUtils.isEmpty(goodsCategoryDTO.getParentId()) && ObjectUtils.isEmpty(goodsCategoryDTO.getLevel())) {
+            goodsCategoryDTO.setParentId(0L);
         }
-        List<GoodsCategory> list = productCategoryDomainService.list(goodsCategoryDTO);
+        List<GoodsCategory> list = goodsCategoryService.list(goodsCategoryDTO);
         return ResultUtil.success(GoodsCategoryAssembler.buildSelectTree(list));
     }
 
@@ -110,7 +113,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path",required = true)}
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
-        Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
+        Optional<GoodsCategory> productCategory = goodsCategoryService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
@@ -122,7 +125,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result detail(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
-        Optional<GoodsCategory> productCategory = productCategoryDomainService.detail(GoodsCategory.builder()
+        Optional<GoodsCategory> productCategory = goodsCategoryService.detail(GoodsCategory.builder()
                 .code(Long.valueOf(code)).build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
@@ -140,7 +143,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result getLeaf(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
-        Optional<GoodsCategory> productCategory = productCategoryDomainService.get(GoodsCategory.builder()
+        Optional<GoodsCategory> productCategory = goodsCategoryService.get(GoodsCategory.builder()
                 .code(Long.valueOf(code))
                 .leaf(GlobalConst.TRUE)
                 .build());
@@ -157,7 +160,7 @@ public class GoodsCategoryController {
     @GetMapping("/leaf/selectOption")
     @RequirePermissions("product:category:query")
     public Result selectOption() {
-        List<GoodsCategory> productCategorys = productCategoryDomainService.list(GoodsCategoryDTO.builder()
+        List<GoodsCategory> productCategorys = goodsCategoryService.list(GoodsCategoryDTO.builder()
                 .leaf(GlobalConst.TRUE)
                 .build());
         return ResultUtil.success(GoodsCategoryAssembler.buildSelect(productCategorys));
@@ -170,7 +173,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result delete(@PathVariable Long[] ids) {
-        productCategoryDomainService.delete(ids);
+        goodsCategoryService.delete(ids);
         return ResultUtil.success();
     }
 }

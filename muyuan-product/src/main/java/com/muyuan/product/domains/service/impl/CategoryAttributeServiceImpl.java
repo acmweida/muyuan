@@ -6,7 +6,7 @@ import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.model.CategoryAttribute;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
-import com.muyuan.product.domains.service.CategoryAttributeDomainService;
+import com.muyuan.product.domains.service.CategoryAttributeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CategoryAttributeDomainServiceImpl implements CategoryAttributeDomainService
+public class CategoryAttributeServiceImpl implements CategoryAttributeService
 {
 
     private CategoryAttributeRepo categoryAttributeRepo;

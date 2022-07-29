@@ -11,7 +11,7 @@ import com.muyuan.product.domains.model.Goods;
  * @Date 2021/10/13 15:27
  * @Version 1.0
  */
-public interface GoodsDomainService {
+public interface GoodsService {
 
     Page<Goods> page(GoodsDTO goodsDTO,Long shopId);
 

@@ -3,13 +3,14 @@ package com.muyuan.product.application.impl;
 import com.muyuan.common.core.exception.handler.ResourceNotFoundException;
 import com.muyuan.product.application.GoodsApplicationService;
 import com.muyuan.product.domains.dto.GoodsDTO;
+import com.muyuan.product.domains.dto.SkuDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.model.Goods;
 import com.muyuan.product.domains.model.GoodsCategory;
-import com.muyuan.product.domains.model.Sku;
-import com.muyuan.product.domains.service.BrandDomainService;
-import com.muyuan.product.domains.service.GoodsCategoryDomainService;
-import com.muyuan.product.domains.service.GoodsDomainService;
+import com.muyuan.product.domains.service.BrandService;
+import com.muyuan.product.domains.service.GoodsCategoryService;
+import com.muyuan.product.domains.service.GoodsService;
+import com.muyuan.product.domains.service.SkuService;
 import com.muyuan.product.domains.vo.GoodsVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +33,13 @@ import java.util.Optional;
 @Slf4j
 public class GoodsApplicationServiceImpl implements GoodsApplicationService {
 
-    private BrandDomainService brandDomainService;
+    private BrandService brandService;
 
-    private GoodsCategoryDomainService goodsCategoryDomainService;
+    private GoodsCategoryService goodsCategoryService;
 
-    private GoodsDomainService goodsDomainService;
+    private GoodsService goodsService;
+
+    private SkuService skuService;
 
     @Override
     @Transactional
@@ -44,34 +47,39 @@ public class GoodsApplicationServiceImpl implements GoodsApplicationService {
         Goods goods = goodsDTO.convert();
 
         GoodsVO goodsVO = new GoodsVO();
-        BeanUtils.copyProperties(goods,goodsVO);
+        BeanUtils.copyProperties(goods, goodsVO);
 
         // 品牌信息
-        Optional<Brand> brand = brandDomainService.get(goods.getBrandId());
-        goodsVO.setBrandName(brand.orElseThrow(() -> {
+        Optional<Brand> brand = brandService.get(goods.getBrandId());
+        goodsVO.setBrandName(brand.<ResourceNotFoundException>orElseThrow(() -> {
             throw new ResourceNotFoundException("品牌信息未找到");
         }).getName());
 
         // 类目信息
-        Optional<GoodsCategory> goodsCategory = goodsCategoryDomainService.get(GoodsCategory.builder()
+        Optional<GoodsCategory> goodsCategory = goodsCategoryService.get(GoodsCategory.builder()
                 .code(goods.getCategoryCode())
                 .build());
 
-        goodsVO.setCategoryName(goodsCategory.orElseThrow(() -> {
+        goodsVO.setCategoryName(goodsCategory.<ResourceNotFoundException>orElseThrow(() -> {
             throw new ResourceNotFoundException("商品类型未找到");
         }).getName());
 
-        List<Sku> skus = goodsDTO.getSkus();
+        List<SkuDTO> skus = goodsDTO.getSkus();
 
         int stock = 0;
-        for (Sku sku : skus) {
+        for (SkuDTO sku : skus) {
             stock += sku.getStock();
         }
         goodsVO.setStock(stock);
 
+        skuService.addBatch(goodsDTO.getSkus());
+
+        log.info("商品新增：{}",goodsVO);
+
         /**
          * 插入ES
          */
+
 
     }
 

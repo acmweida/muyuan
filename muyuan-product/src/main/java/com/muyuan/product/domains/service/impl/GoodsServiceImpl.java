@@ -4,7 +4,7 @@ import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.model.Goods;
 import com.muyuan.product.domains.repo.GoodsRepo;
-import com.muyuan.product.domains.service.GoodsDomainService;
+import com.muyuan.product.domains.service.GoodsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,19 +21,19 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class GoodsDomainServiceImpl implements GoodsDomainService {
+public class GoodsServiceImpl implements GoodsService {
 
     private GoodsRepo goodsRepo;
 
     @Override
-    public Page<Goods> page(GoodsDTO shopGoodsDTO,Long shopId) {
+    public Page<Goods> page(GoodsDTO goodsDTO,Long shopId) {
         Page page = Page.builder()
-                .pageSize(shopGoodsDTO.getPageSize())
-                .pageNum(shopGoodsDTO.getPageNum())
+                .pageSize(goodsDTO.getPageSize())
+                .pageNum(goodsDTO.getPageNum())
                 .build();
 
-        shopGoodsDTO.setShopId(shopId);
-        List<Goods> goodsList = goodsRepo.list(shopGoodsDTO,page);
+        goodsDTO.setShopId(shopId);
+        List<Goods> goodsList = goodsRepo.list(goodsDTO,page);
         page.setRows(goodsList);
 
         return page;

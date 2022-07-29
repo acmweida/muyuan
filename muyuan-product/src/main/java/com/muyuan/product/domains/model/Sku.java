@@ -1,12 +1,21 @@
 package com.muyuan.product.domains.model;
 
+import com.muyuan.common.core.context.ApplicationContextHandler;
+import com.muyuan.common.core.global.Counter;
+import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.common.redis.util.RedisCounter;
+import com.muyuan.product.domains.repo.SkuRepo;
 import lombok.Data;
 import org.joda.time.DateTime;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 
 @Data
 public class Sku {
+
+    private static Counter counter = new RedisCounter("sku", ApplicationContextHandler.getContext().getBean(RedisCacheService.class));
 
     private Long id;
 
@@ -41,7 +50,41 @@ public class Sku {
     private Date updateTime;
 
     public void initInstance() {
-        createTime = DateTime.now().toDate();
+        initInstance(DateTime.now().toDate());
     }
+
+    public void initInstance(Date createTime) {
+        this.createTime = createTime;
+        this.stockLock = 0;
+    }
+
+    private void update() {
+        updateTime = DateTime.now().toDate();
+    }
+
+    public void save(SkuRepo skuRepo) {
+        Assert.notNull(skuRepo, "repo is null");
+        FunctionUtil.of(id)
+                .ifThen(
+                        () -> {
+                            buildId();
+                            skuRepo.insert(this);
+                        },
+                        id -> {
+                            update();
+                            skuRepo.update(this);
+                        }
+                );
+    }
+
+    /**
+     *
+     */
+    private void buildId() {
+        DateTime now = DateTime.now();
+        long id =  ( (now.getYear() - 2000) * 1000L +now.getDayOfYear() ) * 100000L + now.getSecondOfDay();
+        this.id = (id * 1000000) + (counter.next() % 1000000);
+    }
+
 
 }

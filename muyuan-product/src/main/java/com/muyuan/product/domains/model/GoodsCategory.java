@@ -144,7 +144,7 @@ public class GoodsCategory {
                     code = parent.code + index;
             }
         } else {
-            this.code = (100 + index) << 30;
+            this.code =   index << 30;
         }
     }
 

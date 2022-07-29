@@ -1,6 +1,10 @@
 package com.muyuan.product.domains.model;
 
+import com.muyuan.common.core.context.ApplicationContextHandler;
+import com.muyuan.common.core.global.Counter;
 import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.common.redis.util.RedisCounter;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.product.domains.repo.GoodsRepo;
 import lombok.Data;
@@ -15,6 +19,8 @@ import java.util.List;
  */
 @Data
 public class Goods {
+
+    private static Counter counter = new RedisCounter("goods", ApplicationContextHandler.getContext().getBean(RedisCacheService.class));
 
     private Long id;
 
@@ -106,7 +112,10 @@ public class Goods {
         Assert.notNull(goodsRepo, "repo is null");
         FunctionUtil.of(id)
                 .ifThen(
-                        () -> goodsRepo.insert(this),
+                        () -> {
+                            buildId();
+                            goodsRepo.insert(this);
+                        },
                         id -> {
                             update();
                             goodsRepo.update(this);
@@ -118,6 +127,9 @@ public class Goods {
      *
      */
     private void buildId() {
+        DateTime now = DateTime.now();
+        long id =  ( (now.getYear() - 2000) * 1000L +now.getDayOfYear() ) * 100000L + now.getSecondOfDay();
+        this.id = (id * 1000000) + (counter.next() % 1000000);
     }
 
 }

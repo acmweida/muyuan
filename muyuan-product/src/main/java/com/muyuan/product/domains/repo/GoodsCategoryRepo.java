@@ -26,6 +26,8 @@ public interface GoodsCategoryRepo extends BaseRepo {
 
     String STATUS_DELETE = "2";
 
+    String ANCESTORS = "ancestors";
+
     Object[] STATUS_OK = new String[]{"0","1"};
 
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);

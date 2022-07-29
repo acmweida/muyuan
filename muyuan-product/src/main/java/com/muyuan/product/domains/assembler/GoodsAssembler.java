@@ -1,6 +1,5 @@
-package com.muyuan.product.interfaces.assembler;
+package com.muyuan.product.domains.assembler;
 
-import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.model.Goods;
 import com.muyuan.product.domains.vo.GoodsVO;
 import org.springframework.beans.BeanUtils;

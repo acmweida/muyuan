@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author ${author}
  * @date 2022-07-04T14:16:24.789+08:00
  */
-public interface BrandDomainService
+public interface BrandService
 {
     /**
      * 查询品牌
