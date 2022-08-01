@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.service.cache;
 
+import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
@@ -42,6 +43,14 @@ public class GoodsCategoryCache extends GoodsCategoryServiceImpl implements Good
         redisCacheService.del(CATEGORY_KEY_PREFIX + categoryCode);
     }
 
+    @Override
+    public List<SelectTree> treeSelect(Long parentId, Integer level) {
+        String key = CATEGORY_KEY_PREFIX + (parentId == null ? "" : parentId) + ":"
+                + (level == null ? "" : level);
+        return redisCacheService.getAndUpdateList(key,
+                () -> super.treeSelect(parentId, level),
+                SelectTree.class);
+    }
 
     @Override
     public Optional<GoodsCategory> detail(GoodsCategory goodsCategory) {
@@ -71,6 +80,7 @@ public class GoodsCategoryCache extends GoodsCategoryServiceImpl implements Good
         super.delete(ids);
         deleteCategoryCache();
     }
+
 
     @Override
     public void update(GoodsCategoryDTO goodsCategoryDTO) {

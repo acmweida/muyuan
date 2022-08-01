@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.GoodsCategory;
 
@@ -24,6 +25,13 @@ public interface GoodsCategoryService {
      * @return
      */
     List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
+
+    /**
+     * 选择
+     * @param
+     * @return
+     */
+    List<SelectTree> treeSelect(Long parentId, Integer leaf);
 
     /**
      * 新增分类

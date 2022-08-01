@@ -102,8 +102,7 @@ public class GoodsCategoryController {
         if (ObjectUtils.isEmpty(goodsCategoryDTO.getParentId()) && ObjectUtils.isEmpty(goodsCategoryDTO.getLevel())) {
             goodsCategoryDTO.setParentId(0L);
         }
-        List<GoodsCategory> list = goodsCategoryService.list(goodsCategoryDTO);
-        return ResultUtil.success(GoodsCategoryAssembler.buildSelectTree(list));
+        return ResultUtil.success(goodsCategoryService.treeSelect(goodsCategoryDTO.getParentId(),goodsCategoryDTO.getLevel()));
     }
 
     @ApiOperation("商品分类简单查询")

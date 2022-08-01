@@ -1,8 +1,10 @@
 package com.muyuan.product.domains.service.impl;
 
+import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
+import com.muyuan.product.domains.assembler.GoodsCategoryAssembler;
 import com.muyuan.product.domains.dto.CategoryAttributeDTO;
 import com.muyuan.product.domains.dto.GoodsCategoryDTO;
 import com.muyuan.product.domains.model.BrandCategory;
@@ -11,7 +13,6 @@ import com.muyuan.product.domains.model.GoodsCategory;
 import com.muyuan.product.domains.repo.CategoryAttributeRepo;
 import com.muyuan.product.domains.repo.GoodsCategoryRepo;
 import com.muyuan.product.domains.service.GoodsCategoryService;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,6 @@ import java.util.stream.Collectors;
  * @Version 1.0
  */
 @Slf4j
-@Data
 public class GoodsCategoryServiceImpl implements GoodsCategoryService {
 
     public GoodsCategoryServiceImpl(GoodsCategoryRepo goodsCategoryRepo, CategoryAttributeRepo categoryAttributeRepo) {
@@ -45,6 +45,15 @@ public class GoodsCategoryServiceImpl implements GoodsCategoryService {
     @Override
     public List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO) {
         return goodsCategoryRepo.list(goodsCategoryDTO);
+    }
+
+    @Override
+    public List<SelectTree> treeSelect(Long parentId,Integer level) {
+        List<GoodsCategory> list = list(GoodsCategoryDTO.builder()
+                .parentId(parentId)
+                .level(level)
+                .build());
+        return GoodsCategoryAssembler.buildSelectTree(list);
     }
 
     @Override
