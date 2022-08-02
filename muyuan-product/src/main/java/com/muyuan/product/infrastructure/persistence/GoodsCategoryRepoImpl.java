@@ -37,6 +37,7 @@ public class GoodsCategoryRepoImpl implements GoodsCategoryRepo {
                 .in(PARENT_ID, goodsCategoryDTO.getParentIds())
                 .in(ID,  goodsCategoryDTO.getIds())
                 .eq(LEAF, goodsCategoryDTO.getLeaf())
+                .eq(LEVEL,goodsCategoryDTO.getLevel())
                 .in(STATUS, STATUS_OK)
                 .build());
     }

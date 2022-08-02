@@ -25,6 +25,7 @@ public class GoodsCategoryAssembler {
                     , goodsCategory.getName()
                     , goodsCategory.leaf()
                     , goodsCategory.getLevel() == 3
+                    ,goodsCategory.getParentId()
             ));
         }
         return selectTrees;
