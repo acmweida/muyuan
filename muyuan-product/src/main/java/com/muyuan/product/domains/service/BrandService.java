@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.service;
 
+import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
@@ -78,4 +79,12 @@ public interface BrandService
     void linkCategory(BrandDTO brandDTO);
 
     List<Long> getBrandCategory(Long id);
+
+
+    /**
+     * 树形选择
+     * @param brandDTO
+     * @return
+     */
+    List<SelectTree> options(BrandDTO brandDTO);
 }

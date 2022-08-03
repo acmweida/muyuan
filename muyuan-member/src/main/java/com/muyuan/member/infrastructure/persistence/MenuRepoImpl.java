@@ -119,7 +119,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public void insert(Menu menu) {
-        menuMapper.insert((Menu)menu);
+        menuMapper.insertAuto((Menu)menu);
     }
 
     @Override

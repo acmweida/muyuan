@@ -5,6 +5,10 @@ import com.muyuan.common.core.global.AbstractCounter;
 import com.muyuan.common.core.global.Counter;
 import com.muyuan.common.redis.manage.RedisCacheService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @ClassName RedisCounter
  * Description Redis 实现
@@ -36,7 +40,9 @@ public class RedisCounter extends AbstractCounter implements Counter {
 
     @Override
     public int next() {
-        String key = RedisConst.COUNT_KEY + name;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
+        String key = RedisConst.COUNT_KEY + name + ":"+ date;
         return (int) redisCacheService.incr(key,step);
     }
 }

@@ -5,6 +5,7 @@ import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.JSONUtil;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +20,7 @@ import java.util.function.Supplier;
  * @Date 2022/2/14 17:05
  * @Version 1.0
  */
+@Data
 @AllArgsConstructor
 public class RedisCacheService extends AbstractCacheService implements CacheService {
 

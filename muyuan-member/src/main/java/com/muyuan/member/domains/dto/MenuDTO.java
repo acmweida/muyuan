@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 @Data
 public class MenuDTO {
 
+    private String token;
+
     @Pattern(regexp = "\\d*",message = "主键必须是整数字符串")
     private String id;
 

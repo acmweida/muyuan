@@ -3,12 +3,12 @@ package com.muyuan.common.web.aspect;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.Repeatable;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
@@ -28,26 +28,17 @@ import org.springframework.web.context.request.RequestContextHolder;
 @AllArgsConstructor
 public class RepeatableRequestAspect {
 
-    private RedisTemplate redisTemplate;
 
     @Around("@annotation(repeatable)")
     public Object repeatableAdvice(ProceedingJoinPoint pjp, Repeatable repeatable) throws Throwable {
-        Object token = RequestContextHolder.getRequestAttributes().getAttribute(repeatable.varName(), RequestAttributes.SCOPE_REQUEST);
+        String token = (String) RequestContextHolder.getRequestAttributes().getAttribute(repeatable.varName(), RequestAttributes.SCOPE_REQUEST);
         if (ObjectUtils.isEmpty(token)) {
             return ResultUtil.fail(ResponseCode.TOKEN_NOT_FOUND_FAIL);
         }
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        String tokenKey = RedisConst.TOKEN_KEY_PREFIX+token;
-        if (!redisTemplate.hasKey(tokenKey)) {
-            return ResultUtil.fail(ResponseCode.TOKEN_INVALID_FAIL);
-        }
 
-        short v = (short) valueOperations.get(tokenKey);
-        if (RedisConst.SHORT_TRUE_VALUE == v) {
+        if (!TokenUtil.check(repeatable.businessType(),token)) {
             return ResultUtil.fail(ResponseCode.REPEATABLE_REQUEST_FAIL);
         }
-
-        valueOperations.set(tokenKey,RedisConst.SHORT_TRUE_VALUE);
 
          Object result = pjp.proceed();
 

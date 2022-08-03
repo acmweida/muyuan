@@ -35,4 +35,6 @@ public interface BaseRepo {
 
     String CATEGORY_CODE = "categoryCode";
 
+    String BRAND_ID = "brandId";
+
 }

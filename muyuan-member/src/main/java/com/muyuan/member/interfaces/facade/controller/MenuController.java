@@ -2,17 +2,20 @@ package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.bean.SelectValue;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.BusinessType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.redis.util.TokenUtil;
+import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.member.domains.dto.MenuDTO;
 import com.muyuan.member.domains.model.Menu;
 import com.muyuan.member.domains.service.MenuDomainService;
 import com.muyuan.member.domains.vo.MenuVO;
 import com.muyuan.member.domains.vo.RouterVo;
 import com.muyuan.member.interfaces.assembler.MenuAssembler;
-import com.muyuan.member.domains.dto.MenuDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,9 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 /**
@@ -96,7 +97,6 @@ public class MenuController {
     }
 
 
-
     @RequirePermissions("system:menu:delete")
     @DeleteMapping("/menu/{id}")
     @ApiOperation(value = "删除菜单")
@@ -112,6 +112,7 @@ public class MenuController {
     @RequirePermissions("system:menu:add")
     @PostMapping("/menu")
     @ApiOperation("菜单添加")
+    @Repeatable
     public Result add(@RequestBody @Validated MenuDTO sysMenuDTO) {
         Menu sysMenu = new Menu();
         sysMenu.setParentId(sysMenuDTO.getParentId());
@@ -125,6 +126,17 @@ public class MenuController {
         menuDomainService.add(sysMenuDTO);
 
         return ResultUtil.success();
+    }
+
+    @RequirePermissions("system:menu:add")
+    @PostMapping("/menu/token")
+    @ApiOperation("token生成")
+    @Repeatable
+    public Result token() {
+        String token = TokenUtil.generate(BusinessType.ADD_MENU);
+        Map<String,String> res = new HashMap();
+        res.put(GlobalConst.TOKEN,token);
+        return ResultUtil.success(res);
     }
 
     @RequirePermissions("system:menu:update")

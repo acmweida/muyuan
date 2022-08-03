@@ -2,7 +2,10 @@ package com.muyuan.product.domains.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
 import com.muyuan.product.domains.model.Brand;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
@@ -15,6 +18,9 @@ import javax.validation.constraints.NotBlank;
  * @date 2022-07-04T14:16:24.789+08:00
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BrandDTO extends BaseDTO<BrandDTO,Brand> {
 
     /**  */
@@ -46,6 +52,8 @@ public class BrandDTO extends BaseDTO<BrandDTO,Brand> {
     private Integer status;
 
     private Long[] categoryCodes;
+
+    private Long categoryCode;
 
 
 }

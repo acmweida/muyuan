@@ -1,8 +1,11 @@
 package com.muyuan.member.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.member.domains.model.Menu;
 import com.muyuan.member.infrastructure.config.mybatis.MemberBaseMapper;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,6 +19,12 @@ import java.util.List;
  */
 @Mapper
 public interface MenuMapper extends MemberBaseMapper<Menu> {
+
+
+     @Options(useGeneratedKeys = true, keyProperty = "id")
+     @InsertProvider(value = CrudSqlProvider.class, method = "insert")
+     Integer insertAuto(Menu dataObject);
+
 
     /**
      * 通过角色名称查询权限

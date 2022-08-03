@@ -37,10 +37,10 @@ public class BrandRepoImpl implements BrandRepo {
     @Override
     public List<Brand> select(BrandDTO brandDTO, Page page) {
         return brandMapper.selectList(new SqlBuilder(Brand.class)
-                .like("name", brandDTO.getName())
-                .eq("status", brandDTO.getStatus())
-                .eq("auditStatus", brandDTO.getAuditStatus())
-                .eq("del",GlobalConst.FALSE)
+                .like(NAME, brandDTO.getName())
+                .eq(STATUS, brandDTO.getStatus())
+                .eq(AUDIT_STATUS, brandDTO.getAuditStatus())
+                .eq(DEL,GlobalConst.FALSE)
                 .page(page)
                 .build());
     }
@@ -48,8 +48,8 @@ public class BrandRepoImpl implements BrandRepo {
     @Override
     public Brand selectOne(Brand brand) {
         return brandMapper.selectOne(new SqlBuilder(Brand.class)
-                .eq("id", brand.getId())
-                .eq("name", brand.getName())
+                .eq(ID, brand.getId())
+                .eq(NAME, brand.getName())
                 .build());
     }
 
@@ -60,26 +60,26 @@ public class BrandRepoImpl implements BrandRepo {
 
     @Override
     public void update(Brand brand) {
-        brandMapper.updateBy(brand, "id");
+        brandMapper.updateBy(brand, ID);
     }
 
     @Override
     public void update(Brand brand, String... column) {
-        brandMapper.updateColumnBy(brand, column, "id");
+        brandMapper.updateColumnBy(brand, column, ID);
     }
 
     @Override
     public void delete(Long... ids) {
         brandMapper.update(new SqlBuilder(Brand.class)
-                .set("del", GlobalConst.TRUE)
-                .in("id", ids)
+                .set(DEL, GlobalConst.TRUE)
+                .in(ID, ids)
                 .build());
     }
 
     @Override
     public List<BrandCategory> selectLinkCategoryCode(Long brandId) {
         return brandCategoryMapper.selectList(new SqlBuilder(BrandCategory.class)
-                .eq("brandId", brandId)
+                .eq(BRAND_ID, brandId)
                 .build());
     }
 
@@ -88,8 +88,8 @@ public class BrandRepoImpl implements BrandRepo {
     public void deleteLink(BrandCategory... brandCategorys) {
         for (BrandCategory brandCategory : brandCategorys) {
             brandCategoryMapper.deleteBy(new SqlBuilder(BrandCategory.class)
-                    .eq("brandId", brandCategory.getBrandId())
-                    .eq("categoryCode",brandCategory.getCategoryCode())
+                    .eq(BRAND_ID, brandCategory.getBrandId())
+                    .eq(CATEGORY_CODE,brandCategory.getCategoryCode())
                     .build());
         }
     }
@@ -98,5 +98,11 @@ public class BrandRepoImpl implements BrandRepo {
     public void insertLink(List<BrandCategory> brandCategories) {
         brandCategoryMapper.batchInsert(brandCategories);
     }
+
+    @Override
+    public List<Brand> selectBy(BrandDTO brandDTO) {
+        return brandMapper.selectBy(brandDTO);
+    }
+
 
 }

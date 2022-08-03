@@ -1,5 +1,6 @@
 package com.muyuan.product.domains.repo;
 
+import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
@@ -14,7 +15,11 @@ import java.util.List;
  * @date 2022-07-04T14:16:24.789+08:00
  */
 
-public interface BrandRepo {
+public interface BrandRepo  extends BaseRepo {
+
+    String AUDIT_STATUS = "auditStatus";
+
+    String DEL = "del";
 
     List<Brand> select(BrandDTO brandDTO);
 
@@ -35,5 +40,7 @@ public interface BrandRepo {
     void deleteLink(BrandCategory... brandCategory);
 
     void insertLink(List<BrandCategory> brandCategories);
+
+    List<Brand> selectBy(BrandDTO brandDTO);
 
 }

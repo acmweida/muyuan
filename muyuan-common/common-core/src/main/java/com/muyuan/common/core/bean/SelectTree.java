@@ -62,4 +62,14 @@ public class SelectTree {
         this.disabled = disabled;
         this.parentId = parentId;
     }
+
+    public SelectTree(Long id,String value, String label, boolean leaf,boolean disabled,Long parentId) {
+        this.id = id;
+        this.value = value;
+        this.label = label;
+        this.children = new ArrayList<>();
+        this.leaf = leaf;
+        this.disabled = disabled;
+        this.parentId = parentId;
+    }
 }

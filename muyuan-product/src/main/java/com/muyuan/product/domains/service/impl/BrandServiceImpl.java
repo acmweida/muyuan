@@ -1,16 +1,16 @@
 package com.muyuan.product.domains.service.impl;
 
+import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.product.domains.assembler.BrandAssembler;
 import com.muyuan.product.domains.dto.BrandDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.model.BrandCategory;
 import com.muyuan.product.domains.repo.BrandRepo;
 import com.muyuan.product.domains.service.BrandService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
@@ -23,12 +23,14 @@ import java.util.stream.Collectors;
  * @author 2456910384
  * @date 2022-07-04T14:16:24.789+08:00
  */
-@Service
-@AllArgsConstructor
 @Slf4j
 public class BrandServiceImpl implements BrandService
 {
     private BrandRepo brandRepo;
+
+    public BrandServiceImpl(BrandRepo brandRepo) {
+        this.brandRepo = brandRepo;
+    }
 
     /**
      * 查询品牌
@@ -181,6 +183,12 @@ public class BrandServiceImpl implements BrandService
             return Collections.EMPTY_LIST;
         }
         return  brandRepo.selectLinkCategoryCode(id).stream().map(BrandCategory::getCategoryCode).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SelectTree> options(BrandDTO brandDTO) {
+        List<Brand> brands = brandRepo.selectBy(brandDTO);
+        return BrandAssembler.buildSelect(brands);
     }
 
 }

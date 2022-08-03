@@ -173,10 +173,9 @@ public class BrandController {
     }
 
     /**
-     * 修改品牌
+     * 查询品牌
      */
     @RequirePermissions("product:brand:queryCategory")
-    @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @GetMapping("/category/{id}")
     @ApiOperation("品牌关联分类查询")
     @ApiImplicitParams(
@@ -186,6 +185,28 @@ public class BrandController {
     )
     public Result queryBrandCategory(@PathVariable Long id) {
         return ResultUtil.success(brandService.getBrandCategory(id));
+    }
+
+
+    /**
+     * 查询品牌
+     */
+    @RequirePermissions("product:brand:query")
+    @GetMapping("/options")
+    @ApiOperation("分类关联品牌查询")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "categoryCode", value = "分类Code", dataTypeClass = Long.class, paramType = "query",required = true),
+            }
+    )
+    public Result options(@ModelAttribute BrandDTO brandDTO) {
+        if (ObjectUtils.isEmpty(brandDTO.getCategoryCode())) {
+            return ResultUtil.fail("categoryCode不能为空");
+        }
+
+        return ResultUtil.success(brandService.options(BrandDTO.builder()
+                .categoryCode(brandDTO.getCategoryCode())
+                .build()));
     }
 
 }
