@@ -2,7 +2,7 @@ package com.muyuan.member.interfaces.facade.controller;
 
 import com.muyuan.common.core.bean.SelectValue;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.enums.BusinessType;
+import com.muyuan.common.core.enums.TokenType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
@@ -112,7 +112,7 @@ public class MenuController {
     @RequirePermissions("system:menu:add")
     @PostMapping("/menu")
     @ApiOperation("菜单添加")
-    @Repeatable
+    @Repeatable(tokenType = TokenType.ADD_MENU)
     public Result add(@RequestBody @Validated MenuDTO sysMenuDTO) {
         Menu sysMenu = new Menu();
         sysMenu.setParentId(sysMenuDTO.getParentId());
@@ -131,9 +131,8 @@ public class MenuController {
     @RequirePermissions("system:menu:add")
     @PostMapping("/menu/token")
     @ApiOperation("token生成")
-    @Repeatable
     public Result token() {
-        String token = TokenUtil.generate(BusinessType.ADD_MENU);
+        String token = TokenUtil.generate(TokenType.ADD_MENU);
         Map<String,String> res = new HashMap();
         res.put(GlobalConst.TOKEN,token);
         return ResultUtil.success(res);

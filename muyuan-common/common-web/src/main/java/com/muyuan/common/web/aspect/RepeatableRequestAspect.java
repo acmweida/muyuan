@@ -1,6 +1,5 @@
 package com.muyuan.common.web.aspect;
 
-import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.redis.util.TokenUtil;
@@ -9,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -36,7 +33,7 @@ public class RepeatableRequestAspect {
             return ResultUtil.fail(ResponseCode.TOKEN_NOT_FOUND_FAIL);
         }
 
-        if (!TokenUtil.check(repeatable.businessType(),token)) {
+        if (!TokenUtil.check(repeatable.tokenType(),token)) {
             return ResultUtil.fail(ResponseCode.REPEATABLE_REQUEST_FAIL);
         }
 

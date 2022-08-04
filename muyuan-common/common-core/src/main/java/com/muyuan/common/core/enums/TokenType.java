@@ -7,13 +7,13 @@ package com.muyuan.common.core.enums;
  * @Date 2022/8/3 15:49
  * @Version 1.0
  */
-public enum BusinessType {
+public enum TokenType {
     DEFAULT(""),
     ADD_MENU("add:menu");
 
     private String value;
 
-    BusinessType(String value) {
+    TokenType(String value) {
         this.value = value;
     }
 

@@ -1,9 +1,8 @@
 package com.muyuan.common.web.annotations;
 
 
-
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.enums.BusinessType;
+import com.muyuan.common.core.enums.TokenType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,5 +17,5 @@ import java.lang.annotation.Target;
 public @interface Repeatable {
     String varName() default GlobalConst.TOKEN;
 
-    BusinessType businessType() default BusinessType.DEFAULT;
+    TokenType tokenType() default TokenType.DEFAULT;
 }

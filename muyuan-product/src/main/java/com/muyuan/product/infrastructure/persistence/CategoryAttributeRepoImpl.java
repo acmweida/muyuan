@@ -19,21 +19,23 @@ import java.util.List;
  */
 @Component
 @AllArgsConstructor
-public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
+public class CategoryAttributeRepoImpl implements CategoryAttributeRepo {
 
     private CategoryAttributeMapper categoryAttributeMapper;
 
 
     @Override
     public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO, Page page) {
-        return  categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
+        return categoryAttributeMapper.selectList(new SqlBuilder(CategoryAttribute.class)
+                .eq(CODE,categoryAttributeDTO.getCode())
+                .eq(CATEGORY_CODE,categoryAttributeDTO.getCategoryCode())
                 .page(page)
                 .build());
     }
 
     @Override
     public List<CategoryAttribute> select(CategoryAttributeDTO categoryAttributeDTO) {
-        return select(categoryAttributeDTO,null);
+        return select(categoryAttributeDTO, null);
     }
 
     @Override
@@ -43,22 +45,22 @@ public class  CategoryAttributeRepoImpl implements CategoryAttributeRepo {
 
     @Override
     public void update(CategoryAttribute categoryAttribute) {
-        categoryAttributeMapper.updateBy(categoryAttribute,"id");
+        categoryAttributeMapper.updateBy(categoryAttribute, "id");
     }
 
     @Override
     public void delete(String... ids) {
-         categoryAttributeMapper.deleteBy(new SqlBuilder(CategoryAttribute.class)
-                .in("id",ids)
+        categoryAttributeMapper.deleteBy(new SqlBuilder(CategoryAttribute.class)
+                .in("id", ids)
                 .build());
     }
 
     @Override
     public CategoryAttribute selectOne(CategoryAttribute categoryAttribute) {
         return categoryAttributeMapper.selectOne(new SqlBuilder(CategoryAttribute.class)
-                .eq("id",categoryAttribute.getId())
-                .eq("name",categoryAttribute.getName())
-                .eq("categoryCode",categoryAttribute.getCategoryCode())
+                .eq("id", categoryAttribute.getId())
+                .eq("name", categoryAttribute.getName())
+                .eq("categoryCode", categoryAttribute.getCategoryCode())
                 .build());
     }
 

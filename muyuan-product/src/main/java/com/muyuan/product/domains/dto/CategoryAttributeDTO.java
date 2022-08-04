@@ -30,6 +30,9 @@ public class CategoryAttributeDTO extends BaseDTO<CategoryAttributeDTO,CategoryA
     @NotBlank(message = "属性名称不能为空")
     private String name;
 
+    @NotBlank(message = "属性编码不能为空")
+    private String code;
+
     @NotNull(message = "categoryCode 分类Id不能为空")
     /** 商品分类ID */
     private Long categoryCode;

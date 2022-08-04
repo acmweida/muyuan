@@ -2,7 +2,7 @@ package com.muyuan.common.redis.util;
 
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.context.ApplicationContextHandler;
-import com.muyuan.common.core.enums.BusinessType;
+import com.muyuan.common.core.enums.TokenType;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.UUID;
@@ -22,18 +22,18 @@ public class TokenUtil {
     private static RedisTemplate redisTemplate = ApplicationContextHandler.getContext().getBean("redisTemplate",RedisTemplate.class);
 
     /**
-     * @param businessType 业务类型枚举
+     * @param tokenType Token类型枚举
      * @return
      */
-    public static String generate(BusinessType businessType) {
+    public static String generate(TokenType tokenType) {
         String token = UUID.randomUUID().toString();
-        String key = RedisConst.TOKEN_KEY_PREFIX + businessType.getValue() + ":" + token;
+        String key = RedisConst.TOKEN_KEY_PREFIX + tokenType.getValue() + ":" + token;
         redisTemplate.opsForValue().set(RedisConst.TOKEN_KEY_PREFIX + key, token,DEFAULT_EXPIRE_TIME, TimeUnit.SECONDS);
         return token;
     }
 
-    public static boolean check(BusinessType businessType,String token) {
-        String key = RedisConst.TOKEN_KEY_PREFIX + businessType.getValue() + ":" + token;
+    public static boolean check(TokenType tokenType,String token) {
+        String key = RedisConst.TOKEN_KEY_PREFIX + tokenType.getValue() + ":" + token;
         if (redisTemplate.hasKey(key)) {
             redisTemplate.delete(key);
             return true;

@@ -35,6 +35,9 @@ public class CategoryAttribute {
     /** 商品分类Code */
     private Long categoryCode;
 
+    /** 属性编码 */
+    private String code;
+
     /** 属性类型 转换为二进制 1:关键属性 10:销售属性 100:关键属性 1000:非关键属性 type值为类型的和 */
     private Integer type;
 
