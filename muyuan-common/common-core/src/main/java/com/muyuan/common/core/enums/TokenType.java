@@ -9,7 +9,8 @@ package com.muyuan.common.core.enums;
  */
 public enum TokenType {
     DEFAULT(""),
-    ADD_MENU("add:menu");
+    ADD_GOODS("add:goods:"),
+    ADD_MENU("add:menu:");
 
     private String value;
 

@@ -17,7 +17,4 @@ public interface SkuService {
 
     Page<Sku> page(SkuDTO goodsDTO, Long goodsId);
 
-    void add(SkuDTO goodsDTO);
-
-    void addBatch(List<SkuDTO> skuDTOS);
 }

@@ -7,11 +7,8 @@ import com.muyuan.product.domains.repo.SkuRepo;
 import com.muyuan.product.domains.service.SkuService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,22 +39,5 @@ public class SkuServiceImpl implements SkuService {
         return page;
     }
 
-    @Override
-    public void add(SkuDTO skuDTO) {
-        Sku sku = skuDTO.convert();
-        sku.initInstance();
-        sku.save(skuRepo);
-    }
 
-    @Override
-    public void addBatch(List<SkuDTO> skuDTOS) {
-        List<Sku> skus = new ArrayList<>(skuDTOS.size());
-        Date now = DateTime.now().toDate();
-        for (SkuDTO skuDTO : skuDTOS) {
-            Sku sku = skuDTO.convert();
-            sku.initInstance(now);;
-            skus.add(sku);
-        }
-        skuRepo.batchInsert(skus);
-    }
 }

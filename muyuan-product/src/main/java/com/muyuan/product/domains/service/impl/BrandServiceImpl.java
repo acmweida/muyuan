@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 /**
  * 品牌Service业务层处理
- * 
+ *
  * @author 2456910384
  * @date 2022-07-04T14:16:24.789+08:00
  */
 @Slf4j
-public class BrandServiceImpl implements BrandService
-{
+public class BrandServiceImpl implements BrandService {
+
     private BrandRepo brandRepo;
 
     public BrandServiceImpl(BrandRepo brandRepo) {
@@ -34,7 +34,7 @@ public class BrandServiceImpl implements BrandService
 
     /**
      * 查询品牌
-     * 
+     *
      * @param id 品牌主键
      * @return 品牌
      */
@@ -50,7 +50,7 @@ public class BrandServiceImpl implements BrandService
 
     /**
      * 查询品牌列表
-     * 
+     *
      * @param brandDTO 品牌
      * @return 品牌
      */
@@ -76,7 +76,7 @@ public class BrandServiceImpl implements BrandService
 
     /**
      * 新增品牌
-     * 
+     *
      * @param brandDTO 品牌
      * @return 结果
      */
@@ -90,7 +90,7 @@ public class BrandServiceImpl implements BrandService
 
     /**
      * 修改品牌
-     * 
+     *
      * @param brandDTO 品牌
      * @return 结果
      */
@@ -119,7 +119,7 @@ public class BrandServiceImpl implements BrandService
 
     /**
      * 批量删除品牌
-     * 
+     *
      * @param ids 需要删除的品牌主键
      * @return 结果
      */

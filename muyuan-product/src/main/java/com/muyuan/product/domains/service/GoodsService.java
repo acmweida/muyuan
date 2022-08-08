@@ -15,6 +15,10 @@ public interface GoodsService {
 
     Page<Goods> page(GoodsDTO goodsDTO,Long shopId);
 
+    /**
+     * 添加商品
+     * @return
+     */
+    void addGoods(GoodsDTO goodsDTO);
 
-    void add(GoodsDTO goodsDTO);
 }

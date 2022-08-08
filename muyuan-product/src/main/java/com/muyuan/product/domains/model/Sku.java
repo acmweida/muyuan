@@ -2,7 +2,6 @@ package com.muyuan.product.domains.model;
 
 import com.muyuan.common.core.context.ApplicationContextHandler;
 import com.muyuan.common.core.global.Counter;
-import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.common.redis.util.RedisCounter;
 import com.muyuan.product.domains.repo.SkuRepo;
@@ -56,6 +55,7 @@ public class Sku {
     public void initInstance(Date createTime) {
         this.createTime = createTime;
         this.stockLock = 0;
+        this.buildId();
     }
 
     private void update() {
@@ -64,17 +64,9 @@ public class Sku {
 
     public void save(SkuRepo skuRepo) {
         Assert.notNull(skuRepo, "repo is null");
-        FunctionUtil.of(id)
-                .ifThen(
-                        () -> {
-                            buildId();
-                            skuRepo.insert(this);
-                        },
-                        id -> {
-                            update();
-                            skuRepo.update(this);
-                        }
-                );
+        Assert.notNull(id, "id is null");
+        update();
+        skuRepo.update(this);
     }
 
     /**

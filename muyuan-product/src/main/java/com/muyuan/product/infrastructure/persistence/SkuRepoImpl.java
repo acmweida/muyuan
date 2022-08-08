@@ -36,11 +36,11 @@ public class SkuRepoImpl implements SkuRepo {
 
     @Override
     public void batchInsert(List<Sku> skus) {
-
+            skuMapper.batchInsert(skus);
     }
 
     @Override
     public void update(Sku sku) {
-
+        skuMapper.updateBy(sku,ID);
     }
 }

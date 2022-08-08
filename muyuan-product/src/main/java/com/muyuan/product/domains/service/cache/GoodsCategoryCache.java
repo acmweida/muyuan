@@ -28,6 +28,8 @@ import java.util.Optional;
 @Service
 public class GoodsCategoryCache extends GoodsCategoryServiceImpl implements GoodsCategoryService {
 
+    private static String CATEGORY_KEY_PREFIX = "category:";
+
     public GoodsCategoryCache(GoodsCategoryRepo goodsCategoryRepo, CategoryAttributeRepo categoryAttributeRepo, RedisCacheService redisCacheService) {
         super(goodsCategoryRepo, categoryAttributeRepo);
         this.redisCacheService = redisCacheService;

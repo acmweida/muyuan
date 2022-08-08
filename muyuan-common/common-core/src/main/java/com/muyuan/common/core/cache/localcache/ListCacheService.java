@@ -20,6 +20,12 @@ public abstract class ListCacheService<T> extends AbstractCacheService {
         return MathUtil.bit(time);
     }
 
+    /**
+     *
+     * @param expireList
+     * @param expireTime
+     * @return
+     */
     public T buildExpireList(List<T> expireList, long expireTime) {
         int index = index(expireTime);
         if (expireList.size() >= index) {

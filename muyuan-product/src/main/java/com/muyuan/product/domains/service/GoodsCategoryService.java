@@ -16,8 +16,6 @@ import java.util.Optional;
  */
 public interface GoodsCategoryService {
 
-    String CATEGORY_KEY_PREFIX = "category:";
-
     /**
      * 分类列表查询
      *

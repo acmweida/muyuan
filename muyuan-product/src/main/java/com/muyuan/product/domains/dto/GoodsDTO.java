@@ -17,7 +17,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-@ApiModel("商品信息DTO")
+@ApiModel(value = "商品信息DTO",subTypes = SkuDTO.class)
 public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
 
     private String token;
@@ -52,7 +52,6 @@ public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
      * 店铺ID
      */
     @ApiModelProperty("店铺ID")
-    @NotNull(message="店铺ID不能为null")
     private Long shopId;
 
     /**
@@ -60,21 +59,21 @@ public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
      */
     @ApiModelProperty(value = "是否上架")
     @NotNull(message="是否上架不能为null")
-    private Boolean publish;
+    private String status;
 
-    /***
-     * 详情页面
-     */
-    @ApiModelProperty(value = "详情页面,多个按顺序逗号隔开",example = "/00/g/666apple.jpg,/00/MM/123apple.jpg")
-    @NotNull(message="详情页面不能为null")
-    private String detailUrl;
+//    /***
+//     * 详情页面
+//     */
+//    @ApiModelProperty(value = "详情页面,多个按顺序逗号隔开",example = "/00/g/666apple.jpg,/00/MM/123apple.jpg")
+//    @NotNull(message="详情页面不能为null")
+//    private String detailUrl;
 
-    /**
-     * 主图
-     */
-    @ApiModelProperty(value = "主图,列表显示图",example = "/00/g/666apple.jpg,")
-    @NotNull(message="主图不能为null")
-    private String mainPictureUrl;
+//    /**
+//     * 主图
+//     */
+//    @ApiModelProperty(value = "主图,列表显示图",example = "/00/g/666apple.jpg,")
+//    @NotNull(message="主图不能为null")
+//    private String mainPictureUrl;
 
     /**
      * 商品标签

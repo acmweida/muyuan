@@ -19,9 +19,14 @@ import java.util.function.Supplier;
  */
 public class LocalCacheService extends ListCacheService<Cache<String, Object>> implements CacheService {
 
-
+    /**
+     * 无过期时间
+     */
     private static final Cache<String, Object> normalCache = Caffeine.newBuilder().build();
 
+    /**
+     * expireCache[index] 对应过期时间未 2 ^ (index -1) 到 2 ^ index 时间段内的缓存
+     */
     private static final List<Cache<String, Object>> expireCache = new ArrayList<>();
 
     private LocalCacheService() {
@@ -39,7 +44,15 @@ public class LocalCacheService extends ListCacheService<Cache<String, Object>> i
 
     @Override
     public boolean hasKey(String key) {
-        return normalCache.asMap().containsKey(key);
+        if (normalCache.asMap().containsKey(key)) {
+            return true;
+        }
+        for (Cache<String, Object> cache : expireCache) {
+            if (cache.asMap().containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
