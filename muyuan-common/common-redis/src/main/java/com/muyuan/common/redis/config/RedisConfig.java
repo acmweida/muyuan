@@ -23,7 +23,7 @@ public class RedisConfig {
     @Bean
     public CacheManager cacheManager(LettuceConnectionFactory factory) {
         RedisCacheConfiguration config =RedisCacheConfiguration.defaultCacheConfig();
-
+        factory.setValidateConnection(true); // 断开重连
         RedisCacheConfiguration redisCacheConfiguration = config.serializeKeysWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));

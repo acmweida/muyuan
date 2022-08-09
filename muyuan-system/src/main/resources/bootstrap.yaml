@@ -33,8 +33,6 @@ dubbo:
     id: ${spring.application.name}
   consumer:
     check: false
-  cloud:
-    subscribed-services:
   provider:
     timeout: 3000
   registry:

@@ -157,8 +157,8 @@ public class RedisCacheService extends AbstractCacheService implements CacheServ
 
     // ============================Set(集合)=============================
 
-    public Set sGetAndUpdate(String key, Supplier<Set> supplier) {
-        return (Set) getAndUpdate(key,
+    public  <T> Set<T> sGetAndUpdate(String key, Supplier<Set> supplier, Class<T> type) {
+        return (Set<T>) getAndUpdate(key,
                 this::sGet,
                 supplier::get,
                 (k,v) -> sSet(k, ((Set)v).toArray())
