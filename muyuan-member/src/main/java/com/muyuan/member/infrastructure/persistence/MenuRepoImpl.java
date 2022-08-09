@@ -46,7 +46,11 @@ public class MenuRepoImpl implements MenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 //                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-                Set<String> rolePerms = (Set<String>) redisCacheService.sGetAndUpdate(RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode, () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)));
+                Set<String> rolePerms = redisCacheService.sGetAndUpdate(
+                        RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode,
+                        () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)),
+                        String.class
+                );
                 if (null != rolePerms) {
                     perms.addAll(rolePerms);
                 }

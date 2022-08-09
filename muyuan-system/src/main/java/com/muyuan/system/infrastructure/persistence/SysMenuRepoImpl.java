@@ -45,8 +45,9 @@ public class SysMenuRepoImpl implements SysMenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 
-                Set rolePerms = (Set) redisCacheService.sGetAndUpdate(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode,
-                        () -> new HashSet(selectMenuPermissionByRoleCode(roleCode))
+                Set<String> rolePerms =  redisCacheService.sGetAndUpdate(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + roleCode,
+                        () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)),
+                        String.class
                 );
 
                 if (null != rolePerms) {
