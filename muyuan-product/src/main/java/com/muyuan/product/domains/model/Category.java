@@ -4,7 +4,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.id.Id;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.product.domains.repo.GoodsCategoryRepo;
+import com.muyuan.product.domains.repo.CategoryRepo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @Data
 @Id(useGeneratedKeys = true)
 @Builder
-public class GoodsCategory {
+public class Category {
 
     private Long id;
 
@@ -74,7 +74,7 @@ public class GoodsCategory {
 
     private Date updateTime;
 
-    private List<CategoryAttribute> attributes;
+    private List<Attribute> attributes;
 
     /**
      * 是否叶子节点 0-是 1-否
@@ -117,7 +117,7 @@ public class GoodsCategory {
         ancestors = String.valueOf(id);
     }
 
-    public void linkParent(GoodsCategory parent, int count) {
+    public void linkParent(Category parent, int count) {
         Assert.notNull(id, "id can not be null!");
 
         Optional.ofNullable(parent)
@@ -132,7 +132,7 @@ public class GoodsCategory {
                 });
     }
 
-    private void newCode(GoodsCategory parent, long index) {
+    private void newCode(Category parent, long index) {
         if (ObjectUtils.isNotEmpty(parent)) {
             switch (level) {
                 case 2:
@@ -148,23 +148,23 @@ public class GoodsCategory {
         }
     }
 
-    public void save(GoodsCategoryRepo goodsCategoryRepo) {
-        Assert.notNull(goodsCategoryRepo, "repo is null");
+    public void save(CategoryRepo categoryRepo) {
+        Assert.notNull(categoryRepo, "repo is null");
         FunctionUtil.of(id)
                 .ifThen(
-                        () -> goodsCategoryRepo.insert(this),
+                        () -> categoryRepo.insert(this),
                         id -> {
                             update();
-                            goodsCategoryRepo.update(this);
+                            categoryRepo.update(this);
                         }
                 );
     }
 
-    public void update(GoodsCategoryRepo goodsCategoryRepo,String... column) {
-        Assert.notNull(goodsCategoryRepo, "repo is null");
+    public void update(CategoryRepo categoryRepo, String... column) {
+        Assert.notNull(categoryRepo, "repo is null");
         Assert.notNull(id, "id is null");
         update();
-        goodsCategoryRepo.update(this,column);
+        categoryRepo.update(this,column);
     }
 
     public boolean hasChildren() {

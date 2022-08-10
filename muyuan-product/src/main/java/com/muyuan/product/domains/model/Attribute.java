@@ -2,7 +2,7 @@ package com.muyuan.product.domains.model;
 
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.product.domains.repo.CategoryAttributeRepo;
+import com.muyuan.product.domains.repo.AttributeRepo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 /**
- * 商品分类属性对象 t_category_attribute
+ * 商品类目属性对象 t_attribute
  *
  * @author ${author}
  * @date 2022-06-23T10:46:02.101+08:00
@@ -24,10 +24,17 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryAttribute {
+public class Attribute {
 
     /**  */
     private Long id;
+
+    private Long parentId;
+
+    /**
+     * 页面展示类型
+     */
+    private int htmlType;
 
     /** 属性名称 */
     private String name;
@@ -82,14 +89,14 @@ public class CategoryAttribute {
         updater = SecurityUtils.getUsername();
     }
 
-    public void save(CategoryAttributeRepo categoryAttributeRepo) {
-        Assert.notNull(categoryAttributeRepo, "repo is null");
+    public void save(AttributeRepo attributeRepo) {
+        Assert.notNull(attributeRepo, "repo is null");
         FunctionUtil.of(id)
                 .ifThen(
-                        () -> categoryAttributeRepo.insert(this),
+                        () -> attributeRepo.insert(this),
                         id -> {
                             update();
-                            categoryAttributeRepo.update(this);
+                            attributeRepo.update(this);
                         }
                 );
     }

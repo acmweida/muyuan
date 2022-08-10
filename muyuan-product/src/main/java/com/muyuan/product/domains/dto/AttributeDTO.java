@@ -1,7 +1,7 @@
 package com.muyuan.product.domains.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.product.domains.model.CategoryAttribute;
+import com.muyuan.product.domains.model.Attribute;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryAttributeDTO extends BaseDTO<CategoryAttributeDTO,CategoryAttribute> {
+public class AttributeDTO extends BaseDTO<AttributeDTO, Attribute> {
 
     /**  */
     private Long id;

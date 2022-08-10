@@ -3,10 +3,10 @@ package com.muyuan.product.domains.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.redis.manage.RedisCacheService;
-import com.muyuan.product.domains.dto.CategoryAttributeDTO;
-import com.muyuan.product.domains.model.CategoryAttribute;
-import com.muyuan.product.domains.repo.CategoryAttributeRepo;
-import com.muyuan.product.domains.service.CategoryAttributeService;
+import com.muyuan.product.domains.dto.AttributeDTO;
+import com.muyuan.product.domains.model.Attribute;
+import com.muyuan.product.domains.repo.AttributeRepo;
+import com.muyuan.product.domains.service.AttributeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,18 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CategoryAttributeServiceImpl implements CategoryAttributeService
+public class AttributeServiceImpl implements AttributeService
 {
 
-    private CategoryAttributeRepo categoryAttributeRepo;
+    private AttributeRepo attributeRepo;
 
     private RedisCacheService redisCacheService;
 
     @Override
-    public String checkUnique(CategoryAttribute categoryAttribute) {
-        Long id = null == categoryAttribute.getId() ? 0 : categoryAttribute.getId();
-        categoryAttribute = categoryAttributeRepo.selectOne(categoryAttribute);
-        if (null != categoryAttribute && !categoryAttribute.getId().equals(id)) {
+    public String checkUnique(Attribute attribute) {
+        Long id = null == attribute.getId() ? 0 : attribute.getId();
+        attribute = attributeRepo.selectOne(attribute);
+        if (null != attribute && !attribute.getId().equals(id)) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
@@ -45,11 +45,11 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService
      * @return 结果
      */
     @Override
-    public void add(CategoryAttributeDTO categoryAttribute)
+    public void add(AttributeDTO categoryAttribute)
     {
-        CategoryAttribute attribute = categoryAttribute.convert();
+        Attribute attribute = categoryAttribute.convert();
         attribute.init();
-        attribute.save(categoryAttributeRepo);
+        attribute.save(attributeRepo);
     }
 
     /**
@@ -59,9 +59,9 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService
      * @return 结果
      */
     @Override
-    public void update(CategoryAttributeDTO categoryAttribute)
+    public void update(AttributeDTO categoryAttribute)
     {
-        categoryAttribute.convert().save(categoryAttributeRepo);
+        categoryAttribute.convert().save(attributeRepo);
         redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+categoryAttribute.getCategoryCode());
     }
 
@@ -74,7 +74,7 @@ public class CategoryAttributeServiceImpl implements CategoryAttributeService
     @Override
     public void delete(String[] ids)
     {
-        categoryAttributeRepo.delete(ids);
+        attributeRepo.delete(ids);
         redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+ RedisConst.ALL_PLACE_HOLDER);
     }
 

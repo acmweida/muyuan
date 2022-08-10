@@ -52,5 +52,4 @@ public class UserInterfaceApi implements UserInterface {
         userDomainService.linkShop(shopId);
     }
 
-
 }

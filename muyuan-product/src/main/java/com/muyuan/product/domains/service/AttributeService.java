@@ -1,7 +1,7 @@
 package com.muyuan.product.domains.service;
 
-import com.muyuan.product.domains.dto.CategoryAttributeDTO;
-import com.muyuan.product.domains.model.CategoryAttribute;
+import com.muyuan.product.domains.dto.AttributeDTO;
+import com.muyuan.product.domains.model.Attribute;
 
 /**
  * 商品分类属性Service接口
@@ -9,7 +9,7 @@ import com.muyuan.product.domains.model.CategoryAttribute;
  * @author ${author}
  * @date 2022-06-23T14:17:01.512+08:00
  */
-public interface CategoryAttributeService
+public interface AttributeService
 {
     String CATEGORY_ATTRIBUTE_KEY_PREFIX = "category:attribute:";
 
@@ -19,7 +19,7 @@ public interface CategoryAttributeService
      * @param categoryAttribute 商品分类属性
      * @return 结果
      */
-    void add(CategoryAttributeDTO categoryAttribute);
+    void add(AttributeDTO categoryAttribute);
 
     /**
      * 修改商品分类属性
@@ -27,7 +27,7 @@ public interface CategoryAttributeService
      * @param categoryAttribute 商品分类属性
      * @return 结果
      */
-    void update(CategoryAttributeDTO categoryAttribute);
+    void update(AttributeDTO categoryAttribute);
 
     /**
      * 批量删除商品分类属性
@@ -39,10 +39,10 @@ public interface CategoryAttributeService
 
     /**
      * 唯一性查询
-     * @param categoryAttribute
+     * @param attribute
      * @return
      */
-    String checkUnique(CategoryAttribute categoryAttribute);
+    String checkUnique(Attribute attribute);
 
 
 }

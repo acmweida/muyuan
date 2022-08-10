@@ -5,10 +5,10 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.product.domains.assembler.GoodsCategoryAssembler;
-import com.muyuan.product.domains.dto.GoodsCategoryDTO;
-import com.muyuan.product.domains.model.GoodsCategory;
-import com.muyuan.product.domains.service.cache.GoodsCategoryCache;
+import com.muyuan.product.domains.assembler.CategoryAssembler;
+import com.muyuan.product.domains.dto.CategoryDTO;
+import com.muyuan.product.domains.model.Category;
+import com.muyuan.product.domains.service.cache.CategoryServiceCache;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,9 +33,9 @@ import java.util.Optional;
 @Api(tags = {"商品类目接口"})
 @RestController
 @AllArgsConstructor
-public class GoodsCategoryController {
+public class CategoryController {
 
-    private GoodsCategoryCache goodsCategoryService;
+    private CategoryServiceCache goodsCategoryService;
 
     @GetMapping("/list")
     @RequirePermissions("product:category:query")
@@ -43,9 +43,9 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "name", value = "商品分类名称", dataTypeClass = String.class, paramType = "query"),
                     @ApiImplicitParam(name = "status", value = "状态", dataTypeClass = String.class, paramType = "query")}
     )
-    public Result list(@ModelAttribute GoodsCategoryDTO categoryDTO) {
-        List<GoodsCategory> list = goodsCategoryService.list(categoryDTO);
-        return ResultUtil.success(GoodsCategoryAssembler.buildListTree(list));
+    public Result list(@ModelAttribute CategoryDTO categoryDTO) {
+        List<Category> list = goodsCategoryService.list(categoryDTO);
+        return ResultUtil.success(CategoryAssembler.buildListTree(list));
     }
 
     @PostMapping()
@@ -56,12 +56,12 @@ public class GoodsCategoryController {
                     @ApiImplicitParam(name = "orderNum", value = "显示顺序", dataTypeClass = String.class, paramType = "body"),
                     @ApiImplicitParam(name = "logo", value = "分类图标", dataTypeClass = String.class, paramType = "body")}
     )
-    public Result add(@RequestBody @Valid GoodsCategoryDTO goodsCategoryDTO) {
-        GoodsCategory category = goodsCategoryDTO.convert();
+    public Result add(@RequestBody @Valid CategoryDTO categoryDTO) {
+        Category category = categoryDTO.convert();
         if (GlobalConst.NOT_UNIQUE.equals(goodsCategoryService.checkUnique(category))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"商品分类已存在");
         }
-        goodsCategoryService.add(goodsCategoryDTO);
+        goodsCategoryService.add(categoryDTO);
         return ResultUtil.success();
     }
 
@@ -74,17 +74,17 @@ public class GoodsCategoryController {
                     @ApiImplicitParam(name = "orderNum", value = "显示顺序", dataTypeClass = String.class, paramType = "body",required = true),
                     @ApiImplicitParam(name = "logo", value = "分类图标", dataTypeClass = String.class, paramType = "body",required = true)}
     )
-    public Result update(@RequestBody @Valid GoodsCategoryDTO goodsCategoryDTO) {
-        if (ObjectUtils.isEmpty(goodsCategoryDTO.getId())) {
+    public Result update(@RequestBody @Valid CategoryDTO categoryDTO) {
+        if (ObjectUtils.isEmpty(categoryDTO.getId())) {
             return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(),"更新分类ID不能为空");
         }
 
-        GoodsCategory category = goodsCategoryDTO.convert();
+        Category category = categoryDTO.convert();
         if (GlobalConst.NOT_UNIQUE.equals(goodsCategoryService.checkUnique(category))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"商品分类已存在");
         }
 
-        goodsCategoryService.update(goodsCategoryDTO);
+        goodsCategoryService.update(categoryDTO);
         return ResultUtil.success();
     }
 
@@ -98,11 +98,11 @@ public class GoodsCategoryController {
                     @ApiImplicitParam(name = "level", value = "层级", dataTypeClass = Integer.class, paramType = "body", defaultValue = "0")
             }
     )
-    public Result treeSelect(@ModelAttribute GoodsCategoryDTO goodsCategoryDTO) {
-        if (ObjectUtils.isEmpty(goodsCategoryDTO.getParentId()) && ObjectUtils.isEmpty(goodsCategoryDTO.getLevel())) {
-            goodsCategoryDTO.setParentId(0L);
+    public Result treeSelect(@ModelAttribute CategoryDTO categoryDTO) {
+        if (ObjectUtils.isEmpty(categoryDTO.getParentId()) && ObjectUtils.isEmpty(categoryDTO.getLevel())) {
+            categoryDTO.setParentId(0L);
         }
-        return ResultUtil.success(goodsCategoryService.treeSelect(goodsCategoryDTO.getParentId(),goodsCategoryDTO.getLevel()));
+        return ResultUtil.success(goodsCategoryService.treeSelect(categoryDTO.getParentId(), categoryDTO.getLevel()));
     }
 
     @ApiOperation("商品分类简单查询")
@@ -112,7 +112,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path",required = true)}
     )
     public Result get(@PathVariable @Valid @NotBlank(message = "id不能未空") String id) {
-        Optional<GoodsCategory> productCategory = goodsCategoryService.get(GoodsCategory.builder().id(Long.valueOf(id)).build());
+        Optional<Category> productCategory = goodsCategoryService.get(Category.builder().id(Long.valueOf(id)).build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
     }
@@ -124,7 +124,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result detail(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
-        Optional<GoodsCategory> productCategory = goodsCategoryService.detail(GoodsCategory.builder()
+        Optional<Category> productCategory = goodsCategoryService.detail(Category.builder()
                 .code(Long.valueOf(code)).build());
         return productCategory.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST.getCode(), "商品分类信息未找到"));
@@ -142,7 +142,7 @@ public class GoodsCategoryController {
             {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
     )
     public Result getLeaf(@PathVariable @Valid @NotBlank(message = "code不能未空") String code) {
-        Optional<GoodsCategory> productCategory = goodsCategoryService.get(GoodsCategory.builder()
+        Optional<Category> productCategory = goodsCategoryService.get(Category.builder()
                 .code(Long.valueOf(code))
                 .leaf(GlobalConst.TRUE)
                 .build());
@@ -159,10 +159,10 @@ public class GoodsCategoryController {
     @GetMapping("/leaf/selectOption")
     @RequirePermissions("product:category:query")
     public Result selectOption() {
-        List<GoodsCategory> productCategorys = goodsCategoryService.list(GoodsCategoryDTO.builder()
+        List<Category> productCategorys = goodsCategoryService.list(CategoryDTO.builder()
                 .leaf(GlobalConst.TRUE)
                 .build());
-        return ResultUtil.success(GoodsCategoryAssembler.buildSelect(productCategorys));
+        return ResultUtil.success(CategoryAssembler.buildSelect(productCategorys));
     }
 
     @ApiOperation("商品分类删除")

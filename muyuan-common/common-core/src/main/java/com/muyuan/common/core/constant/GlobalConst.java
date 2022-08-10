@@ -3,6 +3,7 @@ package com.muyuan.common.core.constant;
 public interface GlobalConst {
 
     String MASTER_PREFIX = "MASTER_";
+
     String SLAVE_PREFIX = "SLAVE_";
 
     String CAPTCHA_KEY_PREFIX = "captcha:";

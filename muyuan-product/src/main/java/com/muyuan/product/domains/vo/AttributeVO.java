@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2022-06-23T10:46:02.101+08:00
  */
 @Data
-public class CategoryAttributeVO {
+public class AttributeVO {
 
     /**  */
     private Long id;

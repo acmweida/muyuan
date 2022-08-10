@@ -7,9 +7,9 @@ import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.product.domains.dto.CategoryAttributeDTO;
-import com.muyuan.product.domains.model.CategoryAttribute;
-import com.muyuan.product.domains.service.CategoryAttributeService;
+import com.muyuan.product.domains.dto.AttributeDTO;
+import com.muyuan.product.domains.model.Attribute;
+import com.muyuan.product.domains.service.AttributeService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/category/attribute")
 @AllArgsConstructor
-public class CategoryAttributeController {
+public class AttributeController {
 
-    private CategoryAttributeService categoryAttributeService;
+    private AttributeService attributeService;
 
 
     /**
@@ -46,10 +46,10 @@ public class CategoryAttributeController {
             }
     )
     @PostMapping
-    public Result add(@RequestBody @Validated CategoryAttributeDTO categoryAttribute)
+    public Result add(@RequestBody @Validated AttributeDTO categoryAttribute)
     {
         if (GlobalConst.NOT_UNIQUE.equals(
-                categoryAttributeService.checkUnique(CategoryAttribute.builder()
+                attributeService.checkUnique(Attribute.builder()
                         .name(categoryAttribute.getName())
                         .categoryCode(categoryAttribute.getCategoryCode())
                         .build())
@@ -57,7 +57,7 @@ public class CategoryAttributeController {
             return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(),"属性名称已存在");
         }
 
-        categoryAttributeService.add(categoryAttribute);
+        attributeService.add(categoryAttribute);
         return ResultUtil.success();
     }
 
@@ -76,12 +76,12 @@ public class CategoryAttributeController {
                     @ApiImplicitParam(name = "inputType", value = "输入类型 0-手动输入 1-选择输入 ", dataTypeClass = Integer.class, paramType = "body",required = true)
             }
     )
-    public Result update(@RequestBody @Validated CategoryAttributeDTO categoryAttribute)
+    public Result update(@RequestBody @Validated AttributeDTO categoryAttribute)
     {
         if (ObjectUtils.isEmpty(categoryAttribute.getId()))  {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"Id不能为NULl");
         }
-            categoryAttributeService.update(categoryAttribute);
+            attributeService.update(categoryAttribute);
         return ResultUtil.success();
     }
 
@@ -97,7 +97,7 @@ public class CategoryAttributeController {
     @DeleteMapping("/{ids}")
     public Result remove(@PathVariable String[] ids)
     {
-        categoryAttributeService.delete(ids);
+        attributeService.delete(ids);
         return ResultUtil.success();
     }
 }

@@ -6,12 +6,12 @@ import com.muyuan.product.domains.dto.GoodsDTO;
 import com.muyuan.product.domains.dto.SkuDTO;
 import com.muyuan.product.domains.model.Brand;
 import com.muyuan.product.domains.model.Goods;
-import com.muyuan.product.domains.model.GoodsCategory;
+import com.muyuan.product.domains.model.Category;
 import com.muyuan.product.domains.model.Sku;
 import com.muyuan.product.domains.repo.GoodsRepo;
 import com.muyuan.product.domains.repo.SkuRepo;
 import com.muyuan.product.domains.service.BrandService;
-import com.muyuan.product.domains.service.GoodsCategoryService;
+import com.muyuan.product.domains.service.CategoryService;
 import com.muyuan.product.domains.service.GoodsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     private BrandService brandService;
 
-    private GoodsCategoryService goodsCategoryService;
+    private CategoryService categoryService;
 
     @Override
     public Page<Goods> page(GoodsDTO goodsDTO, Long shopId) {
@@ -69,7 +69,7 @@ public class GoodsServiceImpl implements GoodsService {
         }).getName());
 
         // 类目信息
-        Optional<GoodsCategory> goodsCategory = goodsCategoryService.get(GoodsCategory.builder()
+        Optional<Category> goodsCategory = categoryService.get(Category.builder()
                 .code(goods.getCategoryCode())
                 .build());
 

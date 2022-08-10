@@ -12,7 +12,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class GoodsCategoryVO {
+public class CategoryVO {
 
     private  Long id;
 
@@ -47,5 +47,5 @@ public class GoodsCategoryVO {
     /**
      * 属性
      */
-    private List<CategoryAttributeVO> attributes;
+    private List<AttributeVO> attributes;
 }

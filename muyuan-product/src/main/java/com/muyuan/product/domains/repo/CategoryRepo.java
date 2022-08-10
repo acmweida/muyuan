@@ -2,8 +2,8 @@ package com.muyuan.product.domains.repo;
 
 import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.product.domains.model.BrandCategory;
-import com.muyuan.product.domains.model.GoodsCategory;
-import com.muyuan.product.domains.dto.GoodsCategoryDTO;
+import com.muyuan.product.domains.model.Category;
+import com.muyuan.product.domains.dto.CategoryDTO;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @Date 2022/6/10 11:37
  * @Version 1.0
  */
-public interface GoodsCategoryRepo extends BaseRepo {
+public interface CategoryRepo extends BaseRepo {
 
     String LEVEL = "level";
 
@@ -30,33 +30,33 @@ public interface GoodsCategoryRepo extends BaseRepo {
 
     Object[] STATUS_OK = new String[]{"0","1"};
 
-    List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
+    List<Category> list(CategoryDTO categoryDTO);
 
-    List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO, String... column);
+    List<Category> list(CategoryDTO categoryDTO, String... column);
 
-    GoodsCategory selectOne(GoodsCategory goodsCategory);
+    Category selectOne(Category category);
 
-    void insert(GoodsCategory goodsCategory);
+    void insert(Category category);
 
-    void update(GoodsCategory goodsCategory);
+    void update(Category category);
 
-    void update(GoodsCategory goodsCategory, String... column);
+    void update(Category category, String... column);
 
     /**
      * Count 兄弟节点
      *
-     * @param goodsCategoryDTO
+     * @param categoryDTO
      * @return
      */
-    int count(GoodsCategoryDTO goodsCategoryDTO);
+    int count(CategoryDTO categoryDTO);
 
     /**
      * Count 兄弟节点 包括被删除节点
      *
-     * @param goodsCategoryDTO
+     * @param categoryDTO
      * @return
      */
-    int countAll(GoodsCategoryDTO goodsCategoryDTO);
+    int countAll(CategoryDTO categoryDTO);
 
     void delete(Long[] ids);
 

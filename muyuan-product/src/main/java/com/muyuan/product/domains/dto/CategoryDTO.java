@@ -1,7 +1,7 @@
 package com.muyuan.product.domains.dto;
 
 import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.product.domains.model.GoodsCategory;
+import com.muyuan.product.domains.model.Category;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class GoodsCategoryDTO extends BaseDTO<GoodsCategoryDTO, GoodsCategory> {
+public class CategoryDTO extends BaseDTO<CategoryDTO, Category> {
 
     @NotBlank(message = "分类名称不能为空")
     private String name;

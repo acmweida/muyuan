@@ -1,8 +1,8 @@
 package com.muyuan.product.domains.service;
 
 import com.muyuan.common.core.bean.SelectTree;
-import com.muyuan.product.domains.dto.GoodsCategoryDTO;
-import com.muyuan.product.domains.model.GoodsCategory;
+import com.muyuan.product.domains.dto.CategoryDTO;
+import com.muyuan.product.domains.model.Category;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,15 +14,15 @@ import java.util.Optional;
  * @Date 2022/6/9 15:41
  * @Version 1.0
  */
-public interface GoodsCategoryService {
+public interface CategoryService {
 
     /**
      * 分类列表查询
      *
-     * @param goodsCategoryDTO
+     * @param categoryDTO
      * @return
      */
-    List<GoodsCategory> list(GoodsCategoryDTO goodsCategoryDTO);
+    List<Category> list(CategoryDTO categoryDTO);
 
     /**
      * 选择
@@ -34,24 +34,24 @@ public interface GoodsCategoryService {
     /**
      * 新增分类
      *
-     * @param goodsCategoryDTO
+     * @param categoryDTO
      */
-    void add(GoodsCategoryDTO goodsCategoryDTO);
+    void add(CategoryDTO categoryDTO);
 
     /**
      * 更新分类
      *
-     * @param goodsCategoryDTO
+     * @param categoryDTO
      */
-    void update(GoodsCategoryDTO goodsCategoryDTO);
+    void update(CategoryDTO categoryDTO);
 
     /**
      * 唯一性查询
      *
-     * @param goodsCategory
+     * @param category
      * @return
      */
-    String checkUnique(GoodsCategory goodsCategory);
+    String checkUnique(Category category);
 
     /**
      * 获取详情
@@ -59,7 +59,7 @@ public interface GoodsCategoryService {
      * @param id
      * @return
      */
-    Optional<GoodsCategory> get(GoodsCategory id);
+    Optional<Category> get(Category id);
 
     /**
      * 获取详情
@@ -67,7 +67,7 @@ public interface GoodsCategoryService {
      * @param id
      * @return
      */
-    Optional<GoodsCategory> detail(GoodsCategory id);
+    Optional<Category> detail(Category id);
 
     /**
      * 删除ID
