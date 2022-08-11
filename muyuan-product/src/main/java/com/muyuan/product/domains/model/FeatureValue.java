@@ -3,14 +3,14 @@ package com.muyuan.product.domains.model;
 import lombok.Data;
 
 /**
- * @ClassName GeneralAttribute
- * Description 通用类目属性值
+ * @ClassName FeatureValue
+ * Description 特征值
  * @Author 2456910384
  * @Date 2022/8/10 11:20
  * @Version 1.0
  */
 @Data
-public class GeneralAttributeValue {
+public class FeatureValue {
 
     private Long id;
 

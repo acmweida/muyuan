@@ -5,14 +5,14 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName GeneralAttribute
- * Description 通用类目属性
+ * @ClassName Feature
+ * Description 特征量
  * @Author 2456910384
  * @Date 2022/8/10 11:20
  * @Version 1.0
  */
 @Data
-public class GeneralAttribute {
+public class Feature {
 
     /**  */
     private Long id;
