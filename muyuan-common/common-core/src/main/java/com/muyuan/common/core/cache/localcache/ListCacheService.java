@@ -1,6 +1,6 @@
 package com.muyuan.common.core.cache.localcache;
 
-import com.muyuan.common.core.cache.AbstractCacheService;
+import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.util.MathUtil;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Date 2022/5/17 9:35
  * @Version 1.0
  */
-public abstract class ListCacheService<T> extends AbstractCacheService {
+public abstract class ListCacheService<T> implements CacheService {
 
     protected abstract T createExpireCache(long maxExpireTime);
 

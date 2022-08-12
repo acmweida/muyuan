@@ -4,7 +4,7 @@ import com.muyuan.common.mybatis.id.IdGenerator;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.common.mybatis.jdbc.crud.SqlHelper;
 import com.muyuan.common.mybatis.jdbc.multi.DataSource;
-import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
+import com.muyuan.common.mybatis.jdbc.JdbcBaseMapper;
 import com.muyuan.common.mybatis.util.StatementUtil;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;

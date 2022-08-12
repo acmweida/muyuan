@@ -287,6 +287,7 @@ public class SqlBuilder {
 
     public void buildSelectColumn(Map<String,Object> params) {
         if (null == columns && null != target) {
+
             String[] columns = (String[]) LocalCacheService.getInstance().getAndUpdate(target.getName(),
                     () -> {
                         List<String> column = new ArrayList<>();

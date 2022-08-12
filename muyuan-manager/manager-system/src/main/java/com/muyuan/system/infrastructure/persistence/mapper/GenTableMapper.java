@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 业务 数据层
  * 
- * @author ruoyi
+ * @author 
  */
 @Mapper
 public interface GenTableMapper extends SystemBaseMapper<GenTable>

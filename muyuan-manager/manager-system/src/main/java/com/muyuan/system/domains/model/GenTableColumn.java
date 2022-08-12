@@ -2,7 +2,6 @@ package com.muyuan.system.domains.model;
 
 import com.muyuan.common.core.constant.BaseRepo;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.jdbc.mybatis.JdbcBaseMapper;
 import com.muyuan.system.infrastructure.common.GenConstants;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
@@ -13,7 +12,7 @@ import java.util.Date;
 /**
  * 代码生成业务字段表 gen_table_column
  *
- * @author ruoyi
+ * @author 
  */
 @Data
 public class GenTableColumn {

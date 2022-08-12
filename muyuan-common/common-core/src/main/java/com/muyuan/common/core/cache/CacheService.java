@@ -1,5 +1,7 @@
 package com.muyuan.common.core.cache;
 
+import com.muyuan.common.core.util.FunctionUtil;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -29,13 +31,41 @@ public interface CacheService {
      */
     Object get(String key);
 
-    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime);
+    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache) {
+        return  FunctionUtil.getIfNullThenRebuild(
+                () -> getCache.apply(key),
+                supplier,
+                setCache
+        ).get();
+    }
 
-    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime, long nullExpire);
+    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache) {
+        return  getAndUpdate(
+                key,
+                getCache,
+                supplier,
+                (value) -> {
+                    setCache.accept(key,value);
+                }
+        );
+    }
 
-    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache);
+    default Object getAndUpdate(String key, Function<String, Object> getCache,Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime) {
+        return getAndUpdate(key,getCache, supplier,setCache, expireTime, DEFAULT_EXPIRE_TIME);
+    }
 
-    Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache);
+    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime, long nullExpire) {
+        return getAndUpdate(key, getCache, supplier,
+                setCache.andThen(
+                        (k,v) ->  {
+                            if (v == null) {
+                                expire(k,nullExpire);
+                            } else {
+                                expire(k,expireTime);
+                            }
+                        }
+                ));
+    }
 
 
     /**

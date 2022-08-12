@@ -1,6 +1,6 @@
 package com.muyuan.auth.base.config;
 
-import com.muyuan.auth.base.auhenticationprovider.ImageCaptchaAuthenticationProvider;
+import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
 import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.muyuan.common.web.config.WebMvcConfig;
 import org.springframework.beans.factory.annotation.Autowired;

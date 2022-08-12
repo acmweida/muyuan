@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.muyuan.member.infrastructure.persistence.mapper.MenuMapper">
+<mapper namespace="com.store.system.infrastructure.persistence.mapper.MenuMapper">
     <delete id="delete">
         delete  from t_menu where parent_id != 0
         and parent_id not in (
@@ -27,7 +27,7 @@
                                   </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleCodes" resultType="com.muyuan.member.domains.model.Menu">
+    <select id="selectMenuByRoleCodes" resultType="com.store.system.domains.model.Menu">
         select menu.* from (
         select * from t_menu where type in ('M','C') order by order_num
         ) menu
@@ -43,7 +43,7 @@
     </select>
 
 
-    <select id="selectMenuByRoleId" resultType="com.muyuan.member.domains.model.Menu">
+    <select id="selectMenuByRoleId" resultType="com.store.system.domains.model.Menu">
         select menu.* from (
         select * from t_menu order by order_num
         ) menu

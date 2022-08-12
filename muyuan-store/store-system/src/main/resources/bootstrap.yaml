@@ -23,7 +23,7 @@ logging:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.member.interfaces.facade.api
+    base-packages: com.store.system.interfaces.facade.api
   protocol:
     name: dubbo
     port: 21002

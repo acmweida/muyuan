@@ -4,7 +4,7 @@ package com.muyuan.common.core.util;
 /**
  * 字符串格式化
  * 
- * @author ruoyi
+ * @author 
  */
 public class StrFormatter
 {

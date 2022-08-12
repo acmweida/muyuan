@@ -3,7 +3,7 @@ package com.muyuan.common.log.enums;
 /**
  * 操作人类别
  * 
- * @author ruoyi
+ * @author 
  */
 public enum OperatorType
 {

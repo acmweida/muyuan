@@ -1,6 +1,5 @@
 package com.muyuan.common.redis.manage;
 
-import com.muyuan.common.core.cache.AbstractCacheService;
 import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.JSONUtil;
@@ -22,7 +21,7 @@ import java.util.function.Supplier;
  */
 @Data
 @AllArgsConstructor
-public class RedisCacheService extends AbstractCacheService implements CacheService {
+public class RedisCacheService implements CacheService {
 
 
     /**

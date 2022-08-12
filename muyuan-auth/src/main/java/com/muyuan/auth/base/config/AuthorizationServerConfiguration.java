@@ -1,7 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
-import com.muyuan.auth.base.granter.ImageCaptchaTokenGranter;
+import com.muyuan.auth.base.oauth2.granter.ImageCaptchaTokenGranter;
 import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.common.core.constant.SecurityConst;

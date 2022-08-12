@@ -19,7 +19,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig {
 
-
     @Bean
     public CacheManager cacheManager(LettuceConnectionFactory factory) {
         RedisCacheConfiguration config =RedisCacheConfiguration.defaultCacheConfig();

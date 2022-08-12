@@ -11,7 +11,8 @@ import java.util.Set;
 public interface UserInterface {
 
     /**
-     *  通过账号获取用户信息
+     * 通过账号获取用户信息
+     *
      * @param username 用户名
      * @return
      */
@@ -19,6 +20,7 @@ public interface UserInterface {
 
     /**
      * 通过角色获取权限集合
+     *
      * @param roleIds
      * @return
      */
@@ -27,7 +29,8 @@ public interface UserInterface {
 
     /**
      * 账户关联店铺ID
-     * @param userId
+     *
+     * @param shopId
      * @param shopId
      * @return
      */

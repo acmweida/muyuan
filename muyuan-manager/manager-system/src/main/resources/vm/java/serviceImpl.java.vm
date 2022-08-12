@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 #if($table.sub)
 import java.util.ArrayList;
-import com.ruoyi.common.core.utils.StringUtils;
+import com..common.core.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.${moduleName}.domains.model.${subClassName};
 #end

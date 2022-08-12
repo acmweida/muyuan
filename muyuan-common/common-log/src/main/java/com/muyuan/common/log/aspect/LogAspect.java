@@ -30,7 +30,7 @@ import java.util.Objects;
 /**
  * 操作日志记录处理
  * 
- * @author ruoyi
+ * @author 
  */
 @Aspect
 @Component
