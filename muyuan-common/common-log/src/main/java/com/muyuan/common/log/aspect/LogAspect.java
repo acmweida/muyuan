@@ -7,7 +7,7 @@ import com.muyuan.common.log.service.AsyncLogService;
 import com.muyuan.common.web.util.IpUtils;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.common.web.util.ServletUtils;
-import com.muyuan.system.interfaces.to.SysOperLogTO;
+import com.muyuan.menager.interfaces.to.SysOperLogTO;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

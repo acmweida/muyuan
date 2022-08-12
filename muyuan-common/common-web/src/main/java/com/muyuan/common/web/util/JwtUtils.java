@@ -1,7 +1,7 @@
 package com.muyuan.common.web.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.exception.handler.UnAuthorizedException;
 import com.muyuan.common.core.util.JSONUtil;
 import lombok.SneakyThrows;

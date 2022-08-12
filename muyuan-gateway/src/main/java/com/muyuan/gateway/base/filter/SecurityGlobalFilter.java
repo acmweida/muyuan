@@ -1,6 +1,6 @@
 package com.muyuan.gateway.base.filter;
 
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.gateway.util.ResponseUtils;

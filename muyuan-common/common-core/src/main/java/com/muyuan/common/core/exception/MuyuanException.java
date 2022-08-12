@@ -12,8 +12,6 @@ public class MuyuanException extends RuntimeException implements MuyuanException
 
     private String message;
 
-
-
     public MuyuanException(int code,String message) {
         super();
         this.code = code;
@@ -22,6 +20,7 @@ public class MuyuanException extends RuntimeException implements MuyuanException
 
     @Override
     public Result handle(MuyuanException e) {
+        e.printStackTrace();
         log.error("error code :{} -> message:{}",code,message);
         return ResultUtil.fail(code,message);
     }
@@ -30,16 +29,9 @@ public class MuyuanException extends RuntimeException implements MuyuanException
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     @Override
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

@@ -72,15 +72,14 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-system-api</artifactId>
+            <artifactId>manager-user-api</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-member-api</artifactId>
+            <artifactId>store-user-api</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
-
 
     </dependencies>
 </project>

@@ -1,6 +1,6 @@
 package com.muyuan.common.log.service;
 
-import com.muyuan.system.interfaces.to.SysOperLogTO;
+import com.muyuan.menager.interfaces.to.SysOperLogTO;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

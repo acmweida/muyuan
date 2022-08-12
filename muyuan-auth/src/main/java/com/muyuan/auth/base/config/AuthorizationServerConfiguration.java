@@ -4,7 +4,7 @@ import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.auth.base.granter.ImageCaptchaTokenGranter;
 import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
@@ -128,7 +128,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                     UserInfo user = (UserInfo) (authentication.getUserAuthentication()).getPrincipal();
                     info.put(SecurityConst.USER_NAME_KEY,user.getUsername());
                     info.put(SecurityConst.USER_ID_KEY,user.getId());
-                    info.put(SecurityConst.USER_TYPE, UserType.MEMBER);
+                    info.put(SecurityConst.USER_TYPE, UserType.STORE);
                     info.put(SecurityConst.SHOP_ID_KEY, user.getShopId());
                 } else {
                     SysUserInfo sysUserInfo = ((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal());

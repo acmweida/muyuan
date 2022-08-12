@@ -18,9 +18,6 @@
         <module>common-dubbo</module>
         <module>common-log</module>
         <module>common-mybatis</module>
-        <module>muyuan-system-api</module>
-        <module>muyuan-member-api</module>
-        <module>muyuan-common-api</module>
     </modules>
 
     <properties>

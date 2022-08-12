@@ -1,14 +1,14 @@
 package com.muyuan.common.web.aspect;
 
 import com.muyuan.common.core.constant.Logical;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.core.constant.auth.SecurityConst;
 import com.muyuan.common.core.enums.UserType;
-import com.muyuan.common.core.exception.NotPermissionException;
+import com.muyuan.common.core.exception.handler.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.member.api.UserInterface;
-import com.muyuan.system.api.SysUserInterface;
+import com.muyuan.menager.api.SysUserInterface;
+import com.muyuan.store.api.UserInterface;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -122,7 +122,7 @@ public class PreAuthorizeAspect {
         List<String> roles = SecurityUtils.getRoles();
         Set<String> permissionList = new HashSet<>();
         switch (UserType.valueOf(SecurityUtils.getUserType())) {
-            case MEMBER:
+            case STORE:
                 permissionList = userInterface.getMenuPermissionByRoleCodes(roles);
                 break;
             case SYSUSER:

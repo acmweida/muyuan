@@ -7,10 +7,10 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.member.api.UserInterface;
-import com.muyuan.member.interfaces.to.UserTO;
-import com.muyuan.system.api.SysUserInterface;
-import com.muyuan.system.interfaces.to.SysUserTO;
+import com.muyuan.menager.api.SysUserInterface;
+import com.muyuan.menager.interfaces.to.SysUserTO;
+import com.muyuan.store.api.UserInterface;
+import com.muyuan.store.interfaces.to.UserTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserByUsername(String username, String userType) throws UsernameNotFoundException {
-        if (UserType.MEMBER.name().equals(userType)) {
+        if (UserType.STORE.name().equals(userType)) {
             Result<UserTO> result = userInterFace.getUserByUsername(username);
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);

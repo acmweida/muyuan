@@ -6,12 +6,17 @@ package com.muyuan.common.core.enums;
 public enum UserType {
 
     /**
-     * 商家用户
+     * 商家用户（卖家）
+     */
+    STORE,
+
+    /**
+     * 会员（买家）
      */
     MEMBER,
 
     /**
-     * 系统用户
+     * 管理员用户
      */
     SYSUSER;
 }

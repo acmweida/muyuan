@@ -2,7 +2,7 @@ package com.muyuan.common.core.global;
 
 /**
  * @ClassName AbstractCounter
- * Description TODO
+ * Description AbstractCounter
  * @Author 2456910384
  * @Date 2022/7/29 10:10
  * @Version 1.0

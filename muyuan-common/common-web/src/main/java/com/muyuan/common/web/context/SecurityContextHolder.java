@@ -1,7 +1,7 @@
 package com.muyuan.common.web.context;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.util.Convert;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.util.JwtUtils;

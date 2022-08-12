@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 
 /**
  * @ClassName ApplicatoinContextHandler
- * Description TODO
+ * Description ApplicationContextHandler
  * @Author 2456910384
  * @Date 2021/10/13 16:36
  * @Version 1.0

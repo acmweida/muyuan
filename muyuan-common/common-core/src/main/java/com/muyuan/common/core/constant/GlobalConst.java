@@ -13,8 +13,6 @@ public interface GlobalConst {
 
     String FALSE = "1";
 
-    String ID = "id";
-
     long KB = 1024;
 
     long MB = KB << 10;

@@ -10,4 +10,6 @@ public interface ServiceTypeConst {
 
     String SHOP_SERVICE = "shop";
 
+    String PRODUCT_SERVICE = "product";
+
 }

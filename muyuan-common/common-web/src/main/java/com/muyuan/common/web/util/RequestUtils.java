@@ -1,6 +1,6 @@
 package com.muyuan.common.web.util;
 
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.util.StrUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

@@ -6,14 +6,12 @@
     <modules>
         <module>muyuan-common</module>
         <module>muyuan-auth</module>
-        <module>muyuan-member</module>
-        <module>muyuan-system</module>
-        <module>muyuan-product</module>
+        <module>muyuan-store</module>
         <module>muyuan-gateway</module>
-        <module>muyuan-pay</module>
-        <module>muyuan-shop</module>
-        <module>muyuan-activity</module>
         <module>muyuan-common-server</module>
+        <module>muyuan-api</module>
+        <module>muyuan-manager</module>
+        <module>muyuan-member</module>
     </modules>
 
     <parent>

@@ -5,7 +5,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.muyuan.auth.controller.LoginController;
 import com.muyuan.auth.vo.CaptchaVo;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;

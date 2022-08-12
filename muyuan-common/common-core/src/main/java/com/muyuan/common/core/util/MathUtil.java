@@ -29,8 +29,4 @@ public class MathUtil {
         return i;
     }
 
-    public static void main(String[] args) {
-        System.out.println(dtNextPow2(1));
-        System.out.println(bit(1));
-    }
 }

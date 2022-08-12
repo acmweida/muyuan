@@ -1,6 +1,6 @@
 package com.muyuan.gateway.base.config;
 
-import com.muyuan.common.core.constant.auth.SecurityConst;
+import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
 import com.muyuan.gateway.base.config.swagger.SwaggerHeaderFilter;
