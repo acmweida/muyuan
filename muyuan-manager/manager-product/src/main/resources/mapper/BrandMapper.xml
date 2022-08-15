@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.muyuan.product.infrastructure.persistence.mapper.BrandMapper">
+<mapper namespace="com.muyuan.manager.product.infrastructure.persistence.mapper.BrandMapper">
 
-    <resultMap type="com.muyuan.product.domains.model.Brand" id="BrandResult">
+    <resultMap type="com.muyuan.manager.product.domains.model.Brand" id="BrandResult">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="logo" column="logo"/>
@@ -42,7 +42,7 @@
     </sql>
 
 
-    <select id="selectBy" resultType="com.muyuan.product.domains.model.Brand" parameterType="com.muyuan.product.domains.dto.BrandDTO">
+    <select id="selectBy" resultType="com.muyuan.manager.product.domains.model.Brand" parameterType="com.muyuan.manager.product.domains.dto.BrandDTO">
         select brand.*
         from (
                  select *

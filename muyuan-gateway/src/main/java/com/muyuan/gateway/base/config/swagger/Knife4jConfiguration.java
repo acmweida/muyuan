@@ -10,7 +10,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * @ClassName Knife4jConfiguration
@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @Version 1.0
  */
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 public class Knife4jConfiguration {
 
     @Value("${spring.application.name}")
@@ -44,7 +44,7 @@ public class Knife4jConfiguration {
                 .title("后端接口文档-" + name)
                 .description("<div style='font-size:14px;color:red;'>description</div>")
                 .termsOfServiceUrl("N")
-                .contact(new Contact("HollanZang", "https://juejin.cn/user/352263461681214", "zhn.pop@gmail.com"))
+                .contact(new Contact("muyuan", "https://juejin.cn/user/352263461681214", "zhn.pop@gmail.com"))
                 .version("1.0")
                 .build();
     }

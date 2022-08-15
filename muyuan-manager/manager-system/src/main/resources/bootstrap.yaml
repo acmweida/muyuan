@@ -1,6 +1,6 @@
 spring:
   application:
-    name: system
+    name: manager-system
   main:
     allow-bean-definition-overriding: true
 server:
@@ -24,7 +24,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.system.interfaces.facade.api
+    base-packages: com.muyuan.manager.system.interfaces.facade.api
   protocol:
     name: dubbo
     port: 21003

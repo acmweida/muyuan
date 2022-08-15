@@ -29,9 +29,10 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.version>2.0.9</knife4j.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <velocity.version>2.3</velocity.version>
+        <validation.version>2.0.1.Final</validation.version>
     </properties>
 
     <dependencyManagement>
@@ -118,6 +119,13 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation.version}</version>
         </dependency>
 
     </dependencies>

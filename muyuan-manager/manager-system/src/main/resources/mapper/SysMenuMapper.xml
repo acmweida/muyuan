@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.muyuan.system.infrastructure.persistence.mapper.SysMenuMapper">
+<mapper namespace="com.muyuan.manager.system.infrastructure.persistence.mapper.SysMenuMapper">
 
 
     <select id="selectMenuPermissionByRoleCodes" resultType="java.lang.String">
@@ -18,7 +18,7 @@
                                   </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleCodes" resultType="com.muyuan.system.domains.model.SysMenu">
+    <select id="selectMenuByRoleCodes" resultType="com.muyuan.manager.system.domains.model.SysMenu">
         select menu.* from (
         select * from t_sys_menu where type in ('M','C') order by order_num
         ) menu
@@ -32,7 +32,7 @@
         </foreach>
         ) role on role.id = role_menu.role_id
     </select>
-    <select id="selectMenuByRoleId" resultType="com.muyuan.system.domains.model.SysMenu">
+    <select id="selectMenuByRoleId" resultType="com.muyuan.manager.system.domains.model.SysMenu">
         select menu.* from (
         select * from t_sys_menu order by order_num
         ) menu

@@ -29,6 +29,11 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: system,member
+    subscribed-services: manager-system,member
   registry:
     address: spring-cloud://localhost
+knife4j:
+  setting:
+    enableSwaggerModels: true
+    enableOpenApi: true
+
