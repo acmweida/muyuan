@@ -1,10 +1,12 @@
-package com.muyuan.store.system.infrastructure.config.mybatis;
+package com.muyuan.manager.system.infrastructure.config;
 
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.mybatis.config.SystemJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.MutiDataSourceConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
+import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.SystemReadWriteJdbcConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -21,7 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@MapperScan("com.store.system.infrastructure.persistence.mapper")
+@MapperScan("com.muyuan.manager.system.infrastructure.persistence.mapper")
+@Import(SystemJdbcConfig.class)
 public class MybatisConfig {
 
     @Value("${db.read-method-prefix:select,find,get}")
@@ -31,7 +35,7 @@ public class MybatisConfig {
     private List<String> writeMethodPrefix;
 
     @Bean
-    public DataSource dataSource(MemberJdbcConfig jdbcConfig) {
+    public DataSource dataSource(SystemJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -43,7 +47,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime(30 * 1000);
-        dataSourceMap.put(MemberJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(SystemJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);
@@ -51,9 +55,9 @@ public class MybatisConfig {
     }
 
     @Bean
-    @ConditionalOnBean(MemberReadWriteJdbcConfig.class)
+    @ConditionalOnBean(SystemReadWriteJdbcConfig.class)
     @ConditionalOnMissingBean(DataSource.class)
-    public DataSource dataSource(MemberReadWriteJdbcConfig memberJdbcConfig) {
+    public DataSource dataSource(SystemReadWriteJdbcConfig systemJdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -62,11 +66,12 @@ public class MybatisConfig {
         config.setWriteMethodPrefix(writeMethodPrefix);
         config.setReadMethodPrefix(readMethodPrefix);
 
-        dataSourceMap.putAll(addDataSourceConfig(memberJdbcConfig, MemberReadWriteJdbcConfig.DATASOURCE_NAME,config));
+        dataSourceMap.putAll(addDataSourceConfig(systemJdbcConfig,SystemReadWriteJdbcConfig.DATASOURCE_NAME,config));
 
 
         dataSources.setMutiDateSourceConfig(config);
         dataSources.setTargetDataSources(dataSourceMap);
+
         dataSources.setDefaultTargetDataSource(config.getDefaultDateSource());
         return dataSources;
     }
@@ -86,6 +91,7 @@ public class MybatisConfig {
         int i=0;
         String dataSourceId;
         for (JdbcConfig jdbcConfig : masters) {
+
             HikariDataSource dataSource = new HikariDataSource();
             dataSource.setDriverClassName(jdbcConfig.getDriverClassName());
             dataSource.setJdbcUrl(jdbcConfig.getUrl());
@@ -94,6 +100,7 @@ public class MybatisConfig {
             dataSource.setMaximumPoolSize(4);
             dataSource.setMinimumIdle(8);
             dataSource.setMaxLifetime(30 * 1000);
+
             if (i == 0) {
                 mutiDataSourceConfig.setDefaultDateSource(dataSource);
             }
@@ -119,6 +126,7 @@ public class MybatisConfig {
 
         mutiDataSourceConfig.getReadWriteSplit().put(GlobalConst.MASTER_PREFIX + dataSourceName,masterIds);
         mutiDataSourceConfig.getReadWriteSplit().put(GlobalConst.SLAVE_PREFIX + dataSourceName,slaveIds);
+
 
         return dataSourceMap;
     }

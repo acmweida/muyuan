@@ -129,7 +129,7 @@ public class MenuController {
     }
 
     @RequirePermissions("system:menu:add")
-    @PostMapping("/menu/token")
+    @GetMapping("/menu/token")
     @ApiOperation("token生成")
     public Result token() {
         String token = TokenUtil.generate(TokenType.ADD_MENU);

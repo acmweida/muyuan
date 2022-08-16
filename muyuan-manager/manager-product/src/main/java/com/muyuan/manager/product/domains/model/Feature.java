@@ -3,6 +3,7 @@ package com.muyuan.manager.product.domains.model;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName Feature
@@ -17,17 +18,23 @@ public class Feature {
     /**  */
     private Long id;
 
-    private Long parentId;
-
-    /**
-     * 页面展示类型
-     */
-    private int htmlType;
-
-    /** 属性名称 */
+    /** 特征名称 */
     private String name;
 
+    /** HTML元素类型 */
+    private Long htmlType;
+
+    /** 父属性ID */
+    private Long parentId;
+
+    /** 状态 */
     private Integer status;
+
+    /**  */
+    private Date createTime;
+
+    /** */
+    private Long creator;
 
     /** 属性编码 */
     private String code;
@@ -35,9 +42,7 @@ public class Feature {
     /**  */
     private Long createBy;
 
-    /**  */
-    private String creator;
 
-    /** 创建时间 */
-    private Date createTime;
+    private List<FeatureValue> values;
+
 }

@@ -2,14 +2,10 @@ package com.muyuan.common.core.constant;
 
 public interface ServiceTypeConst {
 
-    String MEMBER_SERVICE = "member";
+    String STORE_SYSTEM = "store-system";
 
-    String SYSTEM_SERVICE = "system";
+    String MANAGER_SYSTEM = "manager-system";
 
-    String COMMON_SERVICE = "common";
-
-    String SHOP_SERVICE = "shop";
-
-    String PRODUCT_SERVICE = "product";
+    String COMMON_SERVICE = "common-service";
 
 }

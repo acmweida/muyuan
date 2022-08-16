@@ -1,4 +1,4 @@
-package com.muyuan.common.core.constant;
+package com.muyuan.common.core.enums;
 
 public enum Logical {
 

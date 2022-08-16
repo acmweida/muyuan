@@ -9,8 +9,7 @@ public enum ResponseCode {
 
     /** 权限 */
     AUTH_FAIL(403,"没有权限"),
-    TOKEN_INVALID_FAIL(402,"TOKEN无效"),
-    TOKEN_NOT_FOUND_FAIL(403,"TOKEN参数未传递"),
+    TOKEN_INVALID_FAIL(401,"TOKEN无效"),
     UNAUTHORIZED(405,"没有登录或者token失效"),
     CLIENT_AUTHENTICATION_FAILED(406,"OAUTH2 CLIENT认证错误"),
 

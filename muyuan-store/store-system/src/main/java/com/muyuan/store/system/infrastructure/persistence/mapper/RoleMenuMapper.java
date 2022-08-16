@@ -1,7 +1,7 @@
 package com.muyuan.store.system.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.SystemBaseMapper;
 import com.muyuan.store.system.domains.model.RoleMenu;
-import com.muyuan.store.system.infrastructure.config.mybatis.MemberBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version 1.0
  */
 @Mapper
-public interface RoleMenuMapper extends MemberBaseMapper<RoleMenu> {
+public interface RoleMenuMapper extends SystemBaseMapper<RoleMenu> {
 
     int delete();
 }

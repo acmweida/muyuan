@@ -1,6 +1,6 @@
-package com.muyuan.manager.system.infrastructure.config.mybatis;
+package com.muyuan.common.mybatis.jdbc.multi.readWriterSplit;
 
-import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
+import com.muyuan.common.mybatis.config.SystemJdbcConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ spring:
   gateway:
     api-prefix: /api
   application:
-    name: member
+    name: store-system
 
 server:
   port: 20002
@@ -23,7 +23,7 @@ logging:
 
 dubbo:
   scan:
-    base-packages: com.store.system.interfaces.facade.api
+    base-packages: com.muyuan.store.system.interfaces.facade.api
   protocol:
     name: dubbo
     port: 21002
@@ -33,7 +33,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: system
+    subscribed-services: manager-system
   provider:
     timeout: 3000
   registry:

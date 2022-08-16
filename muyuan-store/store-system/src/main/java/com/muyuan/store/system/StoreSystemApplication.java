@@ -9,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableAspectJAutoProxy
-@EnableDubbo(scanBasePackages = "com.store.system.interfaces.facade.api")
+@EnableDubbo(scanBasePackages = "com.muyuan.store.system.interfaces.facade.api")
 public class StoreSystemApplication {
 
     public static void main(String[] args) {

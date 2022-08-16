@@ -1,8 +1,9 @@
 spring:
   application:
-    name: product
+    name: manager-product
   main:
     allow-bean-definition-overriding: true
+
 server:
   port: 20004
 
@@ -33,7 +34,6 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: system,common,member
+    subscribed-services: manager-system,common,member
   registry:
     address: spring-cloud://localhost
-

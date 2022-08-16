@@ -1,6 +1,6 @@
 package com.muyuan.store.system.infrastructure.persistence.mapper;
 
-import com.muyuan.store.system.infrastructure.config.mybatis.MemberBaseMapper;
+import com.muyuan.common.mybatis.jdbc.SystemBaseMapper;
 import com.muyuan.store.system.domains.model.Role;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper
-public interface RoleMapper extends MemberBaseMapper<Role> {
+public interface RoleMapper extends SystemBaseMapper<Role> {
 
     String CODE = "code";
 

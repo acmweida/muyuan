@@ -12,10 +12,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableAspectJAutoProxy(exposeProxy = true)
 @EnableDubbo(scanBasePackages = "com.muyuan.product.interfaces.facade.api")
-public class ProductApplication {
+public class ManagerProductApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ProductApplication.class, args);
+        SpringApplication.run(ManagerProductApplication.class, args);
     }
 
 }

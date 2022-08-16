@@ -16,7 +16,7 @@ public class SwaggerHeaderFilter {
 
     private static final String HEADER_NAME = "X-Forwarded-Prefix";
 
-    private static final String URI = "/v2/api-docs";
+    private static final String URI = "/v3/api-docs";
 
     public static WebFilter getWebFilter() {
         return (exchange, chain) -> {

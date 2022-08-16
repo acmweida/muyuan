@@ -1,7 +1,7 @@
-package com.muyuan.store.system.infrastructure.config.mybatis;
+package com.muyuan.common.mybatis.jdbc;
 
+import com.muyuan.common.mybatis.config.SystemJdbcConfig;
 import com.muyuan.common.mybatis.id.IdGenerator;
-import com.muyuan.common.mybatis.jdbc.JdbcBaseMapper;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.common.mybatis.jdbc.crud.SqlHelper;
 import com.muyuan.common.mybatis.jdbc.multi.DataSource;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-@DataSource(MemberJdbcConfig.DATASOURCE_NAME)
-public interface MemberBaseMapper<T> extends JdbcBaseMapper<T> {
+@DataSource(SystemJdbcConfig.DATASOURCE_NAME)
+public interface SystemBaseMapper<T> extends JdbcBaseMapper<T> {
 
     @SelectProvider(value = CrudSqlProvider.class, method = "selectOne")
     T selectOne(Map params);

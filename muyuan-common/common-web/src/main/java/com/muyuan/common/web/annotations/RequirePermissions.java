@@ -1,6 +1,6 @@
 package com.muyuan.common.web.annotations;
 
-import com.muyuan.common.core.constant.Logical;
+import com.muyuan.common.core.enums.Logical;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

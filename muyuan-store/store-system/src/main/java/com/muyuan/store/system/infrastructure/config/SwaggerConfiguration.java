@@ -1,4 +1,4 @@
-package com.muyuan.store.system.infrastructure.config.swagger;
+package com.muyuan.store.system.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

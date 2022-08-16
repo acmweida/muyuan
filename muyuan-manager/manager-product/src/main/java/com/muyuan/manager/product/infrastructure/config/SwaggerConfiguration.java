@@ -1,4 +1,4 @@
-package com.muyuan.auth.base.config;
+package com.muyuan.manager.product.infrastructure.config;
 
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +13,12 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.List;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
@@ -27,10 +27,8 @@ public class SwaggerConfiguration {
     public Docket groupRestApi() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
-                .host("http://127.0.0.1:20000")
-//                .groupName("auth")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.muyuan.auth.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.muyuan.manager.product.interfaces.facade.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(Lists.newArrayList(securityContext()))
@@ -39,8 +37,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo groupApiInfo(){
         return new ApiInfoBuilder()
-                .title("认证中心接口API")
-                .description("用户认证相关接口")
+                .title("商城运营平台 - 商品管理中心API")
+                .description("提供运营平台登录，商品管理服务接口")
                 .contact(new Contact("weida", "", "2456910384@qq.com"))
                 .version("1.0")
                 .build();

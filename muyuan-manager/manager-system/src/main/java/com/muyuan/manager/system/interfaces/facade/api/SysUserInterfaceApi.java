@@ -20,7 +20,7 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@DubboService(group = ServiceTypeConst.SYSTEM_SERVICE,version = "1.0",interfaceClass = SysUserInterface.class)
+@DubboService(group = ServiceTypeConst.MANAGER_SYSTEM,version = "1.0",interfaceClass = SysUserInterface.class)
 public class SysUserInterfaceApi implements SysUserInterface {
 
     private SysUserApplicationService sysUserApplicationService;

@@ -1,6 +1,6 @@
 package com.muyuan.common.web.aspect;
 
-import com.muyuan.common.core.constant.Logical;
+import com.muyuan.common.core.enums.Logical;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.UserType;
@@ -34,10 +34,10 @@ import java.util.Set;
 @Component
 public class PreAuthorizeAspect {
 
-    @DubboReference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
     private SysUserInterface sysUserInterface;
 
-    @DubboReference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0")
     private UserInterface userInterface;
 
     /**

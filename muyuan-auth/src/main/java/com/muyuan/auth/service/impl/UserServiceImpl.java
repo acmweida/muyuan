@@ -29,10 +29,10 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserDetailsService {
 
-    @DubboReference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0")
     UserInterface userInterFace;
 
-    @DubboReference(group = ServiceTypeConst.SYSTEM_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
     SysUserInterface sysUserInterface;
 
     @Override

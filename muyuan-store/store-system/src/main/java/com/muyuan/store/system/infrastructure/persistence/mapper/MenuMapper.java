@@ -1,7 +1,7 @@
 package com.muyuan.store.system.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.SystemBaseMapper;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
-import com.muyuan.store.system.infrastructure.config.mybatis.MemberBaseMapper;
 import com.muyuan.store.system.domains.model.Menu;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper
-public interface MenuMapper extends MemberBaseMapper<Menu> {
+public interface MenuMapper extends SystemBaseMapper<Menu> {
 
 
      @Options(useGeneratedKeys = true, keyProperty = "id")

@@ -13,6 +13,7 @@ import com.muyuan.manager.product.domains.service.BrandService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  */
 @AllArgsConstructor
 @Slf4j
+@Service
 public class BrandServiceImpl implements BrandService {
 
     private static String BRAND_KEY_PREFIX = "BRAND_OPTIONS:";

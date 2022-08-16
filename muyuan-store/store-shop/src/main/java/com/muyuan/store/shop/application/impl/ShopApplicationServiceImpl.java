@@ -26,7 +26,7 @@ import org.springframework.util.ObjectUtils;
 @Service
 public class ShopApplicationServiceImpl implements ShopApplicationService {
 
-    @DubboReference(group = ServiceTypeConst.MEMBER_SERVICE, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
     private UserInterface userInterface;
 
     @Autowired

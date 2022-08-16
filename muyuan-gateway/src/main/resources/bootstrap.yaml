@@ -18,7 +18,7 @@ spring:
       discovery:
         locator:
           enabled: true
-
+          lower-case-service-id: true
 server:
   port: 20000
 

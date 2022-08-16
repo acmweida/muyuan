@@ -12,10 +12,13 @@ import lombok.Data;
 @Data
 public class FeatureValue {
 
+    /**  */
     private Long id;
 
-    private Long attributeId;
+    /** 属性ID */
+    private Long featureId;
 
+    /** 属性值 */
     private String value;
 
     private Integer status;

@@ -10,7 +10,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * @ClassName Knife4jConfiguration
@@ -20,7 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
  * @Version 1.0
  */
 @Configuration
-@EnableSwagger2WebMvc
 public class Knife4jConfiguration {
 
     @Value("${spring.application.name}")
@@ -28,7 +26,7 @@ public class Knife4jConfiguration {
 
     @Bean
     public Docket defaultApi2() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo(name))
                 //分组名称  想要网关被记录到swagger就不要开分组
 //                .groupName("2.X版本")

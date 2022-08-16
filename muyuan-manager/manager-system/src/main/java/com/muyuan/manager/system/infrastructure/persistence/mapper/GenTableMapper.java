@@ -1,9 +1,9 @@
 package com.muyuan.manager.system.infrastructure.persistence.mapper;
 
+import com.muyuan.common.mybatis.jdbc.SystemBaseMapper;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import com.muyuan.manager.system.domains.model.GenTable;
-import com.muyuan.manager.system.infrastructure.config.mybatis.SystemBaseMapper;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;

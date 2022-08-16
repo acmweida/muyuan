@@ -19,6 +19,7 @@ import com.muyuan.manager.product.domains.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @AllArgsConstructor
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private static String CATEGORY_KEY_PREFIX = "category:";

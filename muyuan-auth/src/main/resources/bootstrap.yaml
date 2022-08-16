@@ -3,6 +3,12 @@ spring:
     name: auth
   main:
     allow-bean-definition-overriding: true
+  redis:
+    lettuce:
+      pool:
+        max-idle: 5
+        min-idle: 2
+    timeout: 10000
 server:
   port: 20001
 logging:

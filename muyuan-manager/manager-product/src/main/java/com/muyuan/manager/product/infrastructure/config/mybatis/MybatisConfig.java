@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.product.infrastructure.persistence.mapper")
+@MapperScan("com.muyuan.manager.product.infrastructure.persistence.mapper")
 public class MybatisConfig {
 
     @Value("${db.read-method-prefix:select,find,get}")

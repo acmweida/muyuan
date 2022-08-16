@@ -30,7 +30,7 @@ public class RepeatableRequestAspect {
     public Object repeatableAdvice(ProceedingJoinPoint pjp, Repeatable repeatable) throws Throwable {
         String token = (String) RequestContextHolder.getRequestAttributes().getAttribute(repeatable.varName(), RequestAttributes.SCOPE_REQUEST);
         if (ObjectUtils.isEmpty(token)) {
-            return ResultUtil.fail(ResponseCode.TOKEN_NOT_FOUND_FAIL);
+            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"TOKEN未传递");
         }
 
         if (!TokenUtil.check(repeatable.tokenType(),token)) {
