@@ -1,8 +1,8 @@
 package com.muyuan.store.system.application.service;
 
+import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.domains.dto.RegisterDTO;
 import com.muyuan.store.system.domains.vo.UserVO;
-import com.muyuan.member.interfaces.to.UserTO;
 
 import java.util.List;
 import java.util.Optional;

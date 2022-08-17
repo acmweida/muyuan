@@ -70,12 +70,12 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>manager-user-api</artifactId>
+            <artifactId>manager-api</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>store-user-api</artifactId>
+            <artifactId>store-api</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 

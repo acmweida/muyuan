@@ -43,7 +43,7 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>muyuan-member-api</artifactId>
+            <artifactId>store-api</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 

@@ -2,6 +2,7 @@ package com.muyuan.store.system.application.service.impl;
 
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.domains.dto.RegisterDTO;
 import com.muyuan.store.system.domains.factories.UserFactory;
 import com.muyuan.store.system.domains.model.Role;
@@ -12,7 +13,6 @@ import com.muyuan.store.system.domains.service.UserDomainService;
 import com.muyuan.store.system.domains.vo.UserVO;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.interfaces.assembler.UserInfoAssembler;
-import com.muyuan.member.interfaces.to.UserTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

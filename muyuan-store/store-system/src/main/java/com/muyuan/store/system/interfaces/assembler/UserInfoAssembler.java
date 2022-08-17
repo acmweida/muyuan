@@ -1,8 +1,8 @@
 package com.muyuan.store.system.interfaces.assembler;
 
+import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.domains.model.User;
 import com.muyuan.store.system.domains.vo.UserVO;
-import com.muyuan.member.interfaces.to.UserTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
