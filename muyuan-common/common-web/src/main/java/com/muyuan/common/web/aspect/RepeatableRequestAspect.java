@@ -10,8 +10,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * @ClassName RepeatableRequestAdvice
@@ -28,7 +28,8 @@ public class RepeatableRequestAspect {
 
     @Around("@annotation(repeatable)")
     public Object repeatableAdvice(ProceedingJoinPoint pjp, Repeatable repeatable) throws Throwable {
-        String token = (String) RequestContextHolder.getRequestAttributes().getAttribute(repeatable.varName(), RequestAttributes.SCOPE_REQUEST);
+        String token = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest
+                ().getParameter(repeatable.varName());
         if (ObjectUtils.isEmpty(token)) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"TOKEN未传递");
         }

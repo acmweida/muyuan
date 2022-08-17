@@ -113,7 +113,7 @@ public class MenuController {
     @PostMapping("/menu")
     @ApiOperation("菜单添加")
     @Repeatable(tokenType = TokenType.ADD_MENU)
-    public Result add(@RequestBody @Validated MenuDTO sysMenuDTO) {
+    public Result add(@RequestBody @Validated MenuDTO sysMenuDTO ,@RequestParam String token) {
         Menu sysMenu = new Menu();
         sysMenu.setParentId(sysMenuDTO.getParentId());
         sysMenu.setName(sysMenuDTO.getName());
