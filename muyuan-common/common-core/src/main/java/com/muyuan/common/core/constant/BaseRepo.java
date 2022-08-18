@@ -37,4 +37,7 @@ public interface BaseRepo {
 
     String BRAND_ID = "brandId";
 
+    String CODE = "code";
+
+
 }

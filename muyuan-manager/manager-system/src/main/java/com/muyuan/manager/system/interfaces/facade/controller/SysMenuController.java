@@ -2,17 +2,19 @@ package com.muyuan.manager.system.interfaces.facade.controller;
 
 import com.muyuan.common.core.bean.SelectValue;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.TokenType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.manager.system.interfaces.assembler.SysMenuAssembler;
+import com.muyuan.manager.system.domains.dto.SysMenuDTO;
+import com.muyuan.manager.system.domains.model.SysMenu;
+import com.muyuan.manager.system.domains.service.SysMenuDomainService;
 import com.muyuan.manager.system.domains.vo.SysMenuVO;
 import com.muyuan.manager.system.domains.vo.SysRouterVo;
-import com.muyuan.manager.system.domains.service.SysMenuDomainService;
-import com.muyuan.manager.system.domains.model.SysMenu;
-import com.muyuan.manager.system.domains.dto.SysMenuDTO;
+import com.muyuan.manager.system.interfaces.assembler.SysMenuAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,9 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 /**
@@ -62,7 +62,7 @@ public class SysMenuController {
     }
 
     @RequirePermissions("system:menu:list")
-    @GetMapping("/menu/treeselect")
+    @GetMapping("/menu/treeSelect")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute SysMenuDTO sysMenuDTO) {
         sysMenuDTO.setStatus("0");
@@ -71,7 +71,7 @@ public class SysMenuController {
     }
 
     @RequirePermissions("system:menu:edit")
-    @GetMapping("/menu/roleNemuTreeselect/{roleIds}")
+    @GetMapping("/menu/roleMenuTreeSelect/{roleIds}")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectKey(@PathVariable String... roleIds) {
         List<Long> id = sysMenuDomainService.listSelectIdByRoleId(roleIds);
@@ -107,6 +107,17 @@ public class SysMenuController {
                                          String id) {
         sysMenuDomainService.deleteById(id);
         return ResultUtil.success();
+    }
+
+
+    @RequirePermissions("system:menu:add")
+    @GetMapping("/menu/token")
+    @ApiOperation("token生成")
+    public Result token() {
+        String token = TokenUtil.generate(TokenType.ADD_MENU);
+        Map<String,String> res = new HashMap();
+        res.put(GlobalConst.TOKEN,token);
+        return ResultUtil.success(res);
     }
 
     @RequirePermissions("system:menu:add")

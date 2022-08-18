@@ -24,7 +24,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.product.interfaces.facade.api
+    base-packages: com.muyuan.manager.product.interfaces.facade.api
   protocol:
     name: dubbo
     port: 21004
@@ -34,6 +34,6 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: manager-system,common,member
+    subscribed-services: manager-system
   registry:
     address: spring-cloud://localhost

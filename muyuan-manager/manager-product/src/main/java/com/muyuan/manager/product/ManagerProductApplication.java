@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableAspectJAutoProxy(exposeProxy = true)
-@EnableDubbo(scanBasePackages = "com.muyuan.product.interfaces.facade.api")
+@EnableDubbo()
 public class ManagerProductApplication {
 
     public static void main(String[] args) {

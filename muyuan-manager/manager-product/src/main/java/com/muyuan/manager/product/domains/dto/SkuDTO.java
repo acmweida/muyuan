@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 @Data
-@ApiModel("SKU DTO")
 public class SkuDTO extends BaseDTO<SkuDTO, Sku> {
 
     private Long goodsId;

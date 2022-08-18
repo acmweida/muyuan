@@ -20,7 +20,7 @@ public interface ${ClassName}Repo {
 
     List<${ClassName}> select(${ClassName}DTO ${className}DTO, Page page);
 
-    ${ClassName} selectOne(${ClassName} ${className}DTO);
+    ${ClassName} selectOne(${ClassName}DTO ${className}DTO);
 
     void insert(${ClassName} ${className});
 

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TokenUtil {
 
-    private static int DEFAULT_EXPIRE_TIME = 24 * 60 * 60 ;
+    private static int DEFAULT_EXPIRE_TIME = 6 * 60 * 60 ;
 
     private static RedisTemplate redisTemplate = ApplicationContextHandler.getContext().getBean("redisTemplate",RedisTemplate.class);
 
@@ -28,7 +28,7 @@ public class TokenUtil {
     public static String generate(TokenType tokenType) {
         String token = UUID.randomUUID().toString();
         String key = RedisConst.TOKEN_KEY_PREFIX + tokenType.getValue() + ":" + token;
-        redisTemplate.opsForValue().set(RedisConst.TOKEN_KEY_PREFIX + key, token,DEFAULT_EXPIRE_TIME, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, token,DEFAULT_EXPIRE_TIME, TimeUnit.SECONDS);
         return token;
     }
 

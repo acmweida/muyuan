@@ -1,8 +1,13 @@
 package com.muyuan.manager.product.domains.service.impl;
 
+import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.manager.product.domains.assembler.FeatureAssembler;
+import com.muyuan.manager.product.domains.dto.FeatureDTO;
 import com.muyuan.manager.product.domains.model.Feature;
+import com.muyuan.manager.product.domains.repo.FeatureRepo;
 import com.muyuan.manager.product.domains.service.FeatureService;
-import com.muyuan.manager.product.infrastructure.persistence.mapper.FeatureMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
@@ -21,7 +26,10 @@ import java.util.List;
 @Slf4j
 public class FeatureServiceImpl implements FeatureService
 {
-    private FeatureMapper featureMapper;
+    private FeatureRepo repo;
+
+    private RedisCacheService redisCacheService;
+
 
     /**
      * 查询通用特征量
@@ -30,21 +38,40 @@ public class FeatureServiceImpl implements FeatureService
      * @return 通用特征量
      */
     @Override
-    public Feature selectFeatureById(Long id)
+    public Feature get(Long id)
     {
-        return featureMapper.selectFeatureById(id);
+        return repo.selectOne(FeatureDTO.builder()
+                .id(id)
+                .build());
     }
 
     /**
      * 查询通用特征量列表
-     * 
-     * @param feature 通用特征量
+     *
+     * @param featureDTO 通用特征量
      * @return 通用特征量
      */
     @Override
-    public List<Feature> selectFeatureList(Feature feature)
+    public Page<Feature> page(FeatureDTO featureDTO)
     {
-        return featureMapper.selectFeatureList(feature);
+        Page page = Page.newInstance(featureDTO);
+        List<Feature>  features = repo.select(featureDTO,page);
+        page.setRows(features);
+
+        return page;
+    }
+
+
+    /**
+     * 查询通用特征量列表
+     * 
+     * @param featureDTO 通用特征量
+     * @return 通用特征量
+     */
+    @Override
+    public List<Feature> list(FeatureDTO featureDTO)
+    {
+        return repo.select(featureDTO);
     }
 
     /**
@@ -54,10 +81,10 @@ public class FeatureServiceImpl implements FeatureService
      * @return 结果
      */
     @Override
-    public int insertFeature(Feature feature)
+    public void add(Feature feature)
     {
         feature.setCreateTime(DateTime.now().toDate());
-        return featureMapper.insertFeature(feature);
+        repo.insert(feature);
     }
 
     /**
@@ -67,9 +94,9 @@ public class FeatureServiceImpl implements FeatureService
      * @return 结果
      */
     @Override
-    public int updateFeature(Feature feature)
+    public void update(Feature feature)
     {
-        return featureMapper.updateFeature(feature);
+        repo.update(feature);
     }
 
     /**
@@ -79,20 +106,19 @@ public class FeatureServiceImpl implements FeatureService
      * @return 结果
      */
     @Override
-    public int deleteFeatureByIds(Long[] ids)
+    public void delete(Long[] ids)
     {
-        return featureMapper.deleteFeatureByIds(ids);
+        repo.delete(ids);
     }
 
-    /**
-     * 删除通用特征量信息
-     * 
-     * @param id 通用特征量主键
-     * @return 结果
-     */
     @Override
-    public int deleteFeatureById(Long id)
-    {
-        return featureMapper.deleteFeatureById(id);
+    public List<SelectTree> options(FeatureDTO featureDTO) {
+        String key = FEATURE_KEY_PREFIX + featureDTO.getName();
+        return redisCacheService.getAndUpdateList(key,
+                () -> {
+                    List<Feature> features = repo.select(featureDTO);
+                    return FeatureAssembler.buildSelect(features);
+                },
+                SelectTree.class);
     }
 }

@@ -2,6 +2,7 @@ package com.muyuan.manager.product.infrastructure.persistence.mapper;
 
 import com.muyuan.manager.product.domains.model.FeatureValue;
 import com.muyuan.manager.product.infrastructure.config.mybatis.ProductBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ${author}
  * @date 2022-08-16T14:09:24.599+08:00
  */
+@Mapper
 public interface FeatureValueMapper extends ProductBaseMapper<FeatureValue> {
 
     String FEATURE_ID = "featureId";

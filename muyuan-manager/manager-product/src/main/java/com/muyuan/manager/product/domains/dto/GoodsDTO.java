@@ -17,10 +17,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-@ApiModel(value = "商品信息DTO",subTypes = SkuDTO.class)
 public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
-
-    private String token;
 
     /**
      * todo:物流模板

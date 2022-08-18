@@ -63,7 +63,7 @@ public class MenuController {
     }
 
     @RequirePermissions("member:menu:edit")
-    @GetMapping("/menu/treeselect")
+    @GetMapping("/menu/treeSelect")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute MenuDTO sysMenuDTO) {
         sysMenuDTO.setStatus("0");
@@ -72,7 +72,7 @@ public class MenuController {
     }
 
     @RequirePermissions("member:menu:edit")
-    @GetMapping("/menu/roleNemuTreeselect/{roleIds}")
+    @GetMapping("/menu/roleMenuTreeSelect/{roleIds}")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectKey(@PathVariable String... roleIds) {
         List<Long> id = menuDomainService.listSelectIdByRoleId(roleIds);

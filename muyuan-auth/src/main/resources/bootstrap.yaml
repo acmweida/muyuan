@@ -35,7 +35,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: manager-system,member
+    subscribed-services: manager-system,store-system
   registry:
     address: spring-cloud://localhost
 knife4j:

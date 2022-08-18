@@ -22,7 +22,7 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@DubboService(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0"
+@DubboService(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0"
         , interfaceClass = UserInterface.class
 )
 public class UserInterfaceApi implements UserInterface {

@@ -18,7 +18,6 @@ import javax.validation.constraints.NotBlank;
  * @Version 1.0
  */
 @Data
-@ApiModel("商品分类DTO")
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor

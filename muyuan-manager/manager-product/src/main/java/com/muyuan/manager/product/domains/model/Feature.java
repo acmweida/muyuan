@@ -21,11 +21,8 @@ public class Feature {
     /** 特征名称 */
     private String name;
 
-    /** HTML元素类型 */
-    private Long htmlType;
-
-    /** 父属性ID */
-    private Long parentId;
+    /** 子特征量ID */
+    private String  childId;
 
     /** 状态 */
     private Integer status;
@@ -34,7 +31,7 @@ public class Feature {
     private Date createTime;
 
     /** */
-    private Long creator;
+    private String creator;
 
     /** 属性编码 */
     private String code;
