@@ -9,15 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>muyuan-common</artifactId>
+    <artifactId>muyuan-service</artifactId>
     <packaging>pom</packaging>
+
     <modules>
-        <module>common-core</module>
-        <module>common-redis</module>
-        <module>common-web</module>
-        <module>common-dubbo</module>
-        <module>common-log</module>
-        <module>common-mybatis</module>
+        <module>muyuan-goods</module>
+        <module>muyuan-user</module>
+        <module>muyuan-pay</module>
+        <module>muyuan-activity</module>
     </modules>
 
     <properties>
@@ -26,9 +25,10 @@
     </properties>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -36,20 +36,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.muyuan</groupId>
+            <artifactId>common-dubbo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.muyuan</groupId>
+            <artifactId>common-log</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-help-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-        </plugins>
-    </build>
-
 
 </project>

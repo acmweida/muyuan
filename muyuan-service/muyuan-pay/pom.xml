@@ -4,37 +4,37 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.muyuan</groupId>
-        <artifactId>muyuan</artifactId>
+        <artifactId>muyuan-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>muyuan-store</artifactId>
-    <version>0.1-SNAPSHOT</version>
-
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>store-system</module>
-        <module>store-shop</module>
-    </modules>
+    <artifactId>muyuan-pay</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

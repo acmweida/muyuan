@@ -1,28 +1,22 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
-import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import com.muyuan.common.core.context.ApplicationContextHandler;
-import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSourceContextHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.MyBatisExceptionTranslator;
 import org.mybatis.spring.SqlSessionHolder;
-import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * @ClassName SqlHelper
@@ -112,7 +106,7 @@ public class SqlHelper {
      */
     public static <E> boolean executeBatch(Collection<E> list, int batchSize, BiConsumer<SqlSession, E> consumer) {
         Assert.isTrue(batchSize > 1, "batchSize must not be less than one");
-        return !CollectionUtils.isEmpty(list) && executeBatch( sqlSession -> {
+        return !ObjectUtils.isEmpty(list) && executeBatch(sqlSession -> {
             int size = list.size();
             int i = 1;
             for (E element : list) {
