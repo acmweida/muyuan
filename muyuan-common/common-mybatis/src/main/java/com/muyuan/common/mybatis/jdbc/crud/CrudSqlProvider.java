@@ -308,7 +308,7 @@ public class CrudSqlProvider {
 
 
     public static String tableName(ProviderContext context) {
-        return Constant.TABLE_PREFIX + StrUtil.humpToUnderline(entityType(context).getSimpleName());
+        return Constant.TABLE_PREFIX + StrUtil.humpToUnderline(entityType(context).getSimpleName().replace("PO",""));
     }
 
     public static Class entityType(ProviderContext context) {

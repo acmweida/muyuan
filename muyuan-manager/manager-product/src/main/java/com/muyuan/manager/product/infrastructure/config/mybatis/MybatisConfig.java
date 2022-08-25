@@ -1,5 +1,6 @@
 package com.muyuan.manager.product.infrastructure.config.mybatis;
 
+import com.muyuan.common.mybatis.config.ProductJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;

@@ -1,4 +1,4 @@
-package com.muyuan.goods.infrastructure.persistence.po;
+package com.muyuan.goods.infrastructure.po;
 
 import lombok.Data;
 

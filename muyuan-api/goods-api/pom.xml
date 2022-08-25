@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>store-api</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <artifactId>goods-api</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

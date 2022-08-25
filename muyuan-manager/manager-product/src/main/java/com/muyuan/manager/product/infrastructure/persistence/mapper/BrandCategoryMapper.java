@@ -1,7 +1,7 @@
 package com.muyuan.manager.product.infrastructure.persistence.mapper;
 
 import com.muyuan.manager.product.domains.model.BrandCategory;
-import com.muyuan.manager.product.infrastructure.config.mybatis.ProductBaseMapper;
+import com.muyuan.common.mybatis.jdbc.ProductBaseMapper;
 
 /**
  * 品牌分类关联Mapper接口

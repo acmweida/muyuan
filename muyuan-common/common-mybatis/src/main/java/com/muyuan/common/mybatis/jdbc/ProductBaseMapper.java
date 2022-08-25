@@ -1,12 +1,15 @@
-package com.muyuan.manager.product.infrastructure.config.mybatis;
+package com.muyuan.common.mybatis.jdbc;
 
+import com.muyuan.common.mybatis.config.ProductJdbcConfig;
 import com.muyuan.common.mybatis.id.IdGenerator;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.common.mybatis.jdbc.crud.SqlHelper;
 import com.muyuan.common.mybatis.jdbc.multi.DataSource;
-import com.muyuan.common.mybatis.jdbc.JdbcBaseMapper;
 import com.muyuan.common.mybatis.util.StatementUtil;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

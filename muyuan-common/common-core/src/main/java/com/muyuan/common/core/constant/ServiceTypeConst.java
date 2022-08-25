@@ -8,4 +8,6 @@ public interface ServiceTypeConst {
 
     String COMMON_SERVICE = "common-service";
 
+    String GOODS = "goods";
+
 }
