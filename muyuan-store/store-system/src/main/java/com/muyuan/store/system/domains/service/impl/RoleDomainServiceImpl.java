@@ -1,11 +1,11 @@
 package com.muyuan.store.system.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.store.system.domains.factories.RoleFactory;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;
+import com.muyuan.store.system.domains.factories.RoleFactory;
 import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.model.RoleMenu;
 import com.muyuan.store.system.domains.model.User;

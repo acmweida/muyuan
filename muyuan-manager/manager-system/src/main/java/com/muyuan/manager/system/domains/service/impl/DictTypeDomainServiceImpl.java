@@ -1,13 +1,13 @@
 package com.muyuan.manager.system.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.manager.system.domains.dto.DictTypeDTO;
 import com.muyuan.manager.system.domains.factories.DictTypeFactory;
 import com.muyuan.manager.system.domains.model.DictType;
 import com.muyuan.manager.system.domains.repo.DictTypeRepo;
 import com.muyuan.manager.system.domains.service.DictTypeDomainService;
-import com.muyuan.manager.system.domains.dto.DictTypeDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
 package com.muyuan.store.system.domains.service;
 
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.store.system.domains.model.Role;
-import com.muyuan.store.system.domains.model.User;
+import com.muyuan.common.bean.Page;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;
+import com.muyuan.store.system.domains.model.Role;
+import com.muyuan.store.system.domains.model.User;
 
 import java.util.List;
 import java.util.Optional;

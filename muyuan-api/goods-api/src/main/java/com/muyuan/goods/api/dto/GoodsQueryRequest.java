@@ -1,18 +1,15 @@
-package com.muyuan.goods.api.to;
+package com.muyuan.goods.api.dto;
+
+import com.muyuan.common.bean.PageDTO;
 
 /**
- * @ClassName GoodsTO
- * Description 商品API 请求体
+ * @ClassName GoodsQueryCommand
+ * Description 商品查询 DTO
  * @Author 2456910384
  * @Date 2022/8/25 15:52
  * @Version 1.0
  */
-public class GoodsTO {
-
-    /**
-     * todo:物流模板
-     */
-    private long wuliouModel;
+public class GoodsQueryRequest extends PageDTO {
 
     /**
      * 商品标题
@@ -38,10 +35,5 @@ public class GoodsTO {
      * 是否上架
      */
     private String status;
-
-    /**
-     * 商品标签
-     */
-    private String tags;
 
 }

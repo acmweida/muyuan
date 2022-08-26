@@ -1,9 +1,8 @@
 package com.muyuan.goods.api.service;
 
-import com.muyuan.goods.api.dataobject.GoodsDO;
-import com.muyuan.goods.api.to.GoodsTO;
-
-import java.util.List;
+import com.muyuan.common.bean.Page;
+import com.muyuan.goods.api.dto.GoodsDTO;
+import com.muyuan.goods.api.dto.GoodsQueryRequest;
 
 /**
  * @ClassName GoodsServiceApi 接口
@@ -15,5 +14,5 @@ import java.util.List;
 
 public interface GoodsServiceApi {
 
-    List<GoodsDO> page(GoodsTO goodsTO);
+    Page<GoodsDTO> page(GoodsQueryRequest request);
 }

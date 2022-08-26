@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.domains.service;
 
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.common.bean.Page;
 import com.muyuan.manager.product.domains.dto.GoodsDTO;
 import com.muyuan.manager.product.domains.model.Goods;
 
@@ -13,7 +13,7 @@ import com.muyuan.manager.product.domains.model.Goods;
  */
 public interface GoodsService {
 
-    Page<Goods> page(GoodsDTO goodsDTO,Long shopId);
+    Page<Goods> page(GoodsDTO goodsDTO, Long shopId);
 
     /**
      * 添加商品

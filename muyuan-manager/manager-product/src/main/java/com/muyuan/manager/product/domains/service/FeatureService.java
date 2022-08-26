@@ -1,8 +1,8 @@
 package com.muyuan.manager.product.domains.service;
 
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.bean.SelectTree;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.manager.product.domains.dto.FeatureDTO;
 import com.muyuan.manager.product.domains.model.Feature;
 

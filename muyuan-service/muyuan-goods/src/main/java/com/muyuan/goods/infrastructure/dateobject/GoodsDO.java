@@ -1,4 +1,4 @@
-package com.muyuan.goods.infrastructure.po;
+package com.muyuan.goods.infrastructure.dateobject;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * 商品基本信息
  */
 @Data
-public class GoodsPO {
+public class GoodsDO {
 
 
 

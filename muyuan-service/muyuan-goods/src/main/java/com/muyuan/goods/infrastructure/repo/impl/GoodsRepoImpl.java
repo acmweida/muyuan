@@ -1,43 +1,29 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.goods.domains.model.aggregate.GoodsAggregate;
+import com.muyuan.goods.domains.model.entity.goods.GoodsId;
 import com.muyuan.goods.domains.repo.GoodsRepo;
-import com.muyuan.goods.face.dto.GoodsDTO;
 import com.muyuan.goods.infrastructure.mapper.GoodsMapper;
-import com.muyuan.goods.infrastructure.po.GoodsPO;
-import lombok.AllArgsConstructor;
-import org.apache.dubbo.common.utils.Page;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-@Component
-@AllArgsConstructor
+@Repository
 public class GoodsRepoImpl implements GoodsRepo {
 
     private GoodsMapper goodsMapper;
 
     @Override
-    public List<GoodsPO> list(GoodsDTO goodsDTO) {
-        return list(goodsDTO,null);
+    public GoodsAggregate find(GoodsId goodsId) {
+        return null;
     }
 
     @Override
-    public List<GoodsPO> list(GoodsDTO goodsDTO, Page page) {
-       return  goodsMapper.selectList(new SqlBuilder(GoodsPO.class)
-                .eq(ID, goodsDTO.getShopId())
-                .eq(CATEGORY_CODE, goodsDTO.getCategoryCode())
-                .build());
+    public void remove(GoodsAggregate aggregate) {
 
     }
 
     @Override
-    public void insert(GoodsPO goods) {
-        goodsMapper.insert(goods) ;
-    }
-
-    @Override
-    public void update(GoodsPO goods) {
+    public void save(GoodsAggregate aggregate) {
 
     }
+
 }

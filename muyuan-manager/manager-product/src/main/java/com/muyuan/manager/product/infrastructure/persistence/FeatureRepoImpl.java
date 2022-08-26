@@ -1,7 +1,7 @@
 package com.muyuan.manager.product.infrastructure.persistence;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.manager.product.domains.dto.FeatureDTO;
 import com.muyuan.manager.product.domains.model.Brand;
 import com.muyuan.manager.product.domains.model.Feature;

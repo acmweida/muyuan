@@ -2,22 +2,23 @@ package com.muyuan.manager.system.domains.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Paging;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.exception.handler.ArgumentException;
 import com.muyuan.common.core.exception.handler.FailException;
 import com.muyuan.common.core.util.CharsetKit;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.manager.system.infrastructure.common.GenConstants;
-import com.muyuan.manager.system.infrastructure.common.util.GenUtils;
-import com.muyuan.manager.system.infrastructure.common.util.VelocityInitializer;
-import com.muyuan.manager.system.infrastructure.common.util.VelocityUtils;
+import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import com.muyuan.manager.system.domains.model.GenTable;
 import com.muyuan.manager.system.domains.model.GenTableColumn;
 import com.muyuan.manager.system.domains.repo.GenTableColumnRepo;
 import com.muyuan.manager.system.domains.repo.GenTableRepo;
 import com.muyuan.manager.system.domains.service.GenTableDomainService;
-import com.muyuan.manager.system.domains.dto.GenTableDTO;
+import com.muyuan.manager.system.infrastructure.common.GenConstants;
+import com.muyuan.manager.system.infrastructure.common.util.GenUtils;
+import com.muyuan.manager.system.infrastructure.common.util.VelocityInitializer;
+import com.muyuan.manager.system.infrastructure.common.util.VelocityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -78,7 +79,7 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
      */
     @Override
     public Page<GenTable> selectGenTableList(GenTableDTO genTableDTO) {
-        Page<GenTable> page = Page.newInstance(genTableDTO);
+        Page<GenTable> page = Page.newInstance((Paging) genTableDTO);
         List<GenTable> genTables = genTableRepo.selectGenTableList(genTableDTO);
         page.setRows(genTables);
 
@@ -93,7 +94,7 @@ public class GenTableDomainServiceImpl implements GenTableDomainService {
      */
     @Override
     public Page<GenTable> selectDbTableList(GenTableDTO genTable) {
-        Page<GenTable> page = Page.newInstance(genTable);
+        Page<GenTable> page = Page.newInstance((Paging) genTable);
         page.setRows(genTableRepo.selectDbTableList(genTable,page));
         return page;
     }

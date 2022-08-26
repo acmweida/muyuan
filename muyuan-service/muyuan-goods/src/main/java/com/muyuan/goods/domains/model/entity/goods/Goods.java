@@ -1,5 +1,6 @@
-package com.muyuan.goods.domains.model.entity;
+package com.muyuan.goods.domains.model.entity.goods;
 
+import com.muyuan.common.core.domains.mode.entity.Entity;
 import com.muyuan.common.core.global.IdGenerator;
 import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
@@ -11,16 +12,10 @@ import java.util.Date;
  * 商品基本信息
  */
 @Data
-public class Goods {
+public class Goods implements Entity<GoodsId> {
 
+    private GoodsId id;
 
-
-    private Long id;
-
-//    /**
-//     * todo:物流模板
-//     */
-//    private Long wuliouModel;
 
     /**
      * 商品标题
@@ -115,7 +110,7 @@ public class Goods {
         createBy = SecurityUtils.getUserId();
         creator = SecurityUtils.getUsername();
         shopId = SecurityUtils.getShopId();
-        setId(idGenerator.next());
+        setId(new GoodsId(idGenerator.next()));
     }
 
     @Override
@@ -142,5 +137,14 @@ public class Goods {
         sb.append(", createBy=").append(createBy);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public GoodsId getId() {
+        return id;
+    }
+
+    public void setId(GoodsId goodsId) {
+        this.id = goodsId;
     }
 }

@@ -1,9 +1,10 @@
 package com.muyuan.manager.system.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.manager.system.domains.dto.SysRoleDTO;
 import com.muyuan.manager.system.domains.factories.SysRoleFactory;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.model.SysRoleMenu;
@@ -11,7 +12,6 @@ import com.muyuan.manager.system.domains.model.SysUserRole;
 import com.muyuan.manager.system.domains.repo.SysMenuRepo;
 import com.muyuan.manager.system.domains.repo.SysRoleRepo;
 import com.muyuan.manager.system.domains.service.SysRoleDomainService;
-import com.muyuan.manager.system.domains.dto.SysRoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -19,7 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName SysRoleDomainServiceImpl

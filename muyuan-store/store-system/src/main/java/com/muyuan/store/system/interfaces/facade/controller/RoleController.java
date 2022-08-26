@@ -1,11 +1,11 @@
 package com.muyuan.store.system.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;

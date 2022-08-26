@@ -1,17 +1,17 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.Convert;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import com.muyuan.manager.system.domains.model.GenTable;
 import com.muyuan.manager.system.domains.model.GenTableColumn;
 import com.muyuan.manager.system.domains.service.GenTableColumnService;
 import com.muyuan.manager.system.domains.service.GenTableDomainService;
-import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.validation.annotation.Validated;

@@ -1,15 +1,15 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.manager.system.interfaces.assembler.DictDataAssembler;
+import com.muyuan.manager.system.domains.dto.DictDataDTO;
 import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.domains.service.DictDataDomainService;
 import com.muyuan.manager.system.domains.vo.DictDataVO;
-import com.muyuan.manager.system.domains.dto.DictDataDTO;
+import com.muyuan.manager.system.interfaces.assembler.DictDataAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

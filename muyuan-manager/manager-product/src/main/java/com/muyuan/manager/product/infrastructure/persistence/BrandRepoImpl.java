@@ -1,14 +1,14 @@
 package com.muyuan.manager.product.infrastructure.persistence;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.manager.product.infrastructure.persistence.mapper.BrandCategoryMapper;
-import com.muyuan.manager.product.infrastructure.persistence.mapper.BrandMapper;
 import com.muyuan.manager.product.domains.dto.BrandDTO;
 import com.muyuan.manager.product.domains.model.Brand;
 import com.muyuan.manager.product.domains.model.BrandCategory;
 import com.muyuan.manager.product.domains.repo.BrandRepo;
+import com.muyuan.manager.product.infrastructure.persistence.mapper.BrandCategoryMapper;
+import com.muyuan.manager.product.infrastructure.persistence.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

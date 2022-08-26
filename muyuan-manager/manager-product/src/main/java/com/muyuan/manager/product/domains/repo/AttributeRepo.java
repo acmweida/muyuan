@@ -1,9 +1,9 @@
 package com.muyuan.manager.product.domains.repo;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.BaseRepo;
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.manager.product.domains.model.Attribute;
 import com.muyuan.manager.product.domains.dto.AttributeDTO;
+import com.muyuan.manager.product.domains.model.Attribute;
 
 import java.util.List;
 

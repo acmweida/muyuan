@@ -1,11 +1,11 @@
 package com.muyuan.manager.system.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.manager.system.domains.dto.DictDataDTO;
 import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.domains.repo.DictDataRepo;
 import com.muyuan.manager.system.domains.service.DictDataDomainService;
-import com.muyuan.manager.system.domains.dto.DictDataDTO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

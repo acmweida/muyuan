@@ -1,5 +1,6 @@
 package com.muyuan.common.mybatis.jdbc.page;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;

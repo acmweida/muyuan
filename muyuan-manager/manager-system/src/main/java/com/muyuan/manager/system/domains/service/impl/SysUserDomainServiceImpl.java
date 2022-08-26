@@ -1,15 +1,15 @@
 package com.muyuan.manager.system.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.manager.system.domains.dto.SysUserDTO;
 import com.muyuan.manager.system.domains.factories.SysUserFactory;
 import com.muyuan.manager.system.domains.model.SysUser;
 import com.muyuan.manager.system.domains.model.SysUserRole;
 import com.muyuan.manager.system.domains.repo.SysUserRepo;
 import com.muyuan.manager.system.domains.service.SysUserDomainService;
-import com.muyuan.manager.system.domains.dto.SysUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

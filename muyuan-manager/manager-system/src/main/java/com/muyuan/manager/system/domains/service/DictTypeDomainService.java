@@ -1,9 +1,9 @@
 package com.muyuan.manager.system.domains.service;
 
 
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.manager.system.domains.model.DictType;
+import com.muyuan.common.bean.Page;
 import com.muyuan.manager.system.domains.dto.DictTypeDTO;
+import com.muyuan.manager.system.domains.model.DictType;
 
 import java.util.List;
 import java.util.Optional;

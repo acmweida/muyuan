@@ -1,17 +1,17 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.application.service.SysUserApplicationService;
-import com.muyuan.manager.system.domains.vo.SysUserVO;
+import com.muyuan.manager.system.domains.dto.SysUserDTO;
 import com.muyuan.manager.system.domains.model.SysMenu;
 import com.muyuan.manager.system.domains.model.SysUser;
 import com.muyuan.manager.system.domains.service.SysUserDomainService;
-import com.muyuan.manager.system.domains.dto.SysUserDTO;
+import com.muyuan.manager.system.domains.vo.SysUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

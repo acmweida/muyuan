@@ -1,6 +1,5 @@
-package com.muyuan.common.mybatis.jdbc.page;
+package com.muyuan.common.bean;
 
-import com.muyuan.common.core.bean.Paging;
 import lombok.Builder;
 import lombok.Data;
 

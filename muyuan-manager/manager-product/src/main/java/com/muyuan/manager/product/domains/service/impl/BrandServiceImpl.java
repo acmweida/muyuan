@@ -1,8 +1,8 @@
 package com.muyuan.manager.product.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.manager.product.domains.assembler.BrandAssembler;
 import com.muyuan.manager.product.domains.dto.BrandDTO;

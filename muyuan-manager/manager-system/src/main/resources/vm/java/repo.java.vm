@@ -4,7 +4,6 @@ package ${packageName}.${moduleName}.domains.repo;
 import ${import};
 #end
 import ${packageName}.${moduleName}.domains.model.${ClassName};
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import ${packageName}.${moduleName}.domains.dto.${ClassName}DTO;
 
 /**

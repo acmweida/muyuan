@@ -1,4 +1,4 @@
-package com.muyuan.goods.domains.model.entity;
+package com.muyuan.goods.domains.model.entity.goods;
 
 import com.muyuan.common.core.global.IdGenerator;
 import lombok.Data;
@@ -9,8 +9,7 @@ import java.util.Date;
 @Data
 public class Sku {
 
-
-    private Long id;
+    private SkuId id;
 
     private Long goodsId;
 
@@ -49,12 +48,14 @@ public class Sku {
     public void initInstance(Date createTime, IdGenerator idGenerator) {
         this.createTime = createTime;
         this.stockLock = 0;
-        setId(idGenerator.next());
+        setId(new SkuId(idGenerator.next()));
     }
 
     private void update() {
         updateTime = DateTime.now().toDate();
     }
 
-
+    public void setId(SkuId id) {
+        this.id = id;
+    }
 }

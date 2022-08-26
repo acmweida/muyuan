@@ -1,11 +1,11 @@
 package com.muyuan.manager.system.infrastructure.persistence;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
+import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import com.muyuan.manager.system.domains.model.GenTable;
 import com.muyuan.manager.system.domains.repo.GenTableRepo;
 import com.muyuan.manager.system.infrastructure.persistence.mapper.GenTableMapper;
-import com.muyuan.manager.system.domains.dto.GenTableDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -56,7 +56,7 @@ public class GenTableRepoImpl implements GenTableRepo {
     }
 
     @Override
-    public List<GenTable> selectDbTableList(GenTableDTO genTable,Page page) {
+    public List<GenTable> selectDbTableList(GenTableDTO genTable, Page page) {
        return genTableMapper.selectDbTableList(new SqlBuilder()
                .eq("tableName",genTable.getTableName())
                .eq("tableComment",genTable.getTableComment())

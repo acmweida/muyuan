@@ -1,16 +1,18 @@
-package com.muyuan.goods.api.dataobject;
+package com.muyuan.goods.api.dto;
 
 import lombok.Data;
 
 import java.util.Date;
 
 /**
- * 商品基本信息
+ * @ClassName GoodsDTO
+ * Description 商品信息DTO
+ * @Author 2456910384
+ * @Date 2022/8/26 8:47
+ * @Version 1.0
  */
 @Data
-public class GoodsDO {
-
-
+public class GoodsDTO {
 
     private Long id;
 

@@ -1,9 +1,9 @@
 package com.muyuan.manager.system.domains.repo;
 
 
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.manager.system.domains.model.GenTable;
+import com.muyuan.common.bean.Page;
 import com.muyuan.manager.system.domains.dto.GenTableDTO;
+import com.muyuan.manager.system.domains.model.GenTable;
 
 import java.util.List;
 

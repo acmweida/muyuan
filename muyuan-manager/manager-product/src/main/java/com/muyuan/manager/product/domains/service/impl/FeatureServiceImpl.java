@@ -1,7 +1,8 @@
 package com.muyuan.manager.product.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Paging;
 import com.muyuan.common.core.bean.SelectTree;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.manager.product.domains.assembler.FeatureAssembler;
 import com.muyuan.manager.product.domains.dto.FeatureDTO;
@@ -54,7 +55,7 @@ public class FeatureServiceImpl implements FeatureService
     @Override
     public Page<Feature> page(FeatureDTO featureDTO)
     {
-        Page page = Page.newInstance(featureDTO);
+        Page page = Page.newInstance((Paging) featureDTO);
         List<Feature>  features = repo.select(featureDTO,page);
         page.setRows(features);
 

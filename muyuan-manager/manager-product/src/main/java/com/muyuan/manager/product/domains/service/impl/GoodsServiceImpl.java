@@ -1,12 +1,12 @@
 package com.muyuan.manager.product.domains.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.exception.handler.ResourceNotFoundException;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.manager.product.domains.dto.GoodsDTO;
 import com.muyuan.manager.product.domains.dto.SkuDTO;
 import com.muyuan.manager.product.domains.model.Brand;
-import com.muyuan.manager.product.domains.model.Goods;
 import com.muyuan.manager.product.domains.model.Category;
+import com.muyuan.manager.product.domains.model.Goods;
 import com.muyuan.manager.product.domains.model.Sku;
 import com.muyuan.manager.product.domains.repo.GoodsRepo;
 import com.muyuan.manager.product.domains.repo.SkuRepo;

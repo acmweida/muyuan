@@ -1,13 +1,13 @@
 package com.muyuan.store.system.infrastructure.persistence;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import com.muyuan.store.system.domains.dto.RoleDTO;
+import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.model.RoleMenu;
 import com.muyuan.store.system.domains.repo.RoleRepo;
 import com.muyuan.store.system.infrastructure.persistence.mapper.RoleMapper;
 import com.muyuan.store.system.infrastructure.persistence.mapper.RoleMenuMapper;
-import com.muyuan.store.system.domains.model.Role;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;

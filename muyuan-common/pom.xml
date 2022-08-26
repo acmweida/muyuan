@@ -18,6 +18,7 @@
         <module>common-dubbo</module>
         <module>common-log</module>
         <module>common-mybatis</module>
+        <module>common-bean</module>
     </modules>
 
     <properties>

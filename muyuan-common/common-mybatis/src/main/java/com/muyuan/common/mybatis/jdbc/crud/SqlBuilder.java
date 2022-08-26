@@ -1,10 +1,10 @@
 package com.muyuan.common.mybatis.jdbc.crud;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.cache.localcache.LocalCacheService;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.common.Constant;
 import com.muyuan.common.mybatis.common.SqlType;
-import com.muyuan.common.mybatis.jdbc.page.Page;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

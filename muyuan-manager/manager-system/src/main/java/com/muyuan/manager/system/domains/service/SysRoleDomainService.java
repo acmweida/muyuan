@@ -1,8 +1,8 @@
 package com.muyuan.manager.system.domains.service;
 
-import com.muyuan.common.mybatis.jdbc.page.Page;
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.common.bean.Page;
 import com.muyuan.manager.system.domains.dto.SysRoleDTO;
+import com.muyuan.manager.system.domains.model.SysRole;
 
 import java.util.List;
 import java.util.Optional;
