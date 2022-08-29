@@ -1,6 +1,7 @@
 package com.muyuan.goods.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
+import lombok.Data;
 
 /**
  * @ClassName GoodsQueryCommand
@@ -9,6 +10,7 @@ import com.muyuan.common.bean.PageDTO;
  * @Date 2022/8/25 15:52
  * @Version 1.0
  */
+@Data
 public class GoodsQueryRequest extends PageDTO {
 
     /**

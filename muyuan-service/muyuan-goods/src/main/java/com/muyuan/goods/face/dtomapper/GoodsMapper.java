@@ -21,4 +21,6 @@ public interface GoodsMapper {
 
     @Mapping(target = "id",source = "id.value")
     GoodsDTO toDTO(Goods goods);
+
+
 }
