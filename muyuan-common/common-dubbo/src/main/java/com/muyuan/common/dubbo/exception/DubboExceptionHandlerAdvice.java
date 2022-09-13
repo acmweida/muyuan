@@ -1,7 +1,7 @@
 package com.muyuan.common.dubbo.exception;
 
-import com.muyuan.common.core.exception.MuyuanExceptionHandler;
 import com.muyuan.common.core.result.Result;
+import com.muyuan.common.core.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,8 +13,7 @@ public class DubboExceptionHandlerAdvice {
     @ExceptionHandler(DubboRpcException.class)
     public Result muyuanExceptionHaneler(DubboRpcException e) {
         e.printStackTrace();
-        MuyuanExceptionHandler handler = e.getCause();
-        return handler.handle(e.getCause());
+        return ResultUtil.fail(e.getCause().getCode(),e.getCause().getMessage());
     }
 
 }

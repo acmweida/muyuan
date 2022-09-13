@@ -1,7 +1,6 @@
 package com.muyuan.gateway.util;
 
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -11,6 +10,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author hxr
@@ -29,7 +30,10 @@ public class ResponseUtils {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin", "*");
         response.getHeaders().set("Cache-Control", "no-cache");
-        String body = JSONUtil.toJsonString(ResultUtil.fail(resultCode));
+        Map<String,Object> res = new HashMap<>();
+        res.put("code",resultCode.getCode());
+        res.put("msg",resultCode.getMsg());
+        String body = JSONUtil.toJsonString(res);
         DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer))
                 .doOnError(error -> DataBufferUtils.release(buffer));

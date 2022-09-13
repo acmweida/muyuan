@@ -1,6 +1,6 @@
 package com.muyuan.common.mybatis.jdbc;
 
-import com.muyuan.common.mybatis.config.ProductJdbcConfig;
+import com.muyuan.common.mybatis.config.GoodsJdbcConfig;
 import com.muyuan.common.mybatis.id.IdGenerator;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.common.mybatis.jdbc.crud.SqlHelper;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-@DataSource(ProductJdbcConfig.DATASOURCE_NAME)
+@DataSource(GoodsJdbcConfig.DATASOURCE_NAME)
 public interface ProductBaseMapper<T> extends JdbcBaseMapper<T> {
 
 

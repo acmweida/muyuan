@@ -1,12 +1,10 @@
-package com.muyuan.goods.domains.model.vo;
+package com.muyuan.goods.domains.model.valueobject;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@ApiModel("商品返回体")
 public class GoodsVO {
 
     private Long id;

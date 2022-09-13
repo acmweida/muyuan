@@ -2,7 +2,6 @@ package com.muyuan.common.web.exception;
 
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
-import com.muyuan.common.core.exception.MuyuanExceptionHandler;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +40,8 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(MuyuanException.class)
     public Result muyuanExceptionHaneler(MuyuanException e) {
         e.printStackTrace();
-        if (e instanceof MuyuanExceptionHandler) {
-            MuyuanExceptionHandler handler = (MuyuanExceptionHandler) e;
-            return handler.handle(e);
+        if (e.getClass().isAssignableFrom(MuyuanException.class) ) {
+            return ResultUtil.fail(e.getCode(),e.getMessage());
         }
         return unknowRuntimeException(e);
     }

@@ -1,7 +1,7 @@
 package com.muyuan.goods.infrastructure.mapper;
 
 import com.muyuan.common.mybatis.jdbc.ProductBaseMapper;
-import com.muyuan.goods.infrastructure.dateobject.GoodsDO;
+import com.muyuan.goods.infrastructure.dataobject.GoodsDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -2,7 +2,6 @@ package com.muyuan.common.core.exception.handler;
 
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
-import com.muyuan.common.core.exception.MuyuanExceptionHandler;
 
 /**
  * @ClassName ArgumentException
@@ -11,7 +10,7 @@ import com.muyuan.common.core.exception.MuyuanExceptionHandler;
  * @Date 2022/5/18 13:49
  * @Version 1.0
  */
-public class ArgumentException  extends MuyuanException implements MuyuanExceptionHandler {
+public class ArgumentException  extends MuyuanException {
 
 
     public ArgumentException(String message) {

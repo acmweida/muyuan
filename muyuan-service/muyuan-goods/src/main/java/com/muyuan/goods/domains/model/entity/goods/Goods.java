@@ -2,7 +2,6 @@ package com.muyuan.goods.domains.model.entity.goods;
 
 import com.muyuan.common.core.domains.mode.entity.Entity;
 import com.muyuan.common.core.global.IdGenerator;
-import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 import org.joda.time.DateTime;
 
@@ -99,17 +98,17 @@ public class Goods implements Entity<GoodsId> {
      */
     private Long createBy;
 
-    private void update() {
+    private void update(long userId,String username) {
         updateTime = DateTime.now().toDate();
-        updateBy = SecurityUtils.getUserId();
-        updater = SecurityUtils.getUsername();
+        updateBy = userId;
+        updater = username;
     }
 
-    public void newInstance(IdGenerator idGenerator) {
+    public void newInstance(IdGenerator idGenerator,long userId,String username,long shopId) {
         createTime = DateTime.now().toDate();
-        createBy = SecurityUtils.getUserId();
-        creator = SecurityUtils.getUsername();
-        shopId = SecurityUtils.getShopId();
+        createBy = userId;
+        creator = username;
+        this.shopId = shopId;
         setId(new GoodsId(idGenerator.next()));
     }
 

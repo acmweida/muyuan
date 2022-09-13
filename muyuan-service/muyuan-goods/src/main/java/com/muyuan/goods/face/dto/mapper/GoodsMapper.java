@@ -1,4 +1,4 @@
-package com.muyuan.goods.face.dtomapper;
+package com.muyuan.goods.face.dto.mapper;
 
 import com.muyuan.goods.api.dto.GoodsDTO;
 import com.muyuan.goods.api.dto.GoodsQueryRequest;
@@ -21,6 +21,5 @@ public interface GoodsMapper {
 
     @Mapping(target = "id",source = "id.value")
     GoodsDTO toDTO(Goods goods);
-
 
 }

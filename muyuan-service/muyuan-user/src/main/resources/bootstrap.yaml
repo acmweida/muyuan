@@ -37,8 +37,3 @@ dubbo:
     timeout: 3000
   registry:
     address: spring-cloud://localhost
-
-gen:
-  packageName: com.muyuan
-  autoRemovePre: true
-  tablePrefix: t_

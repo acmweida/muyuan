@@ -2,7 +2,6 @@ package com.muyuan.common.core.exception.handler;
 
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
-import com.muyuan.common.core.exception.MuyuanExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Version 1.0
  */
 @Slf4j
-public class FileUploadFailException extends MuyuanException implements MuyuanExceptionHandler {
+public class FileUploadFailException extends MuyuanException {
 
     public FileUploadFailException() {
         this(ResponseCode.FILE_UPLOAD_FAIL.getCode(), ResponseCode.FILE_UPLOAD_FAIL.getMsg());

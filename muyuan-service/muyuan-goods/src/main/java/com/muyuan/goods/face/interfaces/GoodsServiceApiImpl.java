@@ -8,7 +8,7 @@ import com.muyuan.goods.api.service.GoodsServiceApi;
 import com.muyuan.goods.domains.model.entity.goods.Goods;
 import com.muyuan.goods.domains.service.GoodsService;
 import com.muyuan.goods.face.dto.GoodsQueryCommond;
-import com.muyuan.goods.face.dtomapper.GoodsMapperImpl;
+import com.muyuan.goods.face.dto.mapper.GoodsMapperImpl;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 

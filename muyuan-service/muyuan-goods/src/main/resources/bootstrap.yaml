@@ -24,7 +24,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.manager.system.interfaces.facade.api
+    base-packages: com.muyuan.goods.interfaces.facade.api
   protocol:
     name: dubbo
     port: 11004
@@ -37,8 +37,3 @@ dubbo:
     timeout: 3000
   registry:
     address: spring-cloud://localhost
-
-gen:
-  packageName: com.muyuan
-  autoRemovePre: true
-  tablePrefix: t_

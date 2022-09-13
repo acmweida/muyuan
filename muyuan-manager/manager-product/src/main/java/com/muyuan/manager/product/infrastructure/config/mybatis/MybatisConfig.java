@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.infrastructure.config.mybatis;
 
-import com.muyuan.common.mybatis.config.ProductJdbcConfig;
+import com.muyuan.common.mybatis.config.GoodsJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
@@ -26,7 +26,7 @@ public class MybatisConfig {
     private List<String> writeMethodPrefix;
 
     @Bean
-    public DataSource dataSource(ProductJdbcConfig jdbcConfig) {
+    public DataSource dataSource(GoodsJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -38,7 +38,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime( 30 * 1000);
-        dataSourceMap.put(ProductJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(GoodsJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);

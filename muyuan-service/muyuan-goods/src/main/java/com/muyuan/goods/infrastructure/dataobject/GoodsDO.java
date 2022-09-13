@@ -1,4 +1,4 @@
-package com.muyuan.goods.infrastructure.dateobject;
+package com.muyuan.goods.infrastructure.dataobject;
 
 import lombok.Data;
 
