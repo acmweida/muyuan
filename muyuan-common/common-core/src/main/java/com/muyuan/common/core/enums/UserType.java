@@ -8,7 +8,7 @@ public enum UserType {
     /**
      * 商家用户（卖家）
      */
-    STORE,
+    MERCHANT,
 
     /**
      * 会员（买家）
@@ -18,5 +18,5 @@ public enum UserType {
     /**
      * 管理员用户
      */
-    SYSUSER;
+    OPERATOR;
 }

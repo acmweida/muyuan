@@ -1,6 +1,7 @@
 package com.muyuan.user.api.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -13,19 +14,30 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 public class OperatorDTO {
 
     private Long id;
+
     private String username;
+
     private String nickName;
-    private Long shopNo;
+
     private String password;
+
     private String salt;
+
     private String encryptKey;
+
     private String phone;
-    private short status;
+
+    private Integer status;
+
     private Date createTime;
+
     private Date updateTime;
+
     private Date lastSignTime;
+
     private List<String> roles;
 }

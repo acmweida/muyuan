@@ -1,14 +1,13 @@
 package com.muyuan.user.domain.model.entity.user;
 
 import com.muyuan.common.core.util.EncryptUtil;
-import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.user.domain.repo.UserRepo;
+import com.muyuan.user.domain.model.valueobject.OperatorID;
+import com.muyuan.user.domain.model.valueobject.OperatorUsername;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -28,14 +27,14 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Operator {
 
-    private Long id;
+    private OperatorID id;
 
     /**
      * 用户名 唯一 用于登录
      */
-    private String username;
+    private OperatorUsername username;
 
     private String nickName;
 
@@ -104,15 +103,15 @@ public class User {
         updater = username;
     }
 
-    public User(Long id) {
+    public Operator(OperatorID id) {
         this.id = id;
     }
 
-    public User(String username) {
+    public Operator(OperatorUsername username) {
         this.username = username;
     }
 
-    public User(String username, String password) {
+    public Operator(OperatorUsername username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -147,32 +146,32 @@ public class User {
         setCreator(username);
     }
 
-    public void save(UserRepo userRepo, long userId, String username) {
-        Assert.notNull(userRepo, "repo is null");
-        FunctionUtil.of(id)
-                .ifThen(
-                        () -> userRepo.insert(this),
-                        id -> {
-                            update(userId, username);
-                            userRepo.update(this);
-                        }
-                );
-    }
+//    public void save(OperatorRepo operatorRepo, long userId, String username) {
+//        Assert.notNull(operatorRepo, "repo is null");
+//        FunctionUtil.of(id)
+//                .ifThen(
+//                        () -> operatorRepo.insert(this),
+//                        id -> {
+//                            update(userId, username);
+//                            operatorRepo.update(this);
+//                        }
+//                );
+//    }
 
-    public void update(UserRepo userRepo, String username, long userid, String... column) {
-        Assert.notNull(userRepo, "repo is null");
-        Assert.notNull(id, "id is null");
-        update(userid, username);
-        userRepo.update(this, ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
-    }
+//    public void update(OperatorRepo operatorRepo, String username, long userid, String... column) {
+//        Assert.notNull(operatorRepo, "repo is null");
+//        Assert.notNull(id, "id is null");
+//        update(userid, username);
+//        operatorRepo.update(this, ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
+//    }
 
-    public void addRole(UserRepo userRepo, Role role) {
-        Assert.notNull(userRepo, "repo is null");
-        Assert.notNull(role, "role is null");
-        Assert.notNull(id, "id is null");
-        userRepo.insert(UserRole.builder()
-                .roleId(role.getId())
-                .userId(id)
-                .build());
-    }
+//    public void addRole(OperatorRepo operatorRepo, Role role) {
+//        Assert.notNull(operatorRepo, "repo is null");
+//        Assert.notNull(role, "role is null");
+//        Assert.notNull(id, "id is null");
+//        operatorRepo.insert(UserRole.builder()
+//                .roleId(role.getId())
+//                .userId(id.getValue())
+//                .build());
+//    }
 }

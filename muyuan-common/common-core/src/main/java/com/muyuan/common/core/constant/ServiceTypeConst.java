@@ -10,4 +10,6 @@ public interface ServiceTypeConst {
 
     String GOODS = "goods";
 
+    String USER = "user";
+
 }

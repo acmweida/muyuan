@@ -15,6 +15,7 @@
     <modules>
         <module>manager-system</module>
         <module>manager-product</module>
+        <module>manager-auth</module>
     </modules>
 
     <properties>
@@ -23,6 +24,18 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

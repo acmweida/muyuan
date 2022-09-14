@@ -24,10 +24,12 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.manager.system.interfaces.facade.api
+    base-packages: com.muyuan.user.face.interfaces
   protocol:
     name: dubbo
     port: 11003
+    serialization: kryo
+    optimizer: com.muyuan.user.api.serialization.SerializationOptimizerImpl
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}

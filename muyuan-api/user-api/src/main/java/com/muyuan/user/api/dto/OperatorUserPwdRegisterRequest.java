@@ -1,6 +1,10 @@
 package com.muyuan.user.api.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @ClassName OperatorUserPwdRegisterRequest
@@ -9,6 +13,10 @@ import lombok.Data;
  * @Date 2022/9/13 17:32
  * @Version 1.0
  */
+@Builder
 @Data
-public class OperatorUserPwdRegisterRequest {
+@NoArgsConstructor
+public class OperatorUserPwdRegisterRequest implements Serializable {
+
+    private static final long serialVersionUID = 1457932148567l;
 }

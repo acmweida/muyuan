@@ -128,13 +128,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                     UserInfo user = (UserInfo) (authentication.getUserAuthentication()).getPrincipal();
                     info.put(SecurityConst.USER_NAME_KEY,user.getUsername());
                     info.put(SecurityConst.USER_ID_KEY,user.getId());
-                    info.put(SecurityConst.USER_TYPE, UserType.STORE);
+                    info.put(SecurityConst.USER_TYPE, UserType.MERCHANT);
                     info.put(SecurityConst.SHOP_ID_KEY, user.getShopId());
                 } else {
                     SysUserInfo sysUserInfo = ((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal());
                     info.put(SecurityConst.USER_NAME_KEY,sysUserInfo.getUsername());
                     info.put(SecurityConst.USER_ID_KEY,sysUserInfo.getId());
-                    info.put(SecurityConst.USER_TYPE, UserType.SYSUSER);
+                    info.put(SecurityConst.USER_TYPE, UserType.OPERATOR);
                     info.put(SecurityConst.SHOP_ID_KEY, "");
                 }
                 ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);

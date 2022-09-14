@@ -1,16 +1,22 @@
 package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.domain.service.UserDomainService;
+import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.domain.model.entity.user.Operator;
+import com.muyuan.user.domain.service.OperatorDomainService;
+import com.muyuan.user.face.dto.mapper.OperatorMapper;
+import com.muyuan.user.face.dto.mapper.OperatorMapperImpl;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -21,33 +27,36 @@ import java.util.Set;
  * @Version 1.0
  */
 @AllArgsConstructor
-@DubboService(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0"
+@DubboService(group = ServiceTypeConst.USER, version = "1.0"
         , interfaceClass = OperatorInterface.class
 )
 public class OperatorInterfaceApi implements OperatorInterface {
 
+    private static final OperatorMapper operatorMapper = new OperatorMapperImpl();
 
-    private UserDomainService userDomainService;
+    private OperatorDomainService operatorDomainService;
 
     @Override
-    public Result<OperatorDTO> getUserByUsername(String username) {
-        OperatorDTO userByUsername = userDomainService.getUserByUsername(username);
-        if (null == userByUsername) {
-            return ResultUtil.fail("用户信息不存在");
-        }
+    public Result<OperatorDTO> getOperatorByUsername(OperatorQueryRequest request) {
+        Optional<Operator> operator = operatorDomainService.getOperatorByUsername(
+                operatorMapper.toCommand(request)
+        );
 
-        return ResultUtil.success(userByUsername);
+        return operator.map(operatorMapper::toDto)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.fail(ResponseCode.USER_ONT_FOUND));
     }
 
     @Override
     public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
-        return userDomainService.getMenuPermissionByRoleCodes(roleCodes);
+//        return operatorDomainService.getMenuPermissionByRoleCodes(roleCodes);
+        return null;
     }
 
     @Override
     public void linkShop(Long shopId) {
-        Assert.notNull(shopId,"shopId is null");
-        userDomainService.linkShop(shopId);
+        Assert.notNull(shopId, "shopId is null");
+//        operatorDomainService.linkShop(shopId);
     }
 
 }

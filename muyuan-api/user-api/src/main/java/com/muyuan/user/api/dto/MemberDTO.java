@@ -1,6 +1,7 @@
 package com.muyuan.user.api.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName MemberDTO
@@ -10,5 +11,6 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 public class MemberDTO {
 }

@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: manager-auth
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    lettuce:
+      pool:
+        max-idle: 5
+        min-idle: 2
+    timeout: 10000
+server:
+  port: 30001
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.muyuan.member.repo.dao: debug
+    io.lettuce.core: error
+    com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: 31001
+    serialization: kryo
+    optimizer: com.muyuan.user.api.serialization.SerializationOptimizerImpl
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+  consumer:
+    check: false
+  cloud:
+    subscribed-services: user
+  registry:
+    address: spring-cloud://localhost
+knife4j:
+  setting:
+    enableSwaggerModels: true
+    enableOpenApi: true
+

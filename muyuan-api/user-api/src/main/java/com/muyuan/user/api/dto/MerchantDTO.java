@@ -1,6 +1,7 @@
 package com.muyuan.user.api.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 public class MerchantDTO {
 
     private Long id;

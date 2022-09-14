@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserByUsername(String username, String userType) throws UsernameNotFoundException {
-        if (UserType.STORE.name().equals(userType)) {
+        if (UserType.MERCHANT.name().equals(userType)) {
             Result<UserTO> result = userInterFace.getUserByUsername(username);
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserDetailsService {
             userInfo.setAuthorities(authorities);
             return userInfo;
 
-        } else if (UserType.SYSUSER.name().equals(userType)) {
+        } else if (UserType.OPERATOR.name().equals(userType)) {
             Result<SysUserTO> result = sysUserInterface.getUserByUsername(username);
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);

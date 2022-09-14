@@ -24,6 +24,19 @@
             <artifactId>spring-cloud-starter-dubbo</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/de.javakaffee/kryo-serializers -->
+        <dependency>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+            <version>${kryo.serializers.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>${kryo.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.muyuan</groupId>
             <artifactId>common-core</artifactId>

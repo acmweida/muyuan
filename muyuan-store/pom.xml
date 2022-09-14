@@ -16,6 +16,7 @@
     <modules>
         <module>store-system</module>
         <module>store-shop</module>
+        <module>store-auth</module>
     </modules>
 
     <description>Demo project for Spring Boot</description>
