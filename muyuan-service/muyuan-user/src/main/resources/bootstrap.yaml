@@ -35,7 +35,5 @@ dubbo:
     id: ${spring.application.name}
   consumer:
     check: false
-  provider:
-    timeout: 3000
   registry:
     address: spring-cloud://localhost

@@ -1,15 +1,15 @@
 package com.muyuan.user.domain.service;
 
 
-import com.muyuan.user.domain.model.entity.user.Operator;
-import com.muyuan.user.face.dto.OperatorQueryCommand;
+import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.face.dto.UserQueryCommand;
 
 import java.util.Optional;
 
 /**
  * 用户域服务接口
  */
-public interface OperatorDomainService {
+public interface UserDomainService {
 
 //    /**
 //     * 获取权限
@@ -36,7 +36,7 @@ public interface OperatorDomainService {
      * @param command
      * @return
      */
-    Optional<Operator> getOperatorByUsername(OperatorQueryCommand command);
+    Optional<User> getUserByUsername(UserQueryCommand command);
 
 
 //    /**

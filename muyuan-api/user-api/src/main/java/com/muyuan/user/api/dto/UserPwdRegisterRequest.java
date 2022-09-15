@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @NoArgsConstructor
-public class OperatorUserPwdRegisterRequest implements Serializable {
+public class UserPwdRegisterRequest implements Serializable {
 
     private static final long serialVersionUID = 1457932148567l;
 }

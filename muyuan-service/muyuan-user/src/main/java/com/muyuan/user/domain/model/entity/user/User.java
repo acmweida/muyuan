@@ -1,9 +1,10 @@
 package com.muyuan.user.domain.model.entity.user;
 
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.user.domain.model.valueobject.OperatorID;
-import com.muyuan.user.domain.model.valueobject.OperatorUsername;
+import com.muyuan.user.domain.model.valueobject.UserID;
+import com.muyuan.user.domain.model.valueobject.Username;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +14,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 /**
  * @ClassName User
- * Description 用户 t_user
+ * Description 用户
  * @Author 2456910384
  * @Date 2021/12/24 10:17
  * @Version 1.0
@@ -27,17 +29,18 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Operator {
+public class User {
 
-    private OperatorID id;
+    private UserID id;
 
     /**
      * 用户名 唯一 用于登录
      */
-    private OperatorUsername username;
+    private Username username;
 
     private String nickName;
 
+    private UserType type;
     /**
      * 店铺号
      */
@@ -97,21 +100,24 @@ public class Operator {
     private Long createBy;
 
 
+    private List<Role> roles;
+
+
     private void update(long userId, String username) {
         updateTime = DateTime.now().toDate();
         updateBy = userId;
         updater = username;
     }
 
-    public Operator(OperatorID id) {
+    public User(UserID id) {
         this.id = id;
     }
 
-    public Operator(OperatorUsername username) {
+    public User(Username username) {
         this.username = username;
     }
 
-    public Operator(OperatorUsername username, String password) {
+    public User(Username username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -125,6 +131,18 @@ public class Operator {
         name.append(StrUtil.randomString(7));
         name.append((random.nextInt(900) + 100));
         return name.toString();
+    }
+
+    public boolean isOperator() {
+        return UserType.OPERATOR.equals(type);
+    }
+
+    public boolean isMerchant() {
+        return UserType.MERCHANT.equals(type);
+    }
+
+    public boolean isMember() {
+        return UserType.MEMBER.equals(type);
     }
 
     /**

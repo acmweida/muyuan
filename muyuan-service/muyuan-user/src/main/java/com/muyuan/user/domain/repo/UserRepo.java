@@ -1,16 +1,14 @@
 package com.muyuan.user.domain.repo;
 
-import com.muyuan.common.core.constant.BaseRepo;
-import com.muyuan.user.domain.model.entity.user.Operator;
-import com.muyuan.user.domain.model.valueobject.OperatorUsername;
+import com.muyuan.common.core.enums.UserType;
+import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.valueobject.Username;
 
-public interface OperatorRepo extends BaseRepo {
-
-
+public interface UserRepo {
 
 //    Operator selectOne(Operator operator);
 
-    Operator selectOneByUsername(OperatorUsername username);
+    User selectOneByUsername(Username username, UserType userType);
 
 //    void insert(Operator operator);
 //

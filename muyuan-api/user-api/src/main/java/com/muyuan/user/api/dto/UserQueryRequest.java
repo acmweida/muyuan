@@ -1,5 +1,6 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.core.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,11 +19,13 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperatorQueryRequest implements Serializable {
+public class UserQueryRequest implements Serializable {
 
     private static final long serialVersionUID = 145793214856l;
 
     private String username;
 
     private String phone;
+
+    private UserType type;
 }

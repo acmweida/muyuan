@@ -131,6 +131,9 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             }
             return loadedUser;
         } catch (Exception ex) {
+            if (ex.getClass().isAssignableFrom(UsernameNotFoundException.class)) {
+                throw ex;
+            }
             logger.error("认证异常", ex);
             throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), ex);
         }

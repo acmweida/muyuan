@@ -1,4 +1,4 @@
-package com.muyuan.user.domain.model.entity.user;
+package com.muyuan.user.infrastructure.repo.dataobject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

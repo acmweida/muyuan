@@ -3,12 +3,10 @@ package com.muyuan.common.web.aspect;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.exception.handler.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.user.api.SysUserInterface;
-import com.muyuan.user.api.OperatorInterface;
+import com.muyuan.user.api.UserInterface;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -34,11 +32,8 @@ import java.util.Set;
 @Component
 public class PreAuthorizeAspect {
 
-    @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
-    private SysUserInterface sysUserInterface;
-
-    @DubboReference(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0")
-    private OperatorInterface operatorInterface;
+    @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
+    private UserInterface userInterface;
 
     /**
      * 构建
@@ -121,13 +116,7 @@ public class PreAuthorizeAspect {
     public Set<String> getUserPerm() {
         List<String> roles = SecurityUtils.getRoles();
         Set<String> permissionList = new HashSet<>();
-        switch (UserType.valueOf(SecurityUtils.getUserType())) {
-            case MERCHANT:
-                permissionList = operatorInterface.getMenuPermissionByRoleCodes(roles);
-                break;
-            case OPERATOR:
-                permissionList = sysUserInterface.getMenuPermissionByRoleCodes(roles);
-        }
+        permissionList = userInterface.getMenuPermissionByRoleCodes(roles);
         return permissionList;
     }
 

@@ -4,13 +4,13 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.user.api.OperatorInterface;
-import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
-import com.muyuan.user.domain.model.entity.user.Operator;
-import com.muyuan.user.domain.service.OperatorDomainService;
-import com.muyuan.user.face.dto.mapper.OperatorMapper;
-import com.muyuan.user.face.dto.mapper.OperatorMapperImpl;
+import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.UserQueryRequest;
+import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.service.UserDomainService;
+import com.muyuan.user.face.dto.mapper.UserMapper;
+import com.muyuan.user.face.dto.mapper.UserMapperImpl;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.util.Assert;
@@ -28,21 +28,21 @@ import java.util.Set;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
-        , interfaceClass = OperatorInterface.class
+        , interfaceClass = UserInterface.class
 )
-public class OperatorInterfaceApi implements OperatorInterface {
+public class UserInterfaceApi implements UserInterface {
 
-    private static final OperatorMapper operatorMapper = new OperatorMapperImpl();
+    private static final UserMapper USER_MAPPER = new UserMapperImpl();
 
-    private OperatorDomainService operatorDomainService;
+    private UserDomainService userDomainService;
 
     @Override
-    public Result<OperatorDTO> getOperatorByUsername(OperatorQueryRequest request) {
-        Optional<Operator> operator = operatorDomainService.getOperatorByUsername(
-                operatorMapper.toCommand(request)
+    public Result<UserDTO> getUserByUsername(UserQueryRequest request) {
+        Optional<User> operator = userDomainService.getUserByUsername(
+                USER_MAPPER.toCommand(request)
         );
 
-        return operator.map(operatorMapper::toDto)
+        return operator.map(USER_MAPPER::toDto)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.fail(ResponseCode.USER_ONT_FOUND));
     }

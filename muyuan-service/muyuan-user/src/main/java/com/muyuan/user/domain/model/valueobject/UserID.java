@@ -11,11 +11,11 @@ import org.springframework.util.Assert;
  * @Version 1.0
  */
 @Getter
-public class OperatorID {
+public class UserID {
 
     private Long value;
 
-    public OperatorID(Long value) {
+    public UserID(Long value) {
         setValue(value);
     }
 

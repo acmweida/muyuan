@@ -35,7 +35,7 @@ dubbo:
     name: ${spring.application.name}
     id: ${spring.application.name}
   consumer:
-    check: false
+    check: true
   cloud:
     subscribed-services: user
   registry:

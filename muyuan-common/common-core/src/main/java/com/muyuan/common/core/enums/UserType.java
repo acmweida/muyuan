@@ -8,15 +8,34 @@ public enum UserType {
     /**
      * 商家用户（卖家）
      */
-    MERCHANT,
+    MERCHANT(1),
 
     /**
      * 会员（买家）
      */
-    MEMBER,
+    MEMBER(2),
 
     /**
      * 管理员用户
      */
-    OPERATOR;
+    OPERATOR(0);
+
+    private int code;
+
+    UserType(int code) {
+        this.code = code;
+    }
+
+    public UserType trance(int code) {
+        switch (code) {
+            case 0 : return OPERATOR;
+            case 1 : return MERCHANT;
+            case 2 :
+            default: return MEMBER;
+        }
+    }
+
+    public int getCode() {
+        return code;
+    }
 }

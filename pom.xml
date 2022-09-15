@@ -38,6 +38,7 @@
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <kryo.serializers.version>0.45</kryo.serializers.version>
         <kryo.version>4.0.2</kryo.version>
+        <boot.version>2.4.6</boot.version>
     </properties>
 
     <dependencyManagement>

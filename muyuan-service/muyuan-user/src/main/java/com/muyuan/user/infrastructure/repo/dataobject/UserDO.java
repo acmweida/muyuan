@@ -1,6 +1,7 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -14,17 +15,20 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class OperatorDO {
+@NoArgsConstructor
+public class UserDO {
 
-    public OperatorDO(Long id) {
+    public UserDO(Long id) {
         this.id = id;
     }
 
-    public OperatorDO(String username) {
+    public UserDO(String username) {
         this.username = username;
     }
 
     private Long id;
+
+    private Integer type;
 
     /**
      * 部门ID
@@ -94,10 +98,8 @@ public class OperatorDO {
      */
     private String sex;
 
-    public OperatorDO() {
-    }
 
-    public OperatorDO(String username, String password) {
+    public UserDO(String username, String password) {
         Assert.isTrue(!ObjectUtils.isEmpty(username),"username is null");
         Assert.isTrue(!ObjectUtils.isEmpty(password),"password is null");
         this.username = username;

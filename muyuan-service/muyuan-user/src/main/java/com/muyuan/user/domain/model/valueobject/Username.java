@@ -11,11 +11,11 @@ import org.springframework.util.Assert;
  * @Version 1.0
  */
 @Getter
-public class OperatorUsername {
+public class Username {
 
     private String value;
 
-    public OperatorUsername(String value) {
+    public Username(String value) {
         setValue(value);
     }
 

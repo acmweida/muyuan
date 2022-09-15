@@ -1,5 +1,6 @@
 package com.muyuan.user.api.serialization;
 
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.user.api.dto.*;
 import org.apache.dubbo.common.serialize.support.SerializationOptimizer;
 
@@ -19,11 +20,10 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
     @Override
     public Collection<Class<?>> getSerializableClasses() {
         List<Class<?>> classes = new LinkedList<>();
-        classes.add(OperatorQueryRequest.class);
-        classes.add(OperatorUserPwdRegisterRequest.class);
-        classes.add(MemberDTO.class);
-        classes.add(MerchantDTO.class);
-        classes.add(OperatorDTO.class);
+        classes.add(UserQueryRequest.class);
+        classes.add(UserPwdRegisterRequest.class);
+        classes.add(UserDTO.class);
+        classes.add(UserType.class);
         return classes;
     }
 }

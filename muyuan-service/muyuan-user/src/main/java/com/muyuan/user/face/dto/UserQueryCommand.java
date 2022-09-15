@@ -1,5 +1,6 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.core.enums.UserType;
 import lombok.Data;
 
 /**
@@ -10,7 +11,9 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class OperatorQueryCommand {
+public class UserQueryCommand {
 
     private String username;
+
+    private UserType userType;
 }

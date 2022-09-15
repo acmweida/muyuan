@@ -2,12 +2,13 @@ package com.muyuan.manager.auth.service.impl;
 
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.manager.auth.dto.UserInfo;
-import com.muyuan.user.api.OperatorInterface;
-import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
@@ -26,19 +27,20 @@ import java.util.Set;
 public class UserServiceImpl implements UserDetailsService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
-    OperatorInterface operatorInterface;
+    UserInterface userInterface;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Result<OperatorDTO> result = operatorInterface.getOperatorByUsername(OperatorQueryRequest.builder()
+        Result<UserDTO> result = userInterface.getUserByUsername(UserQueryRequest.builder()
                 .username(username)
+                .type(UserType.OPERATOR)
                 .build());
         if (!ResultUtil.isSuccess(result)) {
             throw new UsernameNotFoundException(ResponseCode.USER_ONT_FOUND.getMsg());
         }
 
         log.info("管理用户:{},登录", username);
-        OperatorDTO userDTO = result.getData();
+        UserDTO userDTO = result.getData();
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
