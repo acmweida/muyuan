@@ -3,10 +3,13 @@ package com.muyuan.common.web.aspect;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
+import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.exception.handler.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.PermissionInterface;
+import com.muyuan.user.api.dto.PermissionQueryRequest;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -19,7 +22,6 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +35,7 @@ import java.util.Set;
 public class PreAuthorizeAspect {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
-    private UserInterface userInterface;
+    private PermissionInterface permissionInterface;
 
     /**
      * 构建
@@ -115,9 +117,11 @@ public class PreAuthorizeAspect {
 
     public Set<String> getUserPerm() {
         List<String> roles = SecurityUtils.getRoles();
-        Set<String> permissionList = new HashSet<>();
-        permissionList = userInterface.getMenuPermissionByRoleCodes(roles);
-        return permissionList;
+
+        return permissionInterface.getPermissionByRoleCodes(PermissionQueryRequest.builder()
+                .roleCodes(roles)
+                .type(ObjectUtils.isEmpty(SecurityUtils.getUserType()) ? UserType.MEMBER : UserType.valueOf(SecurityUtils.getUserType()))
+                .build());
     }
 
     /**

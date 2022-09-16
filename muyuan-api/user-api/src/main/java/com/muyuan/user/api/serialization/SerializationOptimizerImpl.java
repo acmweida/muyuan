@@ -22,6 +22,7 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
         List<Class<?>> classes = new LinkedList<>();
         classes.add(UserQueryRequest.class);
         classes.add(UserPwdRegisterRequest.class);
+        classes.add(PermissionQueryRequest.class);
         classes.add(UserDTO.class);
         classes.add(UserType.class);
         return classes;

@@ -1,6 +1,7 @@
 package com.muyuan.user.api;
 
-import java.util.List;
+import com.muyuan.user.api.dto.PermissionQueryRequest;
+
 import java.util.Set;
 
 /**
@@ -12,5 +13,5 @@ import java.util.Set;
  */
 public interface PermissionInterface {
 
-    Set<String> getPermissionByRoleCodes(List<String> roleIds);
+    Set<String> getPermissionByRoleCodes(PermissionQueryRequest request);
 }

@@ -3,13 +3,13 @@ spring:
     nacos:
       config:
         server-addr: 119.29.77.107
-        namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
         group: MUYUAN
         file-extension: properties
       discovery:
         server-addr: 119.29.77.107
         group: MUYUAN
-        namespace: 68be1c0f-1311-4231-9382-39dc25b62d8b
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
     gateway:
       discovery:
         locator:

@@ -13,11 +13,8 @@ import com.muyuan.user.face.dto.mapper.UserMapper;
 import com.muyuan.user.face.dto.mapper.UserMapperImpl;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @ClassName UserInterfaceApi
@@ -45,18 +42,6 @@ public class UserInterfaceApi implements UserInterface {
         return operator.map(USER_MAPPER::toDto)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.fail(ResponseCode.USER_ONT_FOUND));
-    }
-
-    @Override
-    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
-//        return operatorDomainService.getMenuPermissionByRoleCodes(roleCodes);
-        return null;
-    }
-
-    @Override
-    public void linkShop(Long shopId) {
-        Assert.notNull(shopId, "shopId is null");
-//        operatorDomainService.linkShop(shopId);
     }
 
 }

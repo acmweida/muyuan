@@ -4,9 +4,6 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
 
-import java.util.List;
-import java.util.Set;
-
 /**
  * @ClassName OperatorInterface 接口
  * Description 用户信息接口
@@ -17,13 +14,11 @@ import java.util.Set;
 public interface UserInterface {
 
     /**
+     * 通过用户名称 获取用户信息
      * 默认用户类型 MEMBER
      * @param request
      * @return
      */
     Result<UserDTO> getUserByUsername(UserQueryRequest request);
 
-    Set<String> getMenuPermissionByRoleCodes(List<String> roleIds);
-
-    void linkShop(Long shopId);
 }

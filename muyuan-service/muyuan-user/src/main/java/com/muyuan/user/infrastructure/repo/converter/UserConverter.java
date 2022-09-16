@@ -30,7 +30,7 @@ public interface UserConverter {
 
     class UserTypeMap {
         static UserType map(Integer type) {
-            return UserType.MEMBER.trance(type);
+            return UserType.trance(type);
         }
     }
 
