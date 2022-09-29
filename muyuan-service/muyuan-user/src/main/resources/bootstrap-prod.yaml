@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.7:8948
+        namespace: 4eb5e274-e616-4f17-ab53-b4820777ddbe
+        group: MUYUAN
+        file-extension: yaml
+      discovery:
+        server-addr: 192.168.1.7:8948
+        group: MUYUAN
+        namespace: 4eb5e274-e616-4f17-ab53-b4820777ddbe
+    gateway:
+      discovery:
+        locator:
+          enabled: true
