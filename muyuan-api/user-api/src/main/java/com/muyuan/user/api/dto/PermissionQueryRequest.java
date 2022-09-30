@@ -1,6 +1,6 @@
 package com.muyuan.user.api.dto;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +23,5 @@ public class PermissionQueryRequest {
 
     private List<String> roleCodes;
 
-    private UserType type;
+    private PlatformType platformType;
 }

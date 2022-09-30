@@ -1,6 +1,6 @@
 package com.muyuan.user.domain.model.entity.user;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class Permission {
 
     private String action;
 
-    private UserType type;
+    private PlatformType type;
 
     private String perms;
 

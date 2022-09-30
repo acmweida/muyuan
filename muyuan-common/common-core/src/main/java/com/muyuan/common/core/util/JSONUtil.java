@@ -108,6 +108,15 @@ public class JSONUtil {
         return null;
     }
 
+    public static JsonNode parse(String jsonstr) {
+        try {
+            return objectMapper.readTree(jsonstr);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static <T> T parseObject(String jsonStr, Class<T> clazz) {
         try {
             return objectMapper.readValue(jsonStr, clazz);

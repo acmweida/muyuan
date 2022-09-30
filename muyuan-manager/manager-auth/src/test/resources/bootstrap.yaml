@@ -11,43 +11,44 @@ spring:
         group: MUYUAN
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
-    name: user
+    name: manager-auth
   main:
     allow-bean-definition-overriding: true
   profiles:
     active: ''
 server:
-  port: 10003
+  port: 30001
 logging:
   config: classpath:log4j${spring.profiles.active}.xml
   level:
-    com.muyuan.system.infrastructure.persistence.mapper.*: debug
+    com.muyuan.member.repo.dao: debug
+    io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
-    org.apache.dubbo.*: error
-    io.lettuce: error
 
-
-mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true
-    lazy-loading-enabled: true
-  mapper-locations: classpath*:mapper/*.xml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 dubbo:
-  scan:
-    base-packages: com.muyuan.user.face.interfaces
   protocol:
     name: dubbo
-    port: 11003
+    port: 31001
     serialization: kryo
+#    optimizer: com.muyuan.common.dubbo.serialization.SerializationOptimizerImpl
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
   consumer:
-    check: false
+    check: true
+  cloud:
+    subscribed-services: user
   registry:
     address: spring-cloud://localhost
-  cloud:
-    subscribed-services:
+knife4j:
+  setting:
+    enableSwaggerModels: true
+    enableOpenApi: true
+

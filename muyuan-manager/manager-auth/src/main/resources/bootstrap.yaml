@@ -1,18 +1,25 @@
 spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+        group: MUYUAN
+        file-extension: yaml
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
     name: manager-auth
   main:
     allow-bean-definition-overriding: true
-  redis:
-    lettuce:
-      pool:
-        max-idle: 5
-        min-idle: 2
-    timeout: 10000
+  profiles:
+    active: ''
 server:
   port: 30001
 logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
+  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
     io.lettuce.core: error
@@ -30,7 +37,6 @@ dubbo:
     name: dubbo
     port: 31001
     serialization: kryo
-    optimizer: com.muyuan.user.api.serialization.SerializationOptimizerImpl
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}

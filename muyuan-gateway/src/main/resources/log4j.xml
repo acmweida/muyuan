@@ -7,7 +7,7 @@
         <!-- error级别日志 -->
         <Property name="LOG_ERROR_LEVEL" value="error"/>
         <!-- 在当前目录下创建名为log目录做日志存放的目录 -->
-        <Property name="LOG_HOME" value="${sys:user.home}/logs/getway/"/>
+        <Property name="LOG_HOME" value="${sys:user.home}/logs/muyuan/getway/"/>
         <!-- 档案日志存放目录 -->
         <Property name="LOG_ARCHIVE" value="./log/archive"/>
         <!-- 模块名称， 影响日志配置名，日志文件名，根据自己项目进行配置 -->
@@ -17,7 +17,7 @@
         <!-- 保留多少天以内的日志 -->
         <Property name="LOG_DAYS" value="9"/>
         <!--输出日志的格式：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度， %msg：日志消息，%n是换行符 -->
-        <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd hh:mm:ss} -%5p %-40.40logger{39} : %m%n"/>
+        <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd hh:mm:ss} -%5p : %m%n"/>
         <!--interval属性用来指定多久滚动一次-->
         <Property name="TIME_BASED_INTERVAL" value="1"/>
     </Properties>
@@ -67,9 +67,11 @@
         <!-- 开发环境使用 -->
         <Root level="${LOG_INFO_LEVEL}">
           <appender-ref ref="console" />
+            <AppenderRef ref="info"/>
+            <AppenderRef ref="err"/>
         </Root>
 
-        <!-- 测试，生产环境使用 -->
+<!--         测试，生产环境使用-->
 <!--        <Root level="${LOG_INFO_LEVEL}">-->
 <!--            <AppenderRef ref="info"/>-->
 <!--            <AppenderRef ref="err"/>-->

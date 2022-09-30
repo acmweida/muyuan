@@ -1,12 +1,8 @@
 package com.muyuan.user.infrastructure.repo.converter;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.user.Permission;
-import com.muyuan.user.domain.model.entity.user.Role;
-import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.infrastructure.repo.dataobject.PermissionDO;
-import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
-import com.muyuan.user.infrastructure.repo.dataobject.UserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -24,13 +20,13 @@ import java.util.List;
 public interface PermissionConverter {
 
     @Mappings({
-            @Mapping(target = "type",expression = "java(UserTypeMap.map(userDO.getType()))")
+            @Mapping(target = "type",expression = "java(PlatformTypeMap.map(permissionDO.getType()))")
     })
     Permission to(PermissionDO permissionDO);
 
-    class UserTypeMap {
-        static UserType map(Integer type) {
-            return UserType.trance(type);
+    class PlatformTypeMap {
+        static PlatformType map(Integer type) {
+            return PlatformType.trance(type);
         }
     }
 

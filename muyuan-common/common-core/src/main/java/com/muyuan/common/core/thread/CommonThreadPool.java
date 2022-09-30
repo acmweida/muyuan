@@ -30,7 +30,15 @@ public class CommonThreadPool {
 
     static {
 
-        threadPoolExecutor = new ScheduledThreadPoolExecutor(CORE_THREAD_COUNT,FastThreadFactory.getInstance(),new ThreadPoolExecutor.CallerRunsPolicy());
+        threadPoolExecutor = new ScheduledThreadPoolExecutor(CORE_THREAD_COUNT, new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread();
+                thread.setDaemon(true);
+                thread.setName("common-pool");
+                return thread;
+            }
+        },new ThreadPoolExecutor.CallerRunsPolicy());
         log.info("common thread pool init success!");
         Runtime.getRuntime().addShutdownHook(new Thread(
                 () -> {

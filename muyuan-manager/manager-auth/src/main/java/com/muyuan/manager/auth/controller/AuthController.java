@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController()
-@RequestMapping("/login")
+@RequestMapping("/auth")
 @Api(tags = {"登录接口"})
-public interface LoginController {
+public interface AuthController {
 
     @GetMapping("/captchaImage")
     @ApiOperation(value = "获取登录验证码")

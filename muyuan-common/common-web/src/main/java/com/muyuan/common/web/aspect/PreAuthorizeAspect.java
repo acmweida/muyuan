@@ -3,13 +3,12 @@ package com.muyuan.common.web.aspect;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.exception.handler.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.PermissionInterface;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -120,7 +119,7 @@ public class PreAuthorizeAspect {
 
         return permissionInterface.getPermissionByRoleCodes(PermissionQueryRequest.builder()
                 .roleCodes(roles)
-                .type(ObjectUtils.isEmpty(SecurityUtils.getUserType()) ? UserType.MEMBER : UserType.valueOf(SecurityUtils.getUserType()))
+                .platformType(PlatformType.valueOf(SecurityUtils.getUserType()))
                 .build());
     }
 

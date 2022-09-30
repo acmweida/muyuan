@@ -7,6 +7,7 @@ import com.muyuan.gateway.base.config.swagger.SwaggerHeaderFilter;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,7 @@ import java.security.spec.X509EncodedKeySpec;
 @AllArgsConstructor
 @Configuration
 @EnableWebFluxSecurity
+@Slf4j
 public class ResourceServerConfig {
     @Autowired
     private final AuthorizationManager authorizationManager;
@@ -45,13 +47,14 @@ public class ResourceServerConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        // 1、自定义处理JWT请求头过期或签名错误的结果
+//         1、自定义处理JWT请求头过期或签名错误的结果
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
                 .publicKey(rsaPublicKey()); // 本地获取公钥
         //.jwkSetUri() // 远程获取公钥
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
 //        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        log.info("ignore url : "+ignoreUrlsConfig.getIgnore());
         String[] urls = new String[ignoreUrlsConfig.getIgnore().size()];
         ignoreUrlsConfig.getIgnore().toArray(urls);
         http.authorizeExchange()

@@ -8,7 +8,7 @@ import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.manager.auth.controller.LoginController;
+import com.muyuan.manager.auth.controller.AuthController;
 import com.muyuan.manager.auth.vo.CaptchaVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class LoginControllerImpl implements LoginController {
+public class AuthControllerImpl implements AuthController {
 
     @Autowired
     private RedisTemplate redisTemplate;

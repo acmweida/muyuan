@@ -1,36 +1,34 @@
 spring:
   gateway:
     api-prefix: /api
-  application:
-    name: gateway
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:${server.port}/auth/rsa/publicKey
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
   profiles:
-    active:
+    active: ''
   cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+        group: MUYUAN
+        file-extension: yaml
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
     gateway:
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+  application:
+    name: gateway
 server:
   port: 20000
 
 logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
+  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.alibaba.nacos.client.*: warn
-    io:
-      lettuce: error
-
-security:
-  oauth2:
-    client:
-      access-token-uri: http://localhost:${server.port}/auth/oauth/token
-      user-authorization-uri: http://localhost:${server.port}/auth/oauth/authorize #授权端点
+    io.lettuce: error

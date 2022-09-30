@@ -1,6 +1,6 @@
 package com.muyuan.user.face.dto;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.Data;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public class PermissionQueryCommand {
 
     private List<String> roleCodes;
 
-    private UserType userType;
+    private PlatformType platformType;
 }

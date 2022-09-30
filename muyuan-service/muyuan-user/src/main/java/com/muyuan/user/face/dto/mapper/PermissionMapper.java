@@ -1,6 +1,6 @@
 package com.muyuan.user.face.dto.mapper;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
 import com.muyuan.user.face.dto.PermissionQueryCommand;
 import org.mapstruct.Mapper;
@@ -16,7 +16,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface PermissionMapper {
 
-    @Mapping(target = "userType",expression = "java(UserTypeMap.map(request.getType()))")
+    @Mapping(target = "platformType",expression = "java(PlatformTypeMap.map(request.getPlatformType()))")
     PermissionQueryCommand toCommand(PermissionQueryRequest request);
 
 //    @Mappings({
@@ -32,10 +32,10 @@ public interface PermissionMapper {
 //        }
 //    }
 
-    class UserTypeMap {
+    class PlatformTypeMap {
         // 默认用户类型为 会员类型
-        static UserType map(UserType type) {
-            return  null == type ?  UserType.MEMBER : type;
+        static PlatformType map(PlatformType type) {
+            return  null == type ?  PlatformType.MEMBER : type;
         }
     }
 
