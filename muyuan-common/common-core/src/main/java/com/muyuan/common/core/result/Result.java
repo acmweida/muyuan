@@ -10,6 +10,8 @@ import java.util.UUID;
 @Data
 public class Result<T> implements Serializable {
 
+    private static final long serialVersionUID = 155793214856l;
+
     private int code;
 
     private String msg;

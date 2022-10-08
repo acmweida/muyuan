@@ -1,5 +1,6 @@
 package com.muyuan.user.domain.service.impl;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.UserRepo;
@@ -26,8 +27,9 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public Optional<User> getUserByUsername(UserQueryCommand command) {
         Username username = new Username(command.getUsername());
+        PlatformType platformType = command.getPlatformType();
 
-        User user = repo.selectOneByUsername(username,command.getUserType());
+        User user = repo.selectOneByUsername(username,platformType);
 
 
         return Optional.ofNullable(user);

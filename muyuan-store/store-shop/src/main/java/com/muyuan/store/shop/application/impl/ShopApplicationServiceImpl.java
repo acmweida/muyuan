@@ -9,7 +9,7 @@ import com.muyuan.store.shop.domains.dto.ShopDTO;
 import com.muyuan.store.shop.domains.model.Shop;
 import com.muyuan.store.shop.domains.service.ShopDomainService;
 import com.muyuan.store.shop.infrastructure.common.enums.ShopType;
-import com.muyuan.store.api.UserInterface;
+import com.muyuan.user.api.UserInterface;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class ShopApplicationServiceImpl implements ShopApplicationService {
         if (ObjectUtils.isEmpty(SecurityUtils.getShopId())) {
             shopDomainService.addShop(shop, ShopType.SETTlED);
 
-            userInterface.linkShop(shop.getId());
+//            userInterface.linkShop(shop.getId());
         }else {
             throw new MuyuanException(ResponseCode.FAIL.getCode(), "该账户已绑定店铺");
         }

@@ -36,7 +36,6 @@ dubbo:
   protocol:
     name: dubbo
     port: 31001
-    serialization: kryo
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}

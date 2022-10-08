@@ -4,13 +4,12 @@ import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.menager.api.SysUserInterface;
-import com.muyuan.menager.interfaces.to.SysUserTO;
-import com.muyuan.store.api.UserInterface;
-import com.muyuan.store.interfaces.to.UserTO;
+import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -32,19 +31,19 @@ public class UserServiceImpl implements UserDetailsService {
     @DubboReference(group = ServiceTypeConst.STORE_SYSTEM, version = "1.0")
     UserInterface userInterFace;
 
-    @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
-    SysUserInterface sysUserInterface;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Result<UserTO> result = userInterFace.getUserByUsername(username);
+        Result<UserDTO> result = userInterFace.getUserByUsername(UserQueryRequest.builder()
+                .username(username)
+                .build());
 
         if (!ResultUtil.isSuccess(result)) {
             throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
         }
 
         log.info("用户:{},登录成功", username);
-        UserTO userTO = result.getData();
+        UserDTO userTO = result.getData();
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         userTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
@@ -64,13 +63,15 @@ public class UserServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserByUsername(String username, String userType) throws UsernameNotFoundException {
-        if (UserType.MERCHANT.name().equals(userType)) {
-            Result<UserTO> result = userInterFace.getUserByUsername(username);
+        if (PlatformType.MERCHANT.name().equals(userType)) {
+            Result<UserDTO> result = userInterFace.getUserByUsername(UserQueryRequest.builder()
+                    .platformType(PlatformType.MEMBER)
+                    .build());
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             log.info("商家用户:{},登录", username);
-            UserTO userTO = result.getData();
+            UserDTO userTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
             if (ObjectUtils.isNotEmpty(userTO.getRoles())) {
@@ -82,14 +83,16 @@ public class UserServiceImpl implements UserDetailsService {
             userInfo.setAuthorities(authorities);
             return userInfo;
 
-        } else if (UserType.OPERATOR.name().equals(userType)) {
-            Result<SysUserTO> result = sysUserInterface.getUserByUsername(username);
+        } else if (PlatformType.OPERATOR.name().equals(userType)) {
+            Result<UserDTO> result = userInterFace.getUserByUsername(UserQueryRequest.builder()
+                    .platformType(PlatformType.OPERATOR)
+                    .build());
             if (!ResultUtil.isSuccess(result)) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
 
             log.info("管理用户:{},登录", username);
-            SysUserTO userDTO = result.getData();
+            UserDTO userDTO = result.getData();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
             userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));

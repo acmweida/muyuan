@@ -6,10 +6,10 @@
 
     <select id="selectRoleByUserId" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
         select role.* from (
-                               select * from t_role where status = 0 and type = #{type}
+                               select * from t_role where status = 0
                            ) role
                                inner join (
-            select * from t_user_role where user_id = #{userId}
+            select * from t_user_role where user_id = #{userId} and type = #{type}
         ) user_role on user_role.role_id = role.id
     </select>
 </mapper>

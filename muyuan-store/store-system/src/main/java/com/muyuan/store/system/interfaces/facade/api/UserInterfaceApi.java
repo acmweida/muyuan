@@ -3,16 +3,13 @@ package com.muyuan.store.system.interfaces.facade.api;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
-import com.muyuan.store.api.UserInterface;
-import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.domains.service.UserDomainService;
+import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.util.Assert;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * @ClassName UserInterfaceApi
@@ -31,25 +28,24 @@ public class UserInterfaceApi implements UserInterface {
 
     private UserDomainService userDomainService;
 
+//    @Override
+//    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
+//        return sysUserApplicationService.getMenuPermissionByRoleCodes(roleCodes);
+//    }
+//
+//    @Override
+//    public void linkShop(Long shopId) {
+//        Assert.notNull(shopId,"shopId is null");
+//        userDomainService.linkShop(shopId);
+//    }
+
     @Override
-    public Result<UserTO> getUserByUsername(String username) {
-        UserTO userByUsername = sysUserApplicationService.getUserByUsername(username);
+    public Result<UserDTO> getUserByUsername(UserQueryRequest request) {
+        UserDTO userByUsername = sysUserApplicationService.getUserByUsername(request.getUsername());
         if (null == userByUsername) {
             return ResultUtil.fail("用户信息不存在");
         }
 
         return ResultUtil.success(userByUsername);
     }
-
-    @Override
-    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
-        return sysUserApplicationService.getMenuPermissionByRoleCodes(roleCodes);
-    }
-
-    @Override
-    public void linkShop(Long shopId) {
-        Assert.notNull(shopId,"shopId is null");
-        userDomainService.linkShop(shopId);
-    }
-
 }

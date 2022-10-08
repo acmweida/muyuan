@@ -4,6 +4,7 @@ import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.gateway.base.component.RestAuthenticationEntryPoint;
 import com.muyuan.gateway.base.component.RestfulAccessDeniedHandler;
 import com.muyuan.gateway.base.config.swagger.SwaggerHeaderFilter;
+import com.muyuan.gateway.base.filter.ignoreUrlsRemoveJwtFilter;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -45,6 +46,9 @@ public class ResourceServerConfig {
 
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+    @Autowired
+    private ignoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 //         1、自定义处理JWT请求头过期或签名错误的结果
@@ -53,7 +57,7 @@ public class ResourceServerConfig {
         //.jwkSetUri() // 远程获取公钥
         http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
         // 2、对白名单路径，直接移除JWT请求头
-//        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         log.info("ignore url : "+ignoreUrlsConfig.getIgnore());
         String[] urls = new String[ignoreUrlsConfig.getIgnore().size()];
         ignoreUrlsConfig.getIgnore().toArray(urls);

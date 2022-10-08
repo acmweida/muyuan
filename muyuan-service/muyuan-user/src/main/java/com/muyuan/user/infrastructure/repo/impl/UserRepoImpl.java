@@ -1,6 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.domain.model.valueobject.Username;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.user.infrastructure.repo.mapper.UserMapper.USER_TYPE;
 
 /**
  * @ClassName OperatorRepoImpl
@@ -36,15 +35,14 @@ public class UserRepoImpl implements UserRepo {
     private RoleMapper roleMapper;
 
     @Override
-    public User selectOneByUsername(Username username, UserType userType) {
+    public User selectOneByUsername(Username username, PlatformType platformType) {
         UserDO userDO = mapper.selectOne(new SqlBuilder(UserDO.class)
                 .eq(UserMapper.USERNAME, username.getValue())
                 .eq(UserMapper.STATUS, UserMapper.STATUS_OK)
-                .eq(USER_TYPE,userType.getCode())
                 .build());
         User user = converter.to(userDO);
         if (null != userDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(userDO.getId(), userType.getCode());
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(userDO.getId(),platformType.getCode());
             user.setRoles(converter.toRole(roleDOS));
         }
 

@@ -2,7 +2,6 @@ package com.muyuan.store.system.application.service.impl;
 
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.domains.dto.RegisterDTO;
 import com.muyuan.store.system.domains.factories.UserFactory;
 import com.muyuan.store.system.domains.model.Role;
@@ -13,6 +12,7 @@ import com.muyuan.store.system.domains.service.UserDomainService;
 import com.muyuan.store.system.domains.vo.UserVO;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.interfaces.assembler.UserInfoAssembler;
+import com.muyuan.user.api.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private MenuDomainService menuDomainService;
 
     @Override
-    public UserTO getUserByUsername(String username) {
+    public UserDTO getUserByUsername(String username) {
         final Optional<User> userInfo = userDomainService.getUserByUsername(username);
         if (!userInfo.isPresent()) {
             return null;
@@ -46,7 +46,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
         List<String> roleCodes = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getCode()).collect(Collectors.toList());
 
-        UserTO userTO = UserInfoAssembler.buildUserTO(userInfo.get());
+        UserDTO userTO = UserInfoAssembler.buildUserTO(userInfo.get());
         userTO.setRoles(roleCodes);
         return userTO;
     }

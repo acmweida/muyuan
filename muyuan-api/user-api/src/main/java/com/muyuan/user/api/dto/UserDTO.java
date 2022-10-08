@@ -2,6 +2,7 @@ package com.muyuan.user.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class UserDTO {
+public class UserDTO implements Serializable {
+
+    private static final long serialVersionUID = 1457932148569l;
 
     private Long id;
 

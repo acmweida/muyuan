@@ -28,8 +28,6 @@ public class UserDO {
 
     private Long id;
 
-    private Integer type;
-
     /**
      * 部门ID
      */

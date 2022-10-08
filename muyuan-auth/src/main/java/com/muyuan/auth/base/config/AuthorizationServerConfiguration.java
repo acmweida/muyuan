@@ -5,11 +5,12 @@ import com.muyuan.auth.base.oauth2.granter.ImageCaptchaTokenGranter;
 import com.muyuan.auth.dto.SysUserInfo;
 import com.muyuan.auth.dto.UserInfo;
 import com.muyuan.common.core.constant.SecurityConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
+import org.apache.xmlbeans.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -128,13 +129,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                     UserInfo user = (UserInfo) (authentication.getUserAuthentication()).getPrincipal();
                     info.put(SecurityConst.USER_NAME_KEY,user.getUsername());
                     info.put(SecurityConst.USER_ID_KEY,user.getId());
-                    info.put(SecurityConst.USER_TYPE, UserType.MERCHANT);
+                    info.put(SecurityConst.USER_TYPE, PlatformType.MERCHANT);
                     info.put(SecurityConst.SHOP_ID_KEY, user.getShopId());
                 } else {
                     SysUserInfo sysUserInfo = ((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal());
                     info.put(SecurityConst.USER_NAME_KEY,sysUserInfo.getUsername());
                     info.put(SecurityConst.USER_ID_KEY,sysUserInfo.getId());
-                    info.put(SecurityConst.USER_TYPE, UserType.OPERATOR);
+                    info.put(SecurityConst.USER_TYPE, PlatformType.OPERATOR);
                     info.put(SecurityConst.SHOP_ID_KEY, "");
                 }
                 ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);

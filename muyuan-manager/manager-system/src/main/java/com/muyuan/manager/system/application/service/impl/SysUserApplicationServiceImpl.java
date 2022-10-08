@@ -2,7 +2,6 @@ package com.muyuan.manager.system.application.service.impl;
 
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.menager.interfaces.to.SysUserTO;
 import com.muyuan.manager.system.application.service.SysUserApplicationService;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.model.SysUser;
@@ -11,6 +10,7 @@ import com.muyuan.manager.system.domains.service.SysRoleDomainService;
 import com.muyuan.manager.system.domains.service.SysUserDomainService;
 import com.muyuan.manager.system.domains.vo.SysUserVO;
 import com.muyuan.manager.system.interfaces.assembler.SysUserInfoAssembler;
+import com.muyuan.user.api.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
     private SysMenuDomainService sysMenuDomainService;
 
     @Override
-    public SysUserTO getUserByUsername(String username) {
+    public UserDTO getUserByUsername(String username) {
         final Optional<SysUser> userInfo = sysUserDomainService.getByyUsername(username);
         if (!userInfo.isPresent()) {
             return null;
@@ -45,7 +45,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
         // 默认角色
 //        roleNames.add(SecurityConst.DEFAULT_ROLE);
 
-        SysUserTO userDTO = SysUserInfoAssembler.buildUserTO(userInfo.get());
+        UserDTO userDTO = SysUserInfoAssembler.buildUserTO(userInfo.get());
         userDTO.setRoles(roleNames);
         return userDTO;
     }

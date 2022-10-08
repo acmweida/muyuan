@@ -13,7 +13,5 @@ public interface UserMapper extends UserBaseMapper<UserDO> {
 
     String USERNAME = "username";
 
-    String USER_TYPE = "type";
-
     int STATUS_OK = 0;
 }

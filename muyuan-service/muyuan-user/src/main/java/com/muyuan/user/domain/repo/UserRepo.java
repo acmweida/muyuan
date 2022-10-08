@@ -1,6 +1,6 @@
 package com.muyuan.user.domain.repo;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.domain.model.valueobject.Username;
 
@@ -8,7 +8,7 @@ public interface UserRepo {
 
 //    Operator selectOne(Operator operator);
 
-    User selectOneByUsername(Username username, UserType userType);
+    User selectOneByUsername(Username username, PlatformType platformType);
 
 //    void insert(Operator operator);
 //

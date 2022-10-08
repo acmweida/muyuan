@@ -1,6 +1,6 @@
 package com.muyuan.user.face.dto;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.Data;
 
 /**
@@ -15,5 +15,5 @@ public class UserQueryCommand {
 
     private String username;
 
-    private UserType userType;
+    private PlatformType platformType;
 }

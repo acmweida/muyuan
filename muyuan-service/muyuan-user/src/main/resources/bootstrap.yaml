@@ -41,7 +41,6 @@ dubbo:
   protocol:
     name: dubbo
     port: 11003
-    serialization: kryo
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}

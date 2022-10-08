@@ -1,8 +1,8 @@
 package com.muyuan.store.system.application.service;
 
-import com.muyuan.store.interfaces.to.UserTO;
 import com.muyuan.store.system.domains.dto.RegisterDTO;
 import com.muyuan.store.system.domains.vo.UserVO;
+import com.muyuan.user.api.dto.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public interface UserApplicationService {
      * @param username
      * @return
      */
-    UserTO getUserByUsername(String username);
+    UserDTO getUserByUsername(String username);
 
     /**
      * 获取权限

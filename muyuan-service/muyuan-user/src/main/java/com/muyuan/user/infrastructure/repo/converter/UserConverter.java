@@ -1,6 +1,5 @@
 package com.muyuan.user.infrastructure.repo.converter;
 
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.user.domain.model.entity.user.Role;
 import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
@@ -23,16 +22,10 @@ public interface UserConverter {
 
     @Mappings({
             @Mapping(source = "id",target ="id.value"),
-            @Mapping(source = "username",target ="username.value"),
-            @Mapping(target = "type",expression = "java(UserTypeMap.map(userDO.getType()))")
+            @Mapping(source = "username",target ="username.value")
     })
     User to(UserDO userDO);
 
-    class UserTypeMap {
-        static UserType map(Integer type) {
-            return UserType.trance(type);
-        }
-    }
 
     List<Role> toRole(List<RoleDO> roleDOS);
 

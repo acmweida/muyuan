@@ -1,6 +1,6 @@
 package com.muyuan.user.api.dto;
 
-import com.muyuan.common.core.enums.UserType;
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,8 @@ public class UserQueryRequest implements Serializable {
 
     private String username;
 
+    private PlatformType platformType;
+
     private String phone;
 
-    private UserType type;
 }

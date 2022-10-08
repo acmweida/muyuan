@@ -43,12 +43,6 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>manager-api</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.muyuan</groupId>
             <artifactId>common-dubbo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

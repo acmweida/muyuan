@@ -24,15 +24,12 @@
             <version>${easyexcl.version}</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>${caffeine.version}</version>
         </dependency>
-
-
 
         <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
         <dependency>

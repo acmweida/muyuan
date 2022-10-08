@@ -1,6 +1,5 @@
 package com.muyuan.user.domain.model.entity.user;
 
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -40,7 +39,6 @@ public class User {
 
     private String nickName;
 
-    private UserType type;
     /**
      * 店铺号
      */
@@ -133,17 +131,6 @@ public class User {
         return name.toString();
     }
 
-    public boolean isOperator() {
-        return UserType.OPERATOR.equals(type);
-    }
-
-    public boolean isMerchant() {
-        return UserType.MERCHANT.equals(type);
-    }
-
-    public boolean isMember() {
-        return UserType.MEMBER.equals(type);
-    }
 
     /**
      * 初始化用户信息

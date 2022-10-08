@@ -1,8 +1,8 @@
 package com.muyuan.manager.auth.service.impl;
 
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.manager.auth.dto.UserInfo;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Result<UserDTO> result = userInterface.getUserByUsername(UserQueryRequest.builder()
                 .username(username)
-                .type(UserType.OPERATOR)
+                .platformType(PlatformType.OPERATOR)
                 .build());
         if (!ResultUtil.isSuccess(result)) {
             throw new UsernameNotFoundException(ResponseCode.USER_ONT_FOUND.getMsg());

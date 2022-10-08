@@ -1,4 +1,15 @@
 spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+        group: MUYUAN
+        file-extension: yaml
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
     name: auth
   main:
@@ -9,10 +20,12 @@ spring:
         max-idle: 5
         min-idle: 2
     timeout: 10000
+  profiles:
+    active: ''
 server:
   port: 20001
 logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
+  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
     io.lettuce.core: error
@@ -35,7 +48,7 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: manager-system,store-system
+    subscribed-services: user
   registry:
     address: spring-cloud://localhost
 knife4j:

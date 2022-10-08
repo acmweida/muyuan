@@ -2,13 +2,13 @@ package com.muyuan.manager.auth.base.config;
 
 
 import com.muyuan.common.core.constant.SecurityConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.enums.UserType;
 import com.muyuan.common.core.result.Result;
 import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
-import com.muyuan.manager.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.manager.auth.base.config.oauth2.granter.ImageCaptchaTokenGranter;
+import com.muyuan.manager.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.manager.auth.dto.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -128,7 +128,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 UserInfo userInfo = ((UserInfo) (authentication.getUserAuthentication()).getPrincipal());
                 info.put(SecurityConst.USER_NAME_KEY, userInfo.getUsername());
                 info.put(SecurityConst.USER_ID_KEY, userInfo.getId());
-                info.put(SecurityConst.USER_TYPE, UserType.OPERATOR);
+                info.put(SecurityConst.USER_TYPE, PlatformType.OPERATOR);
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
                 return super.enhance(accessToken, authentication);
             }

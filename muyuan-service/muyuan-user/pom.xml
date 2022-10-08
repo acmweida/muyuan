@@ -6,6 +6,7 @@
         <groupId>com.muyuan</groupId>
         <artifactId>muyuan-service</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
     <artifactId>muyuan-user</artifactId>
@@ -19,6 +20,12 @@
         <dependency>
             <groupId>com.muyuan</groupId>
             <artifactId>user-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.muyuan</groupId>
+            <artifactId>common-mybatis</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
