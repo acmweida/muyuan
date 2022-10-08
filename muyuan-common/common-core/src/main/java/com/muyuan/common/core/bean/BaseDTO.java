@@ -1,7 +1,6 @@
 package com.muyuan.common.core.bean;
 
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -33,7 +32,6 @@ public abstract class BaseDTO<T extends BaseDTO, E> implements Converter<T, E>,P
     @Override
     public E convert(T bean) {
         E entity = newEntity();
-        BeanUtils.copyProperties(bean, entity);
         return entity;
     }
 

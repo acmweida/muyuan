@@ -1,7 +1,7 @@
 package com.muyuan.common.core.validator.impl;
 
 import com.muyuan.common.core.validator.annotions.AtLeastOneNotEmpty;
-import org.springframework.util.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

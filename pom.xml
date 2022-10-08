@@ -44,6 +44,7 @@
         <mybatis.starter.version>2.2.2</mybatis.starter.version>
         <caffeine.version>2.9.2</caffeine.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <jackson.version>2.11.4</jackson.version>
         <hibernate.validator.version>6.1.7.Final</hibernate.validator.version>
     </properties>
 
@@ -122,6 +123,7 @@
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>
