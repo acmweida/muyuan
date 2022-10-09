@@ -58,7 +58,7 @@ public class FunctionUtil<T> {
         };
     }
 
-    public static Supplier getIfNullThenRebuild(Supplier exec, Supplier rebuild, Consumer then) {
+    public static Supplier  getIfNullThenRebuild(Supplier exec, Supplier rebuild, Consumer then) {
         return () -> {
             Object o = exec.get();
             if (ObjectUtils.isEmpty(o)) {

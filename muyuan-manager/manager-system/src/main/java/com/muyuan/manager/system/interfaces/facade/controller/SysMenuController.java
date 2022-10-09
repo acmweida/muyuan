@@ -1,10 +1,10 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
-import com.muyuan.common.core.bean.SelectValue;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.bean.SelectValue;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.TokenType;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;

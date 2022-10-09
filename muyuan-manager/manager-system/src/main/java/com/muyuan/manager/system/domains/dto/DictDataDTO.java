@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.domains.dto;
 
-import com.muyuan.common.core.bean.BaseDTO;
-import com.muyuan.common.core.bean.Paging;
+import com.muyuan.common.bean.Paging;
+import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.manager.system.domains.model.DictData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,7 +1,7 @@
 package com.muyuan.manager.product.domains.repo;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.BaseRepo;
+import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.manager.product.domains.dto.GoodsDTO;
 import com.muyuan.manager.product.domains.model.Goods;
 

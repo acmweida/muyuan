@@ -1,10 +1,12 @@
 package com.muyuan.manager.product.domains.service.impl;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
+import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.manager.product.domains.assembler.CategoryAssembler;
 import com.muyuan.manager.product.domains.dto.AttributeDTO;
@@ -59,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         String key = CATEGORY_KEY_PREFIX + (parentId == null ? "" : parentId) + ":"
                 + (level == null ? "" : level);
-        return redisCacheService.getAndUpdateList(key,
+        return CacheServiceUtil.getAndUpdateList(redisCacheService,key,
                 () -> {
                     List<Category> list = list(CategoryDTO.builder()
                             .parentId(parentId)
@@ -139,7 +141,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> detail(Category goodsCategory) {
 
-        Category category = redisCacheService.getAndUpdate(CATEGORY_KEY_PREFIX + goodsCategory.getCode(), () ->
+        Category category = CacheServiceUtil.getAndUpdate(redisCacheService,CATEGORY_KEY_PREFIX + goodsCategory.getCode(), () ->
                         categoryRepo.selectOne(Category.builder()
                                 .code(goodsCategory.getCode())
                                 .build())
@@ -149,7 +151,7 @@ public class CategoryServiceImpl implements CategoryService {
             return Optional.empty();
         }
 
-        List<Attribute> attributes = redisCacheService.getAndUpdateList(AttributeService.CATEGORY_ATTRIBUTE_KEY_PREFIX + goodsCategory.getCode(), () ->
+        List<Attribute> attributes = CacheServiceUtil.getAndUpdateList(redisCacheService,AttributeService.CATEGORY_ATTRIBUTE_KEY_PREFIX + goodsCategory.getCode(), () ->
                         attributeRepo.select(AttributeDTO.builder()
                                 .categoryCode(goodsCategory.getCode())
                                 .build())

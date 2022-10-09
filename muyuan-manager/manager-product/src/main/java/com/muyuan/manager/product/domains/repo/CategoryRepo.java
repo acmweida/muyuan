@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.domains.repo;
 
-import com.muyuan.common.core.constant.BaseRepo;
+import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.manager.product.domains.model.BrandCategory;
 import com.muyuan.manager.product.domains.model.Category;
 import com.muyuan.manager.product.domains.dto.CategoryDTO;

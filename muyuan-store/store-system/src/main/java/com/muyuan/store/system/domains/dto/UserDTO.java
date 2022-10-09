@@ -1,6 +1,6 @@
 package com.muyuan.store.system.domains.dto;
 
-import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.store.system.domains.model.User;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

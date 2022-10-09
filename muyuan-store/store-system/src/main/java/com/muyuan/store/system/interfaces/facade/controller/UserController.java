@@ -1,8 +1,8 @@
 package com.muyuan.store.system.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.domains.dto.RegisterDTO;

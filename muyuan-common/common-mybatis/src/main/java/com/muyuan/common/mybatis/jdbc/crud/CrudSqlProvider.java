@@ -38,8 +38,8 @@ public class CrudSqlProvider {
     public String selectOne(Map<String, Object> params, ProviderContext context) {
         SQL sql = new SQL();
 
-        String[] column = (String[]) params.get(Constant.COLUMN);
-        sql.SELECT(column).FROM(tableName(context));
+        List<String> column = (List<String>) params.get(Constant.COLUMN);
+        sql.SELECT(column.toArray(new String[0])).FROM(tableName(context));
         List<String> conditionSqls = new ArrayList<>();
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {
@@ -71,8 +71,8 @@ public class CrudSqlProvider {
         SQL sql = new SQL();
 
         List<String> orderBY = new ArrayList();
-        String[] column = (String[]) params.get(Constant.COLUMN);
-        sql.SELECT(column).FROM(tableName(context));
+        List<String> column = (List<String>) params.get(Constant.COLUMN);
+        sql.SELECT(column.toArray(new String[0])).FROM(tableName(context));
         List<String> conditionSqls = new ArrayList<>();
         List<Condition> conditions = (List<Condition>) params.get(Constant.CONDITION);
         for (Condition condition : conditions) {

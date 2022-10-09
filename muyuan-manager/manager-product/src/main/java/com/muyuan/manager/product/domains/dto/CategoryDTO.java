@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.domains.dto;
 
-import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.manager.product.domains.model.Category;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

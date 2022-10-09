@@ -1,12 +1,12 @@
 package com.muyuan.manager.system.interfaces.assembler;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
+import com.muyuan.manager.system.domains.model.SysMenu;
 import com.muyuan.manager.system.domains.vo.SysMenuVO;
 import com.muyuan.manager.system.domains.vo.SysMetaVo;
 import com.muyuan.manager.system.domains.vo.SysRouterVo;
-import com.muyuan.manager.system.domains.model.SysMenu;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 

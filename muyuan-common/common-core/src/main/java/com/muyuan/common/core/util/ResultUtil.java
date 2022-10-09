@@ -1,7 +1,7 @@
-package com.muyuan.common.core.result;
+package com.muyuan.common.core.util;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.util.StrUtil;
 
 import java.util.Collections;
 

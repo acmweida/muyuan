@@ -1,9 +1,9 @@
 package com.muyuan.auth.base.exception;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

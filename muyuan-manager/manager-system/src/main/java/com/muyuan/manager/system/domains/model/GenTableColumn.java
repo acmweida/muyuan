@@ -1,6 +1,6 @@
 package com.muyuan.manager.system.domains.model;
 
-import com.muyuan.common.core.constant.BaseRepo;
+import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.manager.system.infrastructure.common.GenConstants;
 import lombok.Data;

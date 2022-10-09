@@ -1,9 +1,9 @@
 package com.muyuan.common.controller;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.dto.FileDTO;
 import com.muyuan.common.factories.FileServiceFactory;
 import com.muyuan.common.model.File;

@@ -1,11 +1,11 @@
 package com.muyuan.common.web.util;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.Convert;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;

@@ -1,9 +1,9 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.util.Convert;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;

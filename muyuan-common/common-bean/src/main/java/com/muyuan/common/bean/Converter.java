@@ -1,4 +1,4 @@
-package com.muyuan.common.core.bean;
+package com.muyuan.common.bean;
 
 /**
  * @ClassName Converter 接口

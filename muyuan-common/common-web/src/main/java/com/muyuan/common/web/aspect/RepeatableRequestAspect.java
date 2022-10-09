@@ -1,7 +1,7 @@
 package com.muyuan.common.web.aspect;
 
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.Repeatable;
 import lombok.AllArgsConstructor;

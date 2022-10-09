@@ -2,15 +2,16 @@ package com.muyuan.common.redis.manage;
 
 import com.muyuan.common.core.cache.CacheService;
 import com.muyuan.common.core.thread.CommonThreadPool;
-import com.muyuan.common.core.util.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * @ClassName RedisCacheManager
@@ -130,39 +131,34 @@ public class RedisCacheService implements CacheService {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
-    public String getAndUpdate(String key, Supplier<Object> supplier) {
-        return (String) getAndUpdate(key,
-                this::get,
-                () -> supplier.get(),
-                (k,v) -> set(k, v)
-        );
+    @Override
+    public boolean set(String key, String value) {
+        try {
+            redisTemplate.opsForValue().set(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public <T> T getAndUpdate(String key, Supplier<Object> supplier, Class<T> type) {
-        return (T) JSONUtil.parseObject((String) getAndUpdate(key,
-                this::get,
-                () -> JSONUtil.toJsonString(supplier.get()),
-                this::set
-        ),type);
+    @Override
+    public boolean set(String key, String value, long time) {
+        try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public  <T> List<T> getAndUpdateList(String key, Supplier<Object> supplier, Class<T> type) {
-        return (List<T>) JSONUtil.parseObjectList((String) getAndUpdate(key,
-                this::get,
-                () -> JSONUtil.toJsonString(supplier.get()),
-                this::set
-        ),ArrayList.class,type);
-    }
 
     // ============================Set(集合)=============================
-
-    public  <T> Set<T> sGetAndUpdate(String key, Supplier<Set> supplier, Class<T> type) {
-        return (Set<T>) getAndUpdate(key,
-                this::sGet,
-                supplier::get,
-                (k,v) -> sSet(k, ((Set)v).toArray())
-        );
-    }
 
     /**
      * 普通缓存放入
@@ -423,7 +419,7 @@ public class RedisCacheService implements CacheService {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSet(String key, Object... values) {
+    public long sSet(String key, Set values) {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com.muyuan.manager.product.domains.service;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.manager.product.domains.dto.BrandDTO;
 import com.muyuan.manager.product.domains.model.Brand;
 

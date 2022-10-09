@@ -1,8 +1,8 @@
 package com.muyuan.store.shop.interfaces.facade.controller;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.exception.handler.UserNotFoundException;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.log.enums.OperatorType;

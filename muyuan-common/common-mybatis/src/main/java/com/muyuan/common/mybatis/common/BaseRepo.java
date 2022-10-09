@@ -1,4 +1,4 @@
-package com.muyuan.common.core.constant;
+package com.muyuan.common.mybatis.common;
 
 /**
  * @ClassName BaseRepo 接口

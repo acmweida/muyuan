@@ -3,4 +3,4 @@ com.muyuan.user.api.dto.UserPwdRegisterRequest
 com.muyuan.user.api.dto.PermissionQueryRequest
 com.muyuan.user.api.dto.UserDTO
 com.muyuan.common.core.enums.UserType
-com.muyuan.common.core.result.Result
+com.muyuan.common.bean.result.Result

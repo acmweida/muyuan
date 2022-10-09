@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.domains.assembler;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.manager.product.domains.model.Category;
 import com.muyuan.manager.product.domains.vo.CategoryVO;
 import org.springframework.beans.BeanUtils;

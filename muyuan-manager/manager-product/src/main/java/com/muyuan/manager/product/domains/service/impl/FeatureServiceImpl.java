@@ -2,7 +2,8 @@ package com.muyuan.manager.product.domains.service.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Paging;
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.manager.product.domains.assembler.FeatureAssembler;
 import com.muyuan.manager.product.domains.dto.FeatureDTO;
@@ -115,7 +116,7 @@ public class FeatureServiceImpl implements FeatureService
     @Override
     public List<SelectTree> options(FeatureDTO featureDTO) {
         String key = FEATURE_KEY_PREFIX + featureDTO.getName();
-        return redisCacheService.getAndUpdateList(key,
+        return CacheServiceUtil.getAndUpdateList(redisCacheService,key,
                 () -> {
                     List<Feature> features = repo.select(featureDTO);
                     return FeatureAssembler.buildSelect(features);

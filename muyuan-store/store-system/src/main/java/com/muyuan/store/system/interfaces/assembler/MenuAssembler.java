@@ -1,6 +1,6 @@
 package com.muyuan.store.system.interfaces.assembler;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.store.system.domains.model.Menu;

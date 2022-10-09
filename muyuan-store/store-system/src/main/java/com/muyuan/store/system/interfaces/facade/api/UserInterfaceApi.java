@@ -1,8 +1,8 @@
 package com.muyuan.store.system.interfaces.facade.api;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.domains.service.UserDomainService;
 import com.muyuan.user.api.UserInterface;

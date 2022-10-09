@@ -1,11 +1,6 @@
 package com.muyuan.common.core.cache;
 
-import com.muyuan.common.core.util.FunctionUtil;
-
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.Set;
 
 /**
  * @ClassName CacheManager 接口
@@ -22,50 +17,6 @@ public interface CacheService {
      * 默认ExpireTime
      */
     long DEFAULT_EXPIRE_TIME = 5 * 60;
-
-    /**
-     * 获取缓存
-     *
-     * @param key
-     * @return
-     */
-    Object get(String key);
-
-    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, Consumer<Object> setCache) {
-        return  FunctionUtil.getIfNullThenRebuild(
-                () -> getCache.apply(key),
-                supplier,
-                setCache
-        ).get();
-    }
-
-    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache) {
-        return  getAndUpdate(
-                key,
-                getCache,
-                supplier,
-                (value) -> {
-                    setCache.accept(key,value);
-                }
-        );
-    }
-
-    default Object getAndUpdate(String key, Function<String, Object> getCache,Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime) {
-        return getAndUpdate(key,getCache, supplier,setCache, expireTime, DEFAULT_EXPIRE_TIME);
-    }
-
-    default Object getAndUpdate(String key, Function<String, Object> getCache, Supplier<Object> supplier, BiConsumer<String,Object> setCache, long expireTime, long nullExpire) {
-        return getAndUpdate(key, getCache, supplier,
-                setCache.andThen(
-                        (k,v) ->  {
-                            if (v == null) {
-                                expire(k,nullExpire);
-                            } else {
-                                expire(k,expireTime);
-                            }
-                        }
-                ));
-    }
 
 
     /**
@@ -84,4 +35,52 @@ public interface CacheService {
      * @return
      */
     boolean expire(String key, long time);
+
+    /* ===================== ==== String ==================*/
+    /**
+     * 获取缓存
+     *
+     * @param key
+     * @return
+     */
+    Object get(String key);
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    boolean set(String key, String value);
+
+    /**
+     * 普通缓存放入并设置时间
+     *
+     * @param key   键
+     * @param value 值
+     * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @return true成功 false 失败
+     */
+    boolean set(String key, String value, long time);
+
+
+    /* ================== Set ================= */
+
+    /**
+     *
+     * @param key
+     * @param <T>
+     * @return
+     */
+    <T> Set<T> sGet(String key);
+
+    /**
+     *
+     * @param key
+     * @param values
+     * @return
+     */
+    long sSet(String key,Set set);
+
+
 }

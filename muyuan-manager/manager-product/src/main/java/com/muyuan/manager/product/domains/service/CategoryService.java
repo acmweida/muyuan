@@ -1,6 +1,6 @@
 package com.muyuan.manager.product.domains.service;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.manager.product.domains.dto.CategoryDTO;
 import com.muyuan.manager.product.domains.model.Category;
 

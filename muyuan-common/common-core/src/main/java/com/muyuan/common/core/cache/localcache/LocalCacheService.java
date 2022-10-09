@@ -7,8 +7,8 @@ import com.muyuan.common.core.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * @ClassName LocalCacheUtil
@@ -68,23 +68,6 @@ public class LocalCacheService extends ListCacheService<Cache<String, Object>> i
         return false;
     }
 
-    public Object getAndUpdate(String key, Supplier<Object> supplier) {
-        return getAndUpdate(key,
-                (k) -> get(k),
-                () -> supplier.get(),
-                (k, v) -> set(k, v)
-        );
-    }
-
-
-    public Object getAndUpdate(String key, Supplier<Object> supplier, long expireTime) {
-        return getAndUpdate(key,
-                (k) -> get(k),
-                () -> supplier.get(),
-                (k, v) -> set(k, v, expireTime)
-        );
-    }
-
 
     /**
      * 普通缓存放入
@@ -93,8 +76,14 @@ public class LocalCacheService extends ListCacheService<Cache<String, Object>> i
      * @param value 值
      * @return true成功 false失败
      */
-    public void set(String key, Object value) {
+    public boolean set(String key, String value) {
         normalCache.put(key, value);
+        return true;
+    }
+
+    @Override
+    public boolean set(String key, String value, long time) {
+        return false;
     }
 
     /**
@@ -109,14 +98,32 @@ public class LocalCacheService extends ListCacheService<Cache<String, Object>> i
         stringObjectCache.put(key, value);
     }
 
-    public Object get(String key) {
+    @Override
+    public <T> Set<T> sGet(String key) {
         for (Cache cache : expireCache) {
             Object v = cache.getIfPresent(key);
             if (v != null) {
-                return v;
+                return (Set<T>) v;
             }
         }
-        return normalCache.getIfPresent(key);
+        return (Set<T>) normalCache.getIfPresent(key);
+    }
+
+    @Override
+    public long sSet(String key, Set set) {
+        normalCache.put(key, set);
+        return set.size();
+    }
+
+
+    public String get(String key) {
+        for (Cache cache : expireCache) {
+            Object v = cache.getIfPresent(key);
+            if (v != null) {
+                return (String) v;
+            }
+        }
+        return (String) normalCache.getIfPresent(key);
     }
 
     @Override

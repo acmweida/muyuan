@@ -1,6 +1,6 @@
 package com.muyuan.store.shop.domains.dto;
 
-import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.common.core.validator.annotions.AtLeastOneNotEmpty;
 import com.muyuan.store.shop.domains.model.Shop;
 import io.swagger.annotations.ApiModel;

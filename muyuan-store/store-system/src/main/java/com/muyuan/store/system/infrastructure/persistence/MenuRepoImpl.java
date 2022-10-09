@@ -1,6 +1,7 @@
 package com.muyuan.store.system.infrastructure.persistence;
 
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
@@ -46,7 +47,7 @@ public class MenuRepoImpl implements MenuRepo {
             String roleCode = it.next();
             if (StrUtil.isNotEmpty(roleCode)) {
 //                redisCacheManager.redisUtils.del(RedisConst.ROLE_PERM_KEY_PREFIX+roleCode);
-                Set<String> rolePerms = redisCacheService.sGetAndUpdate(
+                Set<String> rolePerms = CacheServiceUtil.sGetAndUpdate(redisCacheService,
                         RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX+roleCode,
                         () -> new HashSet(selectMenuPermissionByRoleCode(roleCode)),
                         String.class
@@ -74,7 +75,7 @@ public class MenuRepoImpl implements MenuRepo {
         while (it.hasNext()) {
             String roleCode = it.next();
 //            redisCacheManager.redisUtils.del(RedisConst.ROLE_MENU_KEY_PREFIX+roleCode);
-            String cacheMenuJson = (String) redisCacheService.getAndUpdate(RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
+            String cacheMenuJson = CacheServiceUtil.getAndUpdate(redisCacheService,RedisConst.MEMBER_ROLE_MENU_KEY_PREFIX+roleCode,
                     () -> JSONUtil.toJsonString(selectMenuByRoleCode(roleCode))
             );
             if (StrUtil.isNotEmpty(cacheMenuJson)) {

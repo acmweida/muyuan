@@ -1,6 +1,6 @@
 package com.muyuan.user.api;
 
-import com.muyuan.common.core.result.Result;
+import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
 

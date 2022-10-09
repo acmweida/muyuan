@@ -1,10 +1,10 @@
 package com.muyuan.manager.system.interfaces.facade.controller;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
 import com.muyuan.common.core.util.ExcelUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.domains.dto.SysRoleDTO;

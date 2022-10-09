@@ -1,4 +1,4 @@
-package com.muyuan.common.core.result;
+package com.muyuan.common.bean;
 
 import lombok.Data;
 import org.joda.time.DateTime;
@@ -30,7 +30,7 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
-    public Result(int code,String msg, T data) {
+    public Result(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;

@@ -2,6 +2,7 @@ package com.muyuan.common.mybatis.jdbc.crud;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.cache.localcache.LocalCacheService;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.common.Constant;
 import com.muyuan.common.mybatis.common.SqlType;
@@ -287,27 +288,22 @@ public class SqlBuilder {
 
     public void buildSelectColumn(Map<String,Object> params) {
         if (null == columns && null != target) {
+            List<String> columns = CacheServiceUtil.getAndUpdateList(LocalCacheService.getInstance(),target.getName(),() -> {
+                List<String> column = new ArrayList<>();
+                Field[] declaredFields = target.getDeclaredFields();
+                ColumnExclude columnExclude = (ColumnExclude) target.getDeclaredAnnotation(ColumnExclude.class);
+                String[] exclude = DEFAULT_EXCLUDE_COLUMN;
+                if (null != columnExclude) {
+                    exclude = ArrayUtils.addAll(columnExclude.value(), exclude);
+                }
 
-            String[] columns = (String[]) LocalCacheService.getInstance().getAndUpdate(target.getName(),
-                    () -> {
-                        List<String> column = new ArrayList<>();
-                        Field[] declaredFields = target.getDeclaredFields();
-                        ColumnExclude columnExclude = (ColumnExclude) target.getDeclaredAnnotation(ColumnExclude.class);
-                        String[] exclude = DEFAULT_EXCLUDE_COLUMN;
-                        if (null != columnExclude) {
-                            exclude = ArrayUtils.addAll(columnExclude.value(),exclude);
-                        }
-
-                        for (Field field : declaredFields) {
-                            if (isColumn(field,exclude)) {
-                                column.add(StrUtil.humpToUnderline(field.getName()) + " as " + field.getName());
-                            }
-                        }
-                        String[] columnsNew = new String[column.size()];
-                        column.toArray(columnsNew);
-                        return columnsNew;
+                for (Field field : declaredFields) {
+                    if (isColumn(field, exclude)) {
+                        column.add(StrUtil.humpToUnderline(field.getName()) + " as " + field.getName());
                     }
-            );
+                }
+                return column;
+            },String.class);
 
             params.put(Constant.COLUMN, columns);
         } else {

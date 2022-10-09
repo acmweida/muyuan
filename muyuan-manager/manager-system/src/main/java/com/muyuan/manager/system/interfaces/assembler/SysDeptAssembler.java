@@ -1,6 +1,6 @@
 package com.muyuan.manager.system.interfaces.assembler;
 
-import com.muyuan.common.core.bean.SelectTree;
+import com.muyuan.common.bean.SelectTree;
 import com.muyuan.manager.system.domains.model.SysDept;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.muyuan.common.core.bean;
+package com.muyuan.common.bean;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.lang.reflect.ParameterizedType;
  * @Version 1.0
  */
 @Data
-public abstract class BaseDTO<T extends BaseDTO, E> implements Converter<T, E>,Paging {
+public abstract class BaseDTO<T extends BaseDTO, E> implements Converter<T, E>, Paging {
 
     private int pageNum = 1;
 

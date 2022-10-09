@@ -2,8 +2,7 @@ package ${packageName}.${moduleName}.interfaces.facade.controller;
 
 import java.util.List;
 
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;

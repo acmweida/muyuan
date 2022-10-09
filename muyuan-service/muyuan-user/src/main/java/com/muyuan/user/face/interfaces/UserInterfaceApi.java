@@ -1,9 +1,9 @@
 package com.muyuan.user.face.interfaces;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
-import com.muyuan.common.core.result.Result;
-import com.muyuan.common.core.result.ResultUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.UserInterface;
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;

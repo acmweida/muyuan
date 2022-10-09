@@ -2,6 +2,7 @@ package com.muyuan.manager.system.infrastructure.persistence;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheService;
@@ -45,7 +46,7 @@ public class DictDataRepoImpl implements DictDataRepo {
     @Override
     public List<DictData> selectByDataType(String dataType) {
 
-        String dataDictJson = redisCacheService.getAndUpdate(RedisConst.SYS_DATA_DICT+dataType,
+        String dataDictJson = CacheServiceUtil.getAndUpdate(redisCacheService,RedisConst.SYS_DATA_DICT+dataType,
                 () ->
                         JSONUtil.toJsonString(
                                 dictDataMapper.selectList( new SqlBuilder(DictData.class)

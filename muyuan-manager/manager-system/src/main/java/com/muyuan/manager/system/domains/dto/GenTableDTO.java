@@ -1,6 +1,6 @@
 package com.muyuan.manager.system.domains.dto;
 
-import com.muyuan.common.core.bean.BaseDTO;
+import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.manager.system.domains.model.GenTable;
 import com.muyuan.manager.system.domains.model.GenTableColumn;
 import lombok.Data;

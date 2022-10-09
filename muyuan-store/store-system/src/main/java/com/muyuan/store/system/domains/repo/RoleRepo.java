@@ -1,7 +1,7 @@
 package com.muyuan.store.system.domains.repo;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.BaseRepo;
+import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.model.RoleMenu;
