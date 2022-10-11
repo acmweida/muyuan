@@ -1,9 +1,9 @@
 package com.muyuan.auth.base.oauth2;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
-import com.muyuan.auth.dto.SysUserInfo;
-import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.auth.dto.User;
 import com.muyuan.auth.service.impl.UserServiceImpl;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import org.apache.commons.logging.Log;
@@ -104,17 +104,10 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         }
         String salt = "";
         String encryptKey = "";
-        // 商户用户
-        if (userDetails instanceof UserInfo) {
-            UserInfo userInfo = (UserInfo) userDetails;
-            salt = userInfo.getSalt();
-            encryptKey = userInfo.getEncryptKey();
-            // 系统用户
-        } else if (userDetails instanceof SysUserInfo) {
-            SysUserInfo userInfo = (SysUserInfo) userDetails;
-            salt = userInfo.getSalt();
-            encryptKey = userInfo.getEncryptKey();
-        }
+
+        User user = (User) userDetails;
+        salt = user.getSalt();
+        encryptKey = user.getEncryptKey();
 
         String password = (String) authentication.getCredentials();
         final String presentedPassword = EncryptUtil.SHA1(password + salt, encryptKey);
@@ -132,17 +125,22 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
 
     protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
             throws AuthenticationException {
+
         try {
             Map<String, String> detial = (Map<String, String>) authentication.getDetails();
-            String userType = detial.get("user_type");
-            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username, userType);
+            String platformType = detial.get("platform_type");
+            UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username, PlatformType.valueOf(platformType));
             if (loadedUser == null) {
 //                throw new InternalAuthenticationServiceException(
 //                        "UserDetailsService returned null, which is an interface contract violation");
                 throw new InternalAuthenticationServiceException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             return loadedUser;
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException e) {
+            logger.error("参数异常",e);
+            throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), e);
+        }
+        catch (Exception ex) {
             logger.error("认证异常", ex);
             throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), ex);
         }

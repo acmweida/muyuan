@@ -19,11 +19,6 @@ public interface SysUserApplicationService {
      */
     UserDTO getUserByUsername(String username);
 
-    /**
-     * 获取用户信息
-     * @return
-     */
-    Optional<SysUserVO> getUserInfo();
 
     /**
      * 获取用户信息

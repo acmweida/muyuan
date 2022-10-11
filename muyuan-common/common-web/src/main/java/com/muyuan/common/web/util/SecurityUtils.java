@@ -45,8 +45,8 @@ public class SecurityUtils
         return SecurityContextHolder.getRoles();
     }
 
-    public static String getUserType() {
-        return SecurityContextHolder.getUserType();
+    public static String getPlatformType() {
+        return SecurityContextHolder.getPlatformType();
     }
 
     /**

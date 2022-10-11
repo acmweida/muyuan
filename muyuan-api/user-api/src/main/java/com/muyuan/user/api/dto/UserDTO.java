@@ -43,4 +43,5 @@ public class UserDTO implements Serializable {
     private List<String> roles;
 
     private String type;
+
 }

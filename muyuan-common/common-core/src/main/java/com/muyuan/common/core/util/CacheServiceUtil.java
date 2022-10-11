@@ -48,7 +48,7 @@ public class CacheServiceUtil {
                                 expire.accept(key, expireTime);
                             }
                         }
-                ));
+                )).get();
     }
 
 

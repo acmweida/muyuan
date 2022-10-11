@@ -13,5 +13,5 @@ import java.util.Set;
  */
 public interface PermissionInterface {
 
-    Set<String> getPermissionByRoleCodes(PermissionQueryRequest request);
+    Set<String> getPermissionByUserID(PermissionQueryRequest request);
 }

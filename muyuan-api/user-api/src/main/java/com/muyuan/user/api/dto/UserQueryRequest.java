@@ -29,4 +29,6 @@ public class UserQueryRequest implements Serializable {
 
     private String phone;
 
+    private String id;
+
 }

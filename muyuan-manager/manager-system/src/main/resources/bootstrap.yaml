@@ -1,8 +1,21 @@
 spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 119.29.77.107
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+        group: MUYUAN
+        file-extension: yaml
+      discovery:
+        server-addr: 119.29.77.107
+        group: MUYUAN
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
     name: manager-system
   main:
     allow-bean-definition-overriding: true
+  profiles:
+    active: ''
 server:
   port: 20003
 logging:

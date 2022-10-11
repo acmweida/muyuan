@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @ClassName RolePermissionRequest
@@ -24,7 +23,7 @@ public class PermissionQueryRequest implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
 
-    private List<String> roleCodes;
+    private Long userId;
 
     private PlatformType platformType;
 }

@@ -119,12 +119,12 @@ public class SecurityContextHolder {
         return shopId;
     }
 
-    public static String getUserType() {
-        String userType = get(SecurityConst.USER_TYPE);
+    public static String getPlatformType() {
+        String userType = get(SecurityConst.PLATFORM_TYPE);
         if (userType.isEmpty()) {
             JsonNode jwtPayLoad = getJwtPayLoad();
-            userType = jwtPayLoad.get(SecurityConst.USER_TYPE).asText();
-            set(SecurityConst.USER_TYPE,userType);
+            userType = jwtPayLoad.get(SecurityConst.PLATFORM_TYPE).asText();
+            set(SecurityConst.PLATFORM_TYPE,userType);
         }
         return userType;
     }

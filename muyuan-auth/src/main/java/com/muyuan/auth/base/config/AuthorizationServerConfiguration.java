@@ -2,11 +2,9 @@ package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.exception.CustomWebResponseExceptionTranslator;
 import com.muyuan.auth.base.oauth2.granter.ImageCaptchaTokenGranter;
-import com.muyuan.auth.dto.SysUserInfo;
-import com.muyuan.auth.dto.UserInfo;
+import com.muyuan.auth.dto.User;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.SecurityConst;
-import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.ResultUtil;
@@ -67,7 +65,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder() {
             @Override
             public String encode(CharSequence rawPassword) {
-                return  "{bcrypt}"+super.encode(rawPassword);
+                return "{bcrypt}" + super.encode(rawPassword);
             }
         });
     }
@@ -79,7 +77,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 
         // 添加验证码授权模式授权者
-        granterList.add(new ImageCaptchaTokenGranter(authenticationManager,redisTemplate,endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+        granterList.add(new ImageCaptchaTokenGranter(authenticationManager, redisTemplate, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                 endpoints.getOAuth2RequestFactory()
         ));
 
@@ -123,25 +121,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter() {
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-                Map<String,Object> info = new HashMap<>();
-                if (authentication.getUserAuthentication().getPrincipal() instanceof UserInfo) {
-                    UserInfo user = (UserInfo) (authentication.getUserAuthentication()).getPrincipal();
-                    info.put(SecurityConst.USER_NAME_KEY,user.getUsername());
-                    info.put(SecurityConst.USER_ID_KEY,user.getId());
-                    info.put(SecurityConst.USER_TYPE, PlatformType.MERCHANT);
-                    info.put(SecurityConst.SHOP_ID_KEY, user.getShopId());
-                } else {
-                    SysUserInfo sysUserInfo = ((SysUserInfo) ( authentication.getUserAuthentication()).getPrincipal());
-                    info.put(SecurityConst.USER_NAME_KEY,sysUserInfo.getUsername());
-                    info.put(SecurityConst.USER_ID_KEY,sysUserInfo.getId());
-                    info.put(SecurityConst.USER_TYPE, PlatformType.OPERATOR);
-                    info.put(SecurityConst.SHOP_ID_KEY, "");
-                }
-                ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
+                Map<String, Object> info = new HashMap<>();
+                User user = (User) (authentication.getUserAuthentication()).getPrincipal();
+                info.put(SecurityConst.USER_NAME_KEY, user.getUsername());
+                info.put(SecurityConst.USER_ID_KEY, user.getId());
+                info.put(SecurityConst.PLATFORM_TYPE, user.getPlatformType());
+                ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
                 return super.enhance(accessToken, authentication);
             }
         };
-
 
 
         jwtAccessTokenConverter.setKeyPair(keyPair());

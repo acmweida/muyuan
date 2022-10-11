@@ -118,5 +118,5 @@ public interface SecurityConst {
 
     String USER_ROLE = "user_role";
 
-    String USER_TYPE = "user_type";
+    String PLATFORM_TYPE = "platform_type";
 }

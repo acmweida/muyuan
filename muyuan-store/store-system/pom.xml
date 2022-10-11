@@ -17,14 +17,6 @@
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.muyuan</groupId>
-            <artifactId>web</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>

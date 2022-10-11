@@ -21,7 +21,6 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -115,11 +114,11 @@ public class PreAuthorizeAspect {
     }
 
     public Set<String> getUserPerm() {
-        List<String> roles = SecurityUtils.getRoles();
+        Long userId = SecurityUtils.getUserId();
 
-        return permissionInterface.getPermissionByRoleCodes(PermissionQueryRequest.builder()
-                .roleCodes(roles)
-                .platformType(PlatformType.valueOf(SecurityUtils.getUserType()))
+        return permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
+                .userId(userId)
+                .platformType(PlatformType.valueOf(SecurityUtils.getPlatformType()))
                 .build());
     }
 
