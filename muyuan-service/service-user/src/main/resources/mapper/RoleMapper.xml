@@ -5,7 +5,7 @@
 
 
     <select id="selectRoleByUserId" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
-        select role.id, role.code
+        select role.id, role.code,role.type,role.name
         from (
                  select *
                  from t_role

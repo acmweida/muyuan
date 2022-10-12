@@ -30,6 +30,6 @@ public interface PermissionConverter {
         }
     }
 
-    List<Permission> toRole(List<PermissionDO> permissionDOS);
+    List<Permission> to(List<PermissionDO> permissionDOS);
 
 }

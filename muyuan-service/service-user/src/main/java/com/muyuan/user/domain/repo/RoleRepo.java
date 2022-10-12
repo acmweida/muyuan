@@ -1,14 +1,14 @@
 package com.muyuan.user.domain.repo;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.user.Role;
+import com.muyuan.user.domain.model.valueobject.UserID;
 
 import java.util.List;
 
 public interface RoleRepo {
 
-    String ROLE_ID = "roleId";
-
-    List<Role> selectRoleByUserId(Long userId);
+    List<Role> selectRoleByUserId(UserID userId, PlatformType platformType);
 
 //    List<Role> select(RoleDTO roleDTO);
 //

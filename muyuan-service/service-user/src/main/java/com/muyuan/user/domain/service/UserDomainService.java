@@ -1,7 +1,9 @@
 package com.muyuan.user.domain.service;
 
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.UserQueryCommand;
 
 import java.util.Optional;
@@ -11,12 +13,7 @@ import java.util.Optional;
  */
 public interface UserDomainService {
 
-//    /**
-//     * 获取权限
-//     * @param roleCodes
-//     * @return
-//     */
-//    Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes);
+
 //
 //    /**
 //     * 获取用户信息
@@ -39,12 +36,12 @@ public interface UserDomainService {
     Optional<User> getUserByUsername(UserQueryCommand command);
 
 
-//    /**
-//     * 获取用户信息
-//     * @param userId
-//     * @return
-//     */
-//    Optional<Operator> getByyId(Long  userId);
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
+    Optional<User> getUserByyId(UserID userId, PlatformType platformType);
 //
 //    /**
 //     * 账户注册

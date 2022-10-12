@@ -19,5 +19,6 @@ public interface RoleMapper extends UserBaseMapper<RoleDO> {
 
     String CODE = "code";
 
+
     List<RoleDO> selectRoleByUserId(Long userId,Integer type);
 }

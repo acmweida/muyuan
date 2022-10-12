@@ -1,6 +1,7 @@
 package com.muyuan.user.domain.model.entity.user;
 
 import com.muyuan.common.core.constant.SecurityConst;
+import com.muyuan.user.domain.model.valueobject.RoleId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Role {
 
-    private Long id;
+    private RoleId id;
 
     /**
      * 角色名称

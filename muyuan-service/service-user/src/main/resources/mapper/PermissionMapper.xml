@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.muyuan.user.infrastructure.repo.mapper.PermissionMapper">
+
+
+    <select id="selectByRoleId" resultType="com.muyuan.user.infrastructure.repo.dataobject.PermissionDO">
+        select t_permission.id, t_permission.perms, t_permission.action, t_permission.resource
+        from t_permission
+                 left join (
+            select permission_id
+            from t_role_permission
+            where role_id = #{roleId}
+        ) role_permision on role_permision.permission_id = t_permission.id
+    </select>
+</mapper>

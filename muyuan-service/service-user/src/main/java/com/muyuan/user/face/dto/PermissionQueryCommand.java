@@ -1,6 +1,7 @@
 package com.muyuan.user.face.dto;
 
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import lombok.Data;
 
 /**
@@ -13,7 +14,7 @@ import lombok.Data;
 @Data
 public class PermissionQueryCommand {
 
-    private Long userId;
+    private UserID userId;
 
     private PlatformType platformType;
 }

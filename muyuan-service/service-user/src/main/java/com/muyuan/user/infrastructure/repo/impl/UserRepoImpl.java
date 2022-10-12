@@ -3,6 +3,7 @@ package com.muyuan.user.infrastructure.repo.impl;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.UserRepo;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
@@ -38,6 +39,21 @@ public class UserRepoImpl implements UserRepo {
     public User selectOneByUsername(Username username, PlatformType platformType) {
         UserDO userDO = mapper.selectOne(new SqlBuilder(UserDO.class)
                 .eq(UserMapper.USERNAME, username.getValue())
+                .eq(UserMapper.STATUS, UserMapper.STATUS_OK)
+                .build());
+        User user = converter.to(userDO);
+        if (null != userDO) {
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(userDO.getId(),platformType.getCode());
+            user.setRoles(converter.toRole(roleDOS));
+        }
+
+        return user;
+    }
+
+    @Override
+    public User selectOneByID(UserID userID, PlatformType platformType) {
+        UserDO userDO = mapper.selectOne(new SqlBuilder(UserDO.class)
+                .eq(UserMapper.ID, userID.getValue())
                 .eq(UserMapper.STATUS, UserMapper.STATUS_OK)
                 .build());
         User user = converter.to(userDO);

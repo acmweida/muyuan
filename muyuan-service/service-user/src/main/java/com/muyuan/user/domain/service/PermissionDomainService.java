@@ -1,5 +1,10 @@
 package com.muyuan.user.domain.service;
 
+import com.muyuan.user.domain.model.entity.user.Permission;
+import com.muyuan.user.domain.model.entity.user.Role;
+
+import java.util.List;
+
 /**
  * @ClassName PermissionDomainService 接口
  * Description 权限接口
@@ -9,6 +14,11 @@ package com.muyuan.user.domain.service;
  */
 public interface PermissionDomainService {
 
-
+    /**
+     * 获取权限
+     * @param roles
+     * @return
+     */
+    List<Permission> getPermissionByRoles(List<Role> roles);
 
 }
