@@ -1,21 +1,21 @@
-package com.muyuan.user.dto;
+package com.muyuan.user.domain.model.entity.user;
 
-import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import lombok.Data;
 
 import java.util.Date;
 
 /**
  * @ClassName Menu
- * Description 菜单权限表
+ * Description Menu
  * @Author 2456910384
- * @Date 2022/1/27 16:38
+ * @Date 2022/10/13 11:16
  * @Version 1.0
  */
 @Data
 public class Menu {
 
-    private Long id;
+    private MenuID id;
 
     /**
      * 菜单名称
@@ -100,25 +100,5 @@ public class Menu {
 
     private Long updateBy;
 
-    public Menu() {
-    }
-
-    public Menu(Long id) {
-        this.id = id;
-    }
-
-    public Menu(String name) {
-        this.name = name;
-    }
-
-    /**
-     *  构建一个系统菜单 并初始化
-     * @return
-     */
-    public Menu update()  {
-        this.setUpdateTime(new Date());
-        this.setUpdateBy(SecurityUtils.getUserId());
-        return this;
-    }
 
 }

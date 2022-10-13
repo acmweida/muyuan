@@ -1,7 +1,7 @@
 package com.muyuan.common.web.filter.dubbo;
 
 import com.muyuan.common.core.constant.SecurityConst;
-import com.muyuan.common.web.util.JwtUtils;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -23,12 +23,7 @@ public class JwtConsumerFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         if (GenericService.class != invoker.getInterface()) {
-            String jwtPayload = null;
-            if (JwtUtils.hasJwtPayloadWeb()) {
-                jwtPayload = JwtUtils.getJwtPayloadWeb();
-            } else if (JwtUtils.hasJwtPayloadRpc()) {
-                jwtPayload = JwtUtils.getJwtPayloadRpc();
-            }
+            String jwtPayload =SecurityUtils.getJwtPayLoadContext();
             if (ObjectUtils.isNotEmpty(jwtPayload)) {
                 invocation.getAttachments().put(SecurityConst.JWT_PAYLOAD_KEY, jwtPayload);
             }

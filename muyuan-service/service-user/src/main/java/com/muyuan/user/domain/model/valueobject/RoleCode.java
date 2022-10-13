@@ -4,24 +4,24 @@ import lombok.Getter;
 import org.springframework.util.Assert;
 
 /**
- * @ClassName Username
+ * @ClassName RoleCode
  * Description
  * @Author 2456910384
  * @Date 2022/9/14 10:09
  * @Version 1.0
  */
 @Getter
-public class Username {
+public class RoleCode {
 
     private String value;
 
-    public Username(String value) {
+    public RoleCode(String value) {
         setValue(value);
     }
 
     public void setValue(String value) {
-        Assert.notNull(value,"Operator username is null");
-        Assert.isTrue(value.length() > 0,"Operator username length must more than 0");
+        Assert.notNull(value,"RoleCode username is null");
+        Assert.isTrue(value.length() > 0,"RoleCode length must more than 0");
         this.value = value;
     }
 }

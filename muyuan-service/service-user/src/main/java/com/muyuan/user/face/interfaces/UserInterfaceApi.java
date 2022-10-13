@@ -10,7 +10,6 @@ import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.domain.model.entity.user.User;
 import com.muyuan.user.domain.service.UserDomainService;
 import com.muyuan.user.face.dto.mapper.UserMapper;
-import com.muyuan.user.face.dto.mapper.UserMapperImpl;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -30,7 +29,7 @@ import java.util.Optional;
 )
 public class UserInterfaceApi implements UserInterface {
 
-    private static final UserMapper USER_MAPPER = new UserMapperImpl();
+    private UserMapper USER_MAPPER;
 
     private UserDomainService userDomainService;
 

@@ -5,7 +5,6 @@ import com.muyuan.user.domain.model.entity.user.Role;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
-import com.muyuan.user.infrastructure.repo.converter.UserConverterImpl;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,7 @@ public class RoleRepoImpl implements RoleRepo {
 
     private RoleMapper roleMapper;
 
-    private static final UserConverter converter = new UserConverterImpl();
+    private UserConverter converter;
 
     @Override
     public List<Role> selectRoleByUserId(UserID userId, PlatformType platformType) {

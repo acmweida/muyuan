@@ -2,7 +2,7 @@ package com.muyuan.user.infrastructure.repo.converter;
 
 import com.muyuan.user.domain.model.entity.user.Role;
 import com.muyuan.user.domain.model.entity.user.User;
-import com.muyuan.user.domain.model.valueobject.RoleId;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.UserDO;
 import org.mapstruct.Mapper;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Date 2022/9/14 10:38
  * @Version 1.0
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserConverter {
 
     @Mappings({
@@ -27,16 +27,18 @@ public interface UserConverter {
     })
     User to(UserDO userDO);
 
-
     @Mappings({
-            @Mapping(target ="id",expression = "java(RoleIdMap.map(roleDO,id))")
+            @Mapping(target = "id",expression = "java(UserConverter.map(roleDOS.getId()))")
     })
+    Role toRole(RoleDO roleDOS);
+
+
     List<Role> toRole(List<RoleDO> roleDOS);
 
-    class RoleIdMap {
-        static RoleId map(Long id) {
-            return new RoleId(id);
-        }
+    static RoleID map(Long id) {
+        return new RoleID(id);
     }
+
+
 
 }

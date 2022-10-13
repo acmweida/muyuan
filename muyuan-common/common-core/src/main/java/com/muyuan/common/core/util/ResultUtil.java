@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
 
 import java.util.Collections;
+import java.util.function.Supplier;
 
 public class ResultUtil {
 
@@ -66,5 +67,9 @@ public class ResultUtil {
         return ResponseCode.SUCCESS.getCode() == result.getCode();
     }
 
+
+    public static <T> T getOr(Result<T>  result, Supplier<T> supplier) {
+        return isSuccess(result) ? result.getData() : supplier.get();
+    }
 
 }

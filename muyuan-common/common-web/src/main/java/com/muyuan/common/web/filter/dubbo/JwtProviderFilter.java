@@ -1,7 +1,8 @@
 package com.muyuan.common.web.filter.dubbo;
 
 import com.muyuan.common.core.constant.SecurityConst;
-import com.muyuan.common.web.context.SecurityContextHolder;
+import com.muyuan.common.core.context.SecurityContextHolder;
+import com.muyuan.common.web.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -27,7 +28,7 @@ public class JwtProviderFilter implements Filter {
             if (GenericService.class != invoker.getInterface()) {
                 String jwtPayload = invocation.getAttachments().get(SecurityConst.JWT_PAYLOAD_KEY);
                 if (ObjectUtils.isNotEmpty(jwtPayload)) {
-                    SecurityContextHolder.setJwtPayLoad(jwtPayload);
+                    SecurityUtils.setJwtPayLoad(jwtPayload);
                 }
             }
             result = invoker.invoke(invocation);

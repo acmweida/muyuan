@@ -1,5 +1,6 @@
 package com.muyuan.user.api;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
 
 import java.util.Set;
@@ -13,5 +14,5 @@ import java.util.Set;
  */
 public interface PermissionInterface {
 
-    Set<String> getPermissionByUserID(PermissionQueryRequest request);
+    Result<Set<String>> getPermissionByUserID(PermissionQueryRequest request);
 }

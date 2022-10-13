@@ -49,7 +49,7 @@
         ) menu
         inner join  (
         select * from t_role_menu  where role_id in
-        <foreach collection="roleIds" open="(" close=")" item="item" >
+        <foreach collection="roleIDS" open="(" close=")" item="item" >
             #{item}
         </foreach>
         ) role_menu on menu.id  = role_menu.menu_id

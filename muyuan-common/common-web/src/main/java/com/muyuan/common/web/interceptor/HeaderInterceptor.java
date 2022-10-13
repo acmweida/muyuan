@@ -1,6 +1,6 @@
 package com.muyuan.common.web.interceptor;
 
-import com.muyuan.common.web.context.SecurityContextHolder;
+import com.muyuan.common.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 

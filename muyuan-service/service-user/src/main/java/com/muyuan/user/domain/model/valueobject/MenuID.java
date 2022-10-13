@@ -11,20 +11,20 @@ import org.springframework.util.Assert;
  * @Version 1.0
  */
 @Getter
-public class RoleID {
+public class MenuID {
 
     private Long value;
 
-    public RoleID() {
+    public MenuID() {
     }
 
-    public RoleID(Long value) {
+    public MenuID(Long value) {
         setValue(value);
     }
 
     public void setValue(Long value) {
-        Assert.notNull(value,"RoleID is null");
-        Assert.isTrue(0 < value,"OperatorId must more than 0");
+        Assert.notNull(value,"MenuID is null");
+        Assert.isTrue(0 < value,"MenuID must more than 0");
         this.value = value;
     }
 }

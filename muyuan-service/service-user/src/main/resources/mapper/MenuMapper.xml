@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.muyuan.user.infrastructure.repo.mapper.MenuMapper">
+
+
+    <select id="selectByRoleCode" resultType="com.muyuan.user.infrastructure.repo.dataobject.MenuDO">
+        select menu.*
+        from (
+                 select *
+                 from t_menu
+                 where type in ('M', 'C')
+                 order by order_num
+             ) menu
+                 inner join (
+            select menu_id
+            from t_role_menu
+                     inner join (
+                select id
+                from t_role
+                where code = #{roleCode}
+                  and type = #{platformType}
+            ) role on role.id = t_role_menu.role_id
+        ) t on t.menu_id = menu.id
+    </select>
+</mapper>

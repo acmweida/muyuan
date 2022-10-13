@@ -12,12 +12,13 @@ import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.dto.UserVO;
 import com.muyuan.user.dto.converter.UserConverter;
-import com.muyuan.user.dto.converter.UserConverterImpl;
 import com.muyuan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ import java.util.Set;
  */
 @Service
 @Slf4j
-public class UserServiceImpl  implements UserService {
+public class UserServiceImpl implements UserService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private PermissionInterface permissionInterface;
@@ -38,7 +39,8 @@ public class UserServiceImpl  implements UserService {
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private UserInterface userInterface;
 
-    private static final UserConverter converter = new UserConverterImpl();
+    @Autowired
+    private UserConverter converter;
 
     @Override
     public Optional<UserVO> get() {
@@ -55,12 +57,15 @@ public class UserServiceImpl  implements UserService {
             log.info("userId :{} 未找到", userId);
             return Optional.empty();
         }
-        Set<String> permissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
+
+        UserVO userVO = converter.toVO(userInfo.getData());
+
+        Result<Set<String>> permissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
                 .userId(userId)
                 .platformType(platformType)
                 .build());
-        UserVO userVO = converter.toVO(userInfo.getData());
-        userVO.setPermissions(permissions);
+        userVO.setPermissions(ResultUtil.getOr(permissions, HashSet::new));
+
         return Optional.of(userVO);
     }
 }

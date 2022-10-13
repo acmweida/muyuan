@@ -1,6 +1,5 @@
 package com.muyuan.auth.controller.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.muyuan.auth.controller.AuthController;
 import com.muyuan.auth.vo.CaptchaVo;
@@ -8,7 +7,6 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.web.util.JwtUtils;
 import com.muyuan.common.web.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,20 +51,20 @@ public class AuthControllerImpl implements AuthController {
         String base64Image = encoder.encode(captchaChallengeAsJpeg);
         CaptchaVo captchaVo = new CaptchaVo();
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForValue().set(GlobalConst.CAPTCHA_KEY_PREFIX+uuid,createText);
-        redisTemplate.expire(GlobalConst.CAPTCHA_KEY_PREFIX+uuid,5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(GlobalConst.CAPTCHA_KEY_PREFIX + uuid, createText);
+        redisTemplate.expire(GlobalConst.CAPTCHA_KEY_PREFIX + uuid, 5, TimeUnit.MINUTES);
         captchaVo.setImg(base64Image);
         captchaVo.setUuid(uuid);
-        log.info("验证码：{},key:{}",createText,uuid);
+        log.info("验证码：{},key:{}", createText, uuid);
 
         return ResultUtil.success(captchaVo);
     }
 
     @Override
     public Result logout() {
-        JsonNode payload = JwtUtils.getJwtPayload();
-        String jti = payload.get(SecurityConst.JWT_JTI).asText(); // JWT唯一标识
-        Long expireTime = payload.get(SecurityConst.JWT_EXP).asLong(); // JWT过期时间戳(单位：秒)
+        String jti = SecurityUtils.getJtl();
+        ; // JWT唯一标识
+        Long expireTime = SecurityUtils.getExpireTime(); // JWT过期时间戳(单位：秒)
         if (expireTime != null) {
             long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
             if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间

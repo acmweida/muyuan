@@ -3,12 +3,13 @@ package com.muyuan.user.dto.assembler;
 import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.user.dto.Menu;
+import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.dto.MenuVO;
 import com.muyuan.user.dto.MetaVO;
 import com.muyuan.user.dto.RouterVO;
+import com.muyuan.user.dto.converter.MenuConverter;
+import com.muyuan.user.dto.converter.MenuConverterImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
  */
 public class MenuAssembler {
 
-    public static List<SelectTree> buildMenuSelectTree(List<Menu> menus) {
+    private static final MenuConverter converter = new MenuConverterImpl();
+
+    public static List<SelectTree> buildMenuSelectTree(List<MenuDTO> menus) {
         List<SelectTree> selectTrees = menus.stream().filter(item -> {
             return item.getParentId() == 0;
         }).map(item -> {
@@ -31,10 +34,10 @@ public class MenuAssembler {
 
         Map<Long, Object> treeMap = selectTrees.stream().collect(Collectors.toMap(SelectTree::getId, item -> item));
 
-        for (Menu menu : menus) {
+        for (MenuDTO menu : menus) {
             long parentId = menu.getParentId();
             long id = menu.getId();
-            SelectTree selectTree = new SelectTree(menu.getId(),menu.getName());
+            SelectTree selectTree = new SelectTree(menu.getId(), menu.getName());
             if (parentId != 0) {
                 if (treeMap.containsKey(parentId)) {
                     Object o = treeMap.get(menu.getParentId());
@@ -65,48 +68,42 @@ public class MenuAssembler {
 
     /**
      * 构建目录树结构
+     *
      * @param menus
      * @return
      */
-    public static List<MenuVO> buildMenuTree(List<Menu> menus) {
-        List<MenuVO> roots = menus.stream().filter(item -> {
-            return item.getParentId() == 0;
-        }).map(item -> {
-            MenuVO sysMenuVO = new MenuVO();
-            BeanUtils.copyProperties(item, sysMenuVO);
-            return sysMenuVO;
-        }).collect(Collectors.toList());
+    public static List<MenuVO> buildMenuTree(List<MenuDTO> menus) {
+        List<MenuVO> roots = menus.stream().filter(item -> item.getParentId() == 0).map(item ->
+                converter.toVO(item)).collect(Collectors.toList());
 
         Map<Long, Object> treeMap = roots.stream().collect(Collectors.toMap(MenuVO::getId, item -> item));
 
-        for (Menu menu : menus) {
-            long parentId = menu.getParentId();
-            long id = menu.getId();
-            MenuVO sysMenuVO = new MenuVO();
-            BeanUtils.copyProperties(menu, sysMenuVO);
+        for (MenuDTO menu : menus) {
+            Long parentId = menu.getParentId();
+            Long id = menu.getId();
+            MenuVO menuVO = converter.toVO(menu);
             if (parentId != 0) {
-
                 if (treeMap.containsKey(parentId)) {
                     Object o = treeMap.get(menu.getParentId());
                     // 父节点 parentId 遍历过 但父节点没有遍历  保存该节点到当前字子节点列表
                     if (o instanceof Collection) {
-                        ((Collection<MenuVO>) o).add(sysMenuVO);
+                        ((Collection<MenuVO>) o).add(menuVO);
                     } else
                         // 如果父节点已经遍历过 且加入其子节点
                         if (o instanceof MenuVO) {
-                        ((MenuVO) o).getChildren().add(sysMenuVO);
-                    }
+                            ((MenuVO) o).getChildren().add(menuVO);
+                        }
                 } else {
                     // 父节点 parentId 没有遍历过 先创建保存当前节点到parentId的子节点列表
                     List<MenuVO> childrens = new ArrayList<>();
-                    childrens.add(sysMenuVO);
+                    childrens.add(menuVO);
                     treeMap.put(parentId, childrens);
                 }
                 // 当前接口已存在 而节点没有遍历 这次节点为非叶子节点 直接设置当前节点的字节点
                 if (treeMap.containsKey(id)) {
-                    sysMenuVO.setChildren((ArrayList<MenuVO>) treeMap.get(id));
+                    menuVO.setChildren((ArrayList<MenuVO>) treeMap.get(id));
                 }
-                treeMap.put(id, sysMenuVO);
+                treeMap.put(id, menuVO);
             }
         }
 
@@ -132,7 +129,7 @@ public class MenuAssembler {
             router.setQuery(menu.getQuery());
             router.setMeta(new MetaVO(menu.getName(), menu.getIcon(), 1 == menu.getCache(), menu.getPath()));
             List<MenuVO> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty()  && GlobalConst.TYPE_DIR.equals(menu.getType())) {
+            if (!cMenus.isEmpty() && GlobalConst.TYPE_DIR.equals(menu.getType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
@@ -223,7 +220,7 @@ public class MenuAssembler {
      * @return 结果
      */
     public static boolean isInnerLink(MenuVO menu) {
-        return  GlobalConst.NO_FRAME.equals(menu.getFrame())  && StrUtil.ishttp(menu.getPath());
+        return GlobalConst.NO_FRAME.equals(menu.getFrame()) && StrUtil.ishttp(menu.getPath());
     }
 
     /**

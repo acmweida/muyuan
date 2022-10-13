@@ -1,5 +1,6 @@
 package com.muyuan.common.web.aspect;
 
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
@@ -116,10 +117,13 @@ public class PreAuthorizeAspect {
     public Set<String> getUserPerm() {
         Long userId = SecurityUtils.getUserId();
 
-        return permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
+        Result<Set<String>> ppermissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
                 .userId(userId)
                 .platformType(PlatformType.valueOf(SecurityUtils.getPlatformType()))
                 .build());
+
+
+        return ppermissions.getData();
     }
 
     /**

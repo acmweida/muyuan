@@ -16,18 +16,16 @@ import java.util.List;
  * @Date 2022/9/14 10:38
  * @Version 1.0
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PermissionConverter {
 
     @Mappings({
-            @Mapping(target = "type",expression = "java(PlatformTypeMap.map(permissionDO.getType()))")
+            @Mapping(target = "type", expression = "java(PermissionConverter.map(permissionDO.getType()))")
     })
     Permission to(PermissionDO permissionDO);
 
-    class PlatformTypeMap {
-        static PlatformType map(Integer type) {
-            return PlatformType.trance(type);
-        }
+    static PlatformType map(Integer type) {
+        return PlatformType.trance(type);
     }
 
     List<Permission> to(List<PermissionDO> permissionDOS);

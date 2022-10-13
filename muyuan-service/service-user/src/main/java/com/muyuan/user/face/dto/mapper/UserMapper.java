@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @Date 2022/9/14 9:09
  * @Version 1.0
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserQueryCommand toCommand(UserQueryRequest request);

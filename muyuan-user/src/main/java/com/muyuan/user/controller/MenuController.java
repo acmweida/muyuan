@@ -2,17 +2,15 @@ package com.muyuan.user.controller;
 
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.user.dto.Menu;
 import com.muyuan.user.dto.RouterVO;
 import com.muyuan.user.dto.assembler.MenuAssembler;
+import com.muyuan.user.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -28,13 +26,13 @@ import java.util.List;
 @AllArgsConstructor
 public class MenuController {
 
+    private MenuService menuService;
 
     @GetMapping("/menu/route")
     @ApiOperation(value = "路由信息获取")
     public Result<List<RouterVO>> getRouter() {
-        List<String> roles = SecurityUtils.getRoles();
-        List<Menu> menus = new LinkedList<>();
-        return ResultUtil.success(MenuAssembler.buildMenus(MenuAssembler.buildMenuTree(menus)));
+        return ResultUtil.success(MenuAssembler.buildMenus(MenuAssembler.buildMenuTree(menuService.getMenu()
+        )));
     }
 
 }

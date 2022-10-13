@@ -1,10 +1,9 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.muyuan.user.domain.model.entity.user.Permission;
-import com.muyuan.user.domain.model.valueobject.RoleId;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.repo.PermissionRepo;
 import com.muyuan.user.infrastructure.repo.converter.PermissionConverter;
-import com.muyuan.user.infrastructure.repo.converter.PermissionConverterImpl;
 import com.muyuan.user.infrastructure.repo.dataobject.PermissionDO;
 import com.muyuan.user.infrastructure.repo.mapper.PermissionMapper;
 import lombok.AllArgsConstructor;
@@ -18,10 +17,10 @@ public class PermissionRepoImpl implements PermissionRepo {
 
     private PermissionMapper permissionMapper;
 
-    private static final PermissionConverter converter = new PermissionConverterImpl();
+    private PermissionConverter converter;
 
     @Override
-    public List<Permission> selectByRoles(RoleId roleId){
+    public List<Permission> selectByRoles(RoleID roleId){
         List<PermissionDO> permissionDOS = permissionMapper.selectByRoleId(roleId.getValue());
         return converter.to(permissionDOS);
     }

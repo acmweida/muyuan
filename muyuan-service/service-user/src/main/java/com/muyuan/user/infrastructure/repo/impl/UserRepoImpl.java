@@ -7,7 +7,6 @@ import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.UserRepo;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
-import com.muyuan.user.infrastructure.repo.converter.UserConverterImpl;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.UserDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
@@ -29,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRepoImpl implements UserRepo {
 
-    private static final UserConverter converter = new UserConverterImpl();
+    private UserConverter converter;
 
     private UserMapper mapper;
     

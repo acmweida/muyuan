@@ -1,7 +1,7 @@
 package com.muyuan.user.dto.converter;
 
-import com.muyuan.user.api.dto.UserDTO;
-import com.muyuan.user.dto.UserVO;
+import com.muyuan.user.api.dto.MenuDTO;
+import com.muyuan.user.dto.MenuVO;
 import org.mapstruct.Mapper;
 
 /**
@@ -12,7 +12,7 @@ import org.mapstruct.Mapper;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface UserConverter {
+public interface MenuConverter {
 
-    UserVO toVO(UserDTO userDTO);
+    MenuVO toVO(MenuDTO userDTO);
 }
