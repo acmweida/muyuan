@@ -68,7 +68,7 @@ public class CacheServiceUtil {
         ), type);
     }
 
-    public static <T> List<T> getAndUpdateList(CacheService cache, String key, Supplier<Object> supplier, Class<T> type) {
+    public static <T> List<T> getAndUpdateList(CacheService cache, String key, Supplier<List<T>> supplier, Class<T> type) {
         return (List<T>) JSONUtil.parseObjectList(getAndUpdate(cache, key,
                 () -> JSONUtil.toJsonString(supplier.get())
         ), ArrayList.class, type);

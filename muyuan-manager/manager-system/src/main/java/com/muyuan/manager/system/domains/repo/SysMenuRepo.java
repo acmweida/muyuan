@@ -18,10 +18,6 @@ public interface SysMenuRepo {
 
     List<String>  selectMenuPermissionByRoleCode(String roleCode);
 
-    List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes);
-
-    List<SysMenu> selectMenuByRoleCode(String roleCode);
-
     List<SysMenu> select(Map params);
 
     List<SysMenu> listByRoleId(String... roleIds);

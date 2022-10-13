@@ -67,19 +67,6 @@ public class SysMenuDomainServiceImpl implements SysMenuDomainService {
         return perms;
     }
 
-    /**
-     * 通过角色名称查询目录 菜单
-     *
-     * @param roleCodes
-     * @return
-     */
-    @Override
-    public List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes) {
-        if (ObjectUtils.isEmpty(roleCodes)) {
-            return Collections.EMPTY_LIST;
-        }
-        return sysMenuRepo.selectMenuByRoleCodes(roleCodes);
-    }
 
     @Override
     public List<SysMenu> list(SysMenuDTO sysMenuDTO) {

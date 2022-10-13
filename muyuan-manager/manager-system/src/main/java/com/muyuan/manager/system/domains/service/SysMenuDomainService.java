@@ -47,13 +47,6 @@ public interface SysMenuDomainService {
 
 
     /**
-     * 通过角色获取菜单列表
-     * @param roleCodes
-     * @return
-     */
-    List<SysMenu> selectMenuByRoleCodes(List<String> roleCodes);
-
-    /**
      * 菜单添加
      * @param sysMenuDTO
      * @return

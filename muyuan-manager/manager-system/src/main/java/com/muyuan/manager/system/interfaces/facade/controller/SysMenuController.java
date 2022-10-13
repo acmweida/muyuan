@@ -41,14 +41,6 @@ public class SysMenuController {
 
     private SysMenuDomainService sysMenuDomainService;
 
-    @GetMapping("/menu/route")
-    @ApiOperation(value = "路由信息获取")
-    Result<List<SysRouterVo>> getRouter() {
-        List<String> roles = SecurityUtils.getRoles();
-        List<SysMenu> menus = sysMenuDomainService.selectMenuByRoleCodes(roles);
-        return ResultUtil.success(SysMenuAssembler.buildMenus(SysMenuAssembler.buildMenuTree(menus)));
-    }
-
     @RequirePermissions("system:menu:list")
     @GetMapping("/menu/list")
     @ApiOperation(value = "菜单列表查询")
