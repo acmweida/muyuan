@@ -22,7 +22,7 @@ public class MuyuanException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        log.error("error code :{} -> message:{}",code,message);
+//        log.error("error code :{} -> message:{}",code,message);
         return message;
     }
 

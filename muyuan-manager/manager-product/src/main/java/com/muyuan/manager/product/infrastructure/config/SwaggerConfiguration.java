@@ -28,7 +28,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.muyuan.manager.product.interfaces.facade.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.muyuan.manager.product.interfaces.com.muyuan.manager.system.facade.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(Lists.newArrayList(securityContext()))

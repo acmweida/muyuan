@@ -2,9 +2,10 @@ package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
-import com.muyuan.user.domain.model.entity.user.Menu;
+import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.face.dto.MenuQueryCommand;
+import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -35,6 +36,9 @@ public interface MenuMapper {
     MenuDTO toDTO(Menu menu);
 
     static RoleCode[] map(String[] valus) {
+        if (ObjectUtils.isEmpty(valus)) {
+            return new RoleCode[0];
+        }
         RoleCode[] roleCodes = new RoleCode[valus.length];
         int size = valus.length;
         for (int i=0;i<size;i++) {

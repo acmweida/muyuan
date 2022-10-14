@@ -2,7 +2,7 @@ package com.muyuan.user.domain.service;
 
 
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.entity.User;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.UserQueryCommand;
 

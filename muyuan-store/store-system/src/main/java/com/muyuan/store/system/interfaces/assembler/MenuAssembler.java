@@ -114,6 +114,36 @@ public class MenuAssembler {
         return roots;
     }
 
+    /**
+     * 构建前端路由所需要的菜单
+     *
+     * @param menu 菜单列表
+     * @return 路由列表
+     */
+    public static MenuVO buildMenus2(Menu menu) {
+
+            MenuVO menuVO = new MenuVO();
+            BeanUtils.copyProperties(menu,menuVO);
+        return menuVO;
+    }
+
+
+    /**
+     * 构建前端路由所需要的菜单
+     *
+     * @param menus 菜单列表
+     * @return 路由列表
+     */
+    public static List<MenuVO> buildMenus2(List<Menu> menus) {
+        List<MenuVO> routers = new LinkedList();
+
+        for (Menu menu : menus) {
+            MenuVO menuVO = new MenuVO();
+            BeanUtils.copyProperties(menu,menuVO);
+            routers.add(menuVO);
+        }
+        return routers;
+    }
 
     /**
      * 构建前端路由所需要的菜单

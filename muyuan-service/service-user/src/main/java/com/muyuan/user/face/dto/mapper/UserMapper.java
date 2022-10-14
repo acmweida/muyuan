@@ -2,8 +2,8 @@ package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
-import com.muyuan.user.domain.model.entity.user.Role;
-import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.entity.User;
 import com.muyuan.user.face.dto.UserQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

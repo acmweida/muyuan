@@ -1,6 +1,6 @@
 package com.muyuan.user.domain.service;
 
-import com.muyuan.user.domain.model.entity.user.Menu;
+import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 
 import java.util.List;
@@ -16,9 +16,16 @@ public interface MenuDomainService {
 
     /**
      * 获取菜单
-     * @param request
+     * @param command
      * @return
      */
-    List<Menu> getMenuByRoleCodes(MenuQueryCommand request);
+    List<Menu> getMenuByRoleCodes(MenuQueryCommand command);
+
+    /**
+     * 列表查询
+     * @param command
+     * @return
+     */
+    List<Menu> list(MenuQueryCommand command);
 
 }

@@ -3,7 +3,7 @@ package com.muyuan.manager.system.domains.factories;
 import com.muyuan.common.core.util.EncryptUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.domains.model.SysUser;
-import com.muyuan.manager.system.domains.dto.SysUserDTO;
+import com.muyuan.manager.system.dto.SysUserDTO;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 

@@ -5,7 +5,7 @@ import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.core.exception.handler.NotPermissionException;
+import com.muyuan.common.core.exception.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.PermissionInterface;

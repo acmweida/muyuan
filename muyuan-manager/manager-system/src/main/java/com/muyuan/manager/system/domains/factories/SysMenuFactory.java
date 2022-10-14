@@ -2,7 +2,7 @@ package com.muyuan.manager.system.domains.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.domains.model.SysMenu;
-import com.muyuan.manager.system.domains.dto.SysMenuDTO;
+import com.muyuan.manager.system.dto.SysMenuDTO;
 
 import java.util.Date;
 

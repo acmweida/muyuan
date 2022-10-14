@@ -16,7 +16,7 @@ public class ResultUtil {
         return new Result(ResponseCode.FAIL.getCode(), ResponseCode.FAIL.getMsg());
     }
 
-    public static <T> Result success(T data) {
+    public static <T> Result<T> success(T data) {
         return new Result(ResponseCode.SUCCESS.getCode(),"操作成功",data);
     }
 
@@ -24,7 +24,7 @@ public class ResultUtil {
         return new Result(ResponseCode.SUCCESS.getCode(),msg);
     }
 
-    public static Result success(String msg, Object data) {
+    public static <T> Result<T> success(String msg, T data) {
         return new Result(ResponseCode.SUCCESS.getCode(),msg,data);
     }
 

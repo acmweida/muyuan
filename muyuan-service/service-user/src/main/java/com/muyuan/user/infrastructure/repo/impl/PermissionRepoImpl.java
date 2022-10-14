@@ -1,6 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
-import com.muyuan.user.domain.model.entity.user.Permission;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.repo.PermissionRepo;
 import com.muyuan.user.infrastructure.repo.converter.PermissionConverter;

@@ -1,7 +1,7 @@
 package com.muyuan.user.domain.service.impl;
 
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.entity.User;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.UserRepo;

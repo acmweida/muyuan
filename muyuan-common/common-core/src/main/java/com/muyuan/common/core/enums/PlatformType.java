@@ -21,7 +21,7 @@ public enum PlatformType {
     OPERATOR;
 
 
-    public static PlatformType trance(int code) {
+    public static PlatformType trance(Integer code) {
         switch (code) {
             case 0 : return OPERATOR;
             case 1 : return MERCHANT;

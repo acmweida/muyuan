@@ -1,4 +1,4 @@
-package ${packageName}.${moduleName}.interfaces.facade.controller;
+package ${packageName}.${moduleName}.interfaces.com.muyuan.manager.system.facade.controller;
 
 import java.util.List;
 

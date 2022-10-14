@@ -59,7 +59,7 @@ public class MenuController {
     )
     public Result<List<MenuVO>> list(@ModelAttribute MenuDTO menuDTO) {
         List<Menu> list = menuDomainService.list(menuDTO);
-        return ResultUtil.success(list);
+        return ResultUtil.success(MenuAssembler.buildMenus2(list));
     }
 
     @RequirePermissions("member:menu:edit")
@@ -90,7 +90,7 @@ public class MenuController {
         if (StrUtil.isNumeric(id)) {
             Optional<Menu> sysMenu = menuDomainService.get(id);
             if (sysMenu.isPresent()) {
-                return ResultUtil.success(sysMenu.get());
+                return ResultUtil.success(MenuAssembler.buildMenus2(sysMenu.get()));
             }
         }
         return ResultUtil.fail("菜单不存在");

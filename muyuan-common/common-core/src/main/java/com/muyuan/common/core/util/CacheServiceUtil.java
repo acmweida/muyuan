@@ -48,7 +48,8 @@ public class CacheServiceUtil {
                                 expire.accept(key, expireTime);
                             }
                         }
-                )).get();
+                ).accept(key,v)
+        ).get();
     }
 
 
@@ -58,7 +59,9 @@ public class CacheServiceUtil {
         return (String) getAndUpdate(key,
                 (k) -> cache.get((String) k),
                 () -> supplier.get(),
-                (k, v) -> cache.set((String) k, (String) v)
+                (k, v) -> {
+                    cache.set((String) k, (String) v);
+                }
         );
     }
 

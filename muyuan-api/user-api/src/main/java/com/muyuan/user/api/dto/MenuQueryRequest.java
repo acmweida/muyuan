@@ -27,4 +27,8 @@ public class MenuQueryRequest implements Serializable {
 
     private PlatformType platformType;
 
+    private String name;
+
+    private String status;
+
 }

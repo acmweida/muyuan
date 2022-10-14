@@ -1,6 +1,6 @@
 package com.muyuan.user.domain.repo;
 
-import com.muyuan.user.domain.model.entity.user.Permission;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 
 import java.util.List;

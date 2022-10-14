@@ -2,7 +2,7 @@ package com.muyuan.manager.system.domains.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.domains.model.DictType;
-import com.muyuan.manager.system.domains.dto.DictTypeDTO;
+import com.muyuan.manager.system.dto.DictTypeDTO;
 
 import java.util.Date;
 

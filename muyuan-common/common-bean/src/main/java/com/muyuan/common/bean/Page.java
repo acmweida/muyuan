@@ -22,4 +22,8 @@ public class Page<T> {
     public static Page newInstance(Paging paging) {
         return Page.builder().pageNum(paging.getPageNum()).pageSize(paging.getPageSize()).build();
     }
+
+    public static <T> Page<T> newInstance(Paging paging,Class<T> type) {
+        return Page.<T>builder().pageNum(paging.getPageNum()).pageSize(paging.getPageSize()).build();
+    }
 }

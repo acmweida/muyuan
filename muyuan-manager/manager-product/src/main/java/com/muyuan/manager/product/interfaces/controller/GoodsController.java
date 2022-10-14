@@ -11,6 +11,7 @@ import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.manager.product.domains.assembler.GoodsAssembler;
 import com.muyuan.manager.product.domains.dto.GoodsDTO;
 import com.muyuan.manager.product.domains.model.Goods;
 import com.muyuan.manager.product.domains.service.GoodsService;
@@ -39,7 +40,11 @@ public class GoodsController {
     @GetMapping("/list")
     public Result<Page<GoodsVO>> list(@ModelAttribute GoodsDTO goodsDTO) {
         Page<Goods> page = goodsService.page(goodsDTO, SecurityUtils.getShopId());
-        return ResultUtil.success(page);
+        return ResultUtil.success(Page.<GoodsVO>builder()
+                .pageSize(page.getPageSize())
+                .pageNum(page.getPageSize())
+                .rows(GoodsAssembler.buildGoodsVO(page.getRows()))
+                .build());
     }
 
 

@@ -18,4 +18,8 @@ public class MenuQueryCommand {
 
     private PlatformType platformType;
 
+    private String name;
+
+    private String status;
+
 }

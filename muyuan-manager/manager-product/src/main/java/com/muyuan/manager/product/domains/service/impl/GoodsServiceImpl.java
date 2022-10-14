@@ -1,7 +1,7 @@
 package com.muyuan.manager.product.domains.service.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.exception.handler.ResourceNotFoundException;
+import com.muyuan.common.core.exception.ResourceNotFoundException;
 import com.muyuan.manager.product.domains.dto.GoodsDTO;
 import com.muyuan.manager.product.domains.dto.SkuDTO;
 import com.muyuan.manager.product.domains.model.Brand;

@@ -2,7 +2,7 @@ package com.muyuan.manager.system.domains.factories;
 
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.domains.model.SysRole;
-import com.muyuan.manager.system.domains.dto.SysRoleDTO;
+import com.muyuan.manager.system.dto.SysRoleDTO;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;

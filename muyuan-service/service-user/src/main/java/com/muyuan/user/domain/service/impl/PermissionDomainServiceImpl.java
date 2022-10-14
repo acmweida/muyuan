@@ -1,17 +1,14 @@
 package com.muyuan.user.domain.service.impl;
 
-import com.muyuan.user.domain.model.entity.user.Permission;
-import com.muyuan.user.domain.model.entity.user.Role;
+import com.muyuan.user.domain.model.entity.Permission;
+import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.repo.PermissionRepo;
 import com.muyuan.user.domain.service.PermissionDomainService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName PermissionDomainServiceImpl

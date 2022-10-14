@@ -12,6 +12,8 @@ public interface ServiceTypeConst {
 
     String USER = "user";
 
+    String CONFIG = "config";
+
     String AUTH = "auth";
 
 }

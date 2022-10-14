@@ -1,6 +1,6 @@
 package com.muyuan.common.service.impl;
 
-import com.muyuan.common.core.exception.handler.FileUploadFailException;
+import com.muyuan.common.core.exception.FileUploadFailException;
 import com.muyuan.common.dao.FileMapper;
 import com.muyuan.common.dto.FileDTO;
 import com.muyuan.common.model.File;

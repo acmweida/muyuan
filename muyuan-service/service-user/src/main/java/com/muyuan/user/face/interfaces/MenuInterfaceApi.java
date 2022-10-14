@@ -6,7 +6,7 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.MenuInterface;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
-import com.muyuan.user.domain.model.entity.user.Menu;
+import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.service.MenuDomainService;
 import com.muyuan.user.face.dto.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
@@ -38,5 +38,11 @@ public class MenuInterfaceApi implements MenuInterface {
         List<Menu> Menu = menuDomainService.getMenuByRoleCodes(MENU_MAPPER.toCommand(request));
 
         return ResultUtil.success(MENU_MAPPER.toDTO(Menu));
+    }
+
+    @Override
+    public Result<List<MenuDTO>> list(MenuQueryRequest request) {
+        List<Menu> list = menuDomainService.list(MENU_MAPPER.toCommand(request));
+        return ResultUtil.success(MENU_MAPPER.toDTO(list));
     }
 }

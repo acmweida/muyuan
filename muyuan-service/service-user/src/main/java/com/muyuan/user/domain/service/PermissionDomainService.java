@@ -1,7 +1,7 @@
 package com.muyuan.user.domain.service;
 
-import com.muyuan.user.domain.model.entity.user.Permission;
-import com.muyuan.user.domain.model.entity.user.Role;
+import com.muyuan.user.domain.model.entity.Permission;
+import com.muyuan.user.domain.model.entity.Role;
 
 import java.util.List;
 

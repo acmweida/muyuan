@@ -7,7 +7,7 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.UserInterface;
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
-import com.muyuan.user.domain.model.entity.user.User;
+import com.muyuan.user.domain.model.entity.User;
 import com.muyuan.user.domain.service.UserDomainService;
 import com.muyuan.user.face.dto.mapper.UserMapper;
 import lombok.AllArgsConstructor;

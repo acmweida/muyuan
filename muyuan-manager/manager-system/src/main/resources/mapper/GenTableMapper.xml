@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.muyuan.manager.system.infrastructure.persistence.mapper.GenTableMapper">
+<mapper namespace="com.muyuan.manager.system.mapper.GenTableMapper">
 
 	<resultMap type="com.muyuan.manager.system.domains.model.GenTable" id="GenTableResult">
 	    <id     property="tableId"        column="table_id"          />
@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select table_id, table_name, table_comment, sub_table_name, sub_table_fk_name, class_name, tpl_category, package_name, module_name, business_name, function_name, function_author, gen_type, gen_path, options, create_by, create_time, update_by, update_time, remark from t_gen_table
     </sql>
 
-    <select id="selectGenTableList" parameterType="com.muyuan.manager.system.domains.dto.GenTableDTO" resultMap="GenTableResult">
+    <select id="selectGenTableList" parameterType="com.muyuan.manager.system.dto.GenTableDTO" resultMap="GenTableResult">
 		<include refid="selectGenTableVo"/>
 		<where>
 			<if test="tableName != null and tableName != ''">

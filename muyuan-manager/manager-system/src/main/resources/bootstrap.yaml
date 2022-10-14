@@ -19,7 +19,7 @@ spring:
 server:
   port: 20003
 logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
+  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.muyuan.system.infrastructure.persistence.mapper.*: debug
     com.alibaba.nacos.client.*: warn
@@ -37,7 +37,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.manager.system.interfaces.facade.api
+    base-packages: com.muyuan.manager.system.facade.api
   protocol:
     name: dubbo
     port: 21003
@@ -50,6 +50,8 @@ dubbo:
     timeout: 3000
   registry:
     address: spring-cloud://localhost
+  cloud:
+    subscribed-services: service-config,service-user
 
 gen:
   packageName: com.muyuan

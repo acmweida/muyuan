@@ -17,11 +17,6 @@ public class PermissionDO {
 
     private String action;
 
-    /**
-     * 平台类型
-     */
-    private Integer type;
-
     private String perms;
 
     private Integer status;

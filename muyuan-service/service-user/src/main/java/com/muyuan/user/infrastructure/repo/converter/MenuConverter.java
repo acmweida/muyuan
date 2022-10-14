@@ -1,6 +1,6 @@
 package com.muyuan.user.infrastructure.repo.converter;
 
-import com.muyuan.user.domain.model.entity.user.Menu;
+import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.infrastructure.repo.dataobject.MenuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

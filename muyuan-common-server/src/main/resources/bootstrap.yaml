@@ -22,7 +22,7 @@ mybatis:
 
 dubbo:
   scan:
-    base-packages: com.muyuan.system.interfaces.facade.api
+    base-packages: com.muyuan.system.interfaces.com.muyuan.manager.system.facade.api
   protocol:
     name: dubbo
     port: 21005

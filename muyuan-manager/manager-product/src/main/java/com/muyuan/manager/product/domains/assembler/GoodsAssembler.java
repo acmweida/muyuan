@@ -12,13 +12,13 @@ import java.util.List;
 public class GoodsAssembler {
 
 
-    public static GoodsVO buildProductVO(Goods product) {
+    public static GoodsVO buildGoodsVO(Goods product) {
         Assert.notNull(product,"product not be bull");
-        return buildProductVO(Arrays.asList(product)).get(0);
+        return buildGoodsVO(Arrays.asList(product)).get(0);
     }
 
 
-    public static List<GoodsVO> buildProductVO(List<Goods> goodsList) {
+    public static List<GoodsVO> buildGoodsVO(List<Goods> goodsList) {
         Assert.notNull(goodsList,"products not be bull");
         List<GoodsVO> goodsVOS = new ArrayList<>();
         for (Goods goods : goodsList) {

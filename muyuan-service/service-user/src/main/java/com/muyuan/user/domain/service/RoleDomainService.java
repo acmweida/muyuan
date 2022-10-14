@@ -2,7 +2,7 @@ package com.muyuan.user.domain.service;
 
 
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.user.domain.model.entity.user.Role;
+import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.UserID;
 
 import java.util.List;

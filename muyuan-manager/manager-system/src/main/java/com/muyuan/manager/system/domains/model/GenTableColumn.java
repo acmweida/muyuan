@@ -2,7 +2,7 @@ package com.muyuan.manager.system.domains.model;
 
 import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.manager.system.infrastructure.common.GenConstants;
+import com.muyuan.manager.system.base.common.GenConstants;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

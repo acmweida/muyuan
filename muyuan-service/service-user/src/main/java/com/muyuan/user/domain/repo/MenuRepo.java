@@ -1,8 +1,9 @@
 package com.muyuan.user.domain.repo;
 
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.user.domain.model.entity.user.Menu;
+import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
+import com.muyuan.user.face.dto.MenuQueryCommand;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface MenuRepo {
      * @return
      */
     List<Menu> selectByRoleCode(RoleCode roleCode, PlatformType platformType);
+
+    List<Menu> list(MenuQueryCommand command);
 
 }

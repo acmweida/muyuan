@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>common-api</module>
+        <module>config-api</module>
         <module>goods-api</module>
         <module>user-api</module>
     </modules>

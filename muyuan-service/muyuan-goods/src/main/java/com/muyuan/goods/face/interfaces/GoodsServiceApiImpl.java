@@ -4,7 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.goods.api.dto.GoodsDTO;
 import com.muyuan.goods.api.dto.GoodsQueryRequest;
-import com.muyuan.goods.api.service.GoodsServiceApi;
+import com.muyuan.goods.api.GoodsServiceApi;
 import com.muyuan.goods.domains.model.entity.goods.Goods;
 import com.muyuan.goods.domains.service.GoodsService;
 import com.muyuan.goods.face.dto.GoodsQueryCommond;
