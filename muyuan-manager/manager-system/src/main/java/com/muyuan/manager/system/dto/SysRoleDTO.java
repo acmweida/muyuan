@@ -18,12 +18,6 @@ public class SysRoleDTO extends BaseDTO<SysRoleDTO, SysRole> {
 
     private Long id;
 
-    private int pageNum = 1;
-
-    private int pageSize = 10;
-
-    private boolean enablePage = true;
-
     @NotNull(message = "角色名称不能为空")
     private String name;
 

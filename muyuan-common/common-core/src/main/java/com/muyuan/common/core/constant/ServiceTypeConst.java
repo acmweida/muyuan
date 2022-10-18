@@ -10,9 +10,9 @@ public interface ServiceTypeConst {
 
     String GOODS = "goods";
 
-    String USER = "user";
+    String USER = "service-user";
 
-    String CONFIG = "config";
+    String CONFIG = "service-config";
 
     String AUTH = "auth";
 

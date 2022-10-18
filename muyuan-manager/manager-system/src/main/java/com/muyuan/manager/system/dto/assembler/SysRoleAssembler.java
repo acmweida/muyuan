@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.dto.assembler;
 
-import com.muyuan.manager.system.dto.vo.SysRoleVO;
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.manager.system.dto.vo.RoleVO;
+import com.muyuan.user.api.dto.RoleDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import java.util.List;
 
 public class SysRoleAssembler {
 
-    public static List<SysRoleVO> buildSysRoleVO(List<SysRole> sysRoles) {
-        List<SysRoleVO> list = new ArrayList<>();
-        for (SysRole dictData: sysRoles) {
+    public static List<RoleVO> buildRoleVO(List<RoleDTO> roleDTOS) {
+        List<RoleVO> list = new ArrayList<>();
+        for (RoleDTO dictData: roleDTOS) {
             if (null != dictData) {
-                SysRoleVO temp = new SysRoleVO();
+                RoleVO temp = new RoleVO();
                 BeanUtils.copyProperties(dictData,temp);
                 switch (temp.getStatus()) {
                     case "1":

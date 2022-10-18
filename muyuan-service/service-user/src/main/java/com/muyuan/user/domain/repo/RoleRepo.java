@@ -1,8 +1,11 @@
 package com.muyuan.user.domain.repo;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.UserID;
+import com.muyuan.user.face.dto.RoleQueryCommand;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ public interface RoleRepo {
 
 //    List<Role> select(RoleDTO roleDTO);
 //
-//    List<Role> select(RoleDTO roleDTO, Page page);
+    Page<Role> select(RoleQueryCommand command);
 //
 //    Role selectOne(Map params);
 //

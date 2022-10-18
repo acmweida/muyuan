@@ -21,11 +21,6 @@ public class DictTypeRepoImpl implements DictTypeRepo {
     }
 
     @Override
-    public int insert(DictType dictType) {
-        return dictTypeMapper.insertAuto(dictType);
-    }
-
-    @Override
     public DictType selectOne(Map params) {
         return dictTypeMapper.selectOne(params);
     }

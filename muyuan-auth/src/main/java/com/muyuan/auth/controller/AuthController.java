@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController()
-@RequestMapping()
 @Api(tags = {"登录接口"})
 public interface AuthController {
 
@@ -20,7 +19,7 @@ public interface AuthController {
     Result captchaImage(HttpServletRequest httpServletRequest) throws IOException;
 
 
-    @GetMapping("/logout")
+    @GetMapping("/cancel")
     @ApiOperation(value = "注销登录")
     Result logout();
 }

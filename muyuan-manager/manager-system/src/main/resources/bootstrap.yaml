@@ -45,7 +45,7 @@ dubbo:
     name: ${spring.application.name}
     id: ${spring.application.name}
   consumer:
-    check: false
+    check: true
   provider:
     timeout: 3000
   registry:

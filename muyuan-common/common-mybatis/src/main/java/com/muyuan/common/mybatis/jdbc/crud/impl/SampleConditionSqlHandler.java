@@ -10,7 +10,7 @@ public class SampleConditionSqlHandler implements ConditionSqlHandler {
     @Override
     public String buildSql(Condition condition) {
         if (Option.LIKE.equals(condition.getOption())) {
-            return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "'#{" + condition.getExpression() + "}'%";
+            return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "concat(#{" + condition.getExpression() + "},'%')";
         }
 
         return " " + StrUtil.humpToUnderline(condition.getField()) + condition.getOption().getOp() + "#{" + condition.getExpression() + "}";

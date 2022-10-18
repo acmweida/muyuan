@@ -136,7 +136,10 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
                 throw new InternalAuthenticationServiceException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             return loadedUser;
-        } catch (IllegalArgumentException e) {
+        } catch (InternalAuthenticationServiceException e) {
+            throw new InternalAuthenticationServiceException(e.getMessage(), e);
+        }
+        catch (IllegalArgumentException e) {
             logger.error("参数异常",e);
             throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), e);
         }

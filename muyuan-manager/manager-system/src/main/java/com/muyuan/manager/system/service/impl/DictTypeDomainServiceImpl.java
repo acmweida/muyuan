@@ -1,14 +1,20 @@
 package com.muyuan.manager.system.service.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.dto.DictTypeDTO;
-import com.muyuan.manager.system.domains.factories.DictTypeFactory;
+import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.config.api.DictInterface;
+import com.muyuan.config.api.dto.DictTypeQueryRequest;
+import com.muyuan.config.api.dto.DictTypeRequest;
 import com.muyuan.manager.system.domains.model.DictType;
 import com.muyuan.manager.system.domains.repo.DictTypeRepo;
+import com.muyuan.manager.system.dto.DictTypeDTO;
+import com.muyuan.manager.system.dto.DictTypeQueryParams;
 import com.muyuan.manager.system.service.DictTypeDomainService;
-import lombok.AllArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,50 +28,41 @@ import java.util.Optional;
  * @Version 1.0
  */
 @Service
-@AllArgsConstructor
 public class DictTypeDomainServiceImpl implements DictTypeDomainService {
 
+    @Autowired
     private DictTypeRepo dictTypeRepo;
+
+    @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
+    private DictInterface dictInterface;
 
     // ##############################  query ########################## //
 
-    @Override
-    public String checkUnique(DictType dictType) {
-        Long id = null == dictType.getId() ? 0 : dictType.getId();
-        dictType = dictTypeRepo.selectOne(new SqlBuilder(DictType.class).select("id")
-                .eq("name", dictType.getName())
-                .eq("type", dictType.getType())
-                .build());
-        if (null != dictType && !id.equals(dictType.getId())) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
-    }
 
     /**
      * 通过DataType 查询字典数据
      *
-     * @param dictTypeDTO
+     * @param params
      * @return
      */
     @Override
-    public Page<DictType> list(DictTypeDTO dictTypeDTO) {
+    public Page<com.muyuan.config.api.dto.DictTypeDTO> list(DictTypeQueryParams params) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(DictType.class)
-                .eq("name", dictTypeDTO.getName())
-                .eq("type", dictTypeDTO.getType())
-                .eq("status", dictTypeDTO.getStatus())
-                .orderByDesc("updateTime", "createTime");
+        DictTypeQueryRequest request = DictTypeQueryRequest.builder()
+                .name(params.getName())
+                .type(params.getType())
+                .status(params.getStatus())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-        Page<DictType> page = Page.<DictType>builder().pageSize(dictTypeDTO.getPageSize())
-                .pageNum(dictTypeDTO.getPageNum()).build();
-        sqlBuilder.page(page);
 
-        List<DictType> list = dictTypeRepo.select(sqlBuilder.build());
+        Result<Page<com.muyuan.config.api.dto.DictTypeDTO>> res = dictInterface.list(request);
 
-        page.setRows(list);
 
-        return page;
+        return res.getData();
     }
 
     @Override
@@ -96,9 +93,14 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
     // ##############################  query ########################## //
 
     @Override
-    public int add(DictTypeDTO dictTypeDTO) {
-        DictType dictType = DictTypeFactory.newInstance(dictTypeDTO);
-        return dictTypeRepo.insert(dictType);
+    public Result add(DictTypeDTO dictTypeDTO) {
+
+        return dictInterface.addDictType(DictTypeRequest.builder()
+                .name(dictTypeDTO.getName())
+                .type(dictTypeDTO.getType())
+                .status(dictTypeDTO.getStatus())
+                .createBy(SecurityUtils.getUserId())
+                .build());
     }
 
 

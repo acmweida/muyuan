@@ -5,7 +5,7 @@ import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.model.SysUser;
 import com.muyuan.manager.system.service.MenuDomainService;
-import com.muyuan.manager.system.service.SysRoleDomainService;
+import com.muyuan.manager.system.service.RoleDomainService;
 import com.muyuan.manager.system.service.SysUserDomainService;
 import com.muyuan.manager.system.dto.vo.SysUserVO;
 import com.muyuan.manager.system.dto.assembler.SysUserInfoAssembler;
@@ -26,7 +26,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
 
     private SysUserDomainService sysUserDomainService;
 
-    private SysRoleDomainService sysRoleDomainService;
+    private RoleDomainService roleDomainService;
 
     private MenuDomainService menuDomainService;
 
@@ -55,7 +55,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
     }
 
     private List<SysRole> getUserRoles(Long id) {
-        return sysRoleDomainService.getRoleByUserId(id);
+        return roleDomainService.getRoleByUserId(id);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
             return Optional.empty();
         }
 
-        List<SysRole> roles = sysRoleDomainService.getRoleByUserId(id);
+        List<SysRole> roles = roleDomainService.getRoleByUserId(id);
 
         SysUserVO sysUserVO = SysUserInfoAssembler.buildUserVO(userInfo.get(), roles);
         return Optional.of(sysUserVO);

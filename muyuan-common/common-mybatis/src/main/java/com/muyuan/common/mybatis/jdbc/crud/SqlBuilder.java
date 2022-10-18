@@ -12,10 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.muyuan.common.mybatis.common.Constant.*;
 
@@ -27,7 +24,9 @@ public class SqlBuilder {
 
     private List<Condition> updates;
 
-    private String[] columns;
+    private List<String> columns;
+
+    private List<String> uncolumns;
 
     private Page pageInfo;
 
@@ -73,7 +72,7 @@ public class SqlBuilder {
     }
 
     public SqlBuilder select(String... columns) {
-        this.columns = columns;
+        this.columns = Arrays.asList(columns);
         return this;
     }
 
@@ -82,7 +81,7 @@ public class SqlBuilder {
     }
 
     public SqlBuilder unselect(String... columns) {
-        this.columns = columns;
+        this.uncolumns = Arrays.asList(columns);
         return this;
     }
 

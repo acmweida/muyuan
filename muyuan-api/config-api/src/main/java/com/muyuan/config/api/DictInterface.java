@@ -1,8 +1,8 @@
 package com.muyuan.config.api;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.config.api.dto.DictQueryRequest;
+import com.muyuan.config.api.dto.*;
 
 import java.util.List;
 
@@ -16,4 +16,14 @@ import java.util.List;
 public interface DictInterface {
 
     Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request);
+
+    /**
+     * 角色列表查询
+     * @param request
+     * @return
+     */
+    Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request);
+
+
+    Result addDictType(DictTypeRequest request);
 }

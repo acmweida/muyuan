@@ -2,6 +2,7 @@ package com.muyuan.common.mybatis.jdbc.multi.readWriterSplit;
 
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -14,6 +15,12 @@ import java.util.List;
  */
 @Data
 public class ReadWriteJdbcConfig {
+
+    @Value("${db.read-method-prefix:select,find,get}")
+    protected List<String> readMethodPrefix;
+
+    @Value("${db.write-method-prefix:insert,update,delete,del}")
+    protected List<String> writeMethodPrefix;
 
     private String defaultDateSource;
 

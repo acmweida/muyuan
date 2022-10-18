@@ -1,15 +1,19 @@
 package com.muyuan.config.face.interfaces;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.config.api.DictInterface;
-import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.config.api.dto.DictQueryRequest;
-import com.muyuan.config.domains.service.DictDataDomainService;
+import com.muyuan.config.api.dto.*;
+import com.muyuan.config.entity.DictType;
 import com.muyuan.config.face.dto.mapper.DictMapper;
+import com.muyuan.config.service.DictService;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.List;
 
@@ -22,18 +26,38 @@ import java.util.List;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.CONFIG, version = "1.0"
-        , interfaceClass = DictInterface.class
+        , interfaceClass = DictInterface.class,
+        methods = {
+            @Method(name = "addDictType",retries = 0)
+        }
 )
 public class DictInterfaceApi implements DictInterface {
 
-    private DictDataDomainService dictDataDomainService;
+    private DictService dictService;
 
     private DictMapper mapper;
 
     @Override
     public Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request) {
         return ResultUtil.success(
-                mapper.to(dictDataDomainService.getByDictTypeName(mapper.toCommend(request)))
+                mapper.to(dictService.getByDictTypeName(mapper.toCommend(request)))
         );
+    }
+
+    @Override
+    public Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request) {
+        Page<DictType> list = dictService.list(mapper.toCommend(request));
+
+        return ResultUtil.success( Page.copy(list,mapper.toTypeDTO(list.getRows())));
+    }
+
+    @Override
+    public Result addDictType(DictTypeRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getName(), request.getType())))) {
+            return ResultUtil.fail(ResponseCode.ADD_EXIST);
+        }
+
+        boolean flag = dictService.addDictType(mapper.toCommend(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 }

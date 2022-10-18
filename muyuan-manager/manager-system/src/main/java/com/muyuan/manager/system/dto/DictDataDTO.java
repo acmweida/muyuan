@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictDataDTO extends BaseDTO<DictDataDTO, DictData> implements Paging {
+public class DictDataDTO extends BaseDTO<DictDataDTO, DictData> {
 
     @ApiModelProperty(value = "排序,默认值:0")
     private int orderNum;
@@ -45,10 +45,6 @@ public class DictDataDTO extends BaseDTO<DictDataDTO, DictData> implements Pagin
     private String remark;
 
     private Long id;
-
-    private int pageNum = 1;
-
-    private int pageSize = 10;
 
     private String status;
 

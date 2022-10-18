@@ -9,7 +9,9 @@ package com.muyuan.common.bean;
  */
 public interface Paging {
 
-    int getPageNum();
+    Integer getPageNum();
 
-    int getPageSize();
+    Integer getPageSize();
+
+    boolean enablePage();
 }

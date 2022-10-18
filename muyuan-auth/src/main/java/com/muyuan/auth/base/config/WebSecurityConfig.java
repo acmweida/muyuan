@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
               .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-              .antMatchers("/oauth/**","/rsa/publicKey","/captchaImage","/logout","/v3/**").permitAll()
+              .antMatchers("/oauth/**","/rsa/publicKey","/captchaImage","/cancel","/v3/**").permitAll()
               .anyRequest().authenticated()
               .and().csrf().disable();
     }

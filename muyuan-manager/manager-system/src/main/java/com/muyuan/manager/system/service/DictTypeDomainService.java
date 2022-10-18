@@ -2,8 +2,10 @@ package com.muyuan.manager.system.service;
 
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.DictTypeDTO;
 import com.muyuan.manager.system.domains.model.DictType;
+import com.muyuan.manager.system.dto.DictTypeQueryParams;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +24,7 @@ public interface DictTypeDomainService {
      * @param dictTypeDTO
      * @return
      */
-    Page<DictType> list(DictTypeDTO dictTypeDTO);
+    Page<com.muyuan.config.api.dto.DictTypeDTO> list(DictTypeQueryParams dictTypeDTO);
 
     /**
      * 查询所有
@@ -35,7 +37,7 @@ public interface DictTypeDomainService {
      * @param dictTypeDTO
      * @return
      */
-    int add(DictTypeDTO dictTypeDTO);
+    Result add(DictTypeDTO dictTypeDTO);
 
 
     /**
@@ -45,10 +47,4 @@ public interface DictTypeDomainService {
      */
     Optional<DictType> getById(String id);
 
-    /**
-     * 检查唯一性
-     * @param dictType
-     * @return
-     */
-    String checkUnique(DictType dictType);
 }

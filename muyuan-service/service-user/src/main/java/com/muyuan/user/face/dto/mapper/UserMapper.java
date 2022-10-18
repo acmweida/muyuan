@@ -25,16 +25,14 @@ public interface UserMapper {
     UserQueryCommand toCommand(UserQueryRequest request);
 
     @Mappings({
-            @Mapping(target = "id",source = "id.value"),
-            @Mapping(target = "username",source = "username.value"),
-            @Mapping(target = "roles",expression = "java(RoleMap.map(user.getRoles()))")
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "username", source = "username.value"),
+            @Mapping(target = "roles", expression = "java(UserMapper.map(user.getRoles()))")
     })
     UserDTO toDto(User user);
 
-    class RoleMap {
-        static List<String> map(List<Role> value) {
-            return value.stream().map(Role::getCode).collect(Collectors.toList());
-        }
+    static List<String> map(List<Role> value) {
+        return value.stream().map(Role::getCode).collect(Collectors.toList());
     }
 
 }

@@ -1,7 +1,5 @@
 package com.muyuan.manager.system.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.DictType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictTypeDTO extends BaseDTO<DictTypeDTO, DictType> {
+public class DictTypeDTO {
 
     /**
      * 字典名称
@@ -38,9 +36,5 @@ public class DictTypeDTO extends BaseDTO<DictTypeDTO, DictType> {
      */
     @ApiModelProperty(value = "状态（0正常 1停用）")
     private int status;
-
-    private int pageNum = 1;
-
-    private int pageSize = 10;
 
 }

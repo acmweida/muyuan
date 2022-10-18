@@ -12,11 +12,7 @@ import java.lang.reflect.ParameterizedType;
  * @Version 1.0
  */
 @Data
-public abstract class BaseDTO<T extends BaseDTO, E> implements Converter<T, E>, Paging {
-
-    private int pageNum = 1;
-
-    private int pageSize= 10;
+public abstract class BaseDTO<T extends BaseDTO, E> extends PageDTO implements Converter<T, E>, Paging {
 
     protected  E newEntity() {
         ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();

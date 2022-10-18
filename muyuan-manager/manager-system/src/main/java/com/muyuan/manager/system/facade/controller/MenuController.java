@@ -41,7 +41,7 @@ public class MenuController {
 
     private MenuDomainService menuDomainService;
 
-    @RequirePermissions("operator:menu:list")
+    @RequirePermissions("system:menu:list")
     @GetMapping("/menu/list")
     @ApiOperation(value = "菜单列表查询")
     @ApiImplicitParams(

@@ -55,8 +55,6 @@ public class MybatisConfig {
     }
 
     @Bean
-    @ConditionalOnBean(SystemReadWriteJdbcConfig.class)
-    @ConditionalOnMissingBean(DataSource.class)
     public DataSource dataSource(SystemReadWriteJdbcConfig systemJdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();

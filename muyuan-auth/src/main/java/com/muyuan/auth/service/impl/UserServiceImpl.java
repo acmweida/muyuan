@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserDetailsService {
                 .build());
 
         if (!ResultUtil.isSuccess(result)) {
-            throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
+           return null;
         }
         log.info("商家用户:{},登录", username);
         UserDTO userDTO = result.getData();

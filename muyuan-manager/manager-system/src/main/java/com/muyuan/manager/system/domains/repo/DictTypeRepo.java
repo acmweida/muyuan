@@ -12,7 +12,5 @@ public interface DictTypeRepo {
 
     List<DictType> select(Map dictType);
 
-    int insert(DictType dataObject);
-
     DictType selectOne(Map params);
 }

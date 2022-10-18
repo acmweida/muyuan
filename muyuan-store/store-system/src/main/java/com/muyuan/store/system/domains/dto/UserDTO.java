@@ -33,10 +33,6 @@ public class UserDTO extends BaseDTO<UserDTO, User> {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endCreateTime;
 
-    private int pageSize = 10;
-
-    private int pageNum = 1;
-
     @Pattern(regexp = ".*(?=.{6,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$",
     message = "密码最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符")
     @NotBlank(message = "密码不能为空")

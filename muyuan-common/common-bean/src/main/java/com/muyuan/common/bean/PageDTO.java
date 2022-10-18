@@ -2,6 +2,8 @@ package com.muyuan.common.bean;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @ClassName BaseDTO
  * Description BaseDTO
@@ -10,10 +12,16 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public abstract class PageDTO implements  Paging {
+public abstract class PageDTO implements  Paging, Serializable {
 
-    private int pageNum = 1;
+    private static final long serialVersionUID = 1457432148568l;
 
-    private int pageSize= 10;
+    private Integer pageNum;
 
+    private Integer pageSize;
+
+    @Override
+    public boolean enablePage() {
+        return pageNum != null && pageSize != null && pageNum > 0 && pageSize > 0;
+    }
 }
