@@ -7,7 +7,7 @@ import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
-import com.muyuan.config.face.dto.DictQueryCommend;
+import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.face.dto.DictTypeCommand;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
 import com.muyuan.config.repo.DictRepo;
@@ -35,7 +35,7 @@ public class DictServiceImpl implements DictService {
     private RedisCacheService redisCacheService;
 
     @Override
-    public List<DictData> getByDictTypeName(DictQueryCommend commend) {
+    public List<DictData> getByDictTypeName(DictQueryCommand commend) {
         if (ObjectUtils.isEmpty(commend.getDictTypeName())) {
             return GlobalConst.EMPTY_LIST;
         }
@@ -52,10 +52,25 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    public Page<DictData> list(DictQueryCommand commend) {
+        return dictRepo.select(commend);
+    }
+
+    @Override
     public String checkUnique(DictType dictType) {
         Long id = null == dictType.getId() ? 0 : dictType.getId();
         dictType = dictRepo.selectDictType(dictType);
         if (null != dictType && !id.equals(dictType.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public String checkUnique(DictData dictData) {
+        Long id = null == dictData.getId() ? 0 : dictData.getId();
+        dictData = dictRepo.selectDictData(dictData);
+        if (null != dictData && !id.equals(dictData.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;

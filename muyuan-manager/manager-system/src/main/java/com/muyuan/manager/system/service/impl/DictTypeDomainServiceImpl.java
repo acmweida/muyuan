@@ -6,12 +6,12 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
+import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.config.api.dto.DictTypeQueryRequest;
-import com.muyuan.config.api.dto.DictTypeRequest;
 import com.muyuan.manager.system.domains.model.DictType;
 import com.muyuan.manager.system.domains.repo.DictTypeRepo;
-import com.muyuan.manager.system.dto.DictTypeDTO;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
+import com.muyuan.manager.system.dto.DictTypeRequest;
 import com.muyuan.manager.system.service.DictTypeDomainService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
      * @return
      */
     @Override
-    public Page<com.muyuan.config.api.dto.DictTypeDTO> list(DictTypeQueryParams params) {
+    public Page<DictTypeDTO> list(DictTypeQueryParams params) {
 
         DictTypeQueryRequest request = DictTypeQueryRequest.builder()
                 .name(params.getName())
@@ -59,7 +59,7 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
         }
 
 
-        Result<Page<com.muyuan.config.api.dto.DictTypeDTO>> res = dictInterface.list(request);
+        Result<Page<DictTypeDTO>> res = dictInterface.list(request);
 
 
         return res.getData();
@@ -93,12 +93,12 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
     // ##############################  query ########################## //
 
     @Override
-    public Result add(DictTypeDTO dictTypeDTO) {
+    public Result add(DictTypeRequest dictTypeRequest) {
 
-        return dictInterface.addDictType(DictTypeRequest.builder()
-                .name(dictTypeDTO.getName())
-                .type(dictTypeDTO.getType())
-                .status(dictTypeDTO.getStatus())
+        return dictInterface.addDictType(com.muyuan.config.api.dto.DictTypeRequest.builder()
+                .name(dictTypeRequest.getName())
+                .type(dictTypeRequest.getType())
+                .status(dictTypeRequest.getStatus())
                 .createBy(SecurityUtils.getUserId())
                 .build());
     }

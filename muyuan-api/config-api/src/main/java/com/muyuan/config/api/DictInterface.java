@@ -18,11 +18,18 @@ public interface DictInterface {
     Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request);
 
     /**
-     * 角色列表查询
+     * 字典类型列表
      * @param request
      * @return
      */
     Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request);
+
+    /**
+     * 字典数据列表
+     * @param request
+     * @return
+     */
+    Result<Page<DictDataDTO>> list(DictQueryRequest request);
 
 
     Result addDictType(DictTypeRequest request);

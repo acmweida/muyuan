@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictTypeDTO {
+public class DictTypeRequest {
 
     /**
      * 字典名称

@@ -8,6 +8,7 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.*;
+import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
 import com.muyuan.config.face.dto.mapper.DictMapper;
 import com.muyuan.config.service.DictService;
@@ -49,6 +50,13 @@ public class DictInterfaceApi implements DictInterface {
         Page<DictType> list = dictService.list(mapper.toCommend(request));
 
         return ResultUtil.success( Page.copy(list,mapper.toTypeDTO(list.getRows())));
+    }
+
+    @Override
+    public Result<Page<DictDataDTO>> list(DictQueryRequest request) {
+        Page<DictData> list = dictService.list(mapper.toCommend(request));
+
+        return ResultUtil.success( Page.copy(list,mapper.to(list.getRows())));
     }
 
     @Override

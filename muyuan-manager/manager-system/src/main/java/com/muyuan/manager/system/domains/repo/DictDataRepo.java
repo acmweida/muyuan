@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.domains.repo;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.manager.system.dto.DictDataDTO;
+import com.muyuan.manager.system.dto.DictDataRequest;
 import com.muyuan.manager.system.domains.model.DictData;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface DictDataRepo {
 
-    List<DictData> select(DictDataDTO dictDataDTO);
+    List<DictData> select(DictDataRequest dictDataRequest);
 
-    List<DictData> select(DictDataDTO dictDataDTO, Page page);
+    List<DictData> select(DictDataRequest dictDataRequest, Page page);
 
     DictData selectOne(DictData dictData);
 

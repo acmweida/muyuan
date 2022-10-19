@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Options;
 @Mapper
 public interface DictDataMapper extends UserBaseMapper<DictDataDO> {
 
+    String LABEL = "label";
+
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insertAuto(DictDataDO dataObject);

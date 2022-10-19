@@ -1,5 +1,6 @@
 package com.muyuan.config.api.dto;
 
+import com.muyuan.common.bean.PageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +19,13 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DictQueryRequest implements Serializable {
+public class DictQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932158568l;
 
-    private String dictTypeName;
+    private String type;
+
+    private String status;
+
+    private String label;
 }

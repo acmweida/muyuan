@@ -1,8 +1,5 @@
 package com.muyuan.manager.system.dto;
 
-import com.muyuan.common.bean.Paging;
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.DictData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictDataDTO extends BaseDTO<DictDataDTO, DictData> {
+public class DictDataRequest {
 
     @ApiModelProperty(value = "排序,默认值:0")
     private int orderNum;
@@ -48,10 +45,10 @@ public class DictDataDTO extends BaseDTO<DictDataDTO, DictData> {
 
     private String status;
 
-    public DictDataDTO() {
+    public DictDataRequest() {
     }
 
-    public DictDataDTO(Long id) {
+    public DictDataRequest(Long id) {
         this.id = id;
     }
 }

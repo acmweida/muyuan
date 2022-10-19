@@ -4,7 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheService;
-import com.muyuan.manager.system.dto.DictDataDTO;
+import com.muyuan.manager.system.dto.DictDataRequest;
 import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.domains.repo.DictDataRepo;
 import com.muyuan.manager.system.mapper.DictDataMapper;
@@ -24,15 +24,15 @@ public class DictDataRepoImpl implements DictDataRepo {
     private RedisCacheService redisCacheService;
 
     @Override
-    public List<DictData> select(DictDataDTO dictDataDTO) {
-        return  select(dictDataDTO,null);
+    public List<DictData> select(DictDataRequest dictDataRequest) {
+        return  select(dictDataRequest,null);
     }
 
     @Override
-    public List<DictData> select(DictDataDTO dictDataDTO, Page page) {
+    public List<DictData> select(DictDataRequest dictDataRequest, Page page) {
         return  dictDataMapper.selectList(new SqlBuilder(DictData.class)
-                .eq("type", dictDataDTO.getType())
-                .eq("status", dictDataDTO.getStatus())
+                .eq("type", dictDataRequest.getType())
+                .eq("status", dictDataRequest.getStatus())
                 .orderByDesc("updateTime", "createTime")
                 .page(page)
                 .build());

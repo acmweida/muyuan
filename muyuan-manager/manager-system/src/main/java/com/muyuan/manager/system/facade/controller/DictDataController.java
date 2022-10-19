@@ -5,11 +5,13 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.manager.system.dto.DictDataDTO;
+import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.manager.system.domains.model.DictData;
-import com.muyuan.manager.system.service.DictDataDomainService;
-import com.muyuan.manager.system.dto.vo.DictDataVO;
+import com.muyuan.manager.system.dto.DictDataQueryParams;
+import com.muyuan.manager.system.dto.DictDataRequest;
 import com.muyuan.manager.system.dto.assembler.DictDataAssembler;
+import com.muyuan.manager.system.dto.vo.DictDataVO;
+import com.muyuan.manager.system.service.DictDataDomainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,16 +35,11 @@ public class DictDataController {
 
     @GetMapping("/dictData/list")
     @ApiOperation(value = "字典数值列表查询")
-    public Result<Page<DictDataVO>> list(@ModelAttribute DictDataDTO dictDataDTO) {
+    public Result<Page<DictDataDTO>> list(@ModelAttribute DictDataQueryParams params) {
 
-        Page<DictData> page = dictDataDomainService.page(dictDataDTO);
-        List<DictData> list = page.getRows();
+        Page<DictDataDTO> page = dictDataDomainService.page(params);
 
-        return ResultUtil.success(
-                Page.<DictDataVO>builder().pageNum(page.getPageNum()).pageSize(page.getPageSize())
-                .rows((DictDataAssembler.buildDictDataVO(list)))
-                .build()
-        );
+        return ResultUtil.success(page);
 
     }
 
@@ -55,7 +52,7 @@ public class DictDataController {
             return ResultUtil.success(res);
         }
 
-        List<com.muyuan.config.api.dto.DictDataDTO> dictDatas = dictDataDomainService.getByDataType(dictType);
+        List<DictDataDTO> dictDatas = dictDataDomainService.getByDataType(dictType);
 
         return ResultUtil.success(DictDataAssembler.buildDictDataVO2(dictDatas));
     }
@@ -70,32 +67,32 @@ public class DictDataController {
             return ResultUtil.success();
         }
 
-        DictDataDTO dictDataDTO = new DictDataDTO(id);
-        Optional<DictData> dictData = dictDataDomainService.get(dictDataDTO);
+        DictDataRequest dictDataRequest = new DictDataRequest(id);
+        Optional<DictData> dictData = dictDataDomainService.get(dictDataRequest);
         return ResultUtil.success(DictDataAssembler.buildDictDataVO(dictData.get()));
     }
 
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
-    public Result add(@RequestBody @Validated DictDataDTO dictDataDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataDTO.getLabel(),
-                dictDataDTO.getValue(),
-                dictDataDTO.getType())))) {
+    public Result add(@RequestBody @Validated DictDataRequest dictDataRequest) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictDataDomainService.checkUnique(new DictData(dictDataRequest.getLabel(),
+                dictDataRequest.getValue(),
+                dictDataRequest.getType())))) {
             return ResultUtil.fail("已存在相同字典数据");
         }
 
-        dictDataDomainService.add(dictDataDTO);
+        dictDataDomainService.add(dictDataRequest);
         return ResultUtil.success();
     }
 
     @PutMapping("/dictData")
     @ApiOperation(value = "字典数据更新")
-    public Result update(@RequestBody @Validated DictDataDTO dictDataDTO) {
-        if (ObjectUtils.isEmpty(dictDataDTO.getId())) {
+    public Result update(@RequestBody @Validated DictDataRequest dictDataRequest) {
+        if (ObjectUtils.isEmpty(dictDataRequest.getId())) {
             return ResultUtil.fail("id is null");
         }
 
-        dictDataDomainService.update(dictDataDTO);
+        dictDataDomainService.update(dictDataRequest);
         return ResultUtil.success();
     }
 

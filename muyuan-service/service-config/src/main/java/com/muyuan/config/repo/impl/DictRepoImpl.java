@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
+import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.repo.DictRepo;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
 import com.muyuan.config.repo.converter.DictConverter;
@@ -47,6 +48,28 @@ public class DictRepoImpl implements DictRepo {
     }
 
     @Override
+    public Page<DictData> select(DictQueryCommand commend) {
+        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
+                .eq(DictDataMapper.LABEL, commend.getLabel())
+                .eq(TYPE, commend.getType())
+                .eq(STATUS, commend.getStatus())
+                .orderByDesc(UPDATE_TIME, CREATE_TIME);
+
+        Page<DictData> page = Page.<DictData>builder().build();
+        if (commend.enablePage()) {
+            page.setPageSize(commend.getPageSize());
+            page.setPageNum(commend.getPageNum());
+            sqlBuilder.page(page);
+        }
+
+        List<DictDataDO> list = dictDataMapper.selectList(sqlBuilder.build());
+
+        page.setRows(converter.to(list));
+
+        return page;
+    }
+
+    @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictType.class)
                 .eq(NAME, command.getName())
@@ -54,9 +77,12 @@ public class DictRepoImpl implements DictRepo {
                 .eq(STATUS, command.getStatus())
                 .orderByDesc(UPDATE_TIME, CREATE_TIME);
 
-        Page<DictType> page = Page.<DictType>builder().pageSize(command.getPageSize())
-                .pageNum(command.getPageNum()).build();
-        sqlBuilder.page(page);
+        Page<DictType> page = Page.<DictType>builder().build();
+        if (command.enablePage()) {
+            page.setPageSize(command.getPageSize());
+            page.setPageNum(command.getPageNum());
+            sqlBuilder.page(page);
+        }
 
         List<DictTypeDO> list = dictTypeMapper.selectList(sqlBuilder.build());
 
@@ -74,6 +100,11 @@ public class DictRepoImpl implements DictRepo {
                 .build());
 
         return converter.to(dictType);
+    }
+
+    @Override
+    public DictData selectDictData(DictData data) {
+        return null;
     }
 
     @Override

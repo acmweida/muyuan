@@ -3,7 +3,7 @@ package com.muyuan.config.face.dto.mapper;
 import com.muyuan.config.api.dto.*;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
-import com.muyuan.config.face.dto.DictQueryCommend;
+import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.face.dto.DictTypeCommand;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
 import org.mapstruct.Mapper;
@@ -20,7 +20,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DictMapper {
 
-    DictQueryCommend toCommend(DictQueryRequest request);
+    DictQueryCommand toCommend(DictQueryRequest request);
 
     DictTypeQueryCommand toCommend(DictTypeQueryRequest request);
 

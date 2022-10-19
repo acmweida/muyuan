@@ -6,10 +6,12 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.config.api.DictInterface;
+import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.config.api.dto.DictQueryRequest;
-import com.muyuan.manager.system.dto.DictDataDTO;
 import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.domains.repo.DictDataRepo;
+import com.muyuan.manager.system.dto.DictDataQueryParams;
+import com.muyuan.manager.system.dto.DictDataRequest;
 import com.muyuan.manager.system.service.DictDataDomainService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,39 +55,46 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     /**
      * 查询字典数据
      *
-     * @param dictDataDTO
+     * @param params
      * @return
      */
     @Override
-    public Page<DictData> page(DictDataDTO dictDataDTO) {
+    public Page<DictDataDTO> page(DictDataQueryParams params) {
 
-        Page<DictData> page = Page.<DictData>builder().pageNum(dictDataDTO.getPageNum())
-                .pageSize(dictDataDTO.getPageSize()).build();
+        DictQueryRequest request = DictQueryRequest.builder()
+                .label(params.getLabel())
+                .type(params.getType())
+                .status(params.getStatus())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-        List<DictData> list = dictDataRepo.select(dictDataDTO, page);
 
-        page.setRows(list);
+        Result<Page<DictDataDTO>> res = dictInterface.list(request);
 
-        return page;
+
+        return res.getData();
     }
 
     /**
      * 查询字典数据
      *
-     * @param dictDataDTO
+     * @param dictDataRequest
      * @return
      */
     @Override
-    public List<DictData> list(DictDataDTO dictDataDTO) {
+    public List<DictData> list(DictDataRequest dictDataRequest) {
 
-        List<DictData> list = dictDataRepo.select(dictDataDTO);
+        List<DictData> list = dictDataRepo.select(dictDataRequest);
         return list;
     }
 
     @Override
-    public Optional<DictData> get(DictDataDTO dictDataDTO) {
+    public Optional<DictData> get(DictDataRequest dictDataRequest) {
         return Optional.ofNullable(
-                dictDataRepo.selectOne(dictDataDTO.convert())
+                dictDataRepo.selectOne(new DictData(dictDataRequest.getId()))
         );
     }
 
@@ -96,14 +105,14 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
      * @return
      */
     @Override
-    public List<com.muyuan.config.api.dto.DictDataDTO> getByDataType(String dictDataType) {
+    public List<DictDataDTO> getByDataType(String dictDataType) {
 
         if (StringUtils.isBlank(dictDataType)) {
             return Collections.EMPTY_LIST;
         }
 
-        Result<List<com.muyuan.config.api.dto.DictDataDTO>> resultHandle = dictInterface.getDictDataByType(DictQueryRequest.builder()
-                .dictTypeName(dictDataType)
+        Result<List<DictDataDTO>> resultHandle = dictInterface.getDictDataByType(DictQueryRequest.builder()
+                .type(dictDataType)
                 .build());
 
         return ResultUtil.getOr(resultHandle, () -> GlobalConst.EMPTY_LIST);
@@ -113,14 +122,14 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
 
     @Override
     @Transactional
-    public void add(DictDataDTO dictDataDTO) {
-        DictData dictData = dictDataDTO.convert();
+    public void add(DictDataRequest dictDataRequest) {
+        DictData dictData = new DictData();
         dictDataRepo.insert(dictData);
     }
 
     @Override
-    public void update(DictDataDTO dictDataDTO) {
-        DictData dictData = dictDataDTO.convert();
+    public void update(DictDataRequest dictDataRequest) {
+        DictData dictData = new DictData();
         dictDataRepo.update(dictData);
     }
 

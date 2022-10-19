@@ -59,6 +59,10 @@ public class DictData {
     public DictData() {
     }
 
+    public DictData(Long id) {
+        this.id = id;
+    }
+
     public DictData(String label, String value, String type) {
         this.label = label;
         this.value = value;

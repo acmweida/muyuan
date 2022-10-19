@@ -1,5 +1,6 @@
 package com.muyuan.config.face.dto;
 
+import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
 
 /**
@@ -10,7 +11,13 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class DictQueryCommend {
+public class DictQueryCommand extends PageDTO {
 
     private String dictTypeName;
+
+    private String type;
+
+    private String status;
+
+    private String label;
 }

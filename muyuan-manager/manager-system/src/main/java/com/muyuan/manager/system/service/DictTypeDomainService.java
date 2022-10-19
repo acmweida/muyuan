@@ -3,9 +3,10 @@ package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.manager.system.dto.DictTypeDTO;
+import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.manager.system.domains.model.DictType;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
+import com.muyuan.manager.system.dto.DictTypeRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public interface DictTypeDomainService {
      * @param dictTypeDTO
      * @return
      */
-    Page<com.muyuan.config.api.dto.DictTypeDTO> list(DictTypeQueryParams dictTypeDTO);
+    Page<DictTypeDTO> list(DictTypeQueryParams dictTypeDTO);
 
     /**
      * 查询所有
@@ -34,10 +35,10 @@ public interface DictTypeDomainService {
 
     /**
      * 新增
-     * @param dictTypeDTO
+     * @param dictTypeRequest
      * @return
      */
-    Result add(DictTypeDTO dictTypeDTO);
+    Result add(DictTypeRequest dictTypeRequest);
 
 
     /**

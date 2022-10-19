@@ -5,9 +5,10 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.manager.system.domains.model.DictType;
-import com.muyuan.manager.system.dto.DictTypeDTO;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
+import com.muyuan.manager.system.dto.DictTypeRequest;
 import com.muyuan.manager.system.dto.assembler.DictTypeAssembler;
 import com.muyuan.manager.system.dto.vo.DictTypeVO;
 import com.muyuan.manager.system.service.DictTypeDomainService;
@@ -32,8 +33,8 @@ public class DictTypeController {
     @GetMapping("/dictType/list")
     @RequirePermissions("system:dict:query")
     @ApiOperation(value = "字典类型列表查询")
-    public Result<Page<com.muyuan.config.api.dto.DictTypeDTO>> list(@ModelAttribute DictTypeQueryParams params) {
-        Page<com.muyuan.config.api.dto.DictTypeDTO> page = dictTypeDomainService.list(params);
+    public Result<Page<DictTypeDTO>> list(@ModelAttribute DictTypeQueryParams params) {
+        Page<DictTypeDTO> page = dictTypeDomainService.list(params);
 
         return ResultUtil.success(page);
     }
@@ -41,8 +42,8 @@ public class DictTypeController {
     @PostMapping("/dictType")
     @RequirePermissions("system:dict:add")
     @ApiOperation(value = "字典类型新增")
-    public Result add(@RequestBody @Validated DictTypeDTO dictTypeDTO) {
-        return dictTypeDomainService.add(dictTypeDTO);
+    public Result add(@RequestBody @Validated DictTypeRequest dictTypeRequest) {
+        return dictTypeDomainService.add(dictTypeRequest);
     }
 
 

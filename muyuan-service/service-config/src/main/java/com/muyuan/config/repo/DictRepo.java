@@ -3,6 +3,7 @@ package com.muyuan.config.repo;
 import com.muyuan.common.bean.Page;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
+import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
 
 import java.util.List;
@@ -18,10 +19,14 @@ public interface DictRepo {
 
     List<DictData> selectByDictType(String dataType);
 
+    Page<DictData> select(DictQueryCommand commend);
+
     Page<DictType> select(DictTypeQueryCommand command);
 
 
     DictType selectDictType(DictType type);
+
+    DictData selectDictData(DictData data);
 
 
     boolean addDictType(DictType type);
