@@ -4,9 +4,8 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.DictTypeDTO;
-import com.muyuan.manager.system.domains.model.DictType;
+import com.muyuan.config.api.dto.DictTypeRequest;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
-import com.muyuan.manager.system.dto.DictTypeRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import java.util.Optional;
  * @Date 2022/3/31 11:42
  * @Version 1.0
  */
-public interface DictTypeDomainService {
+public interface DictTypeService {
 
     /**
      * 通过DataType 查询字典数据
@@ -31,7 +30,7 @@ public interface DictTypeDomainService {
      * 查询所有
      * @return
      */
-    List<DictType> selectDictTypeAll();
+    List<DictTypeDTO> selectDictTypeAll();
 
     /**
      * 新增
@@ -46,6 +45,6 @@ public interface DictTypeDomainService {
      * @param id
      * @return
      */
-    Optional<DictType> getById(String id);
+    Optional<DictTypeDTO> getById(Long id);
 
 }

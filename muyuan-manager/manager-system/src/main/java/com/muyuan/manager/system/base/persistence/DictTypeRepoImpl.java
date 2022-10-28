@@ -20,8 +20,4 @@ public class DictTypeRepoImpl implements DictTypeRepo {
         return  dictTypeMapper.selectList(params);
     }
 
-    @Override
-    public DictType selectOne(Map params) {
-        return dictTypeMapper.selectOne(params);
-    }
 }

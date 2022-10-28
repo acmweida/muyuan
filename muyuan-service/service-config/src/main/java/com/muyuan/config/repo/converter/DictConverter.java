@@ -28,4 +28,6 @@ public interface DictConverter {
 
     DictTypeDO to(DictType dictType);
 
+    DictDataDO to(DictData dictData);
+
 }

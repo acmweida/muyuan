@@ -41,9 +41,8 @@ public class DictData {
     public DictData() {
     }
 
-    public DictData(String label, String value, String type) {
+    public DictData(String label, String type) {
         this.label = label;
-        this.value = value;
         this.type = type;
     }
 }

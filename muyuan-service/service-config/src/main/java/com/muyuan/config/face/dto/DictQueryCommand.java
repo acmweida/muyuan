@@ -13,8 +13,6 @@ import lombok.Data;
 @Data
 public class DictQueryCommand extends PageDTO {
 
-    private String dictTypeName;
-
     private String type;
 
     private String status;

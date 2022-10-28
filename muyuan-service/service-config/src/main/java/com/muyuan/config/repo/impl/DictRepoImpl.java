@@ -69,6 +69,14 @@ public class DictRepoImpl implements DictRepo {
         return page;
     }
 
+
+    public DictType selectType(Long id) {
+        DictTypeDO dictType = dictTypeMapper.selectOne(new SqlBuilder(DictTypeDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.to(dictType);
+    }
+
     @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictType.class)
@@ -96,7 +104,7 @@ public class DictRepoImpl implements DictRepo {
         DictTypeDO dictType = dictTypeMapper.selectOne(new SqlBuilder(DictType.class).select("id")
                 .eq(NAME, type.getName())
                 .eq(TYPE, type.getType())
-                .eq(ID,type.getId())
+                .eq(ID, type.getId())
                 .build());
 
         return converter.to(dictType);
@@ -104,12 +112,26 @@ public class DictRepoImpl implements DictRepo {
 
     @Override
     public DictData selectDictData(DictData data) {
-        return null;
+        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
+                .eq(DictDataMapper.LABEL, data.getLabel())
+                .eq(TYPE, data.getType())
+                .eq(STATUS, data.getStatus())
+                .orderByDesc(UPDATE_TIME, CREATE_TIME);
+
+        DictDataDO dataDO = dictDataMapper.selectOne(sqlBuilder.build());
+
+        return converter.to(dataDO);
     }
 
     @Override
     public boolean addDictType(DictType type) {
         Integer count = dictTypeMapper.insertAuto(converter.to(type));
-        return  count > 0;
+        return count > 0;
+    }
+
+    @Override
+    public boolean addDictData(DictData dictData) {
+        Integer count = dictDataMapper.insertAuto(converter.to(dictData));
+        return count > 0;
     }
 }

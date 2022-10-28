@@ -17,6 +17,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictInterfaceApi
@@ -46,6 +47,15 @@ public class DictInterfaceApi implements DictInterface {
     }
 
     @Override
+    public Result<DictTypeDTO> getDictType(Long id) {
+        Optional<DictType> handler = dictService.getType(id);
+
+        return handler.map(mapper::to)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
     public Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request) {
         Page<DictType> list = dictService.list(mapper.toCommend(request));
 
@@ -66,6 +76,16 @@ public class DictInterfaceApi implements DictInterface {
         }
 
         boolean flag = dictService.addDictType(mapper.toCommend(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result addDictData(DictDataRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getLabel(), request.getType())))) {
+            return ResultUtil.fail(ResponseCode.ADD_EXIST);
+        }
+
+        boolean flag = dictService.addDictData(mapper.toCommend(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 }

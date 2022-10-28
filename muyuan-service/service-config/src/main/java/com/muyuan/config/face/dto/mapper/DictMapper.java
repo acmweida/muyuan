@@ -3,6 +3,7 @@ package com.muyuan.config.face.dto.mapper;
 import com.muyuan.config.api.dto.*;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
+import com.muyuan.config.face.dto.DictDataCommand;
 import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.face.dto.DictTypeCommand;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
@@ -23,6 +24,8 @@ public interface DictMapper {
     DictQueryCommand toCommend(DictQueryRequest request);
 
     DictTypeQueryCommand toCommend(DictTypeQueryRequest request);
+
+    DictDataCommand toCommend(DictDataRequest request);
 
     DictTypeCommand toCommend(DictTypeRequest request);
 

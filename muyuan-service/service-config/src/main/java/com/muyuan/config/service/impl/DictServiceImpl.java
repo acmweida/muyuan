@@ -7,6 +7,7 @@ import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
+import com.muyuan.config.face.dto.DictDataCommand;
 import com.muyuan.config.face.dto.DictQueryCommand;
 import com.muyuan.config.face.dto.DictTypeCommand;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
@@ -18,6 +19,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictDataDomainServiceImpl
@@ -36,12 +38,12 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public List<DictData> getByDictTypeName(DictQueryCommand commend) {
-        if (ObjectUtils.isEmpty(commend.getDictTypeName())) {
+        if (ObjectUtils.isEmpty(commend.getType())) {
             return GlobalConst.EMPTY_LIST;
         }
 
-        return  CacheServiceUtil.getAndUpdateList(redisCacheService, RedisConst.SYS_DATA_DICT+commend.getDictTypeName(),
-                () -> dictRepo.selectByDictType(commend.getDictTypeName()),
+        return CacheServiceUtil.getAndUpdateList(redisCacheService, RedisConst.SYS_DATA_DICT + commend.getType(),
+                () -> dictRepo.selectByDictType(commend.getType()),
                 DictData.class
         );
     }
@@ -49,6 +51,14 @@ public class DictServiceImpl implements DictService {
     @Override
     public Page<DictType> list(DictTypeQueryCommand commend) {
         return dictRepo.select(commend);
+    }
+
+    @Override
+    public Optional<DictType> getType(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    return dictRepo.selectType(id_);
+                });
     }
 
     @Override
@@ -77,6 +87,24 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    public boolean addDictData(DictDataCommand command) {
+        DictData dictData = new DictData();
+
+        dictData.setType(command.getType());
+        dictData.setLabel(command.getLabel());
+        dictData.setOrderNum(command.getOrderNum());
+        dictData.setValue(command.getValue());
+        dictData.setCssClass(command.getCssClass());
+        dictData.setListClass(command.getListClass());
+        dictData.setRemark(command.getRemark());
+        dictData.setStatus(Integer.parseInt(command.getStatus()));
+        dictData.setCreateTime(DateTime.now().toDate());
+        dictData.setCreateBy(command.getCreateBy());
+
+        return dictRepo.addDictData(dictData);
+    }
+
+    @Override
     public boolean addDictType(DictTypeCommand command) {
         DictType dictType = new DictType();
 
@@ -89,4 +117,6 @@ public class DictServiceImpl implements DictService {
 
         return dictRepo.addDictType(dictType);
     }
+
+
 }

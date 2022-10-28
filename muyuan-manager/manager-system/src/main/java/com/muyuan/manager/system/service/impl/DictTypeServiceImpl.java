@@ -3,18 +3,15 @@ package com.muyuan.manager.system.service.impl;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.config.api.dto.DictTypeQueryRequest;
-import com.muyuan.manager.system.domains.model.DictType;
-import com.muyuan.manager.system.domains.repo.DictTypeRepo;
+import com.muyuan.config.api.dto.DictTypeRequest;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
-import com.muyuan.manager.system.dto.DictTypeRequest;
-import com.muyuan.manager.system.service.DictTypeDomainService;
+import com.muyuan.manager.system.service.DictTypeService;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,16 +25,13 @@ import java.util.Optional;
  * @Version 1.0
  */
 @Service
-public class DictTypeDomainServiceImpl implements DictTypeDomainService {
+public class DictTypeServiceImpl implements DictTypeService {
 
-    @Autowired
-    private DictTypeRepo dictTypeRepo;
 
     @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
     private DictInterface dictInterface;
 
     // ##############################  query ########################## //
-
 
     /**
      * 通过DataType 查询字典数据
@@ -66,9 +60,11 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
     }
 
     @Override
-    public List<DictType> selectDictTypeAll() {
-        return dictTypeRepo.select(new SqlBuilder(DictType.class).build());
+    public List<DictTypeDTO> selectDictTypeAll() {
+        Result<Page<DictTypeDTO>> list = dictInterface.list(DictTypeQueryRequest.builder().build());
+        return list.getData().getRows();
     }
+
 
     /**
      * 字典类类型详情查询
@@ -77,17 +73,12 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
      * @return
      */
     @Override
-    public Optional<DictType> getById(String id) {
-        DictType dictType = dictTypeRepo.selectOne(new SqlBuilder(DictType.class)
-                .eq("id", id)
-                .build());
-
-        if (null == dictType) {
-            return Optional.empty();
-        }
-
-        return Optional.of(dictType);
-
+    public Optional<DictTypeDTO> getById(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<DictTypeDTO> dictType = dictInterface.getDictType(id_);
+                    return ResultUtil.getOr(dictType,null);
+                });
     }
 
     // ##############################  query ########################## //
@@ -95,13 +86,12 @@ public class DictTypeDomainServiceImpl implements DictTypeDomainService {
     @Override
     public Result add(DictTypeRequest dictTypeRequest) {
 
-        return dictInterface.addDictType(com.muyuan.config.api.dto.DictTypeRequest.builder()
+        return dictInterface.addDictType(DictTypeRequest.builder()
                 .name(dictTypeRequest.getName())
                 .type(dictTypeRequest.getType())
                 .status(dictTypeRequest.getStatus())
                 .createBy(SecurityUtils.getUserId())
                 .build());
     }
-
 
 }

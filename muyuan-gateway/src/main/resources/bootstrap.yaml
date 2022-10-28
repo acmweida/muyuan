@@ -9,12 +9,12 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 119.29.77.107
+        server-addr: 172.22.34.30
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba
         group: MUYUAN
         file-extension: yaml
       discovery:
-        server-addr: 119.29.77.107
+        server-addr: 172.22.34.30
         group: MUYUAN
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba
     gateway:

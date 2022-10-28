@@ -1,6 +1,7 @@
 package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
@@ -16,7 +17,7 @@ import java.util.Optional;
  * @Date 2022/4/7 10:36
  * @Version 1.0
  */
-public interface DictDataDomainService {
+public interface DictDataService {
 
     /**
      * 查询字典数据
@@ -46,7 +47,7 @@ public interface DictDataDomainService {
      * 字典数据添加
      * @param dictDataRequest
      */
-    void add(DictDataRequest dictDataRequest);
+    Result add(DictDataRequest dictDataRequest);
 
     /**
      * 字典数据更新

@@ -69,7 +69,7 @@ public class ResultUtil {
 
 
     public static <T> T getOr(Result<T>  result, Supplier<T> supplier) {
-        return isSuccess(result) ? result.getData() : supplier.get();
+        return isSuccess(result) ? result.getData() :   supplier == null ? null : supplier.get();
     }
 
 }

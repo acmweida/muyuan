@@ -14,6 +14,7 @@
         <module>muyuan-member</module>
         <module>muyuan-service</module>
         <module>muyuan-user</module>
+        <module>muyuan-system</module>
     </modules>
 
     <parent>

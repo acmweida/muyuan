@@ -28,7 +28,7 @@ public class DictDataRequest {
     @ApiModelProperty(value = "字典值")
     private String value;
 
-    @NotBlank(message = "字典值不能为空")
+    @NotBlank(message = "字典类型不能为空")
     @ApiModelProperty(value = "字典类型编码")
     private String type;
 
@@ -43,7 +43,8 @@ public class DictDataRequest {
 
     private Long id;
 
-    private String status;
+    @ApiModelProperty(value = "状态 默认 0-正常 1-禁用 默认0")
+    private String status = "0";
 
     public DictDataRequest() {
     }

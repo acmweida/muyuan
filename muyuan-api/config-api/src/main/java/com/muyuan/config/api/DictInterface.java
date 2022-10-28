@@ -17,6 +17,8 @@ public interface DictInterface {
 
     Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request);
 
+    Result<DictTypeDTO> getDictType(Long id);
+
     /**
      * 字典类型列表
      * @param request
@@ -33,4 +35,7 @@ public interface DictInterface {
 
 
     Result addDictType(DictTypeRequest request);
+
+    Result addDictData(DictDataRequest request);
+
 }

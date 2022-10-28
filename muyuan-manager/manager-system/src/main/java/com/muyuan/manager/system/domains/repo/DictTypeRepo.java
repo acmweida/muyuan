@@ -12,5 +12,4 @@ public interface DictTypeRepo {
 
     List<DictType> select(Map dictType);
 
-    DictType selectOne(Map params);
 }

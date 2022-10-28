@@ -23,11 +23,13 @@ public interface DictRepo {
 
     Page<DictType> select(DictTypeQueryCommand command);
 
+    DictType selectType(Long id);
 
     DictType selectDictType(DictType type);
 
     DictData selectDictData(DictData data);
 
-
     boolean addDictType(DictType type);
+
+    boolean addDictData(DictData dictData);
 }

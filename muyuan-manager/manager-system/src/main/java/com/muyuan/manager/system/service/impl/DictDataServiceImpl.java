@@ -5,6 +5,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.config.api.dto.DictQueryRequest;
@@ -12,13 +13,12 @@ import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.domains.repo.DictDataRepo;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
 import com.muyuan.manager.system.dto.DictDataRequest;
-import com.muyuan.manager.system.service.DictDataDomainService;
+import com.muyuan.manager.system.service.DictDataService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.Optional;
  * @Version 1.0
  */
 @Service
-public class DictDataDomainServiceImpl implements DictDataDomainService {
+public class DictDataServiceImpl implements DictDataService {
 
     @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
     private DictInterface dictInterface;
@@ -121,10 +121,18 @@ public class DictDataDomainServiceImpl implements DictDataDomainService {
     // ##############################  query ########################## //
 
     @Override
-    @Transactional
-    public void add(DictDataRequest dictDataRequest) {
-        DictData dictData = new DictData();
-        dictDataRepo.insert(dictData);
+    public Result add(DictDataRequest dictDataRequest) {
+        return dictInterface.addDictData(com.muyuan.config.api.dto.DictDataRequest.builder()
+                .label(dictDataRequest.getLabel())
+                .type(dictDataRequest.getType())
+                .value(dictDataRequest.getValue())
+                .status(dictDataRequest.getStatus())
+                .createBy(SecurityUtils.getUserId())
+                .cssClass(dictDataRequest.getCssClass())
+                .listClass(dictDataRequest.getListClass())
+                .orderNum(dictDataRequest.getOrderNum())
+                .remark(dictDataRequest.getRemark())
+                .build());
     }
 
     @Override

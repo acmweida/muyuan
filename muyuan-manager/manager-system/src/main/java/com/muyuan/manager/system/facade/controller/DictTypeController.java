@@ -6,12 +6,11 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.config.api.dto.DictTypeDTO;
-import com.muyuan.manager.system.domains.model.DictType;
+import com.muyuan.config.api.dto.DictTypeRequest;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
-import com.muyuan.manager.system.dto.DictTypeRequest;
-import com.muyuan.manager.system.dto.assembler.DictTypeAssembler;
+import com.muyuan.manager.system.dto.converter.DictConverter;
 import com.muyuan.manager.system.dto.vo.DictTypeVO;
-import com.muyuan.manager.system.service.DictTypeDomainService;
+import com.muyuan.manager.system.service.DictTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,13 +27,15 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DictTypeController {
 
-    private DictTypeDomainService dictTypeDomainService;
+    private DictTypeService dictTypeService;
+
+    private DictConverter converter;
 
     @GetMapping("/dictType/list")
     @RequirePermissions("system:dict:query")
     @ApiOperation(value = "字典类型列表查询")
     public Result<Page<DictTypeDTO>> list(@ModelAttribute DictTypeQueryParams params) {
-        Page<DictTypeDTO> page = dictTypeDomainService.list(params);
+        Page<DictTypeDTO> page = dictTypeService.list(params);
 
         return ResultUtil.success(page);
     }
@@ -43,7 +44,7 @@ public class DictTypeController {
     @RequirePermissions("system:dict:add")
     @ApiOperation(value = "字典类型新增")
     public Result add(@RequestBody @Validated DictTypeRequest dictTypeRequest) {
-        return dictTypeDomainService.add(dictTypeRequest);
+        return dictTypeService.add(dictTypeRequest);
     }
 
 
@@ -55,9 +56,9 @@ public class DictTypeController {
     )
     public Result<DictTypeVO> getById(@PathVariable  String id) {
         if (StrUtil.isNumeric(id)) {
-            Optional<DictType> dictType = dictTypeDomainService.getById(id);
+            Optional<DictTypeDTO> dictType = dictTypeService.getById(Long.valueOf(id));
             if (dictType.isPresent()) {
-                return ResultUtil.success(DictTypeAssembler.buildDictDataVO(dictType.get()));
+                return ResultUtil.success(converter.toVO(dictType.get()));
             }
         }
         return ResultUtil.fail("字典类型未找到");
@@ -71,7 +72,7 @@ public class DictTypeController {
     @RequirePermissions("system:dict:query")
     public Result optionselect()
     {
-        List<DictType> dictTypes = dictTypeDomainService.selectDictTypeAll();
+        List<DictTypeDTO> dictTypes = dictTypeService.selectDictTypeAll();
         return ResultUtil.success(dictTypes);
     }
 
