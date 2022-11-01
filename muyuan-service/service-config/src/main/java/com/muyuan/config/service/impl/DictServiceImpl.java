@@ -62,6 +62,14 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    public Optional<DictData> getData(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    return dictRepo.selectData(id_);
+                });
+    }
+
+    @Override
     public Page<DictData> list(DictQueryCommand commend) {
         return dictRepo.select(commend);
     }

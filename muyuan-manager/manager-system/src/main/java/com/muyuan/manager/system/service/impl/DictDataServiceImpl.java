@@ -92,10 +92,13 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public Optional<DictData> get(DictDataRequest dictDataRequest) {
-        return Optional.ofNullable(
-                dictDataRepo.selectOne(new DictData(dictDataRequest.getId()))
-        );
+    public Optional<DictDataDTO> getById(Long id) {
+
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<DictDataDTO> dictType = dictInterface.getDictData(id_);
+                    return ResultUtil.getOr(dictType,null);
+                });
     }
 
     /**

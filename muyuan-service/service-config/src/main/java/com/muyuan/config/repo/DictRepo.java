@@ -25,6 +25,8 @@ public interface DictRepo {
 
     DictType selectType(Long id);
 
+    DictData selectData(Long id);
+
     DictType selectDictType(DictType type);
 
     DictData selectDictData(DictData data);

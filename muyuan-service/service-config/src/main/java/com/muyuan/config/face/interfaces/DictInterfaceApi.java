@@ -56,6 +56,15 @@ public class DictInterfaceApi implements DictInterface {
     }
 
     @Override
+    public Result<DictDataDTO> getDictData(Long id) {
+        Optional<DictData> handler = dictService.getData(id);
+
+        return handler.map(mapper::to)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
     public Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request) {
         Page<DictType> list = dictService.list(mapper.toCommend(request));
 

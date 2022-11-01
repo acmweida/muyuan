@@ -78,6 +78,14 @@ public class DictRepoImpl implements DictRepo {
     }
 
     @Override
+    public DictData selectData(Long id) {
+        DictDataDO dictData = dictDataMapper.selectOne(new SqlBuilder(DictDataDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.to(dictData);
+    }
+
+    @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictType.class)
                 .eq(NAME, command.getName())

@@ -33,7 +33,7 @@ public interface DictDataService {
      */
     List<DictData> list(DictDataRequest dictDataRequest);
 
-    Optional<DictData> get(DictDataRequest dictDataRequest);
+    Optional<DictDataDTO> getById(Long dictDataRequest);
 
     /**
      * 通过DataType 查询字典数据

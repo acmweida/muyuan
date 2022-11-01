@@ -26,6 +26,8 @@ public interface DictService {
 
     Optional<DictType> getType(Long id);
 
+    Optional<DictData> getData(Long id);
+
     Page<DictData> list(DictQueryCommand commend);
 
     /**

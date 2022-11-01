@@ -2,13 +2,13 @@ package com.muyuan.manager.system.facade.controller;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
 import com.muyuan.manager.system.dto.DictDataRequest;
-import com.muyuan.manager.system.dto.assembler.DictDataAssembler;
+import com.muyuan.manager.system.dto.converter.DictConverter;
 import com.muyuan.manager.system.dto.vo.DictDataVO;
 import com.muyuan.manager.system.service.DictDataService;
 import io.swagger.annotations.Api;
@@ -29,6 +29,8 @@ public class DictDataController {
 
     private DictDataService dictDataService;
 
+    private DictConverter converter;
+
     @GetMapping("/dictData/list")
     @ApiOperation(value = "字典数值列表查询")
     public Result<Page<DictDataDTO>> list(@ModelAttribute DictDataQueryParams params) {
@@ -46,14 +48,13 @@ public class DictDataController {
     )
     public Result<DictDataVO> detail(@PathVariable Long id) {
         if (ObjectUtils.isEmpty(id)) {
-            return ResultUtil.success();
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
         }
 
-        DictDataRequest dictDataRequest = new DictDataRequest(id);
-        Optional<DictData> dictData = dictDataService.get(dictDataRequest);
-        return ResultUtil.success(DictDataAssembler.buildDictDataVO(dictData.get()));
-    }
+        Optional<DictDataDTO> dictData = dictDataService.getById(id);
 
+        return dictData.map(dictDataDTO -> ResultUtil.success(converter.toVO(dictDataDTO))).orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
+    }
 
 
     @PutMapping("/dictData")
@@ -77,5 +78,13 @@ public class DictDataController {
         dictDataService.deleteById(ids);
         return ResultUtil.success();
     }
+
+
+    @PostMapping("/dictData")
+    @ApiOperation(value = "字典类型数新增")
+    public Result add(@RequestBody @Validated DictDataRequest dictDataRequest) {
+        return dictDataService.add(dictDataRequest);
+    }
+
 
 }

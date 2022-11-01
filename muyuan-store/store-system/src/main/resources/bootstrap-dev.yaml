@@ -2,11 +2,11 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 172.22.34.30
+        server-addr: 172.22.34.40
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba
         group: MUYUAN
         file-extension: properties
       discovery:
-        server-addr: 172.22.34.30
+        server-addr: 172.22.34.40
         group: MUYUAN
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba

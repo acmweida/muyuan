@@ -20,6 +20,8 @@ public interface DictConverter {
 
     DictTypeVO toVO(DictTypeDTO dictTypeDTO);
 
+    DictDataVO toVO(DictDataDTO dictDataDTO);
+
     List<DictDataVO> toDictDataVO2(List<DictDataDTO> dictDatas);
 
 }
