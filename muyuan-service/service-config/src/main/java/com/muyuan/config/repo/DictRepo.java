@@ -34,4 +34,6 @@ public interface DictRepo {
     boolean addDictType(DictType type);
 
     boolean addDictData(DictData dictData);
+
+    boolean updateDictData(DictData dictData);
 }

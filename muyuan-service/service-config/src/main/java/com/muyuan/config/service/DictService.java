@@ -51,4 +51,6 @@ public interface DictService {
 
 
     boolean addDictData(DictDataCommand command);
+
+    boolean updateDictData(DictDataCommand request);
 }

@@ -49,4 +49,6 @@ public interface DictInterface {
      */
     Result addDictData(DictDataRequest request);
 
+    Result updateDictData(DictDataRequest request);
+
 }

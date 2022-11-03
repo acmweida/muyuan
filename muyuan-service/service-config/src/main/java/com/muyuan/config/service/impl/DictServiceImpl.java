@@ -109,7 +109,35 @@ public class DictServiceImpl implements DictService {
         dictData.setCreateTime(DateTime.now().toDate());
         dictData.setCreateBy(command.getCreateBy());
 
+
         return dictRepo.addDictData(dictData);
+    }
+
+    @Override
+    public boolean updateDictData(DictDataCommand command) {
+        if (ObjectUtils.isEmpty(command.getId())) {
+            return false;
+        }
+
+        DictData dictData = new DictData();
+
+        dictData.setId(command.getId());
+        dictData.setType(command.getType());
+        dictData.setLabel(command.getLabel());
+        dictData.setOrderNum(command.getOrderNum());
+        dictData.setValue(command.getValue());
+        dictData.setCssClass(command.getCssClass());
+        dictData.setListClass(command.getListClass());
+        dictData.setRemark(command.getRemark());
+        dictData.setStatus(Integer.parseInt(command.getStatus()));
+        dictData.setCreateTime(DateTime.now().toDate());
+        dictData.setCreateBy(command.getCreateBy());
+
+        if (dictRepo.updateDictData(dictData)) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dictData.getType());
+            return true;
+        }
+        return false;
     }
 
     @Override

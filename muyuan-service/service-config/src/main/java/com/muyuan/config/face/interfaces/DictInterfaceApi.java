@@ -97,4 +97,10 @@ public class DictInterfaceApi implements DictInterface {
         boolean flag = dictService.addDictData(mapper.toCommend(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
+
+    @Override
+    public Result updateDictData(DictDataRequest request) {
+
+        return null;
+    }
 }

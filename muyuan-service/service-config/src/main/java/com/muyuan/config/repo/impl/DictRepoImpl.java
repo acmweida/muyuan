@@ -142,4 +142,10 @@ public class DictRepoImpl implements DictRepo {
         Integer count = dictDataMapper.insertAuto(converter.to(dictData));
         return count > 0;
     }
+
+    @Override
+    public boolean updateDictData(DictData dictData) {
+        Integer count = dictDataMapper.updateBy(converter.to(dictData), ID);
+        return count > 0;
+    }
 }

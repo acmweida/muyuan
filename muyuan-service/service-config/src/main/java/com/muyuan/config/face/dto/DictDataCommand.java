@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class DictDataCommand {
 
+    private Long id;
+
     /**
      * 排序,默认值:0
      */
