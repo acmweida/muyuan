@@ -53,4 +53,11 @@ public interface DictService {
     boolean addDictData(DictDataCommand command);
 
     boolean updateDictData(DictDataCommand request);
+
+    boolean updateDictType(DictTypeCommand request);
+
+
+    boolean deleteDictData(Long... ids);
+
+    boolean deleteDictType(Long... ids);
 }

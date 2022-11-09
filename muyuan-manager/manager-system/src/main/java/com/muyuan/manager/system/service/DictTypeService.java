@@ -4,7 +4,7 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.DictTypeDTO;
-import com.muyuan.config.api.dto.DictTypeRequest;
+import com.muyuan.manager.system.dto.DictTypeParams;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
 
 import java.util.List;
@@ -34,10 +34,10 @@ public interface DictTypeService {
 
     /**
      * 新增
-     * @param dictTypeRequest
+     * @param dictTypeParams
      * @return
      */
-    Result add(DictTypeRequest dictTypeRequest);
+    Result add(DictTypeParams dictTypeParams);
 
 
     /**
@@ -46,5 +46,20 @@ public interface DictTypeService {
      * @return
      */
     Optional<DictTypeDTO> getById(Long id);
+
+    /**
+     * 字典类型更新
+     * @param dictTypeParams
+     * @return
+     */
+    Result update(DictTypeParams dictTypeParams);
+
+
+    /**
+     * 根据ID删除记录
+     * @param ids
+     * @return
+     */
+    Result deleteById(Long... ids);
 
 }

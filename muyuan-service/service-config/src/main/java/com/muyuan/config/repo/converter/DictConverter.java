@@ -24,7 +24,7 @@ public interface DictConverter {
 
     DictType to(DictTypeDO dictTypeDTO);
 
-    List<DictType> toTypeDTO(List<DictTypeDO> dictDataDTO);
+    List<DictType> toType(List<DictTypeDO> dictDataDTO);
 
     DictTypeDO to(DictType dictType);
 

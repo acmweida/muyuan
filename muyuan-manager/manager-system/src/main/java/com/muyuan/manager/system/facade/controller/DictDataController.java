@@ -1,5 +1,6 @@
 package com.muyuan.manager.system.facade.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -7,7 +8,7 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
-import com.muyuan.manager.system.dto.DictDataRequest;
+import com.muyuan.manager.system.dto.DictDataParams;
 import com.muyuan.manager.system.dto.converter.DictConverter;
 import com.muyuan.manager.system.dto.vo.DictDataVO;
 import com.muyuan.manager.system.service.DictDataService;
@@ -17,10 +18,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Api(tags = {"字典数据接口"})
@@ -33,6 +37,7 @@ public class DictDataController {
 
     @GetMapping("/dictData/list")
     @ApiOperation(value = "字典数值列表查询")
+    @RequirePermissions(value = "system:dict:query")
     public Result<Page<DictDataDTO>> list(@ModelAttribute DictDataQueryParams params) {
 
         Page<DictDataDTO> page = dictDataService.page(params);
@@ -59,13 +64,13 @@ public class DictDataController {
 
     @PutMapping("/dictData")
     @ApiOperation(value = "字典数据更新")
-    public Result update(@RequestBody @Validated DictDataRequest dictDataRequest) {
-        if (ObjectUtils.isEmpty(dictDataRequest.getId())) {
+    @RequirePermissions(value = "system:dict:edit")
+    public Result update(@RequestBody @Validated(DictDataParams.Update.class) DictDataParams dictDataParams) {
+        if (ObjectUtils.isEmpty(dictDataParams.getId())) {
             return ResultUtil.fail("id is null");
         }
 
-        dictDataService.update(dictDataRequest);
-        return ResultUtil.success();
+        return dictDataService.update(dictDataParams);
     }
 
     @DeleteMapping("/dictData/{ids}")
@@ -75,15 +80,24 @@ public class DictDataController {
             {@ApiImplicitParam(name = "ids", value = "字典数据主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )
     public Result delete(@PathVariable String... ids) {
-        dictDataService.deleteById(ids);
-        return ResultUtil.success();
+        if (ObjectUtils.isNotEmpty(ids)) {
+            for (String id : ids) {
+                if (!StringUtils.isNumeric(id)) {
+                    return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
+                }
+            }
+        }
+
+        return dictDataService.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[0]));
     }
 
 
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
-    public Result add(@RequestBody @Validated DictDataRequest dictDataRequest) {
-        return dictDataService.add(dictDataRequest);
+    @ApiOperationSupport(ignoreParameters = "id")
+    @RequirePermissions(value = "system:dict:add")
+    public Result add(@RequestBody @Validated(DictDataParams.Add.class) DictDataParams dictDataParams) {
+        return dictDataService.add(dictDataParams);
     }
 
 

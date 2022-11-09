@@ -12,6 +12,8 @@ public interface DictDataMapper extends UserBaseMapper<DictDataDO> {
 
     String LABEL = "label";
 
+    String VALUE = "value";
+
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insertAuto(DictDataDO dataObject);

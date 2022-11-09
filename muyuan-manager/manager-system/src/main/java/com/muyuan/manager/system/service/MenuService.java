@@ -16,7 +16,7 @@ import java.util.Set;
  * @Date 2022/2/14 9:38
  * @Version 1.0
  */
-public interface MenuDomainService {
+public interface MenuService {
 
     /**
      * 列表查询

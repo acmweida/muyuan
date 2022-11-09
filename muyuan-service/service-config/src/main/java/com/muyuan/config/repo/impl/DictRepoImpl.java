@@ -5,17 +5,20 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
 import com.muyuan.config.face.dto.DictQueryCommand;
-import com.muyuan.config.repo.DictRepo;
 import com.muyuan.config.face.dto.DictTypeQueryCommand;
+import com.muyuan.config.repo.DictRepo;
 import com.muyuan.config.repo.converter.DictConverter;
 import com.muyuan.config.repo.dataobject.DictDataDO;
 import com.muyuan.config.repo.dataobject.DictTypeDO;
 import com.muyuan.config.repo.mapper.DictDataMapper;
 import com.muyuan.config.repo.mapper.DictTypeMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
 
@@ -102,7 +105,7 @@ public class DictRepoImpl implements DictRepo {
 
         List<DictTypeDO> list = dictTypeMapper.selectList(sqlBuilder.build());
 
-        page.setRows(converter.toTypeDTO(list));
+        page.setRows(converter.toType(list));
 
         return page;
     }
@@ -121,7 +124,7 @@ public class DictRepoImpl implements DictRepo {
     @Override
     public DictData selectDictData(DictData data) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(DictDataMapper.LABEL, data.getLabel())
+                .eq(DictDataMapper.VALUE, data.getValue())
                 .eq(TYPE, data.getType())
                 .eq(STATUS, data.getStatus())
                 .orderByDesc(UPDATE_TIME, CREATE_TIME);
@@ -144,8 +147,57 @@ public class DictRepoImpl implements DictRepo {
     }
 
     @Override
-    public boolean updateDictData(DictData dictData) {
-        Integer count = dictDataMapper.updateBy(converter.to(dictData), ID);
-        return count > 0;
+    public DictData updateDictData(DictData dictData) {
+
+        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
+                .eq(ID,dictData.getId());
+
+        DictDataDO dataDO = dictDataMapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(dataDO)) {
+            dictDataMapper.updateBy(converter.to(dictData), ID);
+        }
+
+        return converter.to(dataDO);
+    }
+
+    @Override
+    public DictType updateDictType(DictType dictType) {
+
+        SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
+                .eq(ID,dictType.getId());
+
+        DictTypeDO typeDO = dictTypeMapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(typeDO)) {
+            dictTypeMapper.updateBy(converter.to(dictType), ID);
+        }
+
+        return converter.to(typeDO);
+    }
+
+    @Override
+    public List<DictData> deleteDictData(Long... ids) {
+
+        List<DictDataDO> dictDataDOS = dictDataMapper.selectList(new SqlBuilder(DictDataDO.class)
+                .in(ID, ids)
+                .build());
+
+        dictDataMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+
+        return converter.to(dictDataDOS);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<DictType> deleteDictType(Long... ids) {
+
+        List<DictTypeDO> dictDataDOS = dictTypeMapper.selectList(new SqlBuilder(DictType.class)
+                .in(ID, ids)
+                .build());
+
+        String[] types = dictDataDOS.stream().map(DictTypeDO::getType).collect(Collectors.toList()).toArray(new String[0]);
+        dictDataMapper.deleteBy(new SqlBuilder().in(TYPE, types).build());
+        dictTypeMapper.deleteBy(new SqlBuilder().in(ID,ids).build());
+
+        return converter.toType(dictDataDOS);
     }
 }

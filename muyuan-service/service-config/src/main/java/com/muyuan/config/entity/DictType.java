@@ -41,8 +41,12 @@ public class DictType {
     public DictType() {
     }
 
-    public DictType(String name, String type) {
-        this.name = name;
+    public DictType(Long id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public DictType(String type) {
         this.type = type;
     }
 }

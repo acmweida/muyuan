@@ -16,6 +16,8 @@ public class DictDataRequest implements Serializable {
 
     private static final long serialVersionUID = 1057932158568l;
 
+    private Long id;
+
     /**
      * 排序,默认值:0
      */
@@ -61,4 +63,6 @@ public class DictDataRequest implements Serializable {
 
 
     private Long createBy;
+
+    private Long updateBy;
 }

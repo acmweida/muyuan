@@ -9,8 +9,10 @@ import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.config.api.dto.DictTypeQueryRequest;
 import com.muyuan.config.api.dto.DictTypeRequest;
+import com.muyuan.manager.system.dto.DictTypeParams;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
 import com.muyuan.manager.system.service.DictTypeService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -81,17 +83,39 @@ public class DictTypeServiceImpl implements DictTypeService {
                 });
     }
 
+    @Override
+    public Result update(DictTypeParams dictTypeParams) {
+        return dictInterface.updateDictType(DictTypeRequest.builder()
+                .type(dictTypeParams.getType())
+                .status(dictTypeParams.getStatus())
+                .createBy(SecurityUtils.getUserId())
+                .remark(dictTypeParams.getRemark())
+                .id(dictTypeParams.getId())
+                .updateBy(SecurityUtils.getUserId())
+                .name(dictTypeParams.getName())
+                .build());
+    }
+
     // ##############################  query ########################## //
 
     @Override
-    public Result add(DictTypeRequest dictTypeRequest) {
+    public Result add(DictTypeParams dictTypeParams) {
 
         return dictInterface.addDictType(DictTypeRequest.builder()
-                .name(dictTypeRequest.getName())
-                .type(dictTypeRequest.getType())
-                .status(dictTypeRequest.getStatus())
+                .name(dictTypeParams.getName())
+                .type(dictTypeParams.getType())
+                .status(dictTypeParams.getStatus())
                 .createBy(SecurityUtils.getUserId())
                 .build());
+    }
+
+    @Override
+    public Result deleteById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+
+        return  dictInterface.deleteDictType(ids);
     }
 
 }

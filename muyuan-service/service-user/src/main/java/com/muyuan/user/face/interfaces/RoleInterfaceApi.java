@@ -3,6 +3,7 @@ package com.muyuan.user.face.interfaces;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.RoleInterface;
 import com.muyuan.user.api.dto.RoleDTO;
@@ -12,6 +13,8 @@ import com.muyuan.user.domain.service.RoleDomainService;
 import com.muyuan.user.face.dto.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
@@ -28,6 +31,15 @@ public class RoleInterfaceApi implements RoleInterface {
         Page<Role> res = roleDomainService.list(roleMapper.toCommand(request));
 
         return ResultUtil.success(Page.copy(res, roleMapper.toDTO(res.getRows())));
+    }
+
+    @Override
+    public Result<RoleDTO> getRole(Long id) {
+        Optional<Role> handler = roleDomainService.getRoleById(id);
+
+        return handler.map(roleMapper::toDTO)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
     }
 
 }

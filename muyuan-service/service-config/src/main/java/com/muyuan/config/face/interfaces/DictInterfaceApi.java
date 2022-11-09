@@ -80,7 +80,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictType(DictTypeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getName(), request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getType())))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -90,7 +90,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictData(DictDataRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getLabel(), request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getValue(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -100,7 +100,35 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result updateDictData(DictDataRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getId(),request.getValue(), request.getType())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = dictService.updateDictData(mapper.toCommend(request));
+        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
+    }
 
-        return null;
+    @Override
+    public Result updateDictType(DictTypeRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getId(), request.getType())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = dictService.updateDictType(mapper.toCommend(request));
+        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result deleteDictData(Long... ids) {
+        if (dictService.deleteDictData(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
+    public Result deleteDictType(Long... ids) {
+        if (dictService.deleteDictType(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
     }
 }

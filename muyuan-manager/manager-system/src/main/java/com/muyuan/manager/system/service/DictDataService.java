@@ -3,9 +3,8 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.manager.system.domains.model.DictData;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
-import com.muyuan.manager.system.dto.DictDataRequest;
+import com.muyuan.manager.system.dto.DictDataParams;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +25,6 @@ public interface DictDataService {
      */
     Page<DictDataDTO> page(DictDataQueryParams params);
 
-    /**
-     * 查询字典数据
-     * @param dictDataRequest
-     * @return
-     */
-    List<DictData> list(DictDataRequest dictDataRequest);
-
     Optional<DictDataDTO> getById(Long dictDataRequest);
 
     /**
@@ -45,29 +37,22 @@ public interface DictDataService {
 
     /**
      * 字典数据添加
-     * @param dictDataRequest
+     * @param dictDataParams
      */
-    Result add(DictDataRequest dictDataRequest);
+    Result add(DictDataParams dictDataParams);
 
     /**
      * 字典数据更新
-     * @param dictDataRequest
+     * @param dictDataParams
      * @return
      */
-    void update(DictDataRequest dictDataRequest);
+    Result update(DictDataParams dictDataParams);
 
     /**
      * 根据ID删除记录
      * @param ids
      * @return
      */
-    void deleteById(String... ids);
+    Result deleteById(Long... ids);
 
-    /**
-     * 检查唯一性
-     *  类型 标签 值
-     * @param dictData
-     * @return
-     */
-    String checkUnique(DictData dictData);
 }

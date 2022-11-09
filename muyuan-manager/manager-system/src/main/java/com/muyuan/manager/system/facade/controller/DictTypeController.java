@@ -1,12 +1,14 @@
 package com.muyuan.manager.system.facade.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.config.api.dto.DictTypeDTO;
-import com.muyuan.config.api.dto.DictTypeRequest;
+import com.muyuan.manager.system.dto.DictTypeParams;
 import com.muyuan.manager.system.dto.DictTypeQueryParams;
 import com.muyuan.manager.system.dto.converter.DictConverter;
 import com.muyuan.manager.system.dto.vo.DictTypeVO;
@@ -16,11 +18,16 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Api(tags = {"字典类型接口"})
@@ -43,8 +50,9 @@ public class DictTypeController {
     @PostMapping("/dictType")
     @RequirePermissions("system:dict:add")
     @ApiOperation(value = "字典类型新增")
-    public Result add(@RequestBody @Validated DictTypeRequest dictTypeRequest) {
-        return dictTypeService.add(dictTypeRequest);
+    @ApiOperationSupport(ignoreParameters = "id")
+    public Result add(@RequestBody @Validated DictTypeParams dictTypeParams) {
+        return dictTypeService.add(dictTypeParams);
     }
 
 
@@ -62,6 +70,36 @@ public class DictTypeController {
             }
         }
         return ResultUtil.fail("字典类型未找到");
+    }
+
+
+    @PutMapping("/dictType")
+    @ApiOperation(value = "字典类型更新")
+    @RequirePermissions(value = "system:dict:edit")
+    public Result update(@RequestBody @Validated(DictTypeParams.Update.class) DictTypeParams dictTypeParams) {
+        if (ObjectUtils.isEmpty(dictTypeParams.getId())) {
+            return ResultUtil.fail("id is null");
+        }
+
+        return dictTypeService.update(dictTypeParams);
+    }
+
+    @DeleteMapping("/dictType/{ids}")
+    @ApiOperation(value = "字典类型删除")
+    @RequirePermissions(value = "system:dict:remove")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "ids", value = "字典类型主键", dataTypeClass = String.class, paramType = "path", required = true)}
+    )
+    public Result delete(@PathVariable @Validated @NotNull(message = "ids 不能为空") String... ids) {
+        if (ObjectUtils.isNotEmpty(ids)) {
+            for (String id : ids) {
+                if (!StringUtils.isNumeric(id)) {
+                    return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
+                }
+            }
+        }
+
+        return dictTypeService.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[0]));
     }
 
     /**

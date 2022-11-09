@@ -49,6 +49,34 @@ public interface DictInterface {
      */
     Result addDictData(DictDataRequest request);
 
+    /**
+     * 更新字典数据
+     * @param request
+     * @return
+     */
     Result updateDictData(DictDataRequest request);
+
+    /**
+     * 更新字典数据
+     * @param request
+     * @return
+     */
+    Result updateDictType(DictTypeRequest request);
+
+    /**
+     * 删除字典数据
+     * @param ids
+     * @return
+     */
+    Result deleteDictData(Long... ids);
+
+
+    /**
+     * 删除字典类型
+     * @param ids
+     * @return
+     */
+    Result deleteDictType(Long... ids);
+
 
 }

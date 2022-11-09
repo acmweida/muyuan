@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class SysDeptDomainServiceImpl implements SysDeptDomainService {
+public class DeptServiceImpl implements SysDeptDomainService {
 
     private SysDeptRepo sysDeptRepo;
 

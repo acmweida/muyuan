@@ -1,5 +1,6 @@
 package com.muyuan.manager.system.domains.model;
 
+import com.muyuan.config.api.dto.DictDataDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -39,7 +40,7 @@ public class DictType {
 
     private String remark;
 
-    private List<DictData> dictDataList;
+    private List<DictDataDTO> dictDataList;
 
     public DictType(String name, String type) {
         this.name = name;

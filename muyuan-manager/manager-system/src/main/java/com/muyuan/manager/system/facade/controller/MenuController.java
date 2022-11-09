@@ -13,7 +13,7 @@ import com.muyuan.manager.system.dto.MenuQueryParams;
 import com.muyuan.manager.system.dto.SysMenuDTO;
 import com.muyuan.manager.system.dto.assembler.SysMenuAssembler;
 import com.muyuan.manager.system.dto.vo.MenuVO;
-import com.muyuan.manager.system.service.MenuDomainService;
+import com.muyuan.manager.system.service.MenuService;
 import com.muyuan.manager.system.dto.vo.SysMenuVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,9 +39,9 @@ import java.util.*;
 @AllArgsConstructor
 public class MenuController {
 
-    private MenuDomainService menuDomainService;
+    private MenuService menuService;
 
-    @RequirePermissions("system:menu:list")
+    @RequirePermissions("system:menu:query")
     @GetMapping("/menu/list")
     @ApiOperation(value = "菜单列表查询")
     @ApiImplicitParams(
@@ -49,25 +49,25 @@ public class MenuController {
                     @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
     )
     public Result<List<MenuVO>> list(@ModelAttribute MenuQueryParams params) {
-        List<MenuVO> list = menuDomainService.list(params);
+        List<MenuVO> list = menuService.list(params);
         return ResultUtil.success(list);
     }
 
-    @RequirePermissions("system:menu:list")
+    @RequirePermissions("system:menu:query")
     @GetMapping("/menu/treeSelect")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute MenuQueryParams sysMenuDTO) {
         sysMenuDTO.setStatus("0");
-        List<MenuVO> list = menuDomainService.list(sysMenuDTO);
+        List<MenuVO> list = menuService.list(sysMenuDTO);
         return ResultUtil.success(SysMenuAssembler.buildMenuVOSelectTree(list));
     }
 
-    @RequirePermissions("system:menu:edit")
+    @RequirePermissions("system:menu:query")
     @GetMapping("/menu/roleMenuTreeSelect/{roleIds}")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectKey(@PathVariable String... roleIds) {
-        List<Long> id = menuDomainService.listSelectIdByRoleId(roleIds);
-        List<MenuVO> list = menuDomainService.list(new MenuQueryParams());
+        List<Long> id = menuService.listSelectIdByRoleId(roleIds);
+        List<MenuVO> list = menuService.list(new MenuQueryParams());
         return ResultUtil.success(new SelectValue(id,SysMenuAssembler.buildMenuVOSelectTree(list)));
     }
 
@@ -79,7 +79,7 @@ public class MenuController {
     )
     public Result<SysMenuVO> get(@PathVariable String id) {
         if (StrUtil.isNumeric(id)) {
-            Optional<SysMenu> sysMenu = menuDomainService.get(id);
+            Optional<SysMenu> sysMenu = menuService.get(id);
             if (sysMenu.isPresent()) {
                 return ResultUtil.success(SysMenuAssembler.buildMenus(sysMenu.get()));
             }
@@ -97,7 +97,7 @@ public class MenuController {
     )
     public Result<SysMenuVO> delete(@PathVariable @NotBlank(message = "菜单ID不能为空")
                                          String id) {
-        menuDomainService.deleteById(id);
+        menuService.deleteById(id);
         return ResultUtil.success();
     }
 
@@ -119,13 +119,13 @@ public class MenuController {
         SysMenu sysMenu = new SysMenu();
         sysMenu.setParentId(sysMenuDTO.getParentId());
         sysMenu.setName(sysMenuDTO.getName());
-        if (GlobalConst.NOT_UNIQUE.equals(menuDomainService.checkMenuNameUnique(sysMenu))) {
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(sysMenu))) {
             return ResultUtil.fail("菜单名已存在");
         }
         if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && !StrUtil.ishttp(sysMenuDTO.getPath())) {
             return ResultUtil.fail("新增菜单'" + sysMenuDTO.getName() + "'失败，地址必须以http(s)://开头");
         }
-         menuDomainService.add(sysMenuDTO);
+         menuService.add(sysMenuDTO);
 
         return ResultUtil.success();
     }
@@ -142,13 +142,13 @@ public class MenuController {
         sysMenu.setId(Long.valueOf(sysMenuDTO.getId()));
         sysMenu.setParentId(sysMenuDTO.getParentId());
         sysMenu.setName(sysMenuDTO.getName());
-        if (GlobalConst.NOT_UNIQUE.equals(menuDomainService.checkMenuNameUnique(sysMenu))) {
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(sysMenu))) {
             return ResultUtil.fail(StrUtil.format("变更菜单名[{}]已存在",sysMenu.getName()));
         }
         if (GlobalConst.YES_FRAME.equals(sysMenuDTO.getFrame()) && StrUtil.ishttp(sysMenuDTO.getPath())) {
             return ResultUtil.fail("新增菜单[{}]失败，地址必须以http(s)://开头", sysMenuDTO.getName());
         }
-        menuDomainService.update(sysMenuDTO);
+        menuService.update(sysMenuDTO);
 
         return ResultUtil.success("更新成功");
     }

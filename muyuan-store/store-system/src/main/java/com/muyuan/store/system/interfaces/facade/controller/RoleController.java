@@ -101,7 +101,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "角色分配用户查询")
-    @RequirePermissions("member:role:list")
+    @RequirePermissions("member:role:query")
     @GetMapping("/role/authUser/allocatedList")
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),

@@ -1,6 +1,5 @@
 package com.muyuan.auth.service.impl;
 
-import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.dto.User;
 import com.muyuan.auth.dto.converter.UserConverter;
 import com.muyuan.auth.dto.converter.UserConverterImpl;
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserDetailsService {
         if (!ResultUtil.isSuccess(result)) {
            return null;
         }
-        log.info("商家用户:{},登录", username);
+        log.info("用户:{},登录", username);
         UserDTO userDTO = result.getData();
         Set<GrantedAuthority> authorities = new HashSet<>();
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName DictDataDomainServiceImpl
@@ -130,14 +131,61 @@ public class DictServiceImpl implements DictService {
         dictData.setListClass(command.getListClass());
         dictData.setRemark(command.getRemark());
         dictData.setStatus(Integer.parseInt(command.getStatus()));
-        dictData.setCreateTime(DateTime.now().toDate());
-        dictData.setCreateBy(command.getCreateBy());
+        dictData.setUpdateTime(DateTime.now().toDate());
+        dictData.setUpdateBy(command.getUpdateBy());
 
-        if (dictRepo.updateDictData(dictData)) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dictData.getType());
+        DictData old = dictRepo.updateDictData(dictData);
+        if (ObjectUtils.isNotEmpty(old)) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+old.getType());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean updateDictType(DictTypeCommand command) {
+        if (ObjectUtils.isEmpty(command.getId())) {
+            return false;
+        }
+
+        DictType dictType = new DictType();
+
+        dictType.setId(command.getId());
+        dictType.setType(command.getType());
+        dictType.setName(command.getName());
+        dictType.setRemark(command.getRemark());
+        dictType.setStatus(command.getStatus());
+        dictType.setUpdateTime(DateTime.now().toDate());
+        dictType.setUpdateBy(command.getUpdateBy());
+
+        DictType old = dictRepo.updateDictType(dictType);
+        if (ObjectUtils.isNotEmpty(old) ) {
+            if (!command.getType().equals(dictType.getType())) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+old.getType());
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteDictData(Long... ids) {
+        List<DictData> old = dictRepo.deleteDictData(ids);
+        for (String type :  old.stream().map(DictData::getType).collect(Collectors.toList())) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+type);
+        }
+
+        return !old.isEmpty();
+    }
+
+    @Override
+    public boolean deleteDictType(Long... ids) {
+        List<DictType> old = dictRepo.deleteDictType(ids);
+        for (String type :  old.stream().map(DictType::getType).collect(Collectors.toList())) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+type);
+        }
+
+        return !old.isEmpty();
     }
 
     @Override

@@ -67,10 +67,10 @@ public class Menu {
      */
     private String status;
 
-    /**
-     * 权限标识
-     */
-    private String perms;
+//    /**
+//     * 权限标识
+//     */
+//    private String perms;
 
     /**
      * 菜单图标

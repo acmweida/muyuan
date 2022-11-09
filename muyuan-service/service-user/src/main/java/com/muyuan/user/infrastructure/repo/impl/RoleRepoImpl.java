@@ -57,4 +57,12 @@ public class RoleRepoImpl implements RoleRepo {
 
         return page;
     }
+
+    @Override
+    public Role select(Long id) {
+        RoleDO roleDO = roleMapper.selectOne(new SqlBuilder(RoleDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.toRole(roleDO);
+    }
 }

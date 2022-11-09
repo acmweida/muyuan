@@ -6,6 +6,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.domains.factories.SysRoleFactory;
 import com.muyuan.manager.system.domains.model.SysRole;
@@ -15,7 +16,7 @@ import com.muyuan.manager.system.domains.repo.SysMenuRepo;
 import com.muyuan.manager.system.domains.repo.SysRoleRepo;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.dto.SysRoleDTO;
-import com.muyuan.manager.system.service.RoleDomainService;
+import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.user.api.RoleInterface;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
@@ -41,7 +42,7 @@ import java.util.Optional;
  */
 @Component
 @Slf4j
-public class RoleDomainServiceImpl implements RoleDomainService {
+public class RoleServiceImpl implements RoleService {
 
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
@@ -158,16 +159,12 @@ public class RoleDomainServiceImpl implements RoleDomainService {
 
 
     @Override
-    public Optional<SysRole> getById(String id) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysRole.class)
-                .eq("id", id);
-
-        SysRole sysRole = sysRoleRepo.selectOne(sqlBuilder.build());
-
-        if (null == sysRole) {
-            return Optional.empty();
-        }
-        return Optional.of(sysRole);
+    public Optional<RoleDTO> getById(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<RoleDTO> role = roleInterface.getRole(id_);
+                    return ResultUtil.getOr(role,null);
+                });
     }
 
     @Override

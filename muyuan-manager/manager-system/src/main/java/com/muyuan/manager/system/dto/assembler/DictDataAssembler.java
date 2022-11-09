@@ -2,7 +2,6 @@ package com.muyuan.manager.system.dto.assembler;
 
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.manager.system.dto.vo.DictDataVO;
-import com.muyuan.manager.system.domains.model.DictData;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

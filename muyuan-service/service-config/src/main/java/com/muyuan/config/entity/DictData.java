@@ -32,7 +32,7 @@ public class DictData {
 
     private Date createTime;
 
-    private String updateBy;
+    private Long updateBy;
 
     private Date updateTime;
 
@@ -41,8 +41,14 @@ public class DictData {
     public DictData() {
     }
 
-    public DictData(String label, String type) {
-        this.label = label;
+    public DictData(String value, String type) {
+        this.value = value;
+        this.type = type;
+    }
+
+    public DictData(Long id, String value, String type) {
+        this.id = id;
+        this.value = value;
         this.type = type;
     }
 }

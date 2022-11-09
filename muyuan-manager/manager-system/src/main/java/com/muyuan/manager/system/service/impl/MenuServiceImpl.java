@@ -14,7 +14,7 @@ import com.muyuan.manager.system.domains.repo.SysMenuRepo;
 import com.muyuan.manager.system.dto.MenuQueryParams;
 import com.muyuan.manager.system.dto.SysMenuDTO;
 import com.muyuan.manager.system.dto.converter.MenuConverter;
-import com.muyuan.manager.system.service.MenuDomainService;
+import com.muyuan.manager.system.service.MenuService;
 import com.muyuan.manager.system.dto.vo.MenuVO;
 import com.muyuan.user.api.MenuInterface;
 import com.muyuan.user.api.dto.MenuDTO;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
-public class MenuDomainServiceImpl implements MenuDomainService {
+public class MenuServiceImpl implements MenuService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private MenuInterface menuInterface;

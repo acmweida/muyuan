@@ -35,5 +35,21 @@ public interface DictRepo {
 
     boolean addDictData(DictData dictData);
 
-    boolean updateDictData(DictData dictData);
+    /**
+     *
+     * @param dictData
+     * @return old value
+     */
+    DictData updateDictData(DictData dictData);
+
+    /**
+     *
+     * @param dictType
+     * @return old value
+     */
+    DictType updateDictType(DictType dictType);
+
+    List<DictData> deleteDictData(Long... ids);
+
+    List<DictType> deleteDictType(Long... ids);
 }

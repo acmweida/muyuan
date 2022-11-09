@@ -1,15 +1,13 @@
 package com.muyuan.manager.system.service.service.impl;
 
-import com.muyuan.common.core.constant.SecurityConst;
-import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.model.SysUser;
-import com.muyuan.manager.system.service.MenuDomainService;
-import com.muyuan.manager.system.service.RoleDomainService;
-import com.muyuan.manager.system.service.SysUserDomainService;
-import com.muyuan.manager.system.dto.vo.SysUserVO;
 import com.muyuan.manager.system.dto.assembler.SysUserInfoAssembler;
-import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.manager.system.dto.vo.SysUserVO;
+import com.muyuan.manager.system.service.MenuService;
+import com.muyuan.manager.system.service.RoleService;
+import com.muyuan.manager.system.service.SysUserDomainService;
+import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -26,36 +23,17 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
 
     private SysUserDomainService sysUserDomainService;
 
-    private RoleDomainService roleDomainService;
+    private RoleService roleService;
 
-    private MenuDomainService menuDomainService;
-
-    @Override
-    public UserDTO getUserByUsername(String username) {
-        final Optional<SysUser> userInfo = sysUserDomainService.getByyUsername(username);
-        if (!userInfo.isPresent()) {
-            return null;
-        }
-        SysUser user = userInfo.get();
-        Long id = user.getId();
-        List<SysRole> sysRoles = getUserRoles(id);
-
-        List<String> roleNames = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX + item.getCode()).collect(Collectors.toList());
-        // 默认角色
-//        roleNames.add(SecurityConst.DEFAULT_ROLE);
-
-        UserDTO userDTO = SysUserInfoAssembler.buildUserTO(userInfo.get());
-        userDTO.setRoles(roleNames);
-        return userDTO;
-    }
+    private MenuService menuService;
 
     @Override
     public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
-        return menuDomainService.selectMenuPermissionByRoleCodes(roleCodes);
+        return menuService.selectMenuPermissionByRoleCodes(roleCodes);
     }
 
     private List<SysRole> getUserRoles(Long id) {
-        return roleDomainService.getRoleByUserId(id);
+        return roleService.getRoleByUserId(id);
     }
 
     @Override
@@ -66,7 +44,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
             return Optional.empty();
         }
 
-        List<SysRole> roles = roleDomainService.getRoleByUserId(id);
+        List<SysRole> roles = roleService.getRoleByUserId(id);
 
         SysUserVO sysUserVO = SysUserInfoAssembler.buildUserVO(userInfo.get(), roles);
         return Optional.of(sysUserVO);

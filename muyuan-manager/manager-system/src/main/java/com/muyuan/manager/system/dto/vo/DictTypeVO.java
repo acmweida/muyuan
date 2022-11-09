@@ -26,7 +26,7 @@ public class DictTypeVO {
     /**
      * 状态（0正常 1停用）
      */
-    private int status;
+    private String status;
 
     private Date createTime;
 

@@ -9,15 +9,12 @@ import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.config.api.dto.DictQueryRequest;
-import com.muyuan.manager.system.domains.model.DictData;
-import com.muyuan.manager.system.domains.repo.DictDataRepo;
 import com.muyuan.manager.system.dto.DictDataQueryParams;
-import com.muyuan.manager.system.dto.DictDataRequest;
+import com.muyuan.manager.system.dto.DictDataParams;
 import com.muyuan.manager.system.service.DictDataService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,20 +34,8 @@ public class DictDataServiceImpl implements DictDataService {
     @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
     private DictInterface dictInterface;
 
-    @Autowired
-    private DictDataRepo dictDataRepo;
 
     // ##############################  query ########################## //
-
-    @Override
-    public String checkUnique(DictData dictData) {
-        Long id = null == dictData.getId() ? 0 : dictData.getId();
-        dictData = dictDataRepo.selectOne(dictData);
-        if (null != dictData && !dictData.getId().equals(id)) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
-    }
 
     /**
      * 查询字典数据
@@ -76,19 +61,6 @@ public class DictDataServiceImpl implements DictDataService {
 
 
         return res.getData();
-    }
-
-    /**
-     * 查询字典数据
-     *
-     * @param dictDataRequest
-     * @return
-     */
-    @Override
-    public List<DictData> list(DictDataRequest dictDataRequest) {
-
-        List<DictData> list = dictDataRepo.select(dictDataRequest);
-        return list;
     }
 
     @Override
@@ -124,32 +96,44 @@ public class DictDataServiceImpl implements DictDataService {
     // ##############################  query ########################## //
 
     @Override
-    public Result add(DictDataRequest dictDataRequest) {
+    public Result add(DictDataParams dictDataParams) {
         return dictInterface.addDictData(com.muyuan.config.api.dto.DictDataRequest.builder()
-                .label(dictDataRequest.getLabel())
-                .type(dictDataRequest.getType())
-                .value(dictDataRequest.getValue())
-                .status(dictDataRequest.getStatus())
+                .label(dictDataParams.getLabel())
+                .type(dictDataParams.getType())
+                .value(dictDataParams.getValue())
+                .status(dictDataParams.getStatus())
                 .createBy(SecurityUtils.getUserId())
-                .cssClass(dictDataRequest.getCssClass())
-                .listClass(dictDataRequest.getListClass())
-                .orderNum(dictDataRequest.getOrderNum())
-                .remark(dictDataRequest.getRemark())
+                .cssClass(dictDataParams.getCssClass())
+                .listClass(dictDataParams.getListClass())
+                .orderNum(dictDataParams.getOrderNum())
+                .remark(dictDataParams.getRemark())
                 .build());
     }
 
     @Override
-    public void update(DictDataRequest dictDataRequest) {
-        DictData dictData = new DictData();
-        dictDataRepo.update(dictData);
+    public Result update(DictDataParams dictDataParams) {
+        return dictInterface.updateDictData(com.muyuan.config.api.dto.DictDataRequest.builder()
+                .label(dictDataParams.getLabel())
+                .type(dictDataParams.getType())
+                .value(dictDataParams.getValue())
+                .status(dictDataParams.getStatus())
+                .createBy(SecurityUtils.getUserId())
+                .cssClass(dictDataParams.getCssClass())
+                .listClass(dictDataParams.getListClass())
+                .orderNum(dictDataParams.getOrderNum())
+                .remark(dictDataParams.getRemark())
+                .id(dictDataParams.getId())
+                .updateBy(SecurityUtils.getUserId())
+                .build());
     }
 
     @Override
-    public void deleteById(String... ids) {
+    public Result deleteById(Long... ids) {
         if (ObjectUtils.isEmpty(ids)) {
-            return;
+            return ResultUtil.fail();
         }
-        dictDataRepo.delete(ids);
+
+       return  dictInterface.deleteDictData(ids);
     }
 
 }

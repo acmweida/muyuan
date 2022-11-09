@@ -23,7 +23,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class SysUserDomainServiceImpl implements SysUserDomainService {
+public class UserServiceImpl implements SysUserDomainService {
 
     private SysUserRepo sysUserRepo;
 

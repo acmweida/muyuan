@@ -31,4 +31,6 @@ public class DictTypeCommand {
     private Long updateBy;
 
     private String remark;
+
+    private Long id;
 }

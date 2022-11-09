@@ -59,4 +59,6 @@ public class DictDataCommand {
     private String status = "0";
 
     private Long createBy;
+
+    private Long updateBy;
 }

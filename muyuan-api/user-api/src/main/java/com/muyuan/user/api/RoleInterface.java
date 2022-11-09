@@ -22,4 +22,7 @@ public interface RoleInterface {
      */
     Result<Page<RoleDTO>> list(RoleQueryRequest request);
 
+
+    Result<RoleDTO> getRole(Long id);
+
 }

@@ -8,6 +8,7 @@ import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 角色域服务接口
@@ -25,5 +26,8 @@ public interface RoleDomainService {
 
 
     Page<Role> list(RoleQueryCommand command);
+
+
+    Optional<Role> getRoleById(Long id);
 
 }

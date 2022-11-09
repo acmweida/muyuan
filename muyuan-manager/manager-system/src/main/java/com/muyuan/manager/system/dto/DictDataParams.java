@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @ClassName DictDataDTO
@@ -15,21 +16,32 @@ import javax.validation.constraints.NotBlank;
  */
 @ApiModel("字典DTO")
 @Data
-public class DictDataRequest {
+public class DictDataParams {
+
+    /**
+     * 分组
+     */
+    public interface Add {
+
+    }
+
+    public interface Update {
+
+    }
 
     @ApiModelProperty(value = "排序,默认值:0")
     private int orderNum;
 
-    @NotBlank(message = "字典标签不能为空")
-    @ApiModelProperty(value = "字典标签")
+    @NotBlank(message = "字典标签不能为空", groups = {Add.class, Update.class})
+    @ApiModelProperty(value = "字典标签", required = true)
     private String label;
 
-    @NotBlank(message = "字典值不能为空")
-    @ApiModelProperty(value = "字典值")
+    @NotBlank(message = "字典值不能为空", groups = {Add.class, Update.class})
+    @ApiModelProperty(value = "字典值", required = true)
     private String value;
 
-    @NotBlank(message = "字典类型不能为空")
-    @ApiModelProperty(value = "字典类型编码")
+    @NotBlank(message = "字典类型不能为空", groups = {Add.class, Update.class})
+    @ApiModelProperty(value = "字典类型编码", required = true)
     private String type;
 
     @ApiModelProperty(value = "样式属性")
@@ -41,15 +53,17 @@ public class DictDataRequest {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @ApiModelProperty(value = "ID", required = true)
+    @NotNull(groups = {Update.class})
     private Long id;
 
     @ApiModelProperty(value = "状态 默认 0-正常 1-禁用 默认0")
     private String status = "0";
 
-    public DictDataRequest() {
+    public DictDataParams() {
     }
 
-    public DictDataRequest(Long id) {
+    public DictDataParams(Long id) {
         this.id = id;
     }
 }

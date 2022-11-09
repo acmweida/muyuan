@@ -16,7 +16,7 @@ import java.util.Optional;
  * @Date 2022/4/18 15:38
  * @Version 1.0
  */
-public interface RoleDomainService {
+public interface RoleService {
 
     /**
      * 通过用户id获取角色信息
@@ -64,7 +64,7 @@ public interface RoleDomainService {
      * @param id
      * @return
      */
-    Optional<SysRole> getById(String id);
+    Optional<RoleDTO> getById(Long id);
 
 
     void deleteById(String... id);

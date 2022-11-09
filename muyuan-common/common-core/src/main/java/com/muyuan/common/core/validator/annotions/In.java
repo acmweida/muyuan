@@ -20,4 +20,6 @@ public @interface In {
 
     String message() default "参数不在范围内";
 
+    Class<?>[] groups() default {};
+
 }
