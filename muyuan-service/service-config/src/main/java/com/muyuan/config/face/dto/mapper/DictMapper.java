@@ -21,13 +21,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DictMapper {
 
-    DictQueryCommand toCommend(DictQueryRequest request);
+    DictQueryCommand toCommand(DictQueryRequest request);
 
-    DictTypeQueryCommand toCommend(DictTypeQueryRequest request);
+    DictTypeQueryCommand toCommand(DictTypeQueryRequest request);
 
-    DictDataCommand toCommend(DictDataRequest request);
+    DictDataCommand toCommand(DictDataRequest request);
 
-    DictTypeCommand toCommend(DictTypeRequest request);
+    DictTypeCommand toCommand(DictTypeRequest request);
 
     DictDataDTO to(DictData dictData);
 

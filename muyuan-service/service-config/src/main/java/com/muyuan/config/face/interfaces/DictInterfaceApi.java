@@ -42,7 +42,7 @@ public class DictInterfaceApi implements DictInterface {
     @Override
     public Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request) {
         return ResultUtil.success(
-                mapper.to(dictService.getByDictTypeName(mapper.toCommend(request)))
+                mapper.to(dictService.getByDictTypeName(mapper.toCommand(request)))
         );
     }
 
@@ -66,14 +66,14 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result<Page<DictTypeDTO>> list(DictTypeQueryRequest request) {
-        Page<DictType> list = dictService.list(mapper.toCommend(request));
+        Page<DictType> list = dictService.list(mapper.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,mapper.toTypeDTO(list.getRows())));
     }
 
     @Override
     public Result<Page<DictDataDTO>> list(DictQueryRequest request) {
-        Page<DictData> list = dictService.list(mapper.toCommend(request));
+        Page<DictData> list = dictService.list(mapper.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,mapper.to(list.getRows())));
     }
@@ -84,7 +84,7 @@ public class DictInterfaceApi implements DictInterface {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
-        boolean flag = dictService.addDictType(mapper.toCommend(request));
+        boolean flag = dictService.addDictType(mapper.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
@@ -94,7 +94,7 @@ public class DictInterfaceApi implements DictInterface {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
-        boolean flag = dictService.addDictData(mapper.toCommend(request));
+        boolean flag = dictService.addDictData(mapper.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
@@ -103,7 +103,7 @@ public class DictInterfaceApi implements DictInterface {
         if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getId(),request.getValue(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = dictService.updateDictData(mapper.toCommend(request));
+        boolean flag = dictService.updateDictData(mapper.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 
@@ -112,7 +112,7 @@ public class DictInterfaceApi implements DictInterface {
         if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getId(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = dictService.updateDictType(mapper.toCommend(request));
+        boolean flag = dictService.updateDictType(mapper.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

@@ -1,9 +1,9 @@
 package com.muyuan.manager.system.service;
 
-import com.muyuan.manager.system.domains.model.SysMenu;
+import com.muyuan.common.bean.Result;
+import com.muyuan.manager.system.dto.MenuParams;
 import com.muyuan.manager.system.dto.MenuQueryParams;
-import com.muyuan.manager.system.dto.SysMenuDTO;
-import com.muyuan.manager.system.dto.vo.MenuVO;
+import com.muyuan.user.api.dto.MenuDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public interface MenuService {
      * @param menuQueryParams
      * @return
      */
-    List<MenuVO> list(MenuQueryParams menuQueryParams);
+    List<MenuDTO> list(MenuQueryParams menuQueryParams);
 
 
     /**
@@ -38,7 +38,7 @@ public interface MenuService {
      * @param id
      * @return
      */
-    Optional<SysMenu> get(String id);
+    Optional<MenuDTO> get(Long id);
 
     /**
      * 获取权限信息
@@ -50,24 +50,18 @@ public interface MenuService {
 
     /**
      * 菜单添加
-     * @param sysMenuDTO
+     * @param menuParams
      * @return
      */
-    void add(SysMenuDTO sysMenuDTO);
+    Result add(MenuParams menuParams);
 
     /**
      * 更新
-     * @param sysMenuDTO
+     * @param menuParams
      * @return
      */
-    void update(SysMenuDTO sysMenuDTO);
+    Result update(MenuParams menuParams);
 
-    /**
-     * 校验唯一性
-     * @param sysMenu
-     * @return
-     */
-    String checkMenuNameUnique(SysMenu sysMenu);
 
     /**
      * 删除

@@ -1,7 +1,5 @@
 package com.muyuan.manager.system.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.SysMenu;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -16,15 +14,27 @@ import javax.validation.constraints.Size;
  * @Version 1.0
  */
 @Data
-public class SysMenuDTO extends BaseDTO<SysMenuDTO, SysMenu> {
+public class MenuParams {
 
+    /**
+     * 分组
+     */
+    public interface Add {
+
+    }
+
+    public interface Update {
+
+    }
+
+    @NotBlank(message = "ID不能为空",groups = Update.class)
     private Long id;
 
     /**
      * 菜单名称
      */
-    @NotBlank(message = "菜单名称不能为空")
-    @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符")
+    @NotBlank(message = "菜单名称不能为空",groups = {Update.class,Add.class})
+    @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符",groups = {Update.class,Add.class})
     private String name;
 
     /**
@@ -36,18 +46,18 @@ public class SysMenuDTO extends BaseDTO<SysMenuDTO, SysMenu> {
      * 显示顺序
      */
     @NotNull(message = "菜单排序不能为空")
-    private Integer orderNum;
+    private Integer orderNum = 0;
 
     /**
      * 路由地址
      */
-    @Size(min = 0, max = 200, message = "路由地址不能超过200个字符")
+    @Size(min = 0, max = 200, message = "路由地址不能超过200个字符",groups = {Update.class,Add.class})
     private String path;
 
     /**
      * 组件路径
      */
-    @Size(min = 0, max = 200, message = "组件路径不能超过255个字符")
+    @Size(min = 0, max = 200, message = "组件路径不能超过255个字符",groups = {Update.class,Add.class})
     private String component;
 
     /**
@@ -63,7 +73,7 @@ public class SysMenuDTO extends BaseDTO<SysMenuDTO, SysMenu> {
     /**
      * 菜单类型（M目录 C菜单 F按钮）
      */
-    @NotBlank(message = "菜单类型不能为空")
+    @NotBlank(message = "菜单类型不能为空",groups = {Update.class,Add.class})
     private String type;
 
     /**
@@ -79,7 +89,7 @@ public class SysMenuDTO extends BaseDTO<SysMenuDTO, SysMenu> {
     /**
      * 权限标识
      */
-    @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符")
+    @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符",groups = {Update.class,Add.class})
     private String perms;
 
     /**

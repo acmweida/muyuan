@@ -1,21 +1,29 @@
-package com.muyuan.user.domain.model.entity;
+package com.muyuan.user.api.dto;
 
-import com.muyuan.user.domain.model.valueobject.MenuID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @ClassName Menu
- * Description Menu
+ * @ClassName RolePermissionRequest
+ * Description RolePermissionRequest
  * @Author 2456910384
- * @Date 2022/10/13 11:16
+ * @Date 2022/9/16 11:31
  * @Version 1.0
  */
 @Data
-public class Menu {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MenuRequest implements Serializable {
 
-    private MenuID id;
+    private static final long serialVersionUID = 1457932148568l;
+
+    private Long id;
 
     /**
      * 菜单名称
@@ -67,10 +75,6 @@ public class Menu {
      */
     private String status;
 
-//    /**
-//     * 权限标识
-//     */
-//    private String perms;
 
     /**
      * 菜单图标
@@ -100,11 +104,4 @@ public class Menu {
 
     private Long updateBy;
 
-    public Menu() {
-    }
-
-    public Menu(String name, Long parentId) {
-        this.name = name;
-        this.parentId = parentId;
-    }
 }

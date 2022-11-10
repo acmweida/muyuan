@@ -3,7 +3,9 @@ package com.muyuan.manager.system.dto.vo;
 import com.muyuan.common.web.util.SecurityUtils;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName Menu
@@ -99,6 +101,8 @@ public class MenuVO {
     private Long createBy;
 
     private Long updateBy;
+
+    private List<MenuVO> children = new ArrayList<>(0);
 
     public MenuVO() {
     }

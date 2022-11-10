@@ -2,8 +2,10 @@ package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
+import com.muyuan.user.api.dto.MenuRequest;
 import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
+import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
@@ -26,6 +28,11 @@ public interface MenuMapper {
             @Mapping(target = "roleCodes",expression = "java(MenuMapper.map(request.getRoleCodes()))")
     })
     MenuQueryCommand toCommand(MenuQueryRequest request);
+
+    @Mappings({
+            @Mapping(target = "id.value",source = "id")
+    })
+    MenuCommand toCommand(MenuRequest request);
 
     List<MenuDTO> toDTO(List<Menu> menus);
 

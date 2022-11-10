@@ -1,9 +1,11 @@
 package com.muyuan.user.domain.service;
 
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName PermissionDomainService 接口
@@ -28,4 +30,19 @@ public interface MenuDomainService {
      */
     List<Menu> list(MenuQueryCommand command);
 
+
+    Optional<Menu> getMenu(Long id);
+
+    /**
+     * 检查唯一性
+     *
+     * @param menu
+     * @return
+     */
+    String checkUnique(Menu menu);
+
+
+    boolean updateMenu(MenuCommand command);
+
+    boolean addMenu(MenuCommand command);
 }

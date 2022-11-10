@@ -88,7 +88,6 @@ public class DictTypeServiceImpl implements DictTypeService {
         return dictInterface.updateDictType(DictTypeRequest.builder()
                 .type(dictTypeParams.getType())
                 .status(dictTypeParams.getStatus())
-                .createBy(SecurityUtils.getUserId())
                 .remark(dictTypeParams.getRemark())
                 .id(dictTypeParams.getId())
                 .updateBy(SecurityUtils.getUserId())

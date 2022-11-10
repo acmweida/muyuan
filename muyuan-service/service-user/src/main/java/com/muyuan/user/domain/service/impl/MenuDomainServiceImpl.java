@@ -1,5 +1,6 @@
 package com.muyuan.user.domain.service.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.CacheServiceUtil;
@@ -8,15 +9,14 @@ import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.repo.MenuRepo;
 import com.muyuan.user.domain.service.MenuDomainService;
+import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
@@ -62,6 +62,86 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         }
         List<Menu> list = menuRepo.list(command);
         return list;
+    }
+
+    @Override
+    public Optional<Menu> getMenu(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    return menuRepo.selectMenu(id_);
+                });
+    }
+
+    @Override
+    public String checkUnique(Menu menu) {
+        Long id = null == menu.getId() ? 0 : menu.getId().getValue();
+        menu = menuRepo.selectMenu(menu);
+        if (null != menu && !id.equals(menu.getId().getValue())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public boolean updateMenu(MenuCommand command) {
+        if (ObjectUtils.isEmpty(command.getId())) {
+            return false;
+        }
+
+        Menu menu = new Menu();
+
+        menu.setId(command.getId());
+        menu.setName(command.getName());
+        menu.setParentId(command.getParentId());
+        menu.setOrderNum(command.getOrderNum());
+        menu.setPath(command.getPath());
+        menu.setComponent(command.getComponent());
+        menu.setQuery(command.getQuery());
+        menu.setFrame(command.getFrame());
+        menu.setType(command.getType());
+        menu.setVisible(command.getVisible());
+        menu.setStatus(command.getStatus());
+        menu.setIcon(command.getIcon());
+        menu.setRemark(command.getRemark());
+        menu.setCache(command.getCache());
+        menu.setUpdateTime(DateTime.now().toDate());
+        menu.setUpdateBy(command.getUpdateBy());
+
+        Menu old = menuRepo.updateDMenu(menu);
+        if (ObjectUtils.isNotEmpty(old)) {
+            if (!command.getName().equals(old.getType())) {
+                redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
+                redisCacheService.delayDoubleDel(RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addMenu(MenuCommand command) {
+        Menu menu = new Menu();
+
+        menu.setId(command.getId());
+        menu.setName(command.getName());
+        menu.setParentId(command.getParentId());
+        menu.setOrderNum(command.getOrderNum());
+        menu.setPath(command.getPath());
+        menu.setComponent(command.getComponent());
+        menu.setQuery(command.getQuery());
+        menu.setFrame(command.getFrame());
+        menu.setType(command.getType());
+        menu.setVisible(command.getVisible());
+        menu.setStatus(command.getStatus());
+        menu.setIcon(command.getIcon());
+        menu.setRemark(command.getRemark());
+        menu.setCache(command.getCache());
+        menu.setCreateTime(DateTime.now().toDate());
+        menu.setCreateBy(command.getUpdateBy());
+
+        redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
+        redisCacheService.delayDoubleDel(RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
+        return  menuRepo.addMenu(menu);
     }
 
 

@@ -23,6 +23,11 @@ public interface MenuConverter {
     })
     Menu to(MenuDO menuDO);
 
-    List<Menu> to(List<MenuDO> permissionDOS);
+    List<Menu> to(List<MenuDO> menuDOS);
+
+    @Mappings({
+            @Mapping(source = "id.value",target ="id")
+    })
+    MenuDO to(Menu menuDO);
 
 }

@@ -10,6 +10,7 @@ import com.muyuan.user.infrastructure.repo.converter.MenuConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.MenuDO;
 import com.muyuan.user.infrastructure.repo.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,4 +49,44 @@ public class MenuRepoImpl implements MenuRepo {
 
         return converter.to(menuDOS);
     }
+
+    @Override
+    public Menu selectMenu(Long id) {
+        MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.to(menuDO);
+    }
+
+    @Override
+    public Menu selectMenu(Menu menu) {
+        MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class).select(ID)
+                .eq(NAME, menu.getName())
+                .eq(TYPE, menu.getType())
+                .eq(PARENT_ID, menu.getParentId())
+                .eq(ID, menu.getId())
+                .build());
+
+        return converter.to(menuDO);
+    }
+
+    @Override
+    public Menu updateDMenu(Menu menu) {
+        SqlBuilder sqlBuilder = new SqlBuilder(MenuDO.class)
+                .eq(ID,menu.getId().getValue());
+
+        MenuDO menuDO = menuMapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(menuDO)) {
+            menuMapper.updateBy(converter.to(menu), ID);
+        }
+
+        return converter.to(menuDO);
+    }
+
+    @Override
+    public boolean addMenu(Menu menu) {
+        Integer count = menuMapper.insertAuto(converter.to(menu));
+        return count > 0;
+    }
+
 }

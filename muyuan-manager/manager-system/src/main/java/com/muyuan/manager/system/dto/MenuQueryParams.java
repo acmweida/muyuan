@@ -3,6 +3,8 @@ package com.muyuan.manager.system.dto;
 import com.muyuan.common.bean.PageDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -13,6 +15,8 @@ import lombok.Data;
  * @Version 1.0
  */
 @ApiModel("菜单查询参数")
+@Builder
+@AllArgsConstructor
 @Data
 public class MenuQueryParams  extends PageDTO {
 

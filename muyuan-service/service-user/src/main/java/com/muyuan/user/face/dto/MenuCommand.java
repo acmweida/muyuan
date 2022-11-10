@@ -1,21 +1,21 @@
-package com.muyuan.manager.system.dto.vo;
+package com.muyuan.user.face.dto;
 
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
- * @ClassName MenuVO
- * Description MenuVO
+ * @ClassName MenuQueryCommand
+ * Description MenuQueryCommand
  * @Author 2456910384
- * @Date 2022/2/11 15:56
+ * @Date 2022/9/16 11:37
  * @Version 1.0
  */
 @Data
-public class SysMenuVO {
+public class MenuCommand {
 
-    private Long id;
+    private MenuID id;
 
     /**
      * 菜单名称
@@ -68,11 +68,6 @@ public class SysMenuVO {
     private String status;
 
     /**
-     * 权限标识
-     */
-    private String perms;
-
-    /**
      * 菜单图标
      */
     private String icon;
@@ -82,9 +77,22 @@ public class SysMenuVO {
      */
     private String remark;
 
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+
     /** 是否缓存（0缓存 1不缓存） */
-    private byte cache;
+    private String cache;
 
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 
-    private List<SysMenuVO> children = new ArrayList<>(0);
+    private Long createBy;
+
+    private Long updateBy;
+
 }

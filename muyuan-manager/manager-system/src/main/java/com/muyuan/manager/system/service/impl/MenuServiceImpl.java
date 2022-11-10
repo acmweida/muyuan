@@ -1,24 +1,23 @@
 package com.muyuan.manager.system.service.impl;
 
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.domains.factories.SysMenuFactory;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.domains.model.SysMenu;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.repo.SysMenuRepo;
+import com.muyuan.manager.system.dto.MenuParams;
 import com.muyuan.manager.system.dto.MenuQueryParams;
-import com.muyuan.manager.system.dto.SysMenuDTO;
 import com.muyuan.manager.system.dto.converter.MenuConverter;
 import com.muyuan.manager.system.service.MenuService;
-import com.muyuan.manager.system.dto.vo.MenuVO;
 import com.muyuan.user.api.MenuInterface;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
+import com.muyuan.user.api.dto.MenuRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -51,19 +50,6 @@ public class MenuServiceImpl implements MenuService {
 
     // ##############################  query ########################## //
 
-    @Override
-    public String checkMenuNameUnique(SysMenu sysMenu) {
-        Long id = null == sysMenu.getId() ? 0 : sysMenu.getId();
-        sysMenu = sysMenuRepo.selectOne(new SqlBuilder(SysMenu.class)
-                .eq("name", sysMenu.getName())
-                .eq("parentId", sysMenu.getParentId())
-                .build());
-        if (null != sysMenu && !id.equals(sysMenu.getId())) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
-    }
-
     /**
      * 通过角色名称查询权限
      *
@@ -86,7 +72,7 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public List<MenuVO> list(MenuQueryParams params) {
+    public List<MenuDTO> list(MenuQueryParams params) {
 
         Result<List<MenuDTO>> result = menuInterface.list(MenuQueryRequest.builder()
                 .name(params.getName())
@@ -94,9 +80,7 @@ public class MenuServiceImpl implements MenuService {
                 .platformType(params.getPlatformType() == null ? PlatformType.OPERATOR : PlatformType.trance(params.getPlatformType()))
                 .build());
 
-        List<MenuDTO> list = ResultUtil.getOr(result,ArrayList::new);
-
-        return   converter.toVO(list);
+        return   ResultUtil.getOr(result,ArrayList::new);
     }
 
     @Override
@@ -104,7 +88,12 @@ public class MenuServiceImpl implements MenuService {
         if (ObjectUtils.isEmpty(roleIds)) {
             return Collections.EMPTY_LIST;
         }
-        return sysMenuRepo.listByRoleId(roleIds).stream().map(SysMenu::getId).collect(Collectors.toList());
+
+        Result<List<MenuDTO>> menuByRoleCods = menuInterface.getMenuByRoleCods(MenuQueryRequest.builder()
+                .roleCodes(roleIds)
+                .build());
+        return Objects.requireNonNull(ResultUtil.getOr(menuByRoleCods, ArrayList::new))
+                .stream().map(MenuDTO::getId).collect(Collectors.toList());
     }
 
     /**
@@ -125,29 +114,28 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Optional<SysMenu> get(String id) {
-        SysMenu sysMenu = get(new SysMenu(Long.valueOf(id)));
-        if (null != sysMenu) {
-            return Optional.of(sysMenu);
-        }
-        return Optional.empty();
+    public Optional<MenuDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<MenuDTO> dictType = menuInterface.getMenu(id_);
+                    return ResultUtil.getOr(dictType,null);
+                });
     }
 
     // ##############################  query ########################## //
 
     @Override
-    public void add(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenu = SysMenuFactory.newInstance(sysMenuDTO);
-        sysMenuRepo.insert(sysMenu);
-        sysMenuRepo.refreshCache();
+    public Result add(MenuParams menuParams) {
+        MenuRequest menuRequest = converter.toRequest(menuParams);
+        menuRequest.setCreateBy(SecurityUtils.getUserId());
+        return menuInterface.addMenu(menuRequest);
     }
 
     @Override
-    public void update(SysMenuDTO sysMenuDTO) {
-        SysMenu sysMenuEntity = SysMenuFactory.buildEntity(sysMenuDTO);
-        sysMenuEntity.update();
-        sysMenuRepo.updateById(sysMenuEntity);
-        sysMenuRepo.refreshCache();
+    public Result update(MenuParams menuParams) {
+        MenuRequest menuRequest = converter.toRequest(menuParams);
+        menuRequest.setUpdateBy(SecurityUtils.getUserId());
+        return menuInterface.updateMenu(menuRequest);
     }
 
     @Override

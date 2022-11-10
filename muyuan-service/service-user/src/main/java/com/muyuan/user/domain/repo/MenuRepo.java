@@ -19,4 +19,18 @@ public interface MenuRepo {
 
     List<Menu> list(MenuQueryCommand command);
 
+    Menu selectMenu(Long id);
+
+
+    Menu selectMenu(Menu menu);
+
+    /**
+     *
+     * @param menu
+     * @return old value
+     */
+    Menu updateDMenu(Menu menu);
+
+    boolean addMenu(Menu menu);
+
 }

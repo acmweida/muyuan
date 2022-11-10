@@ -3,6 +3,7 @@ package com.muyuan.user.api;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
+import com.muyuan.user.api.dto.MenuRequest;
 
 import java.util.List;
 
@@ -28,4 +29,23 @@ public interface MenuInterface {
      * @return
      */
     Result<List<MenuDTO>> list(MenuQueryRequest request);
+
+
+    Result<MenuDTO> getMenu(Long id);
+
+    /**
+     * 更新字典数据
+     * @param request
+     * @return
+     */
+    Result updateMenu(MenuRequest request);
+
+
+    /**
+     * 添加菜单
+     * @param request
+     * @return
+     */
+    Result addMenu(MenuRequest request);
+
 }
