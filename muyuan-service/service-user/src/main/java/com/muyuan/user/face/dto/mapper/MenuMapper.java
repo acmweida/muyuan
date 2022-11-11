@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValueCheckStrategy;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface MenuMapper {
     MenuQueryCommand toCommand(MenuQueryRequest request);
 
     @Mappings({
-            @Mapping(target = "id.value",source = "id")
+            @Mapping(target = "id.value",source = "id",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS )
     })
     MenuCommand toCommand(MenuRequest request);
 

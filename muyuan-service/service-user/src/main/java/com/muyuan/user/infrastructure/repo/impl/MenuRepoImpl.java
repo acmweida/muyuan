@@ -12,6 +12,7 @@ import com.muyuan.user.infrastructure.repo.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -84,8 +85,13 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean addMenu(Menu menu) {
-        Integer count = menuMapper.insertAuto(converter.to(menu));
+        MenuDO to = converter.to(menu);
+        Integer count = menuMapper.insertAuto(to);
+
+        // 默认管理员权限
+//        sysRoleMenuMapper.insert(new SysRoleMenu(1L, to.getId()));
         return count > 0;
     }
 

@@ -122,7 +122,6 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     public boolean addMenu(MenuCommand command) {
         Menu menu = new Menu();
 
-        menu.setId(command.getId());
         menu.setName(command.getName());
         menu.setParentId(command.getParentId());
         menu.setOrderNum(command.getOrderNum());

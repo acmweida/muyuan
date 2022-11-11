@@ -27,7 +27,7 @@ public class MenuParams {
 
     }
 
-    @NotBlank(message = "ID不能为空",groups = Update.class)
+    @NotNull(message = "ID不能为空",groups = Update.class)
     private Long id;
 
     /**
