@@ -1,5 +1,6 @@
 package com.muyuan.user.domain.model.entity;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import lombok.Data;
 
@@ -17,6 +18,8 @@ public class Menu {
 
     private MenuID id;
 
+
+    private PlatformType platformType;
     /**
      * 菜单名称
      */
@@ -103,8 +106,16 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(String name, Long parentId) {
+    public Menu(MenuID id, String name, Long parentId,PlatformType platformType) {
+        this.id = id;
         this.name = name;
         this.parentId = parentId;
+        this.platformType = platformType;
+    }
+
+    public Menu(String name, Long parentId,PlatformType platformType) {
+        this.name = name;
+        this.parentId = parentId;
+        this.platformType = platformType;
     }
 }

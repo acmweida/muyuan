@@ -2,6 +2,7 @@ package com.muyuan.user.domain.repo;
 
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 
@@ -19,7 +20,7 @@ public interface MenuRepo {
 
     List<Menu> list(MenuQueryCommand command);
 
-    Menu selectMenu(Long id);
+    Menu selectMenu(MenuID id);
 
 
     Menu selectMenu(Menu menu);
@@ -33,4 +34,12 @@ public interface MenuRepo {
 
     boolean addMenu(Menu menu);
 
+    List<Menu> deleteBy(Long... ids);
+
+    /**
+     * 角色 菜单关联删除
+     * @param menuIDS
+     * @return
+     */
+    boolean deleteRef(MenuID... menuIDS);
 }

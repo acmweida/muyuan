@@ -104,4 +104,6 @@ public class MenuRequest implements Serializable {
 
     private Long updateBy;
 
+    private String platformType;
+
 }

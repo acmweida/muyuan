@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.muyuan.user.infrastructure.repo.mapper.MenuMapper">
+    <delete id="deleteRef">
+        delete from t_role_menu where menu_id in
+        <foreach collection="menuIds" item="menuId" open="*" close=")" separator=",">
+            #{menuId}
+        </foreach>
+    </delete>
 
 
     <select id="selectByRoleCode" resultType="com.muyuan.user.infrastructure.repo.dataobject.MenuDO">

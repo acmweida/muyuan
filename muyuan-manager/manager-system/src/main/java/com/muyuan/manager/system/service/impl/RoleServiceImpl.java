@@ -12,7 +12,6 @@ import com.muyuan.manager.system.domains.factories.SysRoleFactory;
 import com.muyuan.manager.system.domains.model.SysRole;
 import com.muyuan.manager.system.domains.model.SysRoleMenu;
 import com.muyuan.manager.system.domains.model.SysUserRole;
-import com.muyuan.manager.system.domains.repo.SysMenuRepo;
 import com.muyuan.manager.system.domains.repo.SysRoleRepo;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.dto.SysRoleDTO;
@@ -50,9 +49,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private SysRoleRepo sysRoleRepo;
-
-    @Autowired
-    private SysMenuRepo sysMenuRepo;
 
     /**
      * 根据用户id查询角色
@@ -152,8 +148,6 @@ public class RoleServiceImpl implements RoleService {
         sysRoleRepo.deleteMenuByRoleId(sysRole.getId());
 
         sysRoleRepo.batchInsert(sysRoleMenus);
-
-        sysMenuRepo.refreshCache(sysRole.getCode());
 
     }
 

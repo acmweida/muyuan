@@ -19,6 +19,8 @@ public class MenuDTO  implements Serializable {
 
     private Long id;
 
+    private String platformType;
+
     /**
      * 菜单名称
      */

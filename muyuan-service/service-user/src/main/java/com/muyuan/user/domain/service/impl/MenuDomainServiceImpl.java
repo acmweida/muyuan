@@ -3,11 +3,15 @@ package com.muyuan.user.domain.service.impl;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.repo.MenuRepo;
+import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.MenuDomainService;
 import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
@@ -15,8 +19,10 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
@@ -33,6 +39,8 @@ import static java.util.stream.Collectors.toCollection;
 public class MenuDomainServiceImpl implements MenuDomainService {
 
     private MenuRepo menuRepo;
+
+    private RoleRepo roleRepo;
 
     private RedisCacheService redisCacheService;
 
@@ -68,7 +76,7 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     public Optional<Menu> getMenu(Long id) {
         return Optional.of(id)
                 .map(id_ -> {
-                    return menuRepo.selectMenu(id_);
+                    return menuRepo.selectMenu(new MenuID(id_));
                 });
     }
 
@@ -109,9 +117,10 @@ public class MenuDomainServiceImpl implements MenuDomainService {
 
         Menu old = menuRepo.updateDMenu(menu);
         if (ObjectUtils.isNotEmpty(old)) {
-            if (!command.getName().equals(old.getType())) {
-                redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
-                redisCacheService.delayDoubleDel(RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
+            List<Role> roles = roleRepo.selectByMenuID(old.getId());
+            for (Role role : roles) {
+                redisCacheService.delayDoubleDel(getRoleMenuKeyPrefix(old.getPlatformType()) + role.getCode());
+                redisCacheService.delayDoubleDel(getRoleMenuKeyPrefix(menu.getPlatformType()) + role.getCode());
             }
             return true;
         }
@@ -138,9 +147,44 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         menu.setCreateTime(DateTime.now().toDate());
         menu.setCreateBy(command.getUpdateBy());
 
-        redisCacheService.delayDoubleDel(RedisConst.SYS_ROLE_PERM_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
-        redisCacheService.delayDoubleDel(RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX + RedisConst.ALL_PLACE_HOLDER);
-        return  menuRepo.addMenu(menu);
+        return menuRepo.addMenu(menu);
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteMenuById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return false;
+        }
+        List<Long> removeIds = new ArrayList<>(Arrays.asList(ids));
+        List<Menu> menuList;
+        do {
+            menuList = menuRepo.list(MenuQueryCommand.builder().parentIds(ids).build());
+            if (!menuList.isEmpty()) {
+                List<Long> collect = menuList.stream().map(Menu::getId).map(MenuID::getValue)
+                        .collect(Collectors.toList());
+                removeIds.addAll(collect);
+                ids = collect.toArray(new Long[0]);
+            }
+        } while (!menuList.isEmpty());
+
+        List<Menu> olds = menuRepo.deleteBy(removeIds.toArray(new Long[0]));
+        menuRepo.deleteRef(olds.stream().map(Menu::getId).toArray(MenuID[]::new));
+
+        Runnable task = () -> {
+            for (Menu old : olds) {
+                List<Role> roles = roleRepo.selectByMenuID(old.getId());
+                if (ObjectUtils.isNotEmpty(roles)) {
+                    for (Role role : roles) {
+                        redisCacheService.delayDoubleDel(getRoleMenuKeyPrefix(old.getPlatformType()) + role.getCode());
+                    }
+                }
+            }
+        };
+
+        CommonThreadPool.exec(task);
+
+        return !olds.isEmpty();
     }
 
 

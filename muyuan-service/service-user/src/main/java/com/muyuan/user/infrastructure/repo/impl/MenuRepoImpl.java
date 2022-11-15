@@ -3,6 +3,7 @@ package com.muyuan.user.infrastructure.repo.impl;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.repo.MenuRepo;
 import com.muyuan.user.face.dto.MenuQueryCommand;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
@@ -44,7 +46,8 @@ public class MenuRepoImpl implements MenuRepo {
         List<MenuDO> menuDOS = menuMapper.selectList(new SqlBuilder(MenuDO.class)
                 .like(NAME, command.getName())
                 .eq(STATUS, command.getStatus())
-                .eq(TYPE, command.getPlatformType().getCode())
+                .in(PARENT_ID, command.getParentIds())
+                .eq(PLATFORM_TYPE, ObjectUtils.isEmpty(command.getPlatformType()) ? null : command.getPlatformType().getCode())
                 .orderByAsc(ORDER_NUM)
                 .build());
 
@@ -52,9 +55,9 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
-    public Menu selectMenu(Long id) {
+    public Menu selectMenu(MenuID id) {
         MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class)
-                .eq(ID, id)
+                .eq(ID, id.getValue())
                 .build());
         return converter.to(menuDO);
     }
@@ -65,7 +68,8 @@ public class MenuRepoImpl implements MenuRepo {
                 .eq(NAME, menu.getName())
                 .eq(TYPE, menu.getType())
                 .eq(PARENT_ID, menu.getParentId())
-                .eq(ID, menu.getId())
+                .eq(ID, ObjectUtils.isEmpty(menu.getId()) ? menu.getId() : menu.getId().getValue())
+                .eq(PLATFORM_TYPE, menu.getPlatformType().getCode())
                 .build());
 
         return converter.to(menuDO);
@@ -74,7 +78,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Override
     public Menu updateDMenu(Menu menu) {
         SqlBuilder sqlBuilder = new SqlBuilder(MenuDO.class)
-                .eq(ID,menu.getId().getValue());
+                .eq(ID, menu.getId().getValue());
 
         MenuDO menuDO = menuMapper.selectOne(sqlBuilder.build());
         if (ObjectUtils.isNotEmpty(menuDO)) {
@@ -94,5 +98,26 @@ public class MenuRepoImpl implements MenuRepo {
 //        sysRoleMenuMapper.insert(new SysRoleMenu(1L, to.getId()));
         return count > 0;
     }
+
+    @Override
+    public List<Menu> deleteBy(Long... ids) {
+
+        List<MenuDO> menuDOS = menuMapper.selectList(new SqlBuilder(MenuDO.class)
+                .in(ID, ids)
+                .build());
+
+        menuMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+
+        return converter.to(menuDOS);
+    }
+
+    @Override
+    public boolean deleteRef(MenuID... menuIDS) {
+        if (menuIDS.length == 0) {
+            return false;
+        }
+        return menuMapper.deleteRef(Arrays.stream(menuIDS).map(MenuID::getValue).toArray(Long[]::new)) > 0;
+    }
+
 
 }

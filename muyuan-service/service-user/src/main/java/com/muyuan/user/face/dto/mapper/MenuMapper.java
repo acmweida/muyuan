@@ -1,5 +1,6 @@
 package com.muyuan.user.face.dto.mapper;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
 import com.muyuan.user.api.dto.MenuRequest;
@@ -31,15 +32,21 @@ public interface MenuMapper {
     MenuQueryCommand toCommand(MenuQueryRequest request);
 
     @Mappings({
-            @Mapping(target = "id.value",source = "id",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS )
+            @Mapping(target = "id.value",source = "id",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS ),
+            @Mapping(target = "platformType",expression = "java(MenuMapper.map(request.getPlatformType()))")
     })
     MenuCommand toCommand(MenuRequest request);
+
+    static PlatformType map(String type) {
+        return PlatformType.trance(type);
+    }
 
     List<MenuDTO> toDTO(List<Menu> menus);
 
 
     @Mappings({
-            @Mapping(target = "id", source = "id.value")
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "platformType",source = "platformType.code")
     })
     MenuDTO toDTO(Menu menu);
 

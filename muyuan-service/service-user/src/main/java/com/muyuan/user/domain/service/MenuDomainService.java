@@ -45,4 +45,6 @@ public interface MenuDomainService {
     boolean updateMenu(MenuCommand command);
 
     boolean addMenu(MenuCommand command);
+
+    boolean deleteMenuById(Long... ids);
 }

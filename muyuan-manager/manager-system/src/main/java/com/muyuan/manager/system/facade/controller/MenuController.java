@@ -7,6 +7,7 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.enums.TokenType;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.util.TokenUtil;
+import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.MenuParams;
 import com.muyuan.manager.system.dto.MenuQueryParams;
@@ -21,12 +22,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -92,20 +94,6 @@ public class MenuController {
         return ResultUtil.fail("菜单不存在");
     }
 
-
-    @RequirePermissions("system:menu:delete")
-    @DeleteMapping("/menu/{id}")
-    @ApiOperation(value = "删除菜单")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "菜单ID", dataTypeClass = String.class, paramType = "path", required = true)}
-    )
-    public Result<MenuVO> delete(@PathVariable @NotBlank(message = "菜单ID不能为空")
-                                         String id) {
-        menuService.deleteById(id);
-        return ResultUtil.success();
-    }
-
-
     @RequirePermissions("system:menu:add")
     @GetMapping("/menu/token")
     @ApiOperation("token生成")
@@ -119,8 +107,9 @@ public class MenuController {
     @RequirePermissions("system:menu:add")
     @PostMapping("/menu")
     @ApiOperation("菜单添加")
+    @Repeatable(tokenType = TokenType.ADD_MENU)
     public Result add(@RequestBody @Validated(MenuParams.Add.class) MenuParams menuParams) {
-        return menuService.add(menuParams);
+        return menuService.add(converter.toRequest(menuParams));
     }
 
     @RequirePermissions("system:menu:edit")
@@ -131,7 +120,25 @@ public class MenuController {
             return ResultUtil.fail("id不能为空");
         }
 
-        return menuService.update(menuParams);
+        return menuService.update(converter.toRequest(menuParams));
+    }
+
+    @DeleteMapping("/menu/{ids}")
+    @ApiOperation(value = "字典类型删除")
+    @RequirePermissions(value = "system:menu:remove")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "ids", value = "菜单主键", dataTypeClass = String.class, paramType = "path", required = true)}
+    )
+    public Result delete(@PathVariable @Validated @NotNull(message = "ids 不能为空") String... ids) {
+        if (ObjectUtils.isNotEmpty(ids)) {
+            for (String id : ids) {
+                if (!StringUtils.isNumeric(id)) {
+                    return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
+                }
+            }
+        }
+
+        return menuService.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[0]));
     }
 
 }

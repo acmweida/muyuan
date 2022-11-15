@@ -3,6 +3,8 @@ package com.muyuan.user.domain.repo;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.MenuID;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 
@@ -12,19 +14,17 @@ public interface RoleRepo {
 
     List<Role> selectRoleByUserId(UserID userId, PlatformType platformType);
 
-//    List<Role> select(RoleDTO roleDTO);
-//
     Page<Role> select(RoleQueryCommand command);
 
     Role select(Long id);
-//
-//    void insert(Role sysRole);
-//
-//    void batchInsert(List<RoleMenu> sysRoleMenus);
-//
-//    void updateById(Role sysRole);
-//
-//    void deleteMenuByRoleId(Long roleId);
-//
-//    void deleteById(String... id);
+
+    /**
+     * 通过菜单ID 查询关联角色
+     * @param menuId
+     * @return
+     */
+    List<Role> selectByMenuID(MenuID menuId);
+
+    boolean deleteRef(RoleID roleID,MenuID... menuIDS);
+
 }

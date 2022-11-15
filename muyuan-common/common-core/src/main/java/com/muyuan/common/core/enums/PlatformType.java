@@ -30,6 +30,10 @@ public enum PlatformType {
         }
     }
 
+    public static PlatformType trance(String code) {
+       return trance(Integer.valueOf(code));
+    }
+
     public  int getCode() {
         switch (this) {
             case OPERATOR : return 0;

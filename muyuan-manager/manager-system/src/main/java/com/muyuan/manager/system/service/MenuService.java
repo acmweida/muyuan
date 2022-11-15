@@ -1,13 +1,12 @@
 package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Result;
-import com.muyuan.manager.system.dto.MenuParams;
 import com.muyuan.manager.system.dto.MenuQueryParams;
 import com.muyuan.user.api.dto.MenuDTO;
+import com.muyuan.user.api.dto.MenuRequest;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @ClassName MenuService 接口
@@ -25,6 +24,7 @@ public interface MenuService {
      */
     List<MenuDTO> list(MenuQueryParams menuQueryParams);
 
+    Optional<MenuDTO> get(Long id);
 
     /**
      * 列表查询
@@ -33,34 +33,20 @@ public interface MenuService {
      */
     List<Long> listSelectIdByRoleId(String... roleId);
 
-    /**
-     * 根据Id获取菜单详情
-     * @param id
-     * @return
-     */
-    Optional<MenuDTO> get(Long id);
-
-    /**
-     * 获取权限信息
-     * @param roleCodes
-     * @return
-     */
-    Set<String> selectMenuPermissionByRoleCodes(List<String> roleCodes);
-
 
     /**
      * 菜单添加
-     * @param menuParams
+     * @param request
      * @return
      */
-    Result add(MenuParams menuParams);
+    Result add(MenuRequest request);
 
     /**
      * 更新
      * @param menuParams
      * @return
      */
-    Result update(MenuParams menuParams);
+    Result update(MenuRequest menuParams);
 
 
     /**
@@ -68,5 +54,5 @@ public interface MenuService {
      * @param ids
      * @return
      */
-    void deleteById(String... ids);
+    Result deleteById(Long... ids);
 }

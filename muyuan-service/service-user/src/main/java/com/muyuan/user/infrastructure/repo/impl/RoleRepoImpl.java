@@ -1,9 +1,12 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.MenuID;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.face.dto.RoleQueryCommand;
@@ -11,11 +14,14 @@ import com.muyuan.user.infrastructure.repo.converter.UserConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
+
 /**
  * @ClassName RoleRepoImpl
  * Description Role
@@ -64,5 +70,22 @@ public class RoleRepoImpl implements RoleRepo {
                 .eq(ID, id)
                 .build());
         return converter.toRole(roleDO);
+    }
+
+    @Override
+    public List<Role> selectByMenuID(MenuID menuId) {
+        if (ObjectUtils.isEmpty(menuId)) {
+            return GlobalConst.EMPTY_LIST;
+        }
+        return converter.toRole(roleMapper.selectRoleByMenuID(menuId.getValue()));
+    }
+
+    @Override
+    public boolean deleteRef(RoleID roleID, MenuID... menuIDS) {
+        if (ObjectUtils.isEmpty(roleID) || menuIDS.length == 0) {
+            return false;
+        }
+        return roleMapper.deleteRef(roleID.getValue(),
+                Arrays.stream(menuIDS).map(MenuID::getValue).toArray(Long[]::new)) > 0;
     }
 }

@@ -27,10 +27,6 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
 
     private MenuService menuService;
 
-    @Override
-    public Set<String> getMenuPermissionByRoleCodes(List<String> roleCodes) {
-        return menuService.selectMenuPermissionByRoleCodes(roleCodes);
-    }
 
     private List<SysRole> getUserRoles(Long id) {
         return roleService.getRoleByUserId(id);

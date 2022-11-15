@@ -34,4 +34,6 @@ public interface JdbcBaseMapper<T>  {
     String BRAND_ID = "brandId";
 
     String CODE = "code";
+
+    String PLATFORM_TYPE = "platformType";
 }

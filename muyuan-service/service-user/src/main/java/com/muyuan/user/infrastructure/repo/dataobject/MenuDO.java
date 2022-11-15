@@ -99,5 +99,6 @@ public class MenuDO {
 
     private Long updateBy;
 
+    private String platformType;
 
 }

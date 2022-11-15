@@ -19,11 +19,4 @@ public interface SysUserApplicationService {
     Optional<SysUserVO> get(Long id);
 
 
-    /**
-     * 获取权限
-     * @param roleIds
-     * @return
-     */
-    Set<String> getMenuPermissionByRoleCodes(List<String> roleIds);
-
 }

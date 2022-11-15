@@ -32,4 +32,6 @@ public interface MenuMapper extends UserBaseMapper<MenuDO> {
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insertAuto(MenuDO dataObject);
+
+    Integer deleteRef(@Param("menuIds") Long... menuIds);
 }

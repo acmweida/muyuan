@@ -106,6 +106,9 @@ public class MenuParams {
     /** 是否缓存（0缓存 1不缓存） */
     private String cache;
 
+    @NotBlank(message = "平台类型不能为空",groups = {Update.class,Add.class})
+    private String platformType;
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("SysMenuDTO{");

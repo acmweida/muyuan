@@ -2,14 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.muyuan.user.infrastructure.repo.mapper.RoleMapper">
+    <delete id="deleteRef">
+        delete from t_role_menu where role_id = #{roleID}
+        <if test="menuIds != null and menuIds.length > 0">
+            and menu_id in
+            <foreach collection="menuIds" item="menuId" open="*" close=")" separator=",">
+                #{menuId}
+            </foreach>
+        </if>
+    </delete>
 
 
     <select id="selectRoleByUserId" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
-        select role.id, role.code,role.type,role.name
+        select role.id, role.code, role.type, role.name
         from (
                  select *
                  from t_role
-                 where status = 0 and type = #{type}
+                 where status = 0
+                   and type = #{type}
              ) role
                  inner join (
             select *
@@ -17,4 +27,15 @@
             where user_id = #{userId}
         ) user_role on user_role.role_id = role.id
     </select>
+    <select id="selectRoleByMenuID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
+        select id, code, type, name, status, parent_id, order_num
+        from t_role
+                 inner join (
+            select role_id
+            from t_role_menu
+            where menu_id = #{menuID}
+        ) role_menu on t_role.id = role_menu.role_id
+    </select>
+
+
 </mapper>

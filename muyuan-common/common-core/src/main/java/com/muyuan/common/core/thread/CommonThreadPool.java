@@ -1,6 +1,7 @@
 package com.muyuan.common.core.thread;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +62,7 @@ public class CommonThreadPool {
     }
 
 
-    public static  <T> Future  schedule(Callable tasks,long second) {
+    public static  <T> Future  schedule(Callable<T> tasks,long second) {
         return threadPoolExecutor.schedule(tasks,second,TimeUnit.SECONDS);
     }
 
@@ -69,5 +70,8 @@ public class CommonThreadPool {
         return threadPoolExecutor.schedule(tasks,second,TimeUnit.SECONDS);
     }
 
+    public static void exec(Runnable tasks) {
+        threadPoolExecutor.execute(tasks);
+    }
 
 }

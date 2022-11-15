@@ -1,5 +1,6 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import lombok.Data;
 
@@ -16,6 +17,8 @@ import java.util.Date;
 public class MenuCommand {
 
     private MenuID id;
+
+    private PlatformType platformType;
 
     /**
      * 菜单名称

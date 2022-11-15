@@ -19,6 +19,8 @@ public class MenuVO {
 
     private Long id;
 
+    private String platformType;
+
     /**
      * 菜单名称
      */

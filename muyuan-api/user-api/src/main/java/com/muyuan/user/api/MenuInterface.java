@@ -48,4 +48,11 @@ public interface MenuInterface {
      */
     Result addMenu(MenuRequest request);
 
+    /**
+     *  删除菜单
+     * @param ids
+     * @return
+     */
+    Result deleteMenu(Long... ids);
+
 }

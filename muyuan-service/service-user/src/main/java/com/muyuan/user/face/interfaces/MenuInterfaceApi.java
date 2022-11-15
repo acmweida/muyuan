@@ -3,6 +3,7 @@ package com.muyuan.user.face.interfaces;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
@@ -11,6 +12,7 @@ import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
 import com.muyuan.user.api.dto.MenuRequest;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.service.MenuDomainService;
 import com.muyuan.user.face.dto.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
@@ -62,7 +64,8 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result updateMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(request.getName(),request.getParentId())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(new MenuID(request.getId())
+                , request.getName(), request.getParentId(), PlatformType.trance(request.getPlatformType()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         if (GlobalConst.YES_FRAME.equals(request.getFrame()) && StrUtil.ishttp(request.getPath())) {
@@ -75,7 +78,8 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result addMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(request.getName(),request.getParentId())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(request.getName(), request.getParentId()
+                ,PlatformType.trance(request.getPlatformType()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         if (GlobalConst.YES_FRAME.equals(request.getFrame()) && StrUtil.ishttp(request.getPath())) {
@@ -84,4 +88,14 @@ public class MenuInterfaceApi implements MenuInterface {
         boolean flag = menuService.addMenu(MENU_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
+
+    @Override
+    public Result deleteMenu(Long... ids) {
+        if (menuService.deleteMenuById(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+
 }
