@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.dto.assembler;
 
-import com.muyuan.manager.system.domains.model.SysRole;
-import com.muyuan.manager.system.domains.model.SysUser;
+import com.muyuan.manager.system.model.SysRole;
+import com.muyuan.manager.system.model.SysUser;
 import com.muyuan.manager.system.dto.vo.SysUserVO;
 import com.muyuan.user.api.dto.UserDTO;
 import org.springframework.beans.BeanUtils;

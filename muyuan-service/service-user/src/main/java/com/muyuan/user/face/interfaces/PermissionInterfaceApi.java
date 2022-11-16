@@ -1,9 +1,11 @@
 package com.muyuan.user.face.interfaces;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.PermissionInterface;
+import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
@@ -51,5 +53,12 @@ public class PermissionInterfaceApi implements PermissionInterface {
         }
 
         return ResultUtil.success(parms);
+    }
+
+    @Override
+    public Result<Page<PermissionDTO>> list(PermissionQueryRequest request) {
+        Page<Permission> list = permissionDomainService.list(PERMISSION_MAPPER.toCommand(request));
+
+        return ResultUtil.success( Page.copy(list,PERMISSION_MAPPER.toDTO(list.getRows())));
     }
 }

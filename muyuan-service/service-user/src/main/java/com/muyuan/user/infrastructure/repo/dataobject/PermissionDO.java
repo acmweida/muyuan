@@ -13,11 +13,18 @@ public class PermissionDO {
 
     private Long id;
 
+    private String business;
+
+    private String module;
+
+    private String platformType;
+
     private String resource;
 
-    private String action;
+    private String type;
 
     private String perms;
 
     private Integer status;
+
 }

@@ -2,7 +2,7 @@ package com.muyuan.manager.system.dto;
 
 import com.muyuan.common.bean.BaseDTO;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.manager.system.domains.model.SysDept;
+import com.muyuan.manager.system.model.SysDept;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

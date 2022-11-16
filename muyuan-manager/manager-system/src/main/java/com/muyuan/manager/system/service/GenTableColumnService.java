@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.service;
 
 
-import com.muyuan.manager.system.domains.model.GenTableColumn;
+import com.muyuan.manager.system.model.GenTableColumn;
 
 import java.util.List;
 

@@ -16,5 +16,9 @@ import java.util.List;
 @Mapper
 public interface PermissionMapper extends UserBaseMapper<PermissionDO> {
 
+    String BUSINESS = "business";
+    String MODULE = "module";
+    String RESOURCE = "resource";
+
     List<PermissionDO> selectByRoleId(Long roleId);
 }

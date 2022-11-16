@@ -3,9 +3,9 @@ package com.muyuan.manager.system.base.persistence;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.dto.GenTableDTO;
-import com.muyuan.manager.system.domains.model.GenTable;
-import com.muyuan.manager.system.domains.repo.GenTableRepo;
-import com.muyuan.manager.system.mapper.GenTableMapper;
+import com.muyuan.manager.system.model.GenTable;
+import com.muyuan.manager.system.repo.GenTableRepo;
+import com.muyuan.manager.system.base.persistence.mapper.GenTableMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,15 +1,15 @@
-package ${packageName}.${moduleName}.interfaces.com.muyuan.manager.system.facade.controller;
+package ${packageName}.${moduleName}.facade.controller;
 
 import java.util.List;
 
-
+import com.muyuan.common.bean.Page;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ${packageName}.${moduleName}.domains.model.${ClassName};
-import ${packageName}.${moduleName}.domains.service.${ClassName}DomainService;
+import ${packageName}.${moduleName}.model.${ClassName};
+import ${packageName}.${moduleName}.service.${ClassName}Service;
 
 /**
  * ${functionName}Controller
@@ -22,17 +22,17 @@ import ${packageName}.${moduleName}.domains.service.${ClassName}DomainService;
 @AllArgsConstructor
 public class ${ClassName}Controller {
 
-    private ${ClassName}DomainService ${className}DomainService;
+    private ${ClassName}Service ${className}Service;
 
     /**
      * 查询${functionName}列表
      */
-    @RequirePermissions("${permissionPrefix}:list")
+    @RequirePermissions("${permissionPrefix}:query")
     @GetMapping("/list")
 #if($table.crud || $table.sub)
-    public Result list(@ModelAttribute ${ClassName} ${className})
+    public esult<Page<${ClassName}DTO>> list(@ModelAttribute ${ClassName}QueryParams params)
     {
-        List<${ClassName}> list = ${className}DomainService.select${ClassName}List(${className});
+        Page<${ClassName}DTO> list = ${className}Service.list(params);
         return ResultUtil.success(list);
     }
 #elseif($table.tree)

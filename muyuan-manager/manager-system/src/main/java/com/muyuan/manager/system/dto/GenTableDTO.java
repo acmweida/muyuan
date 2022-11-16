@@ -1,8 +1,8 @@
 package com.muyuan.manager.system.dto;
 
 import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.GenTable;
-import com.muyuan.manager.system.domains.model.GenTableColumn;
+import com.muyuan.manager.system.model.GenTable;
+import com.muyuan.manager.system.model.GenTableColumn;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

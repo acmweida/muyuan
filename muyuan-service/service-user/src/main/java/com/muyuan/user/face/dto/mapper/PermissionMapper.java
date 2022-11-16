@@ -1,11 +1,16 @@
 package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.face.dto.PermissionQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValueCheckStrategy;
+
+import java.util.List;
 
 /**
  * @ClassName OperatorMapper
@@ -20,7 +25,7 @@ public interface PermissionMapper {
     @Mappings(
             {
                     @Mapping(target = "platformType", expression = "java(PermissionMapper.map(request.getPlatformType()))"),
-                    @Mapping(target = "userId.value", source = "userId")
+                    @Mapping(target = "userId.value", source = "userId",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
             }
     )
     PermissionQueryCommand toCommand(PermissionQueryRequest request);
@@ -29,6 +34,9 @@ public interface PermissionMapper {
     static PlatformType map(PlatformType type) {
         return null == type ? PlatformType.MEMBER : type;
     }
+
+
+    List<PermissionDTO> toDTO(List<Permission> permissions);
 
 
 }

@@ -8,7 +8,7 @@ import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.dto.SysRoleDTO;
 import com.muyuan.manager.system.dto.SysUserDTO;
@@ -16,7 +16,7 @@ import com.muyuan.manager.system.dto.assembler.SysRoleAssembler;
 import com.muyuan.manager.system.dto.converter.RoleConverter;
 import com.muyuan.manager.system.dto.vo.RoleVO;
 import com.muyuan.manager.system.service.RoleService;
-import com.muyuan.manager.system.service.SysUserDomainService;
+import com.muyuan.manager.system.service.SysUsernService;
 import com.muyuan.user.api.dto.RoleDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,7 +51,7 @@ public class RoleController {
 
     private RoleConverter converter;
 
-    private SysUserDomainService sysUserDomainService;
+    private SysUsernService sysUsernService;
 
     @GetMapping("/role/list")
     @ApiOperation(value = "角色列表查询")
@@ -87,7 +87,7 @@ public class RoleController {
             }
     )
     public Result allocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
-        return ResultUtil.success(sysUserDomainService.selectAllocatedList(sysUserDTO));
+        return ResultUtil.success(sysUsernService.selectAllocatedList(sysUserDTO));
     }
 
     @ApiOperation(value = "角色为分配用户查询")
@@ -100,7 +100,7 @@ public class RoleController {
             }
     )
     public Result unallocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
-        return ResultUtil.success(sysUserDomainService.selectUnallocatedList(sysUserDTO));
+        return ResultUtil.success(sysUsernService.selectUnallocatedList(sysUserDTO));
     }
 
     @ApiOperation(value = "角色添加用户")

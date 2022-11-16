@@ -5,7 +5,6 @@ import ${import};
 #end
 import com.muyuan.common.core.bean.BaseDTO;
 import lombok.Data;
-import ${packageName}.${moduleName}.domains.model.${ClassName};
 
 
 /**

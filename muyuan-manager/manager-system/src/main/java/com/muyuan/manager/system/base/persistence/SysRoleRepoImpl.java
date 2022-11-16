@@ -1,13 +1,13 @@
 package com.muyuan.manager.system.base.persistence;
 
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.domains.model.SysRole;
-import com.muyuan.manager.system.domains.model.SysRoleMenu;
-import com.muyuan.manager.system.domains.model.SysUserRole;
-import com.muyuan.manager.system.domains.repo.SysRoleRepo;
-import com.muyuan.manager.system.mapper.SysRoleMapper;
-import com.muyuan.manager.system.mapper.SysRoleMenuMapper;
-import com.muyuan.manager.system.mapper.SysUserRoleMapper;
+import com.muyuan.manager.system.model.SysRole;
+import com.muyuan.manager.system.model.SysRoleMenu;
+import com.muyuan.manager.system.model.SysUserRole;
+import com.muyuan.manager.system.repo.SysRoleRepo;
+import com.muyuan.manager.system.base.persistence.mapper.SysRoleMapper;
+import com.muyuan.manager.system.base.persistence.mapper.SysRoleMenuMapper;
+import com.muyuan.manager.system.base.persistence.mapper.SysUserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;

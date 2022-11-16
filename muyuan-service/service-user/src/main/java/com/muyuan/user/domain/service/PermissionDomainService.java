@@ -1,7 +1,9 @@
 package com.muyuan.user.domain.service;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.face.dto.PermissionQueryCommand;
 
 import java.util.List;
 
@@ -20,5 +22,12 @@ public interface PermissionDomainService {
      * @return
      */
     List<Permission> getPermissionByRoles(List<Role> roles);
+
+    /**
+     * 权限分页查询
+     * @param commend
+     * @return
+     */
+    Page<Permission> list(PermissionQueryCommand commend);
 
 }

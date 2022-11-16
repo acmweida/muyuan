@@ -3,7 +3,7 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.dto.SysRoleDTO;
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.user.api.dto.RoleDTO;
 
 import java.util.List;

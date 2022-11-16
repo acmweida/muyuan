@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.dto;
 
 import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.SysUser;
+import com.muyuan.manager.system.model.SysUser;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

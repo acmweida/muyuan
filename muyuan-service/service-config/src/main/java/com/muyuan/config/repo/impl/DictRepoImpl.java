@@ -90,7 +90,7 @@ public class DictRepoImpl implements DictRepo {
 
     @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(DictType.class)
+        SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
                 .eq(NAME, command.getName())
                 .eq(TYPE, command.getType())
                 .eq(STATUS, command.getStatus())

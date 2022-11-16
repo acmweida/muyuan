@@ -14,9 +14,15 @@ public class Permission {
 
     private Long id;
 
+    private String business;
+
+    private String module;
+
+    private PlatformType platformType;
+
     private String resource;
 
-    private String action;
+    private String type;
 
     private String perms;
 

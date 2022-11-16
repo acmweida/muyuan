@@ -1,5 +1,6 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class RoleDTO implements Serializable {
 
     private Long id;
 
+    private PlatformType platformType;
     /**
      * 角色名称
      */

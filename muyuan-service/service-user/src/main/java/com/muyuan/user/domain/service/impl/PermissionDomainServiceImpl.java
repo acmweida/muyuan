@@ -1,9 +1,11 @@
 package com.muyuan.user.domain.service.impl;
 
+import com.muyuan.common.bean.Page;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.repo.PermissionRepo;
 import com.muyuan.user.domain.service.PermissionDomainService;
+import com.muyuan.user.face.dto.PermissionQueryCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,10 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         }
 
         return permissions;
+    }
+
+    @Override
+    public Page<Permission> list(PermissionQueryCommand commend) {
+        return permissionRepo.select(commend);
     }
 }

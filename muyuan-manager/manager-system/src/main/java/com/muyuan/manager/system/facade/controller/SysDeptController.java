@@ -6,8 +6,8 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.SysDeptDTO;
-import com.muyuan.manager.system.domains.model.SysDept;
-import com.muyuan.manager.system.service.SysDeptDomainService;
+import com.muyuan.manager.system.model.SysDept;
+import com.muyuan.manager.system.service.SysDeptService;
 import com.muyuan.manager.system.dto.assembler.SysDeptAssembler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SysDeptController {
 
-    private SysDeptDomainService sysDeptDomainService;
+    private SysDeptService sysDeptService;
 
     @RequirePermissions("system:dept:list")
     @GetMapping("/dept/list")
@@ -41,7 +41,7 @@ public class SysDeptController {
                     @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "query")}
     )
     public Result<List<SysDept>> list(@ModelAttribute SysDeptDTO sysDeptDTO) {
-        List<SysDept> list = sysDeptDomainService.list(sysDeptDTO);
+        List<SysDept> list = sysDeptService.list(sysDeptDTO);
         return ResultUtil.success(list);
     }
 
@@ -50,7 +50,7 @@ public class SysDeptController {
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute SysDeptDTO sysDeptDTO) {
         sysDeptDTO.setStatus("0");
-        List<SysDept> list = sysDeptDomainService.list(sysDeptDTO);
+        List<SysDept> list = sysDeptService.list(sysDeptDTO);
         return ResultUtil.success(SysDeptAssembler.buildDeptSelectTree(list));
     }
 
@@ -67,11 +67,11 @@ public class SysDeptController {
                     @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "Body",defaultValue = "0")}
     )
     public Result add(@RequestBody @Validated SysDeptDTO sysDeptDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysDeptDomainService.checkUnique(new SysDept(sysDeptDTO.getParentId(),sysDeptDTO.getName())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysDeptService.checkUnique(new SysDept(sysDeptDTO.getParentId(),sysDeptDTO.getName())))) {
             return ResultUtil.fail(StrUtil.format("部门名称:{}已存在",sysDeptDTO.getName()));
         }
 
-        sysDeptDomainService.add(sysDeptDTO);
+        sysDeptService.add(sysDeptDTO);
 
 
         return ResultUtil.success();

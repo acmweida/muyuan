@@ -8,8 +8,8 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import com.muyuan.manager.system.dto.SysUserDTO;
-import com.muyuan.manager.system.domains.model.SysUser;
-import com.muyuan.manager.system.service.SysUserDomainService;
+import com.muyuan.manager.system.model.SysUser;
+import com.muyuan.manager.system.service.SysUsernService;
 import com.muyuan.manager.system.dto.vo.SysUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,7 +30,7 @@ public class UserController {
 
     private SysUserApplicationService sysUserApplicationService;
 
-    private SysUserDomainService sysUserDomainService;
+    private SysUsernService sysUsernService;
 
     @RequirePermissions("system:user:list")
     @GetMapping("/user/list")
@@ -44,7 +44,7 @@ public class UserController {
             }
     )
     public Result<Page<SysUser>> list(@ModelAttribute SysUserDTO sysUserDTO) {
-        Page<SysUser> list = sysUserDomainService.list(sysUserDTO);
+        Page<SysUser> list = sysUsernService.list(sysUserDTO);
         return ResultUtil.success(list);
     }
 
@@ -79,11 +79,11 @@ public class UserController {
             }
     )
     public Result add(@RequestBody @Validated SysUserDTO sysUserDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(sysUserDomainService.checkAccountNameUnique(new SysUser(sysUserDTO.getUsername())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(sysUsernService.checkAccountNameUnique(new SysUser(sysUserDTO.getUsername())))) {
             return ResultUtil.fail("账号已存在");
         }
 
-        sysUserDomainService.add(sysUserDTO);
+        sysUsernService.add(sysUserDTO);
         return ResultUtil.success("注册成功");
 
     }

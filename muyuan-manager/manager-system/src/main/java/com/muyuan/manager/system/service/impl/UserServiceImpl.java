@@ -5,11 +5,11 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.dto.SysUserDTO;
-import com.muyuan.manager.system.domains.factories.SysUserFactory;
-import com.muyuan.manager.system.domains.model.SysUser;
-import com.muyuan.manager.system.domains.model.SysUserRole;
-import com.muyuan.manager.system.domains.repo.SysUserRepo;
-import com.muyuan.manager.system.service.SysUserDomainService;
+import com.muyuan.manager.system.factories.SysUserFactory;
+import com.muyuan.manager.system.model.SysUser;
+import com.muyuan.manager.system.model.SysUserRole;
+import com.muyuan.manager.system.repo.SysUserRepo;
+import com.muyuan.manager.system.service.SysUsernService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class UserServiceImpl implements SysUserDomainService {
+public class UserServiceImpl implements SysUsernService {
 
     private SysUserRepo sysUserRepo;
 

@@ -1,6 +1,6 @@
 package com.muyuan.manager.system.dto.vo;
 
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.manager.system.model.SysRole;
 import lombok.Data;
 
 import java.util.List;

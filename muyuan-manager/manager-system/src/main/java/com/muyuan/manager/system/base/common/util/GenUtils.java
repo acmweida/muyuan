@@ -2,8 +2,8 @@ package com.muyuan.manager.system.base.common.util;
 
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.manager.system.base.config.GenConfig;
-import com.muyuan.manager.system.domains.model.GenTable;
-import com.muyuan.manager.system.domains.model.GenTableColumn;
+import com.muyuan.manager.system.model.GenTable;
+import com.muyuan.manager.system.model.GenTableColumn;
 import com.muyuan.manager.system.base.common.GenConstants;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;

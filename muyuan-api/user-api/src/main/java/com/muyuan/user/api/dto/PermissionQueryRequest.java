@@ -1,5 +1,6 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.bean.PageDTO;
 import com.muyuan.common.core.enums.PlatformType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +20,21 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermissionQueryRequest implements Serializable {
+public class PermissionQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
 
     private Long userId;
 
     private PlatformType platformType;
+
+    private String resource;
+
+    private String type;
+
+    private String business;
+
+    private String module;
+
+    private String status;
 }

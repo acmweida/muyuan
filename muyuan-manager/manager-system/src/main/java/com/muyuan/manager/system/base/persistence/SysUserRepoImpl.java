@@ -1,10 +1,10 @@
 package com.muyuan.manager.system.base.persistence;
 
-import com.muyuan.manager.system.domains.model.SysUser;
-import com.muyuan.manager.system.domains.model.SysUserRole;
-import com.muyuan.manager.system.domains.repo.SysUserRepo;
-import com.muyuan.manager.system.mapper.SysUserMapper;
-import com.muyuan.manager.system.mapper.SysUserRoleMapper;
+import com.muyuan.manager.system.model.SysUser;
+import com.muyuan.manager.system.model.SysUserRole;
+import com.muyuan.manager.system.repo.SysUserRepo;
+import com.muyuan.manager.system.base.persistence.mapper.SysUserMapper;
+import com.muyuan.manager.system.base.persistence.mapper.SysUserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.muyuan.manager.system.base.persistence;
 
-import com.muyuan.manager.system.domains.model.SysDept;
-import com.muyuan.manager.system.domains.repo.SysDeptRepo;
-import com.muyuan.manager.system.mapper.SysDeptMapper;
+import com.muyuan.manager.system.model.SysDept;
+import com.muyuan.manager.system.repo.SysDeptRepo;
+import com.muyuan.manager.system.base.persistence.mapper.SysDeptMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

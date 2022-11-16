@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@MapperScan("com.muyuan.manager.system.mapper")
+@MapperScan("com.muyuan.manager.system.base.persistence.mapper")
 @Import({SystemJdbcConfig.class,SystemReadWriteJdbcConfig.class})
 public class MybatisConfig {
 

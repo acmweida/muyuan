@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.dto.assembler;
 
 import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.system.domains.model.SysDept;
+import com.muyuan.manager.system.model.SysDept;
 
 import java.util.ArrayList;
 import java.util.Collection;

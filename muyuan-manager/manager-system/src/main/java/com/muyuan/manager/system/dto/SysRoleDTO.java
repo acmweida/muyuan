@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.dto;
 
 import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.domains.model.SysRole;
+import com.muyuan.manager.system.model.SysRole;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

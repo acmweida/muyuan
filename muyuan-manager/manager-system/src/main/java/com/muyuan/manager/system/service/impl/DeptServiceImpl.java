@@ -5,10 +5,10 @@ import com.muyuan.common.core.exception.ArgumentException;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.domains.factories.SysDeptFactory;
-import com.muyuan.manager.system.domains.model.SysDept;
-import com.muyuan.manager.system.domains.repo.SysDeptRepo;
-import com.muyuan.manager.system.service.SysDeptDomainService;
+import com.muyuan.manager.system.factories.SysDeptFactory;
+import com.muyuan.manager.system.model.SysDept;
+import com.muyuan.manager.system.repo.SysDeptRepo;
+import com.muyuan.manager.system.service.SysDeptService;
 import com.muyuan.manager.system.dto.SysDeptDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DeptServiceImpl implements SysDeptDomainService {
+public class DeptServiceImpl implements SysDeptService {
 
     private SysDeptRepo sysDeptRepo;
 

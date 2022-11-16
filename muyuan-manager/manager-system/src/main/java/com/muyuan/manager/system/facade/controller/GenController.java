@@ -8,10 +8,10 @@ import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.GenTableDTO;
-import com.muyuan.manager.system.domains.model.GenTable;
-import com.muyuan.manager.system.domains.model.GenTableColumn;
+import com.muyuan.manager.system.model.GenTable;
+import com.muyuan.manager.system.model.GenTableColumn;
 import com.muyuan.manager.system.service.GenTableColumnService;
-import com.muyuan.manager.system.service.GenTableDomainService;
+import com.muyuan.manager.system.service.GenTableService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.validation.annotation.Validated;
@@ -33,18 +33,18 @@ import java.util.Map;
 @AllArgsConstructor
 public class GenController {
 
-    private GenTableDomainService genTableDomainService;
+    private GenTableService genTableService;
 
     private GenTableColumnService genTableColumnService;
 
     /**
      * 查询代码生成列表
      */
-    @RequirePermissions("tool:gen:list")
+    @RequirePermissions("tool:gen:query")
     @GetMapping("/list")
     public Result genList(GenTableDTO genTableDTO)
     {
-        Page<GenTable> res = genTableDomainService.selectGenTableList(genTableDTO);
+        Page<GenTable> res = genTableService.selectGenTableList(genTableDTO);
         return ResultUtil.success(res);
     }
 
@@ -55,8 +55,8 @@ public class GenController {
     @GetMapping(value = "/{tableId}")
     public Result getInfo(@PathVariable Long tableId)
     {
-        GenTable table = genTableDomainService.selectGenTableById(tableId);
-        List<GenTable> tables = genTableDomainService.selectGenTableAll();
+        GenTable table = genTableService.selectGenTableById(tableId);
+        List<GenTable> tables = genTableService.selectGenTableAll();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("info", table);
@@ -68,11 +68,11 @@ public class GenController {
     /**
      * 查询数据库列表
      */
-    @RequirePermissions("tool:gen:list")
+    @RequirePermissions("tool:gen:query")
     @GetMapping("/db/list")
     public Result dataList(GenTableDTO genTableDTO)
     {
-        Page<GenTable> page = genTableDomainService.selectDbTableList(genTableDTO);
+        Page<GenTable> page = genTableService.selectDbTableList(genTableDTO);
         return ResultUtil.success(page);
     }
 
@@ -100,8 +100,8 @@ public class GenController {
     {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
-        List<GenTable> tableList = genTableDomainService.selectDbTableListByNames(tableNames);
-        genTableDomainService.importGenTable(tableList);
+        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
+        genTableService.importGenTable(tableList);
         return ResultUtil.success();
     }
 
@@ -113,8 +113,8 @@ public class GenController {
     @PutMapping
     public Result editSave(@Validated @RequestBody GenTableDTO genTable)
     {
-        genTableDomainService.validateEdit(genTable);
-        genTableDomainService.updateGenTable(genTable);
+        genTableService.validateEdit(genTable);
+        genTableService.updateGenTable(genTable);
         return ResultUtil.success();
     }
 
@@ -126,7 +126,7 @@ public class GenController {
     @DeleteMapping("/{tableIds}")
     public Result remove(@PathVariable Long[] tableIds)
     {
-        genTableDomainService.deleteGenTableByIds(tableIds);
+        genTableService.deleteGenTableByIds(tableIds);
         return ResultUtil.success();
     }
 
@@ -137,7 +137,7 @@ public class GenController {
     @GetMapping("/preview/{tableId}")
     public Result preview(@PathVariable("tableId") Long tableId) throws IOException
     {
-        Map<String, String> dataMap = genTableDomainService.previewCode(tableId);
+        Map<String, String> dataMap = genTableService.previewCode(tableId);
         return ResultUtil.success(dataMap);
     }
 
@@ -149,7 +149,7 @@ public class GenController {
     @GetMapping("/download/{tableName}")
     public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException
     {
-        byte[] data = genTableDomainService.downloadCode(tableName);
+        byte[] data = genTableService.downloadCode(tableName);
         genCode(response, data);
     }
 
@@ -161,7 +161,7 @@ public class GenController {
     @GetMapping("/genCode/{tableName}")
     public Result genCode(@PathVariable("tableName") String tableName)
     {
-        genTableDomainService.generatorCode(tableName);
+        genTableService.generatorCode(tableName);
         return ResultUtil.success();
     }
 
@@ -173,7 +173,7 @@ public class GenController {
     @GetMapping("/synchDb/{tableName}")
     public Result synchDb(@PathVariable("tableName") String tableName)
     {
-        genTableDomainService.synchDb(tableName);
+        genTableService.synchDb(tableName);
         return ResultUtil.success();
     }
 
@@ -186,7 +186,7 @@ public class GenController {
     public void batchGenCode(HttpServletResponse response, String tables) throws IOException
     {
         String[] tableNames = Convert.toStrArray(tables);
-        byte[] data = genTableDomainService.downloadCode(tableNames);
+        byte[] data = genTableService.downloadCode(tableNames);
         genCode(response, data);
     }
 

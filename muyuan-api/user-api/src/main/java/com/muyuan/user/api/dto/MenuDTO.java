@@ -1,5 +1,6 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.core.enums.PlatformType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class MenuDTO  implements Serializable {
 
     private Long id;
 
-    private String platformType;
+    private PlatformType platformType;
 
     /**
      * 菜单名称
