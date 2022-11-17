@@ -22,5 +22,7 @@ public interface RoleMapper extends UserBaseMapper<RoleDO> {
 
     List<RoleDO> selectRoleByMenuID(Long menuID);
 
+    List<RoleDO> selectRoleByPermID(Long permID);
+
     Integer deleteRef(@Param("roleID") Long roleId, @Param("menuIds") Long... menuIds);
 }

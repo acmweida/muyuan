@@ -36,10 +36,10 @@ public interface MenuDomainService {
     /**
      * 检查唯一性
      *
-     * @param menu
+     * @param key
      * @return
      */
-    String checkUnique(Menu menu);
+    String checkUnique(Menu.Identify key);
 
 
     boolean updateMenu(MenuCommand command);

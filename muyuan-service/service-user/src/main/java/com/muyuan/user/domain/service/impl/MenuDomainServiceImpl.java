@@ -60,7 +60,7 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         return menus.stream().collect(
                 collectingAndThen(
                         toCollection(() -> new TreeSet<Menu>(Comparator.comparing(Menu::getId))), ArrayList::new)
-        );
+        ).stream().sorted(Comparator.comparing(Menu::getOrderNum)).collect(Collectors.toList());
     }
 
     @Override
@@ -81,9 +81,9 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     }
 
     @Override
-    public String checkUnique(Menu menu) {
-        Long id = null == menu.getId() ? 0 : menu.getId().getValue();
-        menu = menuRepo.selectMenu(menu);
+    public String checkUnique(Menu.Identify key) {
+        Long id = null == key.getId() ? 0 : key.getId().getValue();
+        Menu menu = menuRepo.selectMenu(key);
         if (null != menu && !id.equals(menu.getId().getValue())) {
             return GlobalConst.NOT_UNIQUE;
         }

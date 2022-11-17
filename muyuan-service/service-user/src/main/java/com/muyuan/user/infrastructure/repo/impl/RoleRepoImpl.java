@@ -81,6 +81,14 @@ public class RoleRepoImpl implements RoleRepo {
     }
 
     @Override
+    public List<Role> selectByPermID(Long permId) {
+        if (ObjectUtils.isEmpty(permId)) {
+            return GlobalConst.EMPTY_LIST;
+        }
+        return converter.toRole(roleMapper.selectRoleByMenuID(permId));
+    }
+
+    @Override
     public boolean deleteRef(RoleID roleID, MenuID... menuIDS) {
         if (ObjectUtils.isEmpty(roleID) || menuIDS.length == 0) {
             return false;

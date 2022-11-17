@@ -1,16 +1,27 @@
 package com.muyuan.user.domain.model.entity;
 
 import com.muyuan.common.core.enums.PlatformType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Permission {
+
+    @Data
+    static public class Identify {
+
+        private Long id;
+
+        private String perms;
+
+        public Identify(String perms) {
+            this.perms = perms;
+        }
+
+        public Identify(Long id, String perms) {
+            this.id = id;
+            this.perms = perms;
+        }
+    }
 
     private Long id;
 

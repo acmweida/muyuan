@@ -111,22 +111,20 @@ public class DictRepoImpl implements DictRepo {
     }
 
     @Override
-    public DictType selectDictType(DictType type) {
+    public DictType selectDictType(DictType.Identify identify) {
         DictTypeDO dictType = dictTypeMapper.selectOne(new SqlBuilder(DictType.class).select("id")
-                .eq(NAME, type.getName())
-                .eq(TYPE, type.getType())
-                .eq(ID, type.getId())
+                .eq(TYPE, identify.getType())
+                .eq(ID, identify.getId())
                 .build());
 
         return converter.to(dictType);
     }
 
     @Override
-    public DictData selectDictData(DictData data) {
+    public DictData selectDictData(DictData.Identify identify) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(DictDataMapper.VALUE, data.getValue())
-                .eq(TYPE, data.getType())
-                .eq(STATUS, data.getStatus())
+                .eq(DictDataMapper.VALUE, identify.getValue())
+                .eq(TYPE, identify.getType())
                 .orderByDesc(UPDATE_TIME, CREATE_TIME);
 
         DictDataDO dataDO = dictDataMapper.selectOne(sqlBuilder.build());

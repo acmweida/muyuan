@@ -10,6 +10,27 @@ import java.util.Date;
 @Data
 public class DictData {
 
+    @Data
+    static public class Identify {
+
+        private Long id;
+
+        private String value;
+
+        private String type;
+
+        public Identify(String value, String type) {
+            this.value = value;
+            this.type = type;
+        }
+
+        public Identify(Long id, String value, String type) {
+            this.id = id;
+            this.value = value;
+            this.type = type;
+        }
+    }
+
     private Long id;
 
     private int orderNum;
@@ -38,17 +59,4 @@ public class DictData {
 
     private String remark;
 
-    public DictData() {
-    }
-
-    public DictData(String value, String type) {
-        this.value = value;
-        this.type = type;
-    }
-
-    public DictData(Long id, String value, String type) {
-        this.id = id;
-        this.value = value;
-        this.type = type;
-    }
 }

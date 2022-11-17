@@ -43,10 +43,10 @@ public interface MenuService {
 
     /**
      * 更新
-     * @param menuParams
+     * @param request
      * @return
      */
-    Result update(MenuRequest menuParams);
+    Result update(MenuRequest request);
 
 
     /**

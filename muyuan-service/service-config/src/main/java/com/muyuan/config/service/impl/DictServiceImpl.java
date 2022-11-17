@@ -76,9 +76,9 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public String checkUnique(DictType dictType) {
-        Long id = null == dictType.getId() ? 0 : dictType.getId();
-        dictType = dictRepo.selectDictType(dictType);
+    public String checkUnique(DictType.Identify identify) {
+        Long id = null == identify.getId() ? 0 : identify.getId();
+        DictType dictType = dictRepo.selectDictType(identify);
         if (null != dictType && !id.equals(dictType.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
@@ -86,9 +86,9 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public String checkUnique(DictData dictData) {
-        Long id = null == dictData.getId() ? 0 : dictData.getId();
-        dictData = dictRepo.selectDictData(dictData);
+    public String checkUnique(DictData.Identify identify) {
+        Long id = null == identify.getId() ? 0 : identify.getId();
+        DictData dictData = dictRepo.selectDictData(identify);
         if (null != dictData && !id.equals(dictData.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }

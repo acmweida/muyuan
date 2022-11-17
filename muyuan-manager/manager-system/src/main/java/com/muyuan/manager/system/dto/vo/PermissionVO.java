@@ -26,5 +26,5 @@ public class PermissionVO {
 
     private String perms;
 
-    private Integer status;
+    private String status;
 }

@@ -16,6 +16,33 @@ import java.util.Date;
 @Data
 public class Menu {
 
+    @Data
+    static public class Identify {
+
+        private MenuID id;
+
+        private String name;
+
+        private Long parentId;
+
+        private PlatformType platformType;
+
+        public Identify(MenuID id, String name, Long parentId, PlatformType platformType) {
+            this.id = id;
+            this.name = name;
+            this.parentId = parentId;
+            this.platformType = platformType;
+        }
+
+        public Identify(String name, Long parentId, PlatformType platformType) {
+            this.name = name;
+            this.parentId = parentId;
+            this.platformType = platformType;
+        }
+
+
+    }
+
     private MenuID id;
 
 
@@ -91,7 +118,9 @@ public class Menu {
     private Date createTime;
 
 
-    /** 是否缓存（0缓存 1不缓存） */
+    /**
+     * 是否缓存（0缓存 1不缓存）
+     */
     private String cache;
 
     /**
@@ -102,20 +131,4 @@ public class Menu {
     private Long createBy;
 
     private Long updateBy;
-
-    public Menu() {
-    }
-
-    public Menu(MenuID id, String name, Long parentId,PlatformType platformType) {
-        this.id = id;
-        this.name = name;
-        this.parentId = parentId;
-        this.platformType = platformType;
-    }
-
-    public Menu(String name, Long parentId,PlatformType platformType) {
-        this.name = name;
-        this.parentId = parentId;
-        this.platformType = platformType;
-    }
 }

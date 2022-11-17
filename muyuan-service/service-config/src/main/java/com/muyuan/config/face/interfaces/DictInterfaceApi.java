@@ -80,7 +80,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictType(DictTypeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType.Identify(request.getType())))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -90,7 +90,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictData(DictDataRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getValue(), request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData.Identify(request.getValue(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -100,7 +100,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result updateDictData(DictDataRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData(request.getId(),request.getValue(), request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData.Identify(request.getId(),request.getValue(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = dictService.updateDictData(mapper.toCommand(request));
@@ -109,7 +109,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result updateDictType(DictTypeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType(request.getId(), request.getType())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType.Identify(request.getId(), request.getType())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = dictService.updateDictType(mapper.toCommand(request));

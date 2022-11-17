@@ -64,7 +64,7 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result updateMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(new MenuID(request.getId())
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu.Identify(new MenuID(request.getId())
                 , request.getName(), request.getParentId(), PlatformType.trance(request.getPlatformType()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
@@ -78,7 +78,7 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result addMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu(request.getName(), request.getParentId()
+        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu.Identify(request.getName(), request.getParentId()
                 ,PlatformType.trance(request.getPlatformType()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }

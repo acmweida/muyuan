@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.muyuan.user.infrastructure.repo.mapper.PermissionMapper">
+    <delete id="deleteRef">
+        delete from t_role_permission where permission_id in
+        <foreach collection="permIds" item="permId" open="(" close=")" separator=",">
+            #{permId}
+        </foreach>
+    </delete>
 
 
     <select id="selectByRoleId" resultType="com.muyuan.user.infrastructure.repo.dataobject.PermissionDO">

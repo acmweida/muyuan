@@ -27,9 +27,9 @@ public interface DictRepo {
 
     DictData selectData(Long id);
 
-    DictType selectDictType(DictType type);
+    DictType selectDictType(DictType.Identify identify);
 
-    DictData selectDictData(DictData data);
+    DictData selectDictData(DictData.Identify identify);
 
     boolean addDictType(DictType type);
 

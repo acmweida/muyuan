@@ -25,4 +25,6 @@ public interface RoleInterface {
 
     Result<RoleDTO> getRole(Long id);
 
+
+
 }

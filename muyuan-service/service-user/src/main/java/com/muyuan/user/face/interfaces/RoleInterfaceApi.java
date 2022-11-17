@@ -24,20 +24,20 @@ public class RoleInterfaceApi implements RoleInterface {
 
     private RoleDomainService roleDomainService;
 
-    private RoleMapper roleMapper;
+    private RoleMapper ROLE_MAPPER;
 
     @Override
     public Result<Page<RoleDTO>> list(RoleQueryRequest request) {
-        Page<Role> res = roleDomainService.list(roleMapper.toCommand(request));
+        Page<Role> res = roleDomainService.list(ROLE_MAPPER.toCommand(request));
 
-        return ResultUtil.success(Page.copy(res, roleMapper.toDTO(res.getRows())));
+        return ResultUtil.success(Page.copy(res, ROLE_MAPPER.toDTO(res.getRows())));
     }
 
     @Override
     public Result<RoleDTO> getRole(Long id) {
         Optional<Role> handler = roleDomainService.getRoleById(id);
 
-        return handler.map(roleMapper::toDTO)
+        return handler.map(ROLE_MAPPER::toDTO)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
     }

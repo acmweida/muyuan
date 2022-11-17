@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
+import com.muyuan.user.api.dto.PermissionRequest;
 
 import java.util.Set;
 
@@ -24,4 +25,33 @@ public interface PermissionInterface {
      * @return
      */
     Result<Page<PermissionDTO>> list(PermissionQueryRequest request);
+
+
+    /**
+     * 添加权限
+     * @param request
+     * @return
+     */
+    Result add(PermissionRequest request);
+
+    /**
+     * 权限信息
+     * @param id
+     * @return
+     */
+    Result<PermissionDTO> getPermission(Long id);
+
+    /**
+     * 更新权限数据
+     * @param request
+     * @return
+     */
+    Result updatePermission(PermissionRequest request);
+
+    /**
+     *  删除权限数据
+     * @param ids
+     * @return
+     */
+    Result deletePermission(Long... ids);
 }

@@ -4,14 +4,18 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.manager.system.dto.PermissionParams;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.manager.system.dto.PermissionQueryParams;
 import com.muyuan.manager.system.service.PermissionService;
 import com.muyuan.user.api.PermissionInterface;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
+import com.muyuan.user.api.dto.PermissionRequest;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @ClassName PermissionServiceImpl
@@ -49,7 +53,30 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Result add(PermissionParams params) {
-        return null;
+    public Result add(PermissionRequest request) {
+        return permissionInterface.add(request);
+    }
+
+    @Override
+    public Optional<PermissionDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<PermissionDTO> permissioHander = permissionInterface.getPermission(id_);
+                    return ResultUtil.getOr(permissioHander, null);
+                });
+    }
+
+    @Override
+    public Result update(PermissionRequest request) {
+        return permissionInterface.updatePermission(request);
+    }
+
+    @Override
+    public Result deleteById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+
+        return permissionInterface.deletePermission(ids);
     }
 }

@@ -10,6 +10,23 @@ import java.util.Date;
 @Data
 public class DictType {
 
+    @Data
+    static public class Identify {
+
+        private Long id;
+
+        private String type;
+
+        public Identify(Long id, String type) {
+            this.id = id;
+            this.type = type;
+        }
+
+        public Identify(String type) {
+            this.type = type;
+        }
+    }
+
 
     private Long id;
 
@@ -38,15 +55,4 @@ public class DictType {
 
     private String remark;
 
-    public DictType() {
-    }
-
-    public DictType(Long id, String type) {
-        this.id = id;
-        this.type = type;
-    }
-
-    public DictType(String type) {
-        this.type = type;
-    }
 }

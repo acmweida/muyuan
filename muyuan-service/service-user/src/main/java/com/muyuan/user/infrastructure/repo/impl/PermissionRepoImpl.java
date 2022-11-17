@@ -56,4 +56,63 @@ public class PermissionRepoImpl implements PermissionRepo {
 
         return page;
     }
+
+    @Override
+    public Permission selectPermission(Long id) {
+        PermissionDO menuDO = permissionMapper.selectOne(new SqlBuilder(PermissionDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.to(menuDO);
+    }
+
+    @Override
+    public Permission selectPermission(Permission.Identify key) {
+        PermissionDO permissionDO = permissionMapper.selectOne(new SqlBuilder(PermissionDO.class).select(ID)
+                .eq(ID, key.getId())
+                .eq(PERMS, key.getPerms())
+                .build());
+
+        return converter.to(permissionDO);
+    }
+
+    @Override
+    public boolean addPermission(Permission permission) {
+        PermissionDO to = converter.to(permission);
+        Integer count = permissionMapper.insertAuto(to);
+        return count > 0;
+    }
+
+    @Override
+    public Permission updateDMenu(Permission permission) {
+        SqlBuilder sqlBuilder = new SqlBuilder(PermissionDO.class)
+                .eq(ID, permission.getId());
+
+        PermissionDO permissionDO = permissionMapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(permissionDO)) {
+            permissionMapper.updateBy(converter.to(permission), ID);
+        }
+
+        return converter.to(permissionDO);
+    }
+
+    @Override
+    public List<Permission> deleteBy(Long... ids) {
+        List<PermissionDO> permissions = permissionMapper.selectList(new SqlBuilder(PermissionDO.class)
+                .in(ID, ids)
+                .build());
+
+        permissionMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+
+        return converter.to(permissions);
+    }
+
+    @Override
+    public boolean deleteRef(Long... permIds) {
+        if (permIds.length == 0) {
+            return false;
+        }
+        return permissionMapper.deleteRef(permIds) > 0;
+    }
+
+
 }

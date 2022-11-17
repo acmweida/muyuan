@@ -3,7 +3,9 @@ package com.muyuan.user.face.dto.mapper;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
+import com.muyuan.user.api.dto.PermissionRequest;
 import com.muyuan.user.domain.model.entity.Permission;
+import com.muyuan.user.face.dto.PermissionCommand;
 import com.muyuan.user.face.dto.PermissionQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,6 +32,8 @@ public interface PermissionMapper {
     )
     PermissionQueryCommand toCommand(PermissionQueryRequest request);
 
+    PermissionCommand toCommand(PermissionRequest request);
+
     // 默认用户类型为 会员类型
     static PlatformType map(PlatformType type) {
         return null == type ? PlatformType.MEMBER : type;
@@ -37,6 +41,8 @@ public interface PermissionMapper {
 
 
     List<PermissionDTO> toDTO(List<Permission> permissions);
+
+    PermissionDTO toDTO(Permission permissions);
 
 
 }

@@ -9,9 +9,34 @@ import java.util.List;
 
 public interface PermissionRepo {
 
-
     List<Permission> selectByRoles(RoleID roleId);
 
     Page<Permission> select(PermissionQueryCommand command);
 
+    Permission selectPermission(Long id);
+
+    Permission selectPermission(Permission.Identify permission);
+
+    boolean addPermission(Permission menu);
+
+    /**
+     * 更新信息
+     * @param permission
+     * @return old value
+     */
+    Permission updateDMenu(Permission permission);
+
+    /**
+     * 删除
+     * @param ids
+     * @return old value
+     */
+    List<Permission> deleteBy(Long... ids);
+
+    /**
+     * 角色 权限关联删除
+     * @param permIds
+     * @return
+     */
+    boolean deleteRef(Long... permIds);
 }

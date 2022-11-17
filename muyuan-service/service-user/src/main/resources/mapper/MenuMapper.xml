@@ -4,7 +4,7 @@
 <mapper namespace="com.muyuan.user.infrastructure.repo.mapper.MenuMapper">
     <delete id="deleteRef">
         delete from t_role_menu where menu_id in
-        <foreach collection="menuIds" item="menuId" open="*" close=")" separator=",">
+        <foreach collection="menuIds" item="menuId" open="(" close=")" separator=",">
             #{menuId}
         </foreach>
     </delete>

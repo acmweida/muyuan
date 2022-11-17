@@ -25,4 +25,9 @@ public interface PermissionConverter {
 
     List<Permission> to(List<PermissionDO> permissionDOS);
 
+    @Mappings({
+            @Mapping(target = "platformType",source = "platformType.code")
+    })
+    PermissionDO to(Permission permission);
+
 }
