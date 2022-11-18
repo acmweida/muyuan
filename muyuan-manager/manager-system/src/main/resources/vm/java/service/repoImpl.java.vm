@@ -1,0 +1,99 @@
+package c${packageName}.${moduleName}.infrastructure.repo.impl;
+
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
+import ${packageName}.${moduleName}.domain.repo.${ClassName}Repo;
+import ${packageName}.${moduleName}.face.dto.${ClassName}QueryCommand;
+import ${packageName}.${moduleName}.infrastructure.repo.converter.${ClassName}Converter;
+import ${packageName}.${moduleName}.infrastructure.repo.dataobject.${ClassName}DO;
+import ${packageName}.${moduleName}.infrastructure.repo.mapper.${ClassName}Mapper;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
+import static ${packageName}.${moduleName}.infrastructure.repo.mapper.${ClassName}Mapper.*;
+
+@Component
+@AllArgsConstructor
+public class ${ClassName}RepoImpl implements ${ClassName}Repo {
+
+    private ${ClassName}Mapper ${className}Mapper;
+
+    private ${ClassName}Converter converter;
+
+    @Override
+    public Page<${ClassName}> select(${ClassName}QueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(${ClassName}DO.class)
+    #foreach ($column in $columns)
+        #if(!$table.isSuperColumn($column.javaField))
+                .eq(${column.upperCaseJavaField},command.get${column.capJavaField}())
+        #end
+    #end;
+
+        Page<${ClassName}> page = Page.<${ClassName}>builder().build();
+        if (command.enablePage()) {
+            page.setPageSize(command.getPageSize());
+            page.setPageNum(command.getPageNum());
+            sqlBuilder.page(page);
+        }
+
+        List<${ClassName}DO> list = ${className}Mapper.selectList(sqlBuilder.build());
+
+        page.setRows(converter.to(list));
+
+        return page;
+    }
+
+    @Override
+    public ${ClassName} select${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new SqlBuilder(${ClassName}DO.class)
+                .eq(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField})
+                .build());
+        return converter.to(${className}DO);
+    }
+
+    @Override
+    public ${ClassName} select${ClassName}(${ClassName}.Identify identify) {
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new SqlBuilder(${ClassName}DO.class).select(${pkColumn.upperCaseJavaField})
+                .eq(${pkColumn.upperCaseJavaField}, identify.get${pkColumn.capJavaField}())
+                .build());
+
+        return converter.to(${className}DO);
+    }
+
+    @Override
+    public boolean add${ClassName}(${ClassName} ${className}) {
+        ${ClassName}DO to = converter.to(${className});
+        Integer count = ${className}Mapper.insertAuto(to);
+        return count > 0;
+    }
+
+    @Override
+    public ${ClassName} update${ClassName}(${ClassName} ${className}) {
+        SqlBuilder sqlBuilder = new SqlBuilder(${ClassName}DO.class)
+                .eq(${pkColumn.upperCaseJavaField}, ${className}.get${pkColumn.capJavaField}());
+
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(${className}DO)) {
+            ${className}Mapper.updateBy(converter.to(${className}), ${pkColumn.upperCaseJavaField});
+        }
+
+        return converter.to(${className}DO);
+    }
+
+    @Override
+    public List<${ClassName}> deleteBy(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+        List<${ClassName}DO> ${className}s = ${className}Mapper.selectList(new SqlBuilder(${ClassName}DO.class)
+                .in(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField}s)
+                .build());
+
+        ${className}Mapper.deleteBy(new SqlBuilder().in(${pkColumn.upperCaseJavaField}, ids).build());
+
+        return converter.to(${className}s);
+    }
+
+}

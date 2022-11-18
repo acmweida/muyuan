@@ -1,0 +1,31 @@
+package ${packageName}.${moduleName}.dto.converter;
+
+import ${packageName}.${moduleName}.dto.${ClassName}Params;
+import ${packageName}.${moduleName}.dto.vo.${ClassName}VO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}Request;
+import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+import java.util.List;
+
+/**
+ * @ClassName ${ClassName}Converter
+ * Description
+ * @Author  ${author}
+ * @Date ${datetime}
+ * @Version 1.0
+ */
+@Mapper(componentModel = "spring")
+public interface ${ClassName}Converter {
+
+
+    List<${ClassName}VO> toVO(List<${ClassName}DTO> ${className}VOS);
+
+    ${ClassName}Request to(${ClassName}Params params);
+
+    ${ClassName}VO toVO(${ClassName}DTO ${className}DTO);
+
+}

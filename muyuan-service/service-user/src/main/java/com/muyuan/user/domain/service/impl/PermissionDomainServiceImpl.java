@@ -102,7 +102,7 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         permission.setStatus(command.getStatus());
         permission.setPlatformType(command.getPlatformType());
 
-        Permission old = permissionRepo.updateDMenu(permission);
+        Permission old = permissionRepo.updatePermission(permission);
         if (ObjectUtils.isNotEmpty(old)) {
             List<Role> roles = roleRepo.selectByPermID(old.getId());
             for (Role role : roles) {

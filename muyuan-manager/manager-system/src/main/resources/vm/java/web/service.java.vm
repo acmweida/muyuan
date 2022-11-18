@@ -1,0 +1,53 @@
+package ${packageName}.${moduleName}.service;
+
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
+import ${packageName}.${moduleName}.dto.${ClassName}QueryParams;
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}Request;
+
+import java.util.Optional;
+
+/**
+ * @ClassName ${ClassName}Service
+ * Description ${functionName}服务
+ * @Author  ${author}
+ * @Date ${datetime}
+ * @Version 1.0
+ */
+public interface ${ClassName}Service {
+
+    /**
+     * 查询${functionName}
+     * @param params
+     * @return
+     */
+    Page<${ClassName}DTO> list(${ClassName}QueryParams params);
+
+    /**
+     * ${functionName}添加
+     * @param request
+     */
+    Result add(${ClassName}Request request);
+
+    /**
+     * ${functionName}查询
+     * @param ${pkColumn.javaField}
+     * @return
+     */
+    Optional<${ClassName}DTO> get(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * ${functionName}变更
+     * @param request
+     * @return
+     */
+    Result update(${ClassName}Request request);
+
+    /**
+     * 删除
+     * @param ${pkColumn.javaField}s
+     * @return
+     */
+    Result deleteById(${pkColumn.javaType}... ${pkColumn.javaField}s);
+}

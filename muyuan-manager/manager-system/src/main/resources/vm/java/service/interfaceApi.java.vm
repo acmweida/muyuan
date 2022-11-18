@@ -1,0 +1,84 @@
+package ${packageName}.${moduleName}.face.interfaces;
+
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.${moduleName}.api.${ClassName}Interface;
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}QueryRequest;
+import com.muyuan.${moduleName}.api.dto.${ClassName}Request;
+import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
+import ${packageName}.${moduleName}.domain.service.${ClassName}DomainService;
+import ${packageName}.${moduleName}.face.dto.${ClassName}QueryCommand;
+import ${packageName}.${moduleName}.face.dto.mapper.${ClassName}Mapper;
+import lombok.AllArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+/**
+ * @ClassName ${ClassName}InterfaceApi
+ * Description 内部接口  ${functionName}
+ * @author ${author}
+ * @date ${datetime}
+ * @Version 1.0
+ */
+@AllArgsConstructor
+@DubboService(group = ServiceTypeConst.${ModuleName}, version = "1.0"
+        , interfaceClass = ${ClassName}Interface.class
+)
+public class ${ClassName}InterfaceApi implements ${ClassName}Interface {
+
+    private ${ClassName}Mapper MAPPER;
+
+    private ${ClassName}DomainService ${className}DomainService;
+
+    @Override
+    public Result<Page<${ClassName}DTO>> list(${ClassName}QueryRequest request) {
+        Page<${ClassName}> list = ${className}DomainService.list(MAPPER.toCommand(request));
+
+        return ResultUtil.success( Page.copy(list,MAPPER.toDTO(list.getRows())));
+    }
+
+    @Override
+    public Result add(${ClassName}Request request) {
+        if (GlobalConst.NOT_UNIQUE.equals(${className}DomainService.checkUnique(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}()))))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = ${className}DomainService.add${ClassName}(MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result<${ClassName}DTO> get${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        Optional<${ClassName}> handler = ${className}DomainService.get${ClassName}(${pkColumn.javaField});
+
+        return handler.map(MAPPER::toDTO)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
+    public Result update${ClassName}(${ClassName}Request request) {
+        if (GlobalConst.NOT_UNIQUE.equals(${className}DomainService.checkUnique(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}()) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+
+        boolean flag = ${className}DomainService.updateMenu(MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result delete${ClassName}(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+        if (${className}DomainService.delete${ClassName}ById(${pkColumn.javaField}s)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+}

@@ -1,9 +1,8 @@
-package ${packageName}.${moduleName}.domains.dto;
+package com.muyuan.${moduleName}.api.dto;
 
 #foreach ($import in $importList)
 import ${import};
 #end
-import com.muyuan.common.core.bean.BaseDTO;
 import lombok.Data;
 
 
@@ -14,7 +13,9 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
-public class ${ClassName}DTO extends BaseDTO<${ClassName}DTO,${ClassName}> {
+public class ${ClassName}DTO {
+
+    private static final long serialVersionUID = 1457932148568l;
 
 #foreach ($column in $columns)
     #if(!$table.isSuperColumn($column.javaField))

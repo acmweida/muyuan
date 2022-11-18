@@ -24,7 +24,7 @@ public interface PermissionRepo {
      * @param permission
      * @return old value
      */
-    Permission updateDMenu(Permission permission);
+    Permission updatePermission(Permission permission);
 
     /**
      * 删除

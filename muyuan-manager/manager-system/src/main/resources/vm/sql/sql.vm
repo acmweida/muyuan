@@ -20,3 +20,19 @@ values('${functionName}删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', '
 
 insert into t_sys_menu (name, parent_id, order_num, path, component, frame, cache, type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
 values('${functionName}导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', '${permissionPrefix}:export',       '#', '1473141102158827520', sysdate(), null, null, '');
+
+
+insert into t_permission (business, module, resource, type, perms, status, platform_type)VALUES
+('${moduleName}','${businessName}','${functionName}查询','Q','${permissionPrefix}:query',0,0);
+
+insert into t_permission (business, module, resource, type, perms, status, platform_type)VALUES
+('${moduleName}','${businessName}','${functionName}新增','A','${permissionPrefix}:add',0,0);
+
+insert into t_permission (business, module, resource, type, perms, status, platform_type)VALUES
+('${moduleName}','${businessName}','${functionName}修改','U','${permissionPrefix}:edit',0,0);
+
+insert into t_permission (business, module, resource, type, perms, status, platform_type)VALUES
+('${moduleName}','${businessName}','${functionName}删除','D','${permissionPrefix}:remove',0,0);
+
+insert into t_permission (business, module, resource, type, perms, status, platform_type)VALUES
+('${moduleName}','${businessName}','${functionName}导出','Q','${permissionPrefix}:export',0,0);

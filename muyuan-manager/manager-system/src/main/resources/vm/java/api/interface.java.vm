@@ -1,0 +1,52 @@
+package ${packageName}.${moduleName}.dto.service;
+
+import java.util.List;
+
+import ${packageName}.${moduleName}.api.dto.${ClassName}DTO;
+import ${packageName}.${moduleName}.api.dto.${ClassName}ueryRequest;
+import ${packageName}.${moduleName}.api.dto.${ClassName}Request;
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${ClassName}Interface {
+
+    /**
+      * 查询${functionName}列表
+      * @param request
+      * @return
+      */
+    Result<Page<${ClassName}DTO>> list(${ClassName}QueryRequest request);
+
+    /**
+     * 添加${functionName}
+     * @param request
+     * @return
+     */
+    Result add(${ClassName}Request request);
+
+    /**
+     * 查询${functionName}
+     * @param ${pkColumn.javaField}
+     * @return
+     */
+    Result<${ClassName}DTO> get${ClassName}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 更新${functionName}
+     * @param request
+     * @return
+     */
+    Result update${ClassName}(${ClassName}Request request);
+
+    /**
+     *  删除${functionName}
+     * @param ${pkColumn.javaField}s
+     * @return
+     */
+    Result delete${ClassName}(${pkColumn.javaType}... ${pkColumn.javaField}s);
+
+}

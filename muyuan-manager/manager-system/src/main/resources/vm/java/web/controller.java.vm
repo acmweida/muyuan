@@ -1,0 +1,111 @@
+package ${packageName}.${moduleName}.facade.controller;
+
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.ResponseCode;
+import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.log.annotion.Log;
+import com.muyuan.common.log.enums.BusinessType;
+import com.muyuan.common.web.annotations.RequirePermissions;
+import ${packageName}.${moduleName}.dto.${ClassName}Params;
+import ${packageName}.${moduleName}.dto.${ClassName}QueryParams;
+import ${packageName}.${moduleName}.dto.converter.${ClassName}Converter;
+import ${packageName}.${moduleName}.dto.vo.${ClassName}VO;
+import ${packageName}.${moduleName}.service.${ClassName}Service;
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RestController
+@Api(tags = {"${functionName}接口"})
+@RequestMapping("/${businessName}")
+@AllArgsConstructor
+public class ${ClassName}Controller {
+
+    private ${ClassName}Service ${className}Service;
+
+    private ${ClassName}Converter converter;
+
+    @GetMapping("/list")
+    @ApiOperation(value = "${functionName}列表查询")
+    @RequirePermissions(value = "${permissionPrefix}:query")
+#if($table.crud || $table.sub)
+    public Result<Page<${ClassName}VO>> list(@ModelAttribute ${ClassName}QueryParams params) {
+        Page<${ClassName}DTO> page = ${className}Service.list(params);
+
+        return ResultUtil.success(Page.copy(page, converter.toVO(page.getRows())));
+    }
+#elseif($table.tree)
+
+#end
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "${functionName}详情查询")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "${pkColumn.javaField}", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
+    )
+    @RequirePermissions(value = "${permissionPrefix}:query")
+    public Result<${ClassName}VO> detail(@@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
+        if (ObjectUtils.isEmpty(${pkColumn.javaField})) {
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
+        }
+
+        Optional<${ClassName}DTO> hander = ${className}Service.get(${pkColumn.javaField});
+
+        return hander.map(${className}DTO -> ResultUtil.success(converter.toVO(${className}DTO)))
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @PostMapping()
+    @ApiOperation(value = "${functionName}新增")
+    @ApiOperationSupport(ignoreParameters = "${pkColumn.javaField}")
+    @RequirePermissions(value = "${permissionPrefix}:add")
+    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
+    public Result add(@RequestBody @Validated(${ClassName}Params.Add.class) ${ClassName}Params params) {
+        return ${className}Service.add(converter.to(params));
+    }
+
+    @PutMapping()
+    @ApiOperation(value = "${functionName}更新")
+    @RequirePermissions(value = "${permissionPrefix}:edit")
+    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
+    public Result update(@RequestBody @Validated(${ClassName}Params.Update.class) ${ClassName}Params params) {
+        if (ObjectUtils.isEmpty(params.get${pkColumn.capJavaField}())) {
+            return ResultUtil.fail("id is null");
+        }
+
+        return ${className}Service.update(converter.to(params));
+    }
+
+    @DeleteMapping("/{ids}")
+    @ApiOperation(value = "${functionName}删除")
+    @RequirePermissions(value = "${permissionPrefix}:remove")
+    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "${pkColumn.javaField}s", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
+    )
+    public Result delete(@PathVariable String... ${pkColumn.javaField}s) {
+        if (ObjectUtils.isNotEmpty(${pkColumn.javaField}s)) {
+            for (String ${pkColumn.javaField} : ${pkColumn.javaField}s) {
+                if (!StringUtils.isNumeric("${pkColumn.javaField})) {
+                    return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
+                }
+            }
+        }
+
+        return ${className}Service.deleteById(Arrays.stream(${pkColumn.javaField}s).map(Long::parseLong).collect(Collectors.toList()).toArray(new ${pkColumn.javaType}[0]));
+    }
+
+}

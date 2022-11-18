@@ -1,0 +1,34 @@
+package ${packageName}.${moduleName}.face.dto.mapper;
+
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}QueryRequest;
+import com.muyuan.${moduleName}.api.dto.${ClassName}Request;
+import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
+import ${packageName}.${moduleName}.face.dto.${ClassName}Command;
+import ${packageName}.${moduleName}.face.dto.${ClassName}QueryCommand;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.NullValueCheckStrategy;
+
+import java.util.List;
+
+/**
+ * @ClassName OperatorMapper
+ * Description DTO 转换
+ * @Author 2456910384
+ * @Date 2022/9/14 9:09
+ * @Version 1.0
+ */
+@Mapper(componentModel = "spring")
+public interface ${ClassName}Mapper {
+
+    ${ClassName}QueryCommand toCommand(${ClassName}QueryRequest request);
+
+    ${ClassName}Command toCommand(${ClassName}Request request);
+
+    List<${ClassName}DTO> toDTO(List<${ClassName}> ${className});
+
+    ${ClassName}DTO toDTO(${ClassName} ${className});
+
+}

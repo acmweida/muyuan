@@ -133,14 +133,30 @@ public class VelocityUtils
     public static List<String> getTemplateList(String tplCategory)
     {
         List<String> templates = new ArrayList<String>();
-        templates.add("vm/java/model.java.vm");
-        templates.add("vm/java/mapper.java.vm");
-        templates.add("vm/java/repo.java.vm");
-        templates.add("vm/java/repoImpl.java.vm");
-        templates.add("vm/java/dto.java.vm");
-        templates.add("vm/java/service.java.vm");
-        templates.add("vm/java/serviceImpl.java.vm");
-        templates.add("vm/java/controller.java.vm");
+        templates.add("vm/java/web/controller.java.vm");
+        templates.add("vm/java/web/queryParams.java.vm");
+        templates.add("vm/java/web/converter.java.vm");
+        templates.add("vm/java/web/params.java.vm");
+        templates.add("vm/java/web/vo.java.vm");
+        templates.add("vm/java/web/service.java.vm");
+        templates.add("vm/java/web/serviceImpl.java.vm");
+        templates.add("vm/java/api/interface.java.vm");
+        templates.add("vm/java/api/dto.java.vm");
+        templates.add("vm/java/api/queryRequest.java.vm");
+        templates.add("vm/java/api/request.java.vm");
+        templates.add("vm/java/service/do.java.vm");
+        templates.add("vm/java/service/do.java.vm");
+        templates.add("vm/java/service/converter.java.vm");
+        templates.add("vm/java/service/mapper.java.vm");
+        templates.add("vm/java/service/entity.java.vm");
+        templates.add("vm/java/service/interfaceApi.java.vm");
+        templates.add("vm/java/service/dao.java.vm");
+        templates.add("vm/java/service/repo.java.vm");
+        templates.add("vm/java/service/repoImpl.java.vm");
+        templates.add("vm/java/service/domainServiceImpl.java.vm");
+        templates.add("vm/java/service/domainService.java.vm");
+        templates.add("vm/java/service/command.java.vm");
+        templates.add("vm/java/service/queryCommand.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
@@ -155,7 +171,7 @@ public class VelocityUtils
         else if (GenConstants.TPL_SUB.equals(tplCategory))
         {
             templates.add("vm/vue/index.vue.vm");
-            templates.add("vm/java/sub-module.java.vm");
+            templates.add("vm/java/service/sub-module.java.vm");
         }
         return templates;
     }
@@ -180,7 +196,7 @@ public class VelocityUtils
         String mybatisPath = MYBATIS_PATH + "/" + moduleName;
         String vuePath = "vue";
 
-        if (template.contains("model.java.vm"))
+        if (template.contains("entity.java.vm"))
         {
             fileName = StrUtil.format("{}/domains/model/{}.java", javaPath,className);
         }
@@ -192,11 +208,11 @@ public class VelocityUtils
         {
             fileName = StrUtil.format("{}/domains/dto/{}DTO.java", javaPath,className);
         }
-        if (template.contains("sub-model.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory()))
+        if (template.contains("sub-entity.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory()))
         {
             fileName = StrUtil.format("{}/domains/model/{}.java", javaPath, genTable.getSubTable().getClassName());
         }
-        else if (template.contains("mapper.java.vm"))
+        else if (template.contains("dao.java.vm"))
         {
             fileName = StrUtil.format("{}/infrastructure/persistence/mapper/{}Mapper.java", javaPath, className);
         } else if (template.contains("repoImpl.java.vm"))
@@ -207,7 +223,7 @@ public class VelocityUtils
         {
             fileName = StrUtil.format("{}/domains/service/{}DomainService.java", javaPath, className);
         }
-        else if (template.contains("serviceImpl.java.vm"))
+        else if (template.contains("domainServiceImpl.java.vm"))
         {
             fileName = StrUtil.format("{}/domains/service/impl/{}DomainServiceImpl.java", javaPath, className);
         }

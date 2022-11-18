@@ -83,7 +83,7 @@ public class PermissionRepoImpl implements PermissionRepo {
     }
 
     @Override
-    public Permission updateDMenu(Permission permission) {
+    public Permission updatePermission(Permission permission) {
         SqlBuilder sqlBuilder = new SqlBuilder(PermissionDO.class)
                 .eq(ID, permission.getId());
 
@@ -113,6 +113,5 @@ public class PermissionRepoImpl implements PermissionRepo {
         }
         return permissionMapper.deleteRef(permIds) > 0;
     }
-
 
 }

@@ -1,0 +1,103 @@
+package c${packageName}.${moduleName}.domain.service.impl;
+
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.constant.RedisConst;
+import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
+import c${packageName}.${moduleName}.domain.repo.${ClassName}Repo;
+import ${packageName}.${moduleName}.domain.service.${ClassName}DomainService;
+import ${packageName}.${moduleName}.face.dto.${ClassName}Command;
+import ${packageName}.${moduleName}.face.dto.${ClassName}QueryCommand;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * @ClassName ${ClassName}DomainServiceImpl
+ * Description 权限
+ * @author ${author}
+ * @date ${datetime}
+ * @Version 1.0
+ */
+@Service
+@AllArgsConstructor
+public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService {
+
+    private ${ClassName}Repo ${className}Repo;
+
+    @Override
+    public Page<${ClassName}> list(${ClassName}QueryCommand commend) {
+        return ${className}Repo.select(commend);
+    }
+
+    @Override
+    public String checkUnique(${ClassName}.Identify identify) {
+        ${pkColumn.javaType} id = null == identify.get${pkColumn.capJavaField() ? 0 : identify.get${pkColumn.capJavaField();
+        ${ClassName} ${className} = ${className}Repo.select${ClassName}(identify);
+        if (null != ${className} && !id.equals(${className}.get${pkColumn.capJavaField())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public boolean add${ClassName}(${ClassName}Command command) {
+        ${ClassName} ${className} = new ${ClassName}();
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+        #if(!$column.isPk())
+            ${className}.set${column.capJavaField}(command.get${column.capJavaField}());
+        #end
+    #end
+#end
+
+        return ${className}Repo.add${ClassName}(${className});
+    }
+
+    @Override
+    public Optional<${ClassName}> get${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return Optional.of(${pkColumn.javaField})
+                .map(${pkColumn.javaField}_ -> {
+                    return ${className}Repo.select${ClassName}(${pkColumn.javaField}_);
+                });
+    }
+
+    @Override
+    public boolean updateMenu(${ClassName}Command command) {
+        ${ClassName} ${className} = new ${ClassName}();
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+        ${className}.set${column.capJavaField}(command.get${column.capJavaField}());
+    #end
+#end
+
+        ${ClassName} old = ${className}Repo.update${ClassName}(${className});
+        if (ObjectUtils.isNotEmpty(old)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean delete${ClassName}ById(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+        if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
+            return false;
+        }
+        List<${pkColumn.javaType}> removeIds = new ArrayList<>(Arrays.asList(ids));
+
+        List<${ClassName}> olds = ${className}Repo.deleteBy(removeIds.toArray(new ${pkColumn.javaType}[0]));
+
+        return !olds.isEmpty();
+    }
+
+
+}

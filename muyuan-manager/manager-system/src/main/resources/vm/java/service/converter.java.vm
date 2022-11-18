@@ -1,0 +1,27 @@
+package ${packageName}.${moduleName}.infrastructure.repo.converter;
+
+import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
+import ${packageName}.${moduleName}.infrastructure.repo.dataobject.${ClassName}DO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+import java.util.List;
+
+/**
+ * @ClassName OperatorConverter
+ * Description DO转换
+ * @Author 2456910384
+ * @Date 2022/9/14 10:38
+ * @Version 1.0
+ */
+@Mapper(componentModel = "spring")
+public interface ${ClassName}Converter {
+
+    ${ClassName} to(${ClassName}DO ${className}DO);
+
+    List<${ClassName}> to(List<${ClassName}DO> ${className}DOS);
+
+    ${ClassName}DO to(${ClassName} ${className});
+
+}

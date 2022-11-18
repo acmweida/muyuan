@@ -1,21 +1,19 @@
-package ${packageName}.${moduleName}.domains.dto;
+package ${packageName}.${moduleName}.dto.vo;
 
 #foreach ($import in $importList)
 import ${import};
 #end
-import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
-import ${packageName}.${moduleName}.domains.model.${ClassName};
 
 
 /**
- * ${functionName}对象 ${tableName}
+ * ${functionName}对象
  *
  * @author ${author}
  * @date ${datetime}
  */
 @Data
-public class ${ClassName}QueryParams extends PageDTO {
+public class ${ClassName}VO  {
 
 #foreach ($column in $columns)
     #if(!$table.isSuperColumn($column.javaField))

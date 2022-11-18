@@ -1,0 +1,40 @@
+package ${packageName}.${moduleName}.domains.repo;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import ${packageName}.${moduleName}.domains.model.${ClassName};
+import ${packageName}.${moduleName}.domains.dto.${ClassName}DTO;
+
+/**
+ * ${functionName}对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+
+public interface ${ClassName}Repo {
+
+    Page<${ClassName}> select(${ClassName}QueryCommand command);
+
+    ${ClassName} select${ClassName}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    ${ClassName} select${ClassName}(${ClassName}.Identify identify);
+
+    boolean add${ClassName}(${ClassName} ${className});
+
+    /**
+     * 更新信息
+     * @param ${className}
+     * @return old value
+     */
+    ${ClassName} update${ClassName}(${ClassName} ${className});
+
+    /**
+     * 删除
+     * @param ${pkColumn.javaField}s
+     * @return old value
+     */
+    List<${ClassName}> deleteBy(${pkColumn.javaType}... ${pkColumn.javaField}s);
+
+}

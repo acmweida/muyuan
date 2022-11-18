@@ -5,6 +5,8 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.log.annotion.Log;
+import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.PermissionParams;
 import com.muyuan.manager.system.dto.PermissionQueryParams;
@@ -78,6 +80,7 @@ public class PermissionController {
     @DeleteMapping("/permission/{ids}")
     @ApiOperation(value = "权限信息删除")
     @RequirePermissions(value = "system:perms:remove")
+    @Log(title = "权限信息", businessType = BusinessType.DELETE)
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "ids", value = "字典数据主键", dataTypeClass = String.class, paramType = "path", required = true)}
     )

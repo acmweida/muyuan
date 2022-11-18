@@ -1,0 +1,55 @@
+package ${packageName}.${moduleName}.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+/**
+ * @ClassName ${ClassName}Params
+ * Description ${functionName}实体
+ * @Author ${author}
+ * @Date  ${datetime}
+ * @Version 1.0
+ */
+@ApiModel("${functionName}")
+@Data
+public class ${ClassName}Params {
+
+    /**
+     * 校验分组
+     */
+    public interface Add {
+
+    }
+
+    public interface Update {
+
+    }
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+        /** $column.columnComment */
+        #if($column.list)
+            #set($parentheseIndex=$column.columnComment.indexOf("（"))
+            #if($parentheseIndex != -1)
+                #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+            #else
+                #set($comment=$column.columnComment)
+            #end
+        #end
+    @ApiModelProperty(value = "$column.javaField", required = true)
+    #if($column.javaType == 'String')
+    @NotBlank(message = "$column.columnComment不能为空", groups =#if($column.isPk()){Update.class}#else{Add.class, Update.class}#end)
+    #elseif($column.javaType == 'Long')
+    @NotNull(message = "$column.columnComment不能为空", groups =#if($column.isPk()){Update.class}#else{Add.class, Update.class}#end)
+    #elseif($column.javaType == 'Integer')
+    @NotNull(message = "$column.columnComment不能为空", groups =#if($column.isPk()){Update.class}#else{Add.class, Update.class}#end)
+    #end
+    private $column.javaType $column.javaField;
+    #end
+#end
+
+}

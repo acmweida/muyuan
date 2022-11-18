@@ -1,19 +1,21 @@
-package ${packageName}.${moduleName}.domains.model;
+package ${packageName}.${moduleName}.dto;
 
 #foreach ($import in $importList)
 import ${import};
 #end
+import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
+import ${packageName}.${moduleName}.domains.model.${ClassName};
 
 
 /**
- * ${functionName}对象 ${tableName}
+ * ${functionName}查询参数
  *
  * @author ${author}
  * @date ${datetime}
  */
 @Data
-public class ${ClassName} {
+public class ${ClassName}QueryParams extends PageDTO {
 
 #foreach ($column in $columns)
     #if(!$table.isSuperColumn($column.javaField))
@@ -29,12 +31,6 @@ public class ${ClassName} {
     private $column.javaType $column.javaField;
 
     #end
-#end
-
-#if($table.sub)
-/** $table.subTable.functionName信息 */
-private List<${subClassName}> ${subclassName}List;
-
 #end
 
 }

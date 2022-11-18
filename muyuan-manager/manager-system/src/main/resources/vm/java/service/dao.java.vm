@@ -1,6 +1,8 @@
 package ${packageName}.${moduleName}.infrastructure.repo.mapper;
 
 import ${packageName}.${moduleName}.infrastructure.repo.dataobject,${ClassName}DO;
+import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
+import com.muyuan.common.mybatis.jdbc.${ModuleName}BaseMapper;
 import java.util.List;
 #if($table.sub)
 import ${packageName}.${moduleName}.infrastructure.repo.dataobject.${subClassName}DO;
@@ -20,5 +22,9 @@ public interface ${ClassName}Mapper extends ${ModuleName}BaseMapper<${ClassName}
             String $column.upperCaseJavaField = "$column.javaField";
         #end
     #end
+
+    @Options(useGeneratedKeys = true,keyProperty = "${pkColumn.javaField}")
+    @InsertProvider(value = CrudSqlProvider.class,method = "insert")
+    Integer insertAuto(${ClassName}DO dataObject);
 
 }

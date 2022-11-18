@@ -1,0 +1,38 @@
+package ${packageName}.${moduleName}.face.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+/**
+ * @ClassName ${ClassName}Request
+ * Description
+ * @author ${author}
+ * @date ${datetime}
+ * @Version 1.0
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${ClassName}Command {
+
+    #foreach ($column in $columns)
+        #if(!$table.isSuperColumn($column.javaField))
+            /** $column.columnComment */
+            #if($column.list)
+                #set($parentheseIndex=$column.columnComment.indexOf("（"))
+                #if($parentheseIndex != -1)
+                    #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+                #else
+                    #set($comment=$column.columnComment)
+                #end
+            #end
+            private $column.javaType $column.javaField;
+
+        #end
+    #end
+}

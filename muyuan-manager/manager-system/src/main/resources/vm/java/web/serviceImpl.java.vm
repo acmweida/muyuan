@@ -1,0 +1,80 @@
+package ${packageName}.${moduleName}.service.impl;
+
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.util.ResultUtil;
+import ${packageName}.${moduleName}.dto.${ClassName}QueryParams;
+import ${packageName}.${moduleName}.service.${ClassName}Service;
+import com.muyuan.${moduleName}.api.${ClassName}Interface;
+import com.muyuan.${moduleName}.api.dto.${ClassName}DTO;
+import com.muyuan.${moduleName}.api.dto.${ClassName}QueryRequest;
+import com.muyuan.${moduleName}.api.dto.${ClassName}Request;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+/**
+ * @ClassName ${ClassName}ServiceImpl
+ * Description ${functionName}
+ * @Author  ${author}
+ * @Date ${datetime}
+ * @Version 1.0
+ */
+@Service
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+
+    @DubboReference(group = ServiceTypeConst.${ModuleName}, version = "1.0")
+    private ${ClassName}Interface  ${className}Interface;
+
+    @Override
+    public Page<${ClassName}DTO> list(${ClassName}QueryParams params) {
+        ${ClassName}QueryRequest request = ${ClassName}QueryRequest.builder()
+        #foreach ($column in $columns)
+            #if(!$table.isSuperColumn($column.javaField))
+                .${column.javaField}(params.get${column.capJavaField}())
+            #end
+        #end
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
+
+
+        Result<Page<${ClassName}DTO>> res = ${className}Interface.list(request);
+
+
+        return res.getData();
+    }
+
+    @Override
+    public Result add(${ClassName}Request request) {
+        return ${className}Interface.add(request);
+    }
+
+    @Override
+    public Optional<${ClassName}DTO> get(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return Optional.of(${pkColumn.javaField})
+                .map(id_ -> {
+                    Result<${ClassName}DTO> ${className}Hander = ${className}Interface.get${ClassName}(${pkColumn.javaField}_);
+                    return ResultUtil.getOr(${className}Hander, null);
+                });
+    }
+
+    @Override
+    public Result update(${ClassName}Request request) {
+        return ${className}Interface.update${ClassName}(request);
+    }
+
+    @Override
+    public Result deleteById(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+        if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
+            return ResultUtil.fail();
+        }
+
+        return ${className}Interface.delete${ClassName}(${pkColumn.javaField}s);
+    }
+}
