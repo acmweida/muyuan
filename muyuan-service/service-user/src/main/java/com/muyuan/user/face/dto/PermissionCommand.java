@@ -34,4 +34,6 @@ public class PermissionCommand {
     private Integer status = 0;
 
     private String perms;
+
+    private Long resourceRef;
 }

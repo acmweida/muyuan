@@ -7,16 +7,14 @@ import com.muyuan.common.core.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
@@ -28,13 +26,13 @@ public class ExceptionHandlerAdvice {
         e.printStackTrace();
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
-        Map<String, String> errorInfo = new HashMap();
+        List<String> errorInfo = new ArrayList<>();
 
         for (ObjectError error : allErrors) {
-            errorInfo.put(((FieldError) error).getField(), ((FieldError) error).getDefaultMessage());
+            errorInfo.add(error.getDefaultMessage());
         }
         log.error("hibernate-validator error,{}", errorInfo);
-        return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(), errorInfo.get(((FieldError) allErrors.get(0)).getField()));
+        return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(), errorInfo.get(0));
     }
 
     @ExceptionHandler(MuyuanException.class)

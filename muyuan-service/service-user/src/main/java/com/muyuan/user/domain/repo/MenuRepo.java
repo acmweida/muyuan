@@ -2,6 +2,7 @@ package com.muyuan.user.domain.repo;
 
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.face.dto.MenuQueryCommand;
@@ -17,6 +18,14 @@ public interface MenuRepo {
      * @return
      */
     List<Menu> selectByRoleCode(RoleCode roleCode, PlatformType platformType);
+
+    /**
+     * 权限菜单查询
+     * @param permissions
+     * @param platformType
+     * @return
+     */
+    List<Menu> selectByPermissions(List<Permission> permissions, PlatformType platformType);
 
     List<Menu> list(MenuQueryCommand command);
 

@@ -2,6 +2,7 @@ package com.muyuan.user.face.dto;
 
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,4 +33,7 @@ public class MenuQueryCommand {
 
     private Long[] parentIds;
 
+    private String[] permissions;
+
+    private UserID userID;
 }

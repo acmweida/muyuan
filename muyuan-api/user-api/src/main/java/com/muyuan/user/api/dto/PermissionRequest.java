@@ -38,4 +38,6 @@ public class PermissionRequest implements Serializable {
     private String status;
 
     private String perms;
+
+    private Long resourceRef;
 }

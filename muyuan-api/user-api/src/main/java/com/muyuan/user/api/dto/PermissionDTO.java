@@ -32,4 +32,6 @@ public class PermissionDTO implements Serializable {
     private String perms;
 
     private Integer status;
+
+    private Long resourceRef;
 }

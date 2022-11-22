@@ -24,6 +24,13 @@ public interface MenuInterface {
     Result<List<MenuDTO>> getMenuByRoleCods(MenuQueryRequest request);
 
     /**
+     * 通过用户ID 查询菜单
+     * @param request
+     * @return
+     */
+    Result<List<MenuDTO>> getMenuByUserID(MenuQueryRequest request);
+
+    /**
      * 菜单列表查询
      * @param request
      * @return

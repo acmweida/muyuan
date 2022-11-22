@@ -48,6 +48,13 @@ public class MenuInterfaceApi implements MenuInterface {
     }
 
     @Override
+    public Result<List<MenuDTO>> getMenuByUserID(MenuQueryRequest request) {
+        List<Menu> Menu = menuService.getMenuByUserId(MENU_MAPPER.toCommand(request));
+
+        return ResultUtil.success(MENU_MAPPER.toDTO(Menu));
+    }
+
+    @Override
     public Result<List<MenuDTO>> list(MenuQueryRequest request) {
         List<Menu> list = menuService.list(MENU_MAPPER.toCommand(request));
         return ResultUtil.success(MENU_MAPPER.toDTO(list));

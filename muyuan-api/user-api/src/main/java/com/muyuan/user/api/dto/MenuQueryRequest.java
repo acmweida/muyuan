@@ -31,4 +31,6 @@ public class MenuQueryRequest implements Serializable {
 
     private String status;
 
+    private Long userId;
+
 }

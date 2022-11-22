@@ -28,6 +28,8 @@ public interface MenuMapper extends UserBaseMapper<MenuDO> {
      */
     List<MenuDO> selectByRoleCode(@Param("roleCode") String roleCode,@Param("platformType") Integer platformType);
 
+    List<MenuDO> selectByPermissions(@Param("menuIds") Long[] menuIds,@Param("platformType") Integer platformType);
+
 
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")

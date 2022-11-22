@@ -26,6 +26,13 @@ public interface PermissionDomainService {
     List<Permission> getPermissionByRoles(List<Role> roles);
 
     /**
+     * 获取权限
+     * @param role
+     * @return
+     */
+    List<Permission> getPermissionByRole(Role role);
+
+    /**
      * 权限分页查询
      * @param commend
      * @return

@@ -48,6 +48,7 @@ public class RoleRepoImpl implements RoleRepo {
         SqlBuilder sqlBuilder = new SqlBuilder(RoleDO.class)
                 .eq(NAME, command.getName())
                 .eq(STATUS, command.getStatus())
+                .eq(PLATFORM_TYPE,command.getPlatformType().getCode())
                 .orderByAsc(ORDER_NUM);
 
         Page<Role> page = Page.<Role>builder().build();

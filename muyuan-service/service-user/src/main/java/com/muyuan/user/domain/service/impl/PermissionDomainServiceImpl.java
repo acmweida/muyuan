@@ -52,6 +52,11 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     }
 
     @Override
+    public List<Permission> getPermissionByRole(Role role) {
+        return permissionRepo.selectByRoles(role.getId());
+    }
+
+    @Override
     public Page<Permission> list(PermissionQueryCommand commend) {
         return permissionRepo.select(commend);
     }
@@ -77,6 +82,7 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         permission.setPerms(command.getPerms());
         permission.setStatus(command.getStatus());
         permission.setPlatformType(command.getPlatformType());
+        permission.setResourceRef(command.getResourceRef());
 
         return permissionRepo.addPermission(permission);
     }

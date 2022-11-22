@@ -30,12 +30,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDTO> getMenu() {
-        List<String> roles = SecurityUtils.getRoles();
-        PlatformType platformType = PlatformType.valueOf(SecurityUtils.getPlatformType());
+        Long userId = SecurityUtils.getUserId();
+        PlatformType platformType = SecurityUtils.getPlatformType();
 
-        Result<List<MenuDTO>> meus = menuInterface.getMenuByRoleCods(MenuQueryRequest.builder()
-                .roleCodes(roles.toArray(new String[0]))
+        Result<List<MenuDTO>> meus = menuInterface.getMenuByUserID(MenuQueryRequest.builder()
                 .platformType(platformType)
+                .userId(userId)
                 .build());
 
         return ResultUtil.getOr(meus, ArrayList::new);

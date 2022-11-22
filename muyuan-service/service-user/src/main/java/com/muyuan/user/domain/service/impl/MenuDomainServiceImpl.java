@@ -7,12 +7,15 @@ import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.repo.MenuRepo;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.MenuDomainService;
+import com.muyuan.user.domain.service.PermissionDomainService;
+import com.muyuan.user.domain.service.RoleDomainService;
 import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 import lombok.AllArgsConstructor;
@@ -43,6 +46,31 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     private RoleRepo roleRepo;
 
     private RedisCacheService redisCacheService;
+
+    private PermissionDomainService permissionDomainService;
+
+    private RoleDomainService roleDomainService;
+
+    @Override
+    public List<Menu> getMenuByUserId(MenuQueryCommand command) {
+        List<Role> roles = roleDomainService.selectRoleByUserId(command.getUserID(), command.getPlatformType());
+
+        List<Menu> menus = new ArrayList<>();
+        for (Role role : roles) {
+            List<Permission> permissionByRoles = permissionDomainService.getPermissionByRole(role);
+
+            List<Menu> roleMenus = CacheServiceUtil.getAndUpdateList(redisCacheService,
+                    getRoleMenuKeyPrefix(command.getPlatformType()) + role.getCode(),
+                    () -> menuRepo.selectByPermissions(permissionByRoles, command.getPlatformType()), Menu.class);
+
+            menus.addAll(roleMenus);
+        }
+        // 去重
+        return menus.stream().collect(
+                collectingAndThen(
+                        toCollection(() -> new TreeSet<Menu>(Comparator.comparing(Menu::getId))), ArrayList::new)
+        ).stream().sorted(Comparator.comparing(Menu::getOrderNum)).collect(Collectors.toList());
+    }
 
     @Override
     public List<Menu> getMenuByRoleCodes(MenuQueryCommand command) {

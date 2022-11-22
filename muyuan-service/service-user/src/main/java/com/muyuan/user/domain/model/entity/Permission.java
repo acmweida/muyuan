@@ -38,4 +38,6 @@ public class Permission {
     private String perms;
 
     private Integer status;
+
+    private Long resourceRef;
 }

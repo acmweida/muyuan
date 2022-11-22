@@ -27,7 +27,7 @@ import java.util.List;
 public interface MenuMapper {
 
     @Mappings({
-            @Mapping(target = "roleCodes",expression = "java(MenuMapper.map(request.getRoleCodes()))")
+            @Mapping(target = "userID.value",source = "userId",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     })
     MenuQueryCommand toCommand(MenuQueryRequest request);
 

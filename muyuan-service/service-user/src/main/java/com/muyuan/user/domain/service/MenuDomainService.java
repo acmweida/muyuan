@@ -21,6 +21,13 @@ public interface MenuDomainService {
      * @param command
      * @return
      */
+    List<Menu> getMenuByUserId(MenuQueryCommand command);
+
+    /**
+     * 获取菜单
+     * @param command
+     * @return
+     */
     List<Menu> getMenuByRoleCodes(MenuQueryCommand command);
 
     /**

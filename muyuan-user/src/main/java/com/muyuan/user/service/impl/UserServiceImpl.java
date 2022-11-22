@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         Long userId = SecurityUtils.getUserId();
 
         String username = SecurityUtils.getUsername();
-        PlatformType platformType = PlatformType.valueOf(SecurityUtils.getPlatformType());
+        PlatformType platformType = SecurityUtils.getPlatformType();
 
         final Result<UserDTO> userInfo = userInterface.getUserByUsername(UserQueryRequest.builder()
                 .username(username)

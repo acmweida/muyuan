@@ -27,4 +27,5 @@ public class PermissionDO {
 
     private Integer status;
 
+    private Long resourceRef;
 }

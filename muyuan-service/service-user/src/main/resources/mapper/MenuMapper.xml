@@ -29,4 +29,14 @@
             ) role on role.id = t_role_menu.role_id
         ) t on t.menu_id = menu.id
     </select>
+    <select id="selectByPermissions" resultType="com.muyuan.user.infrastructure.repo.dataobject.MenuDO">
+        select *
+        from t_menu
+        where type in ('M', 'C') and id in
+        <foreach collection="menuIds" item="menuId" open="(" close=")" separator=",">
+            #{menuId}
+        </foreach>
+        and type = #{platformType}
+
+    </select>
 </mapper>

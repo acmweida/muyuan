@@ -110,8 +110,12 @@ public class DictServiceImpl implements DictService {
         dictData.setCreateTime(DateTime.now().toDate());
         dictData.setCreateBy(command.getCreateBy());
 
+        if (dictRepo.addDictData(dictData)) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dictData.getType());
+            return true;
+        }
 
-        return dictRepo.addDictData(dictData);
+        return  false;
     }
 
     @Override

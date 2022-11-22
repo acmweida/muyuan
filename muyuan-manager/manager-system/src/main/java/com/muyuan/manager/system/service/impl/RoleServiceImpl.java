@@ -76,11 +76,7 @@ public class RoleServiceImpl implements RoleService {
             request.setPageSize(params.getPageSize());
         }
 
-        Result<Page<RoleDTO>> data = roleInterface.list(RoleQueryRequest.builder()
-                .name(params.getName())
-                .status(params.getStatus())
-                .platformType(params.getPlatformType() == null ? PlatformType.OPERATOR : PlatformType.trance(params.getPlatformType()))
-                .build());
+        Result<Page<RoleDTO>> data = roleInterface.list(request);
 
         return data.getData();
     }

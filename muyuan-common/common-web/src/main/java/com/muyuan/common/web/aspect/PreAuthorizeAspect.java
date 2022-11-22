@@ -4,7 +4,6 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.Logical;
-import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.exception.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
@@ -119,7 +118,7 @@ public class PreAuthorizeAspect {
 
         Result<Set<String>> ppermissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
                 .userId(userId)
-                .platformType(PlatformType.valueOf(SecurityUtils.getPlatformType()))
+                .platformType(SecurityUtils.getPlatformType())
                 .build());
 
 

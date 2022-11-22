@@ -28,4 +28,6 @@ public class PermissionQueryCommand extends PageDTO {
     private String module;
 
     private String status;
+
+    private Long resourceRef;
 }

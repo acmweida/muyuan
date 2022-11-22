@@ -1,8 +1,10 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.repo.MenuRepo;
@@ -38,6 +40,17 @@ public class MenuRepoImpl implements MenuRepo {
     @Override
     public List<Menu> selectByRoleCode(RoleCode roleCode, PlatformType platformType) {
         List<MenuDO> menuDOS = menuMapper.selectByRoleCode(roleCode.getValue(), platformType.getCode());
+        return converter.to(menuDOS);
+    }
+
+    @Override
+    public List<Menu> selectByPermissions(List<Permission> permissions, PlatformType platformType) {
+        Long[] menuIds = permissions.stream().filter(item -> item.getType().equals("M") || item.getType().equals("C"))
+                .map(Permission::getResourceRef).toArray(Long[]::new);
+        if (menuIds.length == 0) {
+            return GlobalConst.EMPTY_LIST;
+        }
+        List<MenuDO> menuDOS = menuMapper.selectByPermissions(menuIds, platformType.getCode());
         return converter.to(menuDOS);
     }
 

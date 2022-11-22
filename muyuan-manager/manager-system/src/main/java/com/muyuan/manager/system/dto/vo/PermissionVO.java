@@ -27,4 +27,6 @@ public class PermissionVO {
     private String perms;
 
     private String status;
+
+    private Long resourceRef;
 }

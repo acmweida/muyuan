@@ -1,5 +1,6 @@
 package com.muyuan.manager.system.dto;
 
+import com.muyuan.common.core.validator.annotions.NotNUllOnOther;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
  */
 @ApiModel("权限")
 @Data
+@NotNUllOnOther(value = "resourceRef",other = "type",otherValues = {"M","C"},message = "当类型为目录、菜单时，资源ID不能为空", groups = {PermissionParams.Add.class, PermissionParams.Update.class})
 public class PermissionParams {
 
     /**
@@ -59,4 +61,7 @@ public class PermissionParams {
 
     @ApiModelProperty(value = "状态 默认 0-启用")
     private Integer status = 0;
+
+    @ApiModelProperty(value = "关联资源ID")
+    private Long resourceRef;
 }

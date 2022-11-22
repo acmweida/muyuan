@@ -2,11 +2,13 @@ package com.muyuan.common.web.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.muyuan.common.core.constant.SecurityConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.exception.UnAuthorizedException;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.context.SecurityContextHolder;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -178,14 +180,14 @@ public class SecurityUtils {
     }
 
 
-    public static String getPlatformType() {
+    public static PlatformType getPlatformType() {
         String userType = SecurityContextHolder.get(SecurityConst.PLATFORM_TYPE);
-        if (userType.isEmpty()) {
+        if (StringUtils.isEmpty(userType)) {
             JsonNode jwtPayLoad = getJwtPayLoad();
             userType = jwtPayLoad.get(SecurityConst.PLATFORM_TYPE).asText();
             SecurityContextHolder.set(SecurityConst.PLATFORM_TYPE, userType);
         }
-        return userType;
+        return PlatformType.valueOf(userType);
     }
 
     private static boolean hasJwtPayload() {

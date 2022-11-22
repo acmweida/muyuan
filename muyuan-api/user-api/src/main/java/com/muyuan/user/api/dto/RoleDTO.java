@@ -54,12 +54,4 @@ public class RoleDTO implements Serializable {
      */
     private Date updateTime;
 
-    public RoleDTO(String code) {
-        this.code = code;
-    }
-
-    public RoleDTO(Long id, String code) {
-        this.id = id;
-        this.code = code;
-    }
 }
