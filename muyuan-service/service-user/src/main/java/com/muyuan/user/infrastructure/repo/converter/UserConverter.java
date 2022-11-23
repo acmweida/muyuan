@@ -28,9 +28,10 @@ public interface UserConverter {
     User to(UserDO userDO);
 
     @Mappings({
-            @Mapping(target = "id",expression = "java(UserConverter.map(roleDOS.getId()))")
+            @Mapping(target = "id",expression = "java(UserConverter.map(roleDO.getId()))"),
+            @Mapping(target = "platformType",expression = "java(MenuConverter.map(roleDO.getPlatformType()))")
     })
-    Role toRole(RoleDO roleDOS);
+    Role toRole(RoleDO roleDO);
 
 
     List<Role> toRole(List<RoleDO> roleDOS);

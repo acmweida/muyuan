@@ -17,7 +17,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName SysMenuServiceImpl
@@ -48,16 +47,18 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Long> listSelectIdByRoleId(String... roleIds) {
-        if (ObjectUtils.isEmpty(roleIds)) {
+    public List<MenuDTO> listByRoleId(Long roleId) {
+        if (ObjectUtils.isEmpty(roleId)) {
             return Collections.EMPTY_LIST;
         }
 
-        Result<List<MenuDTO>> menuByRoleCods = menuInterface.getMenuByRoleCods(MenuQueryRequest.builder()
-                .roleCodes(roleIds)
-                .build());
-        return Objects.requireNonNull(ResultUtil.getOr(menuByRoleCods, ArrayList::new))
-                .stream().map(MenuDTO::getId).collect(Collectors.toList());
+        Result<List<MenuDTO>> menuHandle = menuInterface.getMenuByRoleId(roleId);
+        return Objects.requireNonNull(ResultUtil.getOr(menuHandle, ArrayList::new));
+    }
+
+    @Override
+    public List<MenuDTO> listSelectable(PlatformType platformType) {
+        return null;
     }
 
     @Override

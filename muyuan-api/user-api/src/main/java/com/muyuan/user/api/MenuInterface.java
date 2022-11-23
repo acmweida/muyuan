@@ -1,6 +1,7 @@
 package com.muyuan.user.api;
 
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuQueryRequest;
 import com.muyuan.user.api.dto.MenuRequest;
@@ -17,6 +18,13 @@ import java.util.List;
 public interface MenuInterface {
 
     /**
+     * 通过角色ID 查询菜单
+     * @param roleId
+     * @return
+     */
+    Result<List<MenuDTO>> getMenuByRoleId(Long  roleId);
+
+    /**
      * 通过用户ID 查询菜单
      * @param request
      * @return
@@ -25,10 +33,10 @@ public interface MenuInterface {
 
     /**
      * 通过用户ID 查询菜单
-     * @param request
+     * @param platformType
      * @return
      */
-    Result<List<MenuDTO>> getMenuByUserID(MenuQueryRequest request);
+    Result<List<MenuDTO>> getMenuByUserID(Long userId, PlatformType platformType);
 
     /**
      * 菜单列表查询

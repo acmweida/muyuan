@@ -8,6 +8,7 @@ import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.repo.PermissionRepo;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.PermissionDomainService;
@@ -52,8 +53,8 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     }
 
     @Override
-    public List<Permission> getPermissionByRole(Role role) {
-        return permissionRepo.selectByRoles(role.getId());
+    public List<Permission> getPermissionByRoleID(RoleID roleID) {
+        return permissionRepo.selectByRoles(roleID);
     }
 
     @Override

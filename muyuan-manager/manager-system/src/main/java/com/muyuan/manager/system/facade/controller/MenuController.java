@@ -11,11 +11,14 @@ import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.MenuParams;
 import com.muyuan.manager.system.dto.MenuQueryParams;
+import com.muyuan.manager.system.dto.PermissionQueryParams;
 import com.muyuan.manager.system.dto.assembler.MenuAssembler;
 import com.muyuan.manager.system.dto.converter.MenuConverter;
 import com.muyuan.manager.system.dto.vo.MenuVO;
 import com.muyuan.manager.system.service.MenuService;
+import com.muyuan.manager.system.service.PermissionService;
 import com.muyuan.user.api.dto.MenuDTO;
+import com.muyuan.user.api.dto.PermissionDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -47,6 +50,8 @@ public class MenuController {
 
     private MenuConverter converter;
 
+    private PermissionService permissionService;
+
     @RequirePermissions("system:menu:query")
     @GetMapping("/menu/list")
     @ApiOperation(value = "菜单列表查询")
@@ -60,23 +65,37 @@ public class MenuController {
     }
 
     @RequirePermissions("system:menu:query")
-    @GetMapping("/menu/treeSelect")
+    @GetMapping("/menu/treeSelect/{platformType}")
     @ApiOperation(value = "获取菜单选择结构")
-    public Result selectTree(@ModelAttribute MenuQueryParams params) {
-        params.setStatus(GlobalConst.TRUE);
-        List<MenuDTO> list = menuService.list(params);
-        return ResultUtil.success(MenuAssembler.buildMenuVOSelectTree(converter.toVO(list)));
+    public Result selectTree(@PathVariable Integer platformType) {
+        List<MenuDTO> list = menuService.list(MenuQueryParams.builder()
+                .platformType(platformType)
+                .status(GlobalConst.TRUE)
+                .build());
+        List<Long> menuIds = permissionService.list(PermissionQueryParams.builder()
+                .platformType(platformType)
+                .build()).getRows().stream().map(PermissionDTO::getResourceRef).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
+        return ResultUtil.success(MenuAssembler.buildMenuVOSelectTree(converter.toVO(
+                list.stream().filter(item -> menuIds.contains(item.getId())).collect(Collectors.toList())
+        )));
     }
 
     @RequirePermissions("system:menu:query")
-    @GetMapping("/menu/roleMenuTreeSelect/{roleIds}")
+    @GetMapping("/menu/roleMenuTreeSelect/{platformType}/{roleId}")
     @ApiOperation(value = "获取菜单选择结构")
-    public Result selectKey(@PathVariable String... roleIds) {
-        List<Long> id = menuService.listSelectIdByRoleId(roleIds);
+    public Result selectKey(@PathVariable Long roleId,@PathVariable Integer platformType) {
+        List<Long> id = menuService.listByRoleId(roleId).stream().map(MenuDTO::getId).collect(Collectors.toList());;
         List<MenuDTO> list = menuService.list(MenuQueryParams.builder()
+                .platformType(platformType)
                 .status(GlobalConst.TRUE)
                 .build());
-        return ResultUtil.success(new SelectValue(id, MenuAssembler.buildMenuVOSelectTree(converter.toVO(list))));
+        List<Long> menuIds = permissionService.list(PermissionQueryParams.builder()
+                .platformType(platformType)
+                .build()).getRows().stream().map(PermissionDTO::getResourceRef).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
+
+        return ResultUtil.success(new SelectValue(id, MenuAssembler.buildMenuVOSelectTree(
+                converter.toVO(list.stream().filter(item -> menuIds.contains(item.getId())).collect(Collectors.toList())))
+        ));
     }
 
     @RequirePermissions("system:menu:query")

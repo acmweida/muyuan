@@ -1,6 +1,8 @@
 package com.muyuan.user.domain.service;
 
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Menu;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.MenuCommand;
 import com.muyuan.user.face.dto.MenuQueryCommand;
 
@@ -18,10 +20,18 @@ public interface MenuDomainService {
 
     /**
      * 获取菜单
-     * @param command
+     * @param roleId
      * @return
      */
-    List<Menu> getMenuByUserId(MenuQueryCommand command);
+    List<Menu> getMenuByRoleId(Long roleId);
+
+    /**
+     * 获取菜单
+     * @param userID
+     * @param platformType
+     * @return
+     */
+    List<Menu> getMenuByUserId(UserID userID, PlatformType platformType);
 
     /**
      * 获取菜单

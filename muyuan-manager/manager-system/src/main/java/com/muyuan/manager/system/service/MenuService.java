@@ -1,6 +1,7 @@
 package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.manager.system.dto.MenuQueryParams;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuRequest;
@@ -31,8 +32,14 @@ public interface MenuService {
      * @param roleId
      * @return
      */
-    List<Long> listSelectIdByRoleId(String... roleId);
+    List<MenuDTO> listByRoleId(Long roleId);
 
+    /**
+     * 列表查询
+     * @param platformType
+     * @return
+     */
+    List<MenuDTO> listSelectable(PlatformType platformType);
 
     /**
      * 菜单添加

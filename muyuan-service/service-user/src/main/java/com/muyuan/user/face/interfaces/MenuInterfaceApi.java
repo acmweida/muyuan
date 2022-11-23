@@ -13,6 +13,7 @@ import com.muyuan.user.api.dto.MenuQueryRequest;
 import com.muyuan.user.api.dto.MenuRequest;
 import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.MenuID;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.service.MenuDomainService;
 import com.muyuan.user.face.dto.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,13 @@ public class MenuInterfaceApi implements MenuInterface {
     private MenuDomainService menuService;
 
     @Override
+    public Result<List<MenuDTO>> getMenuByRoleId(Long roleId) {
+        List<Menu> Menu = menuService.getMenuByRoleId(roleId);
+
+        return ResultUtil.success(MENU_MAPPER.toDTO(Menu));
+    }
+
+    @Override
     public Result<List<MenuDTO>> getMenuByRoleCods(MenuQueryRequest request) {
 
         List<Menu> Menu = menuService.getMenuByRoleCodes(MENU_MAPPER.toCommand(request));
@@ -48,8 +56,8 @@ public class MenuInterfaceApi implements MenuInterface {
     }
 
     @Override
-    public Result<List<MenuDTO>> getMenuByUserID(MenuQueryRequest request) {
-        List<Menu> Menu = menuService.getMenuByUserId(MENU_MAPPER.toCommand(request));
+    public Result<List<MenuDTO>> getMenuByUserID(Long userID,PlatformType platformType) {
+        List<Menu> Menu = menuService.getMenuByUserId(new UserID(userID),platformType);
 
         return ResultUtil.success(MENU_MAPPER.toDTO(Menu));
     }

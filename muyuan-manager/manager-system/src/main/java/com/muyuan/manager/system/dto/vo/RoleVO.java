@@ -1,7 +1,8 @@
 package com.muyuan.manager.system.dto.vo;
 
-import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @ClassName SysRoleVO
@@ -13,24 +14,37 @@ import lombok.Data;
 @Data
 public class RoleVO {
 
+    private Long id;
+
+    private Integer platformType;
     /**
      * 角色名称
      */
-    @ExcelProperty(value = "角色名称")
     private String name;
 
     /**
      * 角色编码
      */
-    @ExcelProperty(value = "角色编码")
     private String code;
+
+    private String orderNum;
 
     /**
      * 状态 0-正常 1-停用
      */
-    @ExcelProperty(value = "启用状态")
     private String status;
 
-    public RoleVO() {
-    }
+    private Long createBy;
+
+    private Long updateBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 }

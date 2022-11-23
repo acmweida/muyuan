@@ -3,6 +3,7 @@ package com.muyuan.user.domain.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.face.dto.PermissionCommand;
 import com.muyuan.user.face.dto.PermissionQueryCommand;
 
@@ -27,10 +28,10 @@ public interface PermissionDomainService {
 
     /**
      * 获取权限
-     * @param role
+     * @param roleID
      * @return
      */
-    List<Permission> getPermissionByRole(Role role);
+    List<Permission> getPermissionByRoleID(RoleID roleID);
 
     /**
      * 权限分页查询

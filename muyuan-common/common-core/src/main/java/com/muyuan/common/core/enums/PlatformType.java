@@ -42,4 +42,5 @@ public enum PlatformType {
             default: return 2;
         }
     }
+
 }

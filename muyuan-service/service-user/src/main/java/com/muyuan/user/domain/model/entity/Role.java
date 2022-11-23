@@ -1,6 +1,7 @@
 package com.muyuan.user.domain.model.entity;
 
 import com.muyuan.common.core.constant.SecurityConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,8 @@ import java.util.Date;
 public class Role {
 
     private RoleID id;
+
+    private PlatformType platformType;
 
     /**
      * 角色名称

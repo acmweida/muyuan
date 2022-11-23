@@ -72,15 +72,6 @@ public class MenuController {
     }
 
     @RequirePermissions("member:menu:edit")
-    @GetMapping("/menu/roleMenuTreeSelect/{roleIds}")
-    @ApiOperation(value = "获取菜单选择结构")
-    public Result selectKey(@PathVariable String... roleIds) {
-        List<Long> id = menuDomainService.listSelectIdByRoleId(roleIds);
-        List<Menu> list = menuDomainService.list(new MenuDTO());
-        return ResultUtil.success(new SelectValue(id,MenuAssembler.buildMenuSelectTree(list)));
-    }
-
-    @RequirePermissions("member:menu:edit")
     @GetMapping("/menu/{id}")
     @ApiOperation(value = "获取菜单详情")
     @ApiImplicitParams(

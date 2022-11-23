@@ -19,7 +19,7 @@
                  select *
                  from t_role
                  where status = 0
-                   and type = #{type}
+                   and platform_type = #{type}
              ) role
                  inner join (
             select *
@@ -28,7 +28,7 @@
         ) user_role on user_role.role_id = role.id
     </select>
     <select id="selectRoleByMenuID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
-        select id, code, type, name, status, parent_id, order_num
+        select id, code, platform_type, name, status, parent_id, order_num
         from t_role
                  inner join (
             select role_id
@@ -37,7 +37,7 @@
         ) role_menu on t_role.id = role_menu.role_id
     </select>
     <select id="selectRoleByPermID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
-        select id, code, type, name, status, parent_id, order_num
+        select id, code, platform_type, name, status, parent_id, order_num
         from t_role
                  inner join (
             select role_id

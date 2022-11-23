@@ -7,7 +7,6 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.MenuInterface;
 import com.muyuan.user.api.dto.MenuDTO;
-import com.muyuan.user.api.dto.MenuQueryRequest;
 import com.muyuan.user.service.MenuService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -33,10 +32,7 @@ public class MenuServiceImpl implements MenuService {
         Long userId = SecurityUtils.getUserId();
         PlatformType platformType = SecurityUtils.getPlatformType();
 
-        Result<List<MenuDTO>> meus = menuInterface.getMenuByUserID(MenuQueryRequest.builder()
-                .platformType(platformType)
-                .userId(userId)
-                .build());
+        Result<List<MenuDTO>> meus = menuInterface.getMenuByUserID(userId,platformType);
 
         return ResultUtil.getOr(meus, ArrayList::new);
     }

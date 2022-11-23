@@ -18,14 +18,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserDO {
 
-    public UserDO(Long id) {
-        this.id = id;
-    }
-
-    public UserDO(String username) {
-        this.username = username;
-    }
-
     private Long id;
 
     /**
@@ -95,13 +87,5 @@ public class UserDO {
      * 性别
      */
     private String sex;
-
-
-    public UserDO(String username, String password) {
-        Assert.isTrue(!ObjectUtils.isEmpty(username),"username is null");
-        Assert.isTrue(!ObjectUtils.isEmpty(password),"password is null");
-        this.username = username;
-        this.password = password;
-    }
 
 }

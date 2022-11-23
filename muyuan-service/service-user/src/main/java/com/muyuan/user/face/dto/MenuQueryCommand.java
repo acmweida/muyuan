@@ -36,4 +36,5 @@ public class MenuQueryCommand {
     private String[] permissions;
 
     private UserID userID;
+
 }

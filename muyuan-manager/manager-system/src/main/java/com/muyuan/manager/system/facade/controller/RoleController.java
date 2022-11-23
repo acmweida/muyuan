@@ -56,9 +56,9 @@ public class RoleController {
     @GetMapping("/role/list")
     @ApiOperation(value = "角色列表查询")
     @RequirePermissions("system:role:query")
-    public Result<Page<RoleDTO>> list(@ModelAttribute RoleQueryParams params) {
-        Page page = roleService.list(params);
-        return ResultUtil.success(page);
+    public Result<Page<RoleVO>> list(@ModelAttribute RoleQueryParams params) {
+        Page<RoleDTO> page = roleService.list(params);
+        return ResultUtil.success(Page.copy(page, converter.toVO(page.getRows())));
     }
 
     @GetMapping("/role/{id}")

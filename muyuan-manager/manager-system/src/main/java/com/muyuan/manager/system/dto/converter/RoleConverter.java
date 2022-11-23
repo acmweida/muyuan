@@ -3,6 +3,10 @@ package com.muyuan.manager.system.dto.converter;
 import com.muyuan.manager.system.dto.vo.RoleVO;
 import com.muyuan.user.api.dto.RoleDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+import java.util.List;
 
 /**
  * @ClassName MenuConverter
@@ -14,6 +18,11 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface RoleConverter {
 
+    @Mappings({
+            @Mapping(target = "platformType",source = "platformType.code")
+    })
     RoleVO toVO(RoleDTO roleDTO);
+
+    List<RoleVO> toVO(List<RoleDTO> roleDTO);
 
 }

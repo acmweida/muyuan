@@ -5,6 +5,8 @@ import com.muyuan.manager.system.dto.vo.MenuVO;
 import com.muyuan.user.api.dto.MenuDTO;
 import com.muyuan.user.api.dto.MenuRequest;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MenuConverter {
 
+    @Mappings({
+            @Mapping(target = "platformType",source = "platformType.code")
+    })
     MenuVO toVO(MenuDTO menuDTO);
 
     List<MenuVO> toVO(List<MenuDTO> menuDTO);

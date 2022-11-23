@@ -1,19 +1,17 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 /**
  * @ClassName RoleDO
- * Description TODO
+ * Description RoleDO
  * @Author 2456910384
  * @Date 2022/9/15 14:16
  * @Version 1.0
  */
 @Data
-@NoArgsConstructor
 public class RoleDO {
 
     private Long id;
@@ -51,12 +49,4 @@ public class RoleDO {
      */
     private Date updateTime;
 
-    public RoleDO(String code) {
-        this.code = code;
-    }
-
-    public RoleDO(Long id, String code) {
-        this.id = id;
-        this.code = code;
-    }
 }

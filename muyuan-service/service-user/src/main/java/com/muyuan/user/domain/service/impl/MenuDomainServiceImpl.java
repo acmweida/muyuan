@@ -11,6 +11,8 @@ import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
+import com.muyuan.user.domain.model.valueobject.RoleID;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.repo.MenuRepo;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.MenuDomainService;
@@ -52,16 +54,28 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     private RoleDomainService roleDomainService;
 
     @Override
-    public List<Menu> getMenuByUserId(MenuQueryCommand command) {
-        List<Role> roles = roleDomainService.selectRoleByUserId(command.getUserID(), command.getPlatformType());
+    public List<Menu> getMenuByRoleId(Long roleId) {
+        List<Permission> permissionByRoles = permissionDomainService.getPermissionByRoleID(new RoleID(roleId));
+
+        if (permissionByRoles.size() > 0) {
+            List<Menu> roleMenus = menuRepo.selectByPermissions(permissionByRoles,permissionByRoles.get(0).getPlatformType());
+            return roleMenus.stream().sorted(Comparator.comparing(Menu::getOrderNum)).collect(Collectors.toList());
+        } else {
+            return GlobalConst.EMPTY_LIST;
+        }
+    }
+
+    @Override
+    public List<Menu> getMenuByUserId(UserID userID,PlatformType platformType) {
+        List<Role> roles = roleDomainService.selectRoleByUserId(userID, platformType);
 
         List<Menu> menus = new ArrayList<>();
         for (Role role : roles) {
-            List<Permission> permissionByRoles = permissionDomainService.getPermissionByRole(role);
+            List<Permission> permissionByRoles = permissionDomainService.getPermissionByRoleID(role.getId());
 
             List<Menu> roleMenus = CacheServiceUtil.getAndUpdateList(redisCacheService,
-                    getRoleMenuKeyPrefix(command.getPlatformType()) + role.getCode(),
-                    () -> menuRepo.selectByPermissions(permissionByRoles, command.getPlatformType()), Menu.class);
+                    getRoleMenuKeyPrefix(platformType) + role.getCode(),
+                    () -> menuRepo.selectByPermissions(permissionByRoles, platformType), Menu.class);
 
             menus.addAll(roleMenus);
         }

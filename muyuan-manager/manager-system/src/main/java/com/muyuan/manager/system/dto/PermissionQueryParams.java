@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PermissionQueryParams extends PageDTO {
 
-    private String platformType;
+    private Integer platformType;
 
     private String resource;
 
