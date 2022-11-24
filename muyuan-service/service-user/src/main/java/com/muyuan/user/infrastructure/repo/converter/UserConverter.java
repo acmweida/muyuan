@@ -22,6 +22,11 @@ import java.util.List;
 public interface UserConverter {
 
     @Mappings({
+            @Mapping(target = "id",source ="id.value")
+    })
+    RoleDO to(Role role);
+
+    @Mappings({
             @Mapping(source = "id",target ="id.value"),
             @Mapping(source = "username",target ="username.value")
     })

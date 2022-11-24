@@ -2,6 +2,7 @@ package com.muyuan.manager.system.service.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,7 +30,7 @@ import java.util.Optional;
 public class PermissionServiceImpl implements PermissionService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
-    private PermissionInterface  permissionInterface;
+    private PermissionInterface permissionInterface;
 
     @Override
     public Page<PermissionDTO> list(PermissionQueryParams params) {
@@ -45,11 +47,22 @@ public class PermissionServiceImpl implements PermissionService {
             request.setPageSize(params.getPageSize());
         }
 
-
         Result<Page<PermissionDTO>> res = permissionInterface.list(request);
 
-
         return res.getData();
+    }
+
+    @Override
+    public List<PermissionDTO> getByRoleId(Long roleId) {
+        if (ObjectUtils.isEmpty(roleId)) {
+            return GlobalConst.EMPTY_LIST;
+        }
+
+        Result<List<PermissionDTO>> permissioHander = permissionInterface.getPermissionByRoleID(roleId);
+
+        return ResultUtil.getOr(permissioHander, () -> {
+            return GlobalConst.EMPTY_LIST;
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.PermissionInterface;
@@ -12,9 +13,10 @@ import com.muyuan.user.api.dto.PermissionQueryRequest;
 import com.muyuan.user.api.dto.PermissionRequest;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.service.PermissionDomainService;
 import com.muyuan.user.domain.service.RoleDomainService;
-import com.muyuan.user.face.dto.PermissionQueryCommand;
 import com.muyuan.user.face.dto.mapper.PermissionMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -44,10 +46,9 @@ public class PermissionInterfaceApi implements PermissionInterface {
     private RoleDomainService roleDomainService;
 
     @Override
-    public Result<Set<String>> getPermissionByUserID(PermissionQueryRequest request) {
-        PermissionQueryCommand permissionQueryCommand = PERMISSION_MAPPER.toCommand(request);
+    public Result<Set<String>> getPermissionByUserID(Long userId, PlatformType platformType) {
 
-        List<Role> roles = roleDomainService.selectRoleByUserId(permissionQueryCommand.getUserId(), permissionQueryCommand.getPlatformType());
+        List<Role> roles = roleDomainService.selectRoleByUserId(new UserID(userId), platformType);
 
         List<Permission> permissions = permissionDomainService.getPermissionByRoles(roles);
 
@@ -57,6 +58,13 @@ public class PermissionInterfaceApi implements PermissionInterface {
         }
 
         return ResultUtil.success(parms);
+    }
+
+    @Override
+    public Result<List<PermissionDTO>> getPermissionByRoleID(Long roleId) {
+        List<Permission> permissions = permissionDomainService.getPermissionByRoleID(new RoleID(roleId));
+
+        return ResultUtil.success(PERMISSION_MAPPER.toDTO(permissions));
     }
 
     @Override

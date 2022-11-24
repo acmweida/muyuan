@@ -54,7 +54,11 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
 
     @Override
     public List<Permission> getPermissionByRoleID(RoleID roleID) {
-        return permissionRepo.selectByRoles(roleID);
+        List<Role> roles = new ArrayList<>();
+        Role role = new Role();
+        role.setId(roleID);
+        roles.add(role);
+        return getPermissionByRoles(roles);
     }
 
     @Override

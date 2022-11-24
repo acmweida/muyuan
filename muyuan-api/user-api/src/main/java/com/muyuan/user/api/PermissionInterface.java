@@ -2,10 +2,12 @@ package com.muyuan.user.api;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionQueryRequest;
 import com.muyuan.user.api.dto.PermissionRequest;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,9 @@ import java.util.Set;
  */
 public interface PermissionInterface {
 
-    Result<Set<String>> getPermissionByUserID(PermissionQueryRequest request);
+    Result<Set<String>> getPermissionByUserID(Long userId, PlatformType platformType);
+
+    Result<List<PermissionDTO>> getPermissionByRoleID(Long roleId);
 
     /**
      * 权限列表

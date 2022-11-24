@@ -74,6 +74,17 @@ public class RoleRepoImpl implements RoleRepo {
     }
 
     @Override
+    public Role selectRole(Role.Identify identify) {
+        RoleDO roleDO = roleMapper.selectOne(new SqlBuilder(RoleDO.class).select(ID)
+                .eq(ID, identify.getId())
+                .eq(PLATFORM_TYPE, identify.getPlatformType().getCode())
+                .eq(CODE,identify.getCode())
+                .build());
+
+        return converter.toRole(roleDO);
+    }
+
+    @Override
     public List<Role> selectByMenuID(MenuID menuId) {
         if (ObjectUtils.isEmpty(menuId)) {
             return GlobalConst.EMPTY_LIST;
@@ -96,5 +107,21 @@ public class RoleRepoImpl implements RoleRepo {
         }
         return roleMapper.deleteRef(roleID.getValue(),
                 Arrays.stream(menuIDS).map(MenuID::getValue).toArray(Long[]::new)) > 0;
+    }
+
+    @Override
+    public boolean addRef(RoleID roleID, MenuID... menuIDS) {
+        if (ObjectUtils.isEmpty(roleID) || menuIDS.length == 0) {
+            return false;
+        }
+        return roleMapper.addRef(roleID.getValue(),
+                Arrays.stream(menuIDS).map(MenuID::getValue).toArray(Long[]::new)) > 0;
+    }
+
+    @Override
+    public boolean addRole(Role role) {
+        RoleDO to = converter.to(role);
+        Integer count = roleMapper.insertAuto(to);
+        return count > 0;
     }
 }

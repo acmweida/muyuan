@@ -2,12 +2,14 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.RoleInterface;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
+import com.muyuan.user.api.dto.RoleRequest;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.service.RoleDomainService;
 import com.muyuan.user.face.dto.mapper.RoleMapper;
@@ -40,6 +42,15 @@ public class RoleInterfaceApi implements RoleInterface {
         return handler.map(ROLE_MAPPER::toDTO)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
+    public Result add(RoleRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkUnique(new Role.Identify(request.getPlatformType(),request.getCode())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = roleDomainService.addRole(ROLE_MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
 }

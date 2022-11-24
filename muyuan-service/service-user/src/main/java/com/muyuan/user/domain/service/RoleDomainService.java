@@ -5,6 +5,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.UserID;
+import com.muyuan.user.face.dto.RoleCommand;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 
 import java.util.List;
@@ -29,5 +30,19 @@ public interface RoleDomainService {
 
 
     Optional<Role> getRoleById(Long id);
+
+    /**
+     * 唯一性检查
+     * @param identify
+     * @return
+     */
+    String checkUnique(Role.Identify identify);
+
+    /**
+     * 新增角色信息
+     * @param command
+     * @return
+     */
+    boolean addRole(RoleCommand command);
 
 }

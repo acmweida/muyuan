@@ -7,7 +7,6 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.PermissionInterface;
 import com.muyuan.user.api.UserInterface;
-import com.muyuan.user.api.dto.PermissionQueryRequest;
 import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.dto.UserVO;
@@ -60,10 +59,7 @@ public class UserServiceImpl implements UserService {
 
         UserVO userVO = converter.toVO(userInfo.getData());
 
-        Result<Set<String>> permissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
-                .userId(userId)
-                .platformType(platformType)
-                .build());
+        Result<Set<String>> permissions = permissionInterface.getPermissionByUserID(userId,platformType);
         userVO.setPermissions(ResultUtil.getOr(permissions, HashSet::new));
 
         return Optional.of(userVO);

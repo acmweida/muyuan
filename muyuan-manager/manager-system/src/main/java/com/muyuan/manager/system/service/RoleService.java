@@ -1,10 +1,12 @@
 package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.dto.SysRoleDTO;
+import com.muyuan.manager.system.dto.RoleParams;
 import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.user.api.dto.RoleDTO;
+import com.muyuan.user.api.dto.RoleRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,15 +51,15 @@ public interface RoleService {
 
     /**
      * 添加角色
-     * @param sysRoleDTO
+     * @param roleParams
      */
-    void add(SysRoleDTO sysRoleDTO);
+    Result add(RoleRequest roleParams);
 
     /**
      * 添加角色
-     * @param sysRoleDTO
+     * @param roleParams
      */
-    void update(SysRoleDTO sysRoleDTO);
+    void update(RoleParams roleParams);
 
     /**
      * 通过ID查询角色信息

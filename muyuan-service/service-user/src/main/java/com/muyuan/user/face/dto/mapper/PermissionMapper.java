@@ -10,7 +10,6 @@ import com.muyuan.user.face.dto.PermissionQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.NullValueCheckStrategy;
 
 import java.util.List;
 
@@ -26,10 +25,10 @@ public interface PermissionMapper {
 
     @Mappings(
             {
-                    @Mapping(target = "platformType", expression = "java(PermissionMapper.map(request.getPlatformType()))"),
-                    @Mapping(target = "userId.value", source = "userId",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+                    @Mapping(target = "platformType", expression = "java(PermissionMapper.map(request.getPlatformType()))")
             }
     )
+
     PermissionQueryCommand toCommand(PermissionQueryRequest request);
 
     PermissionCommand toCommand(PermissionRequest request);

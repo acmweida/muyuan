@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
+import com.muyuan.user.api.dto.RoleRequest;
 
 
 /**
@@ -25,6 +26,13 @@ public interface RoleInterface {
 
     Result<RoleDTO> getRole(Long id);
 
+
+    /**
+     * 添加权限
+     * @param request
+     * @return
+     */
+    Result add(RoleRequest request);
 
 
 }

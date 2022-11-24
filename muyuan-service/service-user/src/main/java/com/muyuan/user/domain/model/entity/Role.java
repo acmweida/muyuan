@@ -23,6 +23,27 @@ import java.util.Date;
 @NoArgsConstructor
 public class Role {
 
+    @Data
+    static public class Identify {
+
+        private RoleID id;
+
+        private PlatformType platformType;
+
+        private String code;
+
+        public Identify(RoleID id, PlatformType platformType, String code) {
+            this.id = id;
+            this.platformType = platformType;
+            this.code = code;
+        }
+
+        public Identify(PlatformType platformType, String code) {
+            this.platformType = platformType;
+            this.code = code;
+        }
+    }
+
     private RoleID id;
 
     private PlatformType platformType;
@@ -37,12 +58,12 @@ public class Role {
      */
     private String code;
 
-    private String orderNum;
+    private Integer orderNum;
 
     /**
      * 状态 0-正常 1-停用
      */
-    private String status;
+    private Integer status;
 
     private Long createBy;
 

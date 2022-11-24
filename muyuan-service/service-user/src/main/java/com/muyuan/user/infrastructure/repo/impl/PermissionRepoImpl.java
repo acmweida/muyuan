@@ -39,6 +39,7 @@ public class PermissionRepoImpl implements PermissionRepo {
                 .eq(MODULE, command.getModule())
                 .eq(STATUS, command.getStatus())
                 .eq(TYPE, command.getType())
+                .in(TYPE,command.getTypes())
                 .like(RESOURCE,command.getResource())
                 .eq(PLATFORM_TYPE, ObjectUtils.isEmpty(command.getPlatformType()) ? null : command.getPlatformType().getCode())
                 .orderByDesc(BUSINESS, MODULE);

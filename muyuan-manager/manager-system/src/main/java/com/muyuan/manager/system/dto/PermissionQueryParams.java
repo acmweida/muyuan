@@ -30,4 +30,6 @@ public class PermissionQueryParams extends PageDTO {
     private String module;
 
     private String status;
+
+    private String[] types;
 }

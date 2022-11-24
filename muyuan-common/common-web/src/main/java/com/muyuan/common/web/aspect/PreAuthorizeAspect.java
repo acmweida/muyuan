@@ -8,7 +8,6 @@ import com.muyuan.common.core.exception.NotPermissionException;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.PermissionInterface;
-import com.muyuan.user.api.dto.PermissionQueryRequest;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -116,11 +115,7 @@ public class PreAuthorizeAspect {
     public Set<String> getUserPerm() {
         Long userId = SecurityUtils.getUserId();
 
-        Result<Set<String>> ppermissions = permissionInterface.getPermissionByUserID(PermissionQueryRequest.builder()
-                .userId(userId)
-                .platformType(SecurityUtils.getPlatformType())
-                .build());
-
+        Result<Set<String>> ppermissions = permissionInterface.getPermissionByUserID(userId,SecurityUtils.getPlatformType());
 
         return ppermissions.getData();
     }

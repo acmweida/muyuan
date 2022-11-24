@@ -24,13 +24,13 @@ public class PermissionQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
 
-    private Long userId;
-
     private PlatformType platformType;
 
     private String resource;
 
     private String type;
+
+    private String[] types;
 
     private String business;
 

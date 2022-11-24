@@ -2,7 +2,9 @@ package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
+import com.muyuan.user.api.dto.RoleRequest;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.face.dto.RoleCommand;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,6 +16,8 @@ import java.util.List;
 public interface RoleMapper {
 
     RoleQueryCommand toCommand(RoleQueryRequest request);
+
+    RoleCommand toCommand(RoleRequest request);
 
     @Mappings({
             @Mapping(target = "id",source = "id.value")

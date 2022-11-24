@@ -23,6 +23,8 @@ public class PermissionQueryCommand extends PageDTO {
 
     private String type;
 
+    private String[] types;
+
     private String business;
 
     private String module;

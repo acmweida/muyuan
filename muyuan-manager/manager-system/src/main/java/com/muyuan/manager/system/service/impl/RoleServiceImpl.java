@@ -8,17 +8,17 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.factories.SysRoleFactory;
+import com.muyuan.manager.system.dto.RoleParams;
+import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.model.SysRoleMenu;
 import com.muyuan.manager.system.model.SysUserRole;
 import com.muyuan.manager.system.repo.SysRoleRepo;
-import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.dto.SysRoleDTO;
 import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.user.api.RoleInterface;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
+import com.muyuan.user.api.dto.RoleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -42,7 +42,6 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class RoleServiceImpl implements RoleService {
-
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private RoleInterface roleInterface;
@@ -108,33 +107,20 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void add(SysRoleDTO sysRoleDTO) {
-
-        SysRole sysRole = SysRoleFactory.newInstance(sysRoleDTO);
-        sysRoleRepo.insert(sysRole);
-
-        List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
-            Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
-                    item -> {
-                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(), Long.valueOf(item)));
-                    }
-            );
-        }
-        sysRoleRepo.batchInsert(sysRoleMenus);
+    public Result add(RoleRequest request) {
+        return roleInterface.add(request);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(SysRoleDTO sysRoleDTO) {
-        SysRole sysRole = sysRoleDTO.convert();
+    public void update(RoleParams roleParams) {
+        SysRole sysRole = new SysRole();
         sysRole.update();
         sysRoleRepo.updateById(sysRole);
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
-        if (ObjectUtils.isNotEmpty(sysRoleDTO.getMenuIds())) {
-            Arrays.stream(sysRoleDTO.getMenuIds()).forEach(
+        if (ObjectUtils.isNotEmpty(roleParams.getPermissionIds())) {
+            Arrays.stream(roleParams.getPermissionIds()).forEach(
                     item -> {
                         sysRoleMenus.add(new SysRoleMenu(sysRole.getId(), Long.valueOf(item)));
                     }

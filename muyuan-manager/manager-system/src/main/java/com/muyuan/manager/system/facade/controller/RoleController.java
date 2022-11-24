@@ -1,5 +1,6 @@
 package com.muyuan.manager.system.facade.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -8,16 +9,21 @@ import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.manager.system.model.SysRole;
+import com.muyuan.manager.system.dto.PermissionQueryParams;
+import com.muyuan.manager.system.dto.RoleParams;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.dto.SysRoleDTO;
 import com.muyuan.manager.system.dto.SysUserDTO;
 import com.muyuan.manager.system.dto.assembler.SysRoleAssembler;
+import com.muyuan.manager.system.dto.converter.PermissionConverter;
 import com.muyuan.manager.system.dto.converter.RoleConverter;
 import com.muyuan.manager.system.dto.vo.RoleVO;
+import com.muyuan.manager.system.model.SysRole;
+import com.muyuan.manager.system.service.PermissionService;
 import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.manager.system.service.SysUsernService;
+import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.RoleDTO;
+import com.muyuan.user.api.dto.RoleRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,8 +38,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName SysRoleController
@@ -49,7 +55,11 @@ public class RoleController {
 
     private RoleService roleService;
 
+    private PermissionService permissionService;
+
     private RoleConverter converter;
+
+    private PermissionConverter permissionConverter;
 
     private SysUsernService sysUsernService;
 
@@ -73,8 +83,14 @@ public class RoleController {
         }
 
         Optional<RoleDTO> dictData = roleService.getById(id);
+        List<PermissionDTO> permissions = permissionService.getByRoleId(id);
 
-        return dictData.map(dictDataDTO -> ResultUtil.success(converter.toVO(dictDataDTO))).orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
+        return dictData.map(dictDataDTO -> {
+            RoleVO roleVO = converter.toVO(dictDataDTO);
+            roleVO.setPermissions(permissionConverter.toVO(permissions));
+
+            return   ResultUtil.success(roleVO);
+        }).orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
     }
 
     @ApiOperation(value = "角色分配用户查询")
@@ -120,43 +136,40 @@ public class RoleController {
 
     @PostMapping("/role")
     @ApiOperation(value = "角色添加")
+    @ApiOperationSupport(ignoreParameters = "id")
     @RequirePermissions("system:role:add")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "code", value = "角色编码", dataTypeClass = Long.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "name", value = "角色名称", dataTypeClass = String.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]",dataTypeClass = Long.class,paramType = "body"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "body")
-            }
-    )
-    public Result add(@RequestBody @Valid SysRoleDTO sysRoleDTO) {
+    public Result add(@RequestBody @Validated(RoleParams.Add.class) RoleParams roleParams) {
+        RoleRequest request = converter.to(roleParams);
+        if (ObjectUtils.isNotEmpty(roleParams.getMenuIds())) {
+            Page<PermissionDTO> list = permissionService.list(PermissionQueryParams.builder()
+                    .platformType(roleParams.getPlatformType())
+                    .types(new String[]{GlobalConst.TYPE_DIR, GlobalConst.TYPE_MENU})
+                    .build());
 
-        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkRoleCodeUnique(new SysRole(sysRoleDTO.getCode())))) {
-            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", sysRoleDTO.getCode()));
+            List<PermissionDTO> permissionDTOS = list.getRows();
+            Map<Long, Long> collect = permissionDTOS.stream().collect(Collectors.toMap(PermissionDTO::getResourceRef, PermissionDTO::getId));
+            List<Long> permissionIDs = new ArrayList<>();
+            for (Long menuId : roleParams.getMenuIds()) {
+                permissionIDs.add(collect.get(menuId));
+            }
+            if (ObjectUtils.isNotEmpty(request.getPermissionIds())) {
+                permissionIDs.addAll(Arrays.asList(request.getPermissionIds()));
+            }
+            request.setPermissionIds(permissionIDs.toArray(new Long[0]));
         }
 
-        roleService.add(sysRoleDTO);
-
-
-        return ResultUtil.success();
+        return roleService.add(request);
     }
 
     @PutMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:update")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "角色ID", dataTypeClass = Long.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "code", value = "角色编码", dataTypeClass = Long.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "name", value = "角色名称", dataTypeClass = String.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "menuIds", value = "权限菜单ID", dataType = "Long[]",dataTypeClass = Long.class, paramType = "body"),
-                    @ApiImplicitParam(name = "status", value = "状态 0-正常 1-禁用", dataTypeClass = String.class, paramType = "body")
-            }
-    )
-    public Result update(@RequestBody @Validated SysRoleDTO sysRoleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkRoleCodeUnique(new SysRole(sysRoleDTO.getId(), sysRoleDTO.getCode())))) {
-            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", sysRoleDTO.getCode()));
+    public Result update(@RequestBody @Validated RoleParams roleParams) {
+        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkRoleCodeUnique(new SysRole(roleParams.getId(), roleParams.getCode())))) {
+            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleParams.getCode()));
         }
 
-        roleService.update(sysRoleDTO);
+        roleService.update(roleParams);
 
         return ResultUtil.success();
     }

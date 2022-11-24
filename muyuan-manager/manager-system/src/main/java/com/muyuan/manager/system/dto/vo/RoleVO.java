@@ -3,6 +3,7 @@ package com.muyuan.manager.system.dto.vo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName SysRoleVO
@@ -47,4 +48,6 @@ public class RoleVO {
      * 修改时间
      */
     private Date updateTime;
+
+    private List<PermissionVO> permissions;
 }

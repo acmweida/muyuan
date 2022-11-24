@@ -18,6 +18,8 @@ public interface RoleRepo {
 
     Role select(Long id);
 
+    Role selectRole(Role.Identify identify);
+
     /**
      * 通过菜单ID 查询关联角色
      * @param menuId
@@ -33,5 +35,9 @@ public interface RoleRepo {
     List<Role> selectByPermID(Long permId);
 
     boolean deleteRef(RoleID roleID,MenuID... menuIDS);
+
+    boolean addRef(RoleID roleID,MenuID... menuIDS);
+
+    boolean addRole(Role role);
 
 }

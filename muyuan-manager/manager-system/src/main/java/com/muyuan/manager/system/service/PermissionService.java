@@ -6,6 +6,7 @@ import com.muyuan.manager.system.dto.PermissionQueryParams;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,6 +24,14 @@ public interface PermissionService {
      * @return
      */
     Page<PermissionDTO> list(PermissionQueryParams params);
+
+    /**
+     * 权限信息查询
+     * @param roleId
+     * @return
+     */
+    List<PermissionDTO> getByRoleId(Long roleId);
+
 
     /**
      * 权限添加

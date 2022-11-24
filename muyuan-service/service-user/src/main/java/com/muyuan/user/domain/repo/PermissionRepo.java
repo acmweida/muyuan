@@ -17,7 +17,7 @@ public interface PermissionRepo {
 
     Permission selectPermission(Permission.Identify permission);
 
-    boolean addPermission(Permission menu);
+    boolean addPermission(Permission permission);
 
     /**
      * 更新信息
