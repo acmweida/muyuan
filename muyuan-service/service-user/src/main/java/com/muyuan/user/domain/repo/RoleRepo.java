@@ -22,6 +22,7 @@ public interface RoleRepo {
 
     /**
      * 通过菜单ID 查询关联角色
+     *
      * @param menuId
      * @return
      */
@@ -29,15 +30,25 @@ public interface RoleRepo {
 
     /**
      * 通过权限ID 查询关联角色
+     *
      * @param permId
      * @return
      */
     List<Role> selectByPermID(Long permId);
 
-    boolean deleteRef(RoleID roleID,MenuID... menuIDS);
+    boolean deleteRef(RoleID roleID, Long... permissionIds);
 
-    boolean addRef(RoleID roleID,MenuID... menuIDS);
+    boolean addRef(RoleID roleID, Long... permissionIds);
 
     boolean addRole(Role role);
+
+    Role updateRole(Role role);
+
+    /**
+     * 删除
+     * @param ids
+     * @return old value
+     */
+    List<Role> deleteBy(Long... ids);
 
 }

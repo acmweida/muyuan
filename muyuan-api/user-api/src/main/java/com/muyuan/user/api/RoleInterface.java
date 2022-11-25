@@ -23,16 +23,27 @@ public interface RoleInterface {
      */
     Result<Page<RoleDTO>> list(RoleQueryRequest request);
 
-
     Result<RoleDTO> getRole(Long id);
 
-
     /**
-     * 添加权限
+     * 添加角色
      * @param request
      * @return
      */
     Result add(RoleRequest request);
 
+    /**
+     * 更新角色
+     * @param request
+     * @return
+     */
+    Result updateRole(RoleRequest request);
+
+    /**
+     *  删除角色
+     * @param ids
+     * @return
+     */
+    Result deleteRole(Long... ids);
 
 }

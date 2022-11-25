@@ -5,6 +5,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.thread.CommonThreadPool;
+import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
@@ -45,8 +46,12 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     public List<Permission> getPermissionByRoles(List<Role> roles) {
         List<Permission> permissions = new ArrayList<>();
         for (Role role : roles) {
-            permissions.addAll(
-                    permissionRepo.selectByRoles(role.getId()));
+
+            List<Permission> roleMenus = CacheServiceUtil.getAndUpdateList(cacheService,
+                    getRolePermsKeyPrefix(role.getPlatformType()) + role.getCode(),
+                    () -> permissionRepo.selectByRoles(role.getId()), Permission.class);
+
+            permissions.addAll(roleMenus);
         }
 
         return permissions;
@@ -54,10 +59,8 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
 
     @Override
     public List<Permission> getPermissionByRoleID(RoleID roleID) {
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role();
-        role.setId(roleID);
-        roles.add(role);
+       List<Role> roles = new ArrayList<>();
+       roles.add(roleRepo.select(roleID.getValue()));
         return getPermissionByRoles(roles);
     }
 

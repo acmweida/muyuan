@@ -11,6 +11,7 @@ import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
 import com.muyuan.user.api.dto.RoleRequest;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.service.RoleDomainService;
 import com.muyuan.user.face.dto.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,24 @@ public class RoleInterfaceApi implements RoleInterface {
         }
         boolean flag = roleDomainService.addRole(ROLE_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result updateRole(RoleRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkUnique(new Role.Identify(new RoleID(request.getId())
+                ,request.getPlatformType(),request.getCode())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = roleDomainService.updateRole(ROLE_MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result deleteRole(Long... ids) {
+        if (roleDomainService.deleteRoleById(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
     }
 
 }

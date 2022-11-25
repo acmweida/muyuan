@@ -8,10 +8,8 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.dto.RoleParams;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.model.SysRole;
-import com.muyuan.manager.system.model.SysRoleMenu;
 import com.muyuan.manager.system.model.SysUserRole;
 import com.muyuan.manager.system.repo.SysRoleRepo;
 import com.muyuan.manager.system.service.RoleService;
@@ -20,15 +18,12 @@ import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleQueryRequest;
 import com.muyuan.user.api.dto.RoleRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,44 +90,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public String checkRoleCodeUnique(SysRole sysRole) {
-        Long id = null == sysRole.getId() ? 0 : sysRole.getId();
-        sysRole = sysRoleRepo.selectOne(new SqlBuilder(SysRole.class).select("id")
-                .eq("code", sysRole.getCode())
-                .build());
-        if (null != sysRole && !id.equals(sysRole.getId())) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
-    }
-
-    @Override
     public Result add(RoleRequest request) {
         return roleInterface.add(request);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(RoleParams roleParams) {
-        SysRole sysRole = new SysRole();
-        sysRole.update();
-        sysRoleRepo.updateById(sysRole);
-
-        List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
-        if (ObjectUtils.isNotEmpty(roleParams.getPermissionIds())) {
-            Arrays.stream(roleParams.getPermissionIds()).forEach(
-                    item -> {
-                        sysRoleMenus.add(new SysRoleMenu(sysRole.getId(), Long.valueOf(item)));
-                    }
-            );
-        }
-
-        sysRoleRepo.deleteMenuByRoleId(sysRole.getId());
-
-        sysRoleRepo.batchInsert(sysRoleMenus);
-
+    public Result update(RoleRequest request) {
+        return roleInterface.updateRole(request);
     }
-
 
     @Override
     public Optional<RoleDTO> getById(Long id) {
@@ -144,7 +109,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteById(String... id) {
-        sysRoleRepo.deleteById(id);
+    public Result deleteById(Long... ids) {
+        return roleInterface.deleteRole(ids);
     }
 }

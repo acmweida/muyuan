@@ -9,14 +9,19 @@ import com.muyuan.user.face.dto.RoleQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValueCheckStrategy;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
 
+
     RoleQueryCommand toCommand(RoleQueryRequest request);
 
+    @Mappings({
+            @Mapping(target = "id.value",source = "id",nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    })
     RoleCommand toCommand(RoleRequest request);
 
     @Mappings({

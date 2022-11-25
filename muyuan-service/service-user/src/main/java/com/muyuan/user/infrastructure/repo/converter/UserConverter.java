@@ -21,8 +21,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserConverter {
 
+
     @Mappings({
-            @Mapping(target = "id",source ="id.value")
+            @Mapping(target = "id",source ="id.value"),
+            @Mapping(target = "platformType",source ="platformType.code")
     })
     RoleDO to(Role role);
 
@@ -34,7 +36,7 @@ public interface UserConverter {
 
     @Mappings({
             @Mapping(target = "id",expression = "java(UserConverter.map(roleDO.getId()))"),
-            @Mapping(target = "platformType",expression = "java(MenuConverter.map(roleDO.getPlatformType()))")
+            @Mapping(target = "platformType",expression = "java(PlatformType.trance(roleDO.getPlatformType()))")
     })
     Role toRole(RoleDO roleDO);
 

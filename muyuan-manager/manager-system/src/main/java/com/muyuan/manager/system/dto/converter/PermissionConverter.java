@@ -1,11 +1,9 @@
 package com.muyuan.manager.system.dto.converter;
 
-import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.manager.system.dto.PermissionParams;
 import com.muyuan.manager.system.dto.vo.PermissionVO;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.PermissionRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -26,13 +24,10 @@ public interface PermissionConverter {
     List<PermissionVO> toVO(List<PermissionDTO> permissionVOS);
 
     @Mappings({
-            @Mapping(target = "platformType",expression = "java(PermissionConverter.map(params.getPlatformType()))")
+            @Mapping(target = "platformType",expression = "java(PlatformType.trance(params.getPlatformType()))")
     })
     PermissionRequest to(PermissionParams params);
 
-    static PlatformType map(String type) {
-        return StringUtils.isEmpty(type) ? PlatformType.OPERATOR : PlatformType.trance(type);
-    }
 
     @Mappings({
             @Mapping(target = "platformType",source = "platformType.code")

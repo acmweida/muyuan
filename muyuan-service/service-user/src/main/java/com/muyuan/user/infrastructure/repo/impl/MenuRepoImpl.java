@@ -45,7 +45,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public List<Menu> selectByPermissions(List<Permission> permissions, PlatformType platformType) {
-        Long[] menuIds = permissions.stream().filter(item -> item.getType().equals("M") || item.getType().equals("C"))
+        Long[] menuIds = permissions.stream().filter(item -> item.getType().equals(GlobalConst.TYPE_DIR) || item.getType().equals(GlobalConst.TYPE_MENU))
                 .map(Permission::getResourceRef).toArray(Long[]::new);
         if (menuIds.length == 0) {
             return GlobalConst.EMPTY_LIST;
@@ -105,6 +105,7 @@ public class MenuRepoImpl implements MenuRepo {
     public boolean addMenu(Menu menu) {
         MenuDO to = converter.to(menu);
         Integer count = menuMapper.insertAuto(to);
+        menu.setId(new MenuID(to.getId()));
 
         // 默认管理员权限
 //        sysRoleMenuMapper.insert(new SysRoleMenu(1L, to.getId()));

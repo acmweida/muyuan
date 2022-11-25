@@ -27,9 +27,9 @@ public interface RoleMapper extends UserBaseMapper<RoleDO> {
 
     List<RoleDO> selectRoleByPermID(Long permID);
 
-    Integer deleteRef(@Param("roleID") Long roleId, @Param("menuIds") Long... menuIds);
+    Integer deleteRef(@Param("roleID") Long roleId, @Param("permissionIds") Long... permissionIds);
 
-    Integer addRef(@Param("roleID") Long roleId, @Param("menuIds") Long... menuIds);
+    Integer addRef(@Param("roleID") Long roleId, @Param("permissionIds") Long... permissionIds);
 
     @Options(useGeneratedKeys = true,keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class,method = "insert")

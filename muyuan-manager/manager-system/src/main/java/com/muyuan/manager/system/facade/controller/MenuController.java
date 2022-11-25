@@ -84,7 +84,7 @@ public class MenuController {
     @GetMapping("/menu/roleMenuTreeSelect/{platformType}/{roleId}")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectKey(@PathVariable Long roleId,@PathVariable Integer platformType) {
-        List<Long> id = menuService.listByRoleId(roleId).stream().map(MenuDTO::getId).collect(Collectors.toList());;
+        List<Long> id = menuService.listByRoleId(roleId).stream().map(MenuDTO::getId).collect(Collectors.toList());
         List<MenuDTO> list = menuService.list(MenuQueryParams.builder()
                 .platformType(platformType)
                 .status(GlobalConst.TRUE)
@@ -157,7 +157,7 @@ public class MenuController {
             }
         }
 
-        return menuService.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[0]));
+        return menuService.deleteById(Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new));
     }
 
 }

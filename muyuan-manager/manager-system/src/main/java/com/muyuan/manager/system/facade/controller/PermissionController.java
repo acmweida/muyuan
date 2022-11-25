@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @Api(tags = {"权限数据接口"})
@@ -93,7 +92,7 @@ public class PermissionController {
             }
         }
 
-        return permissionService.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[0]));
+        return permissionService.deleteById(Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new));
     }
 
 

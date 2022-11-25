@@ -80,6 +80,7 @@ public class PermissionRepoImpl implements PermissionRepo {
     public boolean addPermission(Permission permission) {
         PermissionDO to = converter.to(permission);
         Integer count = permissionMapper.insertAuto(to);
+        permission.setId(to.getId());
         return count > 0;
     }
 

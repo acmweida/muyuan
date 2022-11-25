@@ -45,4 +45,18 @@ public interface RoleDomainService {
      */
     boolean addRole(RoleCommand command);
 
+    /**
+     * 更新角色信息
+     * @param command
+     * @return
+     */
+    boolean updateRole(RoleCommand command);
+
+    /**
+     * 删除角色信息
+     * @param ids
+     * @return
+     */
+    boolean deleteRoleById(Long... ids);
+
 }

@@ -28,7 +28,7 @@ public class RoleDO {
 
     private String orderNum;
 
-    private String platformType;
+    private Integer platformType;
 
     /**
      * 状态 0-正常 1-停用

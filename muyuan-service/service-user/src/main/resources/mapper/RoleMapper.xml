@@ -3,19 +3,19 @@
 
 <mapper namespace="com.muyuan.user.infrastructure.repo.mapper.RoleMapper">
     <insert id="addRef">
-        insert into t_role_menu values
-        <if test="menuIds != null and menuIds.length > 0">
-            <foreach collection="menuIds" item="menuId" open="*" close=")" separator=",">
-               ( #{roleID},#{menuId})
+        insert into t_role_permission values
+        <if test="permissionIds != null and permissionIds.length > 0">
+            <foreach collection="permissionIds" item="permissionId"  separator=",">
+               ( #{roleID},#{permissionId})
             </foreach>
         </if>
     </insert>
     <delete id="deleteRef">
-        delete from t_role_menu where role_id = #{roleID}
-        <if test="menuIds != null and menuIds.length > 0">
+        delete from t_role_permission where role_id = #{roleID}
+        <if test="permissionIds != null and permissionIds.length > 0">
             and menu_id in
-            <foreach collection="menuIds" item="menuId" open="*" close=")" separator=",">
-                #{menuId}
+            <foreach collection="permissionIds" item="permissionId" open="(" close=")" separator=",">
+                #{permissionId}
             </foreach>
         </if>
     </delete>

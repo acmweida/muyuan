@@ -19,7 +19,7 @@ import java.util.List;
 public interface PermissionConverter {
 
     @Mappings({
-            @Mapping(target = "platformType",expression = "java(MenuConverter.map(permissionDO.getPlatformType()))")
+            @Mapping(target = "platformType",expression = "java(PlatformType.trance(permissionDO.getPlatformType()))")
     })
     Permission to(PermissionDO permissionDO);
 

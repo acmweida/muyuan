@@ -1,5 +1,7 @@
 package com.muyuan.common.core.enums;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 /**
  * 平台类型枚举
  */
@@ -22,6 +24,9 @@ public enum PlatformType {
 
 
     public static PlatformType trance(Integer code) {
+        if (ObjectUtils.isEmpty(code) ) {
+            return MEMBER;
+        }
         switch (code) {
             case 0 : return OPERATOR;
             case 1 : return MERCHANT;
@@ -31,6 +36,9 @@ public enum PlatformType {
     }
 
     public static PlatformType trance(String code) {
+        if (ObjectUtils.isEmpty(code) ) {
+            return MEMBER;
+        }
        return trance(Integer.valueOf(code));
     }
 

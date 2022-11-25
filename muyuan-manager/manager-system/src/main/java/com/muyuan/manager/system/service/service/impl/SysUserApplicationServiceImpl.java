@@ -26,11 +26,6 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
 
     private MenuService menuService;
 
-
-    private List<SysRole> getUserRoles(Long id) {
-        return roleService.getRoleByUserId(id);
-    }
-
     @Override
     public Optional<SysUserVO> get(Long id) {
         final Optional<SysUser> userInfo = sysUsernService.getByyId(id);

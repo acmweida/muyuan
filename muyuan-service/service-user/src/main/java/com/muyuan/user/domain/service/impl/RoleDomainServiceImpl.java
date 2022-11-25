@@ -5,7 +5,6 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Role;
-import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.RoleDomainService;
@@ -13,11 +12,11 @@ import com.muyuan.user.face.dto.RoleCommand;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,11 +75,47 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         role.setCreateTime(DateTime.now().toDate());
 
         repo.addRole(role);
-        List<MenuID> menuIDS = new ArrayList<>();
-        for (Long menuId : command.getPermissionIds()) {
-            menuIDS.add(new MenuID(menuId));
-        }
+        Long[] permissionIds = command.getPermissionIds();
 
-        return  repo.addRef(role.getId(), menuIDS.toArray(new MenuID[0]));
+
+        if (ObjectUtils.isEmpty(permissionIds) || permissionIds.length == 0) {
+            return true;
+        }
+        return  repo.addRef(role.getId(), permissionIds);
+    }
+
+    @Override
+    public boolean updateRole(RoleCommand command) {
+        Role role = new Role();
+
+        role.setId(command.getId());
+        role.setPlatformType(command.getPlatformType());
+        role.setName(command.getName());
+        role.setCode(command.getCode());
+        role.setOrderNum(command.getOrderNum());
+        role.setStatus(command.getStatus());
+        role.setCreateBy(command.getCreateBy());
+        role.setCreateTime(DateTime.now().toDate());
+
+        repo.updateRole(role);
+        Long[] permissionIds = command.getPermissionIds();
+
+        repo.deleteRef(role.getId());
+
+
+        if (ObjectUtils.isEmpty(permissionIds) || permissionIds.length == 0) {
+            return true;
+        }
+        return  repo.addRef(role.getId(), permissionIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteRoleById(Long... ids) {
+        List<Role> roles = repo.deleteBy(ids);
+        for (Role role : roles) {
+            repo.deleteRef(role.getId());
+        }
+        return true;
     }
 }

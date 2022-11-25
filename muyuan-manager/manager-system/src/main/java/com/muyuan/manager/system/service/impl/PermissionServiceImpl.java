@@ -39,6 +39,7 @@ public class PermissionServiceImpl implements PermissionService {
                 .module(params.getModule())
                 .status(params.getStatus())
                 .type(params.getType())
+                .types(params.getTypes())
                 .resource(params.getResource())
                 .platformType(PlatformType.trance(params.getPlatformType()))
                 .build();

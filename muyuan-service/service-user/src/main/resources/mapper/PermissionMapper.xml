@@ -11,9 +11,9 @@
 
 
     <select id="selectByRoleId" resultType="com.muyuan.user.infrastructure.repo.dataobject.PermissionDO">
-        select t_permission.id, t_permission.perms, t_permission.type, t_permission.resource,t_permission.resource_ref
+        select t_permission.id, t_permission.perms, t_permission.type, t_permission.resource,t_permission.resource_ref,t_permission.platform_type
         from t_permission
-                 left join (
+                 inner join (
             select permission_id
             from t_role_permission
             where role_id = #{roleId}

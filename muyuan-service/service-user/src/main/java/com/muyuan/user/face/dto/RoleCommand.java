@@ -1,6 +1,7 @@
 package com.muyuan.user.face.dto;
 
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoleCommand {
 
-    private Long id;
+    private RoleID id;
 
     private PlatformType platformType;
     /**

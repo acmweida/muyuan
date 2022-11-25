@@ -3,7 +3,6 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.dto.RoleParams;
 import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleRequest;
@@ -41,13 +40,6 @@ public interface RoleService {
      */
     void selectUser(Long roleId,Long[] userIds);
 
-    /**
-     * 检验唯一性
-     * @param sysRole
-     * @return
-     */
-    String checkRoleCodeUnique(SysRole sysRole);
-
 
     /**
      * 添加角色
@@ -57,9 +49,9 @@ public interface RoleService {
 
     /**
      * 添加角色
-     * @param roleParams
+     * @param request
      */
-    void update(RoleParams roleParams);
+    Result update(RoleRequest request);
 
     /**
      * 通过ID查询角色信息
@@ -69,5 +61,5 @@ public interface RoleService {
     Optional<RoleDTO> getById(Long id);
 
 
-    void deleteById(String... id);
+    Result deleteById(Long... id);
 }

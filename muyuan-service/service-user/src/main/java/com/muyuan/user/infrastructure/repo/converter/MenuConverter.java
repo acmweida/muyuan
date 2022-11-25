@@ -1,9 +1,7 @@
 package com.muyuan.user.infrastructure.repo.converter;
 
-import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.infrastructure.repo.dataobject.MenuDO;
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -22,13 +20,9 @@ public interface MenuConverter {
 
     @Mappings({
             @Mapping(source = "id",target ="id.value"),
-            @Mapping(target = "platformType",expression = "java(MenuConverter.map(menuDO.getPlatformType()))")
+            @Mapping(target = "platformType",expression = "java(com.muyuan.common.core.enums.PlatformType.trance(menuDO.getPlatformType()))")
     })
     Menu to(MenuDO menuDO);
-
-    static PlatformType map(String id) {
-        return StringUtils.isEmpty(id) ? PlatformType.OPERATOR : PlatformType.trance(id);
-    }
 
     List<Menu> to(List<MenuDO> menuDOS);
 

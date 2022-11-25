@@ -7,7 +7,6 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.core.util.StrUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.PermissionQueryParams;
 import com.muyuan.manager.system.dto.RoleParams;
@@ -17,7 +16,6 @@ import com.muyuan.manager.system.dto.assembler.SysRoleAssembler;
 import com.muyuan.manager.system.dto.converter.PermissionConverter;
 import com.muyuan.manager.system.dto.converter.RoleConverter;
 import com.muyuan.manager.system.dto.vo.RoleVO;
-import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.service.PermissionService;
 import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.manager.system.service.SysUsernService;
@@ -163,26 +161,46 @@ public class RoleController {
 
     @PutMapping("/role")
     @ApiOperation(value = "角色添加")
-    @RequirePermissions("system:role:update")
-    public Result update(@RequestBody @Validated RoleParams roleParams) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkRoleCodeUnique(new SysRole(roleParams.getId(), roleParams.getCode())))) {
-            return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleParams.getCode()));
+    @RequirePermissions("system:role:edit")
+    public Result update(@RequestBody @Validated(RoleParams.Update.class) RoleParams roleParams) {
+        RoleRequest request = converter.to(roleParams);
+        if (ObjectUtils.isNotEmpty(roleParams.getMenuIds())) {
+            Page<PermissionDTO> list = permissionService.list(PermissionQueryParams.builder()
+                    .platformType(roleParams.getPlatformType())
+                    .types(new String[]{GlobalConst.TYPE_DIR, GlobalConst.TYPE_MENU})
+                    .build());
+
+            List<PermissionDTO> permissionDTOS = list.getRows();
+            Map<Long, Long> collect = permissionDTOS.stream().collect(Collectors.toMap(PermissionDTO::getResourceRef, PermissionDTO::getId));
+            List<Long> permissionIDs = new ArrayList<>();
+            for (Long menuId : roleParams.getMenuIds()) {
+                permissionIDs.add(collect.get(menuId));
+            }
+            if (ObjectUtils.isNotEmpty(request.getPermissionIds())) {
+                permissionIDs.addAll(Arrays.asList(request.getPermissionIds()));
+            }
+            request.setPermissionIds(permissionIDs.toArray(new Long[0]));
         }
 
-        roleService.update(roleParams);
-
-        return ResultUtil.success();
+        return roleService.update(request);
     }
 
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/role/{ids}")
     @ApiOperation(value = "角色删除")
-    @RequirePermissions("system:role:del")
+    @RequirePermissions("system:role:remove")
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id", value = "角色ID", dataType = "Long[]",dataTypeClass = Long.class, paramType = "path", required = true)}
     )
-    public Result del(@PathVariable String... id) {
-        roleService.deleteById(id);
-        return ResultUtil.success();
+    public Result del(@PathVariable Long... ids) {
+        if (ObjectUtils.isNotEmpty(ids)) {
+            for (Long id : ids) {
+                if (ObjectUtils.isEmpty(id)) {
+                    return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
+                }
+            }
+        }
+
+        return roleService.deleteById(ids);
     }
 
     @PostMapping("/role/export")
