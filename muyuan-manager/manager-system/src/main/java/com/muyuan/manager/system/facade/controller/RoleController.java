@@ -11,14 +11,14 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.PermissionQueryParams;
 import com.muyuan.manager.system.dto.RoleParams;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.dto.SysUserDTO;
+import com.muyuan.manager.system.dto.OperatorQueryParams;
 import com.muyuan.manager.system.dto.assembler.SysRoleAssembler;
 import com.muyuan.manager.system.dto.converter.PermissionConverter;
 import com.muyuan.manager.system.dto.converter.RoleConverter;
 import com.muyuan.manager.system.dto.vo.RoleVO;
 import com.muyuan.manager.system.service.PermissionService;
 import com.muyuan.manager.system.service.RoleService;
-import com.muyuan.manager.system.service.SysUsernService;
+import com.muyuan.manager.system.service.OperatorService;
 import com.muyuan.user.api.dto.PermissionDTO;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleRequest;
@@ -59,7 +59,7 @@ public class RoleController {
 
     private PermissionConverter permissionConverter;
 
-    private SysUsernService sysUsernService;
+    private OperatorService operatorService;
 
     @GetMapping("/role/list")
     @ApiOperation(value = "角色列表查询")
@@ -100,8 +100,8 @@ public class RoleController {
                     @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
-    public Result allocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
-        return ResultUtil.success(sysUsernService.selectAllocatedList(sysUserDTO));
+    public Result allocatedList(@ModelAttribute OperatorQueryParams operatorQueryParams) {
+        return ResultUtil.success(operatorService.selectAllocatedList(operatorQueryParams));
     }
 
     @ApiOperation(value = "角色为分配用户查询")
@@ -113,8 +113,8 @@ public class RoleController {
                     @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
             }
     )
-    public Result unallocatedList(@ModelAttribute SysUserDTO sysUserDTO) {
-        return ResultUtil.success(sysUsernService.selectUnallocatedList(sysUserDTO));
+    public Result unallocatedList(@ModelAttribute OperatorQueryParams operatorQueryParams) {
+        return ResultUtil.success(operatorService.selectUnallocatedList(operatorQueryParams));
     }
 
     @ApiOperation(value = "角色添加用户")

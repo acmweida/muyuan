@@ -9,7 +9,7 @@ import com.muyuan.store.shop.domains.dto.ShopDTO;
 import com.muyuan.store.shop.domains.model.Shop;
 import com.muyuan.store.shop.domains.service.ShopDomainService;
 import com.muyuan.store.shop.infrastructure.common.enums.ShopType;
-import com.muyuan.user.api.UserInterface;
+import com.muyuan.user.api.OperatorInterface;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import org.springframework.util.ObjectUtils;
 public class ShopApplicationServiceImpl implements ShopApplicationService {
 
     @DubboReference(group = ServiceTypeConst.MANAGER_SYSTEM, version = "1.0")
-    private UserInterface userInterface;
+    private OperatorInterface operatorInterface;
 
     @Autowired
     private ShopDomainService shopDomainService;

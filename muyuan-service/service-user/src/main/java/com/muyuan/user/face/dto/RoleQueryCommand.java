@@ -7,9 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class RoleQueryCommand extends PageDTO implements Serializable {
-
-    private static final long serialVersionUID = 1457332148518l;
+public class RoleQueryCommand extends PageDTO {
 
     private PlatformType platformType;
 

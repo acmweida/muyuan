@@ -40,8 +40,8 @@
         from t_role
                  inner join (
             select role_id
-            from t_role_menu
-            where menu_id = #{menuID}
+            from t_role_permission
+            where permission_id = #{permissionId}
         ) role_menu on t_role.id = role_menu.role_id
     </select>
     <select id="selectRoleByPermID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">

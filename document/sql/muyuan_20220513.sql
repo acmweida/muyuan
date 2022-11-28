@@ -647,13 +647,13 @@ INSERT INTO `tenant_info` VALUES (1,'1','c3108468-5b07-4639-a101-3cf12feff1ba','
 UNLOCK TABLES;
 
 --
--- Table structure for table `users`
+-- Table structure for table `operators`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `operators`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `operators` (
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
@@ -662,13 +662,13 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `operators`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('nacos','$2a$10$t5vfTZW7dUsucf/EMP.FYufA3lKOtyB.k6btPGh7jDzA4X0CDTgDm',1);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `operators` WRITE;
+/*!40000 ALTER TABLE `operators` DISABLE KEYS */;
+INSERT INTO `operators` VALUES ('nacos','$2a$10$t5vfTZW7dUsucf/EMP.FYufA3lKOtyB.k6btPGh7jDzA4X0CDTgDm',1);
+/*!40000 ALTER TABLE `operators` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

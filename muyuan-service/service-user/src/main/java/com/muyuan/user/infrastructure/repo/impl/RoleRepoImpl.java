@@ -39,7 +39,7 @@ public class RoleRepoImpl implements RoleRepo {
     @Override
     public List<Role> selectRoleByUserId(UserID userId, PlatformType platformType) {
         List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(userId.getValue(), platformType.getCode());
-        return converter.toRole(roleDOS);
+        return converter.toRoles(roleDOS);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RoleRepoImpl implements RoleRepo {
 
         List<RoleDO> list = roleMapper.selectList(sqlBuilder.build());
 
-        page.setRows(converter.toRole(list));
+        page.setRows(converter.toRoles(list));
 
         return page;
     }
@@ -88,7 +88,7 @@ public class RoleRepoImpl implements RoleRepo {
         if (ObjectUtils.isEmpty(menuId)) {
             return GlobalConst.EMPTY_LIST;
         }
-        return converter.toRole(roleMapper.selectRoleByMenuID(menuId.getValue()));
+        return converter.toRoles(roleMapper.selectRoleByMenuID(menuId.getValue()));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class RoleRepoImpl implements RoleRepo {
         if (ObjectUtils.isEmpty(permId)) {
             return GlobalConst.EMPTY_LIST;
         }
-        return converter.toRole(roleMapper.selectRoleByMenuID(permId));
+        return converter.toRoles(roleMapper.selectRoleByPermID(permId));
     }
 
     @Override
@@ -138,6 +138,6 @@ public class RoleRepoImpl implements RoleRepo {
 
         roleMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
 
-        return converter.toRole(roleDOS);
+        return converter.toRoles(roleDOS);
     }
 }

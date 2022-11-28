@@ -65,6 +65,19 @@ public class MenuController {
     }
 
     @RequirePermissions("system:menu:query")
+    @GetMapping("/menu/all/treeSelect/{platformType}")
+    @ApiOperation(value = "获取菜单选择结构")
+    public Result selectTreeAll(@PathVariable Integer platformType) {
+        List<MenuDTO> list = menuService.list(MenuQueryParams.builder()
+                .platformType(platformType)
+                .status(GlobalConst.TRUE)
+                .build());
+        return ResultUtil.success(MenuAssembler.buildMenuVOSelectTree(converter.toVO(
+                list)
+        ));
+    }
+
+    @RequirePermissions("system:menu:query")
     @GetMapping("/menu/treeSelect/{platformType}")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@PathVariable Integer platformType) {

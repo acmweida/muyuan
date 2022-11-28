@@ -15,8 +15,8 @@ import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
-import com.muyuan.user.domain.service.PermissionDomainService;
-import com.muyuan.user.domain.service.RoleDomainService;
+import com.muyuan.user.domain.service.PermissionService;
+import com.muyuan.user.domain.service.RoleService;
 import com.muyuan.user.face.dto.mapper.PermissionMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -41,16 +41,16 @@ public class PermissionInterfaceApi implements PermissionInterface {
 
     private PermissionMapper PERMISSION_MAPPER;
 
-    private PermissionDomainService permissionDomainService;
+    private PermissionService permissionService;
 
-    private RoleDomainService roleDomainService;
+    private RoleService roleService;
 
     @Override
     public Result<Set<String>> getPermissionByUserID(Long userId, PlatformType platformType) {
 
-        List<Role> roles = roleDomainService.selectRoleByUserId(new UserID(userId), platformType);
+        List<Role> roles = roleService.selectRoleByUserId(new UserID(userId), platformType);
 
-        List<Permission> permissions = permissionDomainService.getPermissionByRoles(roles);
+        List<Permission> permissions = permissionService.getPermissionByRoles(roles.toArray(new Role[0]));
 
         Set<String> parms = new HashSet<>();
         for (Permission permission : permissions) {
@@ -62,30 +62,30 @@ public class PermissionInterfaceApi implements PermissionInterface {
 
     @Override
     public Result<List<PermissionDTO>> getPermissionByRoleID(Long roleId) {
-        List<Permission> permissions = permissionDomainService.getPermissionByRoleID(new RoleID(roleId));
+        List<Permission> permissions = permissionService.getPermissionByRoleID(new RoleID(roleId));
 
         return ResultUtil.success(PERMISSION_MAPPER.toDTO(permissions));
     }
 
     @Override
     public Result<Page<PermissionDTO>> list(PermissionQueryRequest request) {
-        Page<Permission> list = permissionDomainService.list(PERMISSION_MAPPER.toCommand(request));
+        Page<Permission> list = permissionService.list(PERMISSION_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,PERMISSION_MAPPER.toDTO(list.getRows())));
     }
 
     @Override
     public Result add(PermissionRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(permissionDomainService.checkUnique(new Permission.Identify(request.getPerms())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(permissionService.checkUnique(new Permission.Identify(request.getPerms())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = permissionDomainService.addPermission(PERMISSION_MAPPER.toCommand(request));
+        boolean flag = permissionService.addPermission(PERMISSION_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
     @Override
     public Result<PermissionDTO> getPermission(Long id) {
-        Optional<Permission> handler = permissionDomainService.getPermission(id);
+        Optional<Permission> handler = permissionService.getPermission(id);
 
         return handler.map(PERMISSION_MAPPER::toDTO)
                 .map(ResultUtil::success)
@@ -94,19 +94,19 @@ public class PermissionInterfaceApi implements PermissionInterface {
 
     @Override
     public Result updatePermission(PermissionRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(permissionDomainService.checkUnique(new Permission.Identify(
+        if (GlobalConst.NOT_UNIQUE.equals(permissionService.checkUnique(new Permission.Identify(
                 request.getId(),
                 request.getPerms())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = permissionDomainService.updateMenu(PERMISSION_MAPPER.toCommand(request));
+        boolean flag = permissionService.updateMenu(PERMISSION_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 
     @Override
     public Result deletePermission(Long... ids) {
-        if (permissionDomainService.deletePermissionById(ids)) {
+        if (permissionService.deletePermissionById(ids)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

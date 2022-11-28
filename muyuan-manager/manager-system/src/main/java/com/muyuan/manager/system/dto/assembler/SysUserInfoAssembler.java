@@ -3,7 +3,7 @@ package com.muyuan.manager.system.dto.assembler;
 import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.model.SysUser;
 import com.muyuan.manager.system.dto.vo.SysUserVO;
-import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.OperatorDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.Set;
 
 public class SysUserInfoAssembler {
 
-    public static UserDTO buildUserTO(SysUser user) {
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(user,userDTO);
-        return userDTO;
+    public static OperatorDTO buildUserTO(SysUser user) {
+        OperatorDTO operatorDTO = new OperatorDTO();
+        BeanUtils.copyProperties(user, operatorDTO);
+        return operatorDTO;
     }
 
     public static SysUserVO buildUserVO(SysUser user, List<String> roleNames, Set<String> perms) {

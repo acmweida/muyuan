@@ -14,7 +14,7 @@ import com.muyuan.user.api.dto.MenuRequest;
 import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.UserID;
-import com.muyuan.user.domain.service.MenuDomainService;
+import com.muyuan.user.domain.service.MenuService;
 import com.muyuan.user.face.dto.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -38,7 +38,7 @@ public class MenuInterfaceApi implements MenuInterface {
 
     private MenuMapper MENU_MAPPER;
 
-    private MenuDomainService menuService;
+    private MenuService menuService;
 
     @Override
     public Result<List<MenuDTO>> getMenuByRoleId(Long roleId) {
@@ -95,7 +95,7 @@ public class MenuInterfaceApi implements MenuInterface {
     public Result addMenu(MenuRequest request) {
         if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu.Identify(request.getName(), request.getParentId()
                 ,PlatformType.trance(request.getPlatformType()))))) {
-            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+            return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
         if (GlobalConst.YES_FRAME.equals(request.getFrame()) && StrUtil.ishttp(request.getPath())) {
             return ResultUtil.fail("新增菜单[{}]失败，地址必须以http(s)://开头", request.getName());

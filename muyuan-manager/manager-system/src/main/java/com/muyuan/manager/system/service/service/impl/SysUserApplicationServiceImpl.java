@@ -6,7 +6,7 @@ import com.muyuan.manager.system.dto.assembler.SysUserInfoAssembler;
 import com.muyuan.manager.system.dto.vo.SysUserVO;
 import com.muyuan.manager.system.service.MenuService;
 import com.muyuan.manager.system.service.RoleService;
-import com.muyuan.manager.system.service.SysUsernService;
+import com.muyuan.manager.system.service.OperatorService;
 import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 public class SysUserApplicationServiceImpl implements SysUserApplicationService {
 
-    private SysUsernService sysUsernService;
+    private OperatorService operatorService;
 
     private RoleService roleService;
 
@@ -28,7 +28,7 @@ public class SysUserApplicationServiceImpl implements SysUserApplicationService 
 
     @Override
     public Optional<SysUserVO> get(Long id) {
-        final Optional<SysUser> userInfo = sysUsernService.getByyId(id);
+        final Optional<SysUser> userInfo = operatorService.getByyId(id);
         if (!userInfo.isPresent()) {
             log.info("userId :{} 未找到", id);
             return Optional.empty();

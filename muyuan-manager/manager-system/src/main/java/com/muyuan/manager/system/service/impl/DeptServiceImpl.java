@@ -1,20 +1,20 @@
 package com.muyuan.manager.system.service.impl;
 
-import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.exception.ArgumentException;
-import com.muyuan.common.core.util.FunctionUtil;
-import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.system.factories.SysDeptFactory;
-import com.muyuan.manager.system.model.SysDept;
-import com.muyuan.manager.system.repo.SysDeptRepo;
-import com.muyuan.manager.system.service.SysDeptService;
-import com.muyuan.manager.system.dto.SysDeptDTO;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.manager.system.dto.DeptQueryParams;
+import com.muyuan.manager.system.service.DeptService;
+import com.muyuan.user.api.DeptInterface;
+import com.muyuan.user.api.dto.DeptDTO;
+import com.muyuan.user.api.dto.DeptQueryRequest;
+import com.muyuan.user.api.dto.DeptRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,53 +27,24 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DeptServiceImpl implements SysDeptService {
+public class DeptServiceImpl implements DeptService {
 
-    private SysDeptRepo sysDeptRepo;
+    @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
+    private DeptInterface deptInterface;
 
-
-    @Override
-    public List<SysDept> list(SysDeptDTO sysDeptDTO) {
-        SqlBuilder sqlBuilder = new SqlBuilder(SysDept.class)
-                .eq("name", sysDeptDTO.getName())
-                .eq("status", sysDeptDTO.getStatus())
-                .orderByAsc("orderNum");
-        List<SysDept> list = sysDeptRepo.select(sqlBuilder.build());
-        return list;
-    }
 
     @Override
-    public String checkUnique(SysDept sysRole) {
-        Long id = null == sysRole.getId() ? 0 : sysRole.getId();
-        sysRole = sysDeptRepo.selectOne(new SqlBuilder(SysDept.class).select("id")
-                .eq("name", sysRole.getName())
-                .eq("parentId",sysRole.getParentId())
+    public List<DeptDTO> list(DeptQueryParams params) {
+        Result<List<DeptDTO>> result = deptInterface.list(DeptQueryRequest.builder()
+                .name(params.getName())
+                .status(params.getStatus())
                 .build());
-        if (null != sysRole && !id.equals(sysRole.getId())) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
+
+        return ResultUtil.getOr(result, ArrayList::new);
     }
 
     @Override
-    @Transactional
-    public void add(SysDeptDTO sysDeptDTO) {
-        SysDept parentDept = (SysDept) FunctionUtil.getIfNullThen(
-                () -> sysDeptRepo.selectOne(new SqlBuilder(SysDept.class)
-                        .eq("id", sysDeptDTO.getParentId())
-                        .build()),
-                () -> {
-                    throw new ArgumentException(StrUtil.format("部门id:{}没有找到",sysDeptDTO.getParentId()));
-                }
-        ).get();
-
-        SysDept sysDept = SysDeptFactory.newInstance(sysDeptDTO);
-
-        sysDeptRepo.insert(sysDept);
-        sysDept.setParent(parentDept);
-        sysDept.rebuildAncestors();
-
-        sysDeptRepo.updateById(sysDept);
-
+    public Result add(DeptRequest request) {
+        return deptInterface.addDept(request);
     }
 }

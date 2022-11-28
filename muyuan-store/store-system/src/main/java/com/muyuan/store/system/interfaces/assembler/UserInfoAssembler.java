@@ -2,7 +2,7 @@ package com.muyuan.store.system.interfaces.assembler;
 
 import com.muyuan.store.system.domains.model.User;
 import com.muyuan.store.system.domains.vo.UserVO;
-import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.OperatorDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.Set;
 
 public class UserInfoAssembler {
 
-    public static UserDTO buildUserTO(User user) {
-        UserDTO userTO = new UserDTO();
+    public static OperatorDTO buildUserTO(User user) {
+        OperatorDTO userTO = new OperatorDTO();
         BeanUtils.copyProperties(user, userTO);
         return userTO;
     }

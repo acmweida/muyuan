@@ -2,12 +2,10 @@ package com.muyuan.manager.system.service.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.model.SysUserRole;

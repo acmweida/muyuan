@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectDbTableList" parameterType="java.util.Map" resultMap="GenTableResult">
 		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%' and table_schema in ('system','member','product','shop','user')
+		where table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%' and table_schema in ('system','member','product','shop','operator')
 		AND table_name NOT IN (select table_name from t_gen_table)
 		<if test="tableName != null and tableName != ''">
 			AND lower(table_name) like lower(concat('%', #{tableName}, '%'))
@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectDbTableListByNames" resultMap="GenTableResult">
 		select table_name, table_comment, create_time, update_time,table_schema module_name from information_schema.tables
-		where  table_name NOT LIKE 't_gen_%' and table_schema in ('system','member','product','shop','user')
+		where  table_name NOT LIKE 't_gen_%' and table_schema in ('system','member','product','shop','operator')
 		and table_name in
 	    <foreach collection="array" item="name" open="(" separator="," close=")">
  			#{name}

@@ -7,7 +7,7 @@
         <!-- error级别日志 -->
         <Property name="LOG_ERROR_LEVEL" value="error"/>
         <!-- 在当前目录下创建名为log目录做日志存放的目录 -->
-        <Property name="LOG_HOME" value="${sys:user.home}/logs/dev/user/"/>
+        <Property name="LOG_HOME" value="${sys:operator.home}/logs/dev/operator/"/>
         <!-- 档案日志存放目录 -->
         <Property name="LOG_ARCHIVE" value="./log/archive"/>
         <!-- 模块名称， 影响日志配置名，日志文件名，根据自己项目进行配置 -->

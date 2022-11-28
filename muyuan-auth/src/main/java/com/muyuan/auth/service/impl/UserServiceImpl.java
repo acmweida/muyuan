@@ -7,9 +7,9 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.user.api.UserInterface;
-import com.muyuan.user.api.dto.UserDTO;
-import com.muyuan.user.api.dto.UserQueryRequest;
+import com.muyuan.user.api.OperatorInterface;
+import com.muyuan.user.api.dto.OperatorDTO;
+import com.muyuan.user.api.dto.OperatorQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -28,7 +28,7 @@ import java.util.Set;
 public class UserServiceImpl implements UserDetailsService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
-    private UserInterface userInterFace;
+    private OperatorInterface operatorInterFace;
 
     private static UserConverter converter = new UserConverterImpl();
 
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserByUsername(String username, PlatformType platformType) throws UsernameNotFoundException {
-        Result<UserDTO> result = userInterFace.getUserByUsername(UserQueryRequest.builder()
+        Result<OperatorDTO> result = operatorInterFace.getUserByUsername(OperatorQueryRequest.builder()
                 .platformType(platformType)
                 .username(username)
                 .build());
@@ -55,14 +55,14 @@ public class UserServiceImpl implements UserDetailsService {
            return null;
         }
         log.info("用户:{},登录", username);
-        UserDTO userDTO = result.getData();
+        OperatorDTO operatorDTO = result.getData();
         Set<GrantedAuthority> authorities = new HashSet<>();
 
-        if (ObjectUtils.isNotEmpty(userDTO.getRoles())) {
-            userDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+        if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
+            operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
         }
 
-        User user = converter.to(userDTO);
+        User user = converter.to(operatorDTO);
         user.setAuthorities(authorities);
         user.setPlatformType(platformType);
         return user;

@@ -1,10 +1,10 @@
 package com.muyuan.user.infrastructure.repo.converter;
 
+import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.entity.Role;
-import com.muyuan.user.domain.model.entity.User;
 import com.muyuan.user.domain.model.valueobject.RoleID;
+import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
-import com.muyuan.user.infrastructure.repo.dataobject.UserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -32,7 +32,7 @@ public interface UserConverter {
             @Mapping(source = "id",target ="id.value"),
             @Mapping(source = "username",target ="username.value")
     })
-    User to(UserDO userDO);
+    Operator to(OperatorDO operatorDO);
 
     @Mappings({
             @Mapping(target = "id",expression = "java(UserConverter.map(roleDO.getId()))"),
@@ -41,7 +41,9 @@ public interface UserConverter {
     Role toRole(RoleDO roleDO);
 
 
-    List<Role> toRole(List<RoleDO> roleDOS);
+    List<Role> toRoles(List<RoleDO> roleDOS);
+
+    List<Operator> toUsers(List<OperatorDO> operatorDOS);
 
     static RoleID map(Long id) {
         return new RoleID(id);

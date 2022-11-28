@@ -1,6 +1,6 @@
 package com.muyuan.user.dto.converter;
 
-import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.dto.UserVO;
 import org.mapstruct.Mapper;
 
@@ -14,5 +14,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface UserConverter {
 
-    UserVO toVO(UserDTO userDTO);
+    UserVO toVO(OperatorDTO operatorDTO);
 }

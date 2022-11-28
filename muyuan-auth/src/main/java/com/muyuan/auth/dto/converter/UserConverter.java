@@ -1,7 +1,7 @@
 package com.muyuan.auth.dto.converter;
 
 import com.muyuan.auth.dto.User;
-import com.muyuan.user.api.dto.UserDTO;
+import com.muyuan.user.api.dto.OperatorDTO;
 import org.mapstruct.Mapper;
 
 /**
@@ -14,5 +14,5 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface UserConverter {
 
-    User to(UserDTO userDTO);
+    User to(OperatorDTO operatorDTO);
 }

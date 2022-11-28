@@ -6,9 +6,9 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.user.api.PermissionInterface;
-import com.muyuan.user.api.UserInterface;
-import com.muyuan.user.api.dto.UserDTO;
-import com.muyuan.user.api.dto.UserQueryRequest;
+import com.muyuan.user.api.OperatorInterface;
+import com.muyuan.user.api.dto.OperatorDTO;
+import com.muyuan.user.api.dto.OperatorQueryRequest;
 import com.muyuan.user.dto.UserVO;
 import com.muyuan.user.dto.converter.UserConverter;
 import com.muyuan.user.service.UserService;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private PermissionInterface permissionInterface;
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
-    private UserInterface userInterface;
+    private OperatorInterface operatorInterface;
 
     @Autowired
     private UserConverter converter;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         String username = SecurityUtils.getUsername();
         PlatformType platformType = SecurityUtils.getPlatformType();
 
-        final Result<UserDTO> userInfo = userInterface.getUserByUsername(UserQueryRequest.builder()
+        final Result<OperatorDTO> userInfo = operatorInterface.getUserByUsername(OperatorQueryRequest.builder()
                 .username(username)
                 .platformType(platformType)
                 .build());
