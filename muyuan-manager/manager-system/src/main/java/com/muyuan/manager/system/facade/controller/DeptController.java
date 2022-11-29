@@ -41,7 +41,7 @@ public class DeptController {
         return ResultUtil.success(list);
     }
 
-    @RequirePermissions("system:dept:list")
+    @RequirePermissions("system:dept:query")
     @GetMapping("/dept/treeselect")
     @ApiOperation(value = "获取菜单选择结构")
     public Result selectTree(@ModelAttribute DeptQueryParams deptQueryParams) {

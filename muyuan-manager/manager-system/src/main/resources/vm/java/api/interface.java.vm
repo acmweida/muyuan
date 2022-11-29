@@ -1,4 +1,4 @@
-package ${packageName}.${moduleName}.dto.service;
+package ${packageName}.${moduleName}.api;
 
 import java.util.List;
 

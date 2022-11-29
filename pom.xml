@@ -13,7 +13,7 @@
         <module>muyuan-manager</module>
         <module>muyuan-member</module>
         <module>muyuan-service</module>
-        <module>muyuan-operator</module>
+        <module>muyuan-user</module>
         <module>muyuan-system</module>
     </modules>
 

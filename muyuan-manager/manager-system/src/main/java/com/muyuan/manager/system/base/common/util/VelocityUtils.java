@@ -145,7 +145,6 @@ public class VelocityUtils
         templates.add("vm/java/api/queryRequest.java.vm");
         templates.add("vm/java/api/request.java.vm");
         templates.add("vm/java/service/do.java.vm");
-        templates.add("vm/java/service/do.java.vm");
         templates.add("vm/java/service/converter.java.vm");
         templates.add("vm/java/service/mapper.java.vm");
         templates.add("vm/java/service/entity.java.vm");
@@ -196,9 +195,61 @@ public class VelocityUtils
         String mybatisPath = MYBATIS_PATH + "/" + moduleName;
         String vuePath = "vue";
 
+        if (template.contains("vo.java.vm"))
+        {
+            fileName = StrUtil.format("{}/dto/vo/{}VO.java", javaPath,className);
+        }
+        if (template.contains("serviceImpl.java.vm"))
+        {
+            fileName = StrUtil.format("{}/service/impl/{}ServiceImpl.java", javaPath,className);
+        }
+        if (template.contains("queryParams.java.vm"))
+        {
+            fileName = StrUtil.format("{}/dto/{}QueryParams.java", javaPath,className);
+        }
+        if (template.contains("params.java.vm"))
+        {
+            fileName = StrUtil.format("{}/dto/{}Params.java", javaPath,className);
+        }
+        if (template.contains("queryCommand.java.vm"))
+        {
+            fileName = StrUtil.format("{}/face/dto/{}QueryCommand.java", javaPath,className);
+        }
+        if (template.contains("mapper.java.vm"))
+        {
+            fileName = StrUtil.format("{}/face/dto/mapper/{}Mapper.java", javaPath,className);
+        }
+        if (template.contains("interfaceApi.java.vm"))
+        {
+            fileName = StrUtil.format("{}/face/interfaces/{}InterfaceApi.java", javaPath,className);
+        }
+        if (template.contains("domainService.java.vm"))
+        {
+            fileName = StrUtil.format("{}/domains/service/{}DomainService.java", javaPath,className);
+        }
+        if (template.contains("do.java.vm"))
+        {
+            fileName = StrUtil.format("{}/infrastructure/repo/dataobject/{}DO.java", javaPath,className);
+        }
+        if (template.contains("web/converter.java.vm"))
+        {
+            fileName = StrUtil.format("{}/dto/converter/{}Converter.java", javaPath,className);
+        }
+        if (template.contains("service/converter.java.vm"))
+        {
+            fileName = StrUtil.format("{}/infrastructure/repo/converter/{}Converter.java", javaPath,className);
+        }
+        if (template.contains("command.java.vm"))
+        {
+            fileName = StrUtil.format("{}/face/dto/{}Command.java", javaPath,className);
+        }
+        if (template.contains("interface.java.vm"))
+        {
+            fileName = StrUtil.format("{}/api/{}Interface.java", javaPath,className);
+        }
         if (template.contains("entity.java.vm"))
         {
-            fileName = StrUtil.format("{}/domains/model/{}.java", javaPath,className);
+            fileName = StrUtil.format("{}/domains/model/entity/{}.java", javaPath,className);
         }
         if (template.contains("repo.java.vm"))
         {
@@ -206,7 +257,15 @@ public class VelocityUtils
         }
         if (template.contains("dto.java.vm"))
         {
-            fileName = StrUtil.format("{}/domains/dto/{}DTO.java", javaPath,className);
+            fileName = StrUtil.format("{}/api/dto/{}DTO.java", javaPath,className);
+        }
+        if (template.contains("queryRequest.java.vm"))
+        {
+            fileName = StrUtil.format("{}/api/dto/{}QueryRequest.java", javaPath,className);
+        }
+        if (template.contains("request.java.vm"))
+        {
+            fileName = StrUtil.format("{}/api/dto/{}Request.java", javaPath,className);
         }
         if (template.contains("sub-entity.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory()))
         {
@@ -214,14 +273,14 @@ public class VelocityUtils
         }
         else if (template.contains("dao.java.vm"))
         {
-            fileName = StrUtil.format("{}/infrastructure/persistence/mapper/{}Mapper.java", javaPath, className);
+            fileName = StrUtil.format("{}/infrastructure/repo/mapper/{}Mapper.java", javaPath, className);
         } else if (template.contains("repoImpl.java.vm"))
         {
-            fileName = StrUtil.format("{}/infrastructure/persistence/{}RepoImpl.java", javaPath, className);
+            fileName = StrUtil.format("{}/infrastructure/repo/impl/{}RepoImpl.java", javaPath, className);
         }
         else if (template.contains("service.java.vm"))
         {
-            fileName = StrUtil.format("{}/domains/service/{}DomainService.java", javaPath, className);
+            fileName = StrUtil.format("{}/service/{}Service.java", javaPath, className);
         }
         else if (template.contains("domainServiceImpl.java.vm"))
         {
@@ -229,7 +288,7 @@ public class VelocityUtils
         }
         else if (template.contains("controller.java.vm"))
         {
-            fileName = StrUtil.format("{}/interfaces/com.muyuan.manager.system.facade/controller/{}Controller.java", javaPath,className);
+            fileName = StrUtil.format("{}/facade/controller/{}Controller.java", javaPath,className);
         }
         else if (template.contains("mapper.xml.vm"))
         {

@@ -40,7 +40,7 @@ public class OperatorDTO implements Serializable {
 
     private Date lastSignTime;
 
-    private List<String> roles;
+    private List<RoleDTO> roles;
 
     private String type;
 

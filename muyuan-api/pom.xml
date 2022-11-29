@@ -15,7 +15,7 @@
     <modules>
         <module>config-api</module>
         <module>goods-api</module>
-        <module>operator-api</module>
+        <module>user-api</module>
     </modules>
 
     <properties>

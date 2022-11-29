@@ -54,15 +54,15 @@ public class ${ClassName}Controller {
     @GetMapping("/{id}")
     @ApiOperation(value = "${functionName}详情查询")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "${pkColumn.javaField}", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "id", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
     )
     @RequirePermissions(value = "${permissionPrefix}:query")
-    public Result<${ClassName}VO> detail(@@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
-        if (ObjectUtils.isEmpty(${pkColumn.javaField})) {
+    public Result<${ClassName}VO> detail(@@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} id) {
+        if (ObjectUtils.isEmpty(id)) {
             return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
         }
 
-        Optional<${ClassName}DTO> hander = ${className}Service.get(${pkColumn.javaField});
+        Optional<${ClassName}DTO> hander = ${className}Service.get(id);
 
         return hander.map(${className}DTO -> ResultUtil.success(converter.toVO(${className}DTO)))
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
@@ -94,18 +94,18 @@ public class ${ClassName}Controller {
     @RequirePermissions(value = "${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "${pkColumn.javaField}s", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "ids", value = "${functionName}主键", dataTypeClass = ${pkColumn.javaType}.class, paramType = "path", required = true)}
     )
-    public Result delete(@PathVariable String... ${pkColumn.javaField}s) {
-        if (ObjectUtils.isNotEmpty(${pkColumn.javaField}s)) {
-            for (String ${pkColumn.javaField} : ${pkColumn.javaField}s) {
-                if (!StringUtils.isNumeric("${pkColumn.javaField})) {
+    public Result delete(@PathVariable String... ids) {
+        if (ObjectUtils.isNotEmpty(ids)) {
+            for (String id : ids) {
+                if (!StringUtils.isNumeric(id)) {
                     return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR);
                 }
             }
         }
 
-        return ${className}Service.deleteById(Arrays.stream(${pkColumn.javaField}s).map(Long::parseLong).collect(Collectors.toList()).toArray(new ${pkColumn.javaType}[0]));
+        return ${className}Service.deleteById(Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()).toArray(new ${pkColumn.javaType}[0]));
     }
 
 }

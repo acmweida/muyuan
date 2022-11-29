@@ -6,6 +6,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.dto.OperatorParams;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
@@ -100,12 +101,12 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public Optional<SysUser> getByyId(Long userId) {
-        final Optional<SysUser> userInfo = get(new SysUser(userId));
-        if (!userInfo.isPresent()) {
-            return Optional.empty();
-        }
-        return userInfo;
+    public Optional<OperatorDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<OperatorDTO> permissioHander = operatorInterface.get(id_);
+                    return ResultUtil.getOr(permissioHander, null);
+                });
     }
 
     @Override

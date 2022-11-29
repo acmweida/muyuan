@@ -1,8 +1,14 @@
 package com.muyuan.user.dto.converter;
 
 import com.muyuan.user.api.dto.OperatorDTO;
+import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.dto.UserVO;
+import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName UserConverter 接口
@@ -14,5 +20,10 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface UserConverter {
 
+    @Mapping(target = "roles", expression = "java(UserConverter.map(operatorDTO.getRoles()))")
     UserVO toVO(OperatorDTO operatorDTO);
+
+    static List<String> map(List<RoleDTO> value) {
+        return ObjectUtils.isEmpty(value) ? null : value.stream().map(RoleDTO::getCode).collect(Collectors.toList());
+    }
 }

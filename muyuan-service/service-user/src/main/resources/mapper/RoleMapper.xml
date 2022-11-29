@@ -36,12 +36,16 @@
         ) user_role on user_role.role_id = role.id
     </select>
     <select id="selectRoleByMenuID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">
-        select id, code, platform_type, name, status, parent_id, order_num
+        select t_role.id, code, platform_type, name, status, parent_id, order_num
         from t_role
                  inner join (
-            select role_id
+            select role_id, permission_id
             from t_role_permission
-            where permission_id = #{permissionId}
+                     inner join (
+                select id
+                from t_permission
+                where resource_ref = #{menuId}
+            ) permission on permission.id = t_role_permission.permission_id
         ) role_menu on t_role.id = role_menu.role_id
     </select>
     <select id="selectRoleByPermID" resultType="com.muyuan.user.infrastructure.repo.dataobject.RoleDO">

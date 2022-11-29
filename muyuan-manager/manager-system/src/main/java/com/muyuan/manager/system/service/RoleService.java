@@ -3,11 +3,9 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.api.dto.RoleRequest;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,13 +16,6 @@ import java.util.Optional;
  * @Version 1.0
  */
 public interface RoleService {
-
-    /**
-     * 通过用户id获取角色信息
-     * @param userId
-     * @return
-     */
-    List<SysRole> getRoleByUserId(Long userId);
 
     /**
      * 列表查询

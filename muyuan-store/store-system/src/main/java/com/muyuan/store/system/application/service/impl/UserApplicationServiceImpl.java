@@ -47,7 +47,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         List<String> roleCodes = sysRoles.stream().map(item -> SecurityConst.AUTHORITY_PREFIX+item.getCode()).collect(Collectors.toList());
 
         OperatorDTO userTO = UserInfoAssembler.buildUserTO(userInfo.get());
-        userTO.setRoles(roleCodes);
+//        userTO.setRoles(roleCodes);
         return userTO;
     }
 

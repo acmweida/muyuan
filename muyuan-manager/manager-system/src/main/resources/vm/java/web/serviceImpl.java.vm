@@ -43,9 +43,7 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
             request.setPageSize(params.getPageSize());
         }
 
-
         Result<Page<${ClassName}DTO>> res = ${className}Interface.list(request);
-
 
         return res.getData();
     }
@@ -56,10 +54,10 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     }
 
     @Override
-    public Optional<${ClassName}DTO> get(${pkColumn.javaType} ${pkColumn.javaField}) {
+    public Optional<${ClassName}DTO> get(${pkColumn.javaType} id) {
         return Optional.of(${pkColumn.javaField})
                 .map(id_ -> {
-                    Result<${ClassName}DTO> ${className}Hander = ${className}Interface.get${ClassName}(${pkColumn.javaField}_);
+                    Result<${ClassName}DTO> ${className}Hander = ${className}Interface.get${ClassName}(ids_);
                     return ResultUtil.getOr(${className}Hander, null);
                 });
     }
@@ -70,11 +68,11 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     }
 
     @Override
-    public Result deleteById(${pkColumn.javaType}... ${pkColumn.javaField}s) {
-        if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
+    public Result deleteById(${pkColumn.javaType}... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
             return ResultUtil.fail();
         }
 
-        return ${className}Interface.delete${ClassName}(${pkColumn.javaField}s);
+        return ${className}Interface.delete${ClassName}(ids);
     }
 }

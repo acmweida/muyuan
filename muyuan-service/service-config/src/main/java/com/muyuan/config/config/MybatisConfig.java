@@ -1,10 +1,11 @@
 package com.muyuan.config.config;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.config.UserJdbcConfig;
+import com.muyuan.common.mybatis.config.ConfigJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.MutiDataSourceConfig;
+import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ConfigReadWriteJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.UserReadWriteJdbcConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -24,11 +25,11 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @MapperScan("com.muyuan.config.repo.mapper")
-@Import({UserJdbcConfig.class,UserReadWriteJdbcConfig.class})
+@Import({ConfigJdbcConfig.class, ConfigReadWriteJdbcConfig.class})
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(UserJdbcConfig jdbcConfig) {
+    public DataSource dataSource(ConfigJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -40,7 +41,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime( 30 * 1000);
-        dataSourceMap.put(UserJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(ConfigJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);
@@ -48,7 +49,7 @@ public class MybatisConfig {
     }
 
     @Bean
-    public DataSource dataSource(UserReadWriteJdbcConfig userJdbcConfig) {
+    public DataSource dataSource(ConfigReadWriteJdbcConfig userJdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 

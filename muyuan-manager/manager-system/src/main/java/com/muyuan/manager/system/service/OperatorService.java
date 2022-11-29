@@ -51,7 +51,7 @@ public interface OperatorService {
      * @param userId
      * @return
      */
-    Optional<SysUser> getByyId(Long  userId);
+    Optional<OperatorDTO> get(Long  userId);
 
 
     /**

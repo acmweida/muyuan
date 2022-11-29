@@ -38,9 +38,9 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
 
     @Override
     public String checkUnique(${ClassName}.Identify identify) {
-        ${pkColumn.javaType} id = null == identify.get${pkColumn.capJavaField() ? 0 : identify.get${pkColumn.capJavaField();
+        ${pkColumn.javaType} id = null == identify.get${pkColumn.capJavaField}() ? null : identify.get${pkColumn.capJavaField}();
         ${ClassName} ${className} = ${className}Repo.select${ClassName}(identify);
-        if (null != ${className} && !id.equals(${className}.get${pkColumn.capJavaField())) {
+        if (null != ${className} && !id.equals(${className}.get${pkColumn.capJavaField}())) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
@@ -64,8 +64,8 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
     @Override
     public Optional<${ClassName}> get${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
         return Optional.of(${pkColumn.javaField})
-                .map(${pkColumn.javaField}_ -> {
-                    return ${className}Repo.select${ClassName}(${pkColumn.javaField}_);
+                .map(id_ -> {
+                    return ${className}Repo.select${ClassName}(id_);
                 });
     }
 
@@ -92,7 +92,7 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
         if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
             return false;
         }
-        List<${pkColumn.javaType}> removeIds = new ArrayList<>(Arrays.asList(ids));
+        List<${pkColumn.javaType}> removeIds = new ArrayList(Arrays.asList(ids));
 
         List<${ClassName}> olds = ${className}Repo.deleteBy(removeIds.toArray(new ${pkColumn.javaType}[0]));
 

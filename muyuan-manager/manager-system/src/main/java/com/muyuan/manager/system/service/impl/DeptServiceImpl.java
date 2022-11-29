@@ -9,7 +9,6 @@ import com.muyuan.user.api.DeptInterface;
 import com.muyuan.user.api.dto.DeptDTO;
 import com.muyuan.user.api.dto.DeptQueryRequest;
 import com.muyuan.user.api.dto.DeptRequest;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -25,11 +24,10 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@AllArgsConstructor
 @Slf4j
 public class DeptServiceImpl implements DeptService {
 
-    @DubboReference(group = ServiceTypeConst.CONFIG, version = "1.0")
+    @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private DeptInterface deptInterface;
 
 

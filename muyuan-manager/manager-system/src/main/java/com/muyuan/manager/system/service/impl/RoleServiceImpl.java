@@ -7,7 +7,6 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.model.SysRole;
 import com.muyuan.manager.system.model.SysUserRole;
 import com.muyuan.manager.system.repo.SysRoleRepo;
 import com.muyuan.manager.system.service.RoleService;
@@ -19,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,18 +39,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private SysRoleRepo sysRoleRepo;
-
-    /**
-     * 根据用户id查询角色
-     *
-     * @param userId
-     * @return
-     */
-    @Override
-    public List<SysRole> getRoleByUserId(Long userId) {
-        Assert.notNull(userId, "user Id is null");
-        return sysRoleRepo.selectRoleByUserId(userId);
-    }
 
     @Override
     public Page<RoleDTO> list(RoleQueryParams params) {

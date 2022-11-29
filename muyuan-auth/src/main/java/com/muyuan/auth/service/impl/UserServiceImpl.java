@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
-            operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+            operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
         }
 
         User user = converter.to(operatorDTO);

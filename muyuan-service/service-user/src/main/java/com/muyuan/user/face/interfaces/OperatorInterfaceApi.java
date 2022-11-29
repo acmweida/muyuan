@@ -3,12 +3,14 @@ package com.muyuan.user.face.interfaces;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorQueryRequest;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.service.OperatorService;
 import com.muyuan.user.face.dto.mapper.OperatorMapper;
 import lombok.AllArgsConstructor;
@@ -50,6 +52,15 @@ public class OperatorInterfaceApi implements OperatorInterface {
         Page<Operator> list = operatorService.list(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+    }
+
+    @Override
+    public Result<OperatorDTO> get(Long id) {
+        Optional<Operator> handler = operatorService.getUserByyId(new UserID(id), PlatformType.OPERATOR);
+
+        return handler.map(USER_MAPPER::toDto)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
     }
 
 }

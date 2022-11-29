@@ -29,4 +29,11 @@ public interface OperatorInterface {
      */
     Result<Page<OperatorDTO>> list(OperatorQueryRequest request);
 
+    /**
+     * 用户基本信息
+     * @param id
+     * @return
+     */
+    Result<OperatorDTO> get(Long id);
+
 }

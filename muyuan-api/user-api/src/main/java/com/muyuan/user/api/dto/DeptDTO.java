@@ -37,15 +37,13 @@ public class DeptDTO implements Serializable {
 
     private String delFlag;
 
-    private String createBy;
-
-    private Long createById;
+    private String creator;
 
     private Date createTime;
 
-    private String updateBy;
+    private Long updateBy;
 
-    private Long updateById;
+    private String updater;
 
     private Date updateTime;
 

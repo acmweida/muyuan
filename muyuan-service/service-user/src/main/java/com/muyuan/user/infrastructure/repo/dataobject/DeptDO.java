@@ -36,15 +36,13 @@ public class DeptDO {
 
     private String delFlag;
 
-    private Long createBy;
-
-    private Long createById;
+    private String creator;
 
     private Date createTime;
 
-    private String updateBy;
+    private Long updateBy;
 
-    private Long updateById;
+    private String updater;
 
     private Date updateTime;
 

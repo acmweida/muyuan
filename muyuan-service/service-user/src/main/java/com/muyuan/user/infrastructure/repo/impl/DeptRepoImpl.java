@@ -6,7 +6,6 @@ import com.muyuan.user.domain.repo.DeptRepo;
 import com.muyuan.user.face.dto.DeptQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.DeptConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.DeptDO;
-import com.muyuan.user.infrastructure.repo.dataobject.MenuDO;
 import com.muyuan.user.infrastructure.repo.mapper.DeptMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -33,7 +32,7 @@ public class DeptRepoImpl implements DeptRepo {
 
     @Override
     public List<Dept> list(DeptQueryCommand command) {
-        List<DeptDO> deptDOS = deptMapper.selectList(new SqlBuilder(MenuDO.class)
+        List<DeptDO> deptDOS = deptMapper.selectList(new SqlBuilder(DeptDO.class)
                 .like(NAME, command.getName())
                 .eq(STATUS, command.getStatus())
                 .orderByAsc(ORDER_NUM)

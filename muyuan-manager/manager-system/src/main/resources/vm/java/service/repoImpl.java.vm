@@ -49,7 +49,7 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
     }
 
     @Override
-    public ${ClassName} select${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
+    public ${ClassName} select${ClassName}(${pkColumn.javaType} id) {
         ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new SqlBuilder(${ClassName}DO.class)
                 .eq(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField})
                 .build());
@@ -86,9 +86,9 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
     }
 
     @Override
-    public List<${ClassName}> deleteBy(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+    public List<${ClassName}> deleteBy(${pkColumn.javaType}... ids) {
         List<${ClassName}DO> ${className}s = ${className}Mapper.selectList(new SqlBuilder(${ClassName}DO.class)
-                .in(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField}s)
+                .in(${pkColumn.upperCaseJavaField}, ids)
                 .build());
 
         ${className}Mapper.deleteBy(new SqlBuilder().in(${pkColumn.upperCaseJavaField}, ids).build());

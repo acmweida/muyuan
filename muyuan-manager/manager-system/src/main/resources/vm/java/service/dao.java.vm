@@ -14,7 +14,7 @@ import ${packageName}.${moduleName}.infrastructure.repo.dataobject.${subClassNam
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${ClassName}Mapper extends ${ModuleName}BaseMapper<${ClassName}> {
+public interface ${ClassName}Mapper extends ${ModuleName}BaseMapper<${ClassName}DO> {
 
 
     #foreach ($column in $columns)

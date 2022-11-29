@@ -3,15 +3,14 @@ package com.muyuan.manager.system.facade.controller;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.dto.OperatorParams;
-import com.muyuan.manager.system.service.service.SysUserApplicationService;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
 import com.muyuan.manager.system.model.SysUser;
 import com.muyuan.manager.system.service.OperatorService;
-import com.muyuan.manager.system.dto.vo.SysUserVO;
 import com.muyuan.user.api.dto.OperatorDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,8 +29,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OperatorController {
 
-    private SysUserApplicationService sysUserApplicationService;
-
     private OperatorService operatorService;
 
     @RequirePermissions("system:operator:query")
@@ -43,17 +40,18 @@ public class OperatorController {
     }
 
     @RequirePermissions("system:operator:query")
-    @GetMapping({"/operator/{id}","/user/"})
+    @GetMapping({"/operator/{id}","/operator/"})
     @ApiOperation(value = "获取用户信息")
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id",value = "用户ID",dataTypeClass = String.class,paramType = "path",required = true)}
+            {@ApiImplicitParam(name = "id",value = "用户ID 不传默认当前用户",dataTypeClass = String.class,paramType = "path")}
     )
-    public Result<SysUserVO> get(@PathVariable(required = false) @Pattern(regexp = "\\d*",message = "用户ID格式错误") String id) {
-        final Optional<SysUserVO> userInfo = sysUserApplicationService.get(ObjectUtils.isEmpty(id) ? SecurityUtils.getUserId() :  Long.valueOf(id));
+    public Result<OperatorDTO> get(@PathVariable(required = false) @Pattern(regexp = "\\d*",message = "用户ID格式错误") String id) {
+        final Optional<OperatorDTO> userInfo = operatorService.get(ObjectUtils.isEmpty(id) ? SecurityUtils.getUserId() :  Long.valueOf(id));
         if (!userInfo.isPresent()) {
             return ResultUtil.fail("用户信息不存在");
         }
-        return ResultUtil.success(userInfo.get());
+        return userInfo.map(ResultUtil::success)
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
     }
 
     @ApiOperation(value = "系统用户新增", code = 0)

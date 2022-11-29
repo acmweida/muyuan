@@ -9,7 +9,6 @@ import com.muyuan.user.domain.repo.OperatorRepo;
 import com.muyuan.user.domain.service.OperatorService;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,11 +42,10 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public Optional<Operator> getUserByyId(UserID userId, PlatformType platformType) {
-        if (ObjectUtils.isEmpty(platformType)) {
-            return Optional.empty();
-        }
-
-        return Optional.ofNullable(repo.selectOneByID(userId, platformType));
+    public Optional<Operator> getUserByyId(UserID userId,PlatformType platformType) {
+        return Optional.of(userId)
+                .map(id_ -> {
+                    return repo.selectOneByID(id_,platformType);
+                });
     }
 }

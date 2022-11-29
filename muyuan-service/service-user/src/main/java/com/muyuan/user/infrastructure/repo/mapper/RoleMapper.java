@@ -23,7 +23,7 @@ public interface RoleMapper extends UserBaseMapper<RoleDO> {
 
     List<RoleDO> selectRoleByUserId(Long userId,Integer type);
 
-    List<RoleDO> selectRoleByMenuID(Long permissionId);
+    List<RoleDO> selectRoleByMenuID(Long menuId);
 
     List<RoleDO> selectRoleByPermID(Long permID);
 
