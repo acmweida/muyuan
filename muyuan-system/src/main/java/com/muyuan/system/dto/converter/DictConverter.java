@@ -16,6 +16,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DictConverter {
 
-    List<DictDataVO> toDictDataVO2(List<DictDataDTO> dictDatas);
+    List<DictDataVO> toDictDataVO(List<DictDataDTO> dictDatas);
 
 }

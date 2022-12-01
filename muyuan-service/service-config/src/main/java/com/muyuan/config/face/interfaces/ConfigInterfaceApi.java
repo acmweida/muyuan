@@ -21,8 +21,8 @@ import java.util.Optional;
 /**
  * @ClassName ConfigInterfaceApi
  * Description 内部接口  参数配置
- * @author ${author}
- * @date 2022-11-29T16:27:55.007+08:00
+ * @author wd
+ * @date 2022-11-30T09:54:07.407+08:00
  * @Version 1.0
  */
 @AllArgsConstructor
@@ -33,27 +33,27 @@ public class ConfigInterfaceApi implements ConfigInterface {
 
     private ConfigMapper MAPPER;
 
-    private ConfigService configService;
+    private ConfigService configDomainService;
 
     @Override
     public Result<Page<ConfigDTO>> list(ConfigQueryRequest request) {
-        Page<Config> list = configService.list(MAPPER.toCommand(request));
+        Page<Config> list = configDomainService.list(MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,MAPPER.toDTO(list.getRows())));
     }
 
     @Override
     public Result add(ConfigRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(configService.checkUnique(new Config.Identify(request.getId())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(configDomainService.checkUnique(new Config.Identify(request.getId())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = configService.addConfig(MAPPER.toCommand(request));
+        boolean flag = configDomainService.addConfig(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
     @Override
     public Result<ConfigDTO> getConfig(Long id) {
-        Optional<Config> handler = configService.getConfig(id);
+        Optional<Config> handler = configDomainService.getConfig(id);
 
         return handler.map(MAPPER::toDTO)
                 .map(ResultUtil::success)
@@ -62,17 +62,17 @@ public class ConfigInterfaceApi implements ConfigInterface {
 
     @Override
     public Result updateConfig(ConfigRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(configService.checkUnique(new Config.Identify(request.getId())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(configDomainService.checkUnique(new Config.Identify(request.getId())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = configService.updateMenu(MAPPER.toCommand(request));
+        boolean flag = configDomainService.updateMenu(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 
     @Override
     public Result deleteConfig(Long... ids) {
-        if (configService.deleteConfigById(ids)) {
+        if (configDomainService.deleteConfigById(ids)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

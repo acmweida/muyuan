@@ -5,6 +5,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.UserID;
+import com.muyuan.user.face.dto.OperatorCommand;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 
 import java.util.Optional;
@@ -26,7 +27,7 @@ public interface OperatorService {
      * @param command
      * @return
      */
-    Optional<Operator> getUserByUsername(OperatorQueryCommand command);
+    Optional<Operator> getOperatorByUsername(OperatorQueryCommand command);
 
 
     /**
@@ -34,6 +35,23 @@ public interface OperatorService {
      * @param userId
      * @return
      */
-    Optional<Operator> getUserByyId(UserID userId, PlatformType platformType);
+    Optional<Operator> getOperatorByyId(UserID userId, PlatformType platformType);
+
+    /**
+     * 检查唯一性
+     *
+     * @param identify
+     * @return
+     */
+    String checkUnique(Operator.Identify identify);
+
+    /**
+     * 新增用户信息
+     * @param command
+     * @return
+     */
+    boolean addOperator(OperatorCommand command);
+
+
 
 }

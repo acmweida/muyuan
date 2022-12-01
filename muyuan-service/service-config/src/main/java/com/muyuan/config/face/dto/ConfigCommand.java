@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @author ${author}
+ * @author wd
  * @ClassName ConfigRequest
  * Description
- * @date 2022-11-29T16:27:55.007+08:00
+ * @date 2022-11-30T10:41:23.089+08:00
  * @Version 1.0
  */
 @Data
@@ -28,7 +28,7 @@ public class ConfigCommand {
     /**
      * 参数名称
      */
-    private String configName;
+    private String name;
 
     /**
      * 参数键名
@@ -43,7 +43,7 @@ public class ConfigCommand {
     /**
      * 系统内置（Y是 N否）
      */
-    private String configType;
+    private Integer type;
 
     /**
      * 创建者
@@ -69,5 +69,15 @@ public class ConfigCommand {
      * 备注
      */
     private String remark;
+
+    /**
+     * $column.columnComment
+     */
+    private Long creator;
+
+    /**
+     * $column.columnComment
+     */
+    private Long updater;
 
 }

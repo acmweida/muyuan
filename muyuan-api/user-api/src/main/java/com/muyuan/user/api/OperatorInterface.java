@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.OperatorRequest;
 
 /**
  * @ClassName OperatorInterface 接口
@@ -35,5 +36,13 @@ public interface OperatorInterface {
      * @return
      */
     Result<OperatorDTO> get(Long id);
+
+
+    /**
+     * 添加权限
+     * @param request
+     * @return
+     */
+    Result add(OperatorRequest request);
 
 }

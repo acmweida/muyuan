@@ -2,10 +2,11 @@ package com.muyuan.manager.system.base.persistence;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.manager.system.base.persistence.converter.GenTableConverter;
+import com.muyuan.manager.system.base.persistence.mapper.GenTableMapper;
 import com.muyuan.manager.system.dto.GenTableDTO;
 import com.muyuan.manager.system.model.GenTable;
 import com.muyuan.manager.system.repo.GenTableRepo;
-import com.muyuan.manager.system.base.persistence.mapper.GenTableMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,8 @@ import java.util.List;
 public class GenTableRepoImpl implements GenTableRepo {
 
     private GenTableMapper genTableMapper;
+
+    private GenTableConverter converter;
 
 
     @Override
@@ -68,7 +71,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public int updateGenTable(GenTableDTO genTableDTO) {
-        return genTableMapper.updateBy(genTableDTO.convert(),"tableId");
+        return genTableMapper.updateBy(converter.to(genTableDTO),"tableId");
     }
 
     @Override

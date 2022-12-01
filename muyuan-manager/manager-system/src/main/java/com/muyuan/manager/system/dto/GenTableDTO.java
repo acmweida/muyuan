@@ -1,7 +1,6 @@
 package com.muyuan.manager.system.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.system.model.GenTable;
+import com.muyuan.common.bean.PageDTO;
 import com.muyuan.manager.system.model.GenTableColumn;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,7 +17,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Data
-public class GenTableDTO extends BaseDTO<GenTableDTO, GenTable> {
+public class GenTableDTO extends PageDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginTime;

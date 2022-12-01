@@ -1,10 +1,11 @@
 package com.muyuan.manager.system.service;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.manager.system.dto.OperatorParams;
+import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
 import com.muyuan.manager.system.model.SysUser;
 import com.muyuan.user.api.dto.OperatorDTO;
+import com.muyuan.user.api.dto.OperatorRequest;
 
 import java.util.Optional;
 
@@ -40,14 +41,6 @@ public interface OperatorService {
 
     /**
      * 获取用户信息
-     * @param username
-     * @return
-     */
-    Optional<SysUser> getByyUsername(String  username);
-
-
-    /**
-     * 获取用户信息
      * @param userId
      * @return
      */
@@ -56,15 +49,9 @@ public interface OperatorService {
 
     /**
      * 系统用户新增
-     * @param operatorParams
+     * @param request
      * @return
      */
-    void add(OperatorParams operatorParams);
+    Result add(OperatorRequest request);
 
-    /**
-     * 检查唯一性
-     * @param sysUser
-     * @return
-     */
-    String checkAccountNameUnique(SysUser sysUser);
 }

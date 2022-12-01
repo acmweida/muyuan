@@ -19,8 +19,8 @@ import java.util.Optional;
 /**
  * @ClassName ConfigServiceImpl
  * Description 参数配置
- * @Author  ${author}
- * @Date 2022-11-29T16:27:55.007+08:00
+ * @Author  wd
+ * @Date 2022-11-30T10:41:23.089+08:00
  * @Version 1.0
  */
 @Service
@@ -33,24 +33,24 @@ public class ConfigServiceImpl implements ConfigService {
     public Page<ConfigDTO> list(ConfigQueryParams params) {
         ConfigQueryRequest request = ConfigQueryRequest.builder()
                 .id(params.getId())
-                .configName(params.getConfigName())
+                .name(params.getName())
                 .configKey(params.getConfigKey())
                 .configValue(params.getConfigValue())
-                .configType(params.getConfigType())
+                .type(params.getType())
                 .createBy(params.getCreateBy())
                 .createTime(params.getCreateTime())
                 .updateBy(params.getUpdateBy())
                 .updateTime(params.getUpdateTime())
                 .remark(params.getRemark())
+                .creator(params.getCreator())
+                .updater(params.getUpdater())
                 .build();
         if (params.enablePage()) {
             request.setPageNum(params.getPageNum());
             request.setPageSize(params.getPageSize());
         }
 
-
         Result<Page<ConfigDTO>> res = configInterface.list(request);
-
 
         return res.getData();
     }

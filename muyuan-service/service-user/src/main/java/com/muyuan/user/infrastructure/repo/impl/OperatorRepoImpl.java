@@ -9,17 +9,17 @@ import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.OperatorRepo;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
-import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
-import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
+import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.OperatorMapper;
+import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.CREATE_TIME;
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.STATUS;
+import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
 import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.PHONE;
 import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.USERNAME;
 
@@ -91,5 +91,30 @@ public class OperatorRepoImpl implements OperatorRepo {
         }
 
         return operator;
+    }
+
+    @Override
+    public Operator selectOperator(Operator.Identify identify) {
+        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class).select(ID)
+                .eq(USERNAME, identify.getUsername().getValue())
+                .eq(ID, ObjectUtils.isEmpty(identify.getUserID()) ? identify.getUserID() : identify.getUserID().getValue())
+                .build());
+
+        return converter.to(operatorDO);
+    }
+
+    @Override
+    public void insert(Operator operator) {
+        OperatorDO to = converter.to(operator);
+        mapper.insert(to);
+        operator.setId(new UserID(to.getId()));
+    }
+
+    @Override
+    public boolean addRef(UserID roleID, Long... roleIds) {
+        if (ObjectUtils.isEmpty(roleIds)) {
+            return true;
+        }
+        return mapper.addRef(roleID.getValue(), roleIds) > 0;
     }
 }

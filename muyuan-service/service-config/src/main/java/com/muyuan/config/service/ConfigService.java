@@ -8,10 +8,10 @@ import com.muyuan.config.face.dto.ConfigQueryCommand;
 import java.util.Optional;
 
 /**
- * @ClassName ConfigService 接口
+ * @ClassName ConfigDomainService 接口
  * Description 参数配置接口
- * @author ${author}
- * @date 2022-11-29T16:27:55.007+08:00
+ * @author wd
+ * @date 2022-11-30T09:54:07.407+08:00
  * @Version 1.0
  */
 public interface ConfigService {

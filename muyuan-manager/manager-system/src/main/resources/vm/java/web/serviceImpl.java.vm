@@ -54,10 +54,10 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     }
 
     @Override
-    public Optional<${ClassName}DTO> get(${pkColumn.javaType} id) {
+    public Optional<${ClassName}DTO> get(${pkColumn.javaType} ${pkColumn.javaField}) {
         return Optional.of(${pkColumn.javaField})
-                .map(id_ -> {
-                    Result<${ClassName}DTO> ${className}Hander = ${className}Interface.get${ClassName}(ids_);
+                .map(${pkColumn.javaField}_ -> {
+                    Result<${ClassName}DTO> ${className}Hander = ${className}Interface.get${ClassName}(${pkColumn.javaField}_);
                     return ResultUtil.getOr(${className}Hander, null);
                 });
     }
@@ -68,11 +68,11 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     }
 
     @Override
-    public Result deleteById(${pkColumn.javaType}... ids) {
-        if (ObjectUtils.isEmpty(ids)) {
+    public Result deleteById(${pkColumn.javaType}... ${pkColumn.javaField}s) {
+        if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
             return ResultUtil.fail();
         }
 
-        return ${className}Interface.delete${ClassName}(ids);
+        return ${className}Interface.delete${ClassName}(${pkColumn.javaField}s);
     }
 }

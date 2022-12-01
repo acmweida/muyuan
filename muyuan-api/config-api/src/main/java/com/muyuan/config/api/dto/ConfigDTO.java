@@ -2,25 +2,26 @@ package com.muyuan.config.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
  * 参数配置对象 t_config
  *
- * @author ${author}
- * @date 2022-11-29T16:27:55.007+08:00
+ * @author wd
+ * @date 2022-11-30T10:41:23.089+08:00
  */
 @Data
-public class ConfigDTO {
+public class ConfigDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
 
     /** 参数主键 */
-    private Long ids;
+    private Long id;
 
     /** 参数名称 */
-    private String configName;
+    private String name;
 
     /** 参数键名 */
     private String configKey;
@@ -29,7 +30,7 @@ public class ConfigDTO {
     private String configValue;
 
     /** 系统内置（Y是 N否） */
-    private String configType;
+    private Integer type;
 
     /** 创建者 */
     private String createBy;
@@ -45,6 +46,12 @@ public class ConfigDTO {
 
     /** 备注 */
     private String remark;
+
+    /** $column.columnComment */
+    private Long creator;
+
+    /** $column.columnComment */
+    private Long updater;
 
 
 }

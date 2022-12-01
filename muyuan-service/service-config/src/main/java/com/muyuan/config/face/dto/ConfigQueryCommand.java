@@ -1,18 +1,20 @@
 package com.muyuan.config.face.dto;
 
+import java.util.Date;
+
 import com.muyuan.common.bean.PageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
- * @author ${author}
+ * @author wd
  * @ClassName ConfigQueryRequest
  * Description
- * @date 2022-11-29T16:27:55.007+08:00
+ * @date 2022-11-30T10:41:23.089+08:00
  * @Version 1.0
  */
 @Data
@@ -29,7 +31,7 @@ public class ConfigQueryCommand extends PageDTO {
     /**
      * 参数名称
      */
-    private String configName;
+    private String name;
 
     /**
      * 参数键名
@@ -44,7 +46,7 @@ public class ConfigQueryCommand extends PageDTO {
     /**
      * 系统内置（Y是 N否）
      */
-    private String configType;
+    private Integer type;
 
     /**
      * 创建者
@@ -70,5 +72,15 @@ public class ConfigQueryCommand extends PageDTO {
      * 备注
      */
     private String remark;
+
+    /**
+     * $column.columnComment
+     */
+    private Long creator;
+
+    /**
+     * $column.columnComment
+     */
+    private Long updater;
 
 }

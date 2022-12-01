@@ -1,15 +1,15 @@
 package com.muyuan.manager.system.facade.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.dto.OperatorParams;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
-import com.muyuan.manager.system.model.SysUser;
+import com.muyuan.manager.system.dto.converter.OperatorConverter;
 import com.muyuan.manager.system.service.OperatorService;
 import com.muyuan.user.api.dto.OperatorDTO;
 import io.swagger.annotations.Api;
@@ -30,6 +30,8 @@ import java.util.Optional;
 public class OperatorController {
 
     private OperatorService operatorService;
+
+    private OperatorConverter converter;
 
     @RequirePermissions("system:operator:query")
     @GetMapping("/operator/list")
@@ -57,26 +59,8 @@ public class OperatorController {
     @ApiOperation(value = "系统用户新增", code = 0)
     @RequirePermissions("system:operator:add")
     @PostMapping("/operator")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "username",value = "用户名,用户名只能由字母、数字、下划线组成，且长度是4-16位",dataTypeClass = String.class,paramType = "body",required = true),
-                    @ApiImplicitParam(name = "password",value = "用户密码,最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符",dataTypeClass = String.class,paramType = "body",required = true),
-                    @ApiImplicitParam(name = "nickName",value = "用户昵称",dataTypeClass = String.class,paramType = "body",required = true),
-                    @ApiImplicitParam(name = "deptId",value = "部门ID",dataTypeClass = Long.class,paramType = "body"),
-                    @ApiImplicitParam(name = "email",value = "邮箱",dataTypeClass = String.class,paramType = "body"),
-                    @ApiImplicitParam(name = "phone",value = "手机号",dataTypeClass = String.class,paramType = "body"),
-                    @ApiImplicitParam(name = "status",value = "状态",dataTypeClass = String.class,paramType = "body",defaultValue = "0"),
-                    @ApiImplicitParam(name = "roleIds",value = "角色ID",dataType = "Long[]",dataTypeClass = Long.class,paramType = "body"),
-                    @ApiImplicitParam(name = "sex",value = "性别",dataTypeClass = String.class,paramType = "body",required = true),
-                    @ApiImplicitParam(name = "remark",value = "备注",dataTypeClass = String.class,paramType = "body")
-            }
-    )
-    public Result add(@RequestBody @Validated OperatorParams operatorParams) {
-        if (GlobalConst.NOT_UNIQUE.equals(operatorService.checkAccountNameUnique(new SysUser(operatorParams.getUsername())))) {
-            return ResultUtil.fail("账号已存在");
-        }
-
-        operatorService.add(operatorParams);
-        return ResultUtil.success("注册成功");
-
+    @ApiOperationSupport(ignoreParameters = "id")
+    public Result add(@RequestBody @Validated(OperatorParams.Add.class) OperatorParams params) {
+        return operatorService.add(converter.to(params));
     }
 }

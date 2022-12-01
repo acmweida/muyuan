@@ -28,15 +28,17 @@ public class ConfigRepoImpl implements ConfigRepo {
     public Page<Config> select(ConfigQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(ConfigDO.class)
                 .eq(ID,command.getId())
-                .eq(CONFIG_NAME,command.getConfigName())
+                .eq(NAME,command.getName())
                 .eq(CONFIG_KEY,command.getConfigKey())
                 .eq(CONFIG_VALUE,command.getConfigValue())
-                .eq(CONFIG_TYPE,command.getConfigType())
+                .eq(TYPE,command.getType())
                 .eq(CREATE_BY,command.getCreateBy())
                 .eq(CREATE_TIME,command.getCreateTime())
                 .eq(UPDATE_BY,command.getUpdateBy())
                 .eq(UPDATE_TIME,command.getUpdateTime())
                 .eq(REMARK,command.getRemark())
+                .eq(CREATOR,command.getCreator())
+                .eq(UPDATER,command.getUpdater())
 ;
 
         Page<Config> page = Page.<Config>builder().build();
@@ -63,8 +65,8 @@ public class ConfigRepoImpl implements ConfigRepo {
 
     @Override
     public Config selectConfig(Config.Identify identify) {
-        ConfigDO configDO = configMapper.selectOne(new SqlBuilder(ConfigDO.class).select(CONFIG_ID)
-                .eq(CONFIG_ID, identify.getId())
+        ConfigDO configDO = configMapper.selectOne(new SqlBuilder(ConfigDO.class).select(ID)
+                .eq(ID, identify.getId())
                 .build());
 
         return converter.to(configDO);
@@ -91,7 +93,7 @@ public class ConfigRepoImpl implements ConfigRepo {
     }
 
     @Override
-    public List<Config> deleteBy(Integer... ids) {
+    public List<Config> deleteBy(Long... ids) {
         List<ConfigDO> configs = configMapper.selectList(new SqlBuilder(ConfigDO.class)
                 .in(ID, ids)
                 .build());

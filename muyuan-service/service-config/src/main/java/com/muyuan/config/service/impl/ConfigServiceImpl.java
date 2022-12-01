@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author ${author}
+ * @author wd
  * @ClassName ConfigDomainServiceImpl
  * Description 权限
- * @date 2022-11-29T16:27:55.007+08:00
+ * @date 2022-11-30T10:41:23.089+08:00
  * @Version 1.0
  */
 @Service
@@ -39,7 +39,7 @@ public class ConfigServiceImpl implements ConfigService {
     public String checkUnique(Config.Identify identify) {
         Long id = null == identify.getId() ? null : identify.getId();
         Config config = configRepo.selectConfig(identify);
-        if (null != config && !id.equals(config.getId())){
+        if (null != config && !id.equals(config.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
         return GlobalConst.UNIQUE;
@@ -49,15 +49,17 @@ public class ConfigServiceImpl implements ConfigService {
     public boolean addConfig(ConfigCommand command) {
         Config config = new Config();
 
-        config.setConfigName(command.getConfigName());
+        config.setName(command.getName());
         config.setConfigKey(command.getConfigKey());
         config.setConfigValue(command.getConfigValue());
-        config.setConfigType(command.getConfigType());
+        config.setType(command.getType());
         config.setCreateBy(command.getCreateBy());
         config.setCreateTime(command.getCreateTime());
         config.setUpdateBy(command.getUpdateBy());
         config.setUpdateTime(command.getUpdateTime());
         config.setRemark(command.getRemark());
+        config.setCreator(command.getCreator());
+        config.setUpdater(command.getUpdater());
 
         return configRepo.addConfig(config);
     }
@@ -75,15 +77,17 @@ public class ConfigServiceImpl implements ConfigService {
         Config config = new Config();
 
         config.setId(command.getId());
-        config.setConfigName(command.getConfigName());
+        config.setName(command.getName());
         config.setConfigKey(command.getConfigKey());
         config.setConfigValue(command.getConfigValue());
-        config.setConfigType(command.getConfigType());
+        config.setType(command.getType());
         config.setCreateBy(command.getCreateBy());
         config.setCreateTime(command.getCreateTime());
         config.setUpdateBy(command.getUpdateBy());
         config.setUpdateTime(command.getUpdateTime());
         config.setRemark(command.getRemark());
+        config.setCreator(command.getCreator());
+        config.setUpdater(command.getUpdater());
 
         Config old = configRepo.updateConfig(config);
         if (ObjectUtils.isNotEmpty(old)) {
@@ -98,9 +102,9 @@ public class ConfigServiceImpl implements ConfigService {
         if (ObjectUtils.isEmpty(ids)) {
             return false;
         }
-        List<Integer> removeIds = new ArrayList(Arrays.asList(ids));
+        List<Long> removeIds = new ArrayList(Arrays.asList(ids));
 
-        List<Config> olds = configRepo.deleteBy(removeIds.toArray(new Integer[0]));
+        List<Config> olds = configRepo.deleteBy(removeIds.toArray(new Long[0]));
 
         return !olds.isEmpty();
     }

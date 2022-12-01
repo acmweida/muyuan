@@ -30,6 +30,23 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Operator {
 
+    @Data
+    static public class Identify {
+
+        private UserID userID;
+
+        private Username username;
+
+        public Identify(Username username) {
+            this.username = username;
+        }
+
+        public Identify(UserID userID, Username username) {
+            this.userID = userID;
+            this.username = username;
+        }
+    }
+
     private UserID id;
 
     /**
@@ -135,20 +152,15 @@ public class Operator {
     /**
      * 初始化用户信息
      */
-    public void initInstance(long userId, String username) {
-        Assert.isTrue(!ObjectUtils.isEmpty(getPassword()), "SysUserEntity init fail, password is null");
+    public void initPassword() {
+        Assert.isTrue(!ObjectUtils.isEmpty(getPassword()),"SysUserEntity init fail, password is null");
         String salt = UUID.randomUUID().toString();
         String encryptKey = UUID.randomUUID().toString();
 
         setNickName(createUserName());
-        setPassword(EncryptUtil.SHA1(getPassword() + salt, encryptKey));
-
+        setPassword(EncryptUtil.SHA1(getPassword() + salt, encryptKey));;
         setSalt(salt);
         setEncryptKey(encryptKey);
-
-        setCreateTime(new Date());
-        setCreateBy(userId);
-        setCreator(username);
     }
 
 //    public void save(OperatorRepo operatorRepo, long userId, String username) {

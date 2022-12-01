@@ -17,7 +17,11 @@ public interface OperatorRepo {
 
     Operator selectOneByID(UserID userID, PlatformType platformType);
 
-//    void insert(Operator operator);
+    Operator selectOperator(Operator.Identify identify);
+
+    void insert(Operator operator);
+
+    boolean addRef(UserID roleID, Long... roleIds);
 //
 //    List<Operator> selectAllocatedList(Map params);
 //

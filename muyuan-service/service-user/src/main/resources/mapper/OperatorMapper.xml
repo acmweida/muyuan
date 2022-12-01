@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.muyuan.user.infrastructure.repo.mapper.OperatorMapper">
+    <insert id="addRef">
+        insert into t_user_role values
+        <if test="roleIds != null and roleIds.length > 0">
+            <foreach collection="roleIds" item="roleId"  separator=",">
+               ( #{userId},#{roleId})
+            </foreach>
+        </if>
+    </insert>
+<!--    <delete id="deleteRef">-->
+<!--        delete from t_role_permission where role_id = #{roleID}-->
+<!--        <if test="permissionIds != null and permissionIds.length > 0">-->
+<!--            and menu_id in-->
+<!--            <foreach collection="permissionIds" item="permissionId" open="(" close=")" separator=",">-->
+<!--                #{permissionId}-->
+<!--            </foreach>-->
+<!--        </if>-->
+<!--    </delete>-->
+
+</mapper>

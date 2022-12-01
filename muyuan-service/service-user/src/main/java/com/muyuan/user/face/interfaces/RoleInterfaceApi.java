@@ -16,12 +16,16 @@ import com.muyuan.user.domain.service.RoleService;
 import com.muyuan.user.face.dto.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.Optional;
 
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
-        , interfaceClass = RoleInterface.class
+        , interfaceClass = RoleInterface.class,
+        methods = {
+        @Method(name = "add",retries = 0)
+    }
 )
 public class RoleInterfaceApi implements RoleInterface {
 

@@ -37,7 +37,7 @@ public class DictDataController {
 
         List<DictDataDTO> dictDatas = dictDataService.getByDataType(dictType);
 
-        return ResultUtil.success(converter.toDictDataVO2(dictDatas));
+        return ResultUtil.success(converter.toDictDataVO(dictDatas));
     }
 
 

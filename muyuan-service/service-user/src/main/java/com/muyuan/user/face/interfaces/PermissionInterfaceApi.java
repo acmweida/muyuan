@@ -20,6 +20,7 @@ import com.muyuan.user.domain.service.RoleService;
 import com.muyuan.user.face.dto.mapper.PermissionMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,10 @@ import java.util.Set;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
-        , interfaceClass = PermissionInterface.class
+        , interfaceClass = PermissionInterface.class,
+        methods = {
+        @Method(name = "add",retries = 0)
+    }
 )
 public class PermissionInterfaceApi implements PermissionInterface {
 

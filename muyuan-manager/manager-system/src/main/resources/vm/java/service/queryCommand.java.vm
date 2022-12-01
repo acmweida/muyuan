@@ -1,5 +1,8 @@
 package ${packageName}.${moduleName}.face.dto;
 
+#foreach ($import in $importList)
+import ${import};
+#end
 import com.muyuan.common.bean.PageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

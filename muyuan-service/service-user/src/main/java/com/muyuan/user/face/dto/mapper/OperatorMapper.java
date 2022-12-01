@@ -2,9 +2,11 @@ package com.muyuan.user.face.dto.mapper;
 
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.OperatorRequest;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.face.dto.OperatorCommand;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,6 +25,8 @@ import java.util.List;
 public interface OperatorMapper {
 
     OperatorQueryCommand toCommand(OperatorQueryRequest request);
+
+    OperatorCommand toCommand(OperatorRequest request);
 
     @Mappings({
             @Mapping(target = "id", source = "id.value"),

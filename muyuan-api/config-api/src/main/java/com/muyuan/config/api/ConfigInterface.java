@@ -9,8 +9,8 @@ import com.muyuan.config.api.dto.ConfigRequest;
 /**
  * 参数配置Service接口
  *
- * @author ${author}
- * @date 2022-11-29T16:27:55.007+08:00
+ * @author wd
+ * @date 2022-11-30T09:54:07.407+08:00
  */
 public interface ConfigInterface {
 

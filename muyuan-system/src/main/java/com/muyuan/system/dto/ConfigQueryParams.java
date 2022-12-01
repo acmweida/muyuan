@@ -1,4 +1,4 @@
-package com.muyuan.manager.system.dto;
+package com.muyuan.system.dto;
 
 import com.muyuan.common.bean.PageDTO;
 import lombok.Data;

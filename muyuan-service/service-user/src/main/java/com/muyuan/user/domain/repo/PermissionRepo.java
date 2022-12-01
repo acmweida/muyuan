@@ -15,7 +15,7 @@ public interface PermissionRepo {
 
     Permission selectPermission(Long id);
 
-    Permission selectPermission(Permission.Identify permission);
+    Permission selectPermission(Permission.Identify identify);
 
     boolean addPermission(Permission permission);
 

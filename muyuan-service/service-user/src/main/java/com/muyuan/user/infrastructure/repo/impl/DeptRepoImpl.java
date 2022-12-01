@@ -64,6 +64,7 @@ public class DeptRepoImpl implements DeptRepo {
     public boolean addDept(Dept dept) {
         DeptDO to = converter.to(dept);
         Integer count = deptMapper.insertAuto(to);
+        dept.setId(to.getId());
         return count > 0;
     }
 

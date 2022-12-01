@@ -18,6 +18,7 @@ import com.muyuan.user.domain.service.MenuService;
 import com.muyuan.user.face.dto.mapper.MenuMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,10 @@ import java.util.Optional;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
-        , interfaceClass = MenuInterface.class
+        , interfaceClass = MenuInterface.class,
+        methods = {
+                @Method(name = "addMenu",retries = 0)
+        }
 )
 public class MenuInterfaceApi implements MenuInterface {
 

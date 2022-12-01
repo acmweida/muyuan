@@ -26,8 +26,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+/**
+ * @ClassName ConfigController
+ * Description
+ * @author wd
+ * @date 2022-11-30T09:54:07.407+08:00
+ * @Version 1.0
+ */
 @RestController
 @Api(tags = {"参数配置接口"})
 @RequestMapping("/config")
@@ -40,7 +46,7 @@ public class ConfigController {
 
     @GetMapping("/list")
     @ApiOperation(value = "参数配置列表查询")
-    @RequirePermissions(value = "config:config:query")
+    @RequirePermissions(value = "system:config:query")
     public Result<Page<ConfigVO>> list(@ModelAttribute ConfigQueryParams params) {
         Page<ConfigDTO> page = configService.list(params);
 
@@ -52,8 +58,8 @@ public class ConfigController {
     @ApiImplicitParams(
             {@ApiImplicitParam(name = "id", value = "参数配置主键", dataTypeClass = Long.class, paramType = "path", required = true)}
     )
-    @RequirePermissions(value = "config:config:query")
-    public Result<ConfigVO> detail(@PathVariable Long id) {
+    @RequirePermissions(value = "system:config:query")
+    public Result<ConfigVO> detail(@PathVariable("id") Long id) {
         if (ObjectUtils.isEmpty(id)) {
             return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
         }
@@ -66,8 +72,8 @@ public class ConfigController {
 
     @PostMapping()
     @ApiOperation(value = "参数配置新增")
-    @ApiOperationSupport(ignoreParameters = "configId")
-    @RequirePermissions(value = "config:config:add")
+    @ApiOperationSupport(ignoreParameters = "id")
+    @RequirePermissions(value = "system:config:add")
     @Log(title = "参数配置", businessType = BusinessType.INSERT)
     public Result add(@RequestBody @Validated(ConfigParams.Add.class) ConfigParams params) {
         return configService.add(converter.to(params));
@@ -75,7 +81,7 @@ public class ConfigController {
 
     @PutMapping()
     @ApiOperation(value = "参数配置更新")
-    @RequirePermissions(value = "config:config:edit")
+    @RequirePermissions(value = "system:config:edit")
     @Log(title = "参数配置", businessType = BusinessType.UPDATE)
     public Result update(@RequestBody @Validated(ConfigParams.Update.class) ConfigParams params) {
         if (ObjectUtils.isEmpty(params.getId())) {
@@ -87,10 +93,10 @@ public class ConfigController {
 
     @DeleteMapping("/{ids}")
     @ApiOperation(value = "参数配置删除")
-    @RequirePermissions(value = "config:config:remove")
+    @RequirePermissions(value = "system:config:remove")
     @Log(title = "参数配置", businessType = BusinessType.DELETE)
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "ids", value = "参数配置主键", dataTypeClass = Integer.class, paramType = "path", required = true)}
+            {@ApiImplicitParam(name = "ids", value = "参数配置主键", dataTypeClass = Long.class, paramType = "path", required = true)}
     )
     public Result delete(@PathVariable String... ids) {
         if (ObjectUtils.isNotEmpty(ids)) {
@@ -101,10 +107,7 @@ public class ConfigController {
             }
         }
 
-        return configService.deleteById(Arrays.stream(ids).
-                map(Long::parseLong).
-                collect(Collectors.toList()).
-                toArray(new Long[0]));
+        return configService.deleteById(Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new));
     }
 
 }

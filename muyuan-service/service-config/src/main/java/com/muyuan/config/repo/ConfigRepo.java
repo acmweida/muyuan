@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * 参数配置对象 t_config
  *
- * @author ${author}
- * @date 2022-11-29T16:27:55.007+08:00
+ * @author wd
+ * @date 2022-11-30T09:54:07.407+08:00
  */
 
 public interface ConfigRepo {
@@ -35,6 +35,6 @@ public interface ConfigRepo {
      * @param ids
      * @return old value
      */
-    List<Config> deleteBy(Integer... ids);
+    List<Config> deleteBy(Long... ids);
 
 }

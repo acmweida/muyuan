@@ -53,10 +53,10 @@ public interface MenuService {
     /**
      * 检查唯一性
      *
-     * @param key
+     * @param identify
      * @return
      */
-    String checkUnique(Menu.Identify key);
+    String checkUnique(Menu.Identify identify);
 
 
     boolean updateMenu(MenuCommand command);

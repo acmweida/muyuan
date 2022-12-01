@@ -35,6 +35,12 @@ public interface UserConverter {
     Operator to(OperatorDO operatorDO);
 
     @Mappings({
+            @Mapping(target = "id",source ="id.value"),
+            @Mapping(target = "username",source ="username.value")
+    })
+    OperatorDO to(Operator operator);
+
+    @Mappings({
             @Mapping(target = "id",expression = "java(UserConverter.map(roleDO.getId()))"),
             @Mapping(target = "platformType",expression = "java(PlatformType.trance(roleDO.getPlatformType()))")
     })

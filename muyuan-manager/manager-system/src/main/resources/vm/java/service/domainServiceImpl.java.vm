@@ -64,8 +64,8 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
     @Override
     public Optional<${ClassName}> get${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
         return Optional.of(${pkColumn.javaField})
-                .map(id_ -> {
-                    return ${className}Repo.select${ClassName}(id_);
+                .map(${pkColumn.javaField}_ -> {
+                    return ${className}Repo.select${ClassName}(${pkColumn.javaField}_);
                 });
     }
 
@@ -92,7 +92,7 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
         if (ObjectUtils.isEmpty(${pkColumn.javaField}s)) {
             return false;
         }
-        List<${pkColumn.javaType}> removeIds = new ArrayList(Arrays.asList(ids));
+        List<${pkColumn.javaType}> removeIds = new ArrayList(Arrays.asList(${pkColumn.javaField}s));
 
         List<${ClassName}> olds = ${className}Repo.deleteBy(removeIds.toArray(new ${pkColumn.javaType}[0]));
 

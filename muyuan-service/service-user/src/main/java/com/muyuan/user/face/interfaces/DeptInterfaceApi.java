@@ -15,6 +15,7 @@ import com.muyuan.user.face.dto.mapper.DeptMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,10 @@ import java.util.Optional;
  */
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
-        , interfaceClass = DeptInterface.class
+        , interfaceClass = DeptInterface.class,
+        methods = {
+        @Method(name = "addDept",retries = 0)
+        }
 )
 public class DeptInterfaceApi implements DeptInterface {
 

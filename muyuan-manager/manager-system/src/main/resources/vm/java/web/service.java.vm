@@ -32,10 +32,10 @@ public interface ${ClassName}Service {
 
     /**
      * ${functionName}查询
-     * @param id
+     * @param ${pkColumn.javaField}
      * @return
      */
-    Optional<${ClassName}DTO> get(${pkColumn.javaType} id);
+    Optional<${ClassName}DTO> get(${pkColumn.javaType} ${pkColumn.javaField});
 
     /**
      * ${functionName}变更
@@ -46,8 +46,8 @@ public interface ${ClassName}Service {
 
     /**
      * 删除
-     * @param ids
+     * @param ${pkColumn.javaField}s
      * @return
      */
-    Result deleteById(${pkColumn.javaType}... ids);
+    Result deleteById(${pkColumn.javaType}... ${pkColumn.javaField}s);
 }

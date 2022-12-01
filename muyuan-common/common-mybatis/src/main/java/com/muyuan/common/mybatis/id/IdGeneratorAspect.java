@@ -23,7 +23,7 @@ public class IdGeneratorAspect {
 
     @Before("@annotation(idGenerator)")
     public void setId(JoinPoint point, IdGenerator idGenerator) throws Throwable {
-        String idFieldName = "id";
+        String idFieldName = idGenerator.filedName();
         final Object[] args = point.getArgs();
         if (args.length != 1) {
             log.error("id generator method must only have one param");

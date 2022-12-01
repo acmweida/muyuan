@@ -11,8 +11,8 @@ import java.util.Optional;
 /**
  * @ClassName ConfigService
  * Description 参数配置服务
- * @Author  ${author}
- * @Date 2022-11-29T16:27:55.007+08:00
+ * @Author  wd
+ * @Date 2022-11-30T09:54:07.407+08:00
  * @Version 1.0
  */
 public interface ConfigService {

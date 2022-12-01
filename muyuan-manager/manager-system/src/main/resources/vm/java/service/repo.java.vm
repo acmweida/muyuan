@@ -17,7 +17,7 @@ public interface ${ClassName}Repo {
 
     Page<${ClassName}> select(${ClassName}QueryCommand command);
 
-    ${ClassName} select${ClassName}(${pkColumn.javaType} id);
+    ${ClassName} select${ClassName}(${pkColumn.javaType} ${pkColumn.javaField});
 
     ${ClassName} select${ClassName}(${ClassName}.Identify identify);
 
@@ -35,6 +35,6 @@ public interface ${ClassName}Repo {
      * @param ${pkColumn.javaField}s
      * @return old value
      */
-    List<${ClassName}> deleteBy(${pkColumn.javaType}... ids);
+    List<${ClassName}> deleteBy(${pkColumn.javaType}... ${pkColumn.javaField}s);
 
 }

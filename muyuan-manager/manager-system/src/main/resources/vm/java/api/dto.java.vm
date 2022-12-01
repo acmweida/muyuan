@@ -13,7 +13,7 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
-public class ${ClassName}DTO {
+public class ${ClassName}DTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
 

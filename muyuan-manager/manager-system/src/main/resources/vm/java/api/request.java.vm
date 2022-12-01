@@ -1,5 +1,8 @@
 package com.muyuan.${moduleName}.api.dto;
 
+#foreach ($import in $importList)
+import ${import};
+#end
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

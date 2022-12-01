@@ -1,27 +1,18 @@
-package com.muyuan.config.api.dto;
+package com.muyuan.system.dto.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
+
 /**
+ * 参数配置对象
+ *
  * @author wd
- * @ClassName ConfigRequest
- * Description
  * @date 2022-11-30T10:41:23.089+08:00
- * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ConfigRequest implements Serializable {
-
-    private static final long serialVersionUID = 1357932148568l;
+public class ConfigVO {
 
     /**
      * 参数主键
@@ -82,5 +73,6 @@ public class ConfigRequest implements Serializable {
      * $column.columnComment
      */
     private Long updater;
+
 
 }
