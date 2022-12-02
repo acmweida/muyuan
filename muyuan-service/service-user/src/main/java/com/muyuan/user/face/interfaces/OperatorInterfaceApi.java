@@ -87,4 +87,27 @@ public class OperatorInterfaceApi implements OperatorInterface {
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
+    @Override
+    public Result<Page<OperatorDTO>> selectAllocatedList(OperatorQueryRequest request) {
+        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+        if (!constraintViolations.isEmpty()) {
+            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
+        }
+        Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
+
+        return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+    }
+
+    @Override
+    public Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request) {
+        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+        if (!constraintViolations.isEmpty()) {
+            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
+        }
+
+        Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
+
+        return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+    }
+
 }

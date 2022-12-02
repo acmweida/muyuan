@@ -52,6 +52,18 @@ public interface OperatorService {
      */
     boolean addOperator(OperatorCommand command);
 
+    /**
+     * 列表查询
+     * @param request
+     * @return
+     */
+    Page<Operator> selectAllocatedList(OperatorQueryCommand request);
 
+    /**
+     * 列表查询 查询角色没有分配的用户
+     * @param request
+     * @return
+     */
+    Page<Operator> selectUnallocatedList(OperatorQueryCommand request);
 
 }

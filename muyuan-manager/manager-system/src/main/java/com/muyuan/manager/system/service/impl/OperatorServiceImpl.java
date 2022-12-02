@@ -5,10 +5,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
-import com.muyuan.manager.system.model.SysUser;
-import com.muyuan.manager.system.repo.SysUserRepo;
 import com.muyuan.manager.system.service.OperatorService;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
@@ -16,10 +13,8 @@ import com.muyuan.user.api.dto.OperatorQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -28,9 +23,6 @@ public class OperatorServiceImpl implements OperatorService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private OperatorInterface operatorInterface;
-
-    @Autowired
-    private SysUserRepo sysUserRepo;
 
     @Override
     public  Page<OperatorDTO> list(OperatorQueryParams params) {
@@ -52,37 +44,37 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public Page<SysUser> selectAllocatedList(OperatorQueryParams operatorQueryParams) {
-        Page page = Page.builder()
-                .pageNum(operatorQueryParams.getPageNum())
-                .pageSize(operatorQueryParams.getPageSize()).build();
+    public Page<OperatorDTO> selectAllocatedList(OperatorQueryParams params) {
+        OperatorQueryRequest request = OperatorQueryRequest.builder()
+                .username(params.getUsername())
+                .phone(params.getPhone())
+                .roleId(params.getRoleId())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-        List<SysUser> sysUsers = sysUserRepo.selectAllocatedList(new SqlBuilder()
-                .eq("username", operatorQueryParams.getUsername())
-                .eq("phone", operatorQueryParams.getPhone())
-                .page(page)
-                .build());
+        Result<Page<OperatorDTO>> res = operatorInterface.selectAllocatedList(request);
 
-        page.setRows(sysUsers);
-
-        return page;
+        return res.getData();
     }
 
     @Override
-    public Page<SysUser> selectUnallocatedList(OperatorQueryParams operatorQueryParams) {
-        Page page = Page.builder()
-                .pageNum(operatorQueryParams.getPageNum())
-                .pageSize(operatorQueryParams.getPageSize()).build();
+    public Page<OperatorDTO> selectUnallocatedList(OperatorQueryParams params) {
+        OperatorQueryRequest request = OperatorQueryRequest.builder()
+                .username(params.getUsername())
+                .phone(params.getPhone())
+                .roleId(params.getRoleId())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-        List<SysUser> sysUsers = sysUserRepo.selectUnallocatedList(new SqlBuilder()
-                .eq("username", operatorQueryParams.getUsername())
-                .eq("phone", operatorQueryParams.getPhone())
-                .page(page)
-                .build());
+        Result<Page<OperatorDTO>> res = operatorInterface.selectUnallocatedList(request);
 
-        page.setRows(sysUsers);
-
-        return page;
+        return res.getData();
     }
 
     @Override

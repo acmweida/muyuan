@@ -10,7 +10,39 @@
             </foreach>
         </if>
     </insert>
-<!--    <delete id="deleteRef">-->
+    <select id="selectAllocatedList" resultType="com.muyuan.user.infrastructure.repo.dataobject.OperatorDO">
+        select id, username, nick_name, create_time, dept_id,status
+        from t_operator
+        where status = 0
+        <if test="params.username != null and params.username != ''">
+            AND u.username like concat('%', #{username}, '%')
+        </if>
+        <if test="params.phone != null and params.phone != ''">
+            AND u.phone like concat('%', #{phone}, '%')
+        </if>
+        and  exists (
+        select user_id
+        from t_user_role
+        where role_id = #{roleId} and user_id = id
+        )
+    </select>
+    <select id="selectUnallocatedList" resultType="com.muyuan.user.infrastructure.repo.dataobject.OperatorDO">
+        select id, username, nick_name, create_time, dept_id
+        from t_operator
+        where status = 0
+        <if test="params.username != null and params.username != ''">
+            AND u.username like concat('%', #{username}, '%')
+        </if>
+        <if test="params.phone != null and params.phone != ''">
+            AND u.phone like concat('%', #{phone}, '%')
+        </if>
+        and not exists (
+        select user_id
+        from t_user_role
+        where role_id = #{roleId} and user_id = id
+        )
+    </select>
+    <!--    <delete id="deleteRef">-->
 <!--        delete from t_role_permission where role_id = #{roleID}-->
 <!--        <if test="permissionIds != null and permissionIds.length > 0">-->
 <!--            and menu_id in-->

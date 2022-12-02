@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -31,5 +32,8 @@ public class OperatorQueryRequest extends PageDTO implements Serializable {
     private String phone;
 
     private String status;
+
+    @NotNull(message = "角色ID不呢为空")
+    private Long roleId;
 
 }

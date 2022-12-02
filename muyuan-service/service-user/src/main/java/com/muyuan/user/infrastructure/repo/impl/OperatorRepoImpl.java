@@ -117,4 +117,44 @@ public class OperatorRepoImpl implements OperatorRepo {
         }
         return mapper.addRef(roleID.getValue(), roleIds) > 0;
     }
+
+    @Override
+    public Page<Operator> selectAllocatedList(OperatorQueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
+                .like(USERNAME, command.getUsername())
+                .eq(PHONE, command.getPhone());
+
+        Page<Operator> page = Page.<Operator>builder().build();
+        if (command.enablePage()) {
+            page.setPageSize(command.getPageSize());
+            page.setPageNum(command.getPageNum());
+            sqlBuilder.page(page);
+        }
+
+        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(),sqlBuilder.build());
+
+        page.setRows(converter.toUsers(list));
+
+        return page;
+    }
+
+    @Override
+    public Page<Operator> selectUnallocatedList(OperatorQueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
+                .like(USERNAME, command.getUsername())
+                .eq(PHONE, command.getPhone());
+
+        Page<Operator> page = Page.<Operator>builder().build();
+        if (command.enablePage()) {
+            page.setPageSize(command.getPageSize());
+            page.setPageNum(command.getPageNum());
+            sqlBuilder.page(page);
+        }
+
+        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(),sqlBuilder.build());
+
+        page.setRows(converter.toUsers(list));
+
+        return page;
+    }
 }

@@ -91,4 +91,14 @@ public class OperatorServiceImpl implements OperatorService {
 
         return true;
     }
+
+    @Override
+    public Page<Operator> selectAllocatedList(OperatorQueryCommand command) {
+        return repo.selectAllocatedList(command);
+    }
+
+    @Override
+    public Page<Operator> selectUnallocatedList(OperatorQueryCommand command) {
+        return repo.selectUnallocatedList(command);
+    }
 }

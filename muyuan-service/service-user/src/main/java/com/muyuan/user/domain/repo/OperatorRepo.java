@@ -22,12 +22,9 @@ public interface OperatorRepo {
     void insert(Operator operator);
 
     boolean addRef(UserID roleID, Long... roleIds);
-//
-//    List<Operator> selectAllocatedList(Map params);
-//
-//    void update(Operator operator);
-//
-//    void insert(UserRole userRole);
-//
-//    void update(Operator brand, String... column);
+
+    Page<Operator> selectAllocatedList(OperatorQueryCommand command);
+
+    Page<Operator> selectUnallocatedList(OperatorQueryCommand command);
+
 }

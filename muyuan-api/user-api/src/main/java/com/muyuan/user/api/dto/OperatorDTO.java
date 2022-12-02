@@ -44,4 +44,7 @@ public class OperatorDTO implements Serializable {
 
     private String type;
 
+    private Integer sex;
+
+    private String email;
 }

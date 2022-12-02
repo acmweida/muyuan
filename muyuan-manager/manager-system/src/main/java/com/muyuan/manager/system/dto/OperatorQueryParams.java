@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 
 /**
  * @ClassName SysUserDTO
@@ -19,8 +18,14 @@ import javax.validation.constraints.Pattern;
 @ApiModel("用户信息查询")
 public class OperatorQueryParams extends PageDTO {
 
-    @Pattern(regexp = "[a-zA-Z0-9_-]{4,16}$",message = "用户名只能由字母、数字、下划线组成，且长度是4-16位")
-    @NotBlank(message = "用户名不能为空")
+    public interface SelectAllow {
+
+    }
+
+    @ApiModelProperty(value = "角色名称",required = true)
+    @NotNull(message = "角色ID不能为空",groups = SelectAllow.class)
+    private Long roleId;
+
     @ApiModelProperty(value = "用户名称")
     private String username;
 
@@ -30,7 +35,6 @@ public class OperatorQueryParams extends PageDTO {
     @ApiModelProperty(value = "状态")
     private String status;
 
-    @NotBlank(message = "平台类型不能为空", groups = {PermissionParams.Add.class, PermissionParams.Update.class})
     @ApiModelProperty(value = "平台类型", required = true)
     private String platformType;
 

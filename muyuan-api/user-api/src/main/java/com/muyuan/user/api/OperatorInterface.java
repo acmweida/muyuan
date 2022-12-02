@@ -45,4 +45,18 @@ public interface OperatorInterface {
      */
     Result add(OperatorRequest request);
 
+    /**
+     * 获取角色管联的用户
+     * @param request
+     * @return
+     */
+    Result<Page<OperatorDTO>> selectAllocatedList(OperatorQueryRequest request);
+
+    /**
+     * 获取角色未关联用户
+     * @param request
+     * @return
+     */
+    Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request);
+
 }

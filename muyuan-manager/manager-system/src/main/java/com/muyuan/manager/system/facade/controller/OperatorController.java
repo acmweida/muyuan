@@ -36,6 +36,7 @@ public class OperatorController {
     @RequirePermissions("system:operator:query")
     @GetMapping("/operator/list")
     @ApiOperation(value = "用户列表查询")
+    @ApiOperationSupport(ignoreParameters = "roleId")
     public Result<Page<OperatorDTO>> list(@ModelAttribute OperatorQueryParams operatorQueryParams) {
         Page<OperatorDTO> list = operatorService.list(operatorQueryParams);
         return ResultUtil.success(list);
@@ -62,5 +63,19 @@ public class OperatorController {
     @ApiOperationSupport(ignoreParameters = "id")
     public Result add(@RequestBody @Validated(OperatorParams.Add.class) OperatorParams params) {
         return operatorService.add(converter.to(params));
+    }
+
+    @ApiOperation(value = "角色分配用户查询")
+    @RequirePermissions("system:operator:query")
+    @GetMapping("/role/authUser/allocatedList")
+    public Result allocatedList(@ModelAttribute @Validated(OperatorQueryParams.SelectAllow.class) OperatorQueryParams operatorQueryParams) {
+        return ResultUtil.success(operatorService.selectAllocatedList(operatorQueryParams));
+    }
+
+    @ApiOperation(value = "角色为分配用户查询")
+    @RequirePermissions("system:operator:query")
+    @GetMapping("/role/authUser/unallocatedList")
+    public Result unallocatedList(@ModelAttribute @Validated(OperatorQueryParams.SelectAllow.class) OperatorQueryParams operatorQueryParams) {
+        return ResultUtil.success(operatorService.selectUnallocatedList(operatorQueryParams));
     }
 }

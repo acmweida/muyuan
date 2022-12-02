@@ -3,7 +3,6 @@ package com.muyuan.manager.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.manager.system.dto.OperatorQueryParams;
-import com.muyuan.manager.system.model.SysUser;
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorRequest;
 
@@ -27,17 +26,17 @@ public interface OperatorService {
 
     /**
      * 列表查询
-     * @param operatorQueryParams
+     * @param params
      * @return
      */
-    Page<SysUser> selectAllocatedList(OperatorQueryParams operatorQueryParams);
+    Page<OperatorDTO> selectAllocatedList(OperatorQueryParams params);
 
     /**
      * 列表查询 查询角色没有分配的用户
-     * @param operatorQueryParams
+     * @param params
      * @return
      */
-    Page<SysUser> selectUnallocatedList(OperatorQueryParams operatorQueryParams);
+    Page<OperatorDTO> selectUnallocatedList(OperatorQueryParams params);
 
     /**
      * 获取用户信息

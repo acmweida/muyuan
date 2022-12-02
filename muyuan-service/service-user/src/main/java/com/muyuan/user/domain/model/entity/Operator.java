@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -117,12 +116,9 @@ public class Operator {
 
     private List<Role> roles;
 
+    private Integer sex;
 
-    private void update(long userId, String username) {
-        updateTime = DateTime.now().toDate();
-        updateBy = userId;
-        updater = username;
-    }
+    private String email;
 
     public Operator(UserID id) {
         this.id = id;
@@ -163,32 +159,4 @@ public class Operator {
         setEncryptKey(encryptKey);
     }
 
-//    public void save(OperatorRepo operatorRepo, long userId, String username) {
-//        Assert.notNull(operatorRepo, "repo is null");
-//        FunctionUtil.of(id)
-//                .ifThen(
-//                        () -> operatorRepo.insert(this),
-//                        id -> {
-//                            update(userId, username);
-//                            operatorRepo.update(this);
-//                        }
-//                );
-//    }
-
-//    public void update(OperatorRepo operatorRepo, String username, long userid, String... column) {
-//        Assert.notNull(operatorRepo, "repo is null");
-//        Assert.notNull(id, "id is null");
-//        update(userid, username);
-//        operatorRepo.update(this, ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
-//    }
-
-//    public void addRole(OperatorRepo operatorRepo, Role role) {
-//        Assert.notNull(operatorRepo, "repo is null");
-//        Assert.notNull(role, "role is null");
-//        Assert.notNull(id, "id is null");
-//        operatorRepo.insert(UserRole.builder()
-//                .roleId(role.getId())
-//                .userId(id.getValue())
-//                .build());
-//    }
 }

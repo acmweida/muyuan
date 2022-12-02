@@ -23,4 +23,6 @@ public class OperatorQueryCommand extends PageDTO {
     private String status;
 
     private String phone;
+
+    private Long roleId;
 }
