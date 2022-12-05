@@ -21,6 +21,8 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends UserBaseMapper<RoleDO> {
 
+
+
     List<RoleDO> selectRoleByUserId(Long userId,Integer type);
 
     List<RoleDO> selectRoleByMenuID(Long menuId);

@@ -11,6 +11,8 @@ public interface PermissionRepo {
 
     List<Permission> selectByRoles(RoleID roleId);
 
+    List<Permission> selectByRoleCode(String roleCode);
+
     Page<Permission> select(PermissionQueryCommand command);
 
     Permission selectPermission(Long id);

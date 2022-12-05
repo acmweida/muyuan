@@ -103,7 +103,7 @@ public interface UserBaseMapper<T> extends JdbcBaseMapper<T> {
             sqlSession.insert(mapperInterFaceName + ".insert", entity);
         }));
 
-        return 0;
+        return list.size();
     }
 
     default int batchUpdate() {

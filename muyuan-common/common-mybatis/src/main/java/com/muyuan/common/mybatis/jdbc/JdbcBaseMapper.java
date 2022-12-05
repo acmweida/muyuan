@@ -36,4 +36,8 @@ public interface JdbcBaseMapper<T>  {
     String CODE = "code";
 
     String PLATFORM_TYPE = "platformType";
+
+    String ROLE_ID = "roleId";
+
+    String USER_ID = "userId";
 }

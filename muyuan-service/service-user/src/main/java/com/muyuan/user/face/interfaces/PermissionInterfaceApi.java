@@ -22,10 +22,7 @@ import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName UserInterfaceApi
@@ -38,8 +35,8 @@ import java.util.Set;
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
         , interfaceClass = PermissionInterface.class,
         methods = {
-        @Method(name = "add",retries = 0)
-    }
+                @Method(name = "add", retries = 0)
+        }
 )
 public class PermissionInterfaceApi implements PermissionInterface {
 
@@ -65,6 +62,25 @@ public class PermissionInterfaceApi implements PermissionInterface {
     }
 
     @Override
+    public Result<Set<String>> getPermissionByRoleCodes(List<String> roleCode, PlatformType platformType) {
+        List<Role> roles = new ArrayList<>();
+        for (String role : roleCode) {
+            roles.add(Role.builder().code(role)
+                    .platformType(platformType)
+                    .build());
+        }
+
+        List<Permission> permissions = permissionService.getPermissionByRoles(roles.toArray(new Role[0]));
+
+        Set<String> parms = new HashSet<>();
+        for (Permission permission : permissions) {
+            parms.add(permission.getPerms());
+        }
+
+        return ResultUtil.success(parms);
+    }
+
+    @Override
     public Result<List<PermissionDTO>> getPermissionByRoleID(Long roleId) {
         List<Permission> permissions = permissionService.getPermissionByRoleID(new RoleID(roleId));
 
@@ -75,7 +91,7 @@ public class PermissionInterfaceApi implements PermissionInterface {
     public Result<Page<PermissionDTO>> list(PermissionQueryRequest request) {
         Page<Permission> list = permissionService.list(PERMISSION_MAPPER.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,PERMISSION_MAPPER.toDTO(list.getRows())));
+        return ResultUtil.success(Page.copy(list, PERMISSION_MAPPER.toDTO(list.getRows())));
     }
 
     @Override

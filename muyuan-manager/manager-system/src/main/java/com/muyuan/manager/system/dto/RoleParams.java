@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @ClassName SysRoleDTO
@@ -29,7 +30,16 @@ public class RoleParams {
 
     }
 
-    @NotNull(groups = Update.class)
+    public interface SelectUser {
+
+    }
+
+    public interface SelectUserOne {
+
+    }
+
+
+    @NotNull(groups = {Update.class,SelectUser.class,SelectUserOne.class})
     @ApiModelProperty(value = "角色ID")
     private Long id;
 
@@ -57,5 +67,12 @@ public class RoleParams {
     @ApiModelProperty(value = "排序 默认 -0")
     private Integer orderNum = 0;
 
+    @Size(min = 1,groups = SelectUser.class,message = "用户Id不能为空")
+    @ApiModelProperty(value = "用户ID")
+    private Long[] userIds;
+
+    @NotNull(groups = SelectUserOne.class,message = "用户Id不能为空")
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
 
 }

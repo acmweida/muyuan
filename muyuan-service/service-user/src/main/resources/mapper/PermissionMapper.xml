@@ -19,4 +19,14 @@
             where role_id = #{roleId}
         ) role_permision on role_permision.permission_id = t_permission.id
     </select>
+    <select id="selectByRoleCode" resultType="com.muyuan.user.infrastructure.repo.dataobject.PermissionDO">
+        select t_permission.id, t_permission.perms, t_permission.type, t_permission.resource,t_permission.resource_ref,t_permission.platform_type
+        from t_permission
+                 inner join (
+            select permission_id
+            from t_role_permission  inner join (
+                select id from t_role where code = #{roleCode}
+            ) role on role.id = t_role_permission.role_id
+        ) role_permision on role_permision.permission_id = t_permission.id
+    </select>
 </mapper>

@@ -4,11 +4,8 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.manager.system.dto.RoleQueryParams;
-import com.muyuan.manager.system.model.SysUserRole;
-import com.muyuan.manager.system.repo.SysRoleRepo;
 import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.user.api.RoleInterface;
 import com.muyuan.user.api.dto.RoleDTO;
@@ -16,11 +13,8 @@ import com.muyuan.user.api.dto.RoleQueryRequest;
 import com.muyuan.user.api.dto.RoleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,9 +30,6 @@ public class RoleServiceImpl implements RoleService {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private RoleInterface roleInterface;
-
-    @Autowired
-    private SysRoleRepo sysRoleRepo;
 
     @Override
     public Page<RoleDTO> list(RoleQueryParams params) {
@@ -60,17 +51,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void selectUser(Long roleId, Long[] userIds) {
-        FunctionUtil.getIfNotNullThen(
-                () -> userIds,
-                (v) -> {
-                    List<SysUserRole> set = new ArrayList<>(userIds.length);
-                    for (Long userId : userIds) {
-                        set.add(SysUserRole.builder().roleId(roleId).userId(userId).build());
-                    }
-                    sysRoleRepo.batchInsertRole(set);
-                }
-        );
+    public Result selectUser(Long roleId, Long[] userIds) {
+        return roleInterface.selectUser(roleId,userIds);
+    }
+
+    @Override
+    public Result cancelUser(Long roleId, Long[] userIds) {
+        return roleInterface.cancelUser(roleId,userIds);
     }
 
     @Override

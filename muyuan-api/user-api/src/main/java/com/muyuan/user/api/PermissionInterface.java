@@ -21,6 +21,8 @@ public interface PermissionInterface {
 
     Result<Set<String>> getPermissionByUserID(Long userId, PlatformType platformType);
 
+    Result<Set<String>> getPermissionByRoleCodes(List<String> roleCodes, PlatformType platformType);
+
     Result<List<PermissionDTO>> getPermissionByRoleID(Long roleId);
 
     /**

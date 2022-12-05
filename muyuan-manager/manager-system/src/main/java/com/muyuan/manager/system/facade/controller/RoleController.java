@@ -30,9 +30,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,22 +86,31 @@ public class RoleController {
 
     @ApiOperation(value = "角色添加用户")
     @RequirePermissions("system:role:edit")
-    @PutMapping("/role/authUser/selectAll")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "body", required = true),
-                    @ApiImplicitParam(name = "userIds", value = "用户ID", dataType = "Long{]",dataTypeClass = Long.class,paramType = "body",required = true)
-            }
-    )
-    @Valid
-    public Result selectAll( @NotNull(message = "角色ID必填") Long roleId,
-                             @NotBlank(message = "用户ID列表不能为空") Long[] userIds) {
-        roleService.selectUser(roleId,userIds);
-        return ResultUtil.success();
+    @PutMapping("/role/authUser/selectUserAll")
+    @ApiOperationSupport(includeParameters = {"id","userIds"})
+    public Result selectUserAll(@RequestBody @Validated(RoleParams.SelectUser.class)  RoleParams params) {
+        return roleService.selectUser(params.getId(),params.getUserIds());
+    }
+
+    @ApiOperation(value = "角色添加用户")
+    @RequirePermissions("system:role:edit")
+    @PutMapping("/role/authUser/cancelUser")
+    @ApiOperationSupport(includeParameters = {"id","userId"})
+    public Result cancelUser(@RequestBody @Validated(RoleParams.SelectUserOne.class)  RoleParams params) {
+        return  roleService.cancelUser(params.getId(),new Long[]{params.getUserId()});
+    }
+
+    @ApiOperation(value = "角色添加用户")
+    @RequirePermissions("system:role:edit")
+    @PutMapping("/role/authUser/cancelUserAll")
+    @ApiOperationSupport(includeParameters = {"id","userIds"})
+    public Result cancelUserAll(@RequestBody @Validated(RoleParams.SelectUser.class)  RoleParams params) {
+        return  roleService.cancelUser(params.getId(),params.getUserIds());
     }
 
     @PostMapping("/role")
     @ApiOperation(value = "角色添加")
-    @ApiOperationSupport(ignoreParameters = "id")
+    @ApiOperationSupport(ignoreParameters = {"id","userIds","userId"})
     @RequirePermissions("system:role:add")
     public Result add(@RequestBody @Validated(RoleParams.Add.class) RoleParams roleParams) {
         RoleRequest request = converter.to(roleParams);
@@ -132,6 +138,7 @@ public class RoleController {
     @PutMapping("/role")
     @ApiOperation(value = "角色添加")
     @RequirePermissions("system:role:edit")
+    @ApiOperationSupport(ignoreParameters = {"userIds","userId"})
     public Result update(@RequestBody @Validated(RoleParams.Update.class) RoleParams roleParams) {
         RoleRequest request = converter.to(roleParams);
         if (ObjectUtils.isNotEmpty(roleParams.getMenuIds())) {

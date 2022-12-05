@@ -27,6 +27,8 @@ public interface PermissionMapper extends UserBaseMapper<PermissionDO> {
 
     List<PermissionDO> selectByRoleId(Long roleId);
 
+    List<PermissionDO> selectByRoleCode(String roleCode);
+
     Integer deleteRef(@Param("permIds") Long... permIDs);
 
     @Options(useGeneratedKeys = true,keyProperty = "id")

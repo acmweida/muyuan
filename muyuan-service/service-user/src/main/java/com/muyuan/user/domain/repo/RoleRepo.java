@@ -51,4 +51,8 @@ public interface RoleRepo {
      */
     List<Role> deleteBy(Long... ids);
 
+    boolean insertRef(RoleID roleID,List<UserID> userIDS);
+
+    boolean deleteRef(RoleID roleID,List<UserID> userIDS);
+
 }

@@ -29,7 +29,14 @@ public interface RoleService {
      * @param roleId
      * @param userIds
      */
-    void selectUser(Long roleId,Long[] userIds);
+    Result selectUser(Long roleId,Long[] userIds);
+
+    /**
+     * 取消关联用户
+     * @param roleId
+     * @param userIds
+     */
+    Result cancelUser(Long roleId,Long[] userIds);
 
 
     /**

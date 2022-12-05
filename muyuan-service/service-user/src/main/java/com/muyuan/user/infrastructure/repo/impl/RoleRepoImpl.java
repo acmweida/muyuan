@@ -12,11 +12,14 @@ import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.face.dto.RoleQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
+import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
+import com.muyuan.user.infrastructure.repo.mapper.UserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
@@ -35,6 +38,8 @@ public class RoleRepoImpl implements RoleRepo {
     private RoleMapper roleMapper;
 
     private UserConverter converter;
+
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public List<Role> selectRoleByUserId(UserID userId, PlatformType platformType) {
@@ -139,5 +144,30 @@ public class RoleRepoImpl implements RoleRepo {
         roleMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
 
         return converter.toRoles(roleDOS);
+    }
+
+    @Override
+    public boolean insertRef(RoleID roleID, List<UserID> userIDS) {
+        List<UserRoleDO> set = new ArrayList<>(userIDS.size());
+        for (UserID userId : userIDS) {
+            set.add(UserRoleDO.builder().roleId(roleID.getValue())
+                    .userId(userId.getValue()).build());
+        }
+
+        return userRoleMapper.batchInsert(set) == set.size();
+    }
+
+    @Override
+    public boolean deleteRef(RoleID roleID, List<UserID> userIDS) {
+        List<UserRoleDO> set = new ArrayList<>(userIDS.size());
+        for (UserID userId : userIDS) {
+            set.add(UserRoleDO.builder().roleId(roleID.getValue())
+                    .userId(userId.getValue()).build());
+        }
+
+        return userRoleMapper.deleteBy(new SqlBuilder()
+                .eq(ROLE_ID,roleID.getValue())
+                .in(USER_ID, userIDS.stream().map(UserID::getValue).toArray(Long[]::new))
+                .build()) == set.size();
     }
 }

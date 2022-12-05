@@ -49,7 +49,7 @@ public class PermissionServiceImpl implements PermissionService {
 
             List<Permission> roleMenus = CacheServiceUtil.getAndUpdateList(cacheService,
                     getRolePermsKeyPrefix(role.getPlatformType()) + role.getCode(),
-                    () -> permissionRepo.selectByRoles(role.getId()), Permission.class);
+                    () -> permissionRepo.selectByRoleCode(role.getCode()), Permission.class);
 
             permissions.addAll(roleMenus);
         }

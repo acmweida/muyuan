@@ -4,6 +4,7 @@ package com.muyuan.user.domain.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.RoleCommand;
 import com.muyuan.user.face.dto.RoleQueryCommand;
@@ -58,5 +59,21 @@ public interface RoleService {
      * @return
      */
     boolean deleteRoleById(Long... ids);
+
+    /**
+     * 角色分配用户
+     * @param roleID
+     * @param userIDS
+     * @return
+     */
+    boolean selectUser(RoleID roleID,List<UserID> userIDS);
+
+    /**
+     * 角色用户关联取消
+     * @param roleID
+     * @param userIDS
+     * @return
+     */
+    boolean cancelUser(RoleID roleID,List<UserID> userIDS);
 
 }

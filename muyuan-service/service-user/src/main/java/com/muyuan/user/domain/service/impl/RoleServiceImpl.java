@@ -7,6 +7,7 @@ import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.repo.RoleRepo;
 import com.muyuan.user.domain.service.RoleService;
@@ -153,6 +154,16 @@ public class RoleServiceImpl implements RoleService {
             cacheService.delayDoubleDel(getRoleMenuKeyPrefix(role.getPlatformType()) + role.getCode());
         }
         return true;
+    }
+
+    @Override
+    public boolean selectUser(RoleID roleID, List<UserID> userIDS) {
+        return repo.insertRef(roleID,userIDS);
+    }
+
+    @Override
+    public boolean cancelUser(RoleID roleID, List<UserID> userIDS) {
+        return repo.deleteRef(roleID,userIDS);
     }
 
 

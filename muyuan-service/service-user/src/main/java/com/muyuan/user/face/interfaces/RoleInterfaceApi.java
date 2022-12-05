@@ -12,19 +12,23 @@ import com.muyuan.user.api.dto.RoleQueryRequest;
 import com.muyuan.user.api.dto.RoleRequest;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.RoleID;
+import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.service.RoleService;
 import com.muyuan.user.face.dto.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
         , interfaceClass = RoleInterface.class,
         methods = {
-        @Method(name = "add",retries = 0)
+        @Method(name = "add",retries = 0),
+        @Method(name = "selectUser",retries = 0)
     }
 )
 public class RoleInterfaceApi implements RoleInterface {
@@ -71,6 +75,32 @@ public class RoleInterfaceApi implements RoleInterface {
     @Override
     public Result deleteRole(Long... ids) {
         if (roleService.deleteRoleById(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
+    public Result selectUser(Long roleId, Long... userIds) {
+        RoleID roleID = new RoleID(roleId);
+        List<UserID> userIDs = new ArrayList<>();
+        for (Long userId : userIds) {
+            userIDs.add(new UserID(userId));
+        }
+        if (roleService.selectUser(roleID,userIDs)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
+    public Result cancelUser(Long roleId, Long... userIds) {
+        RoleID roleID = new RoleID(roleId);
+        List<UserID> userIDs = new ArrayList<>();
+        for (Long userId : userIds) {
+            userIDs.add(new UserID(userId));
+        }
+        if (roleService.cancelUser(roleID,userIDs)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

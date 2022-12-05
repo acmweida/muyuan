@@ -33,6 +33,12 @@ public class PermissionRepoImpl implements PermissionRepo {
     }
 
     @Override
+    public List<Permission> selectByRoleCode(String roleCode) {
+        List<PermissionDO> permissionDOS = permissionMapper.selectByRoleCode(roleCode);
+        return converter.to(permissionDOS);
+    }
+
+    @Override
     public Page<Permission> select(PermissionQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(PermissionDO.class)
                 .eq(BUSINESS, command.getBusiness())

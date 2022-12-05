@@ -46,4 +46,20 @@ public interface RoleInterface {
      */
     Result deleteRole(Long... ids);
 
+    /**
+     * 选择用户
+     * @param roleId
+     * @param userIds
+     * @return
+     */
+    Result selectUser(Long roleId,Long... userIds);
+
+
+    /**
+     * 取消用户
+     * @param roleId
+     * @param userIds
+     * @return
+     */
+    Result cancelUser(Long roleId,Long... userIds);
 }

@@ -115,7 +115,7 @@ public class PreAuthorizeAspect {
     public Set<String> getUserPerm() {
         Long userId = SecurityUtils.getUserId();
 
-        Result<Set<String>> ppermissions = permissionInterface.getPermissionByUserID(userId,SecurityUtils.getPlatformType());
+        Result<Set<String>> ppermissions = permissionInterface.getPermissionByRoleCodes(SecurityUtils.getRoles(),SecurityUtils.getPlatformType());
 
         return ppermissions.getData();
     }

@@ -105,7 +105,7 @@ public class OperatorInterfaceApi implements OperatorInterface {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }
 
-        Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
+        Page<Operator> list = operatorService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
     }
