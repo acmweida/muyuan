@@ -4,10 +4,12 @@ package com.muyuan.user.domain.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.OperatorCommand;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -65,5 +67,13 @@ public interface OperatorService {
      * @return
      */
     Page<Operator> selectUnallocatedList(OperatorQueryCommand request);
+
+    /**
+     * 关联角色
+     * @param userID
+     * @param roleIDs
+     * @return
+     */
+    boolean authRole(UserID userID, List<RoleID> roleIDs);
 
 }

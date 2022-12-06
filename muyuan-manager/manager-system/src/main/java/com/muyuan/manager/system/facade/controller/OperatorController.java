@@ -36,7 +36,7 @@ public class OperatorController {
     @RequirePermissions("system:operator:query")
     @GetMapping("/operator/list")
     @ApiOperation(value = "用户列表查询")
-    @ApiOperationSupport(ignoreParameters = "roleId")
+    @ApiOperationSupport(ignoreParameters = "roleIds")
     public Result<Page<OperatorDTO>> list(@ModelAttribute OperatorQueryParams operatorQueryParams) {
         Page<OperatorDTO> list = operatorService.list(operatorQueryParams);
         return ResultUtil.success(list);
@@ -60,7 +60,7 @@ public class OperatorController {
     @ApiOperation(value = "系统用户新增", code = 0)
     @RequirePermissions("system:operator:add")
     @PostMapping("/operator")
-    @ApiOperationSupport(ignoreParameters = "id")
+    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
     public Result add(@RequestBody @Validated(OperatorParams.Add.class) OperatorParams params) {
         return operatorService.add(converter.to(params));
     }
@@ -77,5 +77,13 @@ public class OperatorController {
     @GetMapping("/role/authUser/unallocatedList")
     public Result unallocatedList(@ModelAttribute @Validated(OperatorQueryParams.SelectAllow.class) OperatorQueryParams operatorQueryParams) {
         return ResultUtil.success(operatorService.selectUnallocatedList(operatorQueryParams));
+    }
+
+    @ApiOperation(value = "角色添加用户")
+    @RequirePermissions("system:role:edit")
+    @PutMapping("/operator/authRole")
+    @ApiOperationSupport(includeParameters = {"id","roleIds"})
+    public Result authRole(@RequestBody @Validated(OperatorParams.AuthRole.class)  OperatorParams params) {
+        return  operatorService.authRole(params.getId(),params.getRoleIds());
     }
 }

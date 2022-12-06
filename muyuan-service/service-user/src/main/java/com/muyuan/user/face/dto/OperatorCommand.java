@@ -1,5 +1,6 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import lombok.Data;
 
 /**
@@ -26,7 +27,7 @@ public class OperatorCommand {
 
     private String email;
 
-    private Long[] roleIds;
+    private RoleID[] roleIds;
 
     private String sex;
 

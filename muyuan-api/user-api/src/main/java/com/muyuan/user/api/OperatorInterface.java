@@ -59,4 +59,13 @@ public interface OperatorInterface {
      */
     Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request);
 
+
+    /**
+     * 关联角色
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    Result authRole(Long userId,Long[] roleIds);
+
 }

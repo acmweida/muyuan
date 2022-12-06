@@ -6,9 +6,11 @@ public interface ServiceTypeConst {
 
     String MANAGER_SYSTEM = "manager-system";
 
+    String MANAGER_GOODS = "manager-goods";
+
     String COMMON_SERVICE = "common-service";
 
-    String GOODS = "goods";
+    String GOODS = "service-goods";
 
     String USER = "service-user";
 

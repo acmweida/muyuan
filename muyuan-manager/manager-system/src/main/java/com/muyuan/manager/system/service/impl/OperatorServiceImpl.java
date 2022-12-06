@@ -91,4 +91,9 @@ public class OperatorServiceImpl implements OperatorService {
         return operatorInterface.add(request);
     }
 
+    @Override
+    public Result authRole(Long userId, Long[] roleIds) {
+        return operatorInterface.authRole(userId,roleIds);
+    }
+
 }

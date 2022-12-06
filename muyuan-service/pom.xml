@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>muyuan-goods</module>
+        <module>service-goods</module>
         <module>service-user</module>
         <module>muyuan-pay</module>
         <module>muyuan-activity</module>

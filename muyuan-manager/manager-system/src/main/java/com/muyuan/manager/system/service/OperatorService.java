@@ -53,4 +53,12 @@ public interface OperatorService {
      */
     Result add(OperatorRequest request);
 
+    /**
+     * 关联角色
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    Result authRole(Long userId,Long[] roleIds);
+
 }

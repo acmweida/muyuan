@@ -6,6 +6,7 @@ import com.muyuan.user.api.dto.OperatorRequest;
 import com.muyuan.user.api.dto.RoleDTO;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.entity.Role;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.face.dto.OperatorCommand;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
 import org.mapstruct.Mapper;
@@ -26,6 +27,9 @@ public interface OperatorMapper {
 
     OperatorQueryCommand toCommand(OperatorQueryRequest request);
 
+    @Mappings({
+            @Mapping(target = "roleIds", expression = "java(OperatorMapper.map(request.getRoleIds()))"),
+    })
     OperatorCommand toCommand(OperatorRequest request);
 
     @Mappings({
@@ -40,5 +44,14 @@ public interface OperatorMapper {
             @Mapping(target = "id",source = "id.value")
     })
     RoleDTO toDto(Role role);
+
+    static RoleID[] map(Long[] roleIds) {
+        RoleID[] roleIDS = new RoleID[roleIds.length];
+        int i = 0;
+        for (Long roleId : roleIds) {
+            roleIDS[i++] = new RoleID(roleId);
+        }
+        return roleIDS;
+    }
 
 }

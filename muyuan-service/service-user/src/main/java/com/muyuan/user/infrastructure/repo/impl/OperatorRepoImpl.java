@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.OperatorRepo;
@@ -11,12 +12,15 @@ import com.muyuan.user.face.dto.OperatorQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
+import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.OperatorMapper;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
+import com.muyuan.user.infrastructure.repo.mapper.UserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
@@ -40,6 +44,8 @@ public class OperatorRepoImpl implements OperatorRepo {
     private OperatorMapper mapper;
     
     private RoleMapper roleMapper;
+
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public Page<Operator> select(OperatorQueryCommand command) {
@@ -111,11 +117,26 @@ public class OperatorRepoImpl implements OperatorRepo {
     }
 
     @Override
-    public boolean addRef(UserID roleID, Long... roleIds) {
+    public boolean insertRef(UserID userID, RoleID... roleIds) {
         if (ObjectUtils.isEmpty(roleIds)) {
             return true;
         }
-        return mapper.addRef(roleID.getValue(), roleIds) > 0;
+        List<UserRoleDO> ref = new ArrayList<>();
+        for (RoleID roleId : roleIds) {
+            ref.add(UserRoleDO.builder()
+                    .roleId(roleId.getValue())
+                    .userId(userID.getValue())
+                    .build());
+        }
+
+        return userRoleMapper.batchInsert(ref) > 0;
+    }
+
+    @Override
+    public void deleteRef(UserID userID) {
+        userRoleMapper.deleteBy(new SqlBuilder()
+                .eq(USER_ID,userID.getValue())
+                .build()) ;
     }
 
     @Override

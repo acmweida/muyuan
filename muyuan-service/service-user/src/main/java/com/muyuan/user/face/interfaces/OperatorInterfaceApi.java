@@ -13,6 +13,7 @@ import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.service.OperatorService;
@@ -22,6 +23,8 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
 import javax.validation.ConstraintViolation;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -108,6 +111,19 @@ public class OperatorInterfaceApi implements OperatorInterface {
         Page<Operator> list = operatorService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+    }
+
+    @Override
+    public Result authRole(Long userId, Long[] roleIds) {
+        UserID userID = new UserID(userId);
+        List<RoleID> roleIDs = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            roleIDs.add(new RoleID(roleId));
+        }
+        if (operatorService.authRole(userID,roleIDs)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
     }
 
 }

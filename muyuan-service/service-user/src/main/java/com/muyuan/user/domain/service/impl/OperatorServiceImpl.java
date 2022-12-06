@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.OperatorRepo;
@@ -15,6 +16,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -87,7 +89,7 @@ public class OperatorServiceImpl implements OperatorService {
 
         repo.insert(operator);
 
-        repo.addRef(operator.getId(),command.getRoleIds());
+        repo.insertRef(operator.getId(),command.getRoleIds());
 
         return true;
     }
@@ -100,5 +102,12 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     public Page<Operator> selectUnallocatedList(OperatorQueryCommand command) {
         return repo.selectUnallocatedList(command);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean authRole(UserID userID, List<RoleID> roleIDs) {
+        repo.deleteRef(userID);
+       return repo.insertRef(userID,roleIDs.toArray(new RoleID[0]));
     }
 }

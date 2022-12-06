@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * @ClassName SysUserDTO
@@ -27,6 +28,10 @@ public class OperatorParams {
     }
 
     public interface Update {
+
+    }
+
+    public interface AuthRole {
 
     }
 
@@ -59,6 +64,7 @@ public class OperatorParams {
     private String email;
 
     @ApiModelProperty("角色ID")
+    @Size(min = 1,groups = AuthRole.class)
     private Long[] roleIds;
 
     @ApiModelProperty("性别")
@@ -67,9 +73,8 @@ public class OperatorParams {
     @ApiModelProperty("备注")
     private String remark;
 
-    @NotNull(message = "主键不能为空",groups = {Update.class})
+    @NotNull(message = "主键不能为空",groups = {Update.class,AuthRole.class})
     private Long id;
 
-    private Long roleId;
 
 }

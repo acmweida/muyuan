@@ -14,7 +14,7 @@
 
     <modules>
         <module>manager-system</module>
-        <module>manager-product</module>
+        <module>manager-goods</module>
     </modules>
 
     <properties>

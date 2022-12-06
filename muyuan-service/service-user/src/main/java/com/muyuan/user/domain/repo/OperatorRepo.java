@@ -3,6 +3,7 @@ package com.muyuan.user.domain.repo;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.face.dto.OperatorQueryCommand;
@@ -21,7 +22,9 @@ public interface OperatorRepo {
 
     void insert(Operator operator);
 
-    boolean addRef(UserID roleID, Long... roleIds);
+    boolean insertRef(UserID roleID, RoleID... roleIds);
+
+    void deleteRef(UserID userID);
 
     Page<Operator> selectAllocatedList(OperatorQueryCommand command);
 
