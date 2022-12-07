@@ -1,6 +1,6 @@
 package com.muyuan.manager.goods.base.persistence.mapper;
 
-import com.muyuan.manager.goods.domains.model.BrandCategory;
+import com.muyuan.manager.goods.model.BrandCategory;
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
 
 /**

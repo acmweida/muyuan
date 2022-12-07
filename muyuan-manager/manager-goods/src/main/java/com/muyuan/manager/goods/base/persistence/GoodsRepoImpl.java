@@ -2,9 +2,9 @@ package com.muyuan.manager.goods.base.persistence;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.goods.domains.dto.GoodsDTO;
-import com.muyuan.manager.goods.domains.model.Goods;
-import com.muyuan.manager.goods.domains.repo.GoodsRepo;
+import com.muyuan.manager.goods.dto.GoodsDTO;
+import com.muyuan.manager.goods.model.Goods;
+import com.muyuan.manager.goods.repo.GoodsRepo;
 import com.muyuan.manager.goods.base.persistence.mapper.GoodsMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

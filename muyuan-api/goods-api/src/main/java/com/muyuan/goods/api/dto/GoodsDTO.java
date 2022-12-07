@@ -2,6 +2,7 @@ package com.muyuan.goods.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,9 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class GoodsDTO {
+public class GoodsDTO implements Serializable {
+
+    private static final long serialVersionUID = 1451932148569l;
 
     private Long id;
 

@@ -8,7 +8,7 @@ import com.muyuan.user.api.dto.OperatorRequest;
 
 /**
  * @ClassName OperatorInterface 接口
- * Description 用户信息接口
+ * Description 运营人员信息接口
  * @Author 2456910384
  * @Date 2022/9/13 16:20
  * @Version 1.0

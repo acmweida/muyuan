@@ -6,7 +6,7 @@
     <modules>
         <module>muyuan-common</module>
         <module>muyuan-auth</module>
-        <module>muyuan-store</module>
+        <module>muyuan-merchant</module>
         <module>muyuan-gateway</module>
         <module>muyuan-common-server</module>
         <module>muyuan-api</module>

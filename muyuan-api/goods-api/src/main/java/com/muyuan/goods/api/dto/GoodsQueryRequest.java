@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 public class GoodsQueryRequest extends PageDTO {
 
+    private static final long serialVersionUID = 1456932148569l;
+
     /**
      * 商品标题
      */

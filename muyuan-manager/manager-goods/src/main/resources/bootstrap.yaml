@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: ''
   cloud:
     nacos:
       config:
@@ -22,7 +24,7 @@ server:
   port: 20004
 
 logging:
-  config: classpath:log4j-${spring.profiles.active}.xml
+  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.muyuan.product.infrastructure.persistence.mapper.*: debug
     com.alibaba.nacos.client.*: warn
@@ -48,6 +50,6 @@ dubbo:
   consumer:
     check: false
   cloud:
-    subscribed-services: service-user,service-config
+    subscribed-services: service-user,service-goods
   registry:
     address: spring-cloud://localhost

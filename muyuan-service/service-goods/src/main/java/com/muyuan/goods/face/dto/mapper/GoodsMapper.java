@@ -7,6 +7,8 @@ import com.muyuan.goods.face.dto.GoodsQueryCommond;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 /**
  * @ClassName GoodsMapper
  * Description 商品请求DTO转换
@@ -14,12 +16,14 @@ import org.mapstruct.Mapping;
  * @Date 2022/8/26 14:52
  * @Version 1.0
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface GoodsMapper {
 
-    GoodsQueryCommond requestToCommend(GoodsQueryRequest request);
+    GoodsQueryCommond toCommand(GoodsQueryRequest request);
 
     @Mapping(target = "id",source = "id.value")
     GoodsDTO toDTO(Goods goods);
+
+    List<GoodsDTO> toDTO(List<Goods> goods);
 
 }

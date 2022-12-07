@@ -4,10 +4,10 @@ import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.manager.goods.base.persistence.mapper.CategoryMapper;
-import com.muyuan.manager.goods.domains.dto.CategoryDTO;
-import com.muyuan.manager.goods.domains.model.BrandCategory;
-import com.muyuan.manager.goods.domains.model.Category;
-import com.muyuan.manager.goods.domains.repo.CategoryRepo;
+import com.muyuan.manager.goods.dto.CategoryDTO;
+import com.muyuan.manager.goods.model.BrandCategory;
+import com.muyuan.manager.goods.model.Category;
+import com.muyuan.manager.goods.repo.CategoryRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -3,10 +3,8 @@ package com.muyuan.user.face.dto;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.RoleCode;
 import com.muyuan.user.domain.model.valueobject.UserID;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ClassName MenuQueryCommand
@@ -17,8 +15,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class MenuQueryCommand {
 
     private RoleCode[] roleCodes;

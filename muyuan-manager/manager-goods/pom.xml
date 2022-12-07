@@ -35,8 +35,8 @@
 
         <dependency>
             <groupId>com.muyuan</groupId>
-            <artifactId>config-api</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <artifactId>goods-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

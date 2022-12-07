@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-@NoArgsConstructor
 public class RoleCommand {
 
     private RoleID id;

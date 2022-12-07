@@ -3,10 +3,10 @@ package com.muyuan.manager.goods.base.persistence;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.goods.domains.dto.BrandDTO;
-import com.muyuan.manager.goods.domains.model.Brand;
-import com.muyuan.manager.goods.domains.model.BrandCategory;
-import com.muyuan.manager.goods.domains.repo.BrandRepo;
+import com.muyuan.manager.goods.dto.BrandParams;
+import com.muyuan.manager.goods.model.Brand;
+import com.muyuan.manager.goods.model.BrandCategory;
+import com.muyuan.manager.goods.repo.BrandRepo;
 import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.manager.goods.base.persistence.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
@@ -30,16 +30,16 @@ public class BrandRepoImpl implements BrandRepo {
     private BrandCategoryMapper brandCategoryMapper;
 
     @Override
-    public List<Brand> select(BrandDTO brandDTO) {
-        return select(brandDTO, null);
+    public List<Brand> select(BrandParams brandParams) {
+        return select(brandParams, null);
     }
 
     @Override
-    public List<Brand> select(BrandDTO brandDTO, Page page) {
+    public List<Brand> select(BrandParams brandParams, Page page) {
         return brandMapper.selectList(new SqlBuilder(Brand.class)
-                .like(NAME, brandDTO.getName())
-                .eq(STATUS, brandDTO.getStatus())
-                .eq(AUDIT_STATUS, brandDTO.getAuditStatus())
+                .like(NAME, brandParams.getName())
+                .eq(STATUS, brandParams.getStatus())
+                .eq(AUDIT_STATUS, brandParams.getAuditStatus())
                 .eq(DEL,GlobalConst.FALSE)
                 .page(page)
                 .build());
@@ -100,8 +100,8 @@ public class BrandRepoImpl implements BrandRepo {
     }
 
     @Override
-    public List<Brand> selectBy(BrandDTO brandDTO) {
-        return brandMapper.selectBy(brandDTO);
+    public List<Brand> selectBy(BrandParams brandParams) {
+        return brandMapper.selectBy(brandParams);
     }
 
 

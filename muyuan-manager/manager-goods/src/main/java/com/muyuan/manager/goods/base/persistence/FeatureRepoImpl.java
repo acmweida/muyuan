@@ -2,10 +2,10 @@ package com.muyuan.manager.goods.base.persistence;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.goods.domains.dto.FeatureDTO;
-import com.muyuan.manager.goods.domains.model.Brand;
-import com.muyuan.manager.goods.domains.model.Feature;
-import com.muyuan.manager.goods.domains.repo.FeatureRepo;
+import com.muyuan.manager.goods.dto.FeatureDTO;
+import com.muyuan.manager.goods.model.Brand;
+import com.muyuan.manager.goods.model.Feature;
+import com.muyuan.manager.goods.repo.FeatureRepo;
 import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.manager.goods.base.persistence.mapper.FeatureMapper;
 import lombok.AllArgsConstructor;

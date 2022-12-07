@@ -2,8 +2,8 @@ package com.muyuan.manager.goods.base.persistence.mapper;
 
 
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
-import com.muyuan.manager.goods.domains.model.Category;
-import com.muyuan.manager.goods.domains.model.Feature;
+import com.muyuan.manager.goods.model.Category;
+import com.muyuan.manager.goods.model.Feature;
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;

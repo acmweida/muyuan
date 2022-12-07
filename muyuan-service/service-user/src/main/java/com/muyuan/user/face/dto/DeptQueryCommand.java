@@ -13,9 +13,6 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class DeptQueryCommand {
 
     private String name;
