@@ -9,6 +9,7 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.user.api.MerchantInterface;
 import com.muyuan.user.api.OperatorInterface;
+import com.muyuan.user.api.dto.MerchantDTO;
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.UserQueryRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserDetailsService {
            user.setPlatformType(platformType);
 
        } else if (PlatformType.MERCHANT.equals(platformType)) {
-           Result<OperatorDTO> result = merchantInterface.getUserByUsername(UserQueryRequest.builder()
+           Result<MerchantDTO> result = merchantInterface.getUserByUsername(UserQueryRequest.builder()
                    .platformType(platformType)
                    .username(username)
                    .build());
@@ -82,13 +83,13 @@ public class UserServiceImpl implements UserDetailsService {
                return null;
            }
            log.info("Operator:{},登录", username);
-           OperatorDTO operatorDTO = result.getData();
+           MerchantDTO merchantDTO = result.getData();
            Set<GrantedAuthority> authorities = new HashSet<>();
 
-           if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
-               operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
+           if (ObjectUtils.isNotEmpty(merchantDTO.getRoles())) {
+               merchantDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
            }
-           user = converter.to(operatorDTO);
+           user = converter.to(merchantDTO);
            user.setAuthorities(authorities);
            user.setPlatformType(platformType);
        }

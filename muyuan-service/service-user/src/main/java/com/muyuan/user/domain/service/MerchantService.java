@@ -4,7 +4,6 @@ package com.muyuan.user.domain.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Merchant;
-import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.face.dto.OperatorCommand;
@@ -23,7 +22,7 @@ public interface MerchantService {
      * @param commend
      * @return
      */
-    Page<Operator> list(UserQueryCommand commend);
+    Page<Merchant> list(UserQueryCommand commend);
 
     /**
      * 登录获取用户信息 内部RPC
@@ -38,7 +37,7 @@ public interface MerchantService {
      * @param userId
      * @return
      */
-    Optional<Operator> getOperatorByyId(UserID userId, PlatformType platformType);
+    Optional<Merchant> getOperatorByyId(UserID userId, PlatformType platformType);
 
     /**
      * 检查唯一性
@@ -46,7 +45,7 @@ public interface MerchantService {
      * @param identify
      * @return
      */
-    String checkUnique(Operator.Identify identify);
+    String checkUnique(Merchant.Identify identify);
 
     /**
      * 新增用户信息
@@ -60,14 +59,14 @@ public interface MerchantService {
      * @param request
      * @return
      */
-    Page<Operator> selectAllocatedList(UserQueryCommand request);
+    Page<Merchant> selectAllocatedList(UserQueryCommand request);
 
     /**
      * 列表查询 查询角色没有分配的用户
      * @param request
      * @return
      */
-    Page<Operator> selectUnallocatedList(UserQueryCommand request);
+    Page<Merchant> selectUnallocatedList(UserQueryCommand request);
 
     /**
      * 关联角色

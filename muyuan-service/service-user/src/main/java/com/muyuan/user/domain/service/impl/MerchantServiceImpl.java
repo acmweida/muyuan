@@ -4,12 +4,10 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.entity.Merchant;
-import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.repo.MerchantRepo;
-import com.muyuan.user.domain.repo.OperatorRepo;
 import com.muyuan.user.domain.service.MerchantService;
 import com.muyuan.user.face.dto.OperatorCommand;
 import com.muyuan.user.face.dto.UserQueryCommand;
@@ -35,7 +33,7 @@ public class MerchantServiceImpl implements MerchantService {
     private MerchantRepo repo;
 
     @Override
-    public Page<Operator> list(UserQueryCommand commend) {
+    public Page<Merchant> list(UserQueryCommand commend) {
         return repo.select(commend);
     }
 
@@ -97,12 +95,12 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Page<Operator> selectAllocatedList(UserQueryCommand command) {
+    public Page<Merchant> selectAllocatedList(UserQueryCommand command) {
         return repo.selectAllocatedList(command);
     }
 
     @Override
-    public Page<Operator> selectUnallocatedList(UserQueryCommand command) {
+    public Page<Merchant> selectUnallocatedList(UserQueryCommand command) {
         return repo.selectUnallocatedList(command);
     }
 

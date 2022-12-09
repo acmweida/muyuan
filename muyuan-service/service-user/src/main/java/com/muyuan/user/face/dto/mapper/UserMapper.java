@@ -45,6 +45,8 @@ public interface UserMapper {
 
     List<OperatorDTO> toDto(List<Operator> operators);
 
+    List<MerchantDTO> toMerchantDto(List<Merchant> operators);
+
     @Mappings({
             @Mapping(target = "id",source = "id.value")
     })

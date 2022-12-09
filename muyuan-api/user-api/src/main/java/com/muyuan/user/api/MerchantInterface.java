@@ -3,9 +3,8 @@ package com.muyuan.user.api;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.MerchantDTO;
-import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 
 /**
  * @ClassName MerchantInterface 接口
@@ -29,14 +28,14 @@ public interface MerchantInterface {
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> list(UserQueryRequest request);
+    Result<Page<MerchantDTO>> list(UserQueryRequest request);
 
     /**
      * 用户基本信息
      * @param id
      * @return
      */
-    Result<OperatorDTO> get(Long id);
+    Result<MerchantDTO> get(Long id);
 
 
     /**
@@ -51,14 +50,14 @@ public interface MerchantInterface {
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request);
+    Result<Page<MerchantDTO>> selectAllocatedList(UserQueryRequest request);
 
     /**
      * 获取角色未关联用户
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request);
+    Result<Page<MerchantDTO>> selectUnallocatedList(UserQueryRequest request);
 
 
     /**
