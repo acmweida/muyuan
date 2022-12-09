@@ -6,13 +6,13 @@ import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
-import com.muyuan.user.face.dto.OperatorQueryCommand;
+import com.muyuan.user.face.dto.UserQueryCommand;
 
 public interface OperatorRepo {
 
 //    Operator selectOne(Operator operator);
 
-    Page<Operator> select(OperatorQueryCommand command);
+    Page<Operator> select(UserQueryCommand command);
 
     Operator selectOneByUsername(Username username, PlatformType platformType);
 
@@ -26,8 +26,8 @@ public interface OperatorRepo {
 
     void deleteRef(UserID userID);
 
-    Page<Operator> selectAllocatedList(OperatorQueryCommand command);
+    Page<Operator> selectAllocatedList(UserQueryCommand command);
 
-    Page<Operator> selectUnallocatedList(OperatorQueryCommand command);
+    Page<Operator> selectUnallocatedList(UserQueryCommand command);
 
 }

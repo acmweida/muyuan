@@ -1,5 +1,6 @@
 package com.muyuan.user.domain.model.valueobject;
 
+import com.muyuan.common.core.domains.Identifier;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
@@ -11,7 +12,7 @@ import org.springframework.util.Assert;
  * @Version 1.0
  */
 @Getter
-public class UserID {
+public class UserID implements Identifier {
 
     private Long value;
 

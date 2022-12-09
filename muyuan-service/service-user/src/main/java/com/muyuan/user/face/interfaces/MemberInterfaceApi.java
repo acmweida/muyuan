@@ -10,14 +10,14 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.user.api.MemberInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
 import com.muyuan.user.domain.service.OperatorService;
-import com.muyuan.user.face.dto.mapper.OperatorMapper;
+import com.muyuan.user.face.dto.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
@@ -45,12 +45,12 @@ import java.util.Set;
 )
 public class MemberInterfaceApi implements MemberInterface {
 
-    private OperatorMapper USER_MAPPER;
+    private UserMapper USER_MAPPER;
 
     private OperatorService operatorService;
 
     @Override
-    public Result<OperatorDTO> getUserByUsername(OperatorQueryRequest request) {
+    public Result<OperatorDTO> getUserByUsername(UserQueryRequest request) {
         Optional<Operator> operator = operatorService.getOperatorByUsername(
                 USER_MAPPER.toCommand(request)
         );
@@ -61,7 +61,7 @@ public class MemberInterfaceApi implements MemberInterface {
     }
 
     @Override
-    public Result<Page<OperatorDTO>> list(OperatorQueryRequest request) {
+    public Result<Page<OperatorDTO>> list(UserQueryRequest request) {
         Page<Operator> list = operatorService.list(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
@@ -91,8 +91,8 @@ public class MemberInterfaceApi implements MemberInterface {
     }
 
     @Override
-    public Result<Page<OperatorDTO>> selectAllocatedList(OperatorQueryRequest request) {
-        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+    public Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request) {
+        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
         if (!constraintViolations.isEmpty()) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }
@@ -102,8 +102,8 @@ public class MemberInterfaceApi implements MemberInterface {
     }
 
     @Override
-    public Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request) {
-        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+    public Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request) {
+        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
         if (!constraintViolations.isEmpty()) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }

@@ -3,16 +3,18 @@ package com.muyuan.user.infrastructure.repo.impl;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.user.domain.model.entity.Operator;
+import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
-import com.muyuan.user.domain.repo.OperatorRepo;
+import com.muyuan.user.domain.repo.MerchantRepo;
 import com.muyuan.user.face.dto.UserQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
+import com.muyuan.user.infrastructure.repo.dataobject.MerchantDO;
 import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
+import com.muyuan.user.infrastructure.repo.mapper.MerchantMapper;
 import com.muyuan.user.infrastructure.repo.mapper.OperatorMapper;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import com.muyuan.user.infrastructure.repo.mapper.UserRoleMapper;
@@ -37,83 +39,83 @@ import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.USERNAME
  */
 @Component
 @AllArgsConstructor
-public class OperatorRepoImpl implements OperatorRepo {
+public class MerchantRepoImpl implements MerchantRepo {
 
     private UserConverter converter;
 
-    private OperatorMapper mapper;
+    private MerchantMapper mapper;
     
     private RoleMapper roleMapper;
 
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public Page<Operator> select(UserQueryCommand command) {
+    public Page<Merchant> select(UserQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
                 .like(USERNAME, command.getUsername())
                 .eq(STATUS, command.getStatus())
                 .eq(PHONE, command.getPhone())
                 .orderByDesc(CREATE_TIME);
 
-        Page<Operator> page = Page.<Operator>builder().build();
+        Page<Merchant> page = Page.<Merchant>builder().build();
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
             sqlBuilder.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectList(sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectList(sqlBuilder.build());
 
-        page.setRows(converter.toUsers(list));
+        page.setRows(converter.toMerchants(list));
 
         return page;
     }
 
     @Override
-    public Operator selectOneByUsername(Username username, PlatformType platformType) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class)
+    public Merchant selectOneByUsername(Username username, PlatformType platformType) {
+        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class)
                 .eq(OperatorMapper.USERNAME, username.getValue())
                 .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
                 .build());
-        Operator operator = converter.to(operatorDO);
-        if (null != operatorDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(),platformType.getCode());
-            operator.setRoles(converter.toRoles(roleDOS));
+        Merchant merchant = converter.to(merchantDO);
+        if (null != merchantDO) {
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(),platformType.getCode());
+            merchant.setRoles(converter.toRoles(roleDOS));
         }
 
-        return operator;
+        return merchant;
     }
 
     @Override
-    public Operator selectOneByID(UserID userID, PlatformType platformType) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class)
+    public Merchant selectOneByID(UserID userID, PlatformType platformType) {
+        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class)
                 .eq(OperatorMapper.ID, userID.getValue())
                 .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
                 .build());
-        Operator operator = converter.to(operatorDO);
-        if (null != operatorDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(),platformType.getCode());
-            operator.setRoles(converter.toRoles(roleDOS));
+        Merchant merchant = converter.to(merchantDO);
+        if (null != merchantDO) {
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(),platformType.getCode());
+            merchant.setRoles(converter.toRoles(roleDOS));
         }
 
-        return operator;
+        return merchant;
     }
 
     @Override
-    public Operator selectOperator(Operator.Identify identify) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class).select(ID)
+    public Merchant select(Merchant.Identify identify) {
+        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class).select(ID)
                 .eq(USERNAME, identify.getUsername().getValue())
                 .eq(ID, ObjectUtils.isEmpty(identify.getUserID()) ? identify.getUserID() : identify.getUserID().getValue())
                 .build());
 
-        return converter.to(operatorDO);
+        return converter.to(merchantDO);
     }
 
     @Override
-    public void insert(Operator operator) {
-        OperatorDO to = converter.to(operator);
+    public void insert(Merchant merchant) {
+        MerchantDO to = converter.to(merchant);
         mapper.insert(to);
-        operator.setId(new UserID(to.getId()));
+        merchant.setId(new UserID(to.getId()));
     }
 
     @Override
@@ -140,41 +142,41 @@ public class OperatorRepoImpl implements OperatorRepo {
     }
 
     @Override
-    public Page<Operator> selectAllocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
+    public Page<Merchant> selectAllocatedList(UserQueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(MerchantDO.class)
                 .like(USERNAME, command.getUsername())
                 .eq(PHONE, command.getPhone());
 
-        Page<Operator> page = Page.<Operator>builder().build();
+        Page<Merchant> page = Page.<Merchant>builder().build();
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
             sqlBuilder.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(),sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectAllocatedList(command.getRoleId(),sqlBuilder.build());
 
-        page.setRows(converter.toUsers(list));
+        page.setRows(converter.toMerchants(list));
 
         return page;
     }
 
     @Override
-    public Page<Operator> selectUnallocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
+    public Page<Merchant> selectUnallocatedList(UserQueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(MerchantDO.class)
                 .like(USERNAME, command.getUsername())
                 .eq(PHONE, command.getPhone());
 
-        Page<Operator> page = Page.<Operator>builder().build();
+        Page<Merchant> page = Page.<Merchant>builder().build();
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
             sqlBuilder.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(),sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectUnallocatedList(command.getRoleId(),sqlBuilder.build());
 
-        page.setRows(converter.toUsers(list));
+        page.setRows(converter.toMerchants(list));
 
         return page;
     }

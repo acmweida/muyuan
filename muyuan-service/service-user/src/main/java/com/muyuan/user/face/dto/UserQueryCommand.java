@@ -12,7 +12,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class OperatorQueryCommand extends PageDTO {
+public class UserQueryCommand extends PageDTO {
 
     private Long id;
 

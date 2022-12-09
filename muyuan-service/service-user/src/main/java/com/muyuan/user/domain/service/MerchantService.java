@@ -3,6 +3,7 @@ package com.muyuan.user.domain.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -15,7 +16,7 @@ import java.util.Optional;
 /**
  * 用户域服务接口
  */
-public interface OperatorService {
+public interface MerchantService {
 
     /**
      * 角色分页查询
@@ -29,7 +30,7 @@ public interface OperatorService {
      * @param command
      * @return
      */
-    Optional<Operator> getOperatorByUsername(UserQueryCommand command);
+    Optional<Merchant> getOperatorByUsername(UserQueryCommand command);
 
 
     /**

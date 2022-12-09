@@ -7,9 +7,10 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.user.api.MerchantInterface;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserDetailsService {
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private OperatorInterface operatorInterFace;
 
+    @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
+    private MerchantInterface merchantInterface;
+
     private static UserConverter converter = new UserConverterImpl();
 
     @Override
@@ -46,25 +50,50 @@ public class UserServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserByUsername(String username, PlatformType platformType) throws UsernameNotFoundException {
-        Result<OperatorDTO> result = operatorInterFace.getUserByUsername(OperatorQueryRequest.builder()
-                .platformType(platformType)
-                .username(username)
-                .build());
 
-        if (!ResultUtil.isSuccess(result)) {
-           return null;
-        }
-        log.info("用户:{},登录", username);
-        OperatorDTO operatorDTO = result.getData();
-        Set<GrantedAuthority> authorities = new HashSet<>();
+        User user = null;
+       if (PlatformType.OPERATOR.equals(platformType)) {
+           Result<OperatorDTO> result = operatorInterFace.getUserByUsername(UserQueryRequest.builder()
+                   .platformType(platformType)
+                   .username(username)
+                   .build());
 
-        if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
-            operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
-        }
+           if (!ResultUtil.isSuccess(result)) {
+               return null;
+           }
+           log.info("Operator:{},登录", username);
+           OperatorDTO operatorDTO = result.getData();
+           Set<GrantedAuthority> authorities = new HashSet<>();
 
-        User user = converter.to(operatorDTO);
-        user.setAuthorities(authorities);
-        user.setPlatformType(platformType);
+           if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
+               operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
+           }
+           user = converter.to(operatorDTO);
+           user.setAuthorities(authorities);
+           user.setPlatformType(platformType);
+
+       } else if (PlatformType.MERCHANT.equals(platformType)) {
+           Result<OperatorDTO> result = merchantInterface.getUserByUsername(UserQueryRequest.builder()
+                   .platformType(platformType)
+                   .username(username)
+                   .build());
+
+           if (!ResultUtil.isSuccess(result)) {
+               return null;
+           }
+           log.info("Operator:{},登录", username);
+           OperatorDTO operatorDTO = result.getData();
+           Set<GrantedAuthority> authorities = new HashSet<>();
+
+           if (ObjectUtils.isNotEmpty(operatorDTO.getRoles())) {
+               operatorDTO.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
+           }
+           user = converter.to(operatorDTO);
+           user.setAuthorities(authorities);
+           user.setPlatformType(platformType);
+       }
+
+
         return user;
     }
 

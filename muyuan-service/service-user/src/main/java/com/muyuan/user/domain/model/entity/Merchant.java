@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * @ClassName User
- * Description 运营
+ * Description 商户
  * @Author 2456910384
  * @Date 2021/12/24 10:17
  * @Version 1.0
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Operator {
+public class Merchant {
 
     @Data
     static public class Identify {
@@ -54,6 +54,11 @@ public class Operator {
     private Username username;
 
     private String nickName;
+
+    /**
+     * 店铺号
+     */
+    private Long shopId;
 
     /**
      * 密码
@@ -108,26 +113,27 @@ public class Operator {
 
     private Long createBy;
 
+
     private List<Role> roles;
 
     private Integer sex;
 
     private String email;
 
-    public Operator(UserID id) {
+    public Merchant(UserID id) {
         this.id = id;
     }
 
-    public Operator(Username username) {
+    public Merchant(Username username) {
         this.username = username;
     }
 
-    public Operator(Username username, String password) {
+    public Merchant(Username username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    private static final String NAME_PREFIX = "my_";
+    private static final String NAME_PREFIX = "Mer_";
 
     private static Random random = new Random();
 
@@ -143,7 +149,7 @@ public class Operator {
      * 初始化用户信息
      */
     public void initPassword() {
-        Assert.isTrue(!ObjectUtils.isEmpty(getPassword()),"Operator init fail, password is null");
+        Assert.isTrue(!ObjectUtils.isEmpty(getPassword()),"Merchant init fail, password is null");
         String salt = UUID.randomUUID().toString();
         String encryptKey = UUID.randomUUID().toString();
 

@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperatorQueryRequest extends PageDTO implements Serializable {
+public class UserQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 145793214856l;
 

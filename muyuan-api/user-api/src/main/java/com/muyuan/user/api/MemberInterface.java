@@ -3,7 +3,7 @@ package com.muyuan.user.api;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
 
 /**
@@ -21,14 +21,14 @@ public interface MemberInterface {
      * @param request
      * @return
      */
-    Result<OperatorDTO> getUserByUsername(OperatorQueryRequest request);
+    Result<OperatorDTO> getUserByUsername(UserQueryRequest request);
 
     /**
      * 角色列表
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> list(OperatorQueryRequest request);
+    Result<Page<OperatorDTO>> list(UserQueryRequest request);
 
     /**
      * 用户基本信息
@@ -50,14 +50,14 @@ public interface MemberInterface {
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> selectAllocatedList(OperatorQueryRequest request);
+    Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request);
 
     /**
      * 获取角色未关联用户
      * @param request
      * @return
      */
-    Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request);
+    Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request);
 
 
     /**

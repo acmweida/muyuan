@@ -7,21 +7,21 @@ import java.util.Date;
 
 /**
  * @ClassName User
- * Description 系统用户
+ * Description 商户用户
  * @Author 2456910384
  * @Date 2021/12/24 10:17
  * @Version 1.0
  */
 @Data
 @NoArgsConstructor
-public class OperatorDO {
+public class MerchantDO {
 
     private Long id;
 
     /**
-     * 部门ID
+     * 店铺ID
      */
-    private Long deptId;
+    private Long shopId;
 
     /**
      * 用户名 唯一 用于登录

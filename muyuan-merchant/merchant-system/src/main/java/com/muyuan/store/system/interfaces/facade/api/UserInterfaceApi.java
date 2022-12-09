@@ -5,7 +5,7 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.domains.service.UserDomainService;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 
 /**
  * @ClassName UserInterfaceApi
@@ -20,7 +20,7 @@ public class UserInterfaceApi  {
 
     private UserDomainService userDomainService;
 
-    public Result<OperatorDTO> getUserByUsername(OperatorQueryRequest request) {
+    public Result<OperatorDTO> getUserByUsername(UserQueryRequest request) {
         OperatorDTO userByUsername = sysUserApplicationService.getUserByUsername(request.getUsername());
         if (null == userByUsername) {
             return ResultUtil.fail("用户信息不存在");

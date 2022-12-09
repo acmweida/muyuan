@@ -1,14 +1,12 @@
 package com.muyuan.user.face.dto.mapper;
 
-import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
-import com.muyuan.user.api.dto.OperatorRequest;
-import com.muyuan.user.api.dto.RoleDTO;
+import com.muyuan.user.api.dto.*;
+import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.face.dto.OperatorCommand;
-import com.muyuan.user.face.dto.OperatorQueryCommand;
+import com.muyuan.user.face.dto.UserQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -23,12 +21,12 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface OperatorMapper {
+public interface UserMapper {
 
-    OperatorQueryCommand toCommand(OperatorQueryRequest request);
+    UserQueryCommand toCommand(UserQueryRequest request);
 
     @Mappings({
-            @Mapping(target = "roleIds", expression = "java(OperatorMapper.map(request.getRoleIds()))"),
+            @Mapping(target = "roleIds", expression = "java(UserMapper.map(request.getRoleIds()))"),
     })
     OperatorCommand toCommand(OperatorRequest request);
 
@@ -37,6 +35,13 @@ public interface OperatorMapper {
             @Mapping(target = "username", source = "username.value"),
     })
     OperatorDTO toDto(Operator operator);
+
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "username", source = "username.value"),
+    })
+    MerchantDTO toDto(Merchant merchant);
+
 
     List<OperatorDTO> toDto(List<Operator> operators);
 

@@ -9,7 +9,7 @@ import com.muyuan.manager.system.dto.OperatorQueryParams;
 import com.muyuan.manager.system.service.OperatorService;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -27,7 +27,7 @@ public class OperatorServiceImpl implements OperatorService {
     @Override
     public  Page<OperatorDTO> list(OperatorQueryParams params) {
 
-        OperatorQueryRequest request = OperatorQueryRequest.builder()
+        UserQueryRequest request = UserQueryRequest.builder()
                 .status(params.getStatus())
                 .username(params.getUsername())
                 .phone(params.getPhone())
@@ -45,7 +45,7 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public Page<OperatorDTO> selectAllocatedList(OperatorQueryParams params) {
-        OperatorQueryRequest request = OperatorQueryRequest.builder()
+        UserQueryRequest request = UserQueryRequest.builder()
                 .username(params.getUsername())
                 .phone(params.getPhone())
                 .roleId(params.getRoleId())
@@ -62,7 +62,7 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public Page<OperatorDTO> selectUnallocatedList(OperatorQueryParams params) {
-        OperatorQueryRequest request = OperatorQueryRequest.builder()
+        UserQueryRequest request = UserQueryRequest.builder()
                 .username(params.getUsername())
                 .phone(params.getPhone())
                 .roleId(params.getRoleId())

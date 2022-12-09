@@ -9,15 +9,17 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.user.api.MerchantInterface;
+import com.muyuan.user.api.dto.MerchantDTO;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.OperatorQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
+import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
 import com.muyuan.user.domain.model.valueobject.Username;
-import com.muyuan.user.domain.service.OperatorService;
-import com.muyuan.user.face.dto.mapper.OperatorMapper;
+import com.muyuan.user.domain.service.MerchantService;
+import com.muyuan.user.face.dto.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
@@ -45,31 +47,31 @@ import java.util.Set;
 )
 public class MerchantInterfaceApi implements MerchantInterface {
 
-    private OperatorMapper USER_MAPPER;
+    private UserMapper USER_MAPPER;
 
-    private OperatorService operatorService;
+    private MerchantService merchantService;
 
     @Override
-    public Result<OperatorDTO> getUserByUsername(OperatorQueryRequest request) {
-        Optional<Operator> operator = operatorService.getOperatorByUsername(
+    public Result<MerchantDTO> getUserByUsername(UserQueryRequest request) {
+        Optional<Merchant> operator = merchantService.getOperatorByUsername(
                 USER_MAPPER.toCommand(request)
         );
 
         return operator.map(USER_MAPPER::toDto)
-                .map(ResultUtil::<OperatorDTO>success)
+                .map(ResultUtil::<MerchantDTO>success)
                 .orElse(ResultUtil.<OperatorDTO>fail(ResponseCode.USER_ONT_FOUND));
     }
 
     @Override
-    public Result<Page<OperatorDTO>> list(OperatorQueryRequest request) {
-        Page<Operator> list = operatorService.list(USER_MAPPER.toCommand(request));
+    public Result<Page<OperatorDTO>> list(UserQueryRequest request) {
+        Page<Operator> list = merchantService.list(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
     }
 
     @Override
     public Result<OperatorDTO> get(Long id) {
-        Optional<Operator> handler = operatorService.getOperatorByyId(new UserID(id), PlatformType.OPERATOR);
+        Optional<Operator> handler = merchantService.getOperatorByyId(new UserID(id), PlatformType.OPERATOR);
 
         return handler.map(USER_MAPPER::toDto)
                 .map(ResultUtil::success)
@@ -83,32 +85,32 @@ public class MerchantInterfaceApi implements MerchantInterface {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }
 
-        if (GlobalConst.NOT_UNIQUE.equals(operatorService.checkUnique(new Operator.Identify(new Username(request.getUsername()))))) {
+        if (GlobalConst.NOT_UNIQUE.equals(merchantService.checkUnique(new Operator.Identify(new Username(request.getUsername()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = operatorService.addOperator(USER_MAPPER.toCommand(request));
+        boolean flag = merchantService.addOperator(USER_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
     @Override
-    public Result<Page<OperatorDTO>> selectAllocatedList(OperatorQueryRequest request) {
-        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+    public Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request) {
+        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
         if (!constraintViolations.isEmpty()) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }
-        Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
+        Page<Operator> list = merchantService.selectAllocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
     }
 
     @Override
-    public Result<Page<OperatorDTO>> selectUnallocatedList(OperatorQueryRequest request) {
-        Set<ConstraintViolation<OperatorQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
+    public Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request) {
+        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
         if (!constraintViolations.isEmpty()) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
         }
 
-        Page<Operator> list = operatorService.selectUnallocatedList(USER_MAPPER.toCommand(request));
+        Page<Operator> list = merchantService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
     }
@@ -120,7 +122,7 @@ public class MerchantInterfaceApi implements MerchantInterface {
         for (Long roleId : roleIds) {
             roleIDs.add(new RoleID(roleId));
         }
-        if (operatorService.authRole(userID,roleIDs)) {
+        if (merchantService.authRole(userID,roleIDs)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();
