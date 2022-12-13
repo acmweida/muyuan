@@ -8,6 +8,8 @@ import com.muyuan.goods.face.dto.BrandQueryCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @ClassName GoodsServiceImpl
  * Description 商品服务
@@ -21,9 +23,16 @@ public class BrandServiceImpl implements BrandService {
 
     private BrandRepo brandRepo;
 
-
     @Override
     public Page<Brand> list(BrandQueryCommand commend) {
         return brandRepo.select(commend);
+    }
+
+    @Override
+    public Optional<Brand> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    return brandRepo.select(id);
+                });
     }
 }

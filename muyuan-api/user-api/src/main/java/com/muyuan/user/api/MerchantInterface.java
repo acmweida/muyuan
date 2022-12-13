@@ -15,13 +15,6 @@ import com.muyuan.user.api.dto.UserQueryRequest;
  */
 public interface MerchantInterface {
 
-    /**
-     * 通过用户名称 获取用户信息
-     * 默认用户类型 MEMBER
-     * @param request
-     * @return
-     */
-    Result<MerchantDTO> getUserByUsername(UserQueryRequest request);
 
     /**
      * 角色列表

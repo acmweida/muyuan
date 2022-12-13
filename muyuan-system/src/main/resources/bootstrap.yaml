@@ -59,3 +59,7 @@ knife4j:
     enableSwaggerModels: true
     enableOpenApi: true
 
+fastDFS:
+  profiles:
+    active: fastDFS${spring.profiles.active}.properties
+

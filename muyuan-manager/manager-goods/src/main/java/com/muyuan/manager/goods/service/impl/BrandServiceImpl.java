@@ -6,6 +6,7 @@ import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.CacheServiceUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
@@ -56,12 +57,12 @@ public class BrandServiceImpl implements BrandService {
      * @return 品牌
      */
     @Override
-    public Optional<Brand> get(Long id) {
-        return Optional.ofNullable(brandRepo.selectOne(
-                Brand.builder()
-                        .id(id)
-                        .build()
-        ));
+    public Optional<BrandDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<BrandDTO> permissioHander = brandInterface.get(id_);
+                    return ResultUtil.getOr(permissioHander, null);
+                });
     }
 
     /**

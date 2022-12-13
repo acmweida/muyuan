@@ -2,9 +2,9 @@ package com.muyuan.manager.goods.service.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.exception.ResourceNotFoundException;
+import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.manager.goods.dto.GoodsDTO;
 import com.muyuan.manager.goods.dto.SkuDTO;
-import com.muyuan.manager.goods.model.Brand;
 import com.muyuan.manager.goods.model.Category;
 import com.muyuan.manager.goods.model.Goods;
 import com.muyuan.manager.goods.model.Sku;
@@ -63,7 +63,7 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods = goodsDTO.convert();
 
         // 品牌信息
-        Optional<Brand> brand = brandService.get(goods.getBrandId());
+        Optional<BrandDTO> brand = brandService.get(goods.getBrandId());
         goods.setBrandName(brand.<ResourceNotFoundException>orElseThrow(() -> {
             throw new ResourceNotFoundException("品牌信息未找到");
         }).getName());

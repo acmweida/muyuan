@@ -20,4 +20,11 @@ public interface BrandInterface {
      * @return
      */
     Result<Page<BrandDTO>> list(BrandQueryRequest request);
+
+    /**
+     * 获取品牌详情
+     * @param id
+     * @return
+     */
+    Result<BrandDTO> get(Long id);
 }

@@ -16,14 +16,6 @@ import com.muyuan.user.api.dto.OperatorRequest;
 public interface MemberInterface {
 
     /**
-     * 通过用户名称 获取用户信息
-     * 默认用户类型 MEMBER
-     * @param request
-     * @return
-     */
-    Result<OperatorDTO> getUserByUsername(UserQueryRequest request);
-
-    /**
      * 角色列表
      * @param request
      * @return

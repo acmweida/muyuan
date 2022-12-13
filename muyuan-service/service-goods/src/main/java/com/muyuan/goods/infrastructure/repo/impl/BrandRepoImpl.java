@@ -31,6 +31,14 @@ public class BrandRepoImpl implements BrandRepo {
     private BrandConverter converter;
 
     @Override
+    public Brand select(Long id) {
+        BrandDO brandDO = brandMapper.selectOne(new SqlBuilder(BrandDO.class)
+                .eq(ID, id)
+                .build());
+        return converter.to(brandDO);
+    }
+
+    @Override
     public Page<Brand> select(BrandQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(BrandDO.class)
                 .like(NAME, command.getName())

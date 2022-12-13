@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * 用户域服务接口
  */
-public interface OperatorService {
+public interface OperatorService extends UserService<Operator> {
 
     /**
      * 角色分页查询
@@ -23,13 +23,6 @@ public interface OperatorService {
      * @return
      */
     Page<Operator> list(UserQueryCommand commend);
-
-    /**
-     * 登录获取用户信息 内部RPC
-     * @param command
-     * @return
-     */
-    Optional<Operator> getOperatorByUsername(UserQueryCommand command);
 
 
     /**

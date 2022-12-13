@@ -38,11 +38,9 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public Optional<Operator> getOperatorByUsername(UserQueryCommand command) {
-        Username username = new Username(command.getUsername());
-        PlatformType platformType = command.getPlatformType();
+    public Optional<Operator> getUserByUsername(String username) {
 
-        Operator operator = repo.selectOneByUsername(username, platformType);
+        Operator operator = repo.selectOneByUsername(new Username(username), PlatformType.OPERATOR);
 
         return Optional.ofNullable(operator);
     }

@@ -2,6 +2,7 @@ package com.muyuan.user.dto.converter;
 
 import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.RoleDTO;
+import com.muyuan.user.api.dto.UserDTO;
 import com.muyuan.user.dto.UserVO;
 import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
@@ -22,6 +23,9 @@ public interface UserConverter {
 
     @Mapping(target = "roles", expression = "java(UserConverter.map(operatorDTO.getRoles()))")
     UserVO toVO(OperatorDTO operatorDTO);
+
+    @Mapping(target = "roles", expression = "java(UserConverter.map(userDTO.getRoles()))")
+    UserVO toVO(UserDTO userDTO);
 
     static List<String> map(List<RoleDTO> value) {
         return ObjectUtils.isEmpty(value) ? null : value.stream().map(RoleDTO::getCode).collect(Collectors.toList());

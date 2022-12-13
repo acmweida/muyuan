@@ -28,7 +28,7 @@ public class UserVO {
     /**
      * 店铺号
      */
-    private long shopNo;
+    private Long shopId;
 
     /**
      * 图片

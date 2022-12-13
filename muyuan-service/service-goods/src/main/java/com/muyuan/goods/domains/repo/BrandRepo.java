@@ -14,31 +14,8 @@ import com.muyuan.goods.face.dto.BrandQueryCommand;
 public interface BrandRepo {
 
 
-//
-//    String DEL = "del";
-//
-//    List<Brand> select(BrandCommand brandParams);
-//
-//    List<Brand> select(BrandCommand brandParams, Page page);
-//
-//    Brand selectOne(Brand brand);
+    Brand select(Long id);
 
     Page<Brand> select(BrandQueryCommand command);
-
-//    void insert(Brand brand);
-//
-//    void update(Brand brand);
-//
-//    void update(Brand brand, String... column);
-
-//    void delete(Long... ids);
-
-//    List<BrandCategory> selectLinkCategoryCode(Long brandId);
-//
-//    void deleteLink(BrandCategory... brandCategory);
-//
-//    void insertLink(List<BrandCategory> brandCategories);
-//
-//    List<Brand> selectBy(BrandParams brandParams);
 
 }

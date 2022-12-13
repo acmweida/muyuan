@@ -24,7 +24,7 @@ public interface BrandService
      * @param id 品牌主键
      * @return 品牌
      */
-    Optional<Brand> get(Long id);
+    Optional<BrandDTO> get(Long id);
 
     /**
      * 唯一性查询

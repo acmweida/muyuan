@@ -1,16 +1,16 @@
-package com.muyuan.config.repo.mapper;
+package com.muyuan.system.dao;
 
 import com.muyuan.common.mybatis.jdbc.CommonBaseMapper;
 import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
-import com.muyuan.config.repo.dataobject.DictTypeDO;
+import com.muyuan.system.entity.File;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 
 @Mapper
-public interface DictTypeMapper extends CommonBaseMapper<DictTypeDO> {
+public interface FileMapper extends CommonBaseMapper<File> {
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @InsertProvider(value = CrudSqlProvider.class, method = "insert")
-    Integer insertAuto(DictTypeDO dataObject);
+    Integer insertAuto(File dataObject);
 }

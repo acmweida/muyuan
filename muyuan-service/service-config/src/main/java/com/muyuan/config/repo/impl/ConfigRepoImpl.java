@@ -7,20 +7,20 @@ import com.muyuan.config.face.dto.ConfigQueryCommand;
 import com.muyuan.config.repo.ConfigRepo;
 import com.muyuan.config.repo.converter.ConfigConverter;
 import com.muyuan.config.repo.dataobject.ConfigDO;
-import com.muyuan.config.repo.mapper.ConfigMapper;
+import com.muyuan.config.repo.mapper.CommonMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.config.repo.mapper.ConfigMapper.*;
+import static com.muyuan.config.repo.mapper.CommonMapper.*;
 
 @Component
 @AllArgsConstructor
 public class ConfigRepoImpl implements ConfigRepo {
 
-    private ConfigMapper configMapper;
+    private CommonMapper configMapper;
 
     private ConfigConverter converter;
 

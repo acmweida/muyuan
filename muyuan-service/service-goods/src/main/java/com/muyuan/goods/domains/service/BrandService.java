@@ -4,6 +4,8 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 
+import java.util.Optional;
+
 /**
  * @ClassName BrandService
  * Description 品牌基础信息
@@ -19,4 +21,13 @@ public interface BrandService {
      * @return
      */
     Page<Brand> list(BrandQueryCommand commend);
+
+
+    /**
+     * 查询权限信息
+     * @param id
+     * @return
+     */
+    Optional<Brand> get(Long id);
+
 }

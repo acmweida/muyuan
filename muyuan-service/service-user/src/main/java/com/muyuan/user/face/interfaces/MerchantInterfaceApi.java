@@ -10,7 +10,6 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.user.api.MerchantInterface;
 import com.muyuan.user.api.dto.MerchantDTO;
-import com.muyuan.user.api.dto.OperatorDTO;
 import com.muyuan.user.api.dto.OperatorRequest;
 import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.domain.model.entity.Merchant;
@@ -49,17 +48,6 @@ public class MerchantInterfaceApi implements MerchantInterface {
     private UserMapper USER_MAPPER;
 
     private MerchantService merchantService;
-
-    @Override
-    public Result<MerchantDTO> getUserByUsername(UserQueryRequest request) {
-        Optional<Merchant> operator = merchantService.getOperatorByUsername(
-                USER_MAPPER.toCommand(request)
-        );
-
-        return operator.map(USER_MAPPER::toDto)
-                .map(ResultUtil::<MerchantDTO>success)
-                .orElse(ResultUtil.<OperatorDTO>fail(ResponseCode.USER_ONT_FOUND));
-    }
 
     @Override
     public Result<Page<MerchantDTO>> list(UserQueryRequest request) {

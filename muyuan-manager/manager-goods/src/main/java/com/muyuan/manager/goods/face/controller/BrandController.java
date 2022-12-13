@@ -55,8 +55,12 @@ public class BrandController {
      */
     @RequirePermissions("goods:brand:query")
     @GetMapping(value = "/{id}")
-    public Result get(@PathVariable("id") Long id) {
-        Optional<Brand> brand = brandService.get(id);
+    public Result<BrandDTO> get(@PathVariable("id") Long id) {
+        if (ObjectUtils.isEmpty(id)) {
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
+        }
+
+        Optional<BrandDTO> brand = brandService.get(id);
         return brand.map(ResultUtil::success)
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
     }

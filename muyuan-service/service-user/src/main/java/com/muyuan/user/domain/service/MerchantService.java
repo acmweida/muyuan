@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * 用户域服务接口
  */
-public interface MerchantService {
+public interface MerchantService extends UserService<Merchant> {
 
     /**
      * 角色分页查询
@@ -23,13 +23,6 @@ public interface MerchantService {
      * @return
      */
     Page<Merchant> list(UserQueryCommand commend);
-
-    /**
-     * 登录获取用户信息 内部RPC
-     * @param command
-     * @return
-     */
-    Optional<Merchant> getOperatorByUsername(UserQueryCommand command);
 
 
     /**

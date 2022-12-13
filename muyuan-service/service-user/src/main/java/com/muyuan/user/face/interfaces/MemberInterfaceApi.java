@@ -50,17 +50,6 @@ public class MemberInterfaceApi implements MemberInterface {
     private OperatorService operatorService;
 
     @Override
-    public Result<OperatorDTO> getUserByUsername(UserQueryRequest request) {
-        Optional<Operator> operator = operatorService.getOperatorByUsername(
-                USER_MAPPER.toCommand(request)
-        );
-
-        return operator.map(USER_MAPPER::toDto)
-                .map(ResultUtil::<OperatorDTO>success)
-                .orElse(ResultUtil.<OperatorDTO>fail(ResponseCode.USER_ONT_FOUND));
-    }
-
-    @Override
     public Result<Page<OperatorDTO>> list(UserQueryRequest request) {
         Page<Operator> list = operatorService.list(USER_MAPPER.toCommand(request));
 

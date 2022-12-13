@@ -1,11 +1,11 @@
 package com.muyuan.config.config;
 
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.config.ConfigJdbcConfig;
+import com.muyuan.common.mybatis.config.CommonJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.DynamicDataSource;
 import com.muyuan.common.mybatis.jdbc.multi.JdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.MutiDataSourceConfig;
-import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ConfigReadWriteJdbcConfig;
+import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.CommonReadWriteJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.UserReadWriteJdbcConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -25,11 +25,11 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @MapperScan("com.muyuan.config.repo.mapper")
-@Import({ConfigJdbcConfig.class, ConfigReadWriteJdbcConfig.class})
+@Import({CommonJdbcConfig.class, CommonReadWriteJdbcConfig.class})
 public class MybatisConfig {
 
     @Bean
-    public DataSource dataSource(ConfigJdbcConfig jdbcConfig) {
+    public DataSource dataSource(CommonJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 
@@ -41,7 +41,7 @@ public class MybatisConfig {
         memberDataSource.setMaximumPoolSize(4);
         memberDataSource.setMinimumIdle(8);
         memberDataSource.setMaxLifetime( 30 * 1000);
-        dataSourceMap.put(ConfigJdbcConfig.DATASOURCE_NAME,memberDataSource);
+        dataSourceMap.put(CommonJdbcConfig.DATASOURCE_NAME,memberDataSource);
 
         dataSources.setTargetDataSources(dataSourceMap);
         dataSources.setDefaultTargetDataSource(memberDataSource);
@@ -49,7 +49,7 @@ public class MybatisConfig {
     }
 
     @Bean
-    public DataSource dataSource(ConfigReadWriteJdbcConfig userJdbcConfig) {
+    public DataSource dataSource(CommonReadWriteJdbcConfig userJdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
 

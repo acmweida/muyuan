@@ -3,6 +3,7 @@ package com.muyuan.goods.face.interfaces;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
@@ -13,6 +14,8 @@ import com.muyuan.goods.face.dto.BrandQueryCommand;
 import com.muyuan.goods.face.dto.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Optional;
 
 
 /**
@@ -38,5 +41,14 @@ public class BrandInterfaceImpl implements BrandInterface {
         Page<Brand> page =  brandService.list(command);
 
         return ResultUtil.success(Page.copy(page, BRAND_MAPPER.toDTO(page.getRows())));
+    }
+
+    @Override
+    public Result<BrandDTO> get(Long id) {
+        Optional<Brand> handler = brandService.get(id);
+
+        return handler.map(BRAND_MAPPER::toDTO)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
     }
 }

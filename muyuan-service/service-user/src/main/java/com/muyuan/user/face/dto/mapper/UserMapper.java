@@ -40,7 +40,19 @@ public interface UserMapper {
             @Mapping(target = "id", source = "id.value"),
             @Mapping(target = "username", source = "username.value"),
     })
+    UserDTO toUser(Operator operator);
+
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "username", source = "username.value"),
+    })
     MerchantDTO toDto(Merchant merchant);
+
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "username", source = "username.value"),
+    })
+    UserDTO toUser(Merchant merchant);
 
 
     List<OperatorDTO> toDto(List<Operator> operators);

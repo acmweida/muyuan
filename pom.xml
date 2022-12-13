@@ -8,7 +8,6 @@
         <module>muyuan-auth</module>
         <module>muyuan-merchant</module>
         <module>muyuan-gateway</module>
-        <module>muyuan-common-server</module>
         <module>muyuan-api</module>
         <module>muyuan-manager</module>
         <module>muyuan-member</module>

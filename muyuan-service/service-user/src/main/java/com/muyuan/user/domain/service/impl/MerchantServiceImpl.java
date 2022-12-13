@@ -38,11 +38,9 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Optional<Merchant> getOperatorByUsername(UserQueryCommand command) {
-        Username username = new Username(command.getUsername());
-        PlatformType platformType = command.getPlatformType();
+    public Optional<Merchant> getUserByUsername(String username) {
 
-        Merchant operator = repo.selectOneByUsername(username, platformType);
+        Merchant operator = repo.selectOneByUsername(new Username(username), PlatformType.MERCHANT);
 
         return Optional.ofNullable(operator);
     }
