@@ -1,15 +1,12 @@
 package com.muyuan.config.face.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class DictTypeCommand {
+public class DictTypeCommand extends OptCommand {
 
     /**
      * 字典名称
@@ -25,10 +22,6 @@ public class DictTypeCommand {
      * 状态（0正常 1停用）
      */
     private int status;
-
-    private Long createBy;
-
-    private Long updateBy;
 
     private String remark;
 

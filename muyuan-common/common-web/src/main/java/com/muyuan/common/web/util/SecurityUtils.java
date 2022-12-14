@@ -6,6 +6,7 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.exception.UnAuthorizedException;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.context.SecurityContextHolder;
+import com.muyuan.common.valueobject.Opt;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -137,6 +138,10 @@ public class SecurityUtils {
             SecurityContextHolder.set(SecurityConst.DETAILS_USER_ID, userId);
         }
         return userId;
+    }
+
+    public static Opt getOpt() {
+        return new Opt(getUserId(),getUsername());
     }
 
     /**

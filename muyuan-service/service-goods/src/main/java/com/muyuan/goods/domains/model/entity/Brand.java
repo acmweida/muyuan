@@ -13,6 +13,22 @@ import java.util.Date;
 @AllArgsConstructor
 public class Brand {
 
+    @Data
+    static public class Identify {
+        private Long id;
+
+        private String name;
+
+        public Identify(String name) {
+            this.name = name;
+        }
+
+        public Identify(Long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
     /**  */
     private Long id;
 
@@ -73,30 +89,4 @@ public class Brand {
         this.updater = opt.getName();
     }
 
-//    public void save(BrandRepo brandRepo,Opt opt) {
-//        Assert.notNull(brandRepo, "repo is null");
-//        FunctionUtil.of(id)
-//                .ifThen(
-//                        () -> brandRepo.insert(this),
-//                        id -> {
-//                            update(opt);
-//                            brandRepo.update(this);
-//                        }
-//                );
-//    }
-//
-//    public void update(BrandRepo brandRepo) {
-//        brandRepo.update(this);
-//    }
-//
-//    public void update(Opt opt, BrandRepo brandRepo, String... column) {
-//        Assert.notNull(brandRepo, "repo is null");
-//        Assert.notNull(id, "id is null");
-//        update(opt);
-//        brandRepo.update(this,ArrayUtils.addAll(column, "updateTime", "updateBy", "updater"));
-//    }
-//
-//    public void audit(Opt opt,BrandRepo brandRepo) {
-//        update(opt,brandRepo,"auditStatus");
-//    }
 }

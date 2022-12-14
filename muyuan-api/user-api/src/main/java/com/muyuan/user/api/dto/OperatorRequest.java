@@ -1,6 +1,10 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.bean.OptRequest;
+import com.muyuan.common.valueobject.Opt;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +19,25 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
-public class OperatorRequest implements Serializable {
+@NoArgsConstructor
+public class OperatorRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public OperatorRequest(Opt opt, String username, String phone, Integer status, String password, String nickName, String deptId, String email, Long[] roleIds, String sex, String remark, Long id, Long roleId) {
+        super(opt);
+        this.username = username;
+        this.phone = phone;
+        this.status = status;
+        this.password = password;
+        this.nickName = nickName;
+        this.deptId = deptId;
+        this.email = email;
+        this.roleIds = roleIds;
+        this.sex = sex;
+        this.remark = remark;
+        this.id = id;
+        this.roleId = roleId;
+    }
 
     private static final long serialVersionUID = 1651932148501l;
 

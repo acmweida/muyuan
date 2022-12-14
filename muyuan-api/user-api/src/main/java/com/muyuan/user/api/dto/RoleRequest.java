@@ -1,6 +1,9 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.bean.OptRequest;
 import com.muyuan.common.core.enums.PlatformType;
+import com.muyuan.common.valueobject.Opt;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +18,19 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
-public class RoleRequest implements Serializable {
+public class RoleRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public RoleRequest(Opt opt, Long id, PlatformType platformType, String name, String code, Integer orderNum, Integer status, Long[] permissionIds) {
+        super(opt);
+        this.id = id;
+        this.platformType = platformType;
+        this.name = name;
+        this.code = code;
+        this.orderNum = orderNum;
+        this.status = status;
+        this.permissionIds = permissionIds;
+    }
 
     private static final long serialVersionUID = 12457932148502l;
 
@@ -39,9 +54,6 @@ public class RoleRequest implements Serializable {
      */
     private Integer status;
 
-    private Long createBy;
-
-    private Long updateBy;
 
     private Long[] permissionIds;
 

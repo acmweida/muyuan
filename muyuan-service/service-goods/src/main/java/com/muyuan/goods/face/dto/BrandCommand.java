@@ -1,10 +1,7 @@
 package com.muyuan.goods.face.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +13,7 @@ import javax.validation.constraints.NotBlank;
  * @date 2022-07-04T14:16:24.789+08:00
  */
 @Data
-public class BrandCommand {
+public class BrandCommand extends OptCommand {
 
     /**  */
     private Long id;
@@ -38,15 +35,12 @@ public class BrandCommand {
     /** 备注 */
     private String remark;
 
-    /** 审核状态  1-审核中  0-审核通过 2-审核魏通过 */
-    @Range(message = "认证状态码输入错误",min = 0,max = 2)
-    private Integer auditStatus;
+//    /** 审核状态  1-审核中  0-审核通过 2-审核魏通过 */
+//    @Range(message = "认证状态码输入错误",min = 0,max = 2)
+//    private Integer auditStatus;
 
-    /** 状态  0-上架 1-下架 3-删除 4-禁用 */
-    @Range(message = "状态码输入错误",min = 0,max = 4)
-    private Integer status;
-
-    private Long categoryCode;
-
+//    /** 状态  0-上架 1-下架 3-删除 4-禁用 */
+//    @Range(message = "状态码输入错误",min = 0,max = 4)
+//    private Integer status;
 
 }

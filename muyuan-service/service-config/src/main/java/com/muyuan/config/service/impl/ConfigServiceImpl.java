@@ -9,6 +9,7 @@ import com.muyuan.config.repo.ConfigRepo;
 import com.muyuan.config.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,13 +54,11 @@ public class ConfigServiceImpl implements ConfigService {
         config.setConfigKey(command.getConfigKey());
         config.setConfigValue(command.getConfigValue());
         config.setType(command.getType());
-        config.setCreateBy(command.getCreateBy());
-        config.setCreateTime(command.getCreateTime());
-        config.setUpdateBy(command.getUpdateBy());
-        config.setUpdateTime(command.getUpdateTime());
+
         config.setRemark(command.getRemark());
-        config.setCreator(command.getCreator());
-        config.setUpdater(command.getUpdater());
+        config.setCreator(command.getOpt().getId());
+        config.setCreateBy(command.getOpt().getName());
+        config.setCreateTime(DateTime.now().toDate());
 
         return configRepo.addConfig(config);
     }
@@ -73,7 +72,7 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public boolean updateMenu(ConfigCommand command) {
+    public boolean updateConfig(ConfigCommand command) {
         Config config = new Config();
 
         config.setId(command.getId());
@@ -81,13 +80,11 @@ public class ConfigServiceImpl implements ConfigService {
         config.setConfigKey(command.getConfigKey());
         config.setConfigValue(command.getConfigValue());
         config.setType(command.getType());
-        config.setCreateBy(command.getCreateBy());
-        config.setCreateTime(command.getCreateTime());
-        config.setUpdateBy(command.getUpdateBy());
-        config.setUpdateTime(command.getUpdateTime());
+
         config.setRemark(command.getRemark());
-        config.setCreator(command.getCreator());
-        config.setUpdater(command.getUpdater());
+        config.setUpdater(command.getOpt().getId());
+        config.setUpdateBy(command.getOpt().getName());
+        config.setUpdateTime(DateTime.now().toDate());
 
         Config old = configRepo.updateConfig(config);
         if (ObjectUtils.isNotEmpty(old)) {

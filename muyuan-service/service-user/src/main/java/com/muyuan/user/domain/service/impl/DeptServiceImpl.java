@@ -56,7 +56,7 @@ public class DeptServiceImpl implements DeptService {
         dept.setEmail(command.getEmail());
         dept.setPhone(command.getPhone());
         dept.setCreateTime(DateTime.now().toDate());
-        dept.setCreateBy(command.getCreateBy());
+        dept.setCreateBy(command.getOpt().getId());
 
         deptRepo.addDept(dept);
 

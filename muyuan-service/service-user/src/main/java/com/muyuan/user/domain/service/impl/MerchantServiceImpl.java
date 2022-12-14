@@ -78,8 +78,8 @@ public class MerchantServiceImpl implements MerchantService {
             builder.status(command.getStatus());
         }
         builder.createTime(DateTime.now().toDate());
-        builder.createBy( command.getCreateBy() );
-        builder.creator(command.getCreator());
+        builder.createBy( command.getOpt().getId() );
+        builder.creator(command.getOpt().getName());
 
         Merchant operator = builder.build();
 

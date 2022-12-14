@@ -3,6 +3,8 @@ package com.muyuan.common.valueobject;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
+
 /**
  * @ClassName Opt
  * Description 操作人
@@ -11,7 +13,7 @@ import org.springframework.util.Assert;
  * @Version 1.0
  */
 @Getter
-public class Opt {
+public class Opt implements Serializable {
 
     private Long id;
 

@@ -78,8 +78,8 @@ public class OperatorServiceImpl implements OperatorService {
             builder.status(command.getStatus());
         }
         builder.createTime(DateTime.now().toDate());
-        builder.createBy( command.getCreateBy() );
-        builder.creator(command.getCreator());
+        builder.createBy( command.getOpt().getId() );
+        builder.creator(command.getOpt().getName());
 
         Operator operator = builder.build();
 

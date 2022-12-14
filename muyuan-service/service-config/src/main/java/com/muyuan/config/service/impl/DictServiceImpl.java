@@ -108,7 +108,7 @@ public class DictServiceImpl implements DictService {
         dictData.setRemark(command.getRemark());
         dictData.setStatus(Integer.parseInt(command.getStatus()));
         dictData.setCreateTime(DateTime.now().toDate());
-        dictData.setCreateBy(command.getCreateBy());
+        dictData.setCreateBy(command.getOpt().getId());
 
         if (dictRepo.addDictData(dictData)) {
             redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dictData.getType());
@@ -136,7 +136,7 @@ public class DictServiceImpl implements DictService {
         dictData.setRemark(command.getRemark());
         dictData.setStatus(Integer.parseInt(command.getStatus()));
         dictData.setUpdateTime(DateTime.now().toDate());
-        dictData.setUpdateBy(command.getUpdateBy());
+        dictData.setUpdateBy(command.getOpt().getId());
 
         DictData old = dictRepo.updateDictData(dictData);
         if (ObjectUtils.isNotEmpty(old)) {
@@ -160,7 +160,7 @@ public class DictServiceImpl implements DictService {
         dictType.setRemark(command.getRemark());
         dictType.setStatus(command.getStatus());
         dictType.setUpdateTime(DateTime.now().toDate());
-        dictType.setUpdateBy(command.getUpdateBy());
+        dictType.setUpdateBy(command.getOpt().getId());
 
         DictType old = dictRepo.updateDictType(dictType);
         if (ObjectUtils.isNotEmpty(old) ) {
@@ -200,7 +200,7 @@ public class DictServiceImpl implements DictService {
         dictType.setType(command.getType());
         dictType.setStatus(command.getStatus());
         dictType.setRemark(command.getRemark());
-        dictType.setCreateBy(command.getCreateBy());
+        dictType.setCreateBy(command.getOpt().getId());
         dictType.setCreateTime(DateTime.now().toDate());
 
         return dictRepo.addDictType(dictType);

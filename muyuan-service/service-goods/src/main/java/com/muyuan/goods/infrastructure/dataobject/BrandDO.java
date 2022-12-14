@@ -1,20 +1,10 @@
 package com.muyuan.goods.infrastructure.dataobject;
 
-import com.muyuan.common.core.util.FunctionUtil;
-import com.muyuan.common.valueobject.Opt;
-import com.muyuan.goods.domains.repo.BrandRepo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import org.apache.commons.lang3.ArrayUtils;
-import org.joda.time.DateTime;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 
 @Data
-@Builder
-@AllArgsConstructor
 public class BrandDO {
 
     /**  */

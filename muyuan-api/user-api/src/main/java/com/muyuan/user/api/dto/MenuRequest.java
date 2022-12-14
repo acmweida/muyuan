@@ -1,12 +1,12 @@
 package com.muyuan.user.api.dto;
 
-import lombok.AllArgsConstructor;
+import com.muyuan.common.bean.OptRequest;
+import com.muyuan.common.valueobject.Opt;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @ClassName RolePermissionRequest
@@ -16,10 +16,28 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class MenuRequest implements Serializable {
+public class MenuRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public MenuRequest(Opt opt, Long id, String name, Long parentId, Integer orderNum, String path, String component, String query, String frame, String type, String visible, String status, String icon, String remark, String cache, String platformType) {
+        super(opt);
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.orderNum = orderNum;
+        this.path = path;
+        this.component = component;
+        this.query = query;
+        this.frame = frame;
+        this.type = type;
+        this.visible = visible;
+        this.status = status;
+        this.icon = icon;
+        this.remark = remark;
+        this.cache = cache;
+        this.platformType = platformType;
+    }
 
     private static final long serialVersionUID = 1457932148568l;
 
@@ -75,7 +93,6 @@ public class MenuRequest implements Serializable {
      */
     private String status;
 
-
     /**
      * 菜单图标
      */
@@ -86,23 +103,8 @@ public class MenuRequest implements Serializable {
      */
     private String remark;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-
     /** 是否缓存（0缓存 1不缓存） */
     private String cache;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    private Long createBy;
-
-    private Long updateBy;
 
     private String platformType;
 

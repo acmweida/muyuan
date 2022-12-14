@@ -1,17 +1,14 @@
 package com.muyuan.config.face.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class DictDataCommand {
+public class DictDataCommand extends OptCommand {
 
     private Long id;
 
@@ -58,7 +55,4 @@ public class DictDataCommand {
      */
     private String status = "0";
 
-    private Long createBy;
-
-    private Long updateBy;
 }

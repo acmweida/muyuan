@@ -1,14 +1,10 @@
 package com.muyuan.config.face.dto;
 
-import java.util.Date;
-
 import com.muyuan.common.bean.PageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * @author wd
@@ -49,38 +45,8 @@ public class ConfigQueryCommand extends PageDTO {
     private Integer type;
 
     /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
      * 备注
      */
     private String remark;
-
-    /**
-     * $column.columnComment
-     */
-    private Long creator;
-
-    /**
-     * $column.columnComment
-     */
-    private Long updater;
 
 }

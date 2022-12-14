@@ -2,18 +2,21 @@ package com.muyuan.goods.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
+import com.muyuan.goods.api.dto.BrandRequest;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.service.BrandService;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 import com.muyuan.goods.face.dto.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 
 import java.util.Optional;
 
@@ -26,7 +29,10 @@ import java.util.Optional;
  * @Version 1.0
  */
 @DubboService(group = ServiceTypeConst.GOODS, version = "1.0"
-        , interfaceClass = BrandInterface.class
+        , interfaceClass = BrandInterface.class,
+        methods = {
+                @Method(name = "add", retries = 0)
+        }
 )
 @AllArgsConstructor
 public class BrandInterfaceImpl implements BrandInterface {
@@ -50,5 +56,14 @@ public class BrandInterfaceImpl implements BrandInterface {
         return handler.map(BRAND_MAPPER::toDTO)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
+    public Result add(BrandRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(brandService.checkUnique(new Brand.Identify(request.getName())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = brandService.add(BRAND_MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 }

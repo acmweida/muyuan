@@ -1,7 +1,5 @@
 package com.muyuan.manager.goods.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.goods.model.Brand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,16 +19,24 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandParams extends BaseDTO<BrandParams, Brand> {
+public class BrandParams {
+
+    public interface Add {
+
+    }
+
+    public interface Update {
+
+    }
 
     /**  */
     private Long id;
 
-    @NotBlank(message = "品牌名称不能为空")
+    @NotBlank(message = "品牌名称不能为空",groups = {Add.class})
     /** 品牌名称 */
     private String name;
 
-    @NotBlank(message = "图标不能为空")
+    @NotBlank(message = "图标不能为空",groups = {Add.class})
     /** 图标 */
     private String logo;
 

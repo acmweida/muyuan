@@ -3,7 +3,6 @@ package com.muyuan.manager.goods.face.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
@@ -12,7 +11,7 @@ import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
-import com.muyuan.manager.goods.model.Brand;
+import com.muyuan.manager.goods.dto.converter.BrandConverter;
 import com.muyuan.manager.goods.service.BrandService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,6 +36,7 @@ public class BrandController {
 
     private BrandService brandService;
 
+    private BrandConverter converter;
     /**
      * 查询品牌列表
      */
@@ -72,22 +72,9 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("品牌新增")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "name", value = "品牌名称", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "logo", value = "图标", dataTypeClass = Long.class, paramType = "body")
-            }
-    )
-    public Result add(@RequestBody @Validated BrandParams brandDTOb) {
-        if (GlobalConst.NOT_UNIQUE.equals(
-                brandService.checkUnique(Brand.builder()
-                        .name(brandDTOb.getName())
-                        .build())
-        )) {
-            return ResultUtil.fail(ResponseCode.ADD_EXIST.getCode(), "品牌名称已存在");
-        }
-
-        brandService.add(brandDTOb);
-        return ResultUtil.success();
+    @ApiOperationSupport(includeParameters = {"name","logo"})
+    public Result add(@RequestBody @Validated(BrandParams.Add.class) BrandParams params) {
+        return brandService.add(converter.to(params));
     }
 
     /**

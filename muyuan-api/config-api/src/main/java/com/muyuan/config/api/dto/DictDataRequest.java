@@ -1,6 +1,7 @@
 package com.muyuan.config.api.dto;
 
-import lombok.AllArgsConstructor;
+import com.muyuan.common.bean.OptRequest;
+import com.muyuan.common.valueobject.Opt;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,22 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class DictDataRequest implements Serializable {
+public class DictDataRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public DictDataRequest(Opt opt, Long id, int orderNum, String label, String value, String type, String cssClass, String listClass, String remark, String status) {
+        super(opt);
+        this.id = id;
+        this.orderNum = orderNum;
+        this.label = label;
+        this.value = value;
+        this.type = type;
+        this.cssClass = cssClass;
+        this.listClass = listClass;
+        this.remark = remark;
+        this.status = status;
+    }
 
     private static final long serialVersionUID = 1057932158568l;
 
@@ -61,8 +74,4 @@ public class DictDataRequest implements Serializable {
      */
     private String status = "0";
 
-
-    private Long createBy;
-
-    private Long updateBy;
 }

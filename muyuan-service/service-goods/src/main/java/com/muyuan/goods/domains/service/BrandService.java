@@ -2,6 +2,7 @@ package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Brand;
+import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 
 import java.util.Optional;
@@ -29,5 +30,20 @@ public interface BrandService {
      * @return
      */
     Optional<Brand> get(Long id);
+
+    /**
+     * 唯一性检查
+     * @param identify
+     * @return
+     */
+    String checkUnique(Brand.Identify identify);
+
+
+    /**
+     * 新增权限信息
+     * @param command
+     * @return
+     */
+    boolean add(BrandCommand command);
 
 }

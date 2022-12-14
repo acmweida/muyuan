@@ -9,8 +9,8 @@ import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.config.api.dto.DictQueryRequest;
-import com.muyuan.manager.system.dto.DictDataQueryParams;
 import com.muyuan.manager.system.dto.DictDataParams;
+import com.muyuan.manager.system.dto.DictDataQueryParams;
 import com.muyuan.manager.system.service.DictDataService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +102,7 @@ public class DictDataServiceImpl implements DictDataService {
                 .type(dictDataParams.getType())
                 .value(dictDataParams.getValue())
                 .status(dictDataParams.getStatus())
-                .createBy(SecurityUtils.getUserId())
+                .opt(SecurityUtils.getOpt())
                 .cssClass(dictDataParams.getCssClass())
                 .listClass(dictDataParams.getListClass())
                 .orderNum(dictDataParams.getOrderNum())
@@ -117,13 +117,12 @@ public class DictDataServiceImpl implements DictDataService {
                 .type(dictDataParams.getType())
                 .value(dictDataParams.getValue())
                 .status(dictDataParams.getStatus())
-                .createBy(SecurityUtils.getUserId())
+                .opt(SecurityUtils.getOpt())
                 .cssClass(dictDataParams.getCssClass())
                 .listClass(dictDataParams.getListClass())
                 .orderNum(dictDataParams.getOrderNum())
                 .remark(dictDataParams.getRemark())
                 .id(dictDataParams.getId())
-                .updateBy(SecurityUtils.getUserId())
                 .build());
     }
 

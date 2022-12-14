@@ -74,13 +74,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result add(MenuRequest menuRequest) {
-        menuRequest.setCreateBy(SecurityUtils.getUserId());
+        menuRequest.setOpt(SecurityUtils.getOpt());
         return menuInterface.addMenu(menuRequest);
     }
 
     @Override
     public Result update(MenuRequest menuRequest) {
-        menuRequest.setUpdateBy(SecurityUtils.getUserId());
+        menuRequest.setOpt(SecurityUtils.getOpt());
         return menuInterface.updateMenu(menuRequest);
     }
 

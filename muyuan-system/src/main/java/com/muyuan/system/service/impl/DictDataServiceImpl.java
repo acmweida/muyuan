@@ -5,7 +5,6 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.config.api.dto.DictDataRequest;
@@ -90,7 +89,6 @@ public class DictDataServiceImpl implements DictDataService {
                 .type(dictDataRequest.getType())
                 .value(dictDataRequest.getValue())
                 .status(dictDataRequest.getStatus())
-                .createBy(SecurityUtils.getUserId())
                 .cssClass(dictDataRequest.getCssClass())
                 .listClass(dictDataRequest.getListClass())
                 .orderNum(dictDataRequest.getOrderNum())

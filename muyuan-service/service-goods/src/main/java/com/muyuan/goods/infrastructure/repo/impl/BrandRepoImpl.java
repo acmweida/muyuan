@@ -59,4 +59,22 @@ public class BrandRepoImpl implements BrandRepo {
 
         return page;
     }
+
+    @Override
+    public Brand select(Brand.Identify identify) {
+        BrandDO brandDO = brandMapper.selectOne(new SqlBuilder(BrandDO.class).select(ID)
+                .eq(ID, identify.getId())
+                .eq(NAME, identify.getName())
+                .build());
+
+        return converter.to(brandDO);
+    }
+
+    @Override
+    public boolean add(Brand permission) {
+        BrandDO to = converter.to(permission);
+        Integer count = brandMapper.insert(to);
+        permission.setId(to.getId());
+        return count > 0;
+    }
 }

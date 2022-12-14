@@ -1,10 +1,9 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @ClassName MenuQueryCommand
@@ -14,7 +13,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class MenuCommand {
+public class MenuCommand extends OptCommand {
 
     private MenuID id;
 
@@ -80,22 +79,7 @@ public class MenuCommand {
      */
     private String remark;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-
     /** 是否缓存（0缓存 1不缓存） */
     private String cache;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    private Long createBy;
-
-    private Long updateBy;
 
 }

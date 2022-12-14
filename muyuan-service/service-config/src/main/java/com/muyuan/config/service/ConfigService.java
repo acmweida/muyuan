@@ -49,7 +49,7 @@ public interface ConfigService {
      * @param command
      * @return
      */
-    boolean updateMenu(ConfigCommand command);
+    boolean updateConfig(ConfigCommand command);
 
     /**
      * 删除参数配置信息

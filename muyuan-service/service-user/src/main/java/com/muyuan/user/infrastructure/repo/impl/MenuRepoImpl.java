@@ -76,12 +76,12 @@ public class MenuRepoImpl implements MenuRepo {
     }
 
     @Override
-    public Menu selectMenu(Menu.Identify key) {
+    public Menu selectMenu(Menu.Identify identify) {
         MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class).select(ID)
-                .eq(NAME, key.getName())
-                .eq(PARENT_ID, key.getParentId())
-                .eq(ID, ObjectUtils.isEmpty(key.getId()) ? key.getId() : key.getId().getValue())
-                .eq(PLATFORM_TYPE, key.getPlatformType().getCode())
+                .eq(NAME, identify.getName())
+                .eq(PARENT_ID, identify.getParentId())
+                .eq(ID, ObjectUtils.isEmpty(identify.getId()) ? identify.getId() : identify.getId().getValue())
+                .eq(PLATFORM_TYPE, identify.getPlatformType().getCode())
                 .build());
 
         return converter.to(menuDO);

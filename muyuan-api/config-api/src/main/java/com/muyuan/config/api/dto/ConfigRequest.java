@@ -1,12 +1,10 @@
 package com.muyuan.config.api.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.muyuan.common.bean.OptRequest;
+import com.muyuan.common.valueobject.Opt;
+import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author wd
@@ -16,10 +14,19 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class ConfigRequest implements Serializable {
+public class ConfigRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public ConfigRequest(Opt opt, Long id, String name, String configKey, String configValue, Integer type, String remark) {
+        super(opt);
+        this.id = id;
+        this.name = name;
+        this.configKey = configKey;
+        this.configValue = configValue;
+        this.type = type;
+        this.remark = remark;
+    }
 
     private static final long serialVersionUID = 1357932148568l;
 
@@ -49,38 +56,10 @@ public class ConfigRequest implements Serializable {
     private Integer type;
 
     /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
      * 备注
      */
     private String remark;
 
-    /**
-     * $column.columnComment
-     */
-    private Long creator;
 
-    /**
-     * $column.columnComment
-     */
-    private Long updater;
 
 }

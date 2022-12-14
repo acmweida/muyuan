@@ -66,7 +66,7 @@ public class ConfigInterfaceApi implements ConfigInterface {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = configDomainService.updateMenu(MAPPER.toCommand(request));
+        boolean flag = configDomainService.updateConfig(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

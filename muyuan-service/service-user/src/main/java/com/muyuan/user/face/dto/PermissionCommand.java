@@ -1,10 +1,8 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import com.muyuan.common.core.enums.PlatformType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ClassName RolePermissionRequest
@@ -14,7 +12,7 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-public class PermissionCommand {
+public class PermissionCommand extends OptCommand {
 
     private Long id;
 

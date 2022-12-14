@@ -1,8 +1,10 @@
 package com.muyuan.manager.goods.service;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.bean.SelectTree;
 import com.muyuan.goods.api.dto.BrandDTO;
+import com.muyuan.goods.api.dto.BrandRequest;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.model.Brand;
@@ -44,10 +46,10 @@ public interface BrandService
     /**
      * 新增品牌
      * 
-     * @param brandParams 品牌
+     * @param request 品牌
      * @return
      */
-    void add(BrandParams brandParams);
+    Result add(BrandRequest request);
 
     /**
      * 修改品牌

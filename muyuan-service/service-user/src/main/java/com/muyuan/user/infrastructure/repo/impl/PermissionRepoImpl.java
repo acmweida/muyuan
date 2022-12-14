@@ -73,10 +73,10 @@ public class PermissionRepoImpl implements PermissionRepo {
     }
 
     @Override
-    public Permission selectPermission(Permission.Identify key) {
+    public Permission selectPermission(Permission.Identify identify) {
         PermissionDO permissionDO = permissionMapper.selectOne(new SqlBuilder(PermissionDO.class).select(ID)
-                .eq(ID, key.getId())
-                .eq(PERMS, key.getPerms())
+                .eq(ID, identify.getId())
+                .eq(PERMS, identify.getPerms())
                 .build());
 
         return converter.to(permissionDO);

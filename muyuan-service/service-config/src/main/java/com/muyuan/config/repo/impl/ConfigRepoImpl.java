@@ -32,13 +32,7 @@ public class ConfigRepoImpl implements ConfigRepo {
                 .eq(CONFIG_KEY,command.getConfigKey())
                 .eq(CONFIG_VALUE,command.getConfigValue())
                 .eq(TYPE,command.getType())
-                .eq(CREATE_BY,command.getCreateBy())
-                .eq(CREATE_TIME,command.getCreateTime())
-                .eq(UPDATE_BY,command.getUpdateBy())
-                .eq(UPDATE_TIME,command.getUpdateTime())
                 .eq(REMARK,command.getRemark())
-                .eq(CREATOR,command.getCreator())
-                .eq(UPDATER,command.getUpdater())
 ;
 
         Page<Config> page = Page.<Config>builder().build();

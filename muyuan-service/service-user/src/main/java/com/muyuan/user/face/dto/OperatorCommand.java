@@ -1,5 +1,6 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class OperatorCommand {
+public class OperatorCommand extends OptCommand {
 
     private String username;
 
@@ -36,13 +37,5 @@ public class OperatorCommand {
     private Long id;
 
     private Long roleId;
-
-    private String creator;
-
-    private Long createBy;
-
-    private String updater;
-
-    private Long updateBy;
 
 }

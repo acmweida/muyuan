@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
+import com.muyuan.goods.api.dto.BrandRequest;
 
 /**
  * @ClassName BrandInterface 接口
@@ -27,4 +28,11 @@ public interface BrandInterface {
      * @return
      */
     Result<BrandDTO> get(Long id);
+
+    /**
+     * 添加
+     * @param request
+     * @return
+     */
+    Result add(BrandRequest request);
 }

@@ -1,9 +1,9 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ClassName RoleDO
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-public class RoleCommand {
+public class RoleCommand extends OptCommand {
 
     private RoleID id;
 
@@ -34,10 +34,6 @@ public class RoleCommand {
      * 状态 0-正常 1-停用
      */
     private Integer status;
-
-    private Long createBy;
-
-    private Long updateBy;
 
     private Long[] permissionIds;
 

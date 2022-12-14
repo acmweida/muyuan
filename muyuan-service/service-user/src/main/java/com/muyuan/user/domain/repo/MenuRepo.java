@@ -32,7 +32,7 @@ public interface MenuRepo {
     Menu selectMenu(MenuID id);
 
 
-    Menu selectMenu(Menu.Identify key);
+    Menu selectMenu(Menu.Identify identify);
 
     /**
      *

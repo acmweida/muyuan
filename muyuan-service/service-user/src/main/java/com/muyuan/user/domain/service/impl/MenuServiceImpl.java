@@ -123,9 +123,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public String checkUnique(Menu.Identify key) {
-        Long id = null == key.getId() ? 0 : key.getId().getValue();
-        Menu menu = menuRepo.selectMenu(key);
+    public String checkUnique(Menu.Identify identify) {
+        Long id = null == identify.getId() ? 0 : identify.getId().getValue();
+        Menu menu = menuRepo.selectMenu(identify);
         if (null != menu && !id.equals(menu.getId().getValue())) {
             return GlobalConst.NOT_UNIQUE;
         }
@@ -155,7 +155,7 @@ public class MenuServiceImpl implements MenuService {
         menu.setRemark(command.getRemark());
         menu.setCache(command.getCache());
         menu.setUpdateTime(DateTime.now().toDate());
-        menu.setUpdateBy(command.getUpdateBy());
+        menu.setUpdateBy(command.getOpt().getId());
 
         Menu old = menuRepo.updateDMenu(menu);
         if (ObjectUtils.isNotEmpty(old)) {
@@ -187,7 +187,7 @@ public class MenuServiceImpl implements MenuService {
         menu.setRemark(command.getRemark());
         menu.setCache(command.getCache());
         menu.setCreateTime(DateTime.now().toDate());
-        menu.setCreateBy(command.getUpdateBy());
+        menu.setCreateBy(command.getOpt().getId());
 
         return menuRepo.addMenu(menu);
     }

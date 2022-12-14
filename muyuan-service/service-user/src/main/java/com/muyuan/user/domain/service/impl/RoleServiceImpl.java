@@ -76,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
         role.setCode(command.getCode());
         role.setOrderNum(command.getOrderNum());
         role.setStatus(command.getStatus());
-        role.setCreateBy(command.getCreateBy());
+        role.setCreateBy(command.getOpt().getId());
         role.setCreateTime(DateTime.now().toDate());
 
         repo.addRole(role);
@@ -99,7 +99,7 @@ public class RoleServiceImpl implements RoleService {
         role.setCode(command.getCode());
         role.setOrderNum(command.getOrderNum());
         role.setStatus(command.getStatus());
-        role.setCreateBy(command.getCreateBy());
+        role.setCreateBy(command.getOpt().getId());
         role.setCreateTime(DateTime.now().toDate());
 
         Role old =  repo.updateRole(role);

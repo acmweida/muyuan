@@ -13,9 +13,12 @@ import com.muyuan.goods.face.dto.BrandQueryCommand;
 
 public interface BrandRepo {
 
-
     Brand select(Long id);
 
     Page<Brand> select(BrandQueryCommand command);
+
+    Brand select(Brand.Identify identify);
+
+    boolean add(Brand permission);
 
 }

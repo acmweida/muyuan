@@ -1,9 +1,11 @@
 package com.muyuan.goods.domains.service.impl;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.domains.service.BrandService;
+import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,30 @@ public class BrandServiceImpl implements BrandService {
                 .map(id_ -> {
                     return brandRepo.select(id);
                 });
+    }
+
+    @Override
+    public String checkUnique(Brand.Identify identify) {
+        Long id = null == identify.getId() ? 0 : identify.getId();
+        Brand brand = brandRepo.select(identify);
+        if (null != brand && !id.equals(brand.getId())) {
+            return GlobalConst.NOT_UNIQUE;
+        }
+        return GlobalConst.UNIQUE;
+    }
+
+    @Override
+    public boolean add(BrandCommand command) {
+        Brand brand = new Brand();
+
+        brand.setName( command.getName() );
+        brand.setLogo( command.getLogo() );
+        brand.setOrderNum( command.getOrderNum() );
+        brand.setEnglishName( command.getEnglishName() );
+        brand.setRemark( command.getRemark() );
+
+        brand.init(command.getOpt());
+
+        return brandRepo.add(brand);
     }
 }

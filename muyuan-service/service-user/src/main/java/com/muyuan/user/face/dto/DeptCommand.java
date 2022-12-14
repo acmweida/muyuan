@@ -1,8 +1,7 @@
 package com.muyuan.user.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * @ClassName DeptParams
@@ -12,9 +11,7 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
-public class DeptCommand implements Serializable {
-
-    private static final long serialVersionUID = 3557932248501l;
+public class DeptCommand extends OptCommand {
 
     private String name;
 
@@ -32,5 +29,4 @@ public class DeptCommand implements Serializable {
 
     private Long id;
 
-    private Long createBy;
 }

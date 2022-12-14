@@ -1,7 +1,8 @@
 package com.muyuan.user.api.dto;
 
+import com.muyuan.common.bean.OptRequest;
 import com.muyuan.common.core.enums.PlatformType;
-import lombok.AllArgsConstructor;
+import com.muyuan.common.valueobject.Opt;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,22 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class PermissionRequest implements Serializable {
+public class PermissionRequest extends OptRequest implements Serializable {
+
+    @Builder
+    public PermissionRequest(Opt opt, Long id, PlatformType platformType, String resource, String type, String business, String module, String status, String perms, Long resourceRef) {
+        super(opt);
+        this.id = id;
+        this.platformType = platformType;
+        this.resource = resource;
+        this.type = type;
+        this.business = business;
+        this.module = module;
+        this.status = status;
+        this.perms = perms;
+        this.resourceRef = resourceRef;
+    }
 
     private static final long serialVersionUID = 1357932148568l;
 

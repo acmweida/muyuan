@@ -90,7 +90,7 @@ public class DictTypeServiceImpl implements DictTypeService {
                 .status(dictTypeParams.getStatus())
                 .remark(dictTypeParams.getRemark())
                 .id(dictTypeParams.getId())
-                .updateBy(SecurityUtils.getUserId())
+                .opt(SecurityUtils.getOpt())
                 .name(dictTypeParams.getName())
                 .build());
     }
@@ -104,7 +104,7 @@ public class DictTypeServiceImpl implements DictTypeService {
                 .name(dictTypeParams.getName())
                 .type(dictTypeParams.getType())
                 .status(dictTypeParams.getStatus())
-                .createBy(SecurityUtils.getUserId())
+                .opt(SecurityUtils.getOpt())
                 .build());
     }
 

@@ -8,9 +8,11 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
+import com.muyuan.goods.api.dto.BrandRequest;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.dto.assembler.BrandAssembler;
@@ -102,14 +104,13 @@ public class BrandServiceImpl implements BrandService {
     /**
      * 新增品牌
      *
-     * @param brandParams 品牌
+     * @param request 品牌
      * @return 结果
      */
     @Override
-    public void add(BrandParams brandParams) {
-        Brand brand = brandParams.convert();
-        brand.init();
-        brand.save(brandRepo);
+    public Result add(BrandRequest request) {
+        request.setOpt(SecurityUtils.getOpt());
+        return brandInterface.add(request);
     }
 
     /**
@@ -120,7 +121,7 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public void update(BrandParams brandParams) {
-        Brand brand = brandParams.convert();
+        Brand brand = new Brand();
         brand.update(brandRepo);
     }
 
