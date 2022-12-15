@@ -1,7 +1,6 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
@@ -43,8 +42,7 @@ public class BrandRepoImpl implements BrandRepo {
         SqlBuilder sqlBuilder = new SqlBuilder(BrandDO.class)
                 .like(NAME, command.getName())
                 .eq(STATUS, command.getStatus())
-                .eq(AUDIT_STATUS, command.getAuditStatus())
-                .eq(DEL, GlobalConst.FALSE);
+                .eq(AUDIT_STATUS, command.getAuditStatus());
 
         Page<Brand> page = Page.<Brand>builder().build();
         if (command.enablePage()) {
@@ -76,5 +74,10 @@ public class BrandRepoImpl implements BrandRepo {
         Integer count = brandMapper.insert(to);
         permission.setId(to.getId());
         return count > 0;
+    }
+
+    @Override
+    public boolean update(Brand brand) {
+        return brandMapper.updateBy(converter.to(brand), ID) > 0;
     }
 }

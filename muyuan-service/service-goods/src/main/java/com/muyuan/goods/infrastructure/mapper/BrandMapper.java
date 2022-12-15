@@ -13,6 +13,4 @@ public interface BrandMapper extends GoodsBaseMapper<BrandDO> {
 
     String AUDIT_STATUS = "auditStatus";
 
-    String DEL = "del";
-
 }

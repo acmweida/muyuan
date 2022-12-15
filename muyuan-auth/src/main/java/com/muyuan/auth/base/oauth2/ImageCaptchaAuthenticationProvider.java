@@ -131,13 +131,11 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             String platformType = detial.get("platform_type");
             UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username, PlatformType.valueOf(platformType));
             if (loadedUser == null) {
-//                throw new InternalAuthenticationServiceException(
-//                        "UserDetailsService returned null, which is an interface contract violation");
-                throw new InternalAuthenticationServiceException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
+                throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }
             return loadedUser;
-        } catch (InternalAuthenticationServiceException e) {
-            throw new InternalAuthenticationServiceException(e.getMessage(), e);
+        } catch (UsernameNotFoundException e) {
+            throw e;
         }
         catch (IllegalArgumentException e) {
             logger.error("参数异常",e);

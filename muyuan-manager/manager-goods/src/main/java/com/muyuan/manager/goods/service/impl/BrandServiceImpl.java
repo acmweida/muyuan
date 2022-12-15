@@ -116,13 +116,12 @@ public class BrandServiceImpl implements BrandService {
     /**
      * 修改品牌
      *
-     * @param brandParams 品牌
+     * @param request 品牌
      * @return 结果
      */
     @Override
-    public void update(BrandParams brandParams) {
-        Brand brand = new Brand();
-        brand.update(brandRepo);
+    public Result update(BrandRequest request) {
+        return brandInterface.update(request);
     }
 
     /**
@@ -132,12 +131,8 @@ public class BrandServiceImpl implements BrandService {
      * @return 结果
      */
     @Override
-    public void audit(BrandParams brandParams) {
-        Brand brand = Brand.builder()
-                .id(brandParams.getId())
-                .auditStatus(brandParams.getAuditStatus())
-                .build();
-        brand.audit(brandRepo);
+    public Result audit(BrandParams brandParams) {
+        return brandInterface.audit(brandParams.getId(),brandParams.getAuditStatus());
     }
 
     /**
@@ -153,7 +148,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public void linkCategory(BrandParams brandParams) {
+    public void linkCategory(BrandQueryParams brandParams) {
         Brand brand = brandRepo.selectOne(Brand.builder()
                 .id(brandParams.getId())
                 .build());
@@ -212,7 +207,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<SelectTree> options(BrandParams brandParams) {
+    public List<SelectTree> options(BrandQueryParams brandParams) {
 
         String key = BRAND_KEY_PREFIX + brandParams.getCategoryCode();
         return CacheServiceUtil.getAndUpdateList(redisCacheService,key,

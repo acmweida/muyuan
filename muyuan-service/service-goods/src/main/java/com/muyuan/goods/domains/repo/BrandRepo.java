@@ -21,4 +21,11 @@ public interface BrandRepo {
 
     boolean add(Brand permission);
 
+    /**
+     * 更新信息
+     * @param brand
+     * @return old value
+     */
+    boolean update(Brand brand);
+
 }

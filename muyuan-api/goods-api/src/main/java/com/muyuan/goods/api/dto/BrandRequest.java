@@ -12,6 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class BrandRequest extends OptRequest implements Serializable {
 
+    private static final long serialVersionUID = 6384577570342029546L;
+
     @Builder
     public BrandRequest(Opt opt, Long id, String name, String logo, Integer orderNum, String englishName, String remark) {
         super(opt);
@@ -22,8 +24,6 @@ public class BrandRequest extends OptRequest implements Serializable {
         this.englishName = englishName;
         this.remark = remark;
     }
-
-    private static final long serialVersionUID = 1457932140569l;
 
     /**  */
     private Long id;

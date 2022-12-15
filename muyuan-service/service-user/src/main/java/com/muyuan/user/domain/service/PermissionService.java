@@ -66,7 +66,7 @@ public interface PermissionService {
      * @param command
      * @return
      */
-    boolean updateMenu(PermissionCommand command);
+    boolean updatePermission(PermissionCommand command);
 
     /**
      * 删除权限信息

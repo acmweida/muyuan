@@ -20,6 +20,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PermissionRequest extends OptRequest implements Serializable {
 
+    private static final long serialVersionUID = -8762676245234744590L;
+
     @Builder
     public PermissionRequest(Opt opt, Long id, PlatformType platformType, String resource, String type, String business, String module, String status, String perms, Long resourceRef) {
         super(opt);
@@ -34,7 +36,6 @@ public class PermissionRequest extends OptRequest implements Serializable {
         this.resourceRef = resourceRef;
     }
 
-    private static final long serialVersionUID = 1357932148568l;
 
     private Long id;
 

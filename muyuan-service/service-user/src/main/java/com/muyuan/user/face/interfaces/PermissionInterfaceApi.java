@@ -120,7 +120,7 @@ public class PermissionInterfaceApi implements PermissionInterface {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = permissionService.updateMenu(PERMISSION_MAPPER.toCommand(request));
+        boolean flag = permissionService.updatePermission(PERMISSION_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

@@ -5,6 +5,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.manager.system.dto.RoleQueryParams;
 import com.muyuan.manager.system.service.RoleService;
 import com.muyuan.user.api.RoleInterface;
@@ -67,6 +68,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result update(RoleRequest request) {
+        request.setOpt(SecurityUtils.getOpt());
         return roleInterface.updateRole(request);
     }
 

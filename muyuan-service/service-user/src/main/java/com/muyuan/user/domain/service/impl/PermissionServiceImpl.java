@@ -103,7 +103,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public boolean updateMenu(PermissionCommand command) {
+    public boolean updatePermission(PermissionCommand command) {
         Permission permission = new Permission();
 
         permission.setId(command.getId());

@@ -3,6 +3,7 @@ package com.muyuan.common.web.config;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.muyuan.common.core.util.JSONUtil;
+import com.muyuan.common.web.aspect.LogAspect;
 import com.muyuan.common.web.aspect.PreAuthorizeAspect;
 import com.muyuan.common.web.aspect.RepeatableRequestAspect;
 import com.muyuan.common.web.exception.ExceptionHandlerAdvice;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@Import({PreAuthorizeAspect.class, RepeatableRequestAspect.class, ExceptionHandlerAdvice.class})
+@Import({PreAuthorizeAspect.class, RepeatableRequestAspect.class, ExceptionHandlerAdvice.class, LogAspect.class})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean

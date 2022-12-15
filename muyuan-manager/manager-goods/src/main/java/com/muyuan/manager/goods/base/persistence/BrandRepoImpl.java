@@ -3,12 +3,13 @@ package com.muyuan.manager.goods.base.persistence;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
+import com.muyuan.manager.goods.base.persistence.mapper.BrandMapper;
 import com.muyuan.manager.goods.dto.BrandParams;
+import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.model.Brand;
 import com.muyuan.manager.goods.model.BrandCategory;
 import com.muyuan.manager.goods.repo.BrandRepo;
-import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
-import com.muyuan.manager.goods.base.persistence.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +101,7 @@ public class BrandRepoImpl implements BrandRepo {
     }
 
     @Override
-    public List<Brand> selectBy(BrandParams brandParams) {
+    public List<Brand> selectBy(BrandQueryParams brandParams) {
         return brandMapper.selectBy(brandParams);
     }
 

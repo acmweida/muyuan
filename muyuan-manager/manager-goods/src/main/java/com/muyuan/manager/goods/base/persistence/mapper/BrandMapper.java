@@ -1,8 +1,8 @@
 package com.muyuan.manager.goods.base.persistence.mapper;
 
-import com.muyuan.manager.goods.dto.BrandParams;
-import com.muyuan.manager.goods.model.Brand;
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
+import com.muyuan.manager.goods.dto.BrandQueryParams;
+import com.muyuan.manager.goods.model.Brand;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface BrandMapper extends GoodsBaseMapper<Brand> {
 
-    List<Brand> selectBy(BrandParams brandParams);
+    List<Brand> selectBy(BrandQueryParams brandParams);
 }

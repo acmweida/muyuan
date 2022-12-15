@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @ClassName BaseRequest
  * Description Request 基础类
@@ -15,7 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OptRequest {
+public class OptRequest  implements Serializable {
+
+    private static final long serialVersionUID = -2629423392479260199L;
 
     private Opt opt;
 

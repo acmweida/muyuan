@@ -84,22 +84,9 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("品牌信息修改")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "name", value = "品牌名称", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "englishName", value = "品牌英文名称", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "logo", value = "图标", dataTypeClass = String.class, paramType = "body"),
-                    @ApiImplicitParam(name = "status", value = "状态", dataTypeClass = Integer.class, paramType = "body"),
-                    @ApiImplicitParam(name = "orderNum", value = "排序", dataTypeClass = Integer.class, paramType = "body")
-            }
-    )
-    public Result edit(@RequestBody @Validated BrandParams brandParams) {
-        if (ObjectUtils.isEmpty(brandParams.getId())) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
-        }
-        brandService.update(brandParams);
-        return ResultUtil.success();
+    @ApiOperationSupport(ignoreParameters = {"auditStatus","status"})
+    public Result edit(@RequestBody @Validated(BrandParams.Update.class) BrandParams params) {
+        return brandService.update(converter.to(params));
     }
 
     /**
@@ -109,22 +96,9 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/audit")
     @ApiOperation("品牌审核")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "auditStatus", value = "审核状态", dataTypeClass = Integer.class, paramType = "body",required = true)
-            }
-    )
-    public Result audit(@RequestBody BrandParams brandParams) {
-        if (ObjectUtils.isEmpty(brandParams.getId())) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
-        }
-        if (ObjectUtils.isEmpty(brandParams.getAuditStatus())) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"认证状态不能为空");
-        }
-
-        brandService.audit(brandParams);
-        return ResultUtil.success();
+    @ApiOperationSupport(includeParameters = {"id","auditStatus"})
+    public Result audit(@RequestBody @Validated(BrandParams.Audit.class) BrandParams params) {
+        return  brandService.audit(params);
     }
 
     /**
@@ -139,7 +113,7 @@ public class BrandController {
     }
 
     /**
-     * 修改品牌
+     * 连接品牌
      */
     @RequirePermissions("goods:brand:linkCategory")
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
@@ -151,7 +125,7 @@ public class BrandController {
                     @ApiImplicitParam(name = "categoryCodes", value = "分类Code列表", dataTypeClass = Long[].class, paramType = "body")
             }
     )
-    public Result link(@RequestBody BrandParams brandParams) {
+    public Result link(@RequestBody BrandQueryParams brandParams) {
         if (ObjectUtils.isEmpty(brandParams.getId())) {
             return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
         }
@@ -162,7 +136,7 @@ public class BrandController {
     /**
      * 查询品牌
      */
-    @RequirePermissions("goods:brand:queryCategory")
+    @RequirePermissions("goods:brand:query")
     @GetMapping("/category/{id}")
     @ApiOperation("品牌关联分类查询")
     @ApiImplicitParams(
@@ -186,13 +160,13 @@ public class BrandController {
                     @ApiImplicitParam(name = "categoryCode", value = "分类Code", dataTypeClass = Long.class, paramType = "query",required = true),
             }
     )
-    public Result options(@ModelAttribute BrandParams brandParams) {
-        if (ObjectUtils.isEmpty(brandParams.getCategoryCode())) {
+    public Result options(@ModelAttribute BrandQueryParams params) {
+        if (ObjectUtils.isEmpty(params.getCategoryCode())) {
             return ResultUtil.fail("categoryCode不能为空");
         }
 
-        return ResultUtil.success(brandService.options(BrandParams.builder()
-                .categoryCode(brandParams.getCategoryCode())
+        return ResultUtil.success(brandService.options(BrandQueryParams.builder()
+                .categoryCode(params.getCategoryCode())
                 .build()));
     }
 

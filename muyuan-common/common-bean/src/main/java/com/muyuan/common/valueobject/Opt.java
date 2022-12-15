@@ -1,6 +1,7 @@
 package com.muyuan.common.valueobject;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -12,8 +13,11 @@ import java.io.Serializable;
  * @Date 2022/12/7 16:42
  * @Version 1.0
  */
-@Getter
+@Data
+@NoArgsConstructor
 public class Opt implements Serializable {
+
+    private static final long serialVersionUID = 1481444072623268085L;
 
     private Long id;
 

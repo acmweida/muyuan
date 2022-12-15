@@ -35,4 +35,20 @@ public interface BrandInterface {
      * @return
      */
     Result add(BrandRequest request);
+
+
+    /**
+     * 添加
+     * @param request
+     * @return
+     */
+    Result update(BrandRequest request);
+
+    /**
+     * 修改认证状态
+     * @param id
+     * @param auditStatus
+     * @return
+     */
+    Result audit(Long id,Integer auditStatus);
 }

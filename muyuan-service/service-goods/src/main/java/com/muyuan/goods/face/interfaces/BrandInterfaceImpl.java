@@ -44,7 +44,7 @@ public class BrandInterfaceImpl implements BrandInterface {
     @Override
     public Result<Page<BrandDTO>> list(BrandQueryRequest request) {
         BrandQueryCommand command = BRAND_MAPPER.toCommand(request);
-        Page<Brand> page =  brandService.list(command);
+        Page<Brand> page = brandService.list(command);
 
         return ResultUtil.success(Page.copy(page, BRAND_MAPPER.toDTO(page.getRows())));
     }
@@ -65,5 +65,27 @@ public class BrandInterfaceImpl implements BrandInterface {
         }
         boolean flag = brandService.add(BRAND_MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result update(BrandRequest request) {
+        if (GlobalConst.NOT_UNIQUE.equals(brandService.checkUnique(new Brand.Identify(request.getId(), request.getName())))) {
+            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        }
+        boolean flag = brandService.update(BRAND_MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result audit(Long id, Integer auditStatus) {
+        Optional<Brand> handler = brandService.get(id);
+        if (handler.isPresent()) {
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
+        }
+
+        return handler
+                .map(brand -> brandService.audit(brand, auditStatus) ? brand : null)
+                .map(brand -> ResultUtil.success())
+                .orElse(ResultUtil.error(ResponseCode.FAIL.getCode(), "认证状态失败"));
     }
 }

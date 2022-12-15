@@ -19,6 +19,8 @@ import org.hibernate.validator.constraints.Range;
 @AllArgsConstructor
 public class BrandQueryParams extends PageDTO {
 
+    private Long id;
+
     /** 品牌名称 */
     private String name;
 

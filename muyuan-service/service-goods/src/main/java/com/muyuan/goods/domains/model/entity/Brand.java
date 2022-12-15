@@ -83,10 +83,18 @@ public class Brand {
         this.creator = opt.getName();
     }
 
-    private void update(Opt opt) {
+    public void update(Opt opt) {
         updateTime = DateTime.now().toDate();
         this.updateBy = opt.getId();
         this.updater = opt.getName();
+    }
+
+    public boolean audit(Integer auditStatus) {
+        if (1 == this.auditStatus && !this.auditStatus.equals(auditStatus)) {
+            this.auditStatus = auditStatus;
+            return true;
+        }
+        return false;
     }
 
 }

@@ -34,8 +34,6 @@ public class CategoryVO {
 
     private Integer level;
 
-    private Integer GoodsCount;
-
     private String publish;
 
     private Integer orderNum;

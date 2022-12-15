@@ -54,10 +54,10 @@ public interface BrandService
     /**
      * 修改品牌
      * 
-     * @param brandParams 品牌
+     * @param request 品牌
      * @return 结果
      */
-    void update(BrandParams brandParams);
+    Result update(BrandRequest request);
 
     /**
      * 审核品牌
@@ -65,7 +65,7 @@ public interface BrandService
      * @param brandParams 品牌
      * @return 结果
      */
-    void audit(BrandParams brandParams);
+    Result audit(BrandParams brandParams);
 
 
     /**
@@ -80,7 +80,7 @@ public interface BrandService
      * 品牌联结分类
      * @param brandParams
      */
-    void linkCategory(BrandParams brandParams);
+    void linkCategory(BrandQueryParams brandParams);
 
     List<Long> getBrandCategory(Long id);
 
@@ -90,5 +90,5 @@ public interface BrandService
      * @param brandParams
      * @return
      */
-    List<SelectTree> options(BrandParams brandParams);
+    List<SelectTree> options(BrandQueryParams brandParams);
 }

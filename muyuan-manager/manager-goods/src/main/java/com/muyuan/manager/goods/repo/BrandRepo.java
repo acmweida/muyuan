@@ -3,6 +3,7 @@ package com.muyuan.manager.goods.repo;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.common.BaseRepo;
 import com.muyuan.manager.goods.dto.BrandParams;
+import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.model.Brand;
 import com.muyuan.manager.goods.model.BrandCategory;
 
@@ -41,6 +42,6 @@ public interface BrandRepo  extends BaseRepo {
 
     void insertLink(List<BrandCategory> brandCategories);
 
-    List<Brand> selectBy(BrandParams brandParams);
+    List<Brand> selectBy(BrandQueryParams brandParams);
 
 }

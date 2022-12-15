@@ -40,10 +40,20 @@ public interface BrandService {
 
 
     /**
-     * 新增权限信息
+     * 新增品牌信息
      * @param command
      * @return
      */
     boolean add(BrandCommand command);
+
+    /**
+     * 更新品牌信息
+     * @param command
+     * @return
+     */
+    boolean update(BrandCommand command);
+
+
+    boolean audit(Brand brand, Integer auditStatus);
 
 }

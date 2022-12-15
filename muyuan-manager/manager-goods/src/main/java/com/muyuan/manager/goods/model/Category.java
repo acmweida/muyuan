@@ -46,8 +46,6 @@ public class Category {
 
     private Integer level;
 
-    private Integer goodsCount;
-
     /**
      * 子节点数量
      */
@@ -95,7 +93,6 @@ public class Category {
 
     public void init() {
         status = "1";
-        goodsCount = 0;
         level = 1;
         leaf = GlobalConst.TRUE;
         subCount = 0;

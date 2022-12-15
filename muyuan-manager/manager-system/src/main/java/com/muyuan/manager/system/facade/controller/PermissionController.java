@@ -7,6 +7,7 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
+import com.muyuan.common.log.enums.OperatorType;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.manager.system.dto.PermissionParams;
 import com.muyuan.manager.system.dto.PermissionQueryParams;
@@ -100,6 +101,7 @@ public class PermissionController {
     @ApiOperation(value = "权限新增")
     @ApiOperationSupport(ignoreParameters = "id")
     @RequirePermissions(value = "system:perms:add")
+    @Log(title = "权限",businessType = BusinessType.IMPORT,operatorType = OperatorType.MANAGE)
     public Result add(@RequestBody @Validated(PermissionParams.Add.class) PermissionParams params) {
         return permissionService.add(converter.to(params));
     }

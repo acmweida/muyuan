@@ -62,4 +62,28 @@ public class BrandServiceImpl implements BrandService {
 
         return brandRepo.add(brand);
     }
+
+    @Override
+    public boolean update(BrandCommand command) {
+        Brand brand = new Brand();
+
+        brand.setId(command.getId());
+        brand.setName( command.getName() );
+        brand.setLogo( command.getLogo() );
+        brand.setOrderNum( command.getOrderNum() );
+        brand.setEnglishName( command.getEnglishName() );
+        brand.setRemark( command.getRemark() );
+
+        brand.update(command.getOpt());
+
+        return brandRepo.update(brand);
+    }
+
+    @Override
+    public boolean audit(Brand brand, Integer auditStatus) {
+        if (brand.audit(auditStatus)) {
+          return  brandRepo.update(brand);
+        }
+        return false;
+    }
 }

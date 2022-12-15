@@ -17,6 +17,7 @@ public enum ResponseCode {
     ADD_EXIST(410,"新增内容已存在"),
     QUERY_NOT_EXIST(411,"数据未找到"),
     UPDATE_EXIST(412,"更新内容已存在"),
+    STATUS_CHANGE_FAIL(413,"状态变更不符合要求"),
 
     /**
      * 登录
