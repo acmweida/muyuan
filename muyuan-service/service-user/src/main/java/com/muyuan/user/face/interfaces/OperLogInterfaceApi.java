@@ -2,7 +2,6 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -11,7 +10,7 @@ import com.muyuan.user.api.dto.OperLogDTO;
 import com.muyuan.user.api.dto.OperLogQueryRequest;
 import com.muyuan.user.api.dto.OperLogRequest;
 import com.muyuan.user.domain.model.entity.OperLog;
-import com.muyuan.user.domain.service.OperLogDomainService;
+import com.muyuan.user.domain.service.OperLogService;
 import com.muyuan.user.face.dto.mapper.OperLogMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -37,24 +36,24 @@ public class OperLogInterfaceApi implements OperLogInterface {
 
     private OperLogMapper MAPPER;
 
-    private OperLogDomainService operLogDomainService;
+    private OperLogService operLogService;
 
     @Override
     public Result<Page<OperLogDTO>> list(OperLogQueryRequest request) {
-        Page<OperLog> list = operLogDomainService.list(MAPPER.toCommand(request));
+        Page<OperLog> list = operLogService.list(MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,MAPPER.toDTO(list.getRows())));
     }
 
     @Override
     public Result add(OperLogRequest request) {
-        boolean flag = operLogDomainService.addOperLog(MAPPER.toCommand(request));
+        boolean flag = operLogService.addOperLog(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
     @Override
     public Result<OperLogDTO> getOperLog(Long id) {
-        Optional<OperLog> handler = operLogDomainService.getOperLog(id);
+        Optional<OperLog> handler = operLogService.getOperLog(id);
 
         return handler.map(MAPPER::toDTO)
                 .map(ResultUtil::success)
@@ -62,18 +61,8 @@ public class OperLogInterfaceApi implements OperLogInterface {
     }
 
     @Override
-    public Result updateOperLog(OperLogRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(operLogDomainService.checkUnique(new OperLog.Identify(request.getId())))) {
-            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
-        }
-
-        boolean flag = operLogDomainService.updateMenu(MAPPER.toCommand(request));
-        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
-    }
-
-    @Override
     public Result deleteOperLog(Long... ids) {
-        if (operLogDomainService.deleteOperLogById(ids)) {
+        if (operLogService.deleteOperLogById(ids)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

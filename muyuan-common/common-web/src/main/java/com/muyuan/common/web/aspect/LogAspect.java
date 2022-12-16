@@ -37,9 +37,6 @@ import java.util.Objects;
 @Component
 public class LogAspect
 {
-    public LogAspect() {
-        System.out.println("log");
-    }
 
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 

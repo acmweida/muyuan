@@ -1,4 +1,4 @@
-package com.muyuan.manager.goods.face.controller;
+package com.muyuan.manager.goods.facade.controller;
 
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -175,4 +175,5 @@ public class CategoryController {
         goodsCategoryService.delete(ids);
         return ResultUtil.success();
     }
+
 }

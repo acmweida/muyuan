@@ -1,11 +1,15 @@
 package com.muyuan.manager.goods.dto;
 
 import com.muyuan.common.bean.PageDTO;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -19,6 +23,12 @@ import org.hibernate.validator.constraints.Range;
 @AllArgsConstructor
 public class BrandQueryParams extends PageDTO {
 
+
+    public interface  Link {
+
+    }
+
+    @NotNull(message = "品牌主建不能为空",groups = {Link.class})
     private Long id;
 
     /** 品牌名称 */
@@ -32,9 +42,8 @@ public class BrandQueryParams extends PageDTO {
     @Range(message = "状态码输入错误",min = 0,max = 4)
     private Integer status;
 
+    @ApiModelProperty(value = "类目Code列表",required = true)
+    @Size(min = 1,groups = {Link.class},message = "类目Code不能为空")
     private Long[] categoryCodes;
-
-    private Long categoryCode;
-
 
 }

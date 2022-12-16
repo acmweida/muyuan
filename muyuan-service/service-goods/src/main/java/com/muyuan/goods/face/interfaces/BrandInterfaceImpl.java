@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -31,7 +32,8 @@ import java.util.Optional;
 @DubboService(group = ServiceTypeConst.GOODS, version = "1.0"
         , interfaceClass = BrandInterface.class,
         methods = {
-                @Method(name = "add", retries = 0)
+                @Method(name = "add", retries = 0),
+                @Method(name = "linkCategory", retries = 0)
         }
 )
 @AllArgsConstructor
@@ -47,6 +49,25 @@ public class BrandInterfaceImpl implements BrandInterface {
         Page<Brand> page = brandService.list(command);
 
         return ResultUtil.success(Page.copy(page, BRAND_MAPPER.toDTO(page.getRows())));
+    }
+
+    @Override
+    public Result<List<BrandDTO>> listByCCategoryCode(Long... categoryCodes) {
+        List<Brand> list = brandService.listByCategoryCode(categoryCodes);
+        return ResultUtil.success(BRAND_MAPPER.toDTO(list));
+    }
+
+    @Override
+    public Result linkCategory(Long brandId, Long... categoryCodes) {
+        Optional<Brand> handler = brandService.get(brandId);
+        if (!handler.isPresent()) {
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
+        }
+
+        return handler
+                .map(brand -> brandService.linkCategory(brand, categoryCodes) ? brand : null)
+                .map(brand -> ResultUtil.success())
+                .orElse(ResultUtil.error(ResponseCode.FAIL.getCode(), "关联类目失败"));
     }
 
     @Override
@@ -79,7 +100,7 @@ public class BrandInterfaceImpl implements BrandInterface {
     @Override
     public Result audit(Long id, Integer auditStatus) {
         Optional<Brand> handler = brandService.get(id);
-        if (handler.isPresent()) {
+        if (!handler.isPresent()) {
             return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
         }
 
@@ -87,5 +108,13 @@ public class BrandInterfaceImpl implements BrandInterface {
                 .map(brand -> brandService.audit(brand, auditStatus) ? brand : null)
                 .map(brand -> ResultUtil.success())
                 .orElse(ResultUtil.error(ResponseCode.FAIL.getCode(), "认证状态失败"));
+    }
+
+    @Override
+    public Result delete(Long... ids) {
+        if (brandService.delete(ids)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
     }
 }

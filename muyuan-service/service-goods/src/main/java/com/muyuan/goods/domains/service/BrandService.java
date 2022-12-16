@@ -5,6 +5,7 @@ import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +23,9 @@ public interface BrandService {
      * @return
      */
     Page<Brand> list(BrandQueryCommand commend);
+
+
+    List<Brand> listByCategoryCode(Long... categoryCodes);
 
 
     /**
@@ -55,5 +59,20 @@ public interface BrandService {
 
 
     boolean audit(Brand brand, Integer auditStatus);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    boolean delete(Long... ids);
+
+    /**
+     * 品牌关联分类
+     * @param brandId
+     * @param categoryCodes
+     * @return
+     */
+    boolean linkCategory(Brand brand,Long... categoryCodes);
 
 }

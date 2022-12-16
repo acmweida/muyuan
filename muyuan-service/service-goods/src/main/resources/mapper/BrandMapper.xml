@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.muyuan.goods.infrastructure.mapper.BrandMapper">
+
+    <select id="selectByCategoryCode" resultType="com.muyuan.goods.infrastructure.dataobject.BrandDO">
+        select t_brand.*
+        from t_brand
+        inner join (
+        select brand_id
+        from t_brand_category
+        where category_code in
+        <if test="categoryCodes != null and categoryCodes.length > 0">
+            <foreach collection="categoryCodes" item="categoryCode" separator="," open="(" close=")">
+                #{categoryCode}
+            </foreach>
+        </if>
+        ) brand_category on t_brand.id = brand_category.brand_id
+    </select>
+</mapper>

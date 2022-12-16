@@ -98,9 +98,4 @@ public class OperLogRequest implements Serializable {
      */
     private String errorMsg;
 
-    /**
-     * 操作时间
-     */
-    private Date operTime;
-
 }

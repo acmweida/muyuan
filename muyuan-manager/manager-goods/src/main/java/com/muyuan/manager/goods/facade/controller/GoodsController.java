@@ -1,4 +1,4 @@
-package com.muyuan.manager.goods.face.controller;
+package com.muyuan.manager.goods.facade.controller;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;

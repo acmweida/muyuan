@@ -6,6 +6,8 @@ import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
 import com.muyuan.goods.api.dto.BrandRequest;
 
+import java.util.List;
+
 /**
  * @ClassName BrandInterface 接口
  * Description 品牌
@@ -21,6 +23,21 @@ public interface BrandInterface {
      * @return
      */
     Result<Page<BrandDTO>> list(BrandQueryRequest request);
+
+    /**
+     * 根据品牌ID查询关联类目
+     * @param categoryCodes
+     * @return
+     */
+    Result<List<BrandDTO>> listByCCategoryCode(Long... categoryCodes);
+
+    /**
+     * 连接类目
+     * @param brandId
+     * @param categoryCodes
+     * @return
+     */
+    Result linkCategory(Long brandId,Long... categoryCodes);
 
     /**
      * 获取品牌详情
@@ -51,4 +68,12 @@ public interface BrandInterface {
      * @return
      */
     Result audit(Long id,Integer auditStatus);
+
+    /**
+     *  删除品牌数据
+     * @param ids
+     * @return
+     */
+    Result delete(Long... ids);
+
 }

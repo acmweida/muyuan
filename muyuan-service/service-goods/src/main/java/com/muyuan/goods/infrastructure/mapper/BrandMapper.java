@@ -3,6 +3,8 @@ package com.muyuan.goods.infrastructure.mapper;
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
 import com.muyuan.goods.infrastructure.dataobject.BrandDO;
 
+import java.util.List;
+
 /**
  * 品牌Mapper接口
  * 
@@ -12,5 +14,7 @@ import com.muyuan.goods.infrastructure.dataobject.BrandDO;
 public interface BrandMapper extends GoodsBaseMapper<BrandDO> {
 
     String AUDIT_STATUS = "auditStatus";
+
+    List<BrandDO> selectByCategoryCode(Long... categoryCodes);
 
 }

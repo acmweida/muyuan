@@ -1,4 +1,4 @@
-package com.muyuan.manager.goods.face.controller;
+package com.muyuan.manager.goods.facade.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

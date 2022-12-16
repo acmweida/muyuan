@@ -58,6 +58,7 @@ knife4j:
   setting:
     enableSwaggerModels: true
     enableOpenApi: true
+  enable: true # 开启增强
 
 fastDFS:
   profiles:

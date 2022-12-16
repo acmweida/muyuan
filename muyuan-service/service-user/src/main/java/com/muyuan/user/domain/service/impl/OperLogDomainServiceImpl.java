@@ -4,11 +4,12 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.user.domain.model.entity.OperLog;
 import com.muyuan.user.domain.repo.OperLogRepo;
-import com.muyuan.user.domain.service.OperLogDomainService;
+import com.muyuan.user.domain.service.OperLogService;
 import com.muyuan.user.face.dto.OperLogCommand;
 import com.muyuan.user.face.dto.OperLogQueryCommand;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
-public class OperLogDomainServiceImpl implements OperLogDomainService {
+public class OperLogDomainServiceImpl implements OperLogService {
 
     private OperLogRepo operLogRepo;
 
@@ -65,7 +66,7 @@ public class OperLogDomainServiceImpl implements OperLogDomainService {
         operLog.setJsonResult(command.getJsonResult());
         operLog.setStatus(command.getStatus());
         operLog.setErrorMsg(command.getErrorMsg());
-        operLog.setOperTime(command.getOperTime());
+        operLog.setOperTime(DateTime.now().toDate());
 
         return operLogRepo.addOperLog(operLog);
     }
@@ -76,34 +77,6 @@ public class OperLogDomainServiceImpl implements OperLogDomainService {
                 .map(id_ -> {
                     return operLogRepo.selectOperLog(id_);
                 });
-    }
-
-    @Override
-    public boolean updateMenu(OperLogCommand command) {
-        OperLog operLog = new OperLog();
-
-        operLog.setId(command.getId());
-        operLog.setTitle(command.getTitle());
-        operLog.setBusinessType(command.getBusinessType());
-        operLog.setMethod(command.getMethod());
-        operLog.setRequestMethod(command.getRequestMethod());
-        operLog.setOperatorType(command.getOperatorType());
-        operLog.setOperName(command.getOperName());
-        operLog.setDeptName(command.getDeptName());
-        operLog.setOperUrl(command.getOperUrl());
-        operLog.setOperIp(command.getOperIp());
-        operLog.setOperLocation(command.getOperLocation());
-        operLog.setOperParam(command.getOperParam());
-        operLog.setJsonResult(command.getJsonResult());
-        operLog.setStatus(command.getStatus());
-        operLog.setErrorMsg(command.getErrorMsg());
-        operLog.setOperTime(command.getOperTime());
-
-        OperLog old = operLogRepo.updateOperLog(operLog);
-        if (ObjectUtils.isNotEmpty(old)) {
-            return true;
-        }
-        return false;
     }
 
     @Override

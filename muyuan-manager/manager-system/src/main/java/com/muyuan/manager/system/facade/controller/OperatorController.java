@@ -82,7 +82,7 @@ public class OperatorController {
     @ApiOperation(value = "角色添加用户")
     @RequirePermissions("system:role:edit")
     @PutMapping("/operator/authRole")
-    @ApiOperationSupport(includeParameters = {"id","roleIds"})
+    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
     public Result authRole(@RequestBody @Validated(OperatorParams.AuthRole.class)  OperatorParams params) {
         return  operatorService.authRole(params.getId(),params.getRoleIds());
     }

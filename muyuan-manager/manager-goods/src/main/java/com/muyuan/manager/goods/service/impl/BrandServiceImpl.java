@@ -5,30 +5,28 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
-import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.goods.api.BrandInterface;
+import com.muyuan.goods.api.CategoryInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
 import com.muyuan.goods.api.dto.BrandRequest;
+import com.muyuan.goods.api.dto.CategoryDTO;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.dto.assembler.BrandAssembler;
-import com.muyuan.manager.goods.model.Brand;
-import com.muyuan.manager.goods.model.BrandCategory;
 import com.muyuan.manager.goods.repo.BrandRepo;
 import com.muyuan.manager.goods.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +49,9 @@ public class BrandServiceImpl implements BrandService {
 
     @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
     private BrandInterface brandInterface;
+
+    @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
+    private CategoryInterface categoryInterface;
 
     /**
      * 查询品牌
@@ -88,17 +89,6 @@ public class BrandServiceImpl implements BrandService {
         Result<Page<BrandDTO>> res = brandInterface.list(request);
 
         return res.getData();
-    }
-
-
-    @Override
-    public String checkUnique(Brand brand) {
-        Long id = null == brand.getId() ? 0 : brand.getId();
-        brand = brandRepo.selectOne(brand);
-        if (null != brand && !brand.getId().equals(id)) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
     }
 
     /**
@@ -142,80 +132,30 @@ public class BrandServiceImpl implements BrandService {
      * @return 结果
      */
     @Override
-    public void delete(Long... ids) {
-        brandRepo.delete(ids);
+    public Result delete(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+        return brandInterface.delete(ids);
     }
 
     @Override
-    @Transactional
-    public void linkCategory(BrandQueryParams brandParams) {
-        Brand brand = brandRepo.selectOne(Brand.builder()
-                .id(brandParams.getId())
-                .build());
-        if (ObjectUtils.isEmpty(brand)) {
-            return;
-        }
-
-        Long[] categoryCodes = brandParams.getCategoryCodes();
-        if (ObjectUtils.isEmpty(categoryCodes)) {
-            brandRepo.deleteLink(BrandCategory.builder()
-                    .brandId(brand.getId())
-                    .build());
-        } else {
-            List<BrandCategory> brandCategories = brandRepo.selectLinkCategoryCode(brand.getId());
-            List<Long> codes = brandCategories.stream().map(BrandCategory::getCategoryCode).collect(Collectors.toList());
-            List<Long> common = ListUtils.retainAll(Arrays.asList(categoryCodes), codes);
-
-            // 删除
-            List<BrandCategory> temp = new ArrayList<>();
-            for (Long code : codes) {
-                if (!common.contains(code)) {
-                    temp.add(BrandCategory.builder()
-                            .brandId(brand.getId())
-                            .categoryCode(code)
-                            .build());
-                }
-            }
-            brandRepo.deleteLink(temp.toArray(new BrandCategory[0]));
-            // 新增
-            temp.clear();
-            for (Long code : categoryCodes) {
-                if (!common.contains(code)) {
-                    temp.add(BrandCategory.builder()
-                            .brandId(brand.getId())
-                            .categoryCode(code)
-                            .build());
-                }
-            }
-
-            brandRepo.insertLink(temp);
-
-        }
-
-        for (Long categoryCode : brandParams.getCategoryCodes()) {
-            redisCacheService.del(BRAND_KEY_PREFIX + categoryCode);
-        }
-
+    public Result linkCategory(BrandQueryParams brandParams) {
+        return brandInterface.linkCategory(brandParams.getId(),brandParams.getCategoryCodes());
     }
 
     @Override
     public List<Long> getBrandCategory(Long id) {
-        if (ObjectUtils.isEmpty(id)) {
-            return Collections.EMPTY_LIST;
+        Result<List<CategoryDTO>> result = categoryInterface.listByBrandId(id);
+        if (ResultUtil.isSuccess(result)) {
+            return result.getData().stream().map(CategoryDTO::getCode).collect(Collectors.toList());
         }
-        return brandRepo.selectLinkCategoryCode(id).stream().map(BrandCategory::getCategoryCode).collect(Collectors.toList());
+        return GlobalConst.EMPTY_LIST;
     }
 
     @Override
-    public List<SelectTree> options(BrandQueryParams brandParams) {
-
-        String key = BRAND_KEY_PREFIX + brandParams.getCategoryCode();
-        return CacheServiceUtil.getAndUpdateList(redisCacheService,key,
-                () -> {
-                    List<Brand> brands = brandRepo.selectBy(brandParams);
-                    return BrandAssembler.buildSelect(brands);
-                },
-                SelectTree.class);
+    public List<SelectTree> options(Long categoryCode) {
+        Result<List<BrandDTO>> brands = brandInterface.listByCCategoryCode(categoryCode);
+        return BrandAssembler.buildSelect(brands.getData());
     }
-
 }

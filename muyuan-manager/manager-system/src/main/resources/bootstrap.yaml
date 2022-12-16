@@ -61,3 +61,17 @@ gen:
   packageName: com.muyuan
   autoRemovePre: true
   tablePrefix: t_
+
+
+knife4j:
+  enable: true
+  documents:
+    - group: doc-1.0
+      name: doc
+springfox:
+  documentation:
+    swagger:
+      v2:
+        use-model-v3: true
+    open-api:
+      enabled: true

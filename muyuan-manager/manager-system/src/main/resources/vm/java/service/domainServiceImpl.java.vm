@@ -70,7 +70,7 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
     }
 
     @Override
-    public boolean updateMenu(${ClassName}Command command) {
+    public boolean update${ClassName}(${ClassName}Command command) {
         ${ClassName} ${className} = new ${ClassName}();
 
 #foreach ($column in $columns)

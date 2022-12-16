@@ -6,11 +6,15 @@ import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 import com.muyuan.goods.infrastructure.converter.BrandConverter;
+import com.muyuan.goods.infrastructure.dataobject.BrandCategoryDO;
 import com.muyuan.goods.infrastructure.dataobject.BrandDO;
+import com.muyuan.goods.infrastructure.mapper.BrandCategoryMapper;
 import com.muyuan.goods.infrastructure.mapper.BrandMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.muyuan.goods.infrastructure.mapper.BrandMapper.*;
@@ -27,6 +31,8 @@ public class BrandRepoImpl implements BrandRepo {
 
     private BrandMapper brandMapper;
 
+    private BrandCategoryMapper brandCategoryMapper;
+
     private BrandConverter converter;
 
     @Override
@@ -35,6 +41,11 @@ public class BrandRepoImpl implements BrandRepo {
                 .eq(ID, id)
                 .build());
         return converter.to(brandDO);
+    }
+
+    @Override
+    public List<Brand> selectByCategoryCode(Long... categoryCodes) {
+        return converter.to(brandMapper.selectByCategoryCode(categoryCodes));
     }
 
     @Override
@@ -79,5 +90,53 @@ public class BrandRepoImpl implements BrandRepo {
     @Override
     public boolean update(Brand brand) {
         return brandMapper.updateBy(converter.to(brand), ID) > 0;
+    }
+
+    @Override
+    public List<Brand> deleteBy(Long... ids) {
+        List<BrandDO> permissions = brandMapper.selectList(new SqlBuilder(BrandDO.class)
+                .in(ID, ids)
+                .build());
+
+        brandMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+
+        return converter.to(permissions);
+    }
+
+    @Override
+    public void deleteRef(List<Long> brandIds) {
+        if (ObjectUtils.isEmpty(brandIds) || brandIds.size() == 0) {
+            return;
+        }
+        brandCategoryMapper.deleteBy(new SqlBuilder()
+                .in(BrandCategoryMapper.BRAND_ID, brandIds)
+                .build());
+    }
+
+
+    @Override
+    public void deleteRef(Long brandId, Long... categoryCodes) {
+        if (ObjectUtils.isEmpty(brandId) || ObjectUtils.isEmpty(categoryCodes)) {
+            return;
+        }
+        brandCategoryMapper.deleteBy(new SqlBuilder()
+                .eq(BrandCategoryMapper.BRAND_ID, brandId)
+                .in(BrandCategoryMapper.CATEGORY_CODE, categoryCodes)
+                .build());
+    }
+
+    @Override
+    public void addRef(Long brandId, Long... categoryCodes) {
+        if (categoryCodes.length == 0) {
+            return;
+        }
+        List<BrandCategoryDO> brandCategoryDOS = new ArrayList<>();
+        BrandCategoryDO.BrandCategoryDOBuilder builder = BrandCategoryDO.builder();
+        for (Long categoryCode : categoryCodes) {
+            brandCategoryDOS.add(builder.brandId(brandId)
+                    .categoryCode(categoryCode)
+                    .build());
+        }
+        brandCategoryMapper.batchInsert(brandCategoryDOS);
     }
 }

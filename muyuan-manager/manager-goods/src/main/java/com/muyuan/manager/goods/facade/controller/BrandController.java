@@ -1,4 +1,4 @@
-package com.muyuan.manager.goods.face.controller;
+package com.muyuan.manager.goods.facade.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
@@ -108,8 +108,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public Result remove(@PathVariable Long... ids) {
-        brandService.delete(ids);
-        return ResultUtil.success();
+        return brandService.delete(ids);
     }
 
     /**
@@ -119,18 +118,9 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/category")
     @ApiOperation("品牌关联分类")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "categoryCodes", value = "分类Code列表", dataTypeClass = Long[].class, paramType = "body")
-            }
-    )
-    public Result link(@RequestBody BrandQueryParams brandParams) {
-        if (ObjectUtils.isEmpty(brandParams.getId())) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR.getCode(),"品牌ID不能为空");
-        }
-        brandService.linkCategory(brandParams);
-        return ResultUtil.success();
+    @ApiOperationSupport(includeParameters = {"id","categoryCodes"})
+    public Result link(@RequestBody @Validated(BrandQueryParams.Link.class) BrandQueryParams brandParams) {
+        return  brandService.linkCategory(brandParams);
     }
 
     /**
@@ -153,21 +143,19 @@ public class BrandController {
      * 查询品牌
      */
     @RequirePermissions("goods:brand:query")
-    @GetMapping("/options")
+    @GetMapping("/options/{categoryCode}")
     @ApiOperation("分类关联品牌查询")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(name = "categoryCode", value = "分类Code", dataTypeClass = Long.class, paramType = "query",required = true),
+                    @ApiImplicitParam(name = "categoryCode", value = "分类Code", dataTypeClass = Long.class, paramType = "path",required = true),
             }
     )
-    public Result options(@ModelAttribute BrandQueryParams params) {
-        if (ObjectUtils.isEmpty(params.getCategoryCode())) {
+    public Result options(@PathVariable Long categoryCode) {
+        if (ObjectUtils.isEmpty(categoryCode)) {
             return ResultUtil.fail("categoryCode不能为空");
         }
 
-        return ResultUtil.success(brandService.options(BrandQueryParams.builder()
-                .categoryCode(params.getCategoryCode())
-                .build()));
+        return ResultUtil.success(brandService.options(categoryCode));
     }
 
 }

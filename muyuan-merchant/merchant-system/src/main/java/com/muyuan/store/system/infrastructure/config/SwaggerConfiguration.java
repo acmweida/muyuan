@@ -12,17 +12,17 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2WebMvc
+@EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
     @Bean(value = "userApi")
     @Order(value = 1)
     public Docket groupRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.muyuan.member.interfaces.com.muyuan.manager.system.facade.controller"))

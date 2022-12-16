@@ -1,7 +1,7 @@
 package com.muyuan.manager.goods.dto.assembler;
 
 import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.goods.model.Brand;
+import com.muyuan.goods.api.dto.BrandDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class BrandAssembler {
 
-    public static List<SelectTree> buildSelect(List<Brand> brands) {
+    public static List<SelectTree> buildSelect(List<BrandDTO> brands) {
         List<SelectTree> selectTrees = new ArrayList<>();
-        for (Brand brand : brands) {
+        for (BrandDTO brand : brands) {
             selectTrees.add(new SelectTree(
                     brand.getId()
                     , brand.getName()

@@ -38,13 +38,6 @@ public interface OperLogService {
     Optional<OperLogDTO> get(Long id);
 
     /**
-     * 操作日志记录变更
-     * @param request
-     * @return
-     */
-    Result update(OperLogRequest request);
-
-    /**
      * 删除
      * @param ids
      * @return

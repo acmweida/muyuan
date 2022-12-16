@@ -14,7 +14,7 @@ import java.util.Optional;
  * @date 2022-12-15T15:27:12.638+08:00
  * @Version 1.0
  */
-public interface OperLogDomainService {
+public interface OperLogService {
 
     /**
      * 操作日志记录分页查询
@@ -43,13 +43,6 @@ public interface OperLogDomainService {
      * @return
      */
     Optional<OperLog> getOperLog(Long id);
-
-    /**
-     * 更新操作日志记录信息
-     * @param command
-     * @return
-     */
-    boolean updateMenu(OperLogCommand command);
 
     /**
      * 删除操作日志记录信息

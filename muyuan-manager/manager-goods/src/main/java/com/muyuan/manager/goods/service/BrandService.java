@@ -7,7 +7,6 @@ import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandRequest;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
-import com.muyuan.manager.goods.model.Brand;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +27,6 @@ public interface BrandService
      */
     Optional<BrandDTO> get(Long id);
 
-    /**
-     * 唯一性查询
-     * @param brand
-     * @return
-     */
-    String checkUnique(Brand brand);
 
     /**
      * 查询品牌列表
@@ -74,21 +67,26 @@ public interface BrandService
      * @param id 品牌主键
      * @return 结果
      */
-    void delete(Long... id);
+    Result delete(Long... id);
 
     /**
      * 品牌联结分类
      * @param brandParams
      */
-    void linkCategory(BrandQueryParams brandParams);
+    Result linkCategory(BrandQueryParams brandParams);
 
+    /**
+     * 根据ID查询关联类目
+     * @param id
+     * @return
+     */
     List<Long> getBrandCategory(Long id);
 
 
     /**
      * 树形选择
-     * @param brandParams
+     * @param categoryCode
      * @return
      */
-    List<SelectTree> options(BrandQueryParams brandParams);
+    List<SelectTree> options(Long categoryCode);
 }

@@ -74,11 +74,6 @@ public class OperLogServiceImpl implements OperLogService {
     }
 
     @Override
-    public Result update(OperLogRequest request) {
-        return operLogInterface.updateOperLog(request);
-    }
-
-    @Override
     public Result deleteById(Long... ids) {
         if (ObjectUtils.isEmpty(ids)) {
             return ResultUtil.fail();

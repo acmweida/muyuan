@@ -50,7 +50,7 @@ public interface ${ClassName}DomainService {
      * @param command
      * @return
      */
-    boolean updateMenu(${ClassName}Command command);
+    boolean update${ClassName}(${ClassName}Command command);
 
     /**
      * 删除${functionName}信息

@@ -99,7 +99,7 @@ public class PermissionController {
 
     @PostMapping("/permission")
     @ApiOperation(value = "权限新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+    @ApiOperationSupport(ignoreParameters = {"id"})
     @RequirePermissions(value = "system:perms:add")
     @Log(title = "权限",businessType = BusinessType.IMPORT,operatorType = OperatorType.MANAGE)
     public Result add(@RequestBody @Validated(PermissionParams.Add.class) PermissionParams params) {

@@ -36,13 +36,6 @@ public interface OperLogInterface {
     Result<OperLogDTO> getOperLog(Long id);
 
     /**
-     * 更新操作日志记录
-     * @param request
-     * @return
-     */
-    Result updateOperLog(OperLogRequest request);
-
-    /**
      *  删除操作日志记录
      * @param ids
      * @return

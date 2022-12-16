@@ -80,18 +80,6 @@ public class OperLogController {
         return operLogService.add(converter.to(params));
     }
 
-    @PutMapping()
-    @ApiOperation(value = "操作日志记录更新")
-    @RequirePermissions(value = "common:log:edit")
-    @Log(title = "操作日志记录", businessType = BusinessType.UPDATE)
-    public Result update(@RequestBody @Validated(OperLogParams.Update.class) OperLogParams params) {
-        if (ObjectUtils.isEmpty(params.getId())) {
-            return ResultUtil.fail("id is null");
-        }
-
-        return operLogService.update(converter.to(params));
-    }
-
     @DeleteMapping("/{ids}")
     @ApiOperation(value = "操作日志记录删除")
     @RequirePermissions(value = "common:log:remove")
