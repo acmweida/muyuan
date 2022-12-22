@@ -1,6 +1,7 @@
 package com.muyuan.goods.domains.repo;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public interface BrandRepo {
 
-    Brand select(Long id);
+    Brand select(Long id, BrandAuthStatus... authStatuses);
 
     List<Brand> selectByCategoryCode(Long... categoryCodes);
 

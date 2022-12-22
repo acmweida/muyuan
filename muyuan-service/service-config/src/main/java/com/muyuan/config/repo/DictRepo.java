@@ -40,7 +40,7 @@ public interface DictRepo {
      * @param dictData
      * @return old value
      */
-    DictData updateDictData(DictData dictData);
+    DictData updateDictDataById(DictData dictData);
 
     /**
      *
@@ -48,6 +48,14 @@ public interface DictRepo {
      * @return old value
      */
     DictType updateDictType(DictType dictType);
+
+    /**
+     * 更新DictData的Type字段
+     * @param oldType
+     * @param newType
+     * @return
+     */
+    boolean updateDictDataType(String oldType,String newType);
 
     List<DictData> deleteDictData(Long... ids);
 

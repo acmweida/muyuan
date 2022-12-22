@@ -54,7 +54,7 @@ public class DictRepoImpl implements DictRepo {
     public Page<DictData> select(DictQueryCommand commend) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
                 .eq(DictDataMapper.LABEL, commend.getLabel())
-                .eq(TYPE, commend.getType())
+                .like(TYPE, commend.getType())
                 .eq(STATUS, commend.getStatus())
                 .orderByDesc(UPDATE_TIME, CREATE_TIME);
 
@@ -91,8 +91,8 @@ public class DictRepoImpl implements DictRepo {
     @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
-                .eq(NAME, command.getName())
-                .eq(TYPE, command.getType())
+                .like(NAME, command.getName())
+                .like(TYPE, command.getType())
                 .eq(STATUS, command.getStatus())
                 .orderByDesc(UPDATE_TIME, CREATE_TIME);
 
@@ -145,24 +145,24 @@ public class DictRepoImpl implements DictRepo {
     }
 
     @Override
-    public DictData updateDictData(DictData dictData) {
+    public DictData updateDictDataById(DictData dictData) {
 
         SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(ID,dictData.getId());
+                .eq(ID, dictData.getId());
 
-        DictDataDO dataDO = dictDataMapper.selectOne(sqlBuilder.build());
-        if (ObjectUtils.isNotEmpty(dataDO)) {
+        DictDataDO old = dictDataMapper.selectOne(sqlBuilder.build());
+        if (ObjectUtils.isNotEmpty(old)) {
             dictDataMapper.updateBy(converter.to(dictData), ID);
         }
 
-        return converter.to(dataDO);
+        return converter.to(old);
     }
 
     @Override
     public DictType updateDictType(DictType dictType) {
 
         SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
-                .eq(ID,dictType.getId());
+                .eq(ID, dictType.getId());
 
         DictTypeDO typeDO = dictTypeMapper.selectOne(sqlBuilder.build());
         if (ObjectUtils.isNotEmpty(typeDO)) {
@@ -170,6 +170,15 @@ public class DictRepoImpl implements DictRepo {
         }
 
         return converter.to(typeDO);
+    }
+
+    @Override
+    public boolean updateDictDataType(String oldType, String newType) {
+        SqlBuilder builder = new SqlBuilder(DictDataDO.class)
+                .set(TYPE,newType)
+                .eq(TYPE,oldType);
+
+        return dictDataMapper.update(builder.build()) > 0;
     }
 
     @Override
@@ -194,7 +203,7 @@ public class DictRepoImpl implements DictRepo {
 
         String[] types = dictDataDOS.stream().map(DictTypeDO::getType).collect(Collectors.toList()).toArray(new String[0]);
         dictDataMapper.deleteBy(new SqlBuilder().in(TYPE, types).build());
-        dictTypeMapper.deleteBy(new SqlBuilder().in(ID,ids).build());
+        dictTypeMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
 
         return converter.toType(dictDataDOS);
     }

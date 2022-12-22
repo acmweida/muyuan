@@ -1,6 +1,7 @@
 package com.muyuan.config.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import java.util.Date;
  * 字典数据
  */
 @Data
+@NoArgsConstructor
 public class DictData {
 
     @Data
@@ -29,6 +31,11 @@ public class DictData {
             this.value = value;
             this.type = type;
         }
+    }
+
+
+    public DictData(String type) {
+        this.type = type;
     }
 
     private Long id;

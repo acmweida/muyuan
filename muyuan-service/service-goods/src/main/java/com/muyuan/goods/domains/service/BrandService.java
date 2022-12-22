@@ -1,6 +1,7 @@
 package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
@@ -33,7 +34,7 @@ public interface BrandService {
      * @param id
      * @return
      */
-    Optional<Brand> get(Long id);
+    Optional<Brand> get(Long id, BrandAuthStatus... authStatuses);
 
     /**
      * 唯一性检查

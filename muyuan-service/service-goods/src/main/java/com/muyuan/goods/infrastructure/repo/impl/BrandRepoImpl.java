@@ -2,6 +2,7 @@ package com.muyuan.goods.infrastructure.repo.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.muyuan.goods.infrastructure.mapper.BrandMapper.*;
@@ -36,9 +38,10 @@ public class BrandRepoImpl implements BrandRepo {
     private BrandConverter converter;
 
     @Override
-    public Brand select(Long id) {
+    public Brand select(Long id, BrandAuthStatus... authStatuses) {
         BrandDO brandDO = brandMapper.selectOne(new SqlBuilder(BrandDO.class)
                 .eq(ID, id)
+                .in(AUDIT_STATUS, Arrays.stream(authStatuses).map(BrandAuthStatus::getCode).toArray())
                 .build());
         return converter.to(brandDO);
     }

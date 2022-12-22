@@ -1,9 +1,10 @@
 package com.muyuan.common.mybatis.jdbc;
 
-
 public interface JdbcBaseMapper<T>  {
 
     int DEFAULT_BATCH_SIZE = 100;
+
+    String[] DEFAULT_EMPTY_ARRAY = new String[]{};
 
     String ID = "id";
 

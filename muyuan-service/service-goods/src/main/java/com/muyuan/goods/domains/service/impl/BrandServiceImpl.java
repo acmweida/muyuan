@@ -5,6 +5,7 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.thread.CommonThreadPool;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.BrandRepo;
@@ -70,7 +71,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Optional<Brand> get(Long id) {
+    public Optional<Brand> get(Long id, BrandAuthStatus... authStatus) {
         return Optional.of(id)
                 .map(id_ -> {
                     return brandRepo.select(id);

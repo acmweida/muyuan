@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -111,11 +112,11 @@ public class DictServiceImpl implements DictService {
         dictData.setCreateBy(command.getOpt().getId());
 
         if (dictRepo.addDictData(dictData)) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+dictData.getType());
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + dictData.getType());
             return true;
         }
 
-        return  false;
+        return false;
     }
 
     @Override
@@ -138,15 +139,16 @@ public class DictServiceImpl implements DictService {
         dictData.setUpdateTime(DateTime.now().toDate());
         dictData.setUpdateBy(command.getOpt().getId());
 
-        DictData old = dictRepo.updateDictData(dictData);
-        if (ObjectUtils.isNotEmpty(old)) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+old.getType());
+        DictData old = dictRepo.updateDictDataById(dictData);
+        if (!ObjectUtils.isNotEmpty(old)) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + old.getType());
             return true;
         }
         return false;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateDictType(DictTypeCommand command) {
         if (ObjectUtils.isEmpty(command.getId())) {
             return false;
@@ -163,9 +165,10 @@ public class DictServiceImpl implements DictService {
         dictType.setUpdateBy(command.getOpt().getId());
 
         DictType old = dictRepo.updateDictType(dictType);
-        if (ObjectUtils.isNotEmpty(old) ) {
-            if (!command.getType().equals(dictType.getType())) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+old.getType());
+        if (ObjectUtils.isNotEmpty(old)) {
+            if (!command.getType().equals(old.getType())) {
+                dictRepo.updateDictDataType(old.getType(),dictType.getType());
+                redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + old.getType());
             }
             return true;
         }
@@ -175,8 +178,8 @@ public class DictServiceImpl implements DictService {
     @Override
     public boolean deleteDictData(Long... ids) {
         List<DictData> old = dictRepo.deleteDictData(ids);
-        for (String type :  old.stream().map(DictData::getType).collect(Collectors.toList())) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+type);
+        for (String type : old.stream().map(DictData::getType).collect(Collectors.toList())) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + type);
         }
 
         return !old.isEmpty();
@@ -185,8 +188,8 @@ public class DictServiceImpl implements DictService {
     @Override
     public boolean deleteDictType(Long... ids) {
         List<DictType> old = dictRepo.deleteDictType(ids);
-        for (String type :  old.stream().map(DictType::getType).collect(Collectors.toList())) {
-            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT+type);
+        for (String type : old.stream().map(DictType::getType).collect(Collectors.toList())) {
+            redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + type);
         }
 
         return !old.isEmpty();

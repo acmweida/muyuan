@@ -10,6 +10,7 @@ import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
 import com.muyuan.goods.api.dto.BrandRequest;
+import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.service.BrandService;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
@@ -59,7 +60,7 @@ public class BrandInterfaceImpl implements BrandInterface {
 
     @Override
     public Result linkCategory(Long brandId, Long... categoryCodes) {
-        Optional<Brand> handler = brandService.get(brandId);
+        Optional<Brand> handler = brandService.get(brandId, BrandAuthStatus.PASS);
         if (!handler.isPresent()) {
             return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
         }

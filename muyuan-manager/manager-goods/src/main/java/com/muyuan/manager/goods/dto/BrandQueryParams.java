@@ -28,6 +28,7 @@ public class BrandQueryParams extends PageDTO {
 
     }
 
+    @ApiModelProperty("以通过审核的品牌ID")
     @NotNull(message = "品牌主建不能为空",groups = {Link.class})
     private Long id;
 
@@ -35,11 +36,12 @@ public class BrandQueryParams extends PageDTO {
     private String name;
 
     /** 审核状态  1-审核中  0-审核通过 2-审核魏通过 */
-    @Range(message = "认证状态码输入错误",min = 0,max = 2)
+    @ApiModelProperty(value = "审核状态  1-审核中  0-审核通过 2-审核未通过")
     private Integer auditStatus;
 
     /** 状态  0-上架 1-下架 3-删除 4-禁用 */
     @Range(message = "状态码输入错误",min = 0,max = 4)
+    @ApiModelProperty(value = " 状态  0-上架 1-下架 3-删除 4-禁用")
     private Integer status;
 
     @ApiModelProperty(value = "类目Code列表",required = true)
