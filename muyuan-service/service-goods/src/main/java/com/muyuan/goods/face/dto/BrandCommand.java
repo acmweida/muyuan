@@ -39,8 +39,7 @@ public class BrandCommand extends OptCommand {
 //    @Range(message = "认证状态码输入错误",min = 0,max = 2)
 //    private Integer auditStatus;
 
-//    /** 状态  0-上架 1-下架 3-删除 4-禁用 */
-//    @Range(message = "状态码输入错误",min = 0,max = 4)
-//    private Integer status;
+    /** 状态  0-上架 1-下架 2-弃用 */
+    private Integer status;
 
 }

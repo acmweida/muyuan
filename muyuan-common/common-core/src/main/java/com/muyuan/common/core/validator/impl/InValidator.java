@@ -24,7 +24,7 @@ public class InValidator implements ConstraintValidator<In, Object> {
         }
 
         for (String item : value) {
-           if (item.equals(object)) {
+           if (item.equals(String.valueOf(object))) {
                return true;
            }
         }

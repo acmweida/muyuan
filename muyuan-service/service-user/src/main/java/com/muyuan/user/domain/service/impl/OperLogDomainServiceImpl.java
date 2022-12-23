@@ -49,7 +49,7 @@ public class OperLogDomainServiceImpl implements OperLogService {
 
     @Override
     @Async
-    public boolean addOperLog(OperLogCommand command) {
+    public void addOperLog(OperLogCommand command) {
         OperLog operLog = new OperLog();
 
         operLog.setTitle(command.getTitle());
@@ -68,7 +68,7 @@ public class OperLogDomainServiceImpl implements OperLogService {
         operLog.setErrorMsg(command.getErrorMsg());
         operLog.setOperTime(DateTime.now().toDate());
 
-        return operLogRepo.addOperLog(operLog);
+        operLogRepo.addOperLog(operLog);
     }
 
     @Override

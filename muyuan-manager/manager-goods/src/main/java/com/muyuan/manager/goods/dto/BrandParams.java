@@ -1,5 +1,6 @@
 package com.muyuan.manager.goods.dto;
 
+import com.muyuan.common.core.validator.annotions.In;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,13 +58,13 @@ public class BrandParams {
     private String remark;
 
     /** 审核状态  1-审核中  0-审核通过 2-审核魏通过 */
-    @Range(message = "认证状态码输入错误",min = 0,max = 2,groups = {Audit.class})
+    @In(message = "认证状态码输入错误",value = {"1","2"},groups = {Audit.class})
     @NotNull(message = "认证状态不能为空",groups = {Audit.class})
     @ApiModelProperty(value = "认证状态:1-审核中  0-审核通过 2-审核魏通过",required = true)
     private Integer auditStatus;
 
-    /** 状态  0-上架 1-下架 3-删除 4-禁用 */
-    @Range(message = "状态码输入错误",min = 0,max = 4)
+    /** 状态  0-上架 1-下架 */
+    @Range(message = "状态码输入错误",min = 0,max = 1)
     private Integer status;
 
 }

@@ -140,7 +140,7 @@ public class DictServiceImpl implements DictService {
         dictData.setUpdateBy(command.getOpt().getId());
 
         DictData old = dictRepo.updateDictDataById(dictData);
-        if (!ObjectUtils.isNotEmpty(old)) {
+        if (ObjectUtils.isNotEmpty(old)) {
             redisCacheService.delayDoubleDel(RedisConst.SYS_DATA_DICT + old.getType());
             return true;
         }

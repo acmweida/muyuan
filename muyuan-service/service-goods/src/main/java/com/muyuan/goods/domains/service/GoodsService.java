@@ -2,7 +2,7 @@ package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Goods;
-import com.muyuan.goods.face.dto.GoodsQueryCommond;
+import com.muyuan.goods.face.dto.GoodsQueryCommand;
 
 /**
  * @ClassName GoodsService 接口
@@ -13,5 +13,5 @@ import com.muyuan.goods.face.dto.GoodsQueryCommond;
  */
 public interface GoodsService {
 
-    Page<Goods> page(GoodsQueryCommond queryCommand);
+    Page<Goods> page(GoodsQueryCommand queryCommand);
 }

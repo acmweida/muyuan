@@ -11,7 +11,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class GoodsQueryCommond extends PageDTO {
+public class GoodsQueryCommand extends PageDTO {
 
     /**
      * 商品标题

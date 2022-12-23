@@ -35,9 +35,9 @@ public class CategoryRepoImpl implements CategoryRepo {
                 .eq(CODE, categoryDTO.getCode())
                 .eq(PARENT_ID, categoryDTO.getParentId())
                 .in(PARENT_ID, categoryDTO.getParentIds())
-                .in(ID,  categoryDTO.getIds())
                 .eq(LEAF, categoryDTO.getLeaf())
                 .eq(LEVEL, categoryDTO.getLevel())
+                .eq(STATUS,categoryDTO.getStatus())
                 .in(STATUS, STATUS_OK)
                 .build());
     }

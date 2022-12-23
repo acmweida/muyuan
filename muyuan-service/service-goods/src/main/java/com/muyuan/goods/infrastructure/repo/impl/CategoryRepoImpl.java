@@ -27,7 +27,6 @@ public class CategoryRepoImpl implements CategoryRepo {
     @Override
     public Page<Category> select(CategoryQueryCommand command) {
         SqlBuilder sqlBuilder = new SqlBuilder(CategoryDO.class)
-                .eq(ID,command.getId())
                 .eq(PARENT_ID,command.getParentId())
                 .eq(NAME,command.getName())
                 .eq(LEVEL,command.getLevel())
@@ -35,6 +34,7 @@ public class CategoryRepoImpl implements CategoryRepo {
                 .eq(ANCESTORS,command.getAncestors())
                 .eq(STATUS,command.getStatus())
                 .eq(LEAF,command.getLeaf())
+                .in(STATUS, STATUS_OK)
 ;
 
         Page<Category> page = Page.<Category>builder().build();

@@ -113,6 +113,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setOrderNum( command.getOrderNum() );
         brand.setEnglishName( command.getEnglishName() );
         brand.setRemark( command.getRemark() );
+        brand.setStatus(command.getStatus());
 
         brand.update(command.getOpt());
 

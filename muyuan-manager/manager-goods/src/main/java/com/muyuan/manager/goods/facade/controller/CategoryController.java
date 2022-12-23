@@ -161,6 +161,7 @@ public class CategoryController {
     public Result selectOption() {
         List<Category> goodsCategorys = goodsCategoryService.list(CategoryDTO.builder()
                 .leaf(GlobalConst.TRUE)
+                .status("0")
                 .build());
         return ResultUtil.success(CategoryAssembler.buildSelect(goodsCategorys));
     }

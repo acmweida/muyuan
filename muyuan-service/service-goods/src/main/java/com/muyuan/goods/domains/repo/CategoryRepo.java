@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface CategoryRepo {
 
+    Object[] STATUS_OK = new String[]{"0","1"};
+
     Page<Category> select(CategoryQueryCommand command);
 
     List<Category> selectByBrandId(Long... brandIds);

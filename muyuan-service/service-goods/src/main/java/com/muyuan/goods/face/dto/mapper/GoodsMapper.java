@@ -3,7 +3,7 @@ package com.muyuan.goods.face.dto.mapper;
 import com.muyuan.goods.api.dto.GoodsDTO;
 import com.muyuan.goods.api.dto.GoodsQueryRequest;
 import com.muyuan.goods.domains.model.entity.Goods;
-import com.muyuan.goods.face.dto.GoodsQueryCommond;
+import com.muyuan.goods.face.dto.GoodsQueryCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface GoodsMapper {
 
-    GoodsQueryCommond toCommand(GoodsQueryRequest request);
+    GoodsQueryCommand toCommand(GoodsQueryRequest request);
 
     @Mapping(target = "id",source = "id.value")
     GoodsDTO toDTO(Goods goods);

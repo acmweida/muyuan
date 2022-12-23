@@ -19,9 +19,9 @@ import org.apache.dubbo.config.annotation.Method;
 import java.util.Optional;
 
 /**
+ * @author ${author}
  * @ClassName OperLogInterfaceApi
  * Description 内部接口  操作日志记录
- * @author ${author}
  * @date 2022-12-15T15:27:12.638+08:00
  * @Version 1.0
  */
@@ -29,7 +29,7 @@ import java.util.Optional;
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
         , interfaceClass = OperLogInterface.class,
         methods = {
-                @Method(name = "add",retries = 0)
+                @Method(name = "add", retries = 0)
         }
 )
 public class OperLogInterfaceApi implements OperLogInterface {
@@ -42,13 +42,13 @@ public class OperLogInterfaceApi implements OperLogInterface {
     public Result<Page<OperLogDTO>> list(OperLogQueryRequest request) {
         Page<OperLog> list = operLogService.list(MAPPER.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,MAPPER.toDTO(list.getRows())));
+        return ResultUtil.success(Page.copy(list, MAPPER.toDTO(list.getRows())));
     }
 
     @Override
     public Result add(OperLogRequest request) {
-        boolean flag = operLogService.addOperLog(MAPPER.toCommand(request));
-        return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
+        operLogService.addOperLog(MAPPER.toCommand(request));
+        return ResultUtil.success("添加成功");
     }
 
     @Override

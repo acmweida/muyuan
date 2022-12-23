@@ -6,7 +6,6 @@ import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
-import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.goods.api.BrandInterface;
 import com.muyuan.goods.api.CategoryInterface;
@@ -17,11 +16,9 @@ import com.muyuan.goods.api.dto.CategoryDTO;
 import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.dto.assembler.BrandAssembler;
-import com.muyuan.manager.goods.repo.BrandRepo;
 import com.muyuan.manager.goods.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -38,14 +35,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class BrandServiceImpl implements BrandService {
-
-    private static String BRAND_KEY_PREFIX = "BRAND_OPTIONS:";
-
-    @Autowired
-    private RedisCacheService redisCacheService;
-
-    @Autowired
-    private BrandRepo brandRepo;
 
     @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
     private BrandInterface brandInterface;
@@ -111,6 +100,7 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Result update(BrandRequest request) {
+        request.setOpt(SecurityUtils.getOpt());
         return brandInterface.update(request);
     }
 

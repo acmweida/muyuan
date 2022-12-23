@@ -4,7 +4,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Goods;
 import com.muyuan.goods.domains.repo.GoodsRepo;
 import com.muyuan.goods.domains.service.GoodsService;
-import com.muyuan.goods.face.dto.GoodsQueryCommond;
+import com.muyuan.goods.face.dto.GoodsQueryCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsRepo goodsRepo;
 
     @Override
-    public Page<Goods> page(GoodsQueryCommond queryCommand) {
+    public Page<Goods> page(GoodsQueryCommand queryCommand) {
         return null;
     }
 }

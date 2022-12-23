@@ -3,13 +3,15 @@ package com.muyuan.manager.goods.service.impl;
 import com.muyuan.common.bean.SelectTree;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
+import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
-import com.muyuan.manager.goods.dto.assembler.CategoryAssembler;
+import com.muyuan.goods.api.CategoryInterface;
 import com.muyuan.manager.goods.dto.AttributeDTO;
 import com.muyuan.manager.goods.dto.CategoryDTO;
+import com.muyuan.manager.goods.dto.assembler.CategoryAssembler;
 import com.muyuan.manager.goods.model.Attribute;
 import com.muyuan.manager.goods.model.BrandCategory;
 import com.muyuan.manager.goods.model.Category;
@@ -20,6 +22,7 @@ import com.muyuan.manager.goods.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,10 +48,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private RedisCacheService redisCacheService;
 
-
     protected CategoryRepo categoryRepo;
 
     protected AttributeRepo attributeRepo;
+
+    @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
+    private CategoryInterface categoryInterface;
 
     @Override
     public List<Category> list(CategoryDTO categoryDTO) {

@@ -35,7 +35,7 @@ public interface OperLogService {
      * @param command
      * @return
      */
-    boolean addOperLog(OperLogCommand command);
+    void addOperLog(OperLogCommand command);
 
     /**
      * 查询操作日志记录信息
