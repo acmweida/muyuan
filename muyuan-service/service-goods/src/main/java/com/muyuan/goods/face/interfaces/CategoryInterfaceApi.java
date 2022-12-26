@@ -51,8 +51,8 @@ public class CategoryInterfaceApi implements CategoryInterface {
 
     @Override
     public Result add(CategoryRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getId())))) {
-            return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
+        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getParentId(), request.getName())))) {
+            return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
         boolean flag = categoryService.addCategory(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
@@ -68,8 +68,17 @@ public class CategoryInterfaceApi implements CategoryInterface {
     }
 
     @Override
+    public Result<CategoryDTO> getCategoryByCode(Long code) {
+        Optional<Category> handler = categoryService.getCategoryByCode(code);
+
+        return handler.map(MAPPER::toDTO)
+                .map(ResultUtil::success)
+                .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
+    }
+
+    @Override
     public Result updateCategory(CategoryRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getId())))) {
+        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getId(), request.getParentId(), request.getName())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
@@ -78,8 +87,8 @@ public class CategoryInterfaceApi implements CategoryInterface {
     }
 
     @Override
-    public Result deleteCategory(Long... ids) {
-        if (categoryService.deleteCategoryById(ids)) {
+    public Result deleteCategory(Long id) {
+        if (categoryService.deleteCategoryById(id)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

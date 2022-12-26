@@ -1,7 +1,6 @@
 package com.muyuan.goods.domains.model.entity;
 
-import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.goods.domains.repo.CategoryRepo;
+import com.muyuan.common.valueobject.Opt;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +25,19 @@ public class Category {
 
         private Long id;
 
-        public Identify(Long id) {
+        private Long parentId;
+
+        private String name;
+
+        public Identify(Long parentId, String name) {
+            this.parentId = parentId;
+            this.name = name;
+        }
+
+        public Identify(Long id, Long parentId, String name) {
             this.id = id;
+            this.parentId = parentId;
+            this.name = name;
         }
     }
 
@@ -88,34 +98,22 @@ public class Category {
     /**
      * 是否叶子节点 0-是 1-否
      */
-    private String leaf;
+    private Boolean leaf;
 
-    public String getLeaf() {
-        return leaf;
-    }
-
-    public void setLeaf(String leaf) {
-        this.leaf = leaf;
-    }
-
-    public boolean leaf() {
-        return GlobalConst.TRUE.equals(leaf);
-    }
-
-    public void init() {
+    public void init(Opt opt) {
         status = 1;
         level = 1;
-        leaf = GlobalConst.TRUE;
+        leaf = true;
         subCount = 0;
         createTime = DateTime.now().toDate();
-//        creator = SecurityUtils.getUsername();
-//        createBy = SecurityUtils.getUserId();
+        creator = opt.getName();
+        createBy = opt.getId();
     }
 
-    private void update() {
+    private void update(Opt opt) {
         updateTime = DateTime.now().toDate();
-//        updateBy = SecurityUtils.getUserId();
-//        updater = SecurityUtils.getUsername();
+        updateBy = opt.getId();
+        updater = opt.getName();
     }
 
     public void initRoot(int rootCount) {
@@ -134,7 +132,7 @@ public class Category {
                     level = p.level + 1;
                     status = p.status;
                     ancestors = StringUtils.join(p.ancestors, ",", id);
-                    p.leaf = GlobalConst.FALSE;
+                    p.leaf = false;
                     p.subCount += 1;
                     newCode(parent, count + 1);
                 });
@@ -155,30 +153,5 @@ public class Category {
             this.code =   index << 30;
         }
     }
-
-//    public void save(CategoryRepo categoryRepo) {
-//        Assert.notNull(categoryRepo, "repo is null");
-//        FunctionUtil.of(id)
-//                .ifThen(
-//                        () -> categoryRepo.insert(this),
-//                        id -> {
-//                            update();
-//                            categoryRepo.update(this);
-//                        }
-//                );
-//    }
-
-    public void update(CategoryRepo categoryRepo, String... column) {
-        Assert.notNull(categoryRepo, "repo is null");
-        Assert.notNull(id, "id is null");
-        update();
-//        categoryRepo.update(this,column);
-    }
-
-    public boolean hasChildren() {
-        return !leaf();
-    }
-
-
 
 }

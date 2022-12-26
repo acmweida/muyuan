@@ -15,17 +15,19 @@ import java.util.List;
 
 public interface CategoryRepo {
 
-    Object[] STATUS_OK = new String[]{"0","1"};
-
     Page<Category> select(CategoryQueryCommand command);
 
     List<Category> selectByBrandId(Long... brandIds);
 
     Category selectCategory(Long id);
 
+    Category selectCategoryByCode(Long code);
+
     Category selectCategory(Category.Identify identify);
 
     boolean addCategory(Category category);
+
+    int count(CategoryQueryCommand command);
 
     /**
      * 更新信息
@@ -33,6 +35,13 @@ public interface CategoryRepo {
      * @return old value
      */
     Category updateCategory(Category category);
+
+    /**
+     * 更新信息
+     * @param category
+     * @return old value
+     */
+    Category updateCategoryAncestors(Category category);
 
     /**
      * 删除

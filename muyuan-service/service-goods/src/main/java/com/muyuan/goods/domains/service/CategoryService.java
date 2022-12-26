@@ -48,6 +48,13 @@ public interface CategoryService {
     Optional<Category> getCategory(Long id);
 
     /**
+     * 查询商品分类信息
+     * @param code
+     * @return
+     */
+    Optional<Category> getCategoryByCode(Long code);
+
+    /**
      * 更新商品分类信息
      * @param command
      * @return
@@ -56,8 +63,8 @@ public interface CategoryService {
 
     /**
      * 删除商品分类信息
-     * @param ids
+     * @param id
      * @return
      */
-    boolean deleteCategoryById(Long... ids);
+    boolean deleteCategoryById(Long id);
 }

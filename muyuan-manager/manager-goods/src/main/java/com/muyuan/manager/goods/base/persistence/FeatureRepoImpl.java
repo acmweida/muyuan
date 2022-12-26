@@ -2,12 +2,11 @@ package com.muyuan.manager.goods.base.persistence;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.manager.goods.dto.FeatureDTO;
-import com.muyuan.manager.goods.model.Brand;
-import com.muyuan.manager.goods.model.Feature;
-import com.muyuan.manager.goods.repo.FeatureRepo;
 import com.muyuan.manager.goods.base.persistence.mapper.BrandCategoryMapper;
 import com.muyuan.manager.goods.base.persistence.mapper.FeatureMapper;
+import com.muyuan.manager.goods.dto.FeatureDTO;
+import com.muyuan.manager.goods.model.Feature;
+import com.muyuan.manager.goods.repo.FeatureRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ public class FeatureRepoImpl implements FeatureRepo {
 
     @Override
     public List<Feature> select(FeatureDTO featureDTO, Page page) {
-        return featureMapper.selectList(new SqlBuilder(Brand.class)
+        return featureMapper.selectList(new SqlBuilder(Feature.class)
                 .like(NAME, featureDTO.getName())
                 .eq(STATUS, featureDTO.getStatus())
                 .page(page)

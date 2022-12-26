@@ -1,11 +1,10 @@
 package com.muyuan.goods.face.dto;
 
+import com.muyuan.common.bean.OptCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * @author ${author}
@@ -18,7 +17,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryCommand {
+public class CategoryCommand extends OptCommand {
 
     /**
      * 主键
@@ -35,20 +34,6 @@ public class CategoryCommand {
      */
     private String name;
 
-    /**
-     * 晨级
-     */
-    private Integer level;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
 
     /**
      * 产品编码
@@ -56,19 +41,9 @@ public class CategoryCommand {
     private Long code;
 
     /**
-     * 层级路径
-     */
-    private String ancestors;
-
-    /**
      * $column.columnComment
      */
     private String logo;
-
-    /**
-     * $column.columnComment
-     */
-    private Integer productCount;
 
     /**
      * 0-上架 1-下架 2-删除
@@ -80,34 +55,5 @@ public class CategoryCommand {
      */
     private Integer orderNum;
 
-    /**
-     * 创建人ID
-     */
-    private Long createBy;
-
-    /**
-     * 创建人
-     */
-    private String creator;
-
-    /**
-     * 更新人ID
-     */
-    private Long updateBy;
-
-    /**
-     * 更新人
-     */
-    private String updater;
-
-    /**
-     * 是否叶子节点
-     */
-    private String leaf;
-
-    /**
-     * 子节点数量
-     */
-    private Integer subCount;
 
 }

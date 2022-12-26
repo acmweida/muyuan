@@ -18,60 +18,96 @@ public class CategoryDTO implements Serializable {
 
 
     private static final long serialVersionUID = -3704071238521681279L;
-    /** 主键 */
+    /**
+     * 主键
+     */
     private Long id;
 
-    /** 父类ID */
+    /**
+     * 父类ID
+     */
     private Long parentId;
 
-    /** 分类名称 */
+    /**
+     * 分类名称
+     */
     private String name;
 
-    /** 晨级 */
-    private Long level;
+    /**
+     * 晨级
+     */
+    private Integer level;
 
-    /** 创建时间 */
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
-    /** 修改时间 */
+    /**
+     * 修改时间
+     */
     private Date updateTime;
 
-    /** 产品编码 */
+    /**
+     * 产品编码
+     */
     private Long code;
 
-    /** 层级路径 */
+    /**
+     * 层级路径
+     */
     private String ancestors;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     private String logo;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     private Long productCount;
 
-    /** 0-上架 1-下架 2-删除 */
+    /**
+     * 0-上架 1-下架 2-删除
+     */
     private Long status;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     private Long orderNum;
 
-    /** 创建人ID */
+    /**
+     * 创建人ID
+     */
     private Long createBy;
 
-    /** 创建人 */
+    /**
+     * 创建人
+     */
     private String creator;
 
-    /** 更新人ID */
+    /**
+     * 更新人ID
+     */
     private Long updateBy;
 
-    /** 更新人
- */
+    /**
+     * 更新人
+     */
     private String updater;
 
-    /** 是否叶子节点 */
-    private String leaf;
+    /**
+     * 是否叶子节点
+     */
+    private Boolean leaf;
 
-    /** 子节点数量 */
+    /**
+     * 子节点数量
+     */
     private Long subCount;
 
-    private List<AttributeDTO> attributeDTOS;
+    private List<AttributeDTO> attributes;
+
 }

@@ -46,6 +46,13 @@ public interface CategoryInterface {
     Result<CategoryDTO> getCategory(Long id);
 
     /**
+     * 查询商品分类
+     * @param code
+     * @return
+     */
+    Result<CategoryDTO> getCategoryByCode(Long code);
+
+    /**
      * 更新商品分类
      * @param request
      * @return
@@ -54,9 +61,9 @@ public interface CategoryInterface {
 
     /**
      *  删除商品分类
-     * @param ids
+     * @param id
      * @return
      */
-    Result deleteCategory(Long... ids);
+    Result deleteCategory(Long id);
 
 }

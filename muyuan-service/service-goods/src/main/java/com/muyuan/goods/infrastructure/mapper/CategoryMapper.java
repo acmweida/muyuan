@@ -22,6 +22,9 @@ public interface CategoryMapper extends GoodsBaseMapper<CategoryDO> {
     String STATUS = "status";
     String LEAF = "leaf";
 
+    Object[] STATUS_OK = new String[]{"0","1"};
+
+
     List<CategoryDO> selectByBrandId(Long... brandIds);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")

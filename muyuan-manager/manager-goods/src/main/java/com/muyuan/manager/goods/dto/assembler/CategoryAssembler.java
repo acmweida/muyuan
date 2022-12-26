@@ -1,9 +1,7 @@
 package com.muyuan.manager.goods.dto.assembler;
 
 import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.goods.model.Category;
-import com.muyuan.manager.goods.dto.vo.CategoryVO;
-import org.springframework.beans.BeanUtils;
+import com.muyuan.goods.api.dto.CategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +15,14 @@ import java.util.List;
  */
 public class CategoryAssembler {
 
-    public static List<SelectTree> buildSelectTree(List<Category> goodsCategories) {
+    public static List<SelectTree> buildSelectTree(List<CategoryDTO> goodsCategories) {
         List<SelectTree> selectTrees = new ArrayList<>();
-        for (Category category : goodsCategories) {
+        for (CategoryDTO category : goodsCategories) {
             selectTrees.add(new SelectTree(
                     category.getId()
                     , String.valueOf(category.getCode())
                     , category.getName()
-                    , category.leaf()
+                    , category.getLeaf()
                     , category.getLevel() == 3
                     , category.getParentId()
             ));
@@ -32,27 +30,16 @@ public class CategoryAssembler {
         return selectTrees;
     }
 
-    public static List<SelectTree> buildSelect(List<Category> goodsCategories) {
+    public static List<SelectTree> buildSelect(List<CategoryDTO> goodsCategories) {
         List<SelectTree> selectTrees = new ArrayList<>();
-        for (Category category : goodsCategories) {
+        for (CategoryDTO category : goodsCategories) {
             selectTrees.add(new SelectTree(
                     String.valueOf(category.getCode())
                     , category.getName()
-                    , category.leaf()
+                    , category.getLeaf()
             ));
         }
         return selectTrees;
     }
 
-
-    public static List<CategoryVO> buildListTree(List<Category> goodsCategories) {
-        List<CategoryVO> listTrees = new ArrayList<>();
-        for (Category category : goodsCategories) {
-            CategoryVO temp = new CategoryVO();
-            BeanUtils.copyProperties(category,temp);
-            temp.setHasChildren(category.hasChildren());
-            listTrees.add(temp);
-        }
-        return listTrees;
-    }
 }

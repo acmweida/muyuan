@@ -31,7 +31,6 @@ public class CategoryRepoImpl implements CategoryRepo {
                 .eq(NAME,command.getName())
                 .eq(LEVEL,command.getLevel())
                 .eq(CODE,command.getCode())
-                .eq(ANCESTORS,command.getAncestors())
                 .eq(STATUS,command.getStatus())
                 .eq(LEAF,command.getLeaf())
                 .in(STATUS, STATUS_OK)
@@ -65,9 +64,19 @@ public class CategoryRepoImpl implements CategoryRepo {
     }
 
     @Override
+    public Category selectCategoryByCode(Long code) {
+        CategoryDO categoryDO = categoryMapper.selectOne(new SqlBuilder(CategoryDO.class)
+                .eq(CODE, code)
+                .build());
+        return converter.to(categoryDO);
+    }
+
+    @Override
     public Category selectCategory(Category.Identify identify) {
         CategoryDO categoryDO = categoryMapper.selectOne(new SqlBuilder(CategoryDO.class).select(ID)
                 .eq(ID, identify.getId())
+                .eq(PARENT_ID,identify.getParentId())
+                .eq(NAME,identify.getName())
                 .build());
 
         return converter.to(categoryDO);
@@ -77,7 +86,25 @@ public class CategoryRepoImpl implements CategoryRepo {
     public boolean addCategory(Category category) {
         CategoryDO to = converter.to(category);
         Integer count = categoryMapper.insertAuto(to);
+        category.setId(to.getId());
         return count > 0;
+    }
+
+    @Override
+    public int count(CategoryQueryCommand command) {
+        SqlBuilder sqlBuilder = new SqlBuilder(CategoryDO.class)
+                .eq(PARENT_ID,command.getParentId())
+                .eq(NAME,command.getName())
+                .eq(LEVEL,command.getLevel())
+                .eq(CODE,command.getCode())
+                .eq(ANCESTORS,command.getAncestors())
+                .eq(STATUS,command.getStatus())
+                .eq(LEAF,command.getLeaf())
+                .in(STATUS, STATUS_OK)
+                ;
+
+
+        return categoryMapper.count(sqlBuilder.build());
     }
 
     @Override
@@ -91,6 +118,12 @@ public class CategoryRepoImpl implements CategoryRepo {
         }
 
         return converter.to(categoryDO);
+    }
+
+    @Override
+    public Category updateCategoryAncestors(Category category) {
+        categoryMapper.updateColumnBy(converter.to(category),new String[]{ANCESTORS},ID);
+        return category;
     }
 
     @Override

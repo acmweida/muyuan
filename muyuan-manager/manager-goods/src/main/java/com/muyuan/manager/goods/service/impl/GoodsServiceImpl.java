@@ -3,9 +3,9 @@ package com.muyuan.manager.goods.service.impl;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.exception.ResourceNotFoundException;
 import com.muyuan.goods.api.dto.BrandDTO;
+import com.muyuan.goods.api.dto.CategoryDTO;
 import com.muyuan.manager.goods.dto.GoodsDTO;
 import com.muyuan.manager.goods.dto.SkuDTO;
-import com.muyuan.manager.goods.model.Category;
 import com.muyuan.manager.goods.model.Goods;
 import com.muyuan.manager.goods.model.Sku;
 import com.muyuan.manager.goods.repo.GoodsRepo;
@@ -69,9 +69,7 @@ public class GoodsServiceImpl implements GoodsService {
         }).getName());
 
         // 类目信息
-        Optional<Category> goodsCategory = categoryService.get(Category.builder()
-                .code(goods.getCategoryCode())
-                .build());
+        Optional<CategoryDTO> goodsCategory = categoryService.detail(goods.getCategoryCode());
 
         goods.setCategoryName(goodsCategory.<ResourceNotFoundException>orElseThrow(() -> {
             throw new ResourceNotFoundException("商品类型未找到");

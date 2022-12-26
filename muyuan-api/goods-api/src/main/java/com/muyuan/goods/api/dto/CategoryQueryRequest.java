@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author ${author}
@@ -58,7 +57,7 @@ public class CategoryQueryRequest extends PageDTO implements Serializable {
     /**
      * 0-上架 1-下架 2-删除
      */
-    private Long status;
+    private Integer status;
 
     /**
      * 是否叶子节点

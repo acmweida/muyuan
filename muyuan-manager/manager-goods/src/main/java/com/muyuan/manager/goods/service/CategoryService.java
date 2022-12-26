@@ -1,10 +1,11 @@
 package com.muyuan.manager.goods.service;
 
-import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.goods.dto.CategoryDTO;
-import com.muyuan.manager.goods.model.Category;
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
+import com.muyuan.goods.api.dto.CategoryDTO;
+import com.muyuan.goods.api.dto.CategoryRequest;
+import com.muyuan.manager.goods.dto.CategoryQueryParams;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,39 +20,26 @@ public interface CategoryService {
     /**
      * 分类列表查询
      *
-     * @param categoryDTO
+     * @param params
      * @return
      */
-    List<Category> list(CategoryDTO categoryDTO);
+    Page<CategoryDTO> list(CategoryQueryParams params);
 
-    /**
-     * 选择
-     * @param
-     * @return
-     */
-    List<SelectTree> treeSelect(Long parentId, Integer leaf);
 
     /**
      * 新增分类
      *
-     * @param categoryDTO
+     * @param request
      */
-    void add(CategoryDTO categoryDTO);
+    Result add(CategoryRequest request);
 
     /**
      * 更新分类
      *
-     * @param categoryDTO
+     * @param request
      */
-    void update(CategoryDTO categoryDTO);
+    Result update(CategoryRequest request);
 
-    /**
-     * 唯一性查询
-     *
-     * @param category
-     * @return
-     */
-    String checkUnique(Category category);
 
     /**
      * 获取详情
@@ -59,21 +47,21 @@ public interface CategoryService {
      * @param id
      * @return
      */
-    Optional<Category> get(Category id);
+    Optional<CategoryDTO> get(Long id);
 
     /**
      * 获取详情
      *
-     * @param id
+     * @param code
      * @return
      */
-    Optional<Category> detail(Category id);
+    Optional<CategoryDTO> detail(Long code);
 
     /**
      * 删除ID
      *
      * @param ids
      */
-    void delete(Long[] ids);
+    Result delete(Long ids);
 
 }
