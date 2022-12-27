@@ -1,28 +1,23 @@
 package com.muyuan.goods.face.dto;
 
-import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author ${author}
- * @ClassName AttributeQueryRequest
+ * @ClassName AttributeRequest
  * Description
  * @date 2022-12-26T17:20:39.753+08:00
  * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AttributeQueryCommand extends PageDTO {
+public class AttributeCommand extends OptCommand {
 
     /**
      * $column.columnComment
      */
     private Long id;
+
 
     /**
      * $column.columnComment
@@ -37,7 +32,7 @@ public class AttributeQueryCommand extends PageDTO {
     /**
      * $column.columnComment
      */
-    private Long type;
+    private Integer type;
 
     /**
      * $column.columnComment
@@ -47,16 +42,15 @@ public class AttributeQueryCommand extends PageDTO {
     /**
      * $column.columnComment
      */
-    private Long inputType;
+    private Integer inputType;
 
     /**
      * $column.columnComment
      */
-    private Long htmlType;
+    private Integer htmlType;
 
-    /**
-     * $column.columnComment
-     */
-    private Long status;
+    private Long valueReference;
+
+    private Integer valueType;
 
 }

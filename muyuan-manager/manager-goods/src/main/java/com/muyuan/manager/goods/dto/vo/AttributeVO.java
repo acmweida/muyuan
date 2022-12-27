@@ -54,7 +54,9 @@ public class AttributeVO {
 
     private Integer inputType;
 
-    private Integer status;
+    private Long valueReference;
+
+    private Integer valueType;
 
 
 

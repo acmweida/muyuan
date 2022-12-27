@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryCommand extends OptCommand {

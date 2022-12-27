@@ -1,7 +1,11 @@
 package com.muyuan.goods.face.dto.mapper;
 
 import com.muyuan.goods.api.dto.AttributeDTO;
+import com.muyuan.goods.api.dto.AttributeQueryRequest;
+import com.muyuan.goods.api.dto.AttributeRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
+import com.muyuan.goods.face.dto.AttributeCommand;
+import com.muyuan.goods.face.dto.AttributeQueryCommand;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -16,9 +20,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AttributeMapper {
 
+    AttributeQueryCommand toCommand(AttributeQueryRequest request);
 
-    List<AttributeDTO> toDTO(List<Attribute> category);
+    AttributeCommand toCommand(AttributeRequest request);
 
-    AttributeDTO toDTO(Attribute category);
+    List<AttributeDTO> toDTO(List<Attribute> attribute);
+
+    AttributeDTO toDTO(Attribute attribute);
 
 }

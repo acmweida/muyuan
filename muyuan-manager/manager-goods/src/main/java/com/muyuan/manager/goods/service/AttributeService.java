@@ -1,7 +1,8 @@
 package com.muyuan.manager.goods.service;
 
-import com.muyuan.manager.goods.dto.AttributeDTO;
-import com.muyuan.manager.goods.model.Attribute;
+import com.muyuan.common.bean.Result;
+import com.muyuan.goods.api.dto.AttributeRequest;
+import com.muyuan.manager.goods.dto.AttributeParams;
 
 /**
  * 商品分类属性Service接口
@@ -11,23 +12,21 @@ import com.muyuan.manager.goods.model.Attribute;
  */
 public interface AttributeService
 {
-    String CATEGORY_ATTRIBUTE_KEY_PREFIX = "category:attribute:";
-
     /**
      * 新增商品分类属性
      * 
-     * @param categoryAttribute 商品分类属性
+     * @param params 商品分类属性
      * @return 结果
      */
-    void add(AttributeDTO categoryAttribute);
+    Result add(AttributeParams params);
 
     /**
      * 修改商品分类属性
      * 
-     * @param categoryAttribute 商品分类属性
+     * @param attributeRequest 商品分类属性
      * @return 结果
      */
-    void update(AttributeDTO categoryAttribute);
+    Result update(AttributeRequest attributeRequest);
 
     /**
      * 批量删除商品分类属性
@@ -35,14 +34,6 @@ public interface AttributeService
      * @param ids 需要删除的商品分类属性主键集合
      * @return 结果
      */
-    void delete(String[] ids);
-
-    /**
-     * 唯一性查询
-     * @param attribute
-     * @return
-     */
-    String checkUnique(Attribute attribute);
-
+    Result delete(Long[] ids);
 
 }

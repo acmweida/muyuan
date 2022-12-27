@@ -1,7 +1,5 @@
 package com.muyuan.manager.goods.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.goods.model.Attribute;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AttributeDTO extends BaseDTO<AttributeDTO, Attribute> {
+public class AttributeQueryParams {
 
     /**  */
     private Long id;
@@ -43,5 +41,9 @@ public class AttributeDTO extends BaseDTO<AttributeDTO, Attribute> {
 
     @NotNull(message = "取值类型不能为空")
     private Integer inputType;
+
+    private Long valueReference;
+
+    private Integer valueType;
 
 }

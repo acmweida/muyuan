@@ -1,15 +1,16 @@
 package com.muyuan.manager.goods.service.impl;
 
-import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.core.constant.RedisConst;
-import com.muyuan.common.redis.manage.RedisCacheService;
-import com.muyuan.manager.goods.dto.AttributeDTO;
-import com.muyuan.manager.goods.model.Attribute;
-import com.muyuan.manager.goods.repo.AttributeRepo;
+import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.constant.ServiceTypeConst;
+import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.goods.api.AttributeInterface;
+import com.muyuan.goods.api.dto.AttributeRequest;
+import com.muyuan.manager.goods.dto.AttributeParams;
 import com.muyuan.manager.goods.service.AttributeService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 
 /**
@@ -19,50 +20,44 @@ import org.springframework.stereotype.Service;
  * @date 2022-06-23T14:17:01.512+08:00
  */
 @Service
-@AllArgsConstructor
-@Slf4j
 public class AttributeServiceImpl implements AttributeService
 {
 
-    private AttributeRepo attributeRepo;
-
-    private RedisCacheService redisCacheService;
-
-    @Override
-    public String checkUnique(Attribute attribute) {
-        Long id = null == attribute.getId() ? 0 : attribute.getId();
-        attribute = attributeRepo.selectOne(attribute);
-        if (null != attribute && !attribute.getId().equals(id)) {
-            return GlobalConst.NOT_UNIQUE;
-        }
-        return GlobalConst.UNIQUE;
-    }
+    @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
+    private AttributeInterface attributeInterface;
 
     /**
      * 新增商品分类属性
      * 
-     * @param categoryAttribute 商品分类属性
+     * @param params 商品分类属性
      * @return 结果
      */
     @Override
-    public void add(AttributeDTO categoryAttribute)
+    public Result add(AttributeParams params)
     {
-        Attribute attribute = categoryAttribute.convert();
-        attribute.init();
-        attribute.save(attributeRepo);
+        AttributeRequest request = AttributeRequest.builder()
+                .categoryCode(params.getCategoryCode())
+                .code(params.getCode())
+                .name(params.getName())
+                .inputType(params.getInputType())
+                .type(params.getType())
+                .opt(SecurityUtils.getOpt())
+                .build();
+
+        return attributeInterface.add(request);
     }
 
     /**
      * 修改商品分类属性
      * 
-     * @param categoryAttribute 商品分类属性
+     * @param request 商品分类属性
      * @return 结果
      */
     @Override
-    public void update(AttributeDTO categoryAttribute)
+    public Result update(AttributeRequest request)
     {
-        categoryAttribute.convert().save(attributeRepo);
-        redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+categoryAttribute.getCategoryCode());
+        request.setOpt(SecurityUtils.getOpt());
+        return attributeInterface.updateAttribute(request);
     }
 
     /**
@@ -72,10 +67,12 @@ public class AttributeServiceImpl implements AttributeService
      * @return 结果
      */
     @Override
-    public void delete(String[] ids)
+    public Result delete(Long[] ids)
     {
-        attributeRepo.delete(ids);
-        redisCacheService.del(CATEGORY_ATTRIBUTE_KEY_PREFIX+ RedisConst.ALL_PLACE_HOLDER);
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+        return attributeInterface.deleteAttribute(ids);
     }
 
 }

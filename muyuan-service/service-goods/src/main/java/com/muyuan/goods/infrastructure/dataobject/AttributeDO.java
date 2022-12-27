@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
-import org.joda.time.DateTime;
 
 import java.util.Date;
 
@@ -24,8 +22,6 @@ public class AttributeDO {
 
     /**  */
     private Long id;
-
-    private Long parentId;
 
     /**
      * 页面展示类型
@@ -67,34 +63,8 @@ public class AttributeDO {
      */
     private Integer inputType;
 
-    private Integer status;
+    private Long valueReference;
 
-    public Boolean isType(int type) {
-        return ObjectUtils.isNotEmpty(this.type) && (this.type & type) > 0;
-    }
-
-    public void init() {
-        createTime = DateTime.now().toDate();
-//        creator = SecurityUtils.getUsername();
-//        createBy = SecurityUtils.getUserId();
-    }
-
-    private void update() {
-        updateTime = DateTime.now().toDate();
-//        updateBy = SecurityUtils.getUserId();
-//        updater = SecurityUtils.getUsername();
-    }
-
-//    public void save(AttributeRepo attributeRepo) {
-//        Assert.notNull(attributeRepo, "repo is null");
-//        FunctionUtil.of(id)
-//                .ifThen(
-//                        () -> attributeRepo.insert(this),
-//                        id -> {
-//                            update();
-//                            attributeRepo.update(this);
-//                        }
-//                );
-//    }
+    private Integer valueType;
 
 }

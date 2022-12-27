@@ -179,7 +179,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .categoryCode(category.getCode())
                 .build()).getRows();
 
-        attributeRepo.delete(select.stream().map(Attribute::getId).toArray(Long[]::new));
+        attributeRepo.deleteBy(select.stream().map(Attribute::getId).toArray(Long[]::new));
 
         return !olds.isEmpty();
     }
