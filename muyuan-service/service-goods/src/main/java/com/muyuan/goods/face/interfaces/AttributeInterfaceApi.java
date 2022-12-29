@@ -6,10 +6,12 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.goods.api.AttributeInterface;
 import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.goods.api.dto.AttributeQueryRequest;
 import com.muyuan.goods.api.dto.AttributeRequest;
+import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.domains.service.AttributeService;
 import com.muyuan.goods.face.dto.mapper.AttributeMapper;
@@ -72,6 +74,14 @@ public class AttributeInterfaceApi implements AttributeInterface {
         }
 
         boolean flag = attributeDomainService.updateAttribute(MAPPER.toCommand(request));
+        return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
+    }
+
+    @Override
+    public Result updateValues(AttributeValueUpdateRequest request) {
+        ValidatorHolder.validate(request);
+
+        boolean flag = attributeDomainService.updateValues(request);
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

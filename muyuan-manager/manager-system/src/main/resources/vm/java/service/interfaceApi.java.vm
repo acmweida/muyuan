@@ -70,7 +70,7 @@ public class ${ClassName}InterfaceApi implements ${ClassName}Interface {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = ${className}DomainService.updateMenu(MAPPER.toCommand(request));
+        boolean flag = ${className}DomainService.update${ClassName}(MAPPER.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

@@ -5,6 +5,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.goods.api.dto.AttributeQueryRequest;
 import com.muyuan.goods.api.dto.AttributeRequest;
+import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 
 /**
  * 类目属性Service接口
@@ -41,6 +42,13 @@ public interface AttributeInterface {
      * @return
      */
     Result updateAttribute(AttributeRequest request);
+
+    /**
+     * 更新类目属性
+     * @param request
+     * @return
+     */
+    Result updateValues(AttributeValueUpdateRequest request);
 
     /**
      *  删除类目属性

@@ -32,6 +32,20 @@ public class AttributeValue {
         }
     }
 
+    public AttributeValue() {
+    }
+
+    public AttributeValue(Long id, Long attributeId, String value) {
+        this.id = id;
+        this.attributeId = attributeId;
+        this.value = value;
+    }
+
+    public AttributeValue(Long attributeId, String value) {
+        this.attributeId = attributeId;
+        this.value = value;
+    }
+
     /** $column.columnComment */
     private Long id;
 

@@ -5,12 +5,16 @@ import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.goods.api.AttributeInterface;
+import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.goods.api.dto.AttributeRequest;
+import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.manager.goods.dto.AttributeParams;
 import com.muyuan.manager.goods.service.AttributeService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.Optional;
 
 
 /**
@@ -25,6 +29,15 @@ public class AttributeServiceImpl implements AttributeService
 
     @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
     private AttributeInterface attributeInterface;
+
+    @Override
+    public Optional<AttributeDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<AttributeDTO> permissioHander = attributeInterface.getAttribute(id_);
+                    return ResultUtil.getOr(permissioHander, null);
+                });
+    }
 
     /**
      * 新增商品分类属性
@@ -41,6 +54,9 @@ public class AttributeServiceImpl implements AttributeService
                 .name(params.getName())
                 .inputType(params.getInputType())
                 .type(params.getType())
+                .valueType(params.getValueType())
+                .valueReference(params.getValueReference())
+                .values(params.getValues())
                 .opt(SecurityUtils.getOpt())
                 .build();
 
@@ -58,6 +74,15 @@ public class AttributeServiceImpl implements AttributeService
     {
         request.setOpt(SecurityUtils.getOpt());
         return attributeInterface.updateAttribute(request);
+    }
+
+    @Override
+    public Result updateValues(AttributeParams params) {
+        return attributeInterface.updateValues(AttributeValueUpdateRequest.builder()
+                .id(params.getId())
+                .values(params.getValues())
+                .opt(SecurityUtils.getOpt())
+                .build());
     }
 
     /**

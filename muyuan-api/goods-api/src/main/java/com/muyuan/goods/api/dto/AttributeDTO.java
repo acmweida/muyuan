@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -60,4 +61,5 @@ public class AttributeDTO implements Serializable {
 
     private Integer valueType;
 
+    private List<AttributeValueDTO> attributeValues;
 }

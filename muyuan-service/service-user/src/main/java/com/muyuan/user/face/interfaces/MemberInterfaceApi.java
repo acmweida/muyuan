@@ -10,8 +10,8 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.user.api.MemberInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -22,11 +22,9 @@ import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
-import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 /**
@@ -40,7 +38,7 @@ import java.util.Set;
 @DubboService(group = ServiceTypeConst.USER, version = "1.0"
         , interfaceClass = MemberInterface.class,
         methods = {
-            @Method(name = "add",retries = 0)
+                @Method(name = "add", retries = 0)
         }
 )
 public class MemberInterfaceApi implements MemberInterface {
@@ -53,7 +51,7 @@ public class MemberInterfaceApi implements MemberInterface {
     public Result<Page<OperatorDTO>> list(UserQueryRequest request) {
         Page<Operator> list = operatorService.list(USER_MAPPER.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+        return ResultUtil.success(Page.copy(list, USER_MAPPER.toDto(list.getRows())));
     }
 
     @Override
@@ -67,10 +65,7 @@ public class MemberInterfaceApi implements MemberInterface {
 
     @Override
     public Result add(OperatorRequest request) {
-        Set<ConstraintViolation<OperatorRequest>> constraintViolations = ValidatorHolder.get().validate(request, OperatorRequest.Add.class);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request, OperatorRequest.Add.class);
 
         if (GlobalConst.NOT_UNIQUE.equals(operatorService.checkUnique(new Operator.Identify(new Username(request.getUsername()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
@@ -81,25 +76,19 @@ public class MemberInterfaceApi implements MemberInterface {
 
     @Override
     public Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request);
         Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+        return ResultUtil.success(Page.copy(list, USER_MAPPER.toDto(list.getRows())));
     }
 
     @Override
     public Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+         ValidatorHolder.validate(request);
 
         Page<Operator> list = operatorService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
+        return ResultUtil.success(Page.copy(list, USER_MAPPER.toDto(list.getRows())));
     }
 
     @Override
@@ -109,7 +98,7 @@ public class MemberInterfaceApi implements MemberInterface {
         for (Long roleId : roleIds) {
             roleIDs.add(new RoleID(roleId));
         }
-        if (operatorService.authRole(userID,roleIDs)) {
+        if (operatorService.authRole(userID, roleIDs)) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

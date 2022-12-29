@@ -2,10 +2,12 @@ package com.muyuan.manager.goods.facade.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Result;
+import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
+import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.manager.goods.dto.AttributeParams;
 import com.muyuan.manager.goods.dto.converter.AttributeConverter;
 import com.muyuan.manager.goods.service.AttributeService;
@@ -13,8 +15,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * 商品分类属性Controller
@@ -30,6 +35,22 @@ public class AttributeController {
     private AttributeService attributeService;
 
     private AttributeConverter converter;
+
+
+    /**
+     * 获取品牌详细信息
+     */
+    @RequirePermissions("category:attribute:query")
+    @GetMapping(value = "/{id}")
+    public Result<AttributeDTO> get(@PathVariable("id") Long id) {
+        if (ObjectUtils.isEmpty(id)) {
+            return ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST);
+        }
+
+        Optional<AttributeDTO> hander = attributeService.get(id);
+        return hander.map(ResultUtil::success)
+                .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
+    }
 
     /**
      * 新增商品分类属性
@@ -52,6 +73,18 @@ public class AttributeController {
     @ApiOperation(value = "商品分类属性更新")
     public Result update(@RequestBody @Validated(AttributeParams.Update.class) AttributeParams params) {
         return ResultUtil.success(attributeService.update(converter.to(params)));
+    }
+
+    /**
+     * 修改商品分类属性
+     */
+    @RequirePermissions("category:attribute:edit")
+    @Log(title = "商品分类属性", businessType = BusinessType.UPDATE)
+    @PutMapping("values")
+    @ApiOperation(value = "商品分类属性可选值更新")
+    @ApiOperationSupport(includeParameters = {"id","values"})
+    public Result updateValues(@RequestBody @Validated(AttributeParams.ValuesUpdate.class) AttributeParams params) {
+        return ResultUtil.success(attributeService.updateValues(params));
     }
 
     /**

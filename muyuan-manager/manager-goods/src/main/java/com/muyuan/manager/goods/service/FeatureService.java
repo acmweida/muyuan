@@ -2,11 +2,14 @@ package com.muyuan.manager.goods.service;
 
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.goods.dto.FeatureDTO;
-import com.muyuan.manager.goods.model.Feature;
+import com.muyuan.goods.api.dto.FeatureDTO;
+import com.muyuan.goods.api.dto.FeatureRequest;
+import com.muyuan.manager.goods.dto.FeatureQueryParams;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 通用特征量Service接口
@@ -19,52 +22,40 @@ public interface FeatureService
     String FEATURE_KEY_PREFIX = "FEATURE:";
 
     /**
-     * 查询通用特征量
-     *
-     * @param id 通用特征量主键
-     * @return 通用特征量
+     * 通用特征量查询
+     * @param id
+     * @return
      */
-    Feature get(Long id);
+    Optional<FeatureDTO> get(Long id);
 
     /**
      * 查询通用特征量列表
      *
-     * @param featureDTO 通用特征量
+     * @param params 通用特征量
      * @return 通用特征量集合
      */
-    List<Feature> list(FeatureDTO featureDTO);
+    Page<FeatureDTO> list(FeatureQueryParams params);
+
 
     /**
-     * 查询通用特征量列表
-     *
-     * @param featureDTO 通用特征量
-     * @return 通用特征量集合
+     * 通用特征量添加
+     * @param request
      */
-    Page<Feature> page(FeatureDTO featureDTO);
+    Result add(FeatureRequest request);
 
     /**
-     * 新增通用特征量
-     * 
-     * @param feature 通用特征量
-     * @return 结果
+     * 通用特征量变更
+     * @param request
+     * @return
      */
-    void add(Feature feature);
+    Result update(FeatureRequest request);
 
     /**
-     * 修改通用特征量
-     * 
-     * @param feature 通用特征量
-     * @return 结果
+     * 删除
+     * @param ids
+     * @return
      */
-    void update(Feature feature);
+    Result deleteById(Long... ids);
 
-    /**
-     * 批量删除通用特征量
-     * 
-     * @param ids 需要删除的通用特征量主键集合
-     * @return 结果
-     */
-    void delete(Long[] ids);
-
-    List<SelectTree> options(FeatureDTO featureDTO);
+    List<SelectTree> options(FeatureQueryParams params);
 }

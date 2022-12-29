@@ -68,6 +68,7 @@ public class AttributeRepoImpl implements AttributeRepo {
     public boolean addAttribute(Attribute attribute) {
         AttributeDO to = converter.to(attribute);
         Integer count = attributeMapper.insertAuto(to);
+        attribute.setId(to.getId());
         return count > 0;
     }
 

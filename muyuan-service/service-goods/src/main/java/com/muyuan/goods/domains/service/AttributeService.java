@@ -1,6 +1,7 @@
 package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
+import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.face.dto.AttributeCommand;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
@@ -50,6 +51,13 @@ public interface AttributeService {
      * @return
      */
     boolean updateAttribute(AttributeCommand command);
+
+    /**
+     * 更新类目属性信息
+     * @param request
+     * @return
+     */
+    boolean updateValues(AttributeValueUpdateRequest request);
 
     /**
      * 删除类目属性信息

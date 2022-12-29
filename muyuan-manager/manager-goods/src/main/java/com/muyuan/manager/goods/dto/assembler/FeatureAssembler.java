@@ -1,7 +1,7 @@
 package com.muyuan.manager.goods.dto.assembler;
 
 import com.muyuan.common.bean.SelectTree;
-import com.muyuan.manager.goods.model.Feature;
+import com.muyuan.goods.api.dto.FeatureDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class FeatureAssembler {
 
-    public static List<SelectTree> buildSelect(List<Feature> features) {
+    public static List<SelectTree> buildSelect(List<FeatureDTO> features) {
         List<SelectTree> selectTrees = new ArrayList<>();
-        for (Feature feature : features) {
+        for (FeatureDTO feature : features) {
             selectTrees.add(new SelectTree(
                     feature.getId()
                     , feature.getName()

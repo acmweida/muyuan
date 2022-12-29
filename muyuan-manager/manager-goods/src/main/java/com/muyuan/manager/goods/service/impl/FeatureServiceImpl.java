@@ -1,21 +1,28 @@
 package com.muyuan.manager.goods.service.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.bean.Paging;
+import com.muyuan.common.bean.Result;
 import com.muyuan.common.bean.SelectTree;
+import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.CacheServiceUtil;
+import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.redis.manage.RedisCacheService;
+import com.muyuan.common.web.util.SecurityUtils;
+import com.muyuan.goods.api.FeatureInterface;
+import com.muyuan.goods.api.dto.FeatureDTO;
+import com.muyuan.goods.api.dto.FeatureQueryRequest;
+import com.muyuan.goods.api.dto.FeatureRequest;
+import com.muyuan.manager.goods.dto.FeatureQueryParams;
 import com.muyuan.manager.goods.dto.assembler.FeatureAssembler;
-import com.muyuan.manager.goods.dto.FeatureDTO;
-import com.muyuan.manager.goods.model.Feature;
-import com.muyuan.manager.goods.repo.FeatureRepo;
 import com.muyuan.manager.goods.service.FeatureService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 通用特征量Service业务层处理
@@ -24,14 +31,14 @@ import java.util.List;
  * @date 2022-08-16T13:58:01.607+08:00
  */
 @Service
-@AllArgsConstructor
 @Slf4j
 public class FeatureServiceImpl implements FeatureService
 {
-    private FeatureRepo repo;
 
     private RedisCacheService redisCacheService;
 
+    @DubboReference(group = ServiceTypeConst.GOODS, version = "1.0")
+    private FeatureInterface featureInterface;
 
     /**
      * 查询通用特征量
@@ -40,65 +47,60 @@ public class FeatureServiceImpl implements FeatureService
      * @return 通用特征量
      */
     @Override
-    public Feature get(Long id)
-    {
-        return repo.selectOne(FeatureDTO.builder()
-                .id(id)
-                .build());
+    public Optional<FeatureDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<FeatureDTO> featureHander = featureInterface.getFeature(id_);
+                    return ResultUtil.getOr(featureHander, null);
+                });
     }
 
     /**
      * 查询通用特征量列表
      *
-     * @param featureDTO 通用特征量
+     * @param params 通用特征量
      * @return 通用特征量
      */
     @Override
-    public Page<Feature> page(FeatureDTO featureDTO)
-    {
-        Page page = Page.newInstance((Paging) featureDTO);
-        List<Feature>  features = repo.select(featureDTO,page);
-        page.setRows(features);
+    public Page<FeatureDTO> list(FeatureQueryParams params) {
+        FeatureQueryRequest request = FeatureQueryRequest.builder()
+                .name(params.getName())
+                .parentId(params.getParentId())
+                .leaf(params.getLeaf())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-        return page;
+        Result<Page<FeatureDTO>> res = featureInterface.list(request);
+
+        return res.getData();
     }
 
-
-    /**
-     * 查询通用特征量列表
-     * 
-     * @param featureDTO 通用特征量
-     * @return 通用特征量
-     */
-    @Override
-    public List<Feature> list(FeatureDTO featureDTO)
-    {
-        return repo.select(featureDTO);
-    }
 
     /**
      * 新增通用特征量
      * 
-     * @param feature 通用特征量
+     * @param request 通用特征量
      * @return 结果
      */
     @Override
-    public void add(Feature feature)
-    {
-        feature.setCreateTime(DateTime.now().toDate());
-        repo.insert(feature);
+    public Result add(FeatureRequest request) {
+        request.setOpt(SecurityUtils.getOpt());
+        return featureInterface.add(request);
     }
 
     /**
      * 修改通用特征量
      * 
-     * @param feature 通用特征量
+     * @param request 通用特征量
      * @return 结果
      */
     @Override
-    public void update(Feature feature)
-    {
-        repo.update(feature);
+    public Result update(FeatureRequest request) {
+        request.setOpt(SecurityUtils.getOpt());
+        return featureInterface.updateFeature(request);
     }
 
     /**
@@ -108,18 +110,21 @@ public class FeatureServiceImpl implements FeatureService
      * @return 结果
      */
     @Override
-    public void delete(Long[] ids)
-    {
-        repo.delete(ids);
+    public Result deleteById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+
+        return featureInterface.deleteFeature(ids);
     }
 
     @Override
-    public List<SelectTree> options(FeatureDTO featureDTO) {
-        String key = FEATURE_KEY_PREFIX + featureDTO.getName();
+    public List<SelectTree> options(FeatureQueryParams params) {
+        String key = FEATURE_KEY_PREFIX + params.getName();
         return CacheServiceUtil.getAndUpdateList(redisCacheService,key,
                 () -> {
-                    List<Feature> features = repo.select(featureDTO);
-                    return FeatureAssembler.buildSelect(features);
+                    Page<FeatureDTO> features =list(params) ;
+                    return FeatureAssembler.buildSelect(features.getRows());
                 },
                 SelectTree.class);
     }

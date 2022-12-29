@@ -22,11 +22,9 @@ import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
-import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 /**
@@ -67,10 +65,7 @@ public class MerchantInterfaceApi implements MerchantInterface {
 
     @Override
     public Result add(OperatorRequest request) {
-        Set<ConstraintViolation<OperatorRequest>> constraintViolations = ValidatorHolder.get().validate(request, OperatorRequest.Add.class);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request, OperatorRequest.Add.class);
 
         if (GlobalConst.NOT_UNIQUE.equals(merchantService.checkUnique(new Merchant.Identify(new Username(request.getUsername()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
@@ -81,10 +76,8 @@ public class MerchantInterfaceApi implements MerchantInterface {
 
     @Override
     public Result<Page<MerchantDTO>> selectAllocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+      ValidatorHolder.validate(request);
+
         Page<Merchant> list = merchantService.selectAllocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toMerchantDto(list.getRows())));
@@ -92,10 +85,7 @@ public class MerchantInterfaceApi implements MerchantInterface {
 
     @Override
     public Result<Page<MerchantDTO>> selectUnallocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request);
 
         Page<Merchant> list = merchantService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 

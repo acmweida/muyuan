@@ -6,8 +6,9 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessType;
 import com.muyuan.common.web.annotations.RequirePermissions;
-import com.muyuan.manager.goods.dto.FeatureDTO;
-import com.muyuan.manager.goods.model.Feature;
+import com.muyuan.manager.goods.dto.FeatureParams;
+import com.muyuan.manager.goods.dto.FeatureQueryParams;
+import com.muyuan.manager.goods.dto.converter.FeatureConverter;
 import com.muyuan.manager.goods.service.FeatureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,21 +34,18 @@ public class FeatureController {
 
     private FeatureService featureService;
 
+    private FeatureConverter converter;
+
     /**
      * 查询通用特征量列表
+     *
      * @return
      */
     @ApiOperation(value = "特征量列表查询")
-    @RequirePermissions("goods:feature:list")
+    @RequirePermissions("goods:feature:query")
     @GetMapping("/list")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "主键", dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "特征量名称", dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "code", value = "状态", dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "status", value = "特征量编码", dataTypeClass = String[].class, paramType = "query")
-    })
-    public Result list(@ModelAttribute FeatureDTO featureDTO) {
-        return ResultUtil.success(featureService.page(featureDTO));
+    public Result list(@ModelAttribute FeatureQueryParams params) {
+        return ResultUtil.success(featureService.list(params));
     }
 
 
@@ -66,9 +64,8 @@ public class FeatureController {
     @RequirePermissions("goods:feature:add")
     @Log(title = "通用特征量", businessType = BusinessType.INSERT)
     @PostMapping
-    public Result add(@RequestBody Feature feature) {
-        featureService.add(feature);
-        return ResultUtil.success();
+    public Result add(@RequestBody @Validated(FeatureParams.Add.class) FeatureParams params) {
+        return featureService.add(converter.to(params));
     }
 
     /**
@@ -77,8 +74,8 @@ public class FeatureController {
     @RequirePermissions("goods:feature:edit")
     @Log(title = "通用特征量", businessType = BusinessType.UPDATE)
     @PutMapping
-    public Result edit(@RequestBody Feature feature) {
-        featureService.update(feature);
+    public Result edit(@RequestBody @Validated(FeatureParams.Update.class) FeatureParams params) {
+        featureService.update(converter.to(params));
         return ResultUtil.success();
     }
 
@@ -89,22 +86,21 @@ public class FeatureController {
     @Log(title = "通用特征量", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public Result remove(@PathVariable Long[] ids) {
-        featureService.delete(ids);
-        return ResultUtil.success();
+        return featureService.deleteById(ids);
     }
 
     /**
      * 查询品牌
      */
-    @RequirePermissions("goods:feature:option")
+    @RequirePermissions("goods:feature:query")
     @GetMapping("/options")
     @ApiOperation("特征量选项")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "特征量名称", dataTypeClass = String.class, paramType = "query",required = true),
+            @ApiImplicitParam(name = "name", value = "特征量名称", dataTypeClass = String.class, paramType = "query", required = true),
     })
     public Result options(@RequestParam @Validated @NotBlank(message = "特征量名称必填") String name) {
         return ResultUtil.success(featureService.options(
-                FeatureDTO.builder().name(name).build()
+                FeatureQueryParams.builder().name(name).build()
         ));
     }
 }

@@ -55,15 +55,23 @@ public class IdGeneratorAspect {
         }
         idField.setAccessible(true);
 
-        if (entity instanceof Collection || entity.getClass().isArray()) {
-            Object[] entitys = (Object[]) entity;
-            for (Object item : entitys) {
+        if (entity instanceof Collection) {
+            for (Object item : (Collection) entity) {
                 Object value = idField.get(item);
                 if (value == null || value.equals(0)) {
                     setterMethod.invoke(item, IdUtil.createId(target));
                 }
             }
-        } else {
+        } else if ( entity.getClass().isArray()) {
+            assert entity instanceof Object[];
+            for (Object item : (Object[]) entity) {
+                Object value = idField.get(item);
+                if (value == null || value.equals(0)) {
+                    setterMethod.invoke(item, IdUtil.createId(target));
+                }
+            }
+        }
+        else {
             Object value = idField.get(entity);
             if (value == null || value.equals(0)) {
                 setterMethod.invoke(entity, IdUtil.createId(target));
@@ -80,6 +88,9 @@ public class IdGeneratorAspect {
             } else {
                 entitys = (Object[]) entity;
             }
+            if (entitys.length > 0) {
+                return null;
+            }
              return entitys[0].getClass();
         } else {
             return entity.getClass();
@@ -87,7 +98,7 @@ public class IdGeneratorAspect {
     }
 
     public boolean needSetid(Class clazz) {
-        if (hasIdAnnotation(clazz) && useGeneratedKeys(clazz)) {
+        if (null != clazz && hasIdAnnotation(clazz) && useGeneratedKeys(clazz)) {
             return false;
         }
         return true;

@@ -53,4 +53,6 @@ public class AttributeCommand extends OptCommand {
 
     private Integer valueType;
 
+    private String[] values;
+
 }

@@ -10,8 +10,8 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.validator.ValidatorHolder;
 import com.muyuan.user.api.OperatorInterface;
 import com.muyuan.user.api.dto.OperatorDTO;
-import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.api.dto.OperatorRequest;
+import com.muyuan.user.api.dto.UserQueryRequest;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -22,11 +22,9 @@ import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
-import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 /**
@@ -67,10 +65,8 @@ public class OperatorInterfaceApi implements OperatorInterface {
 
     @Override
     public Result add(OperatorRequest request) {
-        Set<ConstraintViolation<OperatorRequest>> constraintViolations = ValidatorHolder.get().validate(request, OperatorRequest.Add.class);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+       ValidatorHolder.validate(request, OperatorRequest.Add.class);
+
 
         if (GlobalConst.NOT_UNIQUE.equals(operatorService.checkUnique(new Operator.Identify(new Username(request.getUsername()))))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
@@ -81,10 +77,8 @@ public class OperatorInterfaceApi implements OperatorInterface {
 
     @Override
     public Result<Page<OperatorDTO>> selectAllocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request);
+
         Page<Operator> list = operatorService.selectAllocatedList(USER_MAPPER.toCommand(request));
 
         return ResultUtil.success( Page.copy(list,USER_MAPPER.toDto(list.getRows())));
@@ -92,10 +86,7 @@ public class OperatorInterfaceApi implements OperatorInterface {
 
     @Override
     public Result<Page<OperatorDTO>> selectUnallocatedList(UserQueryRequest request) {
-        Set<ConstraintViolation<UserQueryRequest>> constraintViolations = ValidatorHolder.get().validate(request);
-        if (!constraintViolations.isEmpty()) {
-            return ResultUtil.fail(ResponseCode.ARGUMENT_ERROR,constraintViolations.iterator().next().getMessage());
-        }
+        ValidatorHolder.validate(request);
 
         Page<Operator> list = operatorService.selectUnallocatedList(USER_MAPPER.toCommand(request));
 

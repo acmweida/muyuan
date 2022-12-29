@@ -102,6 +102,9 @@ public interface GoodsBaseMapper<T> extends JdbcBaseMapper<T> {
     @Transactional(rollbackFor = Exception.class)
     @IdGenerator
     default int batchInsert(List<T> list) {
+        if (list.isEmpty()) {
+            return 0;
+        }
         return batchInsert(list, DEFAULT_BATCH_SIZE);
     }
 

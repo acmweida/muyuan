@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class AttributeRequest extends OptRequest implements Serializable {
 
     @Builder
-    public AttributeRequest(Opt opt, Long id, String name, Long categoryCode, Integer type, String code, Integer inputType, Integer htmlType, Long valueReference, Integer valueType) {
+    public AttributeRequest(Opt opt, Long id, String name, Long categoryCode, Integer type, String code, Integer inputType, Integer htmlType, Long valueReference, Integer valueType,String[] values) {
         super(opt);
         this.id = id;
         this.name = name;
@@ -31,6 +31,7 @@ public class AttributeRequest extends OptRequest implements Serializable {
         this.htmlType = htmlType;
         this.valueReference = valueReference;
         this.valueType = valueType;
+        this.values = values;
     }
 
     private static final long serialVersionUID = -6515124582723029455L;
@@ -77,5 +78,7 @@ public class AttributeRequest extends OptRequest implements Serializable {
     private Long valueReference;
 
     private Integer valueType;
+
+    private String[] values;
 
 }
