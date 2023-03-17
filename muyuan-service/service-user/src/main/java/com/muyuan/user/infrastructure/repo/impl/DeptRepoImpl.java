@@ -1,6 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.user.domain.model.entity.Dept;
 import com.muyuan.user.domain.repo.DeptRepo;
 import com.muyuan.user.face.dto.DeptQueryCommand;
@@ -12,8 +12,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
 
 /**
  * @ClassName MenuRepoImpl
@@ -32,30 +30,30 @@ public class DeptRepoImpl implements DeptRepo {
 
     @Override
     public List<Dept> list(DeptQueryCommand command) {
-        List<DeptDO> deptDOS = deptMapper.selectList(new SqlBuilder(DeptDO.class)
-                .like(NAME, command.getName())
-                .eq(STATUS, command.getStatus())
-                .orderByAsc(ORDER_NUM)
-                .build());
+
+        List<DeptDO> deptDOS = deptMapper.selectList(new LambdaQueryWrapper<DeptDO>()
+                .like(DeptDO::getName, command.getName())
+                .eq(DeptDO::getStatus, command.getStatus())
+                .orderByAsc(DeptDO::getOrderNum)
+        );
 
         return converter.to(deptDOS);
     }
 
     @Override
     public Dept selectDept(Long id) {
-        DeptDO deptDO = deptMapper.selectOne(new SqlBuilder(DeptDO.class)
-                .eq(ID, id)
-                .build());
+        DeptDO deptDO = deptMapper.selectById(id);
         return converter.to(deptDO);
     }
 
     @Override
     public Dept selectDept(Dept.Identify identify) {
-        DeptDO deptDO = deptMapper.selectOne(new SqlBuilder(DeptDO.class).select(ID)
-                .eq(NAME, identify.getName())
-                .eq(PARENT_ID, identify.getParentId())
-                .eq(ID, identify.getId())
-                .build());
+        DeptDO deptDO = deptMapper.selectOne(new LambdaQueryWrapper<DeptDO>()
+                .select(DeptDO::getId)
+                .eq(ObjectUtils.isEmpty(identify.getId()), DeptDO::getId, identify.getId())
+                .eq(DeptDO::getName, identify.getName())
+                .eq(DeptDO::getParentId, identify.getParentId()));
+
 
         return converter.to(deptDO);
     }
@@ -63,19 +61,17 @@ public class DeptRepoImpl implements DeptRepo {
     @Override
     public boolean addDept(Dept dept) {
         DeptDO to = converter.to(dept);
-        Integer count = deptMapper.insertAuto(to);
+        Integer count = deptMapper.insert(to);
         dept.setId(to.getId());
         return count > 0;
     }
 
     @Override
     public Dept updateDept(Dept dept) {
-        SqlBuilder sqlBuilder = new SqlBuilder(DeptDO.class)
-                .eq(ID, dept.getId());
 
-        DeptDO menuDO = deptMapper.selectOne(sqlBuilder.build());
+        DeptDO menuDO = deptMapper.selectById(dept.getId());
         if (ObjectUtils.isNotEmpty(menuDO)) {
-            deptMapper.updateBy(converter.to(dept), ID);
+            deptMapper.updateById(converter.to(dept));
         }
 
         return converter.to(menuDO);

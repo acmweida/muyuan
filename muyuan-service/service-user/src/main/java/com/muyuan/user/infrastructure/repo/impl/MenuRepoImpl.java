@@ -1,8 +1,8 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Menu;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.MenuID;
@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
 
 /**
  * @ClassName MenuRepoImpl
@@ -56,45 +54,41 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public List<Menu> list(MenuQueryCommand command) {
-        List<MenuDO> menuDOS = menuMapper.selectList(new SqlBuilder(MenuDO.class)
-                .like(NAME, command.getName())
-                .eq(STATUS, command.getStatus())
-                .in(PARENT_ID, command.getParentIds())
-                .eq(PLATFORM_TYPE, ObjectUtils.isEmpty(command.getPlatformType()) ? null : command.getPlatformType().getCode())
-                .orderByAsc(ORDER_NUM)
-                .build());
+        List<MenuDO> menuDOS = menuMapper.selectList(new LambdaQueryWrapper<MenuDO>()
+                .like(ObjectUtils.isNotEmpty(command.getName()), MenuDO::getName, command.getName())
+                .eq(MenuDO::getStatus, command.getStatus())
+                .in(ObjectUtils.isNotEmpty(command.getParentIds()), MenuDO::getParentId, command.getParentIds())
+                .eq(MenuDO::getPlatformType, ObjectUtils.isEmpty(command.getPlatformType()) ? null : command.getPlatformType().getCode())
+                .orderByAsc(MenuDO::getOrderNum));
 
         return converter.to(menuDOS);
     }
 
     @Override
     public Menu selectMenu(MenuID id) {
-        MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class)
-                .eq(ID, id.getValue())
-                .build());
+        MenuDO menuDO = menuMapper.selectOne(new LambdaQueryWrapper<MenuDO>()
+                .eq(MenuDO::getId, id.getValue()));
         return converter.to(menuDO);
     }
 
     @Override
     public Menu selectMenu(Menu.Identify identify) {
-        MenuDO menuDO = menuMapper.selectOne(new SqlBuilder(MenuDO.class).select(ID)
-                .eq(NAME, identify.getName())
-                .eq(PARENT_ID, identify.getParentId())
-                .eq(ID, ObjectUtils.isEmpty(identify.getId()) ? identify.getId() : identify.getId().getValue())
-                .eq(PLATFORM_TYPE, identify.getPlatformType().getCode())
-                .build());
+        MenuDO menuDO = menuMapper.selectOne(new LambdaQueryWrapper<MenuDO>()
+                .select(MenuDO::getId)
+                .eq(MenuDO::getName, identify.getName())
+                .eq(MenuDO::getParentId, identify.getParentId())
+                .eq(ObjectUtils.isEmpty(identify.getId()), MenuDO::getId, identify.getId().getValue())
+                .eq(MenuDO::getPlatformType, identify.getPlatformType().getCode()));
 
         return converter.to(menuDO);
     }
 
     @Override
     public Menu updateDMenu(Menu menu) {
-        SqlBuilder sqlBuilder = new SqlBuilder(MenuDO.class)
-                .eq(ID, menu.getId().getValue());
 
-        MenuDO menuDO = menuMapper.selectOne(sqlBuilder.build());
+        MenuDO menuDO = menuMapper.selectById(menu.getId().getValue());
         if (ObjectUtils.isNotEmpty(menuDO)) {
-            menuMapper.updateBy(converter.to(menu), ID);
+            menuMapper.updateById(converter.to(menu));
         }
 
         return converter.to(menuDO);
@@ -115,11 +109,10 @@ public class MenuRepoImpl implements MenuRepo {
     @Override
     public List<Menu> deleteBy(Long... ids) {
 
-        List<MenuDO> menuDOS = menuMapper.selectList(new SqlBuilder(MenuDO.class)
-                .in(ID, ids)
-                .build());
+        List<MenuDO> menuDOS = menuMapper.selectList(new LambdaQueryWrapper<MenuDO>()
+                .in(MenuDO::getId, ids));
 
-        menuMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        menuMapper.deleteById(ids);
 
         return converter.to(menuDOS);
     }

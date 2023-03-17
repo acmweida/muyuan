@@ -1,8 +1,10 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.core.util.FunctionUtil;
 import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -11,7 +13,6 @@ import com.muyuan.user.domain.repo.MerchantRepo;
 import com.muyuan.user.face.dto.UserQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.MerchantDO;
-import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.MerchantMapper;
@@ -25,7 +26,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
+import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.ID;
+import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.USER_ID;
 import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.PHONE;
 import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.USERNAME;
 
@@ -51,20 +53,26 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Page<Merchant> select(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(STATUS, command.getStatus())
-                .eq(PHONE, command.getPhone())
-                .orderByDesc(CREATE_TIME);
+        LambdaQueryWrapper<MerchantDO> wrapper = new LambdaQueryWrapper<MerchantDO>()
+                .like(MerchantDO::getUsername, command.getUsername())
+                .eq(MerchantDO::getStatus, command.getStatus())
+                .eq(MerchantDO::getPhone, command.getPhone())
+                .orderByDesc(MerchantDO::getCreateTime);
 
         Page<Merchant> page = Page.<Merchant>builder().build();
+
+        List<MerchantDO> list;
         if (command.enablePage()) {
+            IPage<MerchantDO> page1 = mapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
+                    command.getPageNum(),command.getPageSize()
+            ),wrapper);
+            list = page1.getRecords();
+            page.setTotal((int) page1.getTotal());
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+        } else {
+            list = mapper.selectList(wrapper);
         }
-
-        List<MerchantDO> list = mapper.selectList(sqlBuilder.build());
 
         page.setRows(converter.toMerchants(list));
 

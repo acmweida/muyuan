@@ -73,6 +73,13 @@
             <version>${mybatis.starter.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.starter.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.muyuan</groupId>
             <artifactId>common-core</artifactId>

@@ -1,5 +1,6 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ public class DeptDO {
 
     private static final long serialVersionUID = 1457932248501l;
 
+    @TableId
     private Long id;
 
     private Long parentId;
