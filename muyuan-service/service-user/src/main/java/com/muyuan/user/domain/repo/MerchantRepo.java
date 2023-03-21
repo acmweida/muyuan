@@ -24,7 +24,7 @@ public interface MerchantRepo {
 
     boolean insertRef(UserID roleID, RoleID... roleIds);
 
-    void deleteRef(UserID userID);
+    int deleteRef(UserID userID);
 
     Page<Merchant> selectAllocatedList(UserQueryCommand command);
 

@@ -1,9 +1,7 @@
 package com.muyuan.user.infrastructure.repo.mapper;
 
 import com.muyuan.common.mybatis.jdbc.UserBaseMapper;
-import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.user.infrastructure.repo.dataobject.PermissionDO;
-import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -32,7 +30,6 @@ public interface PermissionMapper extends UserBaseMapper<PermissionDO> {
     Integer deleteRef(@Param("permIds") Long... permIDs);
 
     @Options(useGeneratedKeys = true,keyProperty = "id")
-    @InsertProvider(value = CrudSqlProvider.class,method = "insert")
     Integer insertAuto(PermissionDO dataObject);
 
 }

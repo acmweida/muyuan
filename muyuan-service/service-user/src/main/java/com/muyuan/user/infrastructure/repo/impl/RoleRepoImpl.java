@@ -1,9 +1,10 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Role;
 import com.muyuan.user.domain.model.valueobject.MenuID;
 import com.muyuan.user.domain.model.valueobject.RoleID;
@@ -16,13 +17,13 @@ import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import com.muyuan.user.infrastructure.repo.mapper.UserRoleMapper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
 
 /**
  * @ClassName RoleRepoImpl
@@ -49,20 +50,27 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public Page<Role> select(RoleQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(RoleDO.class)
-                .eq(NAME, command.getName())
-                .eq(STATUS, command.getStatus())
-                .eq(PLATFORM_TYPE,command.getPlatformType().getCode())
-                .orderByAsc(ORDER_NUM);
+        LambdaQueryWrapper<RoleDO> wrapper = new LambdaQueryWrapper<RoleDO>()
+                .eq(RoleDO::getName, command.getName())
+                .eq(RoleDO::getStatus, command.getStatus())
+                .eq(RoleDO::getPlatformType,command.getPlatformType().getCode())
+                .orderByAsc(RoleDO::getOrderNum);
 
-        Page<Role> page = Page.<Role>builder().build();
+        Page<Role> page = Page.<Role>builder()
+                .pageSize(command.getPageSize())
+                .pageNum(command.getPageNum())
+                .build();
+
+        List<RoleDO> list;
         if (command.enablePage()) {
-            page.setPageNum(command.getPageNum());
-            page.setPageSize(command.getPageSize());
-            sqlBuilder.page(page);
+            IPage<RoleDO> page1 = roleMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
+                    command.getPageNum(), command.getPageSize()
+            ), wrapper);
+            list = page1.getRecords();
+            page.setTotal((int) page1.getTotal());
+        } else {
+            list = roleMapper.selectList(wrapper);
         }
-
-        List<RoleDO> list = roleMapper.selectList(sqlBuilder.build());
 
         page.setRows(converter.toRoles(list));
 
@@ -71,19 +79,17 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public Role select(Long id) {
-        RoleDO roleDO = roleMapper.selectOne(new SqlBuilder(RoleDO.class)
-                .eq(ID, id)
-                .build());
+        RoleDO roleDO = roleMapper.selectOne(new LambdaQueryWrapper<RoleDO>()
+                .eq(RoleDO::getId, id));
         return converter.toRole(roleDO);
     }
 
     @Override
     public Role selectRole(Role.Identify identify) {
-        RoleDO roleDO = roleMapper.selectOne(new SqlBuilder(RoleDO.class).select(ID)
-                .eq(ID, identify.getId().getValue())
-                .eq(PLATFORM_TYPE, identify.getPlatformType().getCode())
-                .eq(CODE,identify.getCode())
-                .build());
+        RoleDO roleDO = roleMapper.selectOne(new LambdaQueryWrapper<RoleDO>().select(RoleDO::getId)
+                .eq(RoleDO::getId, identify.getId().getValue())
+                .eq(RoleDO::getPlatformType, identify.getPlatformType().getCode())
+                .eq(RoleDO::getCode,identify.getCode()));
 
         return converter.toRole(roleDO);
     }
@@ -117,19 +123,19 @@ public class RoleRepoImpl implements RoleRepo {
     @Override
     public boolean addRole(Role role) {
         RoleDO to = converter.to(role);
-        Integer count = roleMapper.insertAuto(to);
+        Integer count = roleMapper.insert(to);
         role.setId(new RoleID(to.getId()));
         return count > 0;
     }
 
     @Override
     public Role updateRole(Role role) {
-        SqlBuilder sqlBuilder = new SqlBuilder(RoleDO.class)
-                .eq(ID, role.getId().getValue());
+        LambdaQueryWrapper<RoleDO> wrapper = new LambdaQueryWrapper<RoleDO>()
+                .eq(RoleDO::getId, role.getId().getValue());
 
-        RoleDO roleDO = roleMapper.selectOne(sqlBuilder.build());
+        RoleDO roleDO = roleMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(roleDO)) {
-            roleMapper.updateBy(converter.to(role), ID);
+            roleMapper.updateById(converter.to(role));
         }
 
         return converter.toRole(roleDO);
@@ -137,11 +143,10 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public List<Role> deleteBy(Long... ids) {
-        List<RoleDO> roleDOS = roleMapper.selectList(new SqlBuilder(RoleDO.class)
-                .in(ID, ids)
-                .build());
+        List<RoleDO> roleDOS = roleMapper.selectList(new LambdaQueryWrapper<RoleDO>()
+                .in(RoleDO::getId, ids));
 
-        roleMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        roleMapper.deleteBatchIds(Lists.newArrayList(Arrays.stream(ids).iterator()));
 
         return converter.toRoles(roleDOS);
     }
@@ -165,9 +170,8 @@ public class RoleRepoImpl implements RoleRepo {
                     .userId(userId.getValue()).build());
         }
 
-        return userRoleMapper.deleteBy(new SqlBuilder()
-                .eq(ROLE_ID,roleID.getValue())
-                .in(USER_ID, userIDS.stream().map(UserID::getValue).toArray(Long[]::new))
-                .build()) == set.size();
+        return userRoleMapper.delete(new LambdaQueryWrapper<UserRoleDO>()
+                .eq(UserRoleDO::getRoleId,roleID.getValue())
+                .in(UserRoleDO::getUserId, (Object) userIDS.stream().map(UserID::getValue).toArray(Long[]::new))) == set.size();
     }
 }

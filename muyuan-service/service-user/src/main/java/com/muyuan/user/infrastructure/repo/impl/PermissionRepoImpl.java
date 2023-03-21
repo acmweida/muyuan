@@ -1,7 +1,8 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.repo.PermissionRepo;
@@ -15,9 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
-import static com.muyuan.user.infrastructure.repo.mapper.PermissionMapper.*;
-
 @Component
 @AllArgsConstructor
 public class PermissionRepoImpl implements PermissionRepo {
@@ -27,7 +25,7 @@ public class PermissionRepoImpl implements PermissionRepo {
     private PermissionConverter converter;
 
     @Override
-    public List<Permission> selectByRoles(RoleID roleId){
+    public List<Permission> selectByRoles(RoleID roleId) {
         List<PermissionDO> permissionDOS = permissionMapper.selectByRoleId(roleId.getValue());
         return converter.to(permissionDOS);
     }
@@ -40,24 +38,31 @@ public class PermissionRepoImpl implements PermissionRepo {
 
     @Override
     public Page<Permission> select(PermissionQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(PermissionDO.class)
-                .eq(BUSINESS, command.getBusiness())
-                .eq(MODULE, command.getModule())
-                .eq(STATUS, command.getStatus())
-                .eq(TYPE, command.getType())
-                .in(TYPE,command.getTypes())
-                .like(RESOURCE,command.getResource())
-                .eq(PLATFORM_TYPE, ObjectUtils.isEmpty(command.getPlatformType()) ? null : command.getPlatformType().getCode())
-                .orderByDesc(BUSINESS, MODULE);
+        LambdaQueryWrapper<PermissionDO> wrapper = new LambdaQueryWrapper<PermissionDO>()
+                .eq(PermissionDO::getBusiness, command.getBusiness())
+                .eq(PermissionDO::getModule, command.getModule())
+                .eq(PermissionDO::getStatus, command.getStatus())
+                .eq(PermissionDO::getType, command.getType())
+                .in(PermissionDO::getType, (Object) command.getTypes())
+                .like(PermissionDO::getResource, command.getResource())
+                .eq(ObjectUtils.isEmpty(command.getPlatformType()), PermissionDO::getPlatformType, command.getPlatformType().getCode())
+                .orderByDesc(PermissionDO::getBusiness, PermissionDO::getModule);
 
-        Page<Permission> page = Page.<Permission>builder().build();
+        Page<Permission> page = Page.<Permission>builder()
+                .pageSize(command.getPageSize())
+                .pageNum(command.getPageNum())
+                .build();
+
+        List<PermissionDO> list;
         if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            IPage<PermissionDO> page1 = permissionMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
+                    command.getPageNum(), command.getPageSize()
+            ), wrapper);
+            list = page1.getRecords();
+            page.setTotal((int) page1.getTotal());
+        } else {
+            list = permissionMapper.selectList(wrapper);
         }
-
-        List<PermissionDO> list = permissionMapper.selectList(sqlBuilder.build());
 
         page.setRows(converter.to(list));
 
@@ -66,18 +71,16 @@ public class PermissionRepoImpl implements PermissionRepo {
 
     @Override
     public Permission selectPermission(Long id) {
-        PermissionDO menuDO = permissionMapper.selectOne(new SqlBuilder(PermissionDO.class)
-                .eq(ID, id)
-                .build());
+        PermissionDO menuDO = permissionMapper.selectOne(new LambdaQueryWrapper<PermissionDO>()
+                .eq(PermissionDO::getId, id));
         return converter.to(menuDO);
     }
 
     @Override
     public Permission selectPermission(Permission.Identify identify) {
-        PermissionDO permissionDO = permissionMapper.selectOne(new SqlBuilder(PermissionDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .eq(PERMS, identify.getPerms())
-                .build());
+        PermissionDO permissionDO = permissionMapper.selectOne(new LambdaQueryWrapper<PermissionDO>().select(PermissionDO::getId)
+                .eq(ObjectUtils.isNotEmpty(identify.getId()), PermissionDO::getId, identify.getId())
+                .eq(PermissionDO::getPerms, identify.getPerms()));
 
         return converter.to(permissionDO);
     }
@@ -92,12 +95,12 @@ public class PermissionRepoImpl implements PermissionRepo {
 
     @Override
     public Permission updatePermission(Permission permission) {
-        SqlBuilder sqlBuilder = new SqlBuilder(PermissionDO.class)
-                .eq(ID, permission.getId());
+        LambdaQueryWrapper<PermissionDO> wrapper = new LambdaQueryWrapper<PermissionDO>()
+                .eq(PermissionDO::getId, permission.getId());
 
-        PermissionDO permissionDO = permissionMapper.selectOne(sqlBuilder.build());
+        PermissionDO permissionDO = permissionMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(permissionDO)) {
-            permissionMapper.updateBy(converter.to(permission), ID);
+            permissionMapper.deleteById(converter.to(permission));
         }
 
         return converter.to(permissionDO);
@@ -105,11 +108,11 @@ public class PermissionRepoImpl implements PermissionRepo {
 
     @Override
     public List<Permission> deleteBy(Long... ids) {
-        List<PermissionDO> permissions = permissionMapper.selectList(new SqlBuilder(PermissionDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<PermissionDO> wrapper = new LambdaQueryWrapper<PermissionDO>()
+                .in(PermissionDO::getId, ids);
+        List<PermissionDO> permissions = permissionMapper.selectList(wrapper);
 
-        permissionMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        permissionMapper.delete(wrapper);
 
         return converter.to(permissions);
     }

@@ -21,7 +21,7 @@ public interface MerchantMapper extends UserBaseMapper<MerchantDO> {
 
     Integer addRef(@Param("userId") Long userId, @Param("roleIds") Long... roleIds);
 
-    List<MerchantDO> selectAllocatedList(@Param("roleId") Long roleId,@Param("params") Map params);
+    List<MerchantDO> selectAllocatedList(@Param("roleId") Long roleId, @Param("params") Map params);
 
     List<MerchantDO> selectUnallocatedList(@Param("roleId") Long roleId,@Param("params") Map params);
 }

@@ -1,5 +1,8 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,8 +15,10 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@TableName("t_role")
 public class RoleDO {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

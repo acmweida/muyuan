@@ -1,8 +1,8 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.JdbcBaseMapper;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.user.domain.model.entity.OperLog;
 import com.muyuan.user.domain.repo.OperLogRepo;
 import com.muyuan.user.face.dto.OperLogQueryCommand;
@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
-import static com.muyuan.user.infrastructure.repo.mapper.OperLogMapper.*;
-
 @Component
 @AllArgsConstructor
 public class OperLogRepoImpl implements OperLogRepo {
@@ -28,33 +25,35 @@ public class OperLogRepoImpl implements OperLogRepo {
 
     @Override
     public Page<OperLog> select(OperLogQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperLogDO.class)
-                .eq(JdbcBaseMapper.ID,command.getId())
-                .eq(TITLE,command.getTitle())
-                .eq(BUSINESS_TYPE,command.getBusinessType())
-                .eq(METHOD,command.getMethod())
-                .eq(REQUEST_METHOD,command.getRequestMethod())
-                .eq(OPERATOR_TYPE,command.getOperatorType())
-                .eq(OPER_NAME,command.getOperName())
-                .eq(DEPT_NAME,command.getDeptName())
-                .eq(OPER_URL,command.getOperUrl())
-                .eq(OPER_IP,command.getOperIp())
-                .eq(OPER_LOCATION,command.getOperLocation())
-                .eq(OPER_PARAM,command.getOperParam())
-                .eq(JSON_RESULT,command.getJsonResult())
-                .eq(JdbcBaseMapper.STATUS,command.getStatus())
-                .eq(ERROR_MSG,command.getErrorMsg())
-                .eq(OPER_TIME,command.getOperTime())
-;
+        LambdaQueryWrapper<OperLogDO> wrapper = new LambdaQueryWrapper<OperLogDO>()
+                .eq(OperLogDO::getId,command.getId())
+                .eq(OperLogDO::getTitle,command.getTitle())
+                .eq(OperLogDO::getBusinessType,command.getBusinessType())
+                .eq(OperLogDO::getMethod,command.getMethod())
+                .eq(OperLogDO::getRequestMethod,command.getRequestMethod())
+                .eq(OperLogDO::getOperatorType,command.getOperatorType())
+                .eq(OperLogDO::getOperName,command.getOperName())
+                .eq(OperLogDO::getDeptName,command.getDeptName())
+                .eq(OperLogDO::getOperUrl,command.getOperUrl())
+                .eq(OperLogDO::getOperIp,command.getOperIp())
+                .eq(OperLogDO::getOperLocation,command.getOperLocation())
+                .eq(OperLogDO::getStatus,command.getStatus());
 
-        Page<OperLog> page = Page.<OperLog>builder().build();
+        Page<OperLog> page = Page.<OperLog>builder()
+                .pageSize(command.getPageSize())
+                .pageNum(command.getPageNum())
+                .build();
+
+        List<OperLogDO> list;
         if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            IPage<OperLogDO> page1 = operLogMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
+                    command.getPageNum(), command.getPageSize()
+            ), wrapper);
+            list = page1.getRecords();
+            page.setTotal((int) page1.getTotal());
+        } else {
+            list = operLogMapper.selectList(wrapper);
         }
-
-        List<OperLogDO> list = operLogMapper.selectList(sqlBuilder.build());
 
         page.setRows(converter.to(list));
 
@@ -63,17 +62,15 @@ public class OperLogRepoImpl implements OperLogRepo {
 
     @Override
     public OperLog selectOperLog(Long id) {
-        OperLogDO operLogDO = operLogMapper.selectOne(new SqlBuilder(OperLogDO.class)
-                .eq(ID, id)
-                .build());
+        OperLogDO operLogDO = operLogMapper.selectOne(new LambdaQueryWrapper<OperLogDO>()
+                .eq(OperLogDO::getId, id));
         return converter.to(operLogDO);
     }
 
     @Override
     public OperLog selectOperLog(OperLog.Identify identify) {
-        OperLogDO operLogDO = operLogMapper.selectOne(new SqlBuilder(OperLogDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .build());
+        OperLogDO operLogDO = operLogMapper.selectOne(new LambdaQueryWrapper<OperLogDO>().select(OperLogDO::getId)
+                .eq(OperLogDO::getId, identify.getId()));
 
         return converter.to(operLogDO);
     }
@@ -87,12 +84,12 @@ public class OperLogRepoImpl implements OperLogRepo {
 
     @Override
     public OperLog updateOperLog(OperLog operLog) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperLogDO.class)
-                .eq(ID, operLog.getId());
+        LambdaQueryWrapper<OperLogDO> wrapper = new LambdaQueryWrapper<OperLogDO>()
+                .eq(OperLogDO::getId, operLog.getId());
 
-        OperLogDO operLogDO = operLogMapper.selectOne(sqlBuilder.build());
+        OperLogDO operLogDO = operLogMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(operLogDO)) {
-            operLogMapper.updateBy(converter.to(operLog), ID);
+            operLogMapper.updateById(converter.to(operLog));
         }
 
         return converter.to(operLogDO);
@@ -100,11 +97,10 @@ public class OperLogRepoImpl implements OperLogRepo {
 
     @Override
     public List<OperLog> deleteBy(Long... ids) {
-        List<OperLogDO> operLogs = operLogMapper.selectList(new SqlBuilder(OperLogDO.class)
-                .in(ID, ids)
-                .build());
+        List<OperLogDO> operLogs = operLogMapper.selectList(new LambdaQueryWrapper<OperLogDO>()
+                .in(OperLogDO::getId, ids));
 
-        operLogMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        operLogMapper.deleteBatchIds(operLogs);
 
         return converter.to(operLogs);
     }

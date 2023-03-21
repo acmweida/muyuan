@@ -1,5 +1,6 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@TableName("t_user_role")
 public class UserRoleDO {
 
     private Long userId;

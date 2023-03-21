@@ -1,8 +1,10 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
 import com.muyuan.user.domain.model.entity.Operator;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -23,10 +25,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
-import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.PHONE;
-import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.USERNAME;
-
 
 /**
  * @ClassName OperatorRepoImpl
@@ -42,27 +40,34 @@ public class OperatorRepoImpl implements OperatorRepo {
     private UserConverter converter;
 
     private OperatorMapper mapper;
-    
+
     private RoleMapper roleMapper;
 
     private UserRoleMapper userRoleMapper;
 
     @Override
     public Page<Operator> select(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(STATUS, command.getStatus())
-                .eq(PHONE, command.getPhone())
-                .orderByDesc(CREATE_TIME);
+        LambdaQueryWrapper<OperatorDO> wrapper = new LambdaQueryWrapper<OperatorDO>()
+                .like(OperatorDO::getUsername, command.getUsername())
+                .eq(OperatorDO::getStatus, command.getStatus())
+                .eq(OperatorDO::getPhone, command.getPhone())
+                .orderByDesc(OperatorDO::getCreateTime);
 
-        Page<Operator> page = Page.<Operator>builder().build();
+        Page<Operator> page = Page.<Operator>builder()
+                .pageSize(command.getPageSize())
+                .pageNum(command.getPageNum())
+                .build();
+
+        List<OperatorDO> list;
         if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            IPage<OperatorDO> page1 = mapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
+                    command.getPageNum(), command.getPageSize()
+            ), wrapper);
+            list = page1.getRecords();
+            page.setTotal((int) page1.getTotal());
+        } else {
+            list = mapper.selectList(wrapper);
         }
-
-        List<OperatorDO> list = mapper.selectList(sqlBuilder.build());
 
         page.setRows(converter.toUsers(list));
 
@@ -71,13 +76,12 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Operator selectOneByUsername(Username username, PlatformType platformType) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class)
-                .eq(OperatorMapper.USERNAME, username.getValue())
-                .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
-                .build());
+        OperatorDO operatorDO = mapper.selectOne(new LambdaQueryWrapper<OperatorDO>()
+                .eq(OperatorDO::getUsername, username.getValue())
+                .eq(OperatorDO::getStatus, OperatorMapper.STATUS_OK));
         Operator operator = converter.to(operatorDO);
         if (null != operatorDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(),platformType.getCode());
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(), platformType.getCode());
             operator.setRoles(converter.toRoles(roleDOS));
         }
 
@@ -86,13 +90,12 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Operator selectOneByID(UserID userID, PlatformType platformType) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class)
-                .eq(OperatorMapper.ID, userID.getValue())
-                .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
-                .build());
+        OperatorDO operatorDO = mapper.selectOne(new LambdaQueryWrapper<OperatorDO>()
+                .eq(OperatorDO::getId, userID.getValue())
+                .eq(OperatorDO::getStatus, OperatorMapper.STATUS_OK));
         Operator operator = converter.to(operatorDO);
         if (null != operatorDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(),platformType.getCode());
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(), platformType.getCode());
             operator.setRoles(converter.toRoles(roleDOS));
         }
 
@@ -101,10 +104,10 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Operator selectOperator(Operator.Identify identify) {
-        OperatorDO operatorDO = mapper.selectOne(new SqlBuilder(OperatorDO.class).select(ID)
-                .eq(USERNAME, identify.getUsername().getValue())
-                .eq(ID, ObjectUtils.isEmpty(identify.getUserID()) ? identify.getUserID() : identify.getUserID().getValue())
-                .build());
+        OperatorDO operatorDO = mapper.selectOne(new LambdaQueryWrapper<OperatorDO>()
+                .select(OperatorDO::getId)
+                .eq(OperatorDO::getUsername, identify.getUsername().getValue())
+                .eq(ObjectUtils.isNotEmpty(identify.getUserID()), OperatorDO::getId, identify.getUserID().getValue()));
 
         return converter.to(operatorDO);
     }
@@ -134,16 +137,15 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public void deleteRef(UserID userID) {
-        userRoleMapper.deleteBy(new SqlBuilder()
-                .eq(USER_ID,userID.getValue())
-                .build()) ;
+        userRoleMapper.deleteById(new LambdaQueryWrapper<UserRoleDO>()
+                .eq(UserRoleDO::getUserId, userID.getValue()));
     }
 
     @Override
     public Page<Operator> selectAllocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(PHONE, command.getPhone());
+        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+                .param(OperatorDO::getUsername, command.getUsername())
+                .param(OperatorDO::getPhone, command.getPhone());
 
         Page<Operator> page = Page.<Operator>builder().build();
         if (command.enablePage()) {
@@ -152,7 +154,7 @@ public class OperatorRepoImpl implements OperatorRepo {
             sqlBuilder.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(),sqlBuilder.build());
+        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(), sqlBuilder.build());
 
         page.setRows(converter.toUsers(list));
 
@@ -161,9 +163,9 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Page<Operator> selectUnallocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(OperatorDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(PHONE, command.getPhone());
+        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+                .param(OperatorDO::getUsername, command.getUsername())
+                .param(OperatorDO::getPhone, command.getPhone());
 
         Page<Operator> page = Page.<Operator>builder().build();
         if (command.enablePage()) {
@@ -172,7 +174,7 @@ public class OperatorRepoImpl implements OperatorRepo {
             sqlBuilder.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(),sqlBuilder.build());
+        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(), sqlBuilder.build());
 
         page.setRows(converter.toUsers(list));
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
-import com.muyuan.common.core.util.FunctionUtil;
+import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
 import com.muyuan.user.domain.model.entity.Merchant;
 import com.muyuan.user.domain.model.valueobject.RoleID;
 import com.muyuan.user.domain.model.valueobject.UserID;
@@ -13,6 +13,7 @@ import com.muyuan.user.domain.repo.MerchantRepo;
 import com.muyuan.user.face.dto.UserQueryCommand;
 import com.muyuan.user.infrastructure.repo.converter.UserConverter;
 import com.muyuan.user.infrastructure.repo.dataobject.MerchantDO;
+import com.muyuan.user.infrastructure.repo.dataobject.OperatorDO;
 import com.muyuan.user.infrastructure.repo.dataobject.RoleDO;
 import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.MerchantMapper;
@@ -25,11 +26,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.ID;
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.USER_ID;
-import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.PHONE;
-import static com.muyuan.user.infrastructure.repo.mapper.OperatorMapper.USERNAME;
 
 
 /**
@@ -46,7 +42,7 @@ public class MerchantRepoImpl implements MerchantRepo {
     private UserConverter converter;
 
     private MerchantMapper mapper;
-    
+
     private RoleMapper roleMapper;
 
     private UserRoleMapper userRoleMapper;
@@ -59,17 +55,18 @@ public class MerchantRepoImpl implements MerchantRepo {
                 .eq(MerchantDO::getPhone, command.getPhone())
                 .orderByDesc(MerchantDO::getCreateTime);
 
-        Page<Merchant> page = Page.<Merchant>builder().build();
+        Page<Merchant> page = Page.<Merchant>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
         List<MerchantDO> list;
         if (command.enablePage()) {
             IPage<MerchantDO> page1 = mapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(),command.getPageSize()
-            ),wrapper);
+                    command.getPageNum(), command.getPageSize()
+            ), wrapper);
             list = page1.getRecords();
             page.setTotal((int) page1.getTotal());
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
         } else {
             list = mapper.selectList(wrapper);
         }
@@ -81,13 +78,12 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Merchant selectOneByUsername(Username username, PlatformType platformType) {
-        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class)
-                .eq(OperatorMapper.USERNAME, username.getValue())
-                .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
-                .build());
+        MerchantDO merchantDO = mapper.selectOne(new LambdaQueryWrapper<MerchantDO>()
+                .eq(MerchantDO::getUsername, username.getValue())
+                .eq(MerchantDO::getStatus, OperatorMapper.STATUS_OK));
         Merchant merchant = converter.to(merchantDO);
         if (null != merchantDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(),platformType.getCode());
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(), platformType.getCode());
             merchant.setRoles(converter.toRoles(roleDOS));
         }
 
@@ -96,13 +92,12 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Merchant selectOneByID(UserID userID, PlatformType platformType) {
-        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class)
-                .eq(OperatorMapper.ID, userID.getValue())
-                .eq(OperatorMapper.STATUS, OperatorMapper.STATUS_OK)
-                .build());
+        MerchantDO merchantDO = mapper.selectOne(new LambdaQueryWrapper<MerchantDO>()
+                .eq(MerchantDO::getId, userID.getValue())
+                .eq(MerchantDO::getStatus, OperatorMapper.STATUS_OK));
         Merchant merchant = converter.to(merchantDO);
         if (null != merchantDO) {
-            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(),platformType.getCode());
+            List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(merchantDO.getId(), platformType.getCode());
             merchant.setRoles(converter.toRoles(roleDOS));
         }
 
@@ -111,10 +106,9 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Merchant select(Merchant.Identify identify) {
-        MerchantDO merchantDO = mapper.selectOne(new SqlBuilder(MerchantDO.class).select(ID)
-                .eq(USERNAME, identify.getUsername().getValue())
-                .eq(ID, ObjectUtils.isEmpty(identify.getUserID()) ? identify.getUserID() : identify.getUserID().getValue())
-                .build());
+        MerchantDO merchantDO = mapper.selectOne(new LambdaQueryWrapper<MerchantDO>().select(MerchantDO::getId)
+                .eq(MerchantDO::getUsername, identify.getUsername().getValue())
+                .eq(ObjectUtils.isNotEmpty(identify.getUserID()), MerchantDO::getId, ObjectUtils.isEmpty(identify.getUserID()) ? identify.getUserID() : identify.getUserID().getValue()));
 
         return converter.to(merchantDO);
     }
@@ -143,17 +137,18 @@ public class MerchantRepoImpl implements MerchantRepo {
     }
 
     @Override
-    public void deleteRef(UserID userID) {
-        userRoleMapper.deleteBy(new SqlBuilder()
-                .eq(USER_ID,userID.getValue())
-                .build()) ;
+    public int deleteRef(UserID userID) {
+        return userRoleMapper.deleteById(userID.getValue());
     }
+
+
+
 
     @Override
     public Page<Merchant> selectAllocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(MerchantDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(PHONE, command.getPhone());
+        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+                .param(OperatorDO::getUsername, command.getUsername())
+                .param(OperatorDO::getPhone, command.getPhone());
 
         Page<Merchant> page = Page.<Merchant>builder().build();
         if (command.enablePage()) {
@@ -162,7 +157,7 @@ public class MerchantRepoImpl implements MerchantRepo {
             sqlBuilder.page(page);
         }
 
-        List<MerchantDO> list = mapper.selectAllocatedList(command.getRoleId(),sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectAllocatedList(command.getRoleId(), sqlBuilder.build());
 
         page.setRows(converter.toMerchants(list));
 
@@ -171,9 +166,9 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Page<Merchant> selectUnallocatedList(UserQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(MerchantDO.class)
-                .like(USERNAME, command.getUsername())
-                .eq(PHONE, command.getPhone());
+        SqlParamsBuilder<MerchantDO> sqlBuilder = new SqlParamsBuilder<MerchantDO>()
+                .param(MerchantDO::getUsername, command.getUsername())
+                .param(MerchantDO::getPhone, command.getPhone());
 
         Page<Merchant> page = Page.<Merchant>builder().build();
         if (command.enablePage()) {
@@ -182,7 +177,7 @@ public class MerchantRepoImpl implements MerchantRepo {
             sqlBuilder.page(page);
         }
 
-        List<MerchantDO> list = mapper.selectUnallocatedList(command.getRoleId(),sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectUnallocatedList(command.getRoleId(), sqlBuilder.build());
 
         page.setRows(converter.toMerchants(list));
 
