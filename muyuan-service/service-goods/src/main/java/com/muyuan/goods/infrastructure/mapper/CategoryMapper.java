@@ -13,8 +13,9 @@ import java.util.List;
  */
 public interface CategoryMapper extends GoodsBaseMapper<CategoryDO> {
 
-    String ANCESTORS = "ancestors";
-    Object[] STATUS_OK = new String[]{"0","1"};
+    String ANCESTORS = "ancestors" ;
+
+    Object[] STATUS_OK = new String[]{"0", "1"};
 
 
     List<CategoryDO> selectByBrandId(Long... brandIds);

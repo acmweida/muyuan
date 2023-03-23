@@ -13,7 +13,4 @@ import org.apache.ibatis.annotations.Options;
 public interface OperLogMapper extends CommonBaseMapper<OperLogDO> {
 
 
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    Integer insertAuto(OperLogDO dataObject);
-
 }

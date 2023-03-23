@@ -29,15 +29,7 @@ public interface BaseRepo {
 
     String UPDATE_TIME = "updateTime";
 
-    String ORDER_NUM = "orderNum";
-
-    String PARENT_ID = "parentId";
-
     String CATEGORY_CODE = "categoryCode";
-
-    String BRAND_ID = "brandId";
-
-    String CODE = "code";
 
 
 }

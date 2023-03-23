@@ -1,5 +1,8 @@
 package com.muyuan.manager.system.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.muyuan.manager.system.base.common.GenConstants;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
@@ -10,13 +13,16 @@ import java.util.List;
 
 /**
  * 业务表 gen_table
- * 
+ *
+ * @author 2456910384
  */
 @Data
+@TableName("gen_table")
 public class GenTable
 {
-    private static final long serialVersionUID = 1L;
 
+
+    @TableId(type = IdType.AUTO)
     /** 编号 */
     private Long tableId;
 

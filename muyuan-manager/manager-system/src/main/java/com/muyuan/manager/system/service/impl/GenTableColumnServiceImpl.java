@@ -1,13 +1,12 @@
 package com.muyuan.manager.system.service.impl;
 
-import com.muyuan.common.core.util.Convert;
-
+import com.muyuan.manager.system.base.persistence.mapper.GenTableColumnMapper;
 import com.muyuan.manager.system.model.GenTableColumn;
 import com.muyuan.manager.system.service.GenTableColumnService;
-import com.muyuan.manager.system.base.persistence.mapper.GenTableColumnMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -67,8 +66,6 @@ public class GenTableColumnServiceImpl implements GenTableColumnService
 	@Override
 	public int deleteGenTableColumnByIds(String ids)
 	{
-		return genTableColumnMapper.deleteBy(new LambdaQueryWrapper()
-				.in("id",Convert.toLongArray(ids))
-				.build());
+		return genTableColumnMapper.deleteBatchIds(Arrays.asList(ids));
 	}
 }

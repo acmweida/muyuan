@@ -1,12 +1,13 @@
 package com.muyuan.manager.system.base.persistence;
 
 
+import com.muyuan.manager.system.base.persistence.mapper.GenTableColumnMapper;
 import com.muyuan.manager.system.model.GenTableColumn;
 import com.muyuan.manager.system.repo.GenTableColumnRepo;
-import com.muyuan.manager.system.base.persistence.mapper.GenTableColumnMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,15 +36,13 @@ public class GenTableColumnRepoImpl implements GenTableColumnRepo {
 
     @Override
     public int updateGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.updateBy(genTableColumn,"id");
+        return genTableColumnMapper.updateById(genTableColumn);
     }
 
     @Override
     public int deleteGenTableColumnByIds(Long[] ids) {
-        return genTableColumnMapper.deleteBy(
-                new LambdaQueryWrapper()
-                        .in("id",ids)
-                        .build()
+        return genTableColumnMapper.deleteBatchIds(
+                Arrays.asList(ids)
         );
     }
 

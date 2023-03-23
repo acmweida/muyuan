@@ -1,8 +1,10 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @ClassName Menu
@@ -12,8 +14,10 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class MenuDO {
+@TableName("t_menu")
+public class MenuDO extends BaseDO {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -81,23 +85,10 @@ public class MenuDO {
      */
     private String remark;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
 
     /** 是否缓存（0缓存 1不缓存） */
     private String cache;
 
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    private Long createBy;
-
-    private Long updateBy;
 
     private String platformType;
 

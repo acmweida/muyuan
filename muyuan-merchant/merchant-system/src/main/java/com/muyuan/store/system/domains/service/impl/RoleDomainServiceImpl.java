@@ -1,8 +1,8 @@
 package com.muyuan.store.system.domains.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;
 import com.muyuan.store.system.domains.factories.RoleFactory;
@@ -13,7 +13,6 @@ import com.muyuan.store.system.domains.repo.MenuRepo;
 import com.muyuan.store.system.domains.repo.RoleRepo;
 import com.muyuan.store.system.domains.repo.UserRepo;
 import com.muyuan.store.system.domains.service.RoleDomainService;
-import com.muyuan.store.system.infrastructure.persistence.mapper.RoleMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -78,9 +77,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     @Override
     public String checkRoleCodeUnique(Role role) {
         Long id = null == role.getId() ? 0 : role.getId();
-        role = roleRepo.selectOne(new LambdaQueryWrapper(Role.class).select("id")
-                .eq("code", role.getCode())
-                .build());
+        role = roleRepo.selectOne(role);
         if (null != role && !id.equals(role.getId())) {
             return GlobalConst.NOT_UNIQUE;
         }
@@ -93,10 +90,10 @@ public class RoleDomainServiceImpl implements RoleDomainService {
                 .pageNum(userDTO.getPageNum())
                 .pageSize(userDTO.getPageSize()).build();
 
-        List<User> sysUsers = userRepo.selectAllocatedList(new LambdaQueryWrapper()
-                .eq("roleId", userDTO.getRoleId())
-                .eq("username", userDTO.getUsername())
-                .eq("phone", userDTO.getPhone())
+        List<User> sysUsers = userRepo.selectAllocatedList(new SqlParamsBuilder<User>()
+                .param("roleId", userDTO.getRoleId())
+                .param("username", userDTO.getUsername())
+                .param("phone", userDTO.getPhone())
                 .page(page)
                 .build());
 
@@ -155,10 +152,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     @Override
     public Optional<Role> get(Role role) {
         return Optional.ofNullable(
-                roleRepo.selectOne(new LambdaQueryWrapper(Role.class)
-                        .eq(RoleRepo.ID,role.getId())
-                        .eq(RoleMapper.CODE,role.getCode())
-                        .build())
+                roleRepo.selectOne(role)
         );
     }
 

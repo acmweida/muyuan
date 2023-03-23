@@ -11,6 +11,9 @@ public interface GlobalConst {
 
     String CAPTCHA_KEY_PREFIX = "captcha:";
 
+    short SHORT_TRUE_VALUE = 1;
+
+    short SHORT_FALSE_VALUE = 0;
 
     String TRUE ="0";
 

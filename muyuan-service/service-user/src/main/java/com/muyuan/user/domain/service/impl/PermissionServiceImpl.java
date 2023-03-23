@@ -154,15 +154,14 @@ public class PermissionServiceImpl implements PermissionService {
         return !olds.isEmpty();
     }
 
-    private String getRolePermsKeyPrefix(PlatformType platformType) {
+    private RedisConst getRolePermsKeyPrefix(PlatformType platformType) {
         switch (platformType) {
             case OPERATOR:
                 return RedisConst.OPERATOR_ROLE_PERM_KEY_PREFIX;
             case MEMBER:
                 return RedisConst.MEMBER_ROLE_PERM_KEY_PREFIX;
-            case MERCHANT:
+            default:
                 return RedisConst.MERCHANT_ROLE_PERM_KEY_PREFIX;
         }
-        return "";
     }
 }

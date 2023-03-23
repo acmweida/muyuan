@@ -143,7 +143,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public void refreshCache() {
-        refreshCache(RedisConst.ALL_PLACE_HOLDER);
+        refreshCache(RedisConst.ALL_PLACE_HOLDER.name());
     }
 
     @Override

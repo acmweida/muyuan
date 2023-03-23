@@ -70,7 +70,7 @@ public class OperLogRepoImpl implements OperLogRepo {
     @Override
     public boolean addOperLog(OperLog operLog) {
         OperLogDO to = converter.to(operLog);
-        Integer count = operLogMapper.insertAuto(to);
+        Integer count = operLogMapper.insert(to);
         return count > 0;
     }
 

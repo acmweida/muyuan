@@ -5,6 +5,4 @@ import com.muyuan.config.repo.dataobject.DictTypeDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface DictTypeMapper extends CommonBaseMapper<DictTypeDO> {
-
-}
+public interface DictTypeMapper extends CommonBaseMapper<DictTypeDO> {}

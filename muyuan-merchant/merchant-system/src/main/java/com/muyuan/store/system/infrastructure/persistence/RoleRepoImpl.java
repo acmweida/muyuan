@@ -14,7 +14,6 @@ import org.assertj.core.util.Arrays;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName RoleRepoImpl
@@ -51,9 +50,10 @@ public class RoleRepoImpl implements RoleRepo {
     }
 
     @Override
-    public Role selectOne(Map params) {
-        return null;
-//        return roleMapper.selectOne(params);
+    public Role selectOne(Role role) {
+        return roleMapper.selectOne(new LambdaQueryWrapper<Role>()
+                .select(Role::getId)
+                .eq(Role::getCode, role.getCode()));
     }
 
     @Override

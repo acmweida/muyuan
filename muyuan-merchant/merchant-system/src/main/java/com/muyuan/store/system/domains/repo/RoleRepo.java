@@ -7,7 +7,6 @@ import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.model.RoleMenu;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RoleRepo extends BaseRepo {
 
@@ -19,7 +18,7 @@ public interface RoleRepo extends BaseRepo {
 
     List<Role> select(RoleDTO roleDTO, Page page);
 
-    Role selectOne(Map params);
+    Role selectOne(Role params);
 
     void insert(Role sysRole);
 

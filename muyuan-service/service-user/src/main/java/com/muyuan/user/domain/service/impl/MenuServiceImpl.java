@@ -230,7 +230,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-    private String getRoleMenuKeyPrefix(PlatformType platformType) {
+    private RedisConst getRoleMenuKeyPrefix(PlatformType platformType) {
         switch (platformType) {
             case OPERATOR:
                 return RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX;
@@ -239,6 +239,6 @@ public class MenuServiceImpl implements MenuService {
             case MERCHANT:
                 return RedisConst.MERCHANT_ROLE_MENU_KEY_PREFIX;
         }
-        return "";
+        return null;
     }
 }

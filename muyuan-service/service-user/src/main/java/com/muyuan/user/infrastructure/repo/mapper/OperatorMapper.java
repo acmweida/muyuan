@@ -11,12 +11,6 @@ import java.util.Map;
 @Mapper
 public interface OperatorMapper extends UserBaseMapper<OperatorDO> {
 
-    String PHONE = "phone";
-
-    String SHOP_ID = "shopId";
-
-    String USERNAME = "username";
-
     int STATUS_OK = 0;
 
     Integer addRef(@Param("userId") Long userId, @Param("roleIds") Long... roleIds);

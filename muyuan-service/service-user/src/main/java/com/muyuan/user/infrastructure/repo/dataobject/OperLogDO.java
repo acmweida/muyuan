@@ -1,7 +1,11 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.util.Date;
 
 
 /**
@@ -11,8 +15,11 @@ import lombok.Data;
  * @date 2022-12-15T15:27:12.638+08:00
  */
 @Data
+@TableName("t_oper_log")
 public class OperLogDO  {
 
+
+    @TableId(type = IdType.AUTO)
     /** 日志主键 */
     private Long id;
 

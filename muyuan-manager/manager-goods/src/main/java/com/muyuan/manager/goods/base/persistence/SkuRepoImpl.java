@@ -1,11 +1,11 @@
 package com.muyuan.manager.goods.base.persistence;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-
+import com.muyuan.manager.goods.base.persistence.mapper.SkuMapper;
 import com.muyuan.manager.goods.dto.SkuDTO;
 import com.muyuan.manager.goods.model.Sku;
 import com.muyuan.manager.goods.repo.SkuRepo;
-import com.muyuan.manager.goods.base.persistence.mapper.SkuMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +24,8 @@ public class SkuRepoImpl implements SkuRepo {
 
     @Override
     public List<Sku> list(SkuDTO skuDTO, Page page) {
-        return skuMapper.selectList(new LambdaQueryWrapper(Sku.class)
-                .eq(ID, skuDTO.getGoodsId())
-                .build());
+        return skuMapper.selectList(new LambdaQueryWrapper<Sku>()
+                .eq(Sku::getId, skuDTO.getGoodsId()));
     }
 
     @Override
@@ -41,6 +40,6 @@ public class SkuRepoImpl implements SkuRepo {
 
     @Override
     public void update(Sku sku) {
-        skuMapper.updateBy(sku,ID);
+        skuMapper.updateById(sku);
     }
 }

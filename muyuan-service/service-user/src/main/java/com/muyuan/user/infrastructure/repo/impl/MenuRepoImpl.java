@@ -98,7 +98,7 @@ public class MenuRepoImpl implements MenuRepo {
     @Transactional(rollbackFor = Exception.class)
     public boolean addMenu(Menu menu) {
         MenuDO to = converter.to(menu);
-        Integer count = menuMapper.insertAuto(to);
+        Integer count = menuMapper.insert(to);
         menu.setId(new MenuID(to.getId()));
 
         // 默认管理员权限

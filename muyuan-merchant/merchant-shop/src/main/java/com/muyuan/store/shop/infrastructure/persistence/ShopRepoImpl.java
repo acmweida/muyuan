@@ -21,6 +21,6 @@ public class ShopRepoImpl implements ShopRepo {
 
     @Override
     public void update(Shop shop) {
-        shopMapper.updateBy(shop, ShopRepo.ID);
+        shopMapper.updateById(shop);
     }
 }

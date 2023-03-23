@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.base.persistence;
 
 import com.muyuan.common.bean.Page;
-
+import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
 import com.muyuan.manager.system.base.persistence.converter.GenTableConverter;
 import com.muyuan.manager.system.base.persistence.mapper.GenTableMapper;
 import com.muyuan.manager.system.dto.GenTableDTO;
@@ -10,6 +10,7 @@ import com.muyuan.manager.system.repo.GenTableRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public void insert(GenTable genTable) {
-        genTableMapper.insertAuto(genTable);
+        genTableMapper.insert(genTable);
     }
 
     @Override
@@ -60,18 +61,19 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public List<GenTable> selectDbTableList(GenTableDTO genTable, Page page) {
-       return genTableMapper.selectDbTableList(new LambdaQueryWrapper()
-               .eq("tableName",genTable.getTableName())
-               .eq("tableComment",genTable.getTableComment())
-               .eq("beginTime",genTable.getBeginTime())
-               .eq("endTime",genTable.getEndTime())
-               .page(page)
-               .build());
+       return genTableMapper.selectDbTableList(new SqlParamsBuilder<GenTableDTO>()
+               .param(GenTableDTO::getTableName,genTable.getTableName())
+               .param(GenTableDTO::getTableComment,genTable.getTableComment())
+               .param(GenTableDTO::getBeginTime,genTable.getBeginTime())
+               .param(GenTableDTO::getEndTime,genTable.getEndTime())
+                .page(page)
+               .build()
+       );
     }
 
     @Override
     public int updateGenTable(GenTableDTO genTableDTO) {
-        return genTableMapper.updateBy(converter.to(genTableDTO),"tableId");
+        return genTableMapper.updateById(converter.to(genTableDTO));
     }
 
     @Override
@@ -81,8 +83,6 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public int deleteGenTableByIds(Long[] ids) {
-        return  genTableMapper.deleteBy(new LambdaQueryWrapper()
-                .in("tableId",ids)
-                .build());
+        return  genTableMapper.deleteBatchIds(Arrays.asList(ids));
     }
 }

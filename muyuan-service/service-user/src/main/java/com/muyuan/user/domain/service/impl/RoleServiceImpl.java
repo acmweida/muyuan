@@ -120,7 +120,7 @@ public class RoleServiceImpl implements RoleService {
         return true;
     }
 
-    private String getRolePermsKeyPrefix(PlatformType platformType) {
+    private RedisConst getRolePermsKeyPrefix(PlatformType platformType) {
         switch (platformType) {
             case OPERATOR:
                 return RedisConst.OPERATOR_ROLE_PERM_KEY_PREFIX;
@@ -129,10 +129,10 @@ public class RoleServiceImpl implements RoleService {
             case MERCHANT:
                 return RedisConst.MERCHANT_ROLE_PERM_KEY_PREFIX;
         }
-        return "";
+        return null;
     }
 
-    private String getRoleMenuKeyPrefix(PlatformType platformType) {
+    private RedisConst getRoleMenuKeyPrefix(PlatformType platformType) {
         switch (platformType) {
             case OPERATOR:
                 return RedisConst.OPERATOR_ROLE_MENU_KEY_PREFIX;
@@ -141,7 +141,7 @@ public class RoleServiceImpl implements RoleService {
             case MERCHANT:
                 return RedisConst.MERCHANT_ROLE_MENU_KEY_PREFIX;
         }
-        return "";
+        return null;
     }
 
     @Override

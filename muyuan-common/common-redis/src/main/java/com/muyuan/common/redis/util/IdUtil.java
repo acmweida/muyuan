@@ -1,5 +1,6 @@
 package com.muyuan.common.redis.util;
 
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.context.ApplicationContextHandler;
 import com.muyuan.common.core.util.IpUtil;
@@ -42,7 +43,7 @@ public class IdUtil {
             machineId++;
         }
 
-        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX +applicationName+ machineId, RedisConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(MACHINE_CODE_PREFIX +applicationName+ machineId, GlobalConst.SHORT_TRUE_VALUE, 12, TimeUnit.HOURS);
         // redis时间大于机器刷新时间 确保尽量使用停一ID
         if (expire == 0 || expire < System.currentTimeMillis()) {
             expire = System.currentTimeMillis() + 11 * 3600 * 10000;

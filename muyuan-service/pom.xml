@@ -16,6 +16,7 @@
         <module>service-goods</module>
         <module>service-user</module>
         <module>service-shop</module>
+        <module>service-goods</module>
         <module>muyuan-pay</module>
         <module>muyuan-activity</module>
         <module>service-config</module>
