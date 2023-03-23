@@ -32,8 +32,8 @@ public class ConfigServiceImpl implements ConfigService {
     private ConfigRepo configRepo;
 
     @Override
-    public Page<Config> list(ConfigQueryCommand commend) {
-        return configRepo.select(commend);
+    public Page<Config> list(ConfigQueryCommand command) {
+        return configRepo.select(command);
     }
 
     @Override

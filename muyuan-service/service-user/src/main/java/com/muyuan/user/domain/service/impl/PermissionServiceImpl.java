@@ -64,8 +64,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Page<Permission> list(PermissionQueryCommand commend) {
-        return permissionRepo.select(commend);
+    public Page<Permission> list(PermissionQueryCommand command) {
+        return permissionRepo.select(command);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.muyuan.manager.goods.base.persistence;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+
 import com.muyuan.manager.goods.dto.SkuDTO;
 import com.muyuan.manager.goods.model.Sku;
 import com.muyuan.manager.goods.repo.SkuRepo;
@@ -24,7 +24,7 @@ public class SkuRepoImpl implements SkuRepo {
 
     @Override
     public List<Sku> list(SkuDTO skuDTO, Page page) {
-        return skuMapper.selectList(new SqlBuilder(Sku.class)
+        return skuMapper.selectList(new LambdaQueryWrapper(Sku.class)
                 .eq(ID, skuDTO.getGoodsId())
                 .build());
     }

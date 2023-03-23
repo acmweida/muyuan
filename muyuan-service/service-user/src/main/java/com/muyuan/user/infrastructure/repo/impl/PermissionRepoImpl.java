@@ -1,7 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.user.domain.model.entity.Permission;
 import com.muyuan.user.domain.model.valueobject.RoleID;
@@ -53,16 +52,11 @@ public class PermissionRepoImpl implements PermissionRepo {
                 .pageNum(command.getPageNum())
                 .build();
 
-        List<PermissionDO> list;
-        if (command.enablePage()) {
-            IPage<PermissionDO> page1 = permissionMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(), command.getPageSize()
-            ), wrapper);
-            list = page1.getRecords();
-            page.setTotal((int) page1.getTotal());
-        } else {
-            list = permissionMapper.selectList(wrapper);
-        }
+        List<PermissionDO> list = command.enablePage() ?
+                permissionMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                permissionMapper.selectList(wrapper);
+
+        page.setRows(converter.to(list));
 
         page.setRows(converter.to(list));
 

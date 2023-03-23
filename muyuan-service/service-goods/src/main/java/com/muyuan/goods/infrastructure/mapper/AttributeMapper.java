@@ -1,11 +1,8 @@
 package com.muyuan.goods.infrastructure.mapper;
 
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
-import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.goods.infrastructure.dataobject.AttributeDO;
-import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 
 /**
  * 商品分类属性Mapper接口
@@ -15,9 +12,5 @@ import org.apache.ibatis.annotations.Options;
  */
 @Mapper
 public interface AttributeMapper extends GoodsBaseMapper<AttributeDO> {
-
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    @InsertProvider(value = CrudSqlProvider.class, method = "insert")
-    Integer insertAuto(AttributeDO dataObject);
 
 }

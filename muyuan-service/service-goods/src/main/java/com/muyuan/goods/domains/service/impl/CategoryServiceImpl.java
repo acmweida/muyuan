@@ -40,8 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
     private BrandRepo brandRepo;
 
     @Override
-    public Page<Category> list(CategoryQueryCommand commend) {
-        return categoryRepo.select(commend);
+    public Page<Category> list(CategoryQueryCommand command) {
+        return categoryRepo.select(command);
     }
 
     @Override

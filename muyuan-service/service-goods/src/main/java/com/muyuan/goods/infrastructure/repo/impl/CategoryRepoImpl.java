@@ -1,7 +1,8 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.CategoryRepo;
 import com.muyuan.goods.face.dto.CategoryQueryCommand;
@@ -26,24 +27,24 @@ public class CategoryRepoImpl implements CategoryRepo {
 
     @Override
     public Page<Category> select(CategoryQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(CategoryDO.class)
-                .eq(PARENT_ID,command.getParentId())
-                .eq(NAME,command.getName())
-                .eq(LEVEL,command.getLevel())
-                .eq(CODE,command.getCode())
-                .eq(STATUS,command.getStatus())
-                .eq(LEAF,command.getLeaf())
-                .in(STATUS, STATUS_OK)
+        LambdaQueryWrapper<CategoryDO> wrapper = new LambdaQueryWrapper<CategoryDO>()
+                .eq(CategoryDO::getParentId,command.getParentId())
+                .eq(CategoryDO::getName,command.getName())
+                .eq(CategoryDO::getLevel,command.getLevel())
+                .eq(CategoryDO::getCode,command.getCode())
+                .eq(CategoryDO::getStatus,command.getStatus())
+                .eq(CategoryDO::getLeaf,command.getLeaf())
+                .in(CategoryDO::getStatus, STATUS_OK)
 ;
 
-        Page<Category> page = Page.<Category>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
+        Page<Category> page = Page.<Category>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        List<CategoryDO> list = categoryMapper.selectList(sqlBuilder.build());
+        List<CategoryDO> list = command.enablePage() ?
+                categoryMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                categoryMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 
@@ -57,27 +58,24 @@ public class CategoryRepoImpl implements CategoryRepo {
 
     @Override
     public Category selectCategory(Long id) {
-        CategoryDO categoryDO = categoryMapper.selectOne(new SqlBuilder(CategoryDO.class)
-                .eq(ID, id)
-                .build());
+        CategoryDO categoryDO = categoryMapper.selectOne(new LambdaQueryWrapper<CategoryDO>()
+                .eq(CategoryDO::getId, id));
         return converter.to(categoryDO);
     }
 
     @Override
     public Category selectCategoryByCode(Long code) {
-        CategoryDO categoryDO = categoryMapper.selectOne(new SqlBuilder(CategoryDO.class)
-                .eq(CODE, code)
-                .build());
+        CategoryDO categoryDO = categoryMapper.selectOne(new LambdaQueryWrapper<CategoryDO>()
+                .eq(CategoryDO::getCode, code));
         return converter.to(categoryDO);
     }
 
     @Override
     public Category selectCategory(Category.Identify identify) {
-        CategoryDO categoryDO = categoryMapper.selectOne(new SqlBuilder(CategoryDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .eq(PARENT_ID,identify.getParentId())
-                .eq(NAME,identify.getName())
-                .build());
+        CategoryDO categoryDO = categoryMapper.selectOne(new LambdaQueryWrapper<CategoryDO>().select(CategoryDO::getId)
+                .eq(ObjectUtils.isNotEmpty(identify.getId()),CategoryDO::getId, identify.getId())
+                .eq(CategoryDO::getParentId,identify.getParentId())
+                .eq(CategoryDO::getName,identify.getName()));
 
         return converter.to(categoryDO);
     }
@@ -85,36 +83,35 @@ public class CategoryRepoImpl implements CategoryRepo {
     @Override
     public boolean addCategory(Category category) {
         CategoryDO to = converter.to(category);
-        Integer count = categoryMapper.insertAuto(to);
+        Integer count = categoryMapper.insert(to);
         category.setId(to.getId());
         return count > 0;
     }
 
     @Override
     public int count(CategoryQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(CategoryDO.class)
-                .eq(PARENT_ID,command.getParentId())
-                .eq(NAME,command.getName())
-                .eq(LEVEL,command.getLevel())
-                .eq(CODE,command.getCode())
-                .eq(ANCESTORS,command.getAncestors())
-                .eq(STATUS,command.getStatus())
-                .eq(LEAF,command.getLeaf())
-                .in(STATUS, STATUS_OK)
-                ;
+        LambdaQueryWrapper<CategoryDO> wrapper = new LambdaQueryWrapper<CategoryDO>()
+                .eq(CategoryDO::getParentId,command.getParentId())
+                .eq(CategoryDO::getName,command.getName())
+                .eq(CategoryDO::getLevel,command.getLevel())
+                .eq(CategoryDO::getCode,command.getCode())
+                .eq(CategoryDO::getAncestors,command.getAncestors())
+                .eq(CategoryDO::getStatus,command.getStatus())
+                .eq(CategoryDO::getLeaf,command.getLeaf())
+                .in(CategoryDO::getStatus, STATUS_OK);
 
 
-        return categoryMapper.count(sqlBuilder.build());
+        return categoryMapper.selectCount(wrapper).intValue();
     }
 
     @Override
     public Category updateCategory(Category category) {
-        SqlBuilder sqlBuilder = new SqlBuilder(CategoryDO.class)
-                .eq(ID, category.getId());
+        LambdaQueryWrapper<CategoryDO> wrapper = new LambdaQueryWrapper<CategoryDO>()
+                .eq(CategoryDO::getId, category.getId());
 
-        CategoryDO categoryDO = categoryMapper.selectOne(sqlBuilder.build());
+        CategoryDO categoryDO = categoryMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(categoryDO)) {
-            categoryMapper.updateBy(converter.to(category), ID);
+            categoryMapper.updateById(converter.to(category));
         }
 
         return converter.to(categoryDO);
@@ -122,17 +119,20 @@ public class CategoryRepoImpl implements CategoryRepo {
 
     @Override
     public Category updateCategoryAncestors(Category category) {
-        categoryMapper.updateColumnBy(converter.to(category),new String[]{ANCESTORS},ID);
+        UpdateWrapper<CategoryDO> wrapper = new UpdateWrapper<CategoryDO>()
+                .eq(ID,category.getId())
+                .set(ANCESTORS,category.getAncestors());
+        categoryMapper.update(null,wrapper);
         return category;
     }
 
     @Override
     public List<Category> deleteBy(Long... ids) {
-        List<CategoryDO> categorys = categoryMapper.selectList(new SqlBuilder(CategoryDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<CategoryDO> wrapper = new LambdaQueryWrapper<CategoryDO>()
+                .in(CategoryDO::getId, ids);
+        List<CategoryDO> categorys = categoryMapper.selectList(wrapper);
 
-        categoryMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        categoryMapper.delete(wrapper);
 
         return converter.to(categorys);
     }

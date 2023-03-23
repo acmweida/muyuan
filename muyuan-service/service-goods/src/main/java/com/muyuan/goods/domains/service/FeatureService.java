@@ -18,10 +18,10 @@ public interface FeatureService {
 
     /**
      * 通用特征量分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Feature> list(FeatureQueryCommand commend);
+    Page<Feature> list(FeatureQueryCommand command);
 
     /**
      * 唯一性检查

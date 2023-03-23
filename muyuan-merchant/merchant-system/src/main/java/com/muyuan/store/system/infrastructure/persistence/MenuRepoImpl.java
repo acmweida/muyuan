@@ -1,10 +1,10 @@
 package com.muyuan.store.system.infrastructure.persistence;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.core.constant.RedisConst;
 import com.muyuan.common.core.util.CacheServiceUtil;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.StrUtil;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.store.system.domains.dto.MenuDTO;
 import com.muyuan.store.system.domains.model.Menu;
@@ -100,10 +100,10 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public List<Menu> select(MenuDTO menuDTO) {
-        return menuMapper.selectList(new SqlBuilder(Menu.class)
-                .eq(NAME, menuDTO.getName())
-                .eq(STATUS, menuDTO.getStatus())
-                .orderByAsc(ORDER_NUM).build());
+        return menuMapper.selectList(new LambdaQueryWrapper<Menu>()
+                .eq(Menu::getName, menuDTO.getName())
+                .eq(Menu::getStatus, menuDTO.getStatus())
+                .orderByAsc(Menu::getOrderNum));
     }
 
     @Override
@@ -113,24 +113,23 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public Menu selectOne(Menu menu) {
-        return menuMapper.selectOne(new SqlBuilder(Menu.class)
-                .eq(NAME, menu.getName())
-                .eq(PARENT_ID, menu.getParentId())
-                .eq(TYPE, menu.getType())
-                .eq(STATUS, STATUS_OK)
-                .eq(ID, menu.getId())
-                .build());
+        return menuMapper.selectOne(new LambdaQueryWrapper<Menu>()
+                .eq(Menu::getName, menu.getName())
+                .eq(Menu::getParentId, menu.getParentId())
+                .eq(Menu::getType, menu.getType())
+                .eq(Menu::getStatus, STATUS_OK)
+                .eq(Menu::getId, menu.getId()));
     }
 
     @Override
     public void insert(Menu menu) {
-        menuMapper.insertAuto((Menu)menu);
+        menuMapper.insert(menu);
     }
 
     @Override
     @Transactional
     public void deleteById(String... id) {
-        menuMapper.deleteBy(new SqlBuilder().in(ID,id).build());
+        menuMapper.deleteBatchIds(Arrays.asList(id));
         // 清除无父菜单的子菜单
         while (menuMapper.delete() > 0) {
         }
@@ -139,7 +138,7 @@ public class MenuRepoImpl implements MenuRepo {
 
     @Override
     public void updateById(Menu menu) {
-        menuMapper.updateBy(menu, ID);
+        menuMapper.updateById(menu);
     }
 
     @Override

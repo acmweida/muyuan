@@ -11,7 +11,4 @@ import com.muyuan.goods.infrastructure.dataobject.BrandCategoryDO;
  */
 public interface BrandCategoryMapper extends GoodsBaseMapper<BrandCategoryDO> {
 
-    String BRAND_ID = "brandId";
-
-
 }

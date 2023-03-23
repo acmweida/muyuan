@@ -11,9 +11,4 @@ import com.muyuan.goods.infrastructure.dataobject.AttributeValueDO;
  */
 public interface AttributeValueMapper extends GoodsBaseMapper<AttributeValueDO> {
 
-
-    String ATTRIBUTE_ID = "attributeId";
-
-    String VALUE = "value";
-
 }

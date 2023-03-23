@@ -33,8 +33,8 @@ public class OperatorServiceImpl implements OperatorService {
     private OperatorRepo repo;
 
     @Override
-    public Page<Operator> list(UserQueryCommand commend) {
-        return repo.select(commend);
+    public Page<Operator> list(UserQueryCommand command) {
+        return repo.select(command);
     }
 
     @Override

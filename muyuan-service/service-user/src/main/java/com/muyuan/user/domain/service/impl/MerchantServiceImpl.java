@@ -33,8 +33,8 @@ public class MerchantServiceImpl implements MerchantService {
     private MerchantRepo repo;
 
     @Override
-    public Page<Merchant> list(UserQueryCommand commend) {
-        return repo.select(commend);
+    public Page<Merchant> list(UserQueryCommand command) {
+        return repo.select(command);
     }
 
     @Override

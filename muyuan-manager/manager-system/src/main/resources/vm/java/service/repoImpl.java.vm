@@ -1,7 +1,7 @@
 package c${packageName}.${moduleName}.infrastructure.repo.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+
 import ${packageName}.${moduleName}.domain.model.entity.${ClassName};
 import ${packageName}.${moduleName}.domain.repo.${ClassName}Repo;
 import ${packageName}.${moduleName}.face.dto.${ClassName}QueryCommand;
@@ -27,7 +27,7 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
 
     @Override
     public Page<${ClassName}> select(${ClassName}QueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(${ClassName}DO.class)
+        LambdaQueryWrapper LambdaQueryWrapper = new LambdaQueryWrapper(${ClassName}DO.class)
     #foreach ($column in $columns)
         #if(!$table.isSuperColumn($column.javaField))
                 .eq(${column.upperCaseJavaField},command.get${column.capJavaField}())
@@ -38,10 +38,10 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            LambdaQueryWrapper.page(page);
         }
 
-        List<${ClassName}DO> list = ${className}Mapper.selectList(sqlBuilder.build());
+        List<${ClassName}DO> list = ${className}Mapper.selectList(LambdaQueryWrapper.build());
 
         page.setRows(converter.to(list));
 
@@ -50,7 +50,7 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
 
     @Override
     public ${ClassName} select${ClassName}(${pkColumn.javaType} ${pkColumn.javaField}) {
-        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new SqlBuilder(${ClassName}DO.class)
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new LambdaQueryWrapper(${ClassName}DO.class)
                 .eq(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField})
                 .build());
         return converter.to(${className}DO);
@@ -58,7 +58,7 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
 
     @Override
     public ${ClassName} select${ClassName}(${ClassName}.Identify identify) {
-        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new SqlBuilder(${ClassName}DO.class).select(${pkColumn.upperCaseJavaField})
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(new LambdaQueryWrapper(${ClassName}DO.class).select(${pkColumn.upperCaseJavaField})
                 .eq(${pkColumn.upperCaseJavaField}, identify.get${pkColumn.capJavaField}())
                 .build());
 
@@ -74,10 +74,10 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
 
     @Override
     public ${ClassName} update${ClassName}(${ClassName} ${className}) {
-        SqlBuilder sqlBuilder = new SqlBuilder(${ClassName}DO.class)
+        LambdaQueryWrapper LambdaQueryWrapper = new LambdaQueryWrapper(${ClassName}DO.class)
                 .eq(${pkColumn.upperCaseJavaField}, ${className}.get${pkColumn.capJavaField}());
 
-        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(sqlBuilder.build());
+        ${ClassName}DO ${className}DO = ${className}Mapper.selectOne(LambdaQueryWrapper.build());
         if (ObjectUtils.isNotEmpty(${className}DO)) {
             ${className}Mapper.updateBy(converter.to(${className}), ${pkColumn.upperCaseJavaField});
         }
@@ -87,11 +87,11 @@ public class ${ClassName}RepoImpl implements ${ClassName}Repo {
 
     @Override
     public List<${ClassName}> deleteBy(${pkColumn.javaType}... ${pkColumn.javaField}s) {
-        List<${ClassName}DO> ${className}s = ${className}Mapper.selectList(new SqlBuilder(${ClassName}DO.class)
+        List<${ClassName}DO> ${className}s = ${className}Mapper.selectList(new LambdaQueryWrapper(${ClassName}DO.class)
                 .in(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField}s)
                 .build());
 
-        ${className}Mapper.deleteBy(new SqlBuilder().in(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField}s).build());
+        ${className}Mapper.deleteBy(new LambdaQueryWrapper().in(${pkColumn.upperCaseJavaField}, ${pkColumn.javaField}s).build());
 
         return converter.to(${className}s);
     }

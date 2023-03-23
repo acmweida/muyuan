@@ -1,12 +1,14 @@
 package com.muyuan.system.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class File {
+public class File extends BaseDO {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -25,9 +27,6 @@ public class File {
 
     private String suffix;
 
-    private Date createTime;
-
-    private Long createBy;
 
     /**
      * 状态 0-正常 1-删除

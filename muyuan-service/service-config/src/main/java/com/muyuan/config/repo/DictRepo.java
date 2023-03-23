@@ -19,7 +19,7 @@ public interface DictRepo {
 
     List<DictData> selectByDictType(String dataType);
 
-    Page<DictData> select(DictQueryCommand commend);
+    Page<DictData> select(DictQueryCommand command);
 
     Page<DictType> select(DictTypeQueryCommand command);
 

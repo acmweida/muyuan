@@ -39,20 +39,20 @@ public class DictServiceImpl implements DictService {
     private RedisCacheService redisCacheService;
 
     @Override
-    public List<DictData> getByDictTypeName(DictQueryCommand commend) {
-        if (ObjectUtils.isEmpty(commend.getType())) {
+    public List<DictData> getByDictTypeName(DictQueryCommand command) {
+        if (ObjectUtils.isEmpty(command.getType())) {
             return GlobalConst.EMPTY_LIST;
         }
 
-        return CacheServiceUtil.getAndUpdateList(redisCacheService, RedisConst.SYS_DATA_DICT + commend.getType(),
-                () -> dictRepo.selectByDictType(commend.getType()),
+        return CacheServiceUtil.getAndUpdateList(redisCacheService, RedisConst.SYS_DATA_DICT + command.getType(),
+                () -> dictRepo.selectByDictType(command.getType()),
                 DictData.class
         );
     }
 
     @Override
-    public Page<DictType> list(DictTypeQueryCommand commend) {
-        return dictRepo.select(commend);
+    public Page<DictType> list(DictTypeQueryCommand command) {
+        return dictRepo.select(command);
     }
 
     @Override
@@ -72,8 +72,8 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public Page<DictData> list(DictQueryCommand commend) {
-        return dictRepo.select(commend);
+    public Page<DictData> list(DictQueryCommand command) {
+        return dictRepo.select(command);
     }
 
     @Override

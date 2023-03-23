@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 /**
  * dubbo相关配置类
  *
- * @author Gadfly
+ * @author
  * @since 2021-08-06 9:47
  */
 

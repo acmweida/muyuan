@@ -4,7 +4,7 @@ import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
 
 /**
- * @ClassName DictQueryCommend
+ * @ClassName DictQuerycommand
  * Description
  * @Author 2456910384
  * @Date 2022/10/14 10:42

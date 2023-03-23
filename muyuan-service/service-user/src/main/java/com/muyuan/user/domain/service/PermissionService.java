@@ -35,10 +35,10 @@ public interface PermissionService {
 
     /**
      * 权限分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Permission> list(PermissionQueryCommand commend);
+    Page<Permission> list(PermissionQueryCommand command);
 
     /**
      * 唯一性检查

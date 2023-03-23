@@ -1,7 +1,11 @@
 package com.muyuan.goods.infrastructure.dataobject;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.util.Date;
 
 
 /**
@@ -11,8 +15,10 @@ import lombok.Data;
  * @date 2022-12-29T16:35:53.035+08:00
  */
 @Data
+@TableName("t_feature")
 public class FeatureDO  {
 
+    @TableId(type = IdType.AUTO)
     /** $column.columnComment */
     private Long id;
 

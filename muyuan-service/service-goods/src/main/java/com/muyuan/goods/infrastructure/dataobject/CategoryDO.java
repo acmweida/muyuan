@@ -1,5 +1,8 @@
 package com.muyuan.goods.infrastructure.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,8 +15,10 @@ import java.util.Date;
  * @date 2022-12-16T11:54:09.147+08:00
  */
 @Data
+@TableName("t_category")
 public class CategoryDO  {
 
+    @TableId(type = IdType.AUTO)
     /** 主键 */
     private Long id;
 

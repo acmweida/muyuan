@@ -42,8 +42,8 @@ public class AttributeServiceImpl implements AttributeService {
     private AttributeValueRepo attributeValueRepo;
 
     @Override
-    public Page<Attribute> list(AttributeQueryCommand commend) {
-        return attributeRepo.select(commend);
+    public Page<Attribute> list(AttributeQueryCommand command) {
+        return attributeRepo.select(command);
     }
 
     @Override

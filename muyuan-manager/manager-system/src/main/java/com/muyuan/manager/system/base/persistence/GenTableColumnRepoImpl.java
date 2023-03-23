@@ -1,6 +1,6 @@
 package com.muyuan.manager.system.base.persistence;
 
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+
 import com.muyuan.manager.system.model.GenTableColumn;
 import com.muyuan.manager.system.repo.GenTableColumnRepo;
 import com.muyuan.manager.system.base.persistence.mapper.GenTableColumnMapper;
@@ -41,7 +41,7 @@ public class GenTableColumnRepoImpl implements GenTableColumnRepo {
     @Override
     public int deleteGenTableColumnByIds(Long[] ids) {
         return genTableColumnMapper.deleteBy(
-                new SqlBuilder()
+                new LambdaQueryWrapper()
                         .in("id",ids)
                         .build()
         );

@@ -1,7 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
@@ -58,16 +57,9 @@ public class OperatorRepoImpl implements OperatorRepo {
                 .pageNum(command.getPageNum())
                 .build();
 
-        List<OperatorDO> list;
-        if (command.enablePage()) {
-            IPage<OperatorDO> page1 = mapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(), command.getPageSize()
-            ), wrapper);
-            list = page1.getRecords();
-            page.setTotal((int) page1.getTotal());
-        } else {
-            list = mapper.selectList(wrapper);
-        }
+        List<OperatorDO> list = command.enablePage() ?
+                mapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                mapper.selectList(wrapper);
 
         page.setRows(converter.toUsers(list));
 
@@ -143,7 +135,7 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Page<Operator> selectAllocatedList(UserQueryCommand command) {
-        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+        SqlParamsBuilder<OperatorDO> LambdaQueryWrapper = new SqlParamsBuilder<OperatorDO>()
                 .param(OperatorDO::getUsername, command.getUsername())
                 .param(OperatorDO::getPhone, command.getPhone());
 
@@ -151,10 +143,10 @@ public class OperatorRepoImpl implements OperatorRepo {
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            LambdaQueryWrapper.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(), sqlBuilder.build());
+        List<OperatorDO> list = mapper.selectAllocatedList(command.getRoleId(), LambdaQueryWrapper.build());
 
         page.setRows(converter.toUsers(list));
 
@@ -163,7 +155,7 @@ public class OperatorRepoImpl implements OperatorRepo {
 
     @Override
     public Page<Operator> selectUnallocatedList(UserQueryCommand command) {
-        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+        SqlParamsBuilder<OperatorDO> LambdaQueryWrapper = new SqlParamsBuilder<OperatorDO>()
                 .param(OperatorDO::getUsername, command.getUsername())
                 .param(OperatorDO::getPhone, command.getPhone());
 
@@ -171,10 +163,10 @@ public class OperatorRepoImpl implements OperatorRepo {
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            LambdaQueryWrapper.page(page);
         }
 
-        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(), sqlBuilder.build());
+        List<OperatorDO> list = mapper.selectUnallocatedList(command.getRoleId(), LambdaQueryWrapper.build());
 
         page.setRows(converter.toUsers(list));
 

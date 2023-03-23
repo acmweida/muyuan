@@ -1,5 +1,6 @@
 package com.muyuan.goods.infrastructure.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 
@@ -10,6 +11,7 @@ import lombok.Data;
  * @date 2022-12-27T11:15:54.529+08:00
  */
 @Data
+@TableName("t_attribute_value")
 public class AttributeValueDO  {
 
     /** $column.columnComment */

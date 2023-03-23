@@ -1,7 +1,7 @@
 package com.muyuan.store.system.infrastructure.persistence;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.model.RoleMenu;
@@ -10,6 +10,7 @@ import com.muyuan.store.system.infrastructure.persistence.mapper.RoleMapper;
 import com.muyuan.store.system.infrastructure.persistence.mapper.RoleMenuMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.assertj.core.util.Arrays;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,16 +43,17 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public List<Role> select(RoleDTO roleDTO, Page page) {
-        return roleMapper.selectList(new SqlBuilder(Role.class)
-                .eq(RoleRepo.NAME, roleDTO.getName())
-                .eq(RoleRepo.STATUS, roleDTO.getStatus())
-                .page(page)
-                .orderByAsc(RoleRepo.ORDER_NUM).build());
+        return roleMapper.selectList(new LambdaQueryWrapper<Role>()
+                .eq(Role::getName, roleDTO.getName())
+                .eq(Role::getStatus, roleDTO.getStatus())
+//                .page(page)
+                .orderByAsc(Role::getOrderNum));
     }
 
     @Override
     public Role selectOne(Map params) {
-        return roleMapper.selectOne(params);
+        return null;
+//        return roleMapper.selectOne(params);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class RoleRepoImpl implements RoleRepo {
 
     @Override
     public void updateById(Role role) {
-        roleMapper.updateBy(role, ID);
+        roleMapper.updateById(role);
     }
 
     @Override
@@ -74,16 +76,13 @@ public class RoleRepoImpl implements RoleRepo {
         if (ObjectUtils.isEmpty(roleId)) {
             return;
         }
-        roleMenuMapper.deleteBy(new SqlBuilder().eq(
-                ROLE_ID, roleId
-        ).build());
+        roleMenuMapper.delete(new LambdaQueryWrapper<RoleMenu>().eq(
+                RoleMenu::getRoleId, roleId
+        ));
     }
 
     @Override
     public void deleteById(String... id) {
-        roleMenuMapper.deleteBy(
-                new SqlBuilder().in(ID, id)
-                        .build()
-        );
+        roleMenuMapper.deleteBatchIds(Arrays.asList(id));
     }
 }

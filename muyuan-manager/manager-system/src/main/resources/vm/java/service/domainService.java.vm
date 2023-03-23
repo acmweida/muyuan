@@ -19,10 +19,10 @@ public interface ${ClassName}DomainService {
 
     /**
      * ${functionName}分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<${ClassName}> list(${ClassName}QueryCommand commend);
+    Page<${ClassName}> list(${ClassName}QueryCommand command);
 
     /**
      * 唯一性检查

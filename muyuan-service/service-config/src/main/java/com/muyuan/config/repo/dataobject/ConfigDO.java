@@ -1,5 +1,8 @@
 package com.muyuan.config.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,9 +15,11 @@ import java.util.Date;
  * @date 2022-11-30T10:41:23.089+08:00
  */
 @Data
+@TableName("t_config")
 public class ConfigDO  {
 
     /** 参数主键 */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 参数名称 */

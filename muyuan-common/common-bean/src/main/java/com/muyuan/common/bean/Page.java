@@ -10,8 +10,6 @@ import java.util.List;
 @Builder
 public class Page<T> implements Serializable {
 
-
-
     private int pageNum;
 
     private int pageSize;

@@ -13,34 +13,21 @@ import java.util.Map;
  * @author
  */
 public class SecurityContextHolder {
-    private static final ThreadLocal<Map<String, Object>> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, Object>> THREAD_LOCAL = ThreadLocal.withInitial(HashMap::new);
 
     public static void set(String key, Object value) {
-        Map<String, Object> map = getLocalMap();
+        Map<String, Object> map = THREAD_LOCAL.get();
         map.put(key, value == null ? StrUtil.EMPTY : value);
     }
 
     public static String get(String key) {
-        Map<String, Object> map = getLocalMap();
+        Map<String, Object> map = THREAD_LOCAL.get();
         return Convert.toStr(map.getOrDefault(key, StrUtil.EMPTY));
     }
 
     public static <T> T get(String key, Class<T> clazz) {
-        Map<String, Object> map = getLocalMap();
-        return StrUtil.cast(map.getOrDefault(key, null));
-    }
-
-    public static Map<String, Object> getLocalMap() {
         Map<String, Object> map = THREAD_LOCAL.get();
-        if (map == null) {
-            map = new HashMap<>();
-            THREAD_LOCAL.set(map);
-        }
-        return map;
-    }
-
-    public static void setLocalMap(Map<String, Object> threadLocalMap) {
-        THREAD_LOCAL.set(threadLocalMap);
+        return StrUtil.cast(map.getOrDefault(key, null));
     }
 
     public static void remove() {

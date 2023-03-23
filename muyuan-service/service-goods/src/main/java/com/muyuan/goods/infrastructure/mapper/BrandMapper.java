@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface BrandMapper extends GoodsBaseMapper<BrandDO> {
 
-    String AUDIT_STATUS = "auditStatus";
-
     List<BrandDO> selectByCategoryCode(Long... categoryCodes);
 
 }

@@ -19,10 +19,10 @@ public interface CategoryService {
 
     /**
      * 商品分类分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Category> list(CategoryQueryCommand commend);
+    Page<Category> list(CategoryQueryCommand command);
 
     List<Category> listByBrandId(Long... brandIds);
 

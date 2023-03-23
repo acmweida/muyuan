@@ -32,8 +32,8 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
     private ${ClassName}Repo ${className}Repo;
 
     @Override
-    public Page<${ClassName}> list(${ClassName}QueryCommand commend) {
-        return ${className}Repo.select(commend);
+    public Page<${ClassName}> list(${ClassName}QueryCommand command) {
+        return ${className}Repo.select(command);
     }
 
     @Override

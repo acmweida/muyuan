@@ -1,7 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
@@ -60,16 +59,9 @@ public class MerchantRepoImpl implements MerchantRepo {
                 .pageSize(command.getPageSize())
                 .build();
 
-        List<MerchantDO> list;
-        if (command.enablePage()) {
-            IPage<MerchantDO> page1 = mapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(), command.getPageSize()
-            ), wrapper);
-            list = page1.getRecords();
-            page.setTotal((int) page1.getTotal());
-        } else {
-            list = mapper.selectList(wrapper);
-        }
+        List<MerchantDO> list = command.enablePage() ?
+                mapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                mapper.selectList(wrapper);
 
         page.setRows(converter.toMerchants(list));
 
@@ -146,7 +138,7 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Page<Merchant> selectAllocatedList(UserQueryCommand command) {
-        SqlParamsBuilder<OperatorDO> sqlBuilder = new SqlParamsBuilder<OperatorDO>()
+        SqlParamsBuilder<OperatorDO> LambdaQueryWrapper = new SqlParamsBuilder<OperatorDO>()
                 .param(OperatorDO::getUsername, command.getUsername())
                 .param(OperatorDO::getPhone, command.getPhone());
 
@@ -154,10 +146,10 @@ public class MerchantRepoImpl implements MerchantRepo {
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            LambdaQueryWrapper.page(page);
         }
 
-        List<MerchantDO> list = mapper.selectAllocatedList(command.getRoleId(), sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectAllocatedList(command.getRoleId(), LambdaQueryWrapper.build());
 
         page.setRows(converter.toMerchants(list));
 
@@ -166,7 +158,7 @@ public class MerchantRepoImpl implements MerchantRepo {
 
     @Override
     public Page<Merchant> selectUnallocatedList(UserQueryCommand command) {
-        SqlParamsBuilder<MerchantDO> sqlBuilder = new SqlParamsBuilder<MerchantDO>()
+        SqlParamsBuilder<MerchantDO> LambdaQueryWrapper = new SqlParamsBuilder<MerchantDO>()
                 .param(MerchantDO::getUsername, command.getUsername())
                 .param(MerchantDO::getPhone, command.getPhone());
 
@@ -174,10 +166,10 @@ public class MerchantRepoImpl implements MerchantRepo {
         if (command.enablePage()) {
             page.setPageSize(command.getPageSize());
             page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
+            LambdaQueryWrapper.page(page);
         }
 
-        List<MerchantDO> list = mapper.selectUnallocatedList(command.getRoleId(), sqlBuilder.build());
+        List<MerchantDO> list = mapper.selectUnallocatedList(command.getRoleId(), LambdaQueryWrapper.build());
 
         page.setRows(converter.toMerchants(list));
 

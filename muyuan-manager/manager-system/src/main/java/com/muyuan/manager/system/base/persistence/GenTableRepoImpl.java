@@ -1,7 +1,7 @@
 package com.muyuan.manager.system.base.persistence;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+
 import com.muyuan.manager.system.base.persistence.converter.GenTableConverter;
 import com.muyuan.manager.system.base.persistence.mapper.GenTableMapper;
 import com.muyuan.manager.system.dto.GenTableDTO;
@@ -60,7 +60,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public List<GenTable> selectDbTableList(GenTableDTO genTable, Page page) {
-       return genTableMapper.selectDbTableList(new SqlBuilder()
+       return genTableMapper.selectDbTableList(new LambdaQueryWrapper()
                .eq("tableName",genTable.getTableName())
                .eq("tableComment",genTable.getTableComment())
                .eq("beginTime",genTable.getBeginTime())
@@ -81,7 +81,7 @@ public class GenTableRepoImpl implements GenTableRepo {
 
     @Override
     public int deleteGenTableByIds(Long[] ids) {
-        return  genTableMapper.deleteBy(new SqlBuilder()
+        return  genTableMapper.deleteBy(new LambdaQueryWrapper()
                 .in("tableId",ids)
                 .build());
     }

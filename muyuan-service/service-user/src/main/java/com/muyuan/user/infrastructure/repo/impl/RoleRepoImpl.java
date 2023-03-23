@@ -1,7 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.PlatformType;
@@ -61,16 +60,9 @@ public class RoleRepoImpl implements RoleRepo {
                 .pageNum(command.getPageNum())
                 .build();
 
-        List<RoleDO> list;
-        if (command.enablePage()) {
-            IPage<RoleDO> page1 = roleMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(), command.getPageSize()
-            ), wrapper);
-            list = page1.getRecords();
-            page.setTotal((int) page1.getTotal());
-        } else {
-            list = roleMapper.selectList(wrapper);
-        }
+        List<RoleDO> list = command.enablePage() ?
+                roleMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                roleMapper.selectList(wrapper);
 
         page.setRows(converter.toRoles(list));
 

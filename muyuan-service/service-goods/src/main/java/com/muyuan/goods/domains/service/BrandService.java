@@ -20,10 +20,10 @@ public interface BrandService {
 
     /**
      * 品牌分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Brand> list(BrandQueryCommand commend);
+    Page<Brand> list(BrandQueryCommand command);
 
 
     List<Brand> listByCategoryCode(Long... categoryCodes);

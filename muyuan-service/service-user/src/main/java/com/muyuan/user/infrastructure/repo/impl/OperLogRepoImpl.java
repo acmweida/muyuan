@@ -1,7 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.muyuan.common.bean.Page;
 import com.muyuan.user.domain.model.entity.OperLog;
 import com.muyuan.user.domain.repo.OperLogRepo;
@@ -44,16 +43,9 @@ public class OperLogRepoImpl implements OperLogRepo {
                 .pageNum(command.getPageNum())
                 .build();
 
-        List<OperLogDO> list;
-        if (command.enablePage()) {
-            IPage<OperLogDO> page1 = operLogMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(
-                    command.getPageNum(), command.getPageSize()
-            ), wrapper);
-            list = page1.getRecords();
-            page.setTotal((int) page1.getTotal());
-        } else {
-            list = operLogMapper.selectList(wrapper);
-        }
+        List<OperLogDO> list = command.enablePage() ?
+                operLogMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                operLogMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 

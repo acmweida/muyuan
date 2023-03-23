@@ -19,10 +19,10 @@ public interface OperatorService extends UserService<Operator> {
 
     /**
      * 角色分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Operator> list(UserQueryCommand commend);
+    Page<Operator> list(UserQueryCommand command);
 
 
     /**

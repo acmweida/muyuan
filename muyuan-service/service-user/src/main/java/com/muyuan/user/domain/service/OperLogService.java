@@ -18,10 +18,10 @@ public interface OperLogService {
 
     /**
      * 操作日志记录分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<OperLog> list(OperLogQueryCommand commend);
+    Page<OperLog> list(OperLogQueryCommand command);
 
     /**
      * 唯一性检查

@@ -1,7 +1,8 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+import com.muyuan.common.mybatis.id.IdGenerator;
 import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.muyuan.goods.infrastructure.mapper.BrandMapper.*;
 
 /**
  * 品牌对象 t_brand
@@ -39,10 +38,9 @@ public class BrandRepoImpl implements BrandRepo {
 
     @Override
     public Brand select(Long id, BrandAuthStatus... authStatuses) {
-        BrandDO brandDO = brandMapper.selectOne(new SqlBuilder(BrandDO.class)
-                .eq(ID, id)
-                .in(AUDIT_STATUS, Arrays.stream(authStatuses).map(BrandAuthStatus::getCode).toArray())
-                .build());
+        BrandDO brandDO = brandMapper.selectOne(new LambdaQueryWrapper<BrandDO>()
+                .eq(BrandDO::getId, id)
+                .in(BrandDO::getAuditStatus, Arrays.stream(authStatuses).map(BrandAuthStatus::getCode).toArray()));
         return converter.to(brandDO);
     }
 
@@ -53,19 +51,19 @@ public class BrandRepoImpl implements BrandRepo {
 
     @Override
     public Page<Brand> select(BrandQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(BrandDO.class)
-                .like(NAME, command.getName())
-                .eq(STATUS, command.getStatus())
-                .eq(AUDIT_STATUS, command.getAuditStatus());
+        LambdaQueryWrapper<BrandDO> wrapper = new LambdaQueryWrapper<BrandDO>()
+                .like(BrandDO::getName, command.getName())
+                .eq(BrandDO::getStatus, command.getStatus())
+                .eq(BrandDO::getAuditStatus, command.getAuditStatus());
 
-        Page<Brand> page = Page.<Brand>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
+        Page<Brand> page = Page.<Brand>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        List<BrandDO> list = brandMapper.selectList(sqlBuilder.build());
+        List<BrandDO> list = command.enablePage() ?
+                brandMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                brandMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 
@@ -74,34 +72,34 @@ public class BrandRepoImpl implements BrandRepo {
 
     @Override
     public Brand select(Brand.Identify identify) {
-        BrandDO brandDO = brandMapper.selectOne(new SqlBuilder(BrandDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .eq(NAME, identify.getName())
-                .build());
+        BrandDO brandDO = brandMapper.selectOne(new LambdaQueryWrapper<BrandDO>().select(BrandDO::getId)
+                .eq(BrandDO::getId, identify.getId())
+                .eq(BrandDO::getName, identify.getName()));
 
         return converter.to(brandDO);
     }
 
     @Override
+    @IdGenerator
     public boolean add(Brand permission) {
         BrandDO to = converter.to(permission);
-        Integer count = brandMapper.insert(to);
+        int count = brandMapper.insert(to);
         permission.setId(to.getId());
         return count > 0;
     }
 
     @Override
     public boolean update(Brand brand) {
-        return brandMapper.updateBy(converter.to(brand), ID) > 0;
+        return brandMapper.updateById(converter.to(brand)) > 0;
     }
 
     @Override
     public List<Brand> deleteBy(Long... ids) {
-        List<BrandDO> permissions = brandMapper.selectList(new SqlBuilder(BrandDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<BrandDO> wrapper = new LambdaQueryWrapper<BrandDO>()
+                .in(BrandDO::getId, ids);
+        List<BrandDO> permissions = brandMapper.selectList(wrapper);
 
-        brandMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        brandMapper.delete(wrapper);
 
         return converter.to(permissions);
     }
@@ -111,9 +109,8 @@ public class BrandRepoImpl implements BrandRepo {
         if (ObjectUtils.isEmpty(brandIds) || brandIds.size() == 0) {
             return;
         }
-        brandCategoryMapper.deleteBy(new SqlBuilder()
-                .in(BrandCategoryMapper.BRAND_ID, brandIds)
-                .build());
+        brandCategoryMapper.delete(new LambdaQueryWrapper<BrandCategoryDO>()
+                .in(BrandCategoryDO::getBrandId, brandIds));
     }
 
 
@@ -122,10 +119,9 @@ public class BrandRepoImpl implements BrandRepo {
         if (ObjectUtils.isEmpty(brandId) || ObjectUtils.isEmpty(categoryCodes)) {
             return;
         }
-        brandCategoryMapper.deleteBy(new SqlBuilder()
-                .eq(BrandCategoryMapper.BRAND_ID, brandId)
-                .in(BrandCategoryMapper.CATEGORY_CODE, categoryCodes)
-                .build());
+        brandCategoryMapper.delete(new LambdaQueryWrapper<BrandCategoryDO>()
+                .eq(BrandCategoryDO::getBrandId, brandId)
+                .in(BrandCategoryDO::getCategoryCode, categoryCodes));
     }
 
     @Override

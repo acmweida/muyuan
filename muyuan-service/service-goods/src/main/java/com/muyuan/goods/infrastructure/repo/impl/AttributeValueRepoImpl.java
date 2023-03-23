@@ -1,7 +1,7 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.goods.domains.model.entity.AttributeValue;
 import com.muyuan.goods.domains.repo.AttributeValueRepo;
 import com.muyuan.goods.face.dto.AttributeValueQueryCommand;
@@ -13,52 +13,48 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.ID;
-import static com.muyuan.goods.infrastructure.mapper.AttributeValueMapper.ATTRIBUTE_ID;
-import static com.muyuan.goods.infrastructure.mapper.AttributeValueMapper.VALUE;
-
 @Component
 @AllArgsConstructor
 public class AttributeValueRepoImpl implements AttributeValueRepo {
 
-    private AttributeValueMapper attributeValueMapper;
+    private AttributeValueMapper mapper;
 
     private AttributeValueConverter converter;
 
     @Override
     public Page<AttributeValue> select(AttributeValueQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(AttributeValueDO.class)
-                .eq(ID,command.getId())
-                .eq(ATTRIBUTE_ID,command.getAttributeId())
-                .eq(VALUE,command.getValue());
+        LambdaQueryWrapper<AttributeValueDO> wrapper = new LambdaQueryWrapper<AttributeValueDO>()
+                .eq(AttributeValueDO::getAttributeId,command.getId())
+                .eq(AttributeValueDO::getAttributeId,command.getAttributeId())
+                .eq(AttributeValueDO::getValue,command.getValue());
 
-        Page<AttributeValue> page = Page.<AttributeValue>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
 
-        List<AttributeValueDO> list = attributeValueMapper.selectList(sqlBuilder.build());
+        Page<AttributeValue> page = Page.<AttributeValue>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
+
+        List<AttributeValueDO> list = command.enablePage() ?
+                mapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                mapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
-
         return page;
     }
 
 
     @Override
     public boolean batchInsert(List<AttributeValue> attributeValues) {
-        return  attributeValueMapper.batchInsert(converter.toDO(attributeValues)) == attributeValues.size();
+        return  mapper.batchInsert(converter.toDO(attributeValues)) == attributeValues.size();
     }
 
     @Override
     public List<AttributeValue> deleteBy(Long... ids) {
-        List<AttributeValueDO> attributeValues = attributeValueMapper.selectList(new SqlBuilder(AttributeValueDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<AttributeValueDO> wrapper = new LambdaQueryWrapper<AttributeValueDO>()
+                .in(AttributeValueDO::getId, ids);
+        List<AttributeValueDO> attributeValues = mapper.selectList(wrapper);
 
-        attributeValueMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        mapper.delete(wrapper);
 
         return converter.to(attributeValues);
     }

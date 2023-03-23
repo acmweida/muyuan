@@ -1,7 +1,7 @@
 package com.muyuan.config.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.config.entity.Config;
 import com.muyuan.config.face.dto.ConfigQueryCommand;
 import com.muyuan.config.repo.ConfigRepo;
@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.config.repo.mapper.CommonMapper.*;
-
 @Component
 @AllArgsConstructor
 public class ConfigRepoImpl implements ConfigRepo {
@@ -26,23 +24,21 @@ public class ConfigRepoImpl implements ConfigRepo {
 
     @Override
     public Page<Config> select(ConfigQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(ConfigDO.class)
-                .eq(ID,command.getId())
-                .eq(NAME,command.getName())
-                .eq(CONFIG_KEY,command.getConfigKey())
-                .eq(CONFIG_VALUE,command.getConfigValue())
-                .eq(TYPE,command.getType())
-                .eq(REMARK,command.getRemark())
+        LambdaQueryWrapper<ConfigDO> wrapper = new LambdaQueryWrapper<ConfigDO>()
+                .eq(ConfigDO::getId,command.getId())
+                .eq(ConfigDO::getName,command.getName())
+                .eq(ConfigDO::getConfigKey,command.getConfigKey())
+                .eq(ConfigDO::getConfigValue,command.getConfigValue())
+                .eq(ConfigDO::getType,command.getType());
 ;
+        Page<Config> page = Page.<Config>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        Page<Config> page = Page.<Config>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
-
-        List<ConfigDO> list = configMapper.selectList(sqlBuilder.build());
+        List<ConfigDO> list = command.enablePage() ?
+                configMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                configMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 
@@ -51,17 +47,15 @@ public class ConfigRepoImpl implements ConfigRepo {
 
     @Override
     public Config selectConfig(Long id) {
-        ConfigDO configDO = configMapper.selectOne(new SqlBuilder(ConfigDO.class)
-                .eq(ID, id)
-                .build());
+        ConfigDO configDO = configMapper.selectOne(new LambdaQueryWrapper<ConfigDO>()
+                .eq(ConfigDO::getId, id));
         return converter.to(configDO);
     }
 
     @Override
     public Config selectConfig(Config.Identify identify) {
-        ConfigDO configDO = configMapper.selectOne(new SqlBuilder(ConfigDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .build());
+        ConfigDO configDO = configMapper.selectOne(new LambdaQueryWrapper<ConfigDO>().select(ConfigDO::getId)
+                .eq(ConfigDO::getId, identify.getId()));
 
         return converter.to(configDO);
     }
@@ -69,18 +63,18 @@ public class ConfigRepoImpl implements ConfigRepo {
     @Override
     public boolean addConfig(Config config) {
         ConfigDO to = converter.to(config);
-        Integer count = configMapper.insertAuto(to);
+        Integer count = configMapper.insert(to);
         return count > 0;
     }
 
     @Override
     public Config updateConfig(Config config) {
-        SqlBuilder sqlBuilder = new SqlBuilder(ConfigDO.class)
-                .eq(ID, config.getId());
+        LambdaQueryWrapper<ConfigDO> wrapper = new LambdaQueryWrapper<ConfigDO>()
+                .eq(ConfigDO::getId, config.getId());
 
-        ConfigDO configDO = configMapper.selectOne(sqlBuilder.build());
+        ConfigDO configDO = configMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(configDO)) {
-            configMapper.updateBy(converter.to(config), ID);
+            configMapper.updateById(converter.to(config));
         }
 
         return converter.to(configDO);
@@ -88,11 +82,11 @@ public class ConfigRepoImpl implements ConfigRepo {
 
     @Override
     public List<Config> deleteBy(Long... ids) {
-        List<ConfigDO> configs = configMapper.selectList(new SqlBuilder(ConfigDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<ConfigDO> wrapper = new LambdaQueryWrapper<ConfigDO>()
+                .in(ConfigDO::getId, ids);
+        List<ConfigDO> configs = configMapper.selectList(wrapper);
 
-        configMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        configMapper.delete(wrapper);
 
         return converter.to(configs);
     }

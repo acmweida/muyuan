@@ -33,8 +33,8 @@ public class OperLogDomainServiceImpl implements OperLogService {
     private OperLogRepo operLogRepo;
 
     @Override
-    public Page<OperLog> list(OperLogQueryCommand commend) {
-        return operLogRepo.select(commend);
+    public Page<OperLog> list(OperLogQueryCommand command) {
+        return operLogRepo.select(command);
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.muyuan.config.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
 import com.muyuan.config.face.dto.DictQueryCommand;
@@ -41,31 +42,30 @@ public class DictRepoImpl implements DictRepo {
 
     @Override
     public List<DictData> selectByDictType(String dataType) {
-        final List<DictDataDO> dictDataDOS = dictDataMapper.selectList(new SqlBuilder(DictData.class)
-                .eq(TYPE, dataType)
-                .eq(STATUS, 0)
-                .orderByAsc(ORDER_NUM)
-                .build());
+        final List<DictDataDO> dictDataDOS = dictDataMapper.selectList(new LambdaQueryWrapper<DictDataDO>()
+                .eq(DictDataDO::getType, dataType)
+                .eq(DictDataDO::getStatus, 0)
+                .orderByAsc(DictDataDO::getOrderNum));
 
         return converter.to(dictDataDOS);
     }
 
     @Override
-    public Page<DictData> select(DictQueryCommand commend) {
-        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(DictDataMapper.LABEL, commend.getLabel())
-                .like(TYPE, commend.getType())
-                .eq(STATUS, commend.getStatus())
-                .orderByDesc(UPDATE_TIME, CREATE_TIME);
+    public Page<DictData> select(DictQueryCommand command) {
+        LambdaQueryWrapper<DictDataDO> wrapper = new LambdaQueryWrapper<DictDataDO>()
+                .eq(DictDataDO::getLabel, command.getLabel())
+                .like(DictDataDO::getType, command.getType())
+                .eq(DictDataDO::getStatus, command.getStatus())
+                .orderByDesc(DictDataDO::getUpdateTime, DictDataDO::getCreateTime);
 
-        Page<DictData> page = Page.<DictData>builder().build();
-        if (commend.enablePage()) {
-            page.setPageSize(commend.getPageSize());
-            page.setPageNum(commend.getPageNum());
-            sqlBuilder.page(page);
-        }
+        Page<DictData> page = Page.<DictData>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        List<DictDataDO> list = dictDataMapper.selectList(sqlBuilder.build());
+        List<DictDataDO> list = command.enablePage() ?
+                dictDataMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                dictDataMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 
@@ -74,36 +74,34 @@ public class DictRepoImpl implements DictRepo {
 
 
     public DictType selectType(Long id) {
-        DictTypeDO dictType = dictTypeMapper.selectOne(new SqlBuilder(DictTypeDO.class)
-                .eq(ID, id)
-                .build());
+        DictTypeDO dictType = dictTypeMapper.selectOne(new LambdaQueryWrapper<DictTypeDO>()
+                .eq(DictTypeDO::getId, id));
         return converter.to(dictType);
     }
 
     @Override
     public DictData selectData(Long id) {
-        DictDataDO dictData = dictDataMapper.selectOne(new SqlBuilder(DictDataDO.class)
-                .eq(ID, id)
-                .build());
+        DictDataDO dictData = dictDataMapper.selectOne(new LambdaQueryWrapper<DictDataDO>()
+                .eq(DictDataDO::getId, id));
         return converter.to(dictData);
     }
 
     @Override
     public Page<DictType> select(DictTypeQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
-                .like(NAME, command.getName())
-                .like(TYPE, command.getType())
-                .eq(STATUS, command.getStatus())
-                .orderByDesc(UPDATE_TIME, CREATE_TIME);
+        LambdaQueryWrapper<DictTypeDO> wrapper = new LambdaQueryWrapper<DictTypeDO>()
+                .like(DictTypeDO::getName, command.getName())
+                .like(DictTypeDO::getType, command.getType())
+                .eq(DictTypeDO::getStatus, command.getStatus())
+                .orderByDesc(DictTypeDO::getUpdateTime, DictTypeDO::getCreateTime);
 
-        Page<DictType> page = Page.<DictType>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
+        Page<DictType> page = Page.<DictType>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        List<DictTypeDO> list = dictTypeMapper.selectList(sqlBuilder.build());
+        List<DictTypeDO> list = command.enablePage() ?
+                dictTypeMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                dictTypeMapper.selectList(wrapper);
 
         page.setRows(converter.toType(list));
 
@@ -112,47 +110,46 @@ public class DictRepoImpl implements DictRepo {
 
     @Override
     public DictType selectDictType(DictType.Identify identify) {
-        DictTypeDO dictType = dictTypeMapper.selectOne(new SqlBuilder(DictType.class).select("id")
-                .eq(TYPE, identify.getType())
-                .eq(ID, identify.getId())
-                .build());
+        DictTypeDO dictType = dictTypeMapper.selectOne(new LambdaQueryWrapper<DictTypeDO>().select(DictTypeDO::getId)
+                .eq(DictTypeDO::getType, identify.getType())
+                .eq(DictTypeDO::getId, identify.getId()));
 
         return converter.to(dictType);
     }
 
     @Override
     public DictData selectDictData(DictData.Identify identify) {
-        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(DictDataMapper.VALUE, identify.getValue())
-                .eq(TYPE, identify.getType())
-                .orderByDesc(UPDATE_TIME, CREATE_TIME);
+        LambdaQueryWrapper<DictDataDO> wrapper = new LambdaQueryWrapper<DictDataDO>()
+                .eq(DictDataDO::getValue, identify.getValue())
+                .eq(DictDataDO::getType, identify.getType())
+                .orderByDesc(DictDataDO::getUpdateTime, DictDataDO::getCreateTime);
 
-        DictDataDO dataDO = dictDataMapper.selectOne(sqlBuilder.build());
+        DictDataDO dataDO = dictDataMapper.selectOne(wrapper);
 
         return converter.to(dataDO);
     }
 
     @Override
     public boolean addDictType(DictType type) {
-        Integer count = dictTypeMapper.insertAuto(converter.to(type));
+        Integer count = dictTypeMapper.insert(converter.to(type));
         return count > 0;
     }
 
     @Override
     public boolean addDictData(DictData dictData) {
-        Integer count = dictDataMapper.insertAuto(converter.to(dictData));
+        Integer count = dictDataMapper.insert(converter.to(dictData));
         return count > 0;
     }
 
     @Override
     public DictData updateDictDataById(DictData dictData) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(DictDataDO.class)
-                .eq(ID, dictData.getId());
+        LambdaQueryWrapper<DictDataDO> wrapper = new LambdaQueryWrapper<DictDataDO>()
+                .eq(DictDataDO::getId, dictData.getId());
 
-        DictDataDO old = dictDataMapper.selectOne(sqlBuilder.build());
+        DictDataDO old = dictDataMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(old)) {
-            dictDataMapper.updateBy(converter.to(dictData), ID);
+            dictDataMapper.updateById(converter.to(dictData));
         }
 
         return converter.to(old);
@@ -161,12 +158,12 @@ public class DictRepoImpl implements DictRepo {
     @Override
     public DictType updateDictType(DictType dictType) {
 
-        SqlBuilder sqlBuilder = new SqlBuilder(DictTypeDO.class)
-                .eq(ID, dictType.getId());
+        LambdaQueryWrapper<DictTypeDO> wrapper = new LambdaQueryWrapper<DictTypeDO>()
+                .eq(DictTypeDO::getId, dictType.getId());
 
-        DictTypeDO typeDO = dictTypeMapper.selectOne(sqlBuilder.build());
+        DictTypeDO typeDO = dictTypeMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(typeDO)) {
-            dictTypeMapper.updateBy(converter.to(dictType), ID);
+            dictTypeMapper.updateById(converter.to(dictType));
         }
 
         return converter.to(typeDO);
@@ -174,21 +171,21 @@ public class DictRepoImpl implements DictRepo {
 
     @Override
     public boolean updateDictDataType(String oldType, String newType) {
-        SqlBuilder builder = new SqlBuilder(DictDataDO.class)
+        UpdateWrapper<DictDataDO> wrapper = new UpdateWrapper<DictDataDO>()
                 .set(TYPE,newType)
                 .eq(TYPE,oldType);
 
-        return dictDataMapper.update(builder.build()) > 0;
+        return dictDataMapper.update(null,wrapper) > 0;
     }
 
     @Override
     public List<DictData> deleteDictData(Long... ids) {
+        LambdaQueryWrapper<DictDataDO> wrapper =new LambdaQueryWrapper<DictDataDO>()
+                .in(DictDataDO::getId, ids);
 
-        List<DictDataDO> dictDataDOS = dictDataMapper.selectList(new SqlBuilder(DictDataDO.class)
-                .in(ID, ids)
-                .build());
+        List<DictDataDO> dictDataDOS = dictDataMapper.selectList(wrapper);
 
-        dictDataMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        dictDataMapper.delete(wrapper);
 
         return converter.to(dictDataDOS);
     }
@@ -197,13 +194,13 @@ public class DictRepoImpl implements DictRepo {
     @Transactional(rollbackFor = Exception.class)
     public List<DictType> deleteDictType(Long... ids) {
 
-        List<DictTypeDO> dictDataDOS = dictTypeMapper.selectList(new SqlBuilder(DictType.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<DictTypeDO> wrapper = new LambdaQueryWrapper<DictTypeDO>()
+                .in(DictTypeDO::getId, ids);
+        List<DictTypeDO> dictDataDOS = dictTypeMapper.selectList(wrapper);
 
         String[] types = dictDataDOS.stream().map(DictTypeDO::getType).collect(Collectors.toList()).toArray(new String[0]);
-        dictDataMapper.deleteBy(new SqlBuilder().in(TYPE, types).build());
-        dictTypeMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        dictDataMapper.delete(new LambdaQueryWrapper<DictDataDO>().in(DictDataDO::getType, types));
+        dictTypeMapper.delete(new LambdaQueryWrapper<DictTypeDO>().in(DictTypeDO::getId, ids));
 
         return converter.toType(dictDataDOS);
     }

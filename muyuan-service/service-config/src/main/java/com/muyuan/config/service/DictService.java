@@ -20,15 +20,15 @@ import java.util.Optional;
  */
 public interface DictService {
 
-    List<DictData> getByDictTypeName(DictQueryCommand commend);
+    List<DictData> getByDictTypeName(DictQueryCommand command);
 
-    Page<DictType> list(DictTypeQueryCommand commend);
+    Page<DictType> list(DictTypeQueryCommand command);
 
     Optional<DictType> getType(Long id);
 
     Optional<DictData> getData(Long id);
 
-    Page<DictData> list(DictQueryCommand commend);
+    Page<DictData> list(DictQueryCommand command);
 
     /**
      * 检查唯一性

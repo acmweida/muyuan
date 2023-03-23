@@ -1,7 +1,6 @@
 package com.muyuan.store.system.infrastructure.persistence.mapper;
 
 import com.muyuan.common.mybatis.jdbc.SystemBaseMapper;
-import com.muyuan.common.mybatis.jdbc.crud.CrudSqlProvider;
 import com.muyuan.store.system.domains.model.Menu;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,11 +18,6 @@ import java.util.List;
  */
 @Mapper
 public interface MenuMapper extends SystemBaseMapper<Menu> {
-
-
-     @Options(useGeneratedKeys = true, keyProperty = "id")
-     @InsertProvider(value = CrudSqlProvider.class, method = "insert")
-     Integer insertAuto(Menu dataObject);
 
 
     /**

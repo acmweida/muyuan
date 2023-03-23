@@ -19,10 +19,10 @@ public interface AttributeService {
 
     /**
      * 类目属性分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Attribute> list(AttributeQueryCommand commend);
+    Page<Attribute> list(AttributeQueryCommand command);
 
     /**
      * 唯一性检查

@@ -19,10 +19,10 @@ public interface MerchantService extends UserService<Merchant> {
 
     /**
      * 角色分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Merchant> list(UserQueryCommand commend);
+    Page<Merchant> list(UserQueryCommand command);
 
 
     /**

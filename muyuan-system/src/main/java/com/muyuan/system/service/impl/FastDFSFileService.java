@@ -1,8 +1,7 @@
 package com.muyuan.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.core.exception.FileUploadFailException;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
-import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.system.base.util.FastDFSClient;
 import com.muyuan.system.dao.FileMapper;
 import com.muyuan.system.dto.FileDTO;
@@ -13,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.csource.common.MyException;
 import org.csource.fastdfs.FileInfo;
-import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -67,13 +65,11 @@ public class FastDFSFileService implements FileService {
         fileInfo.setSuffix(suffix);
         fileInfo.setModule(fileDTO.getModule());
         fileInfo.setFunction(fileDTO.getFunction());
-        fileInfo.setCreateBy(SecurityUtils.getUserId());
-        fileInfo.setCreateTime(DateTime.now().toDate());
 
         fileInfo.setUrl(DigestUtils.md5Hex(filePath));
 
 
-        fileMapper.insertAuto(fileInfo);
+        fileMapper.insert(fileInfo);
         FileVO fileVO = new FileVO();
         BeanUtils.copyProperties(fileInfo, fileVO);
 
@@ -95,9 +91,8 @@ public class FastDFSFileService implements FileService {
 
     @Override
     public Optional<File> getFileInfo(String url) throws MyException, IOException {
-        File file = fileMapper.selectOne(new SqlBuilder(File.class)
-                .eq("url", url)
-                .build());
+        File file = fileMapper.selectOne(new LambdaQueryWrapper<File>()
+                .eq(File::getUrl, url));
         if (file != null) {
             Optional<FileInfo> fileInfo = FastDFSClient.getFileInfo(file.getFilePath());
             if (fileInfo.isPresent()) {

@@ -31,8 +31,8 @@ public class FeatureServiceImpl implements FeatureService {
     private FeatureRepo featureRepo;
 
     @Override
-    public Page<Feature> list(FeatureQueryCommand commend) {
-        return featureRepo.select(commend);
+    public Page<Feature> list(FeatureQueryCommand command) {
+        return featureRepo.select(command);
     }
 
     @Override

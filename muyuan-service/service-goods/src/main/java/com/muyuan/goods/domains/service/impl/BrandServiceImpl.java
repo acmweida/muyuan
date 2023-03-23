@@ -45,8 +45,8 @@ public class BrandServiceImpl implements BrandService {
     private static String BRAND_KEY_PREFIX = "BRAND_OPTIONS:";
 
     @Override
-    public Page<Brand> list(BrandQueryCommand commend) {
-        return brandRepo.select(commend);
+    public Page<Brand> list(BrandQueryCommand command) {
+        return brandRepo.select(command);
     }
 
     @Override

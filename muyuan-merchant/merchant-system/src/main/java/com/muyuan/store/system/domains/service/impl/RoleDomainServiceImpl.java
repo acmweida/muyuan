@@ -1,8 +1,8 @@
 package com.muyuan.store.system.domains.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;
 import com.muyuan.store.system.domains.factories.RoleFactory;
@@ -78,7 +78,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     @Override
     public String checkRoleCodeUnique(Role role) {
         Long id = null == role.getId() ? 0 : role.getId();
-        role = roleRepo.selectOne(new SqlBuilder(Role.class).select("id")
+        role = roleRepo.selectOne(new LambdaQueryWrapper(Role.class).select("id")
                 .eq("code", role.getCode())
                 .build());
         if (null != role && !id.equals(role.getId())) {
@@ -93,7 +93,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
                 .pageNum(userDTO.getPageNum())
                 .pageSize(userDTO.getPageSize()).build();
 
-        List<User> sysUsers = userRepo.selectAllocatedList(new SqlBuilder()
+        List<User> sysUsers = userRepo.selectAllocatedList(new LambdaQueryWrapper()
                 .eq("roleId", userDTO.getRoleId())
                 .eq("username", userDTO.getUsername())
                 .eq("phone", userDTO.getPhone())
@@ -155,7 +155,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     @Override
     public Optional<Role> get(Role role) {
         return Optional.ofNullable(
-                roleRepo.selectOne(new SqlBuilder(Role.class)
+                roleRepo.selectOne(new LambdaQueryWrapper(Role.class)
                         .eq(RoleRepo.ID,role.getId())
                         .eq(RoleMapper.CODE,role.getCode())
                         .build())

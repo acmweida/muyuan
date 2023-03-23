@@ -1,8 +1,7 @@
 package com.muyuan.goods.infrastructure.repo.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.mybatis.jdbc.JdbcBaseMapper;
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
 import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.domains.repo.AttributeRepo;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.common.mybatis.jdbc.JdbcBaseMapper.*;
-
 @Component
 @AllArgsConstructor
 public class AttributeRepoImpl implements AttributeRepo {
@@ -27,18 +24,18 @@ public class AttributeRepoImpl implements AttributeRepo {
 
     @Override
     public Page<Attribute> select(AttributeQueryCommand command) {
-        SqlBuilder sqlBuilder = new SqlBuilder(AttributeDO.class)
-                .eq(CODE, command.getCode())
-                .eq(JdbcBaseMapper.CATEGORY_CODE, command.getCategoryCode());
+        LambdaQueryWrapper<AttributeDO> wrapper = new LambdaQueryWrapper<AttributeDO>()
+                .eq(AttributeDO::getCode, command.getCode())
+                .eq(AttributeDO::getCategoryCode, command.getCategoryCode());
 
-        Page<Attribute> page = Page.<Attribute>builder().build();
-        if (command.enablePage()) {
-            page.setPageSize(command.getPageSize());
-            page.setPageNum(command.getPageNum());
-            sqlBuilder.page(page);
-        }
+        Page<Attribute> page = Page.<Attribute>builder()
+                .pageNum(command.getPageNum())
+                .pageSize(command.getPageSize())
+                .build();
 
-        List<AttributeDO> list = attributeMapper.selectList(sqlBuilder.build());
+        List<AttributeDO> list = command.enablePage() ?
+                attributeMapper.page(wrapper, command.getPageSize(), command.getPageNum()).getRows() :
+                attributeMapper.selectList(wrapper);
 
         page.setRows(converter.to(list));
 
@@ -47,19 +44,17 @@ public class AttributeRepoImpl implements AttributeRepo {
 
     @Override
     public Attribute selectAttribute(Long id) {
-        AttributeDO attributeDO = attributeMapper.selectOne(new SqlBuilder(AttributeDO.class)
-                .eq(ID, id)
-                .build());
+        AttributeDO attributeDO = attributeMapper.selectOne(new LambdaQueryWrapper<AttributeDO>()
+                .eq(AttributeDO::getId, id));
         return converter.to(attributeDO);
     }
 
     @Override
     public Attribute selectAttribute(Attribute.Identify identify) {
-        AttributeDO attributeDO = attributeMapper.selectOne(new SqlBuilder(AttributeDO.class).select(ID)
-                .eq(ID, identify.getId())
-                .eq(CATEGORY_CODE,identify.getCategoryCode())
-                .eq(NAME,identify.getName())
-                .build());
+        AttributeDO attributeDO = attributeMapper.selectOne(new LambdaQueryWrapper<AttributeDO>().select(AttributeDO::getId)
+                .eq(ObjectUtils.isNotEmpty(identify.getId()), AttributeDO::getId, identify.getId())
+                .eq(AttributeDO::getCategoryCode, identify.getCategoryCode())
+                .eq(AttributeDO::getName, identify.getName()));
 
         return converter.to(attributeDO);
     }
@@ -67,19 +62,19 @@ public class AttributeRepoImpl implements AttributeRepo {
     @Override
     public boolean addAttribute(Attribute attribute) {
         AttributeDO to = converter.to(attribute);
-        Integer count = attributeMapper.insertAuto(to);
+        Integer count = attributeMapper.insert(to);
         attribute.setId(to.getId());
         return count > 0;
     }
 
     @Override
     public Attribute updateAttribute(Attribute attribute) {
-        SqlBuilder sqlBuilder = new SqlBuilder(AttributeDO.class)
-                .eq(ID, attribute.getId());
+        LambdaQueryWrapper<AttributeDO> wrapper = new LambdaQueryWrapper<AttributeDO>()
+                .eq(AttributeDO::getId, attribute.getId());
 
-        AttributeDO attributeDO = attributeMapper.selectOne(sqlBuilder.build());
+        AttributeDO attributeDO = attributeMapper.selectOne(wrapper);
         if (ObjectUtils.isNotEmpty(attributeDO)) {
-            attributeMapper.updateBy(converter.to(attribute), ID);
+            attributeMapper.updateById(converter.to(attribute));
         }
 
         return converter.to(attributeDO);
@@ -87,11 +82,11 @@ public class AttributeRepoImpl implements AttributeRepo {
 
     @Override
     public List<Attribute> deleteBy(Long... ids) {
-        List<AttributeDO> attributes = attributeMapper.selectList(new SqlBuilder(AttributeDO.class)
-                .in(ID, ids)
-                .build());
+        LambdaQueryWrapper<AttributeDO> wrapper = new LambdaQueryWrapper<AttributeDO>()
+                .in(AttributeDO::getId, ids);
+        List<AttributeDO> attributes = attributeMapper.selectList(wrapper);
 
-        attributeMapper.deleteBy(new SqlBuilder().in(ID, ids).build());
+        attributeMapper.delete(wrapper);
 
         return converter.to(attributes);
     }

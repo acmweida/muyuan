@@ -1,6 +1,7 @@
 package com.muyuan.store.system.infrastructure.persistence;
 
-import com.muyuan.common.mybatis.jdbc.crud.SqlBuilder;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.store.system.domains.model.User;
 import com.muyuan.store.system.domains.model.UserRole;
 import com.muyuan.store.system.domains.repo.UserRepo;
@@ -22,12 +23,11 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public User selectOne(User user) {
-        return userMapper.selectOne(new SqlBuilder(User.class)
-                .eq(UserRepo.ID, user.getId())
-                .eq(UserRepo.USERNAME, user.getUsername())
-                .eq(UserRepo.STATUS, STATUS_OK)
-                .eq(UserRepo.PHONE, user.getPhone())
-                .build()
+        return userMapper.selectOne(new LambdaQueryWrapper<User>()
+                .eq(User::getId, user.getId())
+                .eq(User::getUsername, user.getUsername())
+                .eq(User::getStatus, STATUS_OK)
+                .eq(User::getPhone, user.getPhone())
         );
     }
 
@@ -43,7 +43,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void update(User user) {
-        userMapper.updateBy(user, ID);
+        userMapper.updateById(user);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void update(User brand, String... column) {
-        userMapper.updateBy(brand,column);
+//        userMapper.update(brand,column);
     }
 
 }

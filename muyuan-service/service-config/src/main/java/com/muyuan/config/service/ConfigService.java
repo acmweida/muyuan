@@ -18,10 +18,10 @@ public interface ConfigService {
 
     /**
      * 参数配置分页查询
-     * @param commend
+     * @param command
      * @return
      */
-    Page<Config> list(ConfigQueryCommand commend);
+    Page<Config> list(ConfigQueryCommand command);
 
     /**
      * 唯一性检查
