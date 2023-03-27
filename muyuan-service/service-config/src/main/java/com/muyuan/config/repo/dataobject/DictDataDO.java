@@ -1,8 +1,10 @@
 package com.muyuan.config.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * 字典数据
@@ -26,8 +28,10 @@ import java.util.Date;
  *     remark      varchar(500)                           null comment '备注'
  */
 @Data
-public class DictDataDO {
+@TableName("t_dict_data")
+public class DictDataDO extends BaseDO {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private int orderNum;
@@ -45,14 +49,6 @@ public class DictDataDO {
     private int def;
 
     private int status;
-
-    private Long createBy;
-
-    private Date createTime;
-
-    private String updateBy;
-
-    private Date updateTime;
 
     private String remark;
 

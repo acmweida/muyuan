@@ -54,6 +54,7 @@ public class SwaggerConfiguration {
                 .globalResponses(HttpMethod.DELETE,responseCodes)
                 .groupName("doc-1.0")
                 .apiInfo(groupApiInfo())
+                .pathMapping("/api/manager-system")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.muyuan.manager.system.facade.controller"))
                 .paths(PathSelectors.any())

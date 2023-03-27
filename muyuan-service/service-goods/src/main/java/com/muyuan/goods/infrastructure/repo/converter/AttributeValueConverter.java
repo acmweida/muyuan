@@ -1,7 +1,7 @@
-package com.muyuan.goods.infrastructure.converter;
+package com.muyuan.goods.infrastructure.repo.converter;
 
 import com.muyuan.goods.domains.model.entity.AttributeValue;
-import com.muyuan.goods.infrastructure.dataobject.AttributeValueDO;
+import com.muyuan.goods.infrastructure.repo.dataobject.AttributeValueDO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

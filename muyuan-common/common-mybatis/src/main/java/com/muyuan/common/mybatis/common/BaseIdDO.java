@@ -7,6 +7,6 @@ import lombok.Data;
 public abstract class BaseIdDO {
 
     @TableId
-    private Long id;
+    protected Long id;
 
 }

@@ -1,16 +1,15 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@TableName("t_permission")
 public class PermissionDO {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private String business;

@@ -1,5 +1,7 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +16,8 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public class MerchantDO {
+@TableName("t_merchant")
+public class MerchantDO extends BaseDO {
 
     private Long id;
 
@@ -61,23 +64,9 @@ public class MerchantDO {
     private String status;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
      * 上次登录时间
      */
     private Date lastSignTime;
-
-    private Long updateBy;
-
-    private Long createBy;
 
     private String email;
 

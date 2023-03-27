@@ -1,8 +1,8 @@
-package com.muyuan.goods.infrastructure.converter;
+package com.muyuan.goods.infrastructure.repo.converter;
 
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.goods.domains.model.entity.Category;
-import com.muyuan.goods.infrastructure.dataobject.CategoryDO;
+import com.muyuan.goods.infrastructure.repo.dataobject.CategoryDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

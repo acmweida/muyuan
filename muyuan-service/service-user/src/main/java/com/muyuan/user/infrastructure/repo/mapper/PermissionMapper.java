@@ -24,7 +24,4 @@ public interface PermissionMapper extends UserBaseMapper<PermissionDO> {
 
     Integer deleteRef(@Param("permIds") Long... permIDs);
 
-    @Options(useGeneratedKeys = true,keyProperty = "id")
-    Integer insertAuto(PermissionDO dataObject);
-
 }

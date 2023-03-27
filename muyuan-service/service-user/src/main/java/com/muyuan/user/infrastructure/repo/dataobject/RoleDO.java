@@ -3,9 +3,8 @@ package com.muyuan.user.infrastructure.repo.dataobject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @ClassName RoleDO
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_role")
-public class RoleDO {
+public class RoleDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -39,19 +38,5 @@ public class RoleDO {
      * 状态 0-正常 1-停用
      */
     private String status;
-
-    private Long createBy;
-
-    private Long updateBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
 
 }

@@ -6,16 +6,16 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.CategoryRepo;
 import com.muyuan.goods.face.dto.CategoryQueryCommand;
-import com.muyuan.goods.infrastructure.converter.CategoryConverter;
-import com.muyuan.goods.infrastructure.dataobject.CategoryDO;
-import com.muyuan.goods.infrastructure.mapper.CategoryMapper;
+import com.muyuan.goods.infrastructure.repo.converter.CategoryConverter;
+import com.muyuan.goods.infrastructure.repo.dataobject.CategoryDO;
+import com.muyuan.goods.infrastructure.repo.mapper.CategoryMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.muyuan.goods.infrastructure.mapper.CategoryMapper.*;
+import static com.muyuan.goods.infrastructure.repo.mapper.CategoryMapper.*;
 
 @Component
 @AllArgsConstructor

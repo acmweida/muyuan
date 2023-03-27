@@ -1,9 +1,10 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @ClassName DeptDTO
@@ -13,11 +14,10 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class DeptDO {
+@TableName("t_dept")
+public class DeptDO extends BaseDO {
 
-    private static final long serialVersionUID = 1457932248501l;
-
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private Long parentId;
@@ -37,15 +37,5 @@ public class DeptDO {
     private String status;
 
     private String delFlag;
-
-    private String creator;
-
-    private Date createTime;
-
-    private Long updateBy;
-
-    private String updater;
-
-    private Date updateTime;
 
 }

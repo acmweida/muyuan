@@ -1,7 +1,7 @@
-package com.muyuan.goods.infrastructure.mapper;
+package com.muyuan.goods.infrastructure.repo.mapper;
 
 import com.muyuan.common.mybatis.jdbc.GoodsBaseMapper;
-import com.muyuan.goods.infrastructure.dataobject.BrandCategoryDO;
+import com.muyuan.goods.infrastructure.repo.dataobject.BrandCategoryDO;
 
 /**
  * 品牌分类关联Mapper接口

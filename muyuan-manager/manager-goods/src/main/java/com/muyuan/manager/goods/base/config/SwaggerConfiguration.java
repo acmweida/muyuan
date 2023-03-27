@@ -29,6 +29,7 @@ public class SwaggerConfiguration {
     public Docket groupRestApi() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
+                .pathMapping("/api/manager-goods")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.muyuan.manager.goods.facade.controller"))
                 .paths(PathSelectors.any())

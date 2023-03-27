@@ -27,8 +27,9 @@ public class SwaggerConfiguration {
     public Docket groupRestApi() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
-                .host("http://127.0.0.1:20000")
+                .host("http://127.0.0.1:20001")
 //                .groupName("auth")
+                .pathMapping("/api/auth")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.muyuan.auth.controller"))
                 .paths(PathSelectors.any())

@@ -5,9 +5,9 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.AttributeValue;
 import com.muyuan.goods.domains.repo.AttributeValueRepo;
 import com.muyuan.goods.face.dto.AttributeValueQueryCommand;
-import com.muyuan.goods.infrastructure.converter.AttributeValueConverter;
-import com.muyuan.goods.infrastructure.dataobject.AttributeValueDO;
-import com.muyuan.goods.infrastructure.mapper.AttributeValueMapper;
+import com.muyuan.goods.infrastructure.repo.converter.AttributeValueConverter;
+import com.muyuan.goods.infrastructure.repo.dataobject.AttributeValueDO;
+import com.muyuan.goods.infrastructure.repo.mapper.AttributeValueMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

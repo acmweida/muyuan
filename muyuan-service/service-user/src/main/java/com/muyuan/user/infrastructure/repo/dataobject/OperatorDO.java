@@ -1,5 +1,7 @@
 package com.muyuan.user.infrastructure.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +16,8 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public class OperatorDO {
+@TableName("t_operator")
+public class OperatorDO extends BaseDO {
 
     private Long id;
 
@@ -56,28 +59,16 @@ public class OperatorDO {
     private String phone;
 
     /**
-     * 账号状态 0-正常 1-删除 2-锁定
+     * 账号状态 0-正常 1-锁定
      */
     private String status;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
+    private Integer delFlag;
 
     /**
      * 上次登录时间
      */
     private Date lastSignTime;
-
-    private Long updateBy;
-
-    private Long createBy;
 
     private String email;
 

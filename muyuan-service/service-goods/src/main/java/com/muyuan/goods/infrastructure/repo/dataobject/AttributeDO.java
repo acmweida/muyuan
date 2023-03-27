@@ -1,14 +1,11 @@
-package com.muyuan.goods.infrastructure.dataobject;
+package com.muyuan.goods.infrastructure.repo.dataobject;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 
 /**
@@ -19,10 +16,8 @@ import java.util.Date;
  */
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @TableName("t_attribute")
-public class AttributeDO {
+public class AttributeDO extends BaseDO {
 
     /**  */
     @TableId(type = IdType.AUTO)
@@ -44,24 +39,6 @@ public class AttributeDO {
 
     /** 属性类型 转换为二进制 1:公共属性 10:销售属性 100:关键属性 1000:非关键属性 type值为类型的和 */
     private Integer type;
-
-    /** 创建时间 */
-    private Date createTime;
-
-    /** 修改时间 */
-    private Date updateTime;
-
-    /**  */
-    private Long createBy;
-
-    /**  */
-    private String creator;
-
-    /**  */
-    private Long updateBy;
-
-    /**  */
-    private String updater;
 
     /**
      * 输入类型

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.muyuan.goods.infrastructure.mapper.CategoryMapper">
+<mapper namespace="com.muyuan.goods.infrastructure.repo.mapper.CategoryMapper">
 
-    <select id="selectByBrandId" resultType="com.muyuan.goods.infrastructure.dataobject.CategoryDO">
+    <select id="selectByBrandId" resultType="com.muyuan.goods.infrastructure.repo.dataobject.CategoryDO">
         select t_category.* from t_category
         inner join (
         select category_code from t_brand_category

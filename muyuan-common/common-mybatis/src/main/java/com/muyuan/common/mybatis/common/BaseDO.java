@@ -11,29 +11,29 @@ import java.util.Date;
 public abstract class BaseDO {
 
     @TableId
-    private Long id;
+    protected Long id;
 
     @TableField(fill = FieldFill.INSERT)
     /** 提交人名称 */
-    private Long creator;
+    protected Long creator;
 
     @TableField(fill = FieldFill.UPDATE)
     /** 更新人名称 */
-    private Long updater;
+    protected Long updater;
 
     @TableField(fill = FieldFill.INSERT)
-    private String createBy;
+    protected String createBy;
 
     @TableField(fill = FieldFill.INSERT)
     /** 创建时间 */
-    private Date createTime;
+    protected Date createTime;
 
     @TableField(fill = FieldFill.UPDATE)
     /** 更新者 */
-    private String updateBy;
+    protected String updateBy;
 
     @TableField(fill = FieldFill.UPDATE)
     /** 更新时间 */
-    private Date updateTime;
+    protected Date updateTime;
 
 }

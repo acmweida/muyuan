@@ -1,18 +1,13 @@
-package com.muyuan.goods.infrastructure.dataobject;
+package com.muyuan.goods.infrastructure.repo.dataobject;
 
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * 商品基本信息
  */
 @Data
-public class GoodsDO {
-
-
-
-    private Long id;
+public class GoodsDO extends BaseDO {
 
 //    /**
 //     * todo:物流模板
@@ -74,33 +69,6 @@ public class GoodsDO {
     private String tags;
 
 
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 更新人
-     */
-    private String updater;
-
-    /**
-     * 创建人
-     */
-    private String creator;
-
-    /**
-     * 更吓人ID
-     */
-    private Long updateBy;
-
-    /**
-     * 创建人ID
-     */
-    private Long createBy;
-
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Goods{");
@@ -117,12 +85,6 @@ public class GoodsDO {
         sb.append(", shopId=").append(shopId);
         sb.append(", picture='").append(picture).append('\'');
         sb.append(", tags='").append(tags).append('\'');
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", updater='").append(updater).append('\'');
-        sb.append(", creator='").append(creator).append('\'');
-        sb.append(", updateBy=").append(updateBy);
-        sb.append(", createBy=").append(createBy);
         sb.append('}');
         return sb.toString();
     }

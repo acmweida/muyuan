@@ -3,7 +3,7 @@ package com.muyuan.goods.infrastructure.repo.impl;
 import com.muyuan.goods.domains.model.aggregate.GoodsAggregate;
 import com.muyuan.goods.domains.model.valueobject.GoodsId;
 import com.muyuan.goods.domains.repo.GoodsRepo;
-import com.muyuan.goods.infrastructure.mapper.GoodsMapper;
+import com.muyuan.goods.infrastructure.repo.mapper.GoodsMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

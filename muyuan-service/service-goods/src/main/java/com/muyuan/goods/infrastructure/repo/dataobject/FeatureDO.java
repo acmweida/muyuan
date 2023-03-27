@@ -1,11 +1,10 @@
-package com.muyuan.goods.infrastructure.dataobject;
+package com.muyuan.goods.infrastructure.repo.dataobject;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 
 /**
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_feature")
-public class FeatureDO  {
+public class FeatureDO  extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     /** $column.columnComment */
@@ -33,15 +32,5 @@ public class FeatureDO  {
 
     /** 状态 */
     private Long status;
-
-    /** $column.columnComment */
-    private String creator;
-
-    /** $column.columnComment */
-    private Long createBy;
-
-    /** $column.columnComment */
-    private Date createTime;
-
 
 }

@@ -1,7 +1,7 @@
-package com.muyuan.goods.infrastructure.converter;
+package com.muyuan.goods.infrastructure.repo.converter;
 
 import com.muyuan.goods.domains.model.entity.Feature;
-import com.muyuan.goods.infrastructure.dataobject.FeatureDO;
+import com.muyuan.goods.infrastructure.repo.dataobject.FeatureDO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

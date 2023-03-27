@@ -1,7 +1,7 @@
-package com.muyuan.goods.infrastructure.converter;
+package com.muyuan.goods.infrastructure.repo.converter;
 
 import com.muyuan.goods.domains.model.entity.Brand;
-import com.muyuan.goods.infrastructure.dataobject.BrandDO;
+import com.muyuan.goods.infrastructure.repo.dataobject.BrandDO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

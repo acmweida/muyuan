@@ -1,11 +1,10 @@
-package com.muyuan.goods.infrastructure.dataobject;
+package com.muyuan.goods.infrastructure.repo.dataobject;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
 
 
 /**
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_category")
-public class CategoryDO  {
+public class CategoryDO  extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     /** 主键 */
@@ -31,11 +30,6 @@ public class CategoryDO  {
     /** 晨级 */
     private Long level;
 
-    /** 创建时间 */
-    private Date createTime;
-
-    /** 修改时间 */
-    private Date updateTime;
 
     /** 产品编码 */
     private Long code;
@@ -54,19 +48,6 @@ public class CategoryDO  {
 
     /** $column.columnComment */
     private Long orderNum;
-
-    /** 创建人ID */
-    private Long createBy;
-
-    /** 创建人 */
-    private String creator;
-
-    /** 更新人ID */
-    private Long updateBy;
-
-    /** 更新人
- */
-    private String updater;
 
     /** 是否叶子节点 */
     private String leaf;

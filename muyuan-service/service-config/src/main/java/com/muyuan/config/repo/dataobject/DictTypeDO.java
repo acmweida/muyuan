@@ -1,17 +1,19 @@
 package com.muyuan.config.repo.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * 字典类型
  */
 @Data
-public class DictTypeDO {
+@TableName("t_dict_type")
+public class DictTypeDO  extends BaseDO {
 
-
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -29,17 +31,7 @@ public class DictTypeDO {
      */
     private int status;
 
-    private Date createTime;
-
-    private Long createBy;
-
-    private Date updateTime;
-
-    private Long updateBy;
-
     private String remark;
-
-    private List<DictDataDO> dictDataDOList;
 
     public DictTypeDO(String name, String type) {
         this.name = name;

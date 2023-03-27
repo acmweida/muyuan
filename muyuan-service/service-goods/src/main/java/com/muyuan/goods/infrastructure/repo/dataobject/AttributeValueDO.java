@@ -1,4 +1,4 @@
-package com.muyuan.goods.infrastructure.dataobject;
+package com.muyuan.goods.infrastructure.repo.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
