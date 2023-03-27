@@ -1,1 +1,8 @@
-![./resource/20098ac3418ee89ef51558f2f29ef9e.jpg](img.png)
+## muyuan-business
+### docker 
+### gitlab
+1. docker 安装gitlab
+2. 与github同步
+
+### nginx Jenkins
+1. 
