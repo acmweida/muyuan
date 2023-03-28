@@ -22,8 +22,11 @@ docker compose stop
 ### docker-compose配置
 ```yaml
 version: '3'
+
 services:                                      # 集合
   docker_jenkins:
+    environment:
+      - TZ=Asia/Shanghai
     user: root                                 # 为了避免一些权限问题 在这我使用了root
     restart: always                            # 重启方式
     image: jenkins/jenkins:lts                 # 指定服务所使用的镜像 在这里我选择了 LTS (长期支持)
@@ -36,21 +39,30 @@ services:                                      # 集合
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker                # 这是为了我们可以在容器内使用docker命令
       - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
+      - /usr/local/jdk1.8:/usr/local/jdk1.8
+      - /usr/local/maven:/usr/local/maven
+      - /etc/profile:/etc/profile
+      - /root/.ssh/id_rsa:/root/.ssh/id_rsa
   docker_nginx:
     restart: always
     image: nginx
     container_name: nginx
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - 80:80
       - 433:433
     volumes:
       - /home/docker/nginx/conf:/etc/nginx
+      - /home/docker/nginx/html:/etc/nginx/html
       - /home/docker/nginx/logs:/var/log/nginx
       - /home/docker/webserver/vue3-demo/dist:/usr/share/nginx/html
   docker_gitlab:
     restart: always
     image: gitlab/gitlab-ce
     container_name: gitlab
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - 10443:443
       - 1080:80
