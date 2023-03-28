@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.muyuan</groupId>
         <artifactId>muyuan-merchant</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
     <artifactId>merchant-shop</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <description>Demo project for Spring Boot</description>
     <properties>
