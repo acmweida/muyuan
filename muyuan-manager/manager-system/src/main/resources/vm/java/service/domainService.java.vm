@@ -29,7 +29,7 @@ public interface ${ClassName}DomainService {
      * @param identify
      * @return
      */
-    String checkUnique(${ClassName}.Identify identify);
+    boolean exists(${ClassName}.Identify identify);
 
     /**
      * 新增${functionName}信息

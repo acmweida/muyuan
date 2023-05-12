@@ -2,7 +2,6 @@ package com.muyuan.goods.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -51,7 +50,7 @@ public class CategoryInterfaceApi implements CategoryInterface {
 
     @Override
     public Result add(CategoryRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getParentId(), request.getName())))) {
+        if (categoryService.exists(new Category.Identify(request.getParentId(), request.getName()))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
         boolean flag = categoryService.addCategory(MAPPER.toCommand(request));
@@ -78,7 +77,7 @@ public class CategoryInterfaceApi implements CategoryInterface {
 
     @Override
     public Result updateCategory(CategoryRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(categoryService.checkUnique(new Category.Identify(request.getId(), request.getParentId(), request.getName())))) {
+        if (categoryService.exists(new Category.Identify(request.getId(), request.getParentId(), request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

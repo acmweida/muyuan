@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.muyuan.goods.infrastructure.mapper")
+@MapperScan("com.muyuan.goods.infrastructure.repo.mapper")
 @Import(GoodsJdbcConfig.class)
 public class MybatisConfig {
 

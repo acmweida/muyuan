@@ -83,8 +83,8 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result updateMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu.Identify(new MenuID(request.getId())
-                , request.getName(), request.getParentId(), PlatformType.trance(request.getPlatformType()))))) {
+        if (menuService.exists(new Menu.Identify(new MenuID(request.getId())
+                , request.getName(), request.getParentId(), PlatformType.trance(request.getPlatformType())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         if (GlobalConst.YES_FRAME.equals(request.getFrame()) && StrUtil.ishttp(request.getPath())) {
@@ -97,8 +97,8 @@ public class MenuInterfaceApi implements MenuInterface {
 
     @Override
     public Result addMenu(MenuRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(menuService.checkUnique(new Menu.Identify(request.getName(), request.getParentId()
-                ,PlatformType.trance(request.getPlatformType()))))) {
+        if (menuService.exists(new Menu.Identify(request.getName(), request.getParentId()
+                ,PlatformType.trance(request.getPlatformType())))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
         if (GlobalConst.YES_FRAME.equals(request.getFrame()) && StrUtil.ishttp(request.getPath())) {

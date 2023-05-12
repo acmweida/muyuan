@@ -44,7 +44,7 @@ public interface RoleDomainService {
      * @param sysRole
      * @return
      */
-    String checkRoleCodeUnique(Role sysRole);
+    boolean checkRoleCodeUnique(Role sysRole);
 
     /**
      * 列表查询

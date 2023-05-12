@@ -45,7 +45,7 @@ public interface PermissionService {
      * @param key
      * @return
      */
-    String checkUnique(Permission.Identify identify);
+    boolean exists(Permission.Identify identify);
 
     /**
      * 新增权限信息

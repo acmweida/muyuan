@@ -47,13 +47,13 @@ public class AttributeServiceImpl implements AttributeService {
     }
 
     @Override
-    public String checkUnique(Attribute.Identify identify) {
+    public boolean exists(Attribute.Identify identify) {
         Long id = null == identify.getId() ? null : identify.getId();
         Attribute attribute = attributeRepo.selectAttribute(identify);
         if (null != attribute && !id.equals(attribute.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

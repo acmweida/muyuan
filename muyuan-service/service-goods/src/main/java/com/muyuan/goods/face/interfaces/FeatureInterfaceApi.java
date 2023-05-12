@@ -2,7 +2,6 @@ package com.muyuan.goods.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -44,7 +43,7 @@ public class FeatureInterfaceApi implements FeatureInterface {
 
     @Override
     public Result add(FeatureRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(featureService.checkUnique(new Feature.Identify(request.getId())))) {
+        if (featureService.exists(new Feature.Identify(request.getId()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = featureService.addFeature(MAPPER.toCommand(request));
@@ -62,7 +61,7 @@ public class FeatureInterfaceApi implements FeatureInterface {
 
     @Override
     public Result updateFeature(FeatureRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(featureService.checkUnique(new Feature.Identify(request.getId())))) {
+        if (featureService.exists(new Feature.Identify(request.getId()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

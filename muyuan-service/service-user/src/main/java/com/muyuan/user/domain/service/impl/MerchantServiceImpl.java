@@ -54,13 +54,13 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public String checkUnique(Merchant.Identify identify) {
+    public boolean exists(Merchant.Identify identify) {
         Long id = null == identify.getUserID() ? 0 : identify.getUserID().getValue();
         Merchant operator = repo.select(identify);
         if (null != operator && !id.equals(operator.getId().getValue())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

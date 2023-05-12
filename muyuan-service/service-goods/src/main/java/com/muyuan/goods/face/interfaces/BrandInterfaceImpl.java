@@ -2,7 +2,6 @@ package com.muyuan.goods.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -82,7 +81,7 @@ public class BrandInterfaceImpl implements BrandInterface {
 
     @Override
     public Result add(BrandRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(brandService.checkUnique(new Brand.Identify(request.getName())))) {
+        if (brandService.exists(new Brand.Identify(request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = brandService.add(BRAND_MAPPER.toCommand(request));
@@ -91,7 +90,7 @@ public class BrandInterfaceImpl implements BrandInterface {
 
     @Override
     public Result update(BrandRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(brandService.checkUnique(new Brand.Identify(request.getId(), request.getName())))) {
+        if (brandService.exists(new Brand.Identify(request.getId(), request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = brandService.update(BRAND_MAPPER.toCommand(request));

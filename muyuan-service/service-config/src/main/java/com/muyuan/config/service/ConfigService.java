@@ -28,7 +28,7 @@ public interface ConfigService {
      * @param identify
      * @return
      */
-    String checkUnique(Config.Identify identify);
+    boolean exists(Config.Identify identify);
 
     /**
      * 新增参数配置信息

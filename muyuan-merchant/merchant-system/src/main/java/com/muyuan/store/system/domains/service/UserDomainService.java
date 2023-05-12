@@ -44,7 +44,7 @@ public interface UserDomainService {
      * @param user
      * @return
      */
-    String checkAccountNameUnique(User user);
+    boolean checkAccountNameUnique(User user);
 
     /**
      * 设置店铺ID

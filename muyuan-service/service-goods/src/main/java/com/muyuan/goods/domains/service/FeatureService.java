@@ -28,7 +28,7 @@ public interface FeatureService {
      * @param identify
      * @return
      */
-    String checkUnique(Feature.Identify identify);
+    boolean exists(Feature.Identify identify);
 
     /**
      * 新增通用特征量信息

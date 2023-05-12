@@ -2,7 +2,6 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -96,7 +95,7 @@ public class PermissionInterfaceApi implements PermissionInterface {
 
     @Override
     public Result add(PermissionRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(permissionService.checkUnique(new Permission.Identify(request.getPerms())))) {
+        if (permissionService.exists(new Permission.Identify(request.getPerms()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = permissionService.addPermission(PERMISSION_MAPPER.toCommand(request));
@@ -114,9 +113,9 @@ public class PermissionInterfaceApi implements PermissionInterface {
 
     @Override
     public Result updatePermission(PermissionRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(permissionService.checkUnique(new Permission.Identify(
+        if (permissionService.exists(new Permission.Identify(
                 request.getId(),
-                request.getPerms())))) {
+                request.getPerms()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

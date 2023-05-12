@@ -2,7 +2,6 @@ package com.muyuan.goods.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -50,7 +49,7 @@ public class AttributeInterfaceApi implements AttributeInterface {
 
     @Override
     public Result add(AttributeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(attributeDomainService.checkUnique(new Attribute.Identify(request.getCategoryCode(),request.getName())))) {
+        if (attributeDomainService.exists(new Attribute.Identify(request.getCategoryCode(),request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = attributeDomainService.addAttribute(MAPPER.toCommand(request));
@@ -68,8 +67,8 @@ public class AttributeInterfaceApi implements AttributeInterface {
 
     @Override
     public Result updateAttribute(AttributeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(attributeDomainService.checkUnique(new Attribute.Identify(request.getId()
-                ,request.getCategoryCode(),request.getName())))) {
+        if (attributeDomainService.exists(new Attribute.Identify(request.getId()
+                ,request.getCategoryCode(),request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

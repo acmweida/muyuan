@@ -2,7 +2,6 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -67,7 +66,7 @@ public class MemberInterfaceApi implements MemberInterface {
     public Result add(OperatorRequest request) {
         ValidatorHolder.validate(request, OperatorRequest.Add.class);
 
-        if (GlobalConst.NOT_UNIQUE.equals(operatorService.checkUnique(new Operator.Identify(new Username(request.getUsername()))))) {
+        if (operatorService.exists(new Operator.Identify(new Username(request.getUsername())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = operatorService.addOperator(USER_MAPPER.toCommand(request));

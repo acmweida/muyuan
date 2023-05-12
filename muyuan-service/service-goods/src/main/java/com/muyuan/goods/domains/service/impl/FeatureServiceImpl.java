@@ -36,13 +36,13 @@ public class FeatureServiceImpl implements FeatureService {
     }
 
     @Override
-    public String checkUnique(Feature.Identify identify) {
+    public boolean exists(Feature.Identify identify) {
         Long id = null == identify.getId() ? null : identify.getId();
         Feature feature = featureRepo.selectFeature(identify);
         if (null != feature && !id.equals(feature.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

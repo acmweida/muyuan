@@ -37,7 +37,7 @@ public interface RoleService {
      * @param identify
      * @return
      */
-    String checkUnique(Role.Identify identify);
+    boolean exists(Role.Identify identify);
 
     /**
      * 新增角色信息

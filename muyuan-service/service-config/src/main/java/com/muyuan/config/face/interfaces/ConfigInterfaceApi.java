@@ -2,7 +2,6 @@ package com.muyuan.config.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -44,7 +43,7 @@ public class ConfigInterfaceApi implements ConfigInterface {
 
     @Override
     public Result add(ConfigRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(configDomainService.checkUnique(new Config.Identify(request.getId())))) {
+        if (configDomainService.exists(new Config.Identify(request.getId()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = configDomainService.addConfig(MAPPER.toCommand(request));
@@ -62,7 +61,7 @@ public class ConfigInterfaceApi implements ConfigInterface {
 
     @Override
     public Result updateConfig(ConfigRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(configDomainService.checkUnique(new Config.Identify(request.getId())))) {
+        if (configDomainService.exists(new Config.Identify(request.getId()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

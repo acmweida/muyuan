@@ -71,7 +71,7 @@ public interface MenuDomainService {
      * @param sysMenu
      * @return
      */
-    String checkMenuNameUnique(Menu sysMenu);
+    boolean checkMenuNameUnique(Menu sysMenu);
 
     /**
      * 删除

@@ -2,7 +2,6 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -67,7 +66,7 @@ public class MerchantInterfaceApi implements MerchantInterface {
     public Result add(OperatorRequest request) {
         ValidatorHolder.validate(request, OperatorRequest.Add.class);
 
-        if (GlobalConst.NOT_UNIQUE.equals(merchantService.checkUnique(new Merchant.Identify(new Username(request.getUsername()))))) {
+        if (merchantService.exists(new Merchant.Identify(new Username(request.getUsername())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = merchantService.addOperator(USER_MAPPER.toCommand(request));

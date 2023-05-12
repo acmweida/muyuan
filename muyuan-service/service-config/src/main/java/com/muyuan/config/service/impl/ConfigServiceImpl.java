@@ -37,13 +37,13 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public String checkUnique(Config.Identify identify) {
+    public boolean exists(Config.Identify identify) {
         Long id = null == identify.getId() ? null : identify.getId();
         Config config = configRepo.selectConfig(identify);
         if (null != config && !id.equals(config.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

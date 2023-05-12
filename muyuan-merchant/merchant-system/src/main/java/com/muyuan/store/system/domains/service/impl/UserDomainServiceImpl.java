@@ -1,6 +1,5 @@
 package com.muyuan.store.system.domains.service.impl;
 
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.web.util.SecurityUtils;
@@ -48,13 +47,13 @@ public class UserDomainServiceImpl implements UserDomainService {
      */
     public void add(User user) {
 
-        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(new User(user.getUsername())))) {
+        if (checkAccountNameUnique(new User(user.getUsername()))) {
             throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "账号名已存在");
         }
 
-        if (GlobalConst.NOT_UNIQUE.equals(checkAccountNameUnique(User.builder()
+        if (checkAccountNameUnique(User.builder()
                 .phone(user.getPhone())
-                .build()))) {
+                .build())) {
             throw new MuyuanException(ResponseCode.ADD_EXIST.getCode(), "手机号已存在");
         }
 
@@ -80,13 +79,13 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public String checkAccountNameUnique(User user) {
+    public boolean checkAccountNameUnique(User user) {
         Long id = null == user.getId() ? 0 : user.getId();
         User account = userRepo.selectOne(user);
         if (null != account && !id.equals(account.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

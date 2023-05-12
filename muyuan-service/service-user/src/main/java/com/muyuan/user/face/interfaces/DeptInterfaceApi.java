@@ -1,7 +1,6 @@
 package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -48,8 +47,8 @@ public class DeptInterfaceApi implements DeptInterface {
 
     @Override
     public Result addDept(DeptRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(deptService.checkUnique(new Dept.Identify(request.getName(), request.getParentId()
-                )))) {
+        if (deptService.exists(new Dept.Identify(request.getName(), request.getParentId()
+                ))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
         Optional<Dept> parent = deptService.getDept(request.getParentId());

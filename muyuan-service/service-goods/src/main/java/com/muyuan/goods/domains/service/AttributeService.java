@@ -29,7 +29,7 @@ public interface AttributeService {
      * @param identify
      * @return
      */
-    String checkUnique(Attribute.Identify identify);
+    boolean exists(Attribute.Identify identify);
 
     /**
      * 新增类目属性信息

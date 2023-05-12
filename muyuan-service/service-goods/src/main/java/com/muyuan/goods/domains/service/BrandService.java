@@ -41,7 +41,7 @@ public interface BrandService {
      * @param identify
      * @return
      */
-    String checkUnique(Brand.Identify identify);
+    boolean exists(Brand.Identify identify);
 
 
     /**

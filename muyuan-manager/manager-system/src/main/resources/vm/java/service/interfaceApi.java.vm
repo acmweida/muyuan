@@ -48,7 +48,7 @@ public class ${ClassName}InterfaceApi implements ${ClassName}Interface {
 
     @Override
     public Result add(${ClassName}Request request) {
-        if (GlobalConst.NOT_UNIQUE.equals(${className}DomainService.checkUnique(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}())))) {
+        if (${className}DomainService.exists(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = ${className}DomainService.add${ClassName}(MAPPER.toCommand(request));
@@ -66,7 +66,7 @@ public class ${ClassName}InterfaceApi implements ${ClassName}Interface {
 
     @Override
     public Result update${ClassName}(${ClassName}Request request) {
-        if (GlobalConst.NOT_UNIQUE.equals(${className}DomainService.checkUnique(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}())))) {
+        if (${className}DomainService.exists(new ${ClassName}.Identify(request.get${pkColumn.capJavaField}())))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

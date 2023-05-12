@@ -1,8 +1,7 @@
 package com.muyuan.store.system.domains.service.impl;
 
-import com.muyuan.common.core.constant.GlobalConst;
-import com.muyuan.store.system.domains.factories.MenuFactory;
 import com.muyuan.store.system.domains.dto.MenuDTO;
+import com.muyuan.store.system.domains.factories.MenuFactory;
 import com.muyuan.store.system.domains.model.Menu;
 import com.muyuan.store.system.domains.repo.MenuRepo;
 import com.muyuan.store.system.domains.service.MenuDomainService;
@@ -41,14 +40,14 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     }
 
     @Override
-    public String checkMenuNameUnique(Menu menu) {
+    public boolean checkMenuNameUnique(Menu menu) {
         Long id = null == menu.getId() ? 0 : menu.getId();
         menu.setId(null);
         menu = menuRepo.selectOne(menu);
         if (null != menu && !id.equals(menu.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     /**

@@ -54,13 +54,13 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public String checkUnique(Operator.Identify identify) {
+    public boolean exists(Operator.Identify identify) {
         Long id = null == identify.getUserID() ? 0 : identify.getUserID().getValue();
         Operator operator = repo.selectOperator(identify);
         if (null != operator && !id.equals(operator.getId().getValue())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

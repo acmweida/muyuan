@@ -123,13 +123,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public String checkUnique(Menu.Identify identify) {
+    public boolean exists(Menu.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId().getValue();
         Menu menu = menuRepo.selectMenu(identify);
         if (null != menu && !id.equals(menu.getId().getValue())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

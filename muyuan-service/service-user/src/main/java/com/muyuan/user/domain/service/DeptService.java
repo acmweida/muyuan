@@ -29,7 +29,7 @@ public interface DeptService {
      * @param identify
      * @return
      */
-    String checkUnique(Dept.Identify identify);
+    boolean exists(Dept.Identify identify);
 
     boolean addDept(DeptCommand command,Dept parentDept);
 

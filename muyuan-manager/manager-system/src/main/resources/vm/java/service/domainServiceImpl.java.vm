@@ -37,13 +37,13 @@ public class ${ClassName}DomainServiceImpl implements ${ClassName}DomainService 
     }
 
     @Override
-    public String checkUnique(${ClassName}.Identify identify) {
+    public boolean exists(${ClassName}.Identify identify) {
         ${pkColumn.javaType} id = null == identify.get${pkColumn.capJavaField}() ? null : identify.get${pkColumn.capJavaField}();
         ${ClassName} ${className} = ${className}Repo.select${ClassName}(identify);
         if (null != ${className} && !id.equals(${className}.get${pkColumn.capJavaField}())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

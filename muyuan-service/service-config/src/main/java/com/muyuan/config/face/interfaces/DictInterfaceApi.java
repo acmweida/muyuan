@@ -2,7 +2,6 @@ package com.muyuan.config.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -80,7 +79,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictType(DictTypeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType.Identify(request.getType())))) {
+        if (dictService.exists(new DictType.Identify(request.getType()))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -90,7 +89,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result addDictData(DictDataRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData.Identify(request.getValue(), request.getType())))) {
+        if (dictService.exists(new DictData.Identify(request.getValue(), request.getType()))) {
             return ResultUtil.fail(ResponseCode.ADD_EXIST);
         }
 
@@ -100,7 +99,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result updateDictData(DictDataRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictData.Identify(request.getId(),request.getValue(), request.getType())))) {
+        if (dictService.exists(new DictData.Identify(request.getId(),request.getValue(), request.getType()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = dictService.updateDictData(mapper.toCommand(request));
@@ -109,7 +108,7 @@ public class DictInterfaceApi implements DictInterface {
 
     @Override
     public Result updateDictType(DictTypeRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(dictService.checkUnique(new DictType.Identify(request.getId(), request.getType())))) {
+        if (dictService.exists(new DictType.Identify(request.getId(), request.getType()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = dictService.updateDictType(mapper.toCommand(request));

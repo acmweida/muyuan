@@ -1,7 +1,6 @@
 package com.muyuan.store.system.domains.service.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.mybatis.jdbc.SqlParamsBuilder;
 import com.muyuan.store.system.domains.dto.RoleDTO;
 import com.muyuan.store.system.domains.dto.UserDTO;
@@ -75,13 +74,13 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     }
 
     @Override
-    public String checkRoleCodeUnique(Role role) {
+    public boolean checkRoleCodeUnique(Role role) {
         Long id = null == role.getId() ? 0 : role.getId();
         role = roleRepo.selectOne(role);
         if (null != role && !id.equals(role.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

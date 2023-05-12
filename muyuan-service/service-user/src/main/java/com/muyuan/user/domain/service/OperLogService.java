@@ -28,7 +28,7 @@ public interface OperLogService {
      * @param identify
      * @return
      */
-    String checkUnique(OperLog.Identify identify);
+    boolean exists(OperLog.Identify identify);
 
     /**
      * 新增操作日志记录信息

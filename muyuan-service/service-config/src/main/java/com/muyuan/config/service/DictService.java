@@ -36,7 +36,7 @@ public interface DictService {
      * @param identify
      * @return
      */
-    String checkUnique(DictType.Identify identify);
+    boolean exists(DictType.Identify identify);
 
     /**
      * 检查唯一性
@@ -44,7 +44,7 @@ public interface DictService {
      * @param identify
      * @return
      */
-    String checkUnique(DictData.Identify identify);
+    boolean exists(DictData.Identify identify);
 
 
     boolean addDictType(DictTypeCommand command);

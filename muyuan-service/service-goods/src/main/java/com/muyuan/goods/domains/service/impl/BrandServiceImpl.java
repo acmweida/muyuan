@@ -79,13 +79,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public String checkUnique(Brand.Identify identify) {
+    public boolean exists(Brand.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId();
         Brand brand = brandRepo.select(identify);
         if (null != brand && !id.equals(brand.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

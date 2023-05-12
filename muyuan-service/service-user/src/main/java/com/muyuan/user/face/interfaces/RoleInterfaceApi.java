@@ -2,7 +2,6 @@ package com.muyuan.user.face.interfaces;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -55,7 +54,7 @@ public class RoleInterfaceApi implements RoleInterface {
 
     @Override
     public Result add(RoleRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkUnique(new Role.Identify(request.getPlatformType(),request.getCode())))) {
+        if (roleService.exists(new Role.Identify(request.getPlatformType(),request.getCode()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = roleService.addRole(ROLE_MAPPER.toCommand(request));
@@ -64,8 +63,8 @@ public class RoleInterfaceApi implements RoleInterface {
 
     @Override
     public Result updateRole(RoleRequest request) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleService.checkUnique(new Role.Identify(new RoleID(request.getId())
-                ,request.getPlatformType(),request.getCode())))) {
+        if (roleService.exists(new Role.Identify(new RoleID(request.getId())
+                ,request.getPlatformType(),request.getCode()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = roleService.updateRole(ROLE_MAPPER.toCommand(request));

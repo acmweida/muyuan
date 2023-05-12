@@ -38,7 +38,7 @@ public interface OperatorService extends UserService<Operator> {
      * @param identify
      * @return
      */
-    String checkUnique(Operator.Identify identify);
+    boolean exists(Operator.Identify identify);
 
     /**
      * 新增用户信息

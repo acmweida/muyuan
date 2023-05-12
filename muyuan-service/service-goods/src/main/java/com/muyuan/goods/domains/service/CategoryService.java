@@ -31,7 +31,8 @@ public interface CategoryService {
      * @param identify
      * @return
      */
-    String checkUnique(Category.Identify identify);
+    boolean exists(Category.Identify identify);
+
 
     /**
      * 新增商品分类信息

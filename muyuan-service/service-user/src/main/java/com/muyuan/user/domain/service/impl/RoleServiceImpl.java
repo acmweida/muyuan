@@ -57,13 +57,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public String checkUnique(Role.Identify identify) {
+    public boolean exists(Role.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId().getValue();
         Role role = repo.selectRole(identify);
         if (null != role && !id.equals(role.getId().getValue())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

@@ -69,13 +69,13 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public String checkUnique(Permission.Identify identify) {
+    public boolean exists(Permission.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId();
         Permission permission = permissionRepo.selectPermission(identify);
         if (null != permission && !id.equals(permission.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

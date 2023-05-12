@@ -53,13 +53,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String checkUnique(Category.Identify identify) {
+    public boolean exists(Category.Identify identify) {
         Long id = null == identify.getId() ? null : identify.getId();
         Category category = categoryRepo.selectCategory(identify);
         if (null != category && !id.equals(category.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

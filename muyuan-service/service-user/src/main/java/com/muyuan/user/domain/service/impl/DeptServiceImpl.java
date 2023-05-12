@@ -35,13 +35,13 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public String checkUnique(Dept.Identify identify) {
+    public boolean exists(Dept.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId();
         Dept menu = deptRepo.selectDept(identify);
         if (null != menu && !id.equals(menu.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

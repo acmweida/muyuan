@@ -38,7 +38,7 @@ public interface MerchantService extends UserService<Merchant> {
      * @param identify
      * @return
      */
-    String checkUnique(Merchant.Identify identify);
+    boolean exists(Merchant.Identify identify);
 
     /**
      * 新增用户信息

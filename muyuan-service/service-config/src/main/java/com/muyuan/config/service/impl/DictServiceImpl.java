@@ -77,23 +77,23 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public String checkUnique(DictType.Identify identify) {
+    public boolean exists(DictType.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId();
         DictType dictType = dictRepo.selectDictType(identify);
         if (null != dictType && !id.equals(dictType.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override
-    public String checkUnique(DictData.Identify identify) {
+    public boolean exists(DictData.Identify identify) {
         Long id = null == identify.getId() ? 0 : identify.getId();
         DictData dictData = dictRepo.selectDictData(identify);
         if (null != dictData && !id.equals(dictData.getId())) {
-            return GlobalConst.NOT_UNIQUE;
+            return true;
         }
-        return GlobalConst.UNIQUE;
+        return false;
     }
 
     @Override

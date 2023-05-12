@@ -56,7 +56,7 @@ public interface MenuService {
      * @param identify
      * @return
      */
-    String checkUnique(Menu.Identify identify);
+    boolean exists(Menu.Identify identify);
 
 
     boolean updateMenu(MenuCommand command);

@@ -64,7 +64,7 @@ public class RoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:add")
     public Result add(@RequestBody @Validated RoleDTO roleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode())))) {
+        if (roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode()))) {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
@@ -76,7 +76,7 @@ public class RoleController {
     @ApiOperation(value = "角色添加")
     @RequirePermissions("member:role:update")
     public Result update(@RequestBody @Validated RoleDTO roleDTO) {
-        if (GlobalConst.NOT_UNIQUE.equals(roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode())))) {
+        if (roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode()))) {
             return ResultUtil.fail(StrUtil.format("角色编码:{}已存在", roleDTO.getCode()));
         }
 
