@@ -12,8 +12,8 @@ import com.muyuan.goods.api.dto.AttributeQueryRequest;
 import com.muyuan.goods.api.dto.AttributeRequest;
 import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
-import com.muyuan.goods.domains.service.AttributeService;
-import com.muyuan.goods.face.dto.mapper.AttributeMapper;
+import com.muyuan.goods.application.AttributeService;
+import com.muyuan.goods.face.dto.transfor.AttributeTransfer;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
@@ -36,15 +36,15 @@ import java.util.Optional;
 )
 public class AttributeInterfaceApi implements AttributeInterface {
 
-    private AttributeMapper MAPPER;
+    private AttributeTransfer transfer;
 
     private AttributeService attributeDomainService;
 
     @Override
     public Result<Page<AttributeDTO>> list(AttributeQueryRequest request) {
-        Page<Attribute> list = attributeDomainService.list(MAPPER.toCommand(request));
+        Page<Attribute> list = attributeDomainService.list(transfer.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,MAPPER.toDTO(list.getRows())));
+        return ResultUtil.success( Page.copy(list,transfer.toDTO(list.getRows())));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AttributeInterfaceApi implements AttributeInterface {
         if (attributeDomainService.exists(new Attribute.Identify(request.getCategoryCode(),request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
-        boolean flag = attributeDomainService.addAttribute(MAPPER.toCommand(request));
+        boolean flag = attributeDomainService.addAttribute(transfer.toCommand(request));
         return flag ? ResultUtil.success("添加成功") : ResultUtil.fail();
     }
 
@@ -60,7 +60,7 @@ public class AttributeInterfaceApi implements AttributeInterface {
     public Result<AttributeDTO> getAttribute(Long id) {
         Optional<Attribute> handler = attributeDomainService.getAttribute(id);
 
-        return handler.map(MAPPER::toDTO)
+        return handler.map(transfer::toDTO)
                 .map(ResultUtil::success)
                 .orElse(ResultUtil.error(ResponseCode.QUERY_NOT_EXIST));
     }
@@ -72,7 +72,7 @@ public class AttributeInterfaceApi implements AttributeInterface {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 
-        boolean flag = attributeDomainService.updateAttribute(MAPPER.toCommand(request));
+        boolean flag = attributeDomainService.updateAttribute(transfer.toCommand(request));
         return flag ? ResultUtil.success("更新成功") : ResultUtil.fail();
     }
 

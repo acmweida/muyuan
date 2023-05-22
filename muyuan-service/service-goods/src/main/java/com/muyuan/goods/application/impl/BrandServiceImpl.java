@@ -1,4 +1,4 @@
-package com.muyuan.goods.domains.service.impl;
+package com.muyuan.goods.application.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -10,7 +10,7 @@ import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.domains.repo.CategoryRepo;
-import com.muyuan.goods.domains.service.BrandService;
+import com.muyuan.goods.application.BrandService;
 import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
 import lombok.AllArgsConstructor;

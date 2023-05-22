@@ -10,7 +10,7 @@ import com.muyuan.config.api.dto.ConfigDTO;
 import com.muyuan.config.api.dto.ConfigQueryRequest;
 import com.muyuan.config.api.dto.ConfigRequest;
 import com.muyuan.config.entity.Config;
-import com.muyuan.config.face.dto.mapper.ConfigMapper;
+import com.muyuan.config.face.dto.transfer.ConfigTransfer;
 import com.muyuan.config.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -30,7 +30,7 @@ import java.util.Optional;
 )
 public class ConfigInterfaceApi implements ConfigInterface {
 
-    private ConfigMapper MAPPER;
+    private ConfigTransfer MAPPER;
 
     private ConfigService configDomainService;
 

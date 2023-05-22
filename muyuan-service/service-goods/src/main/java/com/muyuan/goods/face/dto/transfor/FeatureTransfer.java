@@ -1,4 +1,4 @@
-package com.muyuan.goods.face.dto.mapper;
+package com.muyuan.goods.face.dto.transfor;
 
 import com.muyuan.goods.api.dto.FeatureDTO;
 import com.muyuan.goods.api.dto.FeatureQueryRequest;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface FeatureMapper {
+public interface FeatureTransfer {
 
     FeatureQueryCommand toCommand(FeatureQueryRequest request);
 

@@ -2,7 +2,6 @@ package com.muyuan.store.system.interfaces.facade.controller;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.util.ExcelUtil;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.core.util.StrUtil;
@@ -51,13 +50,10 @@ public class RoleController {
     @GetMapping("/role/{id}")
     @ApiOperation(value = "角色查询")
     @RequirePermissions("member:role:lise")
-    public Result get(@PathVariable Long id) {
+    public Result<Role> get(@PathVariable Long id) {
         Optional<Role> sysRoleInfo = roleDomainService.getById(id);
-        if (sysRoleInfo.isPresent()) {
-            return ResultUtil.success(sysRoleInfo.get());
-        }
+        return sysRoleInfo.map(ResultUtil::success).orElseGet(() -> ResultUtil.fail("角色信息未找到"));
 
-        return ResultUtil.fail("角色信息未找到");
     }
 
     @PostMapping("/role")

@@ -11,9 +11,9 @@ import com.muyuan.goods.api.dto.BrandQueryRequest;
 import com.muyuan.goods.api.dto.BrandRequest;
 import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
-import com.muyuan.goods.domains.service.BrandService;
+import com.muyuan.goods.application.BrandService;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
-import com.muyuan.goods.face.dto.mapper.BrandMapper;
+import com.muyuan.goods.face.dto.transfor.BrandTransfer;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
@@ -41,7 +41,7 @@ public class BrandInterfaceImpl implements BrandInterface {
 
     private BrandService brandService;
 
-    private BrandMapper BRAND_MAPPER;
+    private BrandTransfer BRAND_MAPPER;
 
     @Override
     public Result<Page<BrandDTO>> list(BrandQueryRequest request) {

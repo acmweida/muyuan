@@ -1,4 +1,4 @@
-package com.muyuan.config.face.dto.mapper;
+package com.muyuan.config.face.dto.transfer;
 
 import com.muyuan.config.api.dto.ConfigDTO;
 import com.muyuan.config.api.dto.ConfigQueryRequest;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface ConfigMapper {
+public interface ConfigTransfer {
 
     ConfigQueryCommand toCommand(ConfigQueryRequest request);
 

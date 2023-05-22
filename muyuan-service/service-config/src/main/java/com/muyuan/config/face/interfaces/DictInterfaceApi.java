@@ -9,7 +9,7 @@ import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.*;
 import com.muyuan.config.entity.DictData;
 import com.muyuan.config.entity.DictType;
-import com.muyuan.config.face.dto.mapper.DictMapper;
+import com.muyuan.config.face.dto.transfer.DictTransfer;
 import com.muyuan.config.service.DictService;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -36,7 +36,7 @@ public class DictInterfaceApi implements DictInterface {
 
     private DictService dictService;
 
-    private DictMapper mapper;
+    private DictTransfer mapper;
 
     @Override
     public Result<List<DictDataDTO>> getDictDataByType(DictQueryRequest request) {

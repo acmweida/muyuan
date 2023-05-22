@@ -1,14 +1,13 @@
-package com.muyuan.goods.domains.service.impl;
+package com.muyuan.goods.application.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.exception.ResourceNotFoundException;
 import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.domains.model.entity.AttributeValue;
 import com.muyuan.goods.domains.repo.AttributeRepo;
 import com.muyuan.goods.domains.repo.AttributeValueRepo;
-import com.muyuan.goods.domains.service.AttributeService;
+import com.muyuan.goods.application.AttributeService;
 import com.muyuan.goods.face.dto.AttributeCommand;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
 import com.muyuan.goods.face.dto.AttributeValueQueryCommand;

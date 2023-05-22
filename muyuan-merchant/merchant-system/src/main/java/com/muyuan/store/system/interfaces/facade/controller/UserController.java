@@ -31,10 +31,7 @@ public class UserController {
     @ApiOperation(value = "获取用户信息")
     public Result<UserVO> getUserInfo() {
         final Optional<UserVO> userInfo = userApplicationService.getUserInfo();
-        if (!userInfo.isPresent()) {
-            return ResultUtil.fail("用户信息不存在");
-        }
-        return ResultUtil.success(userInfo.get());
+        return userInfo.map(ResultUtil::success).orElseGet(() -> ResultUtil.fail("用户信息不存在"));
     }
 
     @ApiOperation(value = "账号密码注册", code = 0)

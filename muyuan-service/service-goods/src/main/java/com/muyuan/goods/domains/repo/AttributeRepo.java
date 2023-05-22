@@ -25,6 +25,7 @@ public interface AttributeRepo {
 
     /**
      * 更新信息
+     *
      * @param attribute
      * @return old value
      */
@@ -32,6 +33,7 @@ public interface AttributeRepo {
 
     /**
      * 删除
+     *
      * @param ids
      * @return old value
      */

@@ -1,9 +1,7 @@
 package com.muyuan.goods.domains.model.aggregate;
 
 import com.muyuan.common.core.domains.mode.aggregate.Aggregate;
-import com.muyuan.goods.domains.model.entity.Brand;
-import com.muyuan.goods.domains.model.entity.Goods;
-import com.muyuan.goods.domains.model.entity.Sku;
+import com.muyuan.goods.domains.model.entity.*;
 import com.muyuan.goods.domains.model.valueobject.GoodsId;
 
 import java.util.List;
@@ -20,6 +18,10 @@ public class GoodsAggregate implements Aggregate<GoodsId> {
     private GoodsId id;
 
     private Goods goods;
+
+    private List<Attribute> attributes;
+
+    private List<AttributeValue> attributeValues;
 
     private List<Sku> skus;
 

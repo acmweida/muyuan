@@ -1,4 +1,4 @@
-package com.muyuan.goods.domains.service.impl;
+package com.muyuan.goods.application.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -10,7 +10,7 @@ import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.AttributeRepo;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.domains.repo.CategoryRepo;
-import com.muyuan.goods.domains.service.CategoryService;
+import com.muyuan.goods.application.CategoryService;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
 import com.muyuan.goods.face.dto.CategoryCommand;
 import com.muyuan.goods.face.dto.CategoryQueryCommand;

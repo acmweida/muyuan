@@ -10,8 +10,8 @@ import com.muyuan.goods.api.dto.FeatureDTO;
 import com.muyuan.goods.api.dto.FeatureQueryRequest;
 import com.muyuan.goods.api.dto.FeatureRequest;
 import com.muyuan.goods.domains.model.entity.Feature;
-import com.muyuan.goods.domains.service.FeatureService;
-import com.muyuan.goods.face.dto.mapper.FeatureMapper;
+import com.muyuan.goods.application.FeatureService;
+import com.muyuan.goods.face.dto.transfor.FeatureTransfer;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -30,7 +30,7 @@ import java.util.Optional;
 )
 public class FeatureInterfaceApi implements FeatureInterface {
 
-    private FeatureMapper MAPPER;
+    private FeatureTransfer MAPPER;
 
     private FeatureService featureService;
 

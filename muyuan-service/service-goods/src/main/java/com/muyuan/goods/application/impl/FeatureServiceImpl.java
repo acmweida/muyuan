@@ -1,10 +1,9 @@
-package com.muyuan.goods.domains.service.impl;
+package com.muyuan.goods.application.impl;
 
 import com.muyuan.common.bean.Page;
-import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.goods.domains.model.entity.Feature;
 import com.muyuan.goods.domains.repo.FeatureRepo;
-import com.muyuan.goods.domains.service.FeatureService;
+import com.muyuan.goods.application.FeatureService;
 import com.muyuan.goods.face.dto.FeatureCommand;
 import com.muyuan.goods.face.dto.FeatureQueryCommand;
 import lombok.AllArgsConstructor;

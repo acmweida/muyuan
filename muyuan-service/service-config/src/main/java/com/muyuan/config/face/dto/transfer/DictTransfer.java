@@ -1,4 +1,4 @@
-package com.muyuan.config.face.dto.mapper;
+package com.muyuan.config.face.dto.transfer;
 
 import com.muyuan.config.api.dto.*;
 import com.muyuan.config.entity.DictData;
@@ -19,7 +19,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface DictMapper {
+public interface DictTransfer {
 
     DictQueryCommand toCommand(DictQueryRequest request);
 

@@ -1,4 +1,4 @@
-package com.muyuan.goods.domains.service;
+package com.muyuan.goods.application;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Goods;
