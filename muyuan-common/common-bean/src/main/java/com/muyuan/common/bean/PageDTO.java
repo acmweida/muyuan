@@ -24,4 +24,8 @@ public abstract class PageDTO implements  Paging, Serializable {
     public boolean enablePage() {
         return pageNum != null && pageSize != null && pageNum > 0 && pageSize > 0;
     }
+
+    public void  disablePage() {
+        pageNum = pageSize = null;
+    }
 }

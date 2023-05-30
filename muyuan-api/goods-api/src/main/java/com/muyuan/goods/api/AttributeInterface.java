@@ -7,6 +7,8 @@ import com.muyuan.goods.api.dto.AttributeQueryRequest;
 import com.muyuan.goods.api.dto.AttributeRequest;
 import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 
+import java.util.List;
+
 /**
  * 类目属性Service接口
  *
@@ -20,7 +22,14 @@ public interface AttributeInterface {
       * @param request
       * @return
       */
-    Result<Page<AttributeDTO>> list(AttributeQueryRequest request);
+    Result<Page<AttributeDTO>> page(AttributeQueryRequest request);
+
+    /**
+     * 查询类目属性列表
+     * @param request
+     * @return
+     */
+    Result<List<AttributeDTO>> list(AttributeQueryRequest request);
 
     /**
      * 添加类目属性

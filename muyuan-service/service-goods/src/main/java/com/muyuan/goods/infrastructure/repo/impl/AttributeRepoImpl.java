@@ -5,7 +5,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.domains.repo.AttributeRepo;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
-import com.muyuan.goods.infrastructure.repo.converter.AttributeConverter;
+import com.muyuan.goods.infrastructure.repo.converter.AttributeEntity2DOConverter;
 import com.muyuan.goods.infrastructure.repo.dataobject.AttributeDO;
 import com.muyuan.goods.infrastructure.repo.mapper.AttributeMapper;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class AttributeRepoImpl implements AttributeRepo {
 
     private AttributeMapper attributeMapper;
 
-    private AttributeConverter converter;
+    private AttributeEntity2DOConverter converter;
 
     @Override
     public Page<Attribute> select(AttributeQueryCommand command) {

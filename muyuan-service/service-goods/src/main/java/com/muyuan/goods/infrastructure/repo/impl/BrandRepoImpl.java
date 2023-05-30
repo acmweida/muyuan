@@ -7,7 +7,7 @@ import com.muyuan.goods.domains.enums.BrandAuthStatus;
 import com.muyuan.goods.domains.model.entity.Brand;
 import com.muyuan.goods.domains.repo.BrandRepo;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
-import com.muyuan.goods.infrastructure.repo.converter.BrandConverter;
+import com.muyuan.goods.infrastructure.repo.converter.BrandEntity2DOConverter;
 import com.muyuan.goods.infrastructure.repo.dataobject.BrandCategoryDO;
 import com.muyuan.goods.infrastructure.repo.dataobject.BrandDO;
 import com.muyuan.goods.infrastructure.repo.mapper.BrandCategoryMapper;
@@ -34,7 +34,7 @@ public class BrandRepoImpl implements BrandRepo {
 
     private BrandCategoryMapper brandCategoryMapper;
 
-    private BrandConverter converter;
+    private BrandEntity2DOConverter converter;
 
     @Override
     public Brand select(Long id, BrandAuthStatus... authStatuses) {

@@ -5,7 +5,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Feature;
 import com.muyuan.goods.domains.repo.FeatureRepo;
 import com.muyuan.goods.face.dto.FeatureQueryCommand;
-import com.muyuan.goods.infrastructure.repo.converter.FeatureConverter;
+import com.muyuan.goods.infrastructure.repo.converter.FeatureEntity2DOConverter;
 import com.muyuan.goods.infrastructure.repo.dataobject.FeatureDO;
 import com.muyuan.goods.infrastructure.repo.mapper.FeatureMapper;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class FeatureRepoImpl implements FeatureRepo {
 
     private FeatureMapper featureMapper;
 
-    private FeatureConverter converter;
+    private FeatureEntity2DOConverter converter;
 
     @Override
     public Page<Feature> select(FeatureQueryCommand command) {

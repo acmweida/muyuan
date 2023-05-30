@@ -16,20 +16,7 @@ public interface JdbcBaseMapper<T> extends BaseMapper<T> {
 
     String ID = "id";
 
-    String NAME = "name";
-
-    String STATUS = "status";
-
     String TYPE = "type";
-
-    String CREATE_TIME = "createTime";
-
-    String UPDATE_TIME = "updateTime";
-
-    String ORDER_NUM = "orderNum";
-
-    String PARENT_ID = "parentId";
-
 
     @Transactional(rollbackFor = Exception.class)
     @IdGenerator

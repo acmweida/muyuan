@@ -1,4 +1,4 @@
-package com.muyuan.goods.application.impl;
+package com.muyuan.goods.domains.service.impl;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.exception.ResourceNotFoundException;
@@ -7,7 +7,7 @@ import com.muyuan.goods.domains.model.entity.Attribute;
 import com.muyuan.goods.domains.model.entity.AttributeValue;
 import com.muyuan.goods.domains.repo.AttributeRepo;
 import com.muyuan.goods.domains.repo.AttributeValueRepo;
-import com.muyuan.goods.application.AttributeService;
+import com.muyuan.goods.domains.service.AttributeService;
 import com.muyuan.goods.face.dto.AttributeCommand;
 import com.muyuan.goods.face.dto.AttributeQueryCommand;
 import com.muyuan.goods.face.dto.AttributeValueQueryCommand;
@@ -41,7 +41,7 @@ public class AttributeServiceImpl implements AttributeService {
     private AttributeValueRepo attributeValueRepo;
 
     @Override
-    public Page<Attribute> list(AttributeQueryCommand command) {
+    public Page<Attribute> page(AttributeQueryCommand command) {
         return attributeRepo.select(command);
     }
 

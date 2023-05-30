@@ -6,7 +6,7 @@ import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.model.entity.Category;
 import com.muyuan.goods.domains.repo.CategoryRepo;
 import com.muyuan.goods.face.dto.CategoryQueryCommand;
-import com.muyuan.goods.infrastructure.repo.converter.CategoryConverter;
+import com.muyuan.goods.infrastructure.repo.converter.CategoryEntity2DOConverter;
 import com.muyuan.goods.infrastructure.repo.dataobject.CategoryDO;
 import com.muyuan.goods.infrastructure.repo.mapper.CategoryMapper;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class CategoryRepoImpl implements CategoryRepo {
 
     private CategoryMapper categoryMapper;
 
-    private CategoryConverter converter;
+    private CategoryEntity2DOConverter converter;
 
     @Override
     public Page<Category> select(CategoryQueryCommand command) {

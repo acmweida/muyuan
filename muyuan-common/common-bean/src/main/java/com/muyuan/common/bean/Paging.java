@@ -14,4 +14,6 @@ public interface Paging {
     Integer getPageSize();
 
     boolean enablePage();
+
+    void disablePage();
 }

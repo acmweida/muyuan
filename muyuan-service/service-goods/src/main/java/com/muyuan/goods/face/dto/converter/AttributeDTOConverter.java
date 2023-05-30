@@ -1,4 +1,4 @@
-package com.muyuan.goods.face.dto.transfor;
+package com.muyuan.goods.face.dto.converter;
 
 import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.goods.api.dto.AttributeQueryRequest;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface AttributeTransfer {
+public interface AttributeDTOConverter {
 
     AttributeQueryCommand toCommand(AttributeQueryRequest request);
 

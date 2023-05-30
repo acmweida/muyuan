@@ -9,9 +9,9 @@ import com.muyuan.goods.api.CategoryInterface;
 import com.muyuan.goods.api.dto.CategoryDTO;
 import com.muyuan.goods.api.dto.CategoryQueryRequest;
 import com.muyuan.goods.api.dto.CategoryRequest;
+import com.muyuan.goods.domains.service.CategoryService;
 import com.muyuan.goods.domains.model.entity.Category;
-import com.muyuan.goods.application.CategoryService;
-import com.muyuan.goods.face.dto.transfor.CategoryTransfer;
+import com.muyuan.goods.face.dto.converter.CategoryDTOConverter;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -31,7 +31,7 @@ import java.util.Optional;
 )
 public class CategoryInterfaceApi implements CategoryInterface {
 
-    private CategoryTransfer MAPPER;
+    private CategoryDTOConverter MAPPER;
 
     private CategoryService categoryService;
 

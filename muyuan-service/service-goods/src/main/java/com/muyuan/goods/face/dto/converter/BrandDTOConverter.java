@@ -1,4 +1,4 @@
-package com.muyuan.goods.face.dto.transfor;
+package com.muyuan.goods.face.dto.converter;
 
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.BrandQueryRequest;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface BrandTransfer {
+public interface BrandDTOConverter {
 
     BrandQueryCommand toCommand(BrandQueryRequest request);
 

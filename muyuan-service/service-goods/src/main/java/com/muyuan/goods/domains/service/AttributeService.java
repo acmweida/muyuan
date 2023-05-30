@@ -1,4 +1,4 @@
-package com.muyuan.goods.application;
+package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
@@ -22,7 +22,7 @@ public interface AttributeService {
      * @param command
      * @return
      */
-    Page<Attribute> list(AttributeQueryCommand command);
+    Page<Attribute> page(AttributeQueryCommand command);
 
     /**
      * 唯一性检查

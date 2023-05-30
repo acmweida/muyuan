@@ -7,10 +7,10 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.goods.api.GoodsInterface;
 import com.muyuan.goods.api.dto.GoodsDTO;
 import com.muyuan.goods.api.dto.GoodsQueryRequest;
+import com.muyuan.goods.domains.service.GoodsService;
 import com.muyuan.goods.domains.model.entity.Goods;
-import com.muyuan.goods.application.GoodsService;
 import com.muyuan.goods.face.dto.GoodsQueryCommand;
-import com.muyuan.goods.face.dto.transfor.GoodsTransfer;
+import com.muyuan.goods.face.dto.converter.GoodsDTOConverter;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -30,7 +30,7 @@ public class GoodsInterfaceImpl implements GoodsInterface {
 
     private GoodsService goodsService;
 
-    private GoodsTransfer GOODS_MAPPER;
+    private GoodsDTOConverter GOODS_MAPPER;
 
     @Override
     public Result<Page<GoodsDTO>> page(GoodsQueryRequest request) {

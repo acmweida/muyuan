@@ -16,9 +16,9 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface CategoryConverter {
+public interface CategoryEntity2DOConverter {
 
-    @Mapping(target = "leaf",expression = "java(CategoryConverter.map(categoryDO.getLeaf()))")
+    @Mapping(target = "leaf",expression = "java(CategoryEntity2DOConverter.map(categoryDO.getLeaf()))")
     Category to(CategoryDO categoryDO);
 
     static Boolean map(String lead) {
@@ -31,7 +31,7 @@ public interface CategoryConverter {
 
     List<Category> to(List<CategoryDO> categoryDOS);
 
-    @Mapping(target = "leaf",expression = "java(CategoryConverter.map(category.getLeaf()))")
+    @Mapping(target = "leaf",expression = "java(CategoryEntity2DOConverter.map(category.getLeaf()))")
     CategoryDO to(Category category);
 
 }

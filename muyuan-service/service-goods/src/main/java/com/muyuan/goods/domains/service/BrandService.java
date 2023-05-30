@@ -1,4 +1,4 @@
-package com.muyuan.goods.application;
+package com.muyuan.goods.domains.service;
 
 import com.muyuan.common.bean.Page;
 import com.muyuan.goods.domains.enums.BrandAuthStatus;

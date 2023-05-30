@@ -12,18 +12,20 @@ import com.muyuan.goods.api.dto.AttributeQueryRequest;
 import com.muyuan.goods.api.dto.AttributeRequest;
 import com.muyuan.goods.api.dto.AttributeValueUpdateRequest;
 import com.muyuan.goods.domains.model.entity.Attribute;
-import com.muyuan.goods.application.AttributeService;
-import com.muyuan.goods.face.dto.transfor.AttributeTransfer;
+import com.muyuan.goods.domains.service.AttributeService;
+import com.muyuan.goods.face.dto.AttributeQueryCommand;
+import com.muyuan.goods.face.dto.converter.AttributeDTOConverter;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Method;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
+ * @author ${author}
  * @ClassName AttributeInterfaceApi
  * Description 内部接口  类目属性
- * @author ${author}
  * @date 2022-12-26T17:20:39.753+08:00
  * @Version 1.0
  */
@@ -36,20 +38,29 @@ import java.util.Optional;
 )
 public class AttributeInterfaceApi implements AttributeInterface {
 
-    private AttributeTransfer transfer;
+    private AttributeDTOConverter transfer;
 
     private AttributeService attributeDomainService;
 
     @Override
-    public Result<Page<AttributeDTO>> list(AttributeQueryRequest request) {
-        Page<Attribute> list = attributeDomainService.list(transfer.toCommand(request));
+    public Result<Page<AttributeDTO>> page(AttributeQueryRequest request) {
+        Page<Attribute> list = attributeDomainService.page(transfer.toCommand(request));
 
-        return ResultUtil.success( Page.copy(list,transfer.toDTO(list.getRows())));
+        return ResultUtil.success(Page.copy(list, transfer.toDTO(list.getRows())));
+    }
+
+    @Override
+    public Result<List<AttributeDTO>> list(AttributeQueryRequest request) {
+        AttributeQueryCommand attributeQueryCommand = transfer.toCommand(request);
+        attributeQueryCommand.disablePage();
+        Page<Attribute> list = attributeDomainService.page(attributeQueryCommand);
+
+        return ResultUtil.success(transfer.toDTO(list.getRows()));
     }
 
     @Override
     public Result add(AttributeRequest request) {
-        if (attributeDomainService.exists(new Attribute.Identify(request.getCategoryCode(),request.getName()))) {
+        if (attributeDomainService.exists(new Attribute.Identify(request.getCategoryCode(), request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
         boolean flag = attributeDomainService.addAttribute(transfer.toCommand(request));
@@ -68,7 +79,7 @@ public class AttributeInterfaceApi implements AttributeInterface {
     @Override
     public Result updateAttribute(AttributeRequest request) {
         if (attributeDomainService.exists(new Attribute.Identify(request.getId()
-                ,request.getCategoryCode(),request.getName()))) {
+                , request.getCategoryCode(), request.getName()))) {
             return ResultUtil.fail(ResponseCode.UPDATE_EXIST);
         }
 

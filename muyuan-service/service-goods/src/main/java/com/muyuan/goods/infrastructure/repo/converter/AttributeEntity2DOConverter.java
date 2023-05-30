@@ -14,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface AttributeConverter {
+public interface AttributeEntity2DOConverter {
 
     Attribute to(AttributeDO attributeDO);
 

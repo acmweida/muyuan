@@ -14,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface FeatureConverter {
+public interface FeatureEntity2DOConverter {
 
     Feature to(FeatureDO featureDO);
 

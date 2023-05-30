@@ -1,4 +1,4 @@
-package com.muyuan.goods.face.dto.transfor;
+package com.muyuan.goods.face.dto.converter;
 
 import com.muyuan.goods.api.dto.GoodsDTO;
 import com.muyuan.goods.api.dto.GoodsQueryRequest;
@@ -17,7 +17,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface GoodsTransfer {
+public interface GoodsDTOConverter {
 
     GoodsQueryCommand toCommand(GoodsQueryRequest request);
 

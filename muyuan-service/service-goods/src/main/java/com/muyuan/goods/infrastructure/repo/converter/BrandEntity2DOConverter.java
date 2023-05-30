@@ -14,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Mapper(componentModel = "spring")
-public interface BrandConverter {
+public interface BrandEntity2DOConverter {
 
     Brand to(BrandDO deptDO);
 
