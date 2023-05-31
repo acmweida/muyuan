@@ -1,13 +1,13 @@
 package com.muyuan.store.shop.domains.dto;
 
-import com.muyuan.common.bean.BaseDTO;
+import com.muyuan.common.bean.PageDTO;
 import com.muyuan.common.core.validator.annotions.AtLeastOneNotEmpty;
-import com.muyuan.store.shop.domains.model.Shop;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 
 /**
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @ApiModel(description = "店铺基本信息请求")
 @AtLeastOneNotEmpty(fields = {"id","type","name"},message = "店铺ID/类型/名称 需要至少传一项")
-public class ShopDTO extends BaseDTO<ShopDTO, Shop> {
+public class ShopDTO extends PageDTO implements Serializable {
 
     @ApiModelProperty(name = "店铺ID",notes = "店铺ID/店铺编号/类型 需要至少传一项")
     private Long id;

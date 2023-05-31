@@ -1,10 +1,7 @@
 package com.muyuan.config.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 /**
@@ -14,11 +11,11 @@ import lombok.NoArgsConstructor;
  * @Date 2022/3/30 16:47
  * @Version 1.0
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class DictTypeQueryRequest extends PageDTO {
+
+
 
     /**
      * 字典名称

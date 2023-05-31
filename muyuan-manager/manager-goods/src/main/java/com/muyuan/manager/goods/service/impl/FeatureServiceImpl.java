@@ -15,7 +15,6 @@ import com.muyuan.goods.api.dto.FeatureRequest;
 import com.muyuan.manager.goods.dto.FeatureQueryParams;
 import com.muyuan.manager.goods.dto.assembler.FeatureAssembler;
 import com.muyuan.manager.goods.service.FeatureService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -63,11 +62,11 @@ public class FeatureServiceImpl implements FeatureService
      */
     @Override
     public Page<FeatureDTO> list(FeatureQueryParams params) {
-        FeatureQueryRequest request = FeatureQueryRequest.builder()
-                .name(params.getName())
-                .parentId(params.getParentId())
-                .leaf(params.getLeaf())
-                .build();
+        FeatureQueryRequest request = new FeatureQueryRequest();
+        request.setName(params.getName());
+        request.setParentId(params.getParentId());
+        request.setLeaf(params.getLeaf());
+
         if (params.enablePage()) {
             request.setPageNum(params.getPageNum());
             request.setPageSize(params.getPageSize());

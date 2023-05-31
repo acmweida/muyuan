@@ -44,11 +44,11 @@ public class DictTypeServiceImpl implements DictTypeService {
     @Override
     public Page<DictTypeDTO> list(DictTypeQueryParams params) {
 
-        DictTypeQueryRequest request = DictTypeQueryRequest.builder()
-                .name(params.getName())
-                .type(params.getType())
-                .status(params.getStatus())
-                .build();
+        DictTypeQueryRequest request = new  DictTypeQueryRequest();
+        request.setName(params.getName());
+        request.setType(params.getType());
+        request.setStatus(params.getStatus());
+
         if (params.enablePage()) {
             request.setPageNum(params.getPageNum());
             request.setPageSize(params.getPageSize());
@@ -63,7 +63,8 @@ public class DictTypeServiceImpl implements DictTypeService {
 
     @Override
     public List<DictTypeDTO> selectDictTypeAll() {
-        Result<Page<DictTypeDTO>> list = dictInterface.list(DictTypeQueryRequest.builder().build());
+        DictTypeQueryRequest request = new DictTypeQueryRequest();
+        Result<Page<DictTypeDTO>> list = dictInterface.list(request);
         return list.getData().getRows();
     }
 

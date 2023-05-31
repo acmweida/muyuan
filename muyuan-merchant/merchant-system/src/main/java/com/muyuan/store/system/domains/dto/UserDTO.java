@@ -1,7 +1,6 @@
 package com.muyuan.store.system.domains.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.store.system.domains.model.User;
+import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,7 +16,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class UserDTO extends BaseDTO<UserDTO, User> {
+public class UserDTO extends PageDTO {
 
     @Pattern(regexp = "[a-zA-Z0-9_-]{4,16}$",message = "用户名只能由字母、数字、下划线组成，且长度是4-16位")
     @NotBlank(message = "用户名不能为空")

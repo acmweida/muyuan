@@ -65,11 +65,11 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Page<BrandDTO> list(BrandQueryParams params) {
-        BrandQueryRequest request = BrandQueryRequest.builder()
-                .name(params.getName())
-                .status(params.getStatus())
-                .auditStatus(params.getAuditStatus())
-                .build();
+        BrandQueryRequest request = new BrandQueryRequest();
+        request.setName(params.getName());
+        request.setStatus(params.getStatus());
+        request.setAuditStatus(params.getAuditStatus());
+
         if (params.enablePage()) {
             request.setPageNum(params.getPageNum());
             request.setPageSize(params.getPageSize());

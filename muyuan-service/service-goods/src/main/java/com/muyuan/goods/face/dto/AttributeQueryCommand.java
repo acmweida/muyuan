@@ -1,7 +1,6 @@
 package com.muyuan.goods.face.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,22 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class AttributeQueryCommand extends PageDTO {
+
+
+    @Builder
+    public AttributeQueryCommand(Integer pageNum, Integer pageSize, Long id, String name, Long categoryCode, Long type, String code, Long inputType, Long htmlType, Long status) {
+        super(pageNum, pageSize);
+        this.id = id;
+        this.name = name;
+        this.categoryCode = categoryCode;
+        this.type = type;
+        this.code = code;
+        this.inputType = inputType;
+        this.htmlType = htmlType;
+        this.status = status;
+    }
 
     /**
      * $column.columnComment

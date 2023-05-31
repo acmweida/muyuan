@@ -1,8 +1,6 @@
 package com.muyuan.goods.face.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,10 +12,9 @@ import lombok.NoArgsConstructor;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class AttributeValueQueryCommand extends PageDTO {
+
 
     /**
      * $column.columnComment

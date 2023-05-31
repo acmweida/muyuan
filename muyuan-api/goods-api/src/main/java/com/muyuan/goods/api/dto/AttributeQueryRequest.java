@@ -1,13 +1,9 @@
 package com.muyuan.goods.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author ${author}
@@ -17,9 +13,6 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AttributeQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;
@@ -65,34 +58,5 @@ public class AttributeQueryRequest extends PageDTO implements Serializable {
      */
     private Long status;
 
-    /**
-     * $column.columnComment
-     */
-    private Date createTime;
-
-    /**
-     * $column.columnComment
-     */
-    private Date updateTime;
-
-    /**
-     * $column.columnComment
-     */
-    private Long createBy;
-
-    /**
-     * $column.columnComment
-     */
-    private String creator;
-
-    /**
-     * $column.columnComment
-     */
-    private Long updateBy;
-
-    /**
-     * $column.columnComment
-     */
-    private String updater;
 
 }

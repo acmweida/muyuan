@@ -1,7 +1,6 @@
 package com.muyuan.manager.goods.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.goods.model.Goods;
+import com.muyuan.common.bean.PageDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class GoodsDTO extends BaseDTO<GoodsDTO, Goods> {
+public class GoodsDTO extends PageDTO {
 
     /**
      * todo:物流模板

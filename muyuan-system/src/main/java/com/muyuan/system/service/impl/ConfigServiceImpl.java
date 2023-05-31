@@ -31,10 +31,10 @@ public class ConfigServiceImpl implements ConfigService {
     public Optional<ConfigDTO> get(String configKey) {
         return Optional.of(configKey)
                 .map(configKey_ -> {
-                    Result<Page<ConfigDTO>> configHander = configInterface.list(ConfigQueryRequest
-                            .builder()
-                            .configKey(configKey)
-                            .build());
+                    ConfigQueryRequest configQueryRequest = new ConfigQueryRequest();
+                    configQueryRequest.setConfigKey(configKey);
+
+                    Result<Page<ConfigDTO>> configHander = configInterface.list(configQueryRequest);
                     if (ResultUtil.isSuccess(configHander)) {
                         if (ObjectUtils.isNotEmpty(configHander.getData().getRows())) {
                             return configHander.getData().getRows().get(0);

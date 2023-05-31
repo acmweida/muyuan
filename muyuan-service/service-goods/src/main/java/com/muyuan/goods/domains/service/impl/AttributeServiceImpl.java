@@ -88,9 +88,9 @@ public class AttributeServiceImpl implements AttributeService {
                 .map(id_ -> {
                     Attribute attribute = attributeRepo.selectAttribute(id_);
                     if (attribute.getInputType() == 2 && attribute.getValueType() == 1) {
-                        List<AttributeValue> valus = attributeValueRepo.select(AttributeValueQueryCommand.builder()
-                                .attributeId(id)
-                                .build()).getRows();
+                        AttributeValueQueryCommand command = new AttributeValueQueryCommand();
+                        command.setAttributeId(id);
+                        List<AttributeValue> valus = attributeValueRepo.select(command).getRows();
                         attribute.setAttributeValues(valus);
                     }
                     return attribute;

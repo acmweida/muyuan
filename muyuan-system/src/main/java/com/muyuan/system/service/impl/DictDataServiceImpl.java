@@ -43,11 +43,11 @@ public class DictDataServiceImpl implements DictDataService {
     @Override
     public Page<DictDataDTO> page(DictDataQueryParams params) {
 
-        DictQueryRequest request = DictQueryRequest.builder()
-                .label(params.getLabel())
-                .type(params.getType())
-                .status(params.getStatus())
-                .build();
+        DictQueryRequest request = new  DictQueryRequest();
+        request.setLabel(params.getLabel());
+        request.setType(params.getType());
+        request.setStatus(params.getStatus());
+
         if (params.enablePage()) {
             request.setPageNum(params.getPageNum());
             request.setPageSize(params.getPageSize());
@@ -73,9 +73,10 @@ public class DictDataServiceImpl implements DictDataService {
             return Collections.EMPTY_LIST;
         }
 
-        Result<List<DictDataDTO>> resultHandle = dictInterface.getDictDataByType(DictQueryRequest.builder()
-                .type(dictDataType)
-                .build());
+        DictQueryRequest request = new DictQueryRequest();
+        request.setType(dictDataType);
+
+        Result<List<DictDataDTO>> resultHandle = dictInterface.getDictDataByType(request);
 
         return ResultUtil.getOr(resultHandle, () -> GlobalConst.EMPTY_LIST);
     }

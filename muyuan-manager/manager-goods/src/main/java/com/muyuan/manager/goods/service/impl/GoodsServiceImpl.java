@@ -5,7 +5,8 @@ import com.muyuan.common.core.exception.ResourceNotFoundException;
 import com.muyuan.goods.api.dto.BrandDTO;
 import com.muyuan.goods.api.dto.CategoryDTO;
 import com.muyuan.manager.goods.dto.GoodsDTO;
-import com.muyuan.manager.goods.dto.SkuDTO;
+import com.muyuan.manager.goods.dto.converter.GoodsDTOConvertor;
+import com.muyuan.manager.goods.dto.converter.SkuDTOConvertor;
 import com.muyuan.manager.goods.model.Goods;
 import com.muyuan.manager.goods.model.Sku;
 import com.muyuan.manager.goods.repo.GoodsRepo;
@@ -42,6 +43,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     private CategoryService categoryService;
 
+    private GoodsDTOConvertor convertor;
+
+    private SkuDTOConvertor skuDTOConvertor;
+
     @Override
     public Page<Goods> page(GoodsDTO goodsDTO, Long shopId) {
         Page page = Page.builder()
@@ -60,7 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public void addGoods(GoodsDTO goodsDTO) {
 
-        Goods goods = goodsDTO.convert();
+        Goods goods = convertor.toEntity(goodsDTO);
 
         // 品牌信息
         Optional<BrandDTO> brand = brandService.get(goods.getBrandId());
@@ -75,7 +80,7 @@ public class GoodsServiceImpl implements GoodsService {
             throw new ResourceNotFoundException("商品类型未找到");
         }).getName());
 
-        List<Sku> skus = goodsDTO.getSkus().stream().map(SkuDTO::convert).collect(Collectors.toList());
+        List<Sku> skus = goodsDTO.getSkus().stream().map(item -> skuDTOConvertor.toEntity(item)).collect(Collectors.toList());
 
         int stock = 0;
         for (Sku sku : skus) {

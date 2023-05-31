@@ -34,12 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<CategoryDTO> list(CategoryQueryParams params) {
-        CategoryQueryRequest request = CategoryQueryRequest.builder()
-                .name(params.getName())
-                .status(params.getStatus())
-                .leaf(params.getLeaf())
-                .parentId(params.getParentId())
-                .build();
+        CategoryQueryRequest request = new  CategoryQueryRequest();
+        request.setName(params.getName());
+        request.setStatus(params.getStatus());
+        request.setLeaf(params.getLeaf());
+        request.setParentId(params.getParentId());
 
         Result<Page<CategoryDTO>> res = categoryInterface.list(request);
         return res.getData();

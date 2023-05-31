@@ -5,6 +5,7 @@ import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.store.shop.application.ShopApplicationService;
+import com.muyuan.store.shop.domains.convertor.ShopDTOConvertor;
 import com.muyuan.store.shop.domains.dto.ShopDTO;
 import com.muyuan.store.shop.domains.model.Shop;
 import com.muyuan.store.shop.domains.service.ShopDomainService;
@@ -32,10 +33,12 @@ public class ShopApplicationServiceImpl implements ShopApplicationService {
     @Autowired
     private ShopDomainService shopDomainService;
 
+    private ShopDTOConvertor convert;
+
     @Override
     @Transactional
     public void createSettledShop(ShopDTO shopDTO) {
-        Shop shop = shopDTO.convert();
+        Shop shop = convert.toEntity(shopDTO);
         if (ObjectUtils.isEmpty(SecurityUtils.getShopId())) {
             shopDomainService.addShop(shop, ShopType.SETTlED);
 

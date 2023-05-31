@@ -1,10 +1,7 @@
 package com.muyuan.goods.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -16,9 +13,6 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CategoryQueryRequest extends PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1457932148568l;

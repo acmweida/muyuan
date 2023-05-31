@@ -1,5 +1,6 @@
 package com.muyuan.store.shop.domains.service.impl;
 
+import com.muyuan.store.shop.domains.convertor.ShopDTOConvertor;
 import com.muyuan.store.shop.domains.dto.ShopDTO;
 import com.muyuan.store.shop.domains.model.Shop;
 import com.muyuan.store.shop.domains.repo.ShopRepo;
@@ -27,6 +28,8 @@ public class ShopDomainServiceImpl implements ShopDomainService {
 
     private ShopRepo shopRepo;
 
+    private ShopDTOConvertor convert;
+
     @Override
     public Optional<ShopVO> getShopBaseInfoByyMemberId(Long id) {
 
@@ -37,7 +40,7 @@ public class ShopDomainServiceImpl implements ShopDomainService {
     @Override
     @Transactional
     public void addShop(ShopDTO shopDTO, ShopType shopType) {
-        Shop shop = shopDTO.convert();
+        Shop shop = convert.toEntity(shopDTO);
         addShop(shop,shopType);
     }
 

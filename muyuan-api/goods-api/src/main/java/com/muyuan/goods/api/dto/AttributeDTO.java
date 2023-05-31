@@ -1,7 +1,6 @@
 package com.muyuan.goods.api.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * @date 2022-06-23T10:46:02.101+08:00
  */
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AttributeDTO implements Serializable {

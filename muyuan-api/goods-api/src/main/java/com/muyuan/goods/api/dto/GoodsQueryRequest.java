@@ -2,6 +2,7 @@ package com.muyuan.goods.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName GoodsQueryCommand
@@ -11,6 +12,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 public class GoodsQueryRequest extends PageDTO {
 
     private static final long serialVersionUID = 1456932148569l;

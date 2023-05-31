@@ -1,10 +1,7 @@
 package com.muyuan.goods.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 
@@ -14,9 +11,6 @@ import org.hibernate.validator.constraints.Range;
  * @date 2022-07-04T14:16:24.789+08:00
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class BrandQueryRequest extends PageDTO {
 
     private static final long serialVersionUID = 1157932148569l;

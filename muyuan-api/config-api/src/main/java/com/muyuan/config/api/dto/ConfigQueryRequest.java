@@ -1,10 +1,7 @@
 package com.muyuan.config.api.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,10 +14,26 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ConfigQueryRequest extends PageDTO implements Serializable {
+
+
+    @Builder
+    public ConfigQueryRequest(Integer pageNum, Integer pageSize, Long id, String name, String configKey, String configValue, Integer type, String createBy, Date createTime, String updateBy, Date updateTime, String remark, Long creator, Long updater) {
+        super(pageNum, pageSize);
+        this.id = id;
+        this.name = name;
+        this.configKey = configKey;
+        this.configValue = configValue;
+        this.type = type;
+        this.createBy = createBy;
+        this.createTime = createTime;
+        this.updateBy = updateBy;
+        this.updateTime = updateTime;
+        this.remark = remark;
+        this.creator = creator;
+        this.updater = updater;
+    }
 
     private static final long serialVersionUID = 1457932148568l;
 

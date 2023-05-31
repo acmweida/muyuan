@@ -1,7 +1,6 @@
 package com.muyuan.manager.goods.dto;
 
-import com.muyuan.common.bean.BaseDTO;
-import com.muyuan.manager.goods.model.Sku;
+import com.muyuan.common.bean.PageDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @Version 1.0
  */
 @Data
-public class SkuDTO extends BaseDTO<SkuDTO, Sku> {
+public class SkuDTO extends PageDTO {
 
     private Long goodsId;
 
