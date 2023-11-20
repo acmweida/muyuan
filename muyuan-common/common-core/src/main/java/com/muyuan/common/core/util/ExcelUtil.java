@@ -2,7 +2,7 @@ package com.muyuan.common.core.util;
 
 import com.alibaba.excel.EasyExcel;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

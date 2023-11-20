@@ -2,8 +2,7 @@ package com.muyuan.common.core.domains.repo;
 
 import com.muyuan.common.core.domains.Identifier;
 import com.muyuan.common.core.domains.mode.aggregate.Aggregate;
-
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @ClassName Repository 接口

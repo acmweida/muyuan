@@ -2,9 +2,9 @@ package com.muyuan.common.core.validator.annotions;
 
 import com.muyuan.common.core.validator.impl.NotNullOnOtherValidator;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.NotNull;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

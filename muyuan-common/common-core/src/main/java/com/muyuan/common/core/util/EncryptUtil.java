@@ -1,6 +1,5 @@
 package com.muyuan.common.core.util;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

@@ -1,6 +1,5 @@
 package com.muyuan.manager.goods.base.config;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
-@EnableKnife4j
 public class SwaggerConfiguration {
 
     @Bean(value = "userApi")

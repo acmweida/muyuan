@@ -1,6 +1,5 @@
 package com.muyuan.manager.goods.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.ResultUtil;
@@ -58,7 +57,7 @@ public class AttributeController {
     @RequirePermissions("category:attribute:add")
     @Log(title = "商品分类属性", businessType = BusinessType.INSERT)
     @ApiOperation(value = "商品分类属性新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @ApiOperationSupport(ignoreParameters = "id")
     @PostMapping
     public Result add(@RequestBody @Validated(AttributeParams.Add.class) AttributeParams params) {
         return ResultUtil.success(attributeService.add(params));
@@ -82,7 +81,7 @@ public class AttributeController {
     @Log(title = "商品分类属性", businessType = BusinessType.UPDATE)
     @PutMapping("values")
     @ApiOperation(value = "商品分类属性可选值更新")
-    @ApiOperationSupport(includeParameters = {"id","values"})
+    //    @ApiOperationSupport(includeParameters = {"id","values"})
     public Result updateValues(@RequestBody @Validated(AttributeParams.ValuesUpdate.class) AttributeParams params) {
         return ResultUtil.success(attributeService.updateValues(params));
     }

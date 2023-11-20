@@ -77,7 +77,7 @@ public class ${ClassName}Controller {
 
     @PostMapping()
     @ApiOperation(value = "${functionName}新增")
-    @ApiOperationSupport(ignoreParameters = "${pkColumn.javaField}")
+    //    @ApiOperationSupport(ignoreParameters = "${pkColumn.javaField}")
     @RequirePermissions(value = "${permissionPrefix}:add")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     public Result add(@RequestBody @Validated(${ClassName}Params.Add.class) ${ClassName}Params params) {

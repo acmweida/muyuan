@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -23,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +49,7 @@ public class DictTypeController {
     @PostMapping("/dictType")
     @RequirePermissions("system:dict:add")
     @ApiOperation(value = "字典类型新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @ApiOperationSupport(ignoreParameters = "id")
     public Result add(@RequestBody @Validated DictTypeParams dictTypeParams) {
         return dictTypeService.add(dictTypeParams);
     }

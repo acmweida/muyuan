@@ -14,24 +14,20 @@
         <module>muyuan-service</module>
         <module>muyuan-user</module>
         <module>muyuan-system</module>
+        <module>muyuan-oauth2</module>
     </modules>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.6</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
 
     <groupId>com.muyuan</groupId>
     <artifactId>muyuan</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
 
+
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <knife4j.version>3.0.3</knife4j.version>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <knife4j.version>4.3.0</knife4j.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <velocity.version>2.3</velocity.version>
         <validation.version>2.0.1.Final</validation.version>
@@ -40,8 +36,7 @@
         <common.lang3.verson>3.12.0</common.lang3.verson>
         <joda.version>2.10.8</joda.version>
         <easyexcl.version>3.0.5</easyexcl.version>
-        <dubbo.serialization.version>2.7.8</dubbo.serialization.version>
-        <boot.version>2.4.6</boot.version>
+        <dubbo.serialization.version>3.2.9</dubbo.serialization.version>
         <mybatis.starter.version>2.2.2</mybatis.starter.version>
         <mybatis-plus.starter.version>3.5.3.1</mybatis-plus.starter.version>
         <caffeine.version>2.9.2</caffeine.version>
@@ -49,6 +44,11 @@
         <jackson.version>2.11.4</jackson.version>
         <apache.commons.version>2.11.1</apache.commons.version>
         <hibernate.validator.version>6.1.7.Final</hibernate.validator.version>
+        <shardingsphere.jdbc.version>4.1.1</shardingsphere.jdbc.version>
+        <boot.version>3.1.5</boot.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -56,25 +56,32 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2020.0.3</version>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2021.1</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>
@@ -97,11 +104,24 @@
                 <artifactId>nacos-client</artifactId>
                 <version>2.1.1</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.hibernate</groupId>-->
-<!--                <artifactId>hibernate-validator</artifactId>-->
-<!--                <version>${hibernate.validator.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>3.2.8</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-dubbo</artifactId>
+                <version>2021.1</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -134,4 +154,48 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${boot.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <!-- other annotation processors -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                        <!-- additional annotation processor required as of Lombok 1.18.16 -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
 </project>

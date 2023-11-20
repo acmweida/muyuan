@@ -12,9 +12,7 @@
     <version>0.0.1</version>
 
     <description> 店铺核心服务 </description>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+
     <dependencies>
 
     </dependencies>

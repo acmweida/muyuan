@@ -1,7 +1,7 @@
 package com.muyuan.common.mybatis.jdbc.multi.readWriterSplit;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 @Component
+@Profile("prod")
 @ConfigurationProperties(prefix = "user.jdbc.muti")
-@ConditionalOnProperty(prefix = "user.jdbc",value = "muti")
 public class UserReadWriteJdbcConfig extends ReadWriteJdbcConfig {
 
     public static final String DATASOURCE_NAME = "user";

@@ -14,8 +14,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.imageio.ImageIO;
+import jakarta.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

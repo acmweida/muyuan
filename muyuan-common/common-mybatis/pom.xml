@@ -11,10 +11,7 @@
 
     <artifactId>common-mybatis</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+
 
 
     <dependencies>
@@ -29,7 +26,6 @@
             <groupId>com.muyuan</groupId>
             <artifactId>common-redis</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
@@ -37,7 +33,6 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis.starter.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
@@ -45,10 +40,30 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.starter.version}</version>
-            <scope>compile</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-jdbc-spring-boot-starter-infra -->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.shardingsphere</groupId>-->
+<!--            <artifactId>shardingsphere-jdbc-core</artifactId>-->
+<!--            <version>${shardingsphere.jdbc.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.shardingsphere</groupId>-->
+<!--                    <artifactId>shardingsphere-logging-core</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>commons-logging</groupId>-->
+<!--                    <artifactId>commons-logging</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            <version>${shardingsphere.jdbc.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>

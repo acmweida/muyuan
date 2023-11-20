@@ -40,7 +40,7 @@ public class AuthConfig {
     @Autowired
     private final AuthorizationManager authorizationManager;
     @Autowired
-    private IgnoreUrlsConfig ignoreUrlsConfig;
+    private  IgnoreUrlsConfig ignoreUrlsConfig;
 
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 

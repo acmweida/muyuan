@@ -1,6 +1,5 @@
 package com.muyuan.manager.goods.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -22,7 +21,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
 
 /**
@@ -44,7 +43,7 @@ public class CategoryController {
 
     @GetMapping("/list")
     @RequirePermissions("goods:category:query")
-    @ApiOperationSupport(includeParameters = {"name","status"})
+//    //    @ApiOperationSupport(includeParameters = {"name","status"})
     public Result list(@ModelAttribute CategoryQueryParams params) {
         Page<CategoryDTO> list = goodsCategoryService.list(params);
         return ResultUtil.success(converter.toVO(list.getRows()));
@@ -52,7 +51,7 @@ public class CategoryController {
 
     @PostMapping()
     @RequirePermissions("goods:category:add")
-    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @ApiOperationSupport(ignoreParameters = "id")
     public Result add(@RequestBody @Validated(CategoryParams.Add.class) CategoryParams params) {
         return  goodsCategoryService.add(converter.to(params));
     }
@@ -68,7 +67,7 @@ public class CategoryController {
     @GetMapping("/treeSelect")
     @RequirePermissions("goods:category:query")
     @ApiOperation("商品分类树型结构查询")
-    @ApiOperationSupport(includeParameters = {"parentId","level"})
+//    //    @ApiOperationSupport(includeParameters = {"parentId","level"})
     public Result treeSelect(@ModelAttribute CategoryQueryParams params) {
         if (ObjectUtils.isEmpty(params.getParentId()) && ObjectUtils.isEmpty(params.getLevel())) {
             params.setParentId(0L);

@@ -2,7 +2,7 @@ package com.muyuan.common.core.validator.annotions;
 
 import com.muyuan.common.core.validator.impl.InValidator;
 
-import javax.validation.Constraint;
+import jakarta.validation.Constraint;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

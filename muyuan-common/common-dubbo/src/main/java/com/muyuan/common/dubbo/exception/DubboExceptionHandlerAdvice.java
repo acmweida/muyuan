@@ -12,7 +12,7 @@ public class DubboExceptionHandlerAdvice {
 
     @ExceptionHandler(DubboRpcException.class)
     public Result muyuanExceptionHaneler(DubboRpcException e) {
-        e.printStackTrace();
+        log.error("Rpc Error ",e);
         return ResultUtil.fail(e.getCause().getCode(),e.getCause().getMessage());
     }
 

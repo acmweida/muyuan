@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -99,7 +98,7 @@ public class PermissionController {
 
     @PostMapping("/permission")
     @ApiOperation(value = "权限新增")
-    @ApiOperationSupport(ignoreParameters = {"id"})
+    //    @ApiOperationSupport(ignoreParameters = {"id"})
     @RequirePermissions(value = "system:perms:add")
     @Log(title = "权限",businessType = BusinessType.IMPORT,operatorType = OperatorType.MANAGE)
     public Result add(@RequestBody @Validated(PermissionParams.Add.class) PermissionParams params) {

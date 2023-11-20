@@ -3,7 +3,7 @@ package com.muyuan.goods.face.dto;
 import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 
 /**

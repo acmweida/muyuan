@@ -2,11 +2,11 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.1.7
+        server-addr: 192.168.1.131
         namespace: 36df0ae4-655b-42ad-a976-89f0fc20556c
         group: MUYUAN
         file-extension: yaml
       discovery:
-        server-addr: 192.168.1.7
+        server-addr: 192.168.1.131
         group: MUYUAN
         namespace: 36df0ae4-655b-42ad-a976-89f0fc20556c

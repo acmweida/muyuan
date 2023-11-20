@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -94,7 +93,7 @@ public class DictDataController {
 
     @PostMapping("/dictData")
     @ApiOperation(value = "字典类型数新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @ApiOperationSupport(ignoreParameters = "id")
     @RequirePermissions(value = "system:dict:add")
     public Result add(@RequestBody @Validated(DictDataParams.Add.class) DictDataParams dictDataParams) {
         return dictDataService.add(dictDataParams);

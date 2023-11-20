@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -21,7 +20,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 import java.util.Optional;
 
 @RestController()
@@ -36,7 +35,7 @@ public class OperatorController {
     @RequirePermissions("system:operator:query")
     @GetMapping("/operator/list")
     @ApiOperation(value = "用户列表查询")
-    @ApiOperationSupport(ignoreParameters = "roleIds")
+//    //    @ApiOperationSupport(ignoreParameters = "roleIds")
     public Result<Page<OperatorDTO>> list(@ModelAttribute OperatorQueryParams operatorQueryParams) {
         Page<OperatorDTO> list = operatorService.list(operatorQueryParams);
         return ResultUtil.success(list);
@@ -60,7 +59,7 @@ public class OperatorController {
     @ApiOperation(value = "系统用户新增", code = 0)
     @RequirePermissions("system:operator:add")
     @PostMapping("/operator")
-    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
+//    //    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
     public Result add(@RequestBody @Validated(OperatorParams.Add.class) OperatorParams params) {
         return operatorService.add(converter.to(params));
     }
@@ -82,7 +81,7 @@ public class OperatorController {
     @ApiOperation(value = "角色添加用户")
     @RequirePermissions("system:role:edit")
     @PutMapping("/operator/authRole")
-    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
+    //    @ApiOperationSupport(ignoreParameters = {"id","roleIds"})
     public Result authRole(@RequestBody @Validated(OperatorParams.AuthRole.class)  OperatorParams params) {
         return  operatorService.authRole(params.getId(),params.getRoleIds());
     }

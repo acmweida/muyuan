@@ -1,5 +1,6 @@
 package com.muyuan.common.redis.config;
 
+import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.redis.listener.KeyDeleteListener;
 import com.muyuan.common.redis.manage.RedisCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class RedisConfig {
         RedisTemplate template = new RedisTemplate();
         template.setConnectionFactory(lettuceConnectionFactory);
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        jackson2JsonRedisSerializer.setObjectMapper(JSONUtil.objectMapper);
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());

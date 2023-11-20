@@ -36,7 +36,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.sql.DataSource;
+import jakarta.sql.DataSource;
 import java.security.KeyPair;
 import java.util.*;
 

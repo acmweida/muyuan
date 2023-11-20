@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
+import jakarta.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

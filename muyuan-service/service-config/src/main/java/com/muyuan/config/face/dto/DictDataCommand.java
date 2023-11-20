@@ -4,7 +4,7 @@ import com.muyuan.common.bean.OptCommand;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor

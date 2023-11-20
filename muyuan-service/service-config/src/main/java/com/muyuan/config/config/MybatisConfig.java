@@ -10,13 +10,14 @@ import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.ReadWriteJdbcConfig;
 import com.muyuan.common.mybatis.jdbc.multi.readWriterSplit.UserReadWriteJdbcConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.Assert;
 
-import javax.sql.DataSource;
+import jakarta.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Map;
 public class MybatisConfig {
 
     @Bean
+    @ConditionalOnBean(CommonJdbcConfig.class)
     public DataSource dataSource(CommonJdbcConfig jdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
@@ -49,6 +51,7 @@ public class MybatisConfig {
     }
 
     @Bean
+    @ConditionalOnBean(CommonReadWriteJdbcConfig.class)
     public DataSource dataSource(CommonReadWriteJdbcConfig userJdbcConfig) {
         DynamicDataSource dataSources = new DynamicDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();

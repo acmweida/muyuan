@@ -3,8 +3,8 @@ package com.muyuan.common.core.validator.impl;
 import com.muyuan.common.core.validator.annotions.AtLeastOneNotEmpty;
 import org.apache.commons.lang3.ObjectUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 
 /**

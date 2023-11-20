@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -72,7 +71,7 @@ public class ConfigController {
 
     @PostMapping()
     @ApiOperation(value = "参数配置新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+//    //    //    @ApiOperationSupport(ignoreParameters = "id")
     @RequirePermissions(value = "system:config:add")
     @Log(title = "参数配置", businessType = BusinessType.INSERT)
     public Result add(@RequestBody @Validated(ConfigParams.Add.class) ConfigParams params) {

@@ -1,6 +1,5 @@
 package com.muyuan.manager.goods.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -43,7 +42,7 @@ public class BrandController {
     @ApiOperation("品牌分页查询")
     @RequirePermissions("goods:brand:query")
     @GetMapping("/list")
-    @ApiOperationSupport(ignoreParameters = {"categoryCodes","categoryCode"})
+    //    @ApiOperationSupport(ignoreParameters = {"categoryCodes","categoryCode"})
     public Result<Page<BrandDTO>> page(@ModelAttribute BrandQueryParams params) {
         Page<BrandDTO> list = brandService.list(params);
         return ResultUtil.success(list);
@@ -72,7 +71,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("品牌新增")
-    @ApiOperationSupport(includeParameters = {"name","logo"})
+    //    @ApiOperationSupport(includeParameters = {"name","logo"})
     public Result add(@RequestBody @Validated(BrandParams.Add.class) BrandParams params) {
         return brandService.add(converter.to(params));
     }
@@ -84,7 +83,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("品牌信息修改")
-    @ApiOperationSupport(ignoreParameters = {"auditStatus","status"})
+    //    @ApiOperationSupport(ignoreParameters = {"auditStatus","status"})
     public Result edit(@RequestBody @Validated(BrandParams.Update.class) BrandParams params) {
         return brandService.update(converter.to(params));
     }
@@ -96,7 +95,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/audit")
     @ApiOperation("品牌审核")
-    @ApiOperationSupport(includeParameters = {"id","auditStatus"})
+    //    @ApiOperationSupport(includeParameters = {"id","auditStatus"})
     public Result audit(@RequestBody @Validated(BrandParams.Audit.class) BrandParams params) {
         return  brandService.audit(params);
     }
@@ -118,7 +117,7 @@ public class BrandController {
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/category")
     @ApiOperation("品牌关联分类")
-    @ApiOperationSupport(includeParameters = {"id","categoryCodes"})
+    //    @ApiOperationSupport(includeParameters = {"id","categoryCodes"})
     public Result link(@RequestBody @Validated(BrandQueryParams.Link.class) BrandQueryParams brandParams) {
         return  brandService.linkCategory(brandParams);
     }

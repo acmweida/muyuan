@@ -3,7 +3,8 @@ package com.muyuan.common.mybatis.jdbc.multi;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 
 @Slf4j
 public class DynamicDataSourceInterceptor implements MethodInterceptor {
@@ -30,7 +31,10 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
 
     public void changeDataSource(DataSource dataSource,String methodName) {
         String dsId = dataSource.value();
-        boolean splitFlag = DynamicDataSourceContextHolder.isSplit();
+//        if (StringUtils.isEmpty(dsId)) {
+//            DynamicDataSourceContextHolder.setDataSourceType(DynamicDataSourceContextHolder.getMutiDataSourceConfig().getDefaultDateSource());
+//        }
+         boolean splitFlag = DynamicDataSourceContextHolder.isSplit();
         // 读写分离
         if (splitFlag && DynamicDataSourceContextHolder.getMutiDataSourceConfig().isReadWriteSplitDateSource(dsId)) {
             changeSourceSplit(dsId,methodName);
@@ -73,11 +77,9 @@ public class DynamicDataSourceInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        DataSource dataSource;
-        if (AnnotatedElementUtils.hasAnnotation(methodInvocation.getMethod(),DataSource.class)) {
-            dataSource = AnnotatedElementUtils.findMergedAnnotation(methodInvocation.getMethod(),DataSource.class);
-        } else {
-            dataSource = AnnotatedElementUtils.findMergedAnnotation(methodInvocation.getMethod().getDeclaringClass(),DataSource.class);
+        DataSource dataSource = AnnotationUtils.findAnnotation(methodInvocation.getMethod(),DataSource.class);
+        if (ObjectUtils.isEmpty(dataSource)) {
+            dataSource = AnnotationUtils.findAnnotation(methodInvocation.getMethod().getDeclaringClass(), DataSource.class);
         }
         if (null != dataSource) {
             log.info("change datasource {} meth:{}", dataSource.value(), methodInvocation.getMethod().getName());

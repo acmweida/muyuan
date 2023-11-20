@@ -1,6 +1,5 @@
 package com.muyuan.manager.system.facade.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
@@ -73,7 +72,7 @@ public class OperLogController {
 
     @PostMapping()
     @ApiOperation(value = "操作日志记录新增")
-    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @ApiOperationSupport(ignoreParameters = "id")
     @RequirePermissions(value = "common:log:add")
     @Log(title = "操作日志记录", businessType = BusinessType.INSERT)
     public Result add(@RequestBody @Validated(OperLogParams.Add.class) OperLogParams params) {

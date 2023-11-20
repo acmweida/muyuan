@@ -17,6 +17,7 @@ spring:
     name: auth
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   redis:
     lettuce:
       pool:
@@ -61,4 +62,3 @@ knife4j:
   setting:
     enableSwaggerModels: true
     enableOpenApi: true
-

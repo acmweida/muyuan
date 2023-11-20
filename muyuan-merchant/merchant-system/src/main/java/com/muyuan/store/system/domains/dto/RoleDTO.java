@@ -2,7 +2,7 @@ package com.muyuan.store.system.domains.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @ClassName SysRoleDTO

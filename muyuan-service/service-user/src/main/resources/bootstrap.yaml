@@ -17,12 +17,12 @@ spring:
     name: service-user
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   profiles:
     active: ''
-server:
   port: 10003
 logging:
-  config: classpath:log4j${spring.profiles.active}.xml
+#  config: classpath:log4j${spring.profiles.active}.xml
   level:
     com.muyuan.system.infrastructure.persistence.mapper.*: debug
     com.alibaba.nacos.client.*: warn
@@ -54,3 +54,4 @@ dubbo:
     address: spring-cloud://localhost
   cloud:
     subscribed-services:
+

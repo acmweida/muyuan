@@ -2,8 +2,8 @@ package com.muyuan.common.core.validator.impl;
 
 import com.muyuan.common.core.validator.annotions.In;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * 范围判断

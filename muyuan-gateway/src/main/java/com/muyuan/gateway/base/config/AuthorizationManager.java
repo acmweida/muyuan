@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
-public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
+public class  AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
