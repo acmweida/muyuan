@@ -8,17 +8,17 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
 
-import jakarta.imageio.ImageIO;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,8 +47,9 @@ public class AuthControllerImpl implements AuthController {
 
         //定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
         captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
-        BASE64Encoder encoder = new BASE64Encoder();
-        String base64Image = encoder.encode(captchaChallengeAsJpeg);
+
+        Base64.Decoder encoder = Base64.getDecoder();
+        String base64Image = new String(encoder.decode(captchaChallengeAsJpeg));
         CaptchaVo captchaVo = new CaptchaVo();
         String uuid = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(GlobalConst.CAPTCHA_KEY_PREFIX + uuid, createText);
