@@ -23,6 +23,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.muyuan</groupId>
             <artifactId>common-core</artifactId>
             <version>1.0</version>

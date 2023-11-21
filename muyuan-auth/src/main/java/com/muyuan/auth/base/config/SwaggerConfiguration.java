@@ -1,6 +1,7 @@
 package com.muyuan.auth.base.config;
 
 import com.google.common.collect.Lists;
+import io.swagger.v3.oas.models.annotations.OpenAPI31;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

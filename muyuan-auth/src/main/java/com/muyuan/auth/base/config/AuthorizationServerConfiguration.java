@@ -8,6 +8,7 @@ import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.core.util.ResultUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -36,28 +37,24 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import jakarta.sql.DataSource;
+import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.*;
 
 @Configuration
 @EnableAuthorizationServer
+@AllArgsConstructor
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
     @Qualifier("authenticationManagerBean")
     AuthenticationManager authenticationManager;
 
-    @Autowired
     DataSource dataSource;
 
-    @Autowired
     UserDetailsService userDetailsService;
 
-    @Autowired
     RedisTemplate redisTemplate;
 
-    @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
     @Override

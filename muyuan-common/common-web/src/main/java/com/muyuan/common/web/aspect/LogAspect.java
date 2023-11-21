@@ -1,8 +1,8 @@
 package com.muyuan.common.web.aspect;
 
-import com.alibaba.fastjson.JSON;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.IpUtil;
+import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.log.annotion.Log;
 import com.muyuan.common.log.enums.BusinessStatus;
 import com.muyuan.common.web.util.SecurityUtils;
@@ -132,7 +132,7 @@ public class LogAspect
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && !Objects.isNull(jsonResult))
         {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(JSONUtil.toJsonString(jsonResult), 0, 2000));
         }
     }
 
@@ -166,7 +166,7 @@ public class LogAspect
                 {
                     try
                     {
-                        Object jsonObj = JSON.toJSON(o);
+                        Object jsonObj = JSONUtil.toJsonString(o);
                         params += jsonObj.toString() + " ";
                     }
                     catch (Exception e)
