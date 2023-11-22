@@ -1,20 +1,21 @@
-package com.muyuan.auth.base.oauth2.granter;
+package com.muyuan.auth.base.oauth2;
 
 import com.muyuan.auth.base.exception.ImageCaptchaException;
-import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationToken;
 import com.muyuan.common.core.constant.GlobalConst;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.util.ObjectUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
+public class ImageCaptchaAuthenticationConverter implements AuthenticationConverter {
 
     private static String GRANT_TYPE = "image_captcha";
 
@@ -22,15 +23,15 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
 
     private RedisTemplate redisTemplate;
 
-    public ImageCaptchaTokenGranter(AuthenticationManager authenticationManager,
-                                             RedisTemplate redisTemplate,
-                                             AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
+    public ImageCaptchaAuthorizationConvter(AuthenticationManager authenticationManager,
+                                            RedisTemplate redisTemplate,
+                                            AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
         this(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.redisTemplate = redisTemplate;
     }
 
-    protected ImageCaptchaTokenGranter(AuthenticationManager authenticationManager, AuthorizationServerTokenServices tokenServices,
-                                                ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, String grantType) {
+    protected ImageCaptchaAuthorizationConvter(AuthenticationManager authenticationManager, AuthorizationServerTokenServices tokenServices,
+                                               ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, String grantType) {
         super(tokenServices, clientDetailsService, requestFactory, grantType);
         this.authenticationManager = authenticationManager;
     }
@@ -76,5 +77,10 @@ public class ImageCaptchaTokenGranter extends AbstractTokenGranter {
 
         OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);
         return new OAuth2Authentication(storedOAuth2Request, userAuth);
+    }
+
+    @Override
+    public Authentication convert(HttpServletRequest request) {
+        return null;
     }
 }
