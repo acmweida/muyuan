@@ -1,0 +1,75 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.56.109
+        namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
+        group: MUYUAN
+        file-extension: yaml
+        shared-configs:
+          - data-id: common.yaml
+            group: MUYUAN
+      discovery:
+        server-addr: 192.168.56.109
+        group: MUYUAN
+        namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
+  application:
+    name: auth
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  datasource:
+    hikari:
+      max-lifetime: 30000
+  data:
+    redis:
+      timeout: 10000
+server:
+  port: 20001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: 21001
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+  consumer:
+    check: false
+  cloud:
+    subscribed-services: service-user
+  registry:
+    address: nacos://192.168.56.109:8848
+    use-as-metadata-center: false
+knife4j:
+  setting:
+    enableSwaggerModels: true
+    enableOpenApi: true
+
+#  security:
+#    oauth2:
+#      authorizationserver:
+#        client:
+#          oidc-client:
+#            registration:
+#              client-id: "oidc-client"
+#              client-secret: "{noop}secret"
+#              client-authentication-methods:
+#                - "client_secret_basic"
+#              authorization-grant-types:
+#                - "authorization_code"
+#                - "refresh_token"
+#              redirect-uris:
+#                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
+#              post-logout-redirect-uris:
+#                - "http://127.0.0.1:8080/"
+#              scopes:
+#                - "openid"
+#                - "profile"
+#            require-authorization-consent: true
