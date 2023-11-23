@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +29,7 @@ public class AuthTokenAspect {
         Object proceed = pjp.proceed();
         if (proceed != null) {
             ResponseEntity responseEntity = (ResponseEntity) proceed;
-            if (responseEntity.getBody() instanceof OAuth2AccessToken) {
+            if (responseEntity.getBody() instanceof OAuth2Token) {
                 return new ResponseEntity(ResultUtil.success(responseEntity.getBody()), HttpStatus.OK);
             }
             return proceed;

@@ -4,10 +4,13 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
 import java.util.Collection;
 
 public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken {
 
+    @Serial
+    private static final long serialVersionUID = -8426462140686364310L;
     private final Object principal;
 
     private Object credentials;
