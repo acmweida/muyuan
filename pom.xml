@@ -94,24 +94,39 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validator.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-dubbo</artifactId>
-                <version>2021.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+<!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-dubbo</artifactId>-->
+<!--                <version>2021.1</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>org.apache.dubbo</groupId>-->
+<!--                        <artifactId>dubbo</artifactId>-->
+<!--                    </exclusion>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>org.apache.dubbo</groupId>-->
+<!--                        <artifactId>dubbo-spring-boot-starter</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
             <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-spring-boot-starter -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>3.2.8</version>
+                <version>3.2.9</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>3.2.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>3.2.9</version>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
             <dependency>
                 <groupId>jakarta.servlet</groupId>
