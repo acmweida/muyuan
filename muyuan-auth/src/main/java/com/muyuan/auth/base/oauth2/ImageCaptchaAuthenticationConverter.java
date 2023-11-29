@@ -31,7 +31,7 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
             return null;
         }
 
-        Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Map<String, String[]> parameterMap = request.getParameterMap();
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
@@ -66,8 +66,10 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
             }
         });
 
+        ImageCaptchaAuthenticationToken imageCaptchaAuthenticationToken = new ImageCaptchaAuthenticationToken(
+                authentication.getPrincipal(), authentication.getPrincipal(), captcha, uuid);
+        imageCaptchaAuthenticationToken.setDetails(additionalParameters);
 
-        return new ImageCaptchaAuthenticationToken(
-                 clientPrincipal,  additionalParameters,captcha,uuid);
+        return  imageCaptchaAuthenticationToken;
     }
 }

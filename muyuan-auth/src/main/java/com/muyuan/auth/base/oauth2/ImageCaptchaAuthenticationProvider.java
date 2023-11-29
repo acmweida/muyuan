@@ -86,8 +86,8 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         // so subsequent attempts are successful even with encoded passwords.
         // Also ensure we return the original getDetails(), so that future
         // authentication events after cache expiry contain the details
-        ImageCaptchaAuthenticationToken result = new ImageCaptchaAuthenticationToken(
-                authentication, this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
+        ImageCaptchaAuthenticationToken result = new ImageCaptchaAuthenticationToken(authentication.getPrincipal(),
+                authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
         result.setDetails(authentication.getDetails());
         log.debug("Authenticated user");
         return result;
@@ -122,8 +122,8 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             throws AuthenticationException {
 
         try {
-            Map<String, Object> detial = authentication.getAdditionalParameters();
-            Object platformType = detial.get("platform_type");
+            Map<String, String> detial = (Map<String, String>) authentication.getDetails();
+            String platformType = detial.get("platform_type");
 //            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
             UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username);
             if (loadedUser == null) {

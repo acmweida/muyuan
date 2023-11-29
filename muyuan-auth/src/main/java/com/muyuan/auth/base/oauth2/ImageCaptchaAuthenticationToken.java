@@ -1,39 +1,33 @@
 package com.muyuan.auth.base.oauth2;
 
-import com.muyuan.auth.base.enums.CustomGrantType;
 import lombok.Getter;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Getter
-public class ImageCaptchaAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-    private Object authentication;
+    @Serial
+    private static final long serialVersionUID = -4040750678873008922L;
 
     private String captcha;
 
     private String uuid;
 
-    public ImageCaptchaAuthenticationToken(Authentication clientPrincipal, Map<String, Object> additionalParameters, String captcha, String uuid) {
-        super(CustomGrantType.WEB_CLIENT_IMAGE_CAPTCHA.getGrantType(), clientPrincipal, additionalParameters);
+    public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String captcha, String uuid) {
+        super(principal, credentials);
         this.captcha = captcha;
         this.uuid = uuid;
-        this.authentication = clientPrincipal;
         setAuthenticated(false);
-
     }
 
-    public ImageCaptchaAuthenticationToken(Authentication authentication, Collection<? extends GrantedAuthority> grantedAuthorities) {
-        super(CustomGrantType.WEB_CLIENT_IMAGE_CAPTCHA.getGrantType(), authentication, new HashMap<>());
-        this.authentication = authentication;
-        super.setAuthenticated(true); // must use super, as we override
+    public ImageCaptchaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
+        super(principal,credentials,grantedAuthorities);
     }
 
     @Override
