@@ -1,5 +1,8 @@
 package com.muyuan.auth.base.config;
 
+import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationConverter;
+import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
+import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -9,6 +12,7 @@ import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
@@ -17,20 +21,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
@@ -43,12 +52,27 @@ public class WebSecurityConfig {
     @Resource
     private DataSource dataSource;
 
+//    @Resource
+//    UserServiceImpl userDetailsService;
+
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
+
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class);	// Enable OpenID Connect 1.0
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+                http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                        .tokenEndpoint(tokenEndpoint -> {
+                            tokenEndpoint.accessTokenRequestConverter(
+                                    new ImageCaptchaAuthenticationConverter()
+                            ).authenticationProvider(
+                                    new ImageCaptchaAuthenticationProvider(userDetailsService())
+                            );
+                        });
+
+        http.apply(authorizationServerConfigurer);
 
         http
                 // Redirect to the login page when not authenticated from the
@@ -92,22 +116,30 @@ public class WebSecurityConfig {
         return new InMemoryUserDetailsManager(userDetails);
     }
 
-        @Bean
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public RegisteredClientRepository registeredClientRepository() {
-
-//        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder() {
-//            @Override
-//            public String encode(CharSequence rawPassword) {
-//                return "{bcrypt}" + super.encode(rawPassword);
-//            }
-//        });
-
-        return new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));
+//            RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+//                    .clientId("WEB-CLIENT")
+//                    .clientSecret("123456")
+//                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                    .redirectUri("http://127.0.0.1:8080/authorized")
+//                    .scope("scope-a")
+//                    .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+//                    .build();
+        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));
+//            jdbcRegisteredClientRepository.save(registeredClient);
+        return jdbcRegisteredClientRepository;
     }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        KeyPair keyPair = generateRsaKey();
+        KeyPair keyPair = keyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         RSAKey rsaKey = new RSAKey.Builder(publicKey)
@@ -116,20 +148,6 @@ public class WebSecurityConfig {
                 .build();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
-    }
-
-    @Bean
-    private static KeyPair generateRsaKey() {
-        KeyPair keyPair;
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            keyPair = keyPairGenerator.generateKeyPair();
-        }
-        catch (Exception ex) {
-            throw new IllegalStateException(ex);
-        }
-        return keyPair;
     }
 
     @Bean
@@ -142,11 +160,28 @@ public class WebSecurityConfig {
         return AuthorizationServerSettings.builder().build();
     }
 
+    @Bean
+    public KeyPair keyPair() {
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
+        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Bean
+    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder) {
+        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
+        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
+        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+        return new DelegatingOAuth2TokenGenerator(
+                jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
+    }
 
 //
-//    @Resource
-//    UserServiceImpl userDetailsService;
-//
+
 
 //
 //    @Resource
@@ -196,14 +231,7 @@ public class WebSecurityConfig {
 //        return http.build();
 //    }
 //
-//    @Bean
-//    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder) {
-//        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
-//        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
-//        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
-//        return new DelegatingOAuth2TokenGenerator(
-//                jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
-//    }
+
 //
 //
 //    @Bean
@@ -234,29 +262,7 @@ public class WebSecurityConfig {
 //    }
 //
 
-//
-//    @Bean
-//    public JWKSource<SecurityContext> jwkSource() {
-//        KeyPair keyPair = keyPair();
-//        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-//        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-//        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-//                .privateKey(privateKey)
-//                .keyID(UUID.randomUUID().toString())
-//                .build();
-//        JWKSet jwkSet = new JWKSet(rsaKey);
-//        return new ImmutableJWKSet<>(jwkSet);
-//    }
-//
-//    @Bean
-//    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-//        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-//    }
-//
-//    @Bean
-//    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
-//        return new NimbusJwtEncoder(jwkSource);
-//    }
+
 //
 //    @Bean
 //    public AuthorizationServerSettings authorizationServerSettings() {
@@ -264,16 +270,8 @@ public class WebSecurityConfig {
 //    }
 //
 //
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
 //
-//    @Bean
-//    public KeyPair keyPair() {
-//        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-//        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
-//    }
+
 //
 ////    @Bean
 ////    public JwtAccessTokenConverter accessTokenConverter() {
@@ -295,5 +293,17 @@ public class WebSecurityConfig {
 ////        return jwtAccessTokenConverter;
 ////    }
 
+    //    @Bean
+//    private static KeyPair generateRsaKey() {
+//        KeyPair keyPair;
+//        try {
+//            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+//            keyPairGenerator.initialize(2048);
+//            keyPair = keyPairGenerator.generateKeyPair();
+//        } catch (Exception ex) {
+//            throw new IllegalStateException(ex);
+//        }
+//        return keyPair;
+//    }
 
 }

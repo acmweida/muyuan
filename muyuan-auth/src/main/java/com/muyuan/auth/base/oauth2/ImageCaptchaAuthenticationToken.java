@@ -1,58 +1,39 @@
 package com.muyuan.auth.base.oauth2;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import com.muyuan.auth.base.enums.CustomGrantType;
+import lombok.Getter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken {
 
-    @Serial
-    private static final long serialVersionUID = -8426462140686364310L;
-    private final Object principal;
+@Getter
+public class ImageCaptchaAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
-    private Object credentials;
+    private Object authentication;
 
-    /**
-     * This constructor can be safely used by any code that wishes to create a
-     * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
-     * will return <code>false</code>.
-     *
-     */
-    public ImageCaptchaAuthenticationToken(Object principal, Object credentials) {
-        super(null);
-        this.principal = principal;
-        this.credentials = credentials;
+    private String captcha;
+
+    private String uuid;
+
+    public ImageCaptchaAuthenticationToken(Authentication clientPrincipal, Map<String, Object> additionalParameters, String captcha, String uuid) {
+        super(CustomGrantType.WEB_CLIENT_IMAGE_CAPTCHA.getGrantType(), clientPrincipal, additionalParameters);
+        this.captcha = captcha;
+        this.uuid = uuid;
+        this.authentication = clientPrincipal;
         setAuthenticated(false);
+
     }
 
-    /**
-     * This constructor should only be used by <code>AuthenticationManager</code> or
-     * <code>AuthenticationProvider</code> implementations that are satisfied with
-     * producing a trusted (i.e. {@link #isAuthenticated()} = <code>true</code>)
-     * authentication token.
-     * @param principal
-     * @param credentials
-     * @param authorities
-     */
-    public ImageCaptchaAuthenticationToken(Object principal, Object credentials,
-                                           Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.principal = principal;
-        this.credentials = credentials;
+    public ImageCaptchaAuthenticationToken(Authentication authentication, Collection<? extends GrantedAuthority> grantedAuthorities) {
+        super(CustomGrantType.WEB_CLIENT_IMAGE_CAPTCHA.getGrantType(), authentication, new HashMap<>());
+        this.authentication = authentication;
         super.setAuthenticated(true); // must use super, as we override
-    }
-
-    @Override
-    public Object getCredentials() {
-        return this.credentials;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return this.principal;
     }
 
     @Override
@@ -62,9 +43,5 @@ public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken
         super.setAuthenticated(false);
     }
 
-    @Override
-    public void eraseCredentials() {
-        super.eraseCredentials();
-        this.credentials = null;
-    }
+
 }
