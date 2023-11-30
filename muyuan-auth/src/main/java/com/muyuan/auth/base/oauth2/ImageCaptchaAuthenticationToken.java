@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serial;
 import java.util.Collection;
+import java.util.Map;
 
 
 @Getter
@@ -18,6 +19,8 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
     private String captcha;
 
     private String uuid;
+
+    private Map<String,String> details;
 
     public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String captcha, String uuid) {
         super(principal, credentials);
@@ -37,5 +40,12 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
         super.setAuthenticated(false);
     }
 
+    @Override
+    public Map<String,String> getDetails() {
+        return details;
+    }
 
+    public void setDetails(Map<String, String> details) {
+        this.details = details;
+    }
 }

@@ -2,7 +2,6 @@ package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationConverter;
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
-import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -13,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
@@ -55,6 +55,9 @@ public class WebSecurityConfig {
 //    @Resource
 //    UserServiceImpl userDetailsService;
 
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
+
 
     @Bean
     @Order(1)
@@ -68,7 +71,7 @@ public class WebSecurityConfig {
                             tokenEndpoint.accessTokenRequestConverter(
                                     new ImageCaptchaAuthenticationConverter()
                             ).authenticationProvider(
-                                    new ImageCaptchaAuthenticationProvider(userDetailsService())
+                                    new ImageCaptchaAuthenticationProvider(userDetailsService(),redisTemplate)
                             );
                         });
 

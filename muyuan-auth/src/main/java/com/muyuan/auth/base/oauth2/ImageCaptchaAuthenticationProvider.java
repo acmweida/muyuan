@@ -1,22 +1,23 @@
 package com.muyuan.auth.base.oauth2;
 
 import com.muyuan.auth.base.constant.LoginMessageConst;
+import com.muyuan.auth.base.exception.ImageCaptchaException;
 import com.muyuan.auth.dto.User;
+import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.authentication.*;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.SpringSecurityMessageSource;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Map;
 
@@ -24,42 +25,15 @@ import java.util.Map;
  * 自定义密码比较
  */
 @Slf4j
-public class ImageCaptchaAuthenticationProvider implements AuthenticationProvider {
+public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public ImageCaptchaAuthenticationProvider(UserDetailsService userDetailsService) {
+    private final RedisTemplate<String,Object> redisTemplate;
+
+    public ImageCaptchaAuthenticationProvider(UserDetailsService userDetailsService,RedisTemplate<String,Object> redisTemplate) {
         this.userDetailsService = userDetailsService;
-    }
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        String username = determineUsername(authentication);
-        UserDetails user;
-        try {
-            user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
-        } catch (UsernameNotFoundException ex) {
-            log.debug("Failed to find user '" + username + "'");
-            if (!this.hideUserNotFoundExceptions) {
-                throw ex;
-            }
-            throw new BadCredentialsException(this.messages
-                    .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", ex.getMessage()));
-        }
-        Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
-        try {
-            this.preAuthenticationChecks.check(user);
-            additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
-        } catch (AuthenticationException ex) {
-            user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
-            this.preAuthenticationChecks.check(user);
-            additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
-        }
-        this.postAuthenticationChecks.check(user);
-        Object principalToReturn = user;
-        return createSuccessAuthentication(authentication, user);
-
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -67,35 +41,30 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         return ImageCaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Map<String, String> parameters = ((ImageCaptchaAuthenticationToken) authentication).getDetails();
 
-    protected boolean hideUserNotFoundExceptions = true;
-    private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
-    private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
+        String captchaInput = parameters.get("captcha");
+        String uuid = parameters.get("uuid");
 
-    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+        if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(GlobalConst.CAPTCHA_KEY_PREFIX + uuid)) {
+            throw new ImageCaptchaException("验证码验证过期");
+        }
 
-    private String determineUsername(Authentication authentication) {
-        return (authentication.getPrincipal() == null) ? "NONE_PROVIDED" : authentication.getName();
+        final Object captcha = redisTemplate.opsForValue().get(GlobalConst.CAPTCHA_KEY_PREFIX + uuid);
+        assert captcha != null;
+        if (!captcha.toString().equals(captchaInput)) {
+            throw new ImageCaptchaException("验证码错误");
+        }
+        redisTemplate.delete(GlobalConst.CAPTCHA_KEY_PREFIX + uuid);
+
+        return super.authenticate(authentication);
     }
 
-
-    protected Authentication createSuccessAuthentication(Authentication authentication,
-                                                         UserDetails user) {
-        // Ensure we return the original credentials the user supplied,
-        // so subsequent attempts are successful even with encoded passwords.
-        // Also ensure we return the original getDetails(), so that future
-        // authentication events after cache expiry contain the details
-        ImageCaptchaAuthenticationToken result = new ImageCaptchaAuthenticationToken(authentication.getPrincipal(),
-                authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
-        result.setDetails(authentication.getDetails());
-        log.debug("Authenticated user");
-        return result;
-    }
-
-    //
+    @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails,
-                                                  ImageCaptchaAuthenticationToken authentication) throws AuthenticationException {
+                                                  UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         if (authentication.getCredentials() == null) {
             log.debug("Failed to authenticate since no credentials provided");
             throw new BadCredentialsException(this.messages
@@ -117,12 +86,12 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
         }
     }
 
-
-    protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
+    @Override
+    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
 
         try {
-            Map<String, String> detial = (Map<String, String>) authentication.getDetails();
+            Map<String, String> detial = ((ImageCaptchaAuthenticationToken) authentication).getDetails();
             String platformType = detial.get("platform_type");
 //            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
             UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username);
@@ -139,47 +108,6 @@ public class ImageCaptchaAuthenticationProvider implements AuthenticationProvide
             log.error("认证异常", ex);
             throw new InternalAuthenticationServiceException(ResponseCode.ERROR.getMsg(), ex);
         }
-    }
-
-    private class DefaultPreAuthenticationChecks implements UserDetailsChecker {
-
-        @Override
-        public void check(UserDetails user) {
-            if (!user.isAccountNonLocked()) {
-                ImageCaptchaAuthenticationProvider.log
-                        .debug("Failed to authenticate since user account is locked");
-                throw new LockedException(ImageCaptchaAuthenticationProvider.this.messages
-                        .getMessage("ImageCaptchaAuthenticationProvider.locked", "User account is locked"));
-            }
-            if (!user.isEnabled()) {
-                ImageCaptchaAuthenticationProvider.log
-                        .debug("Failed to authenticate since user account is disabled");
-                throw new DisabledException(ImageCaptchaAuthenticationProvider.this.messages
-                        .getMessage("ImageCaptchaAuthenticationProvider.disabled", "User is disabled"));
-            }
-            if (!user.isAccountNonExpired()) {
-                ImageCaptchaAuthenticationProvider.log
-                        .debug("Failed to authenticate since user account has expired");
-                throw new AccountExpiredException(ImageCaptchaAuthenticationProvider.this.messages
-                        .getMessage("ImageCaptchaAuthenticationProvider.expired", "User account has expired"));
-            }
-        }
-
-    }
-
-    private class DefaultPostAuthenticationChecks implements UserDetailsChecker {
-
-        @Override
-        public void check(UserDetails user) {
-            if (!user.isCredentialsNonExpired()) {
-                ImageCaptchaAuthenticationProvider.log
-                        .debug("Failed to authenticate since user account credentials have expired");
-                throw new CredentialsExpiredException(ImageCaptchaAuthenticationProvider.this.messages
-                        .getMessage("ImageCaptchaAuthenticationProvider.credentialsExpired",
-                                "User credentials have expired"));
-            }
-        }
-
     }
 
 
