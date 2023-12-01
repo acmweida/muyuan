@@ -36,7 +36,7 @@
         <common.lang3.verson>3.12.0</common.lang3.verson>
         <joda.version>2.10.8</joda.version>
         <easyexcl.version>3.3.2</easyexcl.version>
-        <dubbo.serialization.version>3.2.9</dubbo.serialization.version>
+        <dubbo.version>3.2.9</dubbo.version>
         <mybatis.starter.version>2.2.2</mybatis.starter.version>
         <mybatis-plus.starter.version>3.5.3.1</mybatis-plus.starter.version>
         <caffeine.version>2.9.2</caffeine.version>
@@ -44,7 +44,8 @@
         <jackson.version>2.11.4</jackson.version>
         <apache.commons.version>2.11.1</apache.commons.version>
         <hibernate.validator.version>6.1.7.Final</hibernate.validator.version>
-        <shardingsphere.jdbc.version>4.1.1</shardingsphere.jdbc.version>
+        <shardingsphere.jdbc.version>5.4.1</shardingsphere.jdbc.version>
+        <dynamic.datesource.version>4.2.0</dynamic.datesource.version>
         <boot.version>3.1.5</boot.version>
         <spring-boot.version>3.1.5</spring-boot.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
@@ -90,42 +91,61 @@
                 <version>5.1.34</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core</artifactId>
+                <version>${shardingsphere.jdbc.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.shardingsphere</groupId>
+                        <artifactId>shardingsphere-logging-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.datesource.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validator.version}</version>
             </dependency>
-<!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>com.alibaba.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-starter-dubbo</artifactId>-->
-<!--                <version>2021.1</version>-->
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <groupId>org.apache.dubbo</groupId>-->
-<!--                        <artifactId>dubbo</artifactId>-->
-<!--                    </exclusion>-->
-<!--                    <exclusion>-->
-<!--                        <groupId>org.apache.dubbo</groupId>-->
-<!--                        <artifactId>dubbo-spring-boot-starter</artifactId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
-<!--            </dependency>-->
+            <!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo &ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.alibaba.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-starter-dubbo</artifactId>-->
+            <!--                <version>2021.1</version>-->
+            <!--                <exclusions>-->
+            <!--                    <exclusion>-->
+            <!--                        <groupId>org.apache.dubbo</groupId>-->
+            <!--                        <artifactId>dubbo</artifactId>-->
+            <!--                    </exclusion>-->
+            <!--                    <exclusion>-->
+            <!--                        <groupId>org.apache.dubbo</groupId>-->
+            <!--                        <artifactId>dubbo-spring-boot-starter</artifactId>-->
+            <!--                    </exclusion>-->
+            <!--                </exclusions>-->
+            <!--            </dependency>-->
             <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-spring-boot-starter -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>3.2.9</version>
+                <version>${dubbo.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-registry-nacos</artifactId>
-                <version>3.2.9</version>
+                <version>${dubbo.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
-                <version>3.2.9</version>
+                <version>${dubbo.version}</version>
             </dependency>
+
 
             <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
             <dependency>
@@ -133,6 +153,12 @@
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>6.0.0</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

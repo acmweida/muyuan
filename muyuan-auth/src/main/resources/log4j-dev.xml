@@ -17,7 +17,7 @@
         <!-- 保留多少天以内的日志 -->
         <Property name="LOG_DAYS" value="9"/>
         <!--输出日志的格式：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度， %msg：日志消息，%n是换行符 -->
-        <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd hh:mm:ss} %6p %-40.40logger{39} : %m%n"/>
+        <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n"/>
         <!--interval属性用来指定多久滚动一次-->
         <Property name="TIME_BASED_INTERVAL" value="1"/>
     </Properties>

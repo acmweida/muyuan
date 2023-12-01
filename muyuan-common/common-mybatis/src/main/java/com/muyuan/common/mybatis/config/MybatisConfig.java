@@ -9,9 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
+@Configuration("commonMybatisConfig")
 @EnableTransactionManagement
-//@Import({IdGeneratorAspect.class, DynamicDataSourceAdvisor.class})
 @Import({IdGeneratorAspect.class})
 public class MybatisConfig {
 

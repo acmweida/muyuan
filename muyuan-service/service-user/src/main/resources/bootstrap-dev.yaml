@@ -1,0 +1,36 @@
+server:
+  port: 10003
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.56.103
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+        group: MUYUAN
+        file-extension: yaml
+        shared-configs:
+          - data-id: common.yaml
+            group: MUYUAN
+      discovery:
+        server-addr: 192.168.56.103
+        group: MUYUAN
+        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
+
+
+
+dubbo:
+  scan:
+    base-packages: com.muyuan.user.face.interfaces
+  protocol:
+    name: dubbo
+    port: 11003
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+    qos-port: 21003
+  consumer:
+    check: false
+  registry:
+    address: nacos://192.168.56.103:8848
+    use-as-metadata-center: true

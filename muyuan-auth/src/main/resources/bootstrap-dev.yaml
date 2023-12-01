@@ -46,7 +46,8 @@ dubbo:
     subscribed-services: service-user
   registry:
     address: nacos://192.168.56.103:8848
-    use-as-metadata-center: false
+    use-as-metadata-center: true
+
 knife4j:
   setting:
     enableSwaggerModels: true

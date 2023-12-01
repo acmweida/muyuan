@@ -1,35 +1,20 @@
 spring:
-  cloud:
-    nacos:
-      config:
-        server-addr: 192.168.56.103
-        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
-        group: MUYUAN
-        file-extension: yaml
-        shared-configs:
-          - data-id: common.yaml
-            group: MUYUAN
-      discovery:
-        server-addr: 192.168.56.103
-        group: MUYUAN
-        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
     name: service-user
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
   profiles:
-    active: ''
-  port: 10003
-logging:
-#  config: classpath:log4j${spring.profiles.active}.xml
-  level:
-    com.muyuan.system.infrastructure.persistence.mapper.*: debug
-    com.alibaba.nacos.client.*: warn
-    com.alibaba.cloud.dubbo.*: error
-    org.apache.dubbo.*: error
-    io.lettuce: error
+    active: dev
 
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+#  level:
+#    com.muyuan.system.infrastructure.persistence.mapper.*: debug
+#    com.alibaba.nacos.client.*: warn
+#    com.alibaba.cloud.dubbo.*: error
+#    org.apache.dubbo.*: error
+#    io.lettuce: error
 
 mybatis:
   configuration:
@@ -38,20 +23,3 @@ mybatis:
     lazy-loading-enabled: true
     cache-enabled: false
   mapper-locations: classpath*:mapper/*.xml
-
-dubbo:
-  scan:
-    base-packages: com.muyuan.user.face.interfaces
-  protocol:
-    name: dubbo
-    port: 11003
-  application:
-    name: ${spring.application.name}
-    id: ${spring.application.name}
-  consumer:
-    check: false
-  registry:
-    address: spring-cloud://localhost
-  cloud:
-    subscribed-services:
-
