@@ -47,6 +47,7 @@ dubbo:
   registry:
     address: nacos://192.168.56.103:8848
     use-as-metadata-center: true
+    group: MUYUAN
 
 knife4j:
   setting:

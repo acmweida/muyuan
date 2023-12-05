@@ -46,7 +46,11 @@ dubbo:
     subscribed-services: service-user
   registry:
     address: nacos://192.168.56.109:8848
-    use-as-metadata-center: false
+    use-as-metadata-center: true
+    parameters:
+      namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
+    group: MUYUAN
+
 knife4j:
   setting:
     enableSwaggerModels: true

@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.56.109
+        namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
+        group: MUYUAN
+        file-extension: yaml
+        shared-configs:
+          - data-id: common.yaml
+            group: MUYUAN
+      discovery:
+        server-addr: 192.168.56.109
+        group: MUYUAN
+        namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
