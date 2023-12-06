@@ -126,9 +126,10 @@ public class WebSecurityConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
+//        PasswordEncoder passwordEncoder = passwordEncoder();
 //            RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
 //                    .clientId("WEB-CLIENT")
-//                    .clientSecret("123456")
+//                    .clientSecret(passwordEncoder.encode("123456"))
 //                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 //                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 //                    .redirectUri("http://127.0.0.1:8080/authorized")

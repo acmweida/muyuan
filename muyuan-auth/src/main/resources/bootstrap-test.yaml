@@ -18,12 +18,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
-  datasource:
-    hikari:
-      max-lifetime: 30000
-  data:
-    redis:
-      timeout: 10000
+
 server:
   port: 20001
 

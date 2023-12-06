@@ -43,10 +43,9 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Map<String, String> parameters = ((ImageCaptchaAuthenticationToken) authentication).getDetails();
 
-        String captchaInput = parameters.get("captcha");
-        String uuid = parameters.get("uuid");
+        String captchaInput = ((ImageCaptchaAuthenticationToken) authentication).getCaptcha();
+        String uuid = ((ImageCaptchaAuthenticationToken) authentication).getUuid();
 
         if (ObjectUtils.isEmpty(uuid) || !redisTemplate.hasKey(GlobalConst.CAPTCHA_KEY_PREFIX + uuid)) {
             throw new ImageCaptchaException("验证码验证过期");
@@ -91,8 +90,7 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
             throws AuthenticationException {
 
         try {
-            Map<String, String> detial = ((ImageCaptchaAuthenticationToken) authentication).getDetails();
-            String platformType = detial.get("platform_type");
+            String platformType = ((ImageCaptchaAuthenticationToken) authentication).getPlatformType();
 //            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
             UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username);
             if (loadedUser == null) {

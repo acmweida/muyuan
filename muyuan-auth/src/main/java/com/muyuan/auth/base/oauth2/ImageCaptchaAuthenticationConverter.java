@@ -18,6 +18,8 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
 
     private static final String CAPTCHA = "captcha";
     private static final String UUID = "uuid";
+    private static final String PLATFORM_TYPE = "platform_type";
+
 
 
     public ImageCaptchaAuthenticationConverter() {}
@@ -57,6 +59,14 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
             throw new OAuth2AuthenticationException(UUID);
         }
 
+        // uuid (REQUIRED)
+        String platformType = parameters.getFirst(PLATFORM_TYPE);
+        if (!StringUtils.hasText(captcha) ||
+                parameters.get(PLATFORM_TYPE).size() != 1) {
+            throw new OAuth2AuthenticationException(PLATFORM_TYPE);
+        }
+
+
         Map<String, Object> additionalParameters = new HashMap<>();
         parameters.forEach((key, value) -> {
             if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) &&
@@ -67,7 +77,7 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
         });
 
         ImageCaptchaAuthenticationToken imageCaptchaAuthenticationToken = new ImageCaptchaAuthenticationToken(
-                authentication.getPrincipal(), authentication.getPrincipal(), captcha, uuid);
+                authentication.getPrincipal(), authentication.getPrincipal(), captcha, uuid,platformType);
         imageCaptchaAuthenticationToken.setDetails(additionalParameters);
 
         return  imageCaptchaAuthenticationToken;

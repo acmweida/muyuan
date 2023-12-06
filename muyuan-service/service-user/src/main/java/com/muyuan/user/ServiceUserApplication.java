@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 @SpringBootApplication
 @EnableAsync
 @ComponentScan({"com.muyuan"})
+
 public class ServiceUserApplication {
 
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
