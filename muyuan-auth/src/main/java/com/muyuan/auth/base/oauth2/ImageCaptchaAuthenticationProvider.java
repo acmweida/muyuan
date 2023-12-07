@@ -3,7 +3,9 @@ package com.muyuan.auth.base.oauth2;
 import com.muyuan.auth.base.constant.LoginMessageConst;
 import com.muyuan.auth.base.exception.ImageCaptchaException;
 import com.muyuan.auth.dto.User;
+import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.muyuan.common.core.constant.GlobalConst;
+import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +17,8 @@ import org.springframework.security.authentication.dao.AbstractUserDetailsAuthen
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.ObjectUtils;
-
-import java.util.Map;
 
 /**
  * 自定义密码比较
@@ -27,11 +26,11 @@ import java.util.Map;
 @Slf4j
 public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final UserServiceImpl userDetailsService;
 
     private final RedisTemplate<String,Object> redisTemplate;
 
-    public ImageCaptchaAuthenticationProvider(UserDetailsService userDetailsService,RedisTemplate<String,Object> redisTemplate) {
+    public ImageCaptchaAuthenticationProvider(UserServiceImpl userDetailsService,RedisTemplate<String,Object> redisTemplate) {
         this.userDetailsService = userDetailsService;
         this.redisTemplate = redisTemplate;
     }
@@ -91,8 +90,8 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
 
         try {
             String platformType = ((ImageCaptchaAuthenticationToken) authentication).getPlatformType();
-//            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
-            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username);
+            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
+//            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username,platformType);
             if (loadedUser == null) {
                 throw new UsernameNotFoundException(LoginMessageConst.USERNAME_PASSWORD_ERROR);
             }

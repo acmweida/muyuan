@@ -19,6 +19,8 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
     private static final String CAPTCHA = "captcha";
     private static final String UUID = "uuid";
     private static final String PLATFORM_TYPE = "platform_type";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
 
 
 
@@ -66,6 +68,21 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
             throw new OAuth2AuthenticationException(PLATFORM_TYPE);
         }
 
+        // uuid (REQUIRED)
+        String username = parameters.getFirst(USERNAME);
+        if (!StringUtils.hasText(captcha) ||
+                parameters.get(USERNAME).size() != 1) {
+            throw new OAuth2AuthenticationException(USERNAME);
+        }
+
+        // uuid (REQUIRED)
+        String password = parameters.getFirst(PASSWORD);
+        if (!StringUtils.hasText(captcha) ||
+                parameters.get(PASSWORD).size() != 1) {
+            throw new OAuth2AuthenticationException(PASSWORD);
+        }
+
+
 
         Map<String, Object> additionalParameters = new HashMap<>();
         parameters.forEach((key, value) -> {
@@ -77,7 +94,7 @@ public class ImageCaptchaAuthenticationConverter implements AuthenticationConver
         });
 
         ImageCaptchaAuthenticationToken imageCaptchaAuthenticationToken = new ImageCaptchaAuthenticationToken(
-                authentication.getPrincipal(), authentication.getPrincipal(), captcha, uuid,platformType);
+                username, password, captcha, uuid,platformType);
         imageCaptchaAuthenticationToken.setDetails(additionalParameters);
 
         return  imageCaptchaAuthenticationToken;

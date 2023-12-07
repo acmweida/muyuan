@@ -1,7 +1,9 @@
 package com.muyuan.auth.base.config;
 
+import com.muyuan.auth.base.exception.WebResponseExceptionTranslator;
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationConverter;
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
+import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -13,14 +15,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -32,11 +31,8 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
@@ -52,8 +48,8 @@ public class WebSecurityConfig {
     @Resource
     private DataSource dataSource;
 
-//    @Resource
-//    UserServiceImpl userDetailsService;
+    @Resource
+    private UserServiceImpl userDetailsService;
 
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
@@ -71,23 +67,29 @@ public class WebSecurityConfig {
                             tokenEndpoint.accessTokenRequestConverter(
                                     new ImageCaptchaAuthenticationConverter()
                             ).authenticationProvider(
-                                    new ImageCaptchaAuthenticationProvider(userDetailsService(),redisTemplate)
-                            );
-                        });
+                                    new ImageCaptchaAuthenticationProvider(userDetailsService,redisTemplate)
+                            )
+                            ;
+                        })
+                ;
 
         http.apply(authorizationServerConfigurer);
+
+        WebResponseExceptionTranslator webResponseExceptionTranslator = new WebResponseExceptionTranslator();
 
         http
                 // Redirect to the login page when not authenticated from the
                 // authorization endpoint
-                .exceptionHandling((exceptions) -> exceptions
-                        .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                        )
-                )
+//                .exceptionHandling((exceptions) -> exceptions
+//                        .defaultAuthenticationEntryPointFor(
+//                                new LoginUrlAuthenticationEntryPoint("/login"),
+//                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+//                        )
+//                )
                 // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer((resourceServer) -> resourceServer
+                        .authenticationEntryPoint(webResponseExceptionTranslator)
+                        .accessDeniedHandler(webResponseExceptionTranslator)
                         .jwt(Customizer.withDefaults()));
 
         return http.build();
@@ -98,26 +100,22 @@ public class WebSecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .requestMatchers("/oauth/**", "/rsa/publicKey", "/captchaImage", "/cancel", "/v3/**")
+                                .permitAll()
+                )
                 .authorizeHttpRequests((authorize) -> authorize
                         .anyRequest().authenticated()
-                )
+                );
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
+//                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

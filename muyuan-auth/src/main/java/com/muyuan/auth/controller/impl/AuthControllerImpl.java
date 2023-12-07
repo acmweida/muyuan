@@ -48,8 +48,8 @@ public class AuthControllerImpl implements AuthController {
         //定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
         captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
 
-        Base64.Decoder encoder = Base64.getDecoder();
-        String base64Image = new String(encoder.decode(captchaChallengeAsJpeg));
+        Base64.Encoder encoder = Base64.getEncoder();
+        String base64Image = new String(encoder.encodeToString(captchaChallengeAsJpeg));
         CaptchaVo captchaVo = new CaptchaVo();
         String uuid = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(GlobalConst.CAPTCHA_KEY_PREFIX + uuid, createText);
