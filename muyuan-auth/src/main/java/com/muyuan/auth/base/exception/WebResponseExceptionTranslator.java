@@ -9,15 +9,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -46,7 +45,8 @@ public class WebResponseExceptionTranslator  implements AuthenticationEntryPoint
         }
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(new ResponseEntity(JSONUtil.toJsonString(result), headers, HttpStatus.OK))));
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(result)));
         response.getWriter().flush();
     }
 
@@ -62,7 +62,8 @@ public class WebResponseExceptionTranslator  implements AuthenticationEntryPoint
         result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), ResponseCode.AUTHORIZED_ERROR.getMsg());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(new ResponseEntity(JSONUtil.toJsonString(result), headers, HttpStatus.OK))));
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(result)));
         response.getWriter().flush();
     }
 }

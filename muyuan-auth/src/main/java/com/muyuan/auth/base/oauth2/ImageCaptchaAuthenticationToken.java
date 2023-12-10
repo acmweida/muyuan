@@ -21,8 +21,14 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
 
     private String platformType;
 
+    private final Object principal;
+
+    private final Object credentials;
+
     public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String captcha, String uuid,String platformType) {
         super(principal, credentials);
+        this.principal = principal;
+        this.credentials = credentials;
         this.captcha = captcha;
         this.uuid = uuid;
         this.platformType = platformType;
@@ -31,6 +37,18 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
 
     public ImageCaptchaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
         super(principal,credentials,grantedAuthorities);
+        this.principal = principal;
+        this.credentials =credentials;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return credentials;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return principal;
     }
 
     @Override
@@ -38,6 +56,11 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
         Assert.isTrue(!isAuthenticated,
                 "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
         super.setAuthenticated(false);
+    }
+
+    public static ImageCaptchaAuthenticationToken authenticated(Object principal, Object credentials,
+                                                                    Collection<? extends GrantedAuthority> authorities) {
+        return new ImageCaptchaAuthenticationToken(principal, credentials, authorities);
     }
 
 }

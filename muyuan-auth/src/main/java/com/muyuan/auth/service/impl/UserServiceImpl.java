@@ -24,17 +24,13 @@ import java.util.Set;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl {
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private UserInterface operatorInterFace;
 
     private static UserConverter converter = new UserConverterImpl();
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new User();
-    }
 
     /**
      * 登录

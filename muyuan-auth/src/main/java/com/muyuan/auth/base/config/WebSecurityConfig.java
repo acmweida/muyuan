@@ -1,7 +1,6 @@
 package com.muyuan.auth.base.config;
 
 import com.muyuan.auth.base.exception.WebResponseExceptionTranslator;
-import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationConverter;
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
 import com.muyuan.auth.service.impl.UserServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -28,7 +27,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
@@ -55,50 +53,59 @@ public class WebSecurityConfig {
     private RedisTemplate<String,Object> redisTemplate;
 
 
-    @Bean
-    @Order(1)
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
-            throws Exception {
-
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-                http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                        .tokenEndpoint(tokenEndpoint -> {
-                            tokenEndpoint.accessTokenRequestConverter(
-                                    new ImageCaptchaAuthenticationConverter()
-                            ).authenticationProvider(
-                                    new ImageCaptchaAuthenticationProvider(userDetailsService,redisTemplate)
-                            )
-                            ;
-                        })
-                ;
-
-        http.apply(authorizationServerConfigurer);
-
-        WebResponseExceptionTranslator webResponseExceptionTranslator = new WebResponseExceptionTranslator();
-
-        http
-                // Redirect to the login page when not authenticated from the
-                // authorization endpoint
+//    @Bean
+//    @Order(1)
+//    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+//            throws Exception {
+//
+//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+//        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+//                http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+////                        .tokenEndpoint(tokenEndpoint -> {
+////                            tokenEndpoint.accessTokenRequestConverter(
+////                                    new ImageCaptchaAuthenticationConverter()
+////                            )
+////                                    .authenticationProvider(
+////                                    new ImageCaptchaAuthenticationProvider(userDetailsService,redisTemplate)
+////                            )
+////                            ;
+////                        })
+//                        .oidc(Customizer.withDefaults())
+//                ;
+//
+//        http.apply(authorizationServerConfigurer);
+//
+//        WebResponseExceptionTranslator webResponseExceptionTranslator = new WebResponseExceptionTranslator();
+//
+//        http
+//                // Redirect to the login page when not authenticated from the
+//                // authorization endpoint
 //                .exceptionHandling((exceptions) -> exceptions
 //                        .defaultAuthenticationEntryPointFor(
 //                                new LoginUrlAuthenticationEntryPoint("/login"),
 //                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
 //                        )
 //                )
-                // Accept access tokens for User Info and/or Client Registration
-                .oauth2ResourceServer((resourceServer) -> resourceServer
-                        .authenticationEntryPoint(webResponseExceptionTranslator)
-                        .accessDeniedHandler(webResponseExceptionTranslator)
-                        .jwt(Customizer.withDefaults()));
-
-        return http.build();
-    }
+////                .authenticationProvider(new ImageCaptchaAuthenticationProvider(userDetailsService,redisTemplate))
+//                // Accept access tokens for User Info and/or Client Registration
+//                .oauth2ResourceServer((resourceServer) -> resourceServer
+//                        .jwt(Customizer.withDefaults()))
+//                .exceptionHandling(c -> c.accessDeniedHandler(webResponseExceptionTranslator)
+//                        .authenticationEntryPoint(webResponseExceptionTranslator)
+//                )
+//
+//
+//        ;
+//
+//        return http.build();
+//    }
 
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
+
+        WebResponseExceptionTranslator webResponseExceptionTranslator = new WebResponseExceptionTranslator();
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) ->
@@ -106,8 +113,14 @@ public class WebSecurityConfig {
                                 .requestMatchers("/oauth/**", "/rsa/publicKey", "/captchaImage", "/cancel", "/v3/**")
                                 .permitAll()
                 )
+                .authenticationProvider(new ImageCaptchaAuthenticationProvider(userDetailsService,redisTemplate))
+                .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .anyRequest().authenticated()
+
+                )
+                .exceptionHandling(c -> c.accessDeniedHandler(webResponseExceptionTranslator)
+                        .authenticationEntryPoint(webResponseExceptionTranslator)
                 );
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain

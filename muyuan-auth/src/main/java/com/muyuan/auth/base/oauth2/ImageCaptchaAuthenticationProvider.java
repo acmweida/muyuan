@@ -9,22 +9,43 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.cache.NullUserCache;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
  * 自定义密码比较
  */
 @Slf4j
-public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+public class ImageCaptchaAuthenticationProvider extends DaoAuthenticationProvider {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+    private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
+
+    private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
+
+    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+
+    private boolean forcePrincipalAsString = false;
+
+    protected boolean hideUserNotFoundExceptions = true;
+    protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+    private UserCache userCache = new NullUserCache();
 
     private final UserServiceImpl userDetailsService;
 
@@ -40,8 +61,20 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
         return ImageCaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
+    private String determineUsername(Authentication authentication) {
+        return (authentication.getPrincipal() == null) ? "NONE_PROVIDED" : authentication.getName();
+    }
+
+    @Override
+    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+
+    }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Assert.isInstanceOf(ImageCaptchaAuthenticationToken.class, authentication,
+                () -> this.messages.getMessage("ImageCaptchaAuthenticationProvider.onlySupports",
+                        "Only UsernamePasswordAuthenticationToken is supported"));
 
         String captchaInput = ((ImageCaptchaAuthenticationToken) authentication).getCaptcha();
         String uuid = ((ImageCaptchaAuthenticationToken) authentication).getUuid();
@@ -57,12 +90,66 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
         }
         redisTemplate.delete(GlobalConst.CAPTCHA_KEY_PREFIX + uuid);
 
-        return super.authenticate(authentication);
+        String username = determineUsername(authentication);
+        boolean cacheWasUsed = true;
+        UserDetails user = this.userCache.getUserFromCache(username);
+        if (user == null) {
+            cacheWasUsed = false;
+            try {
+                user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
+            }
+            catch (UsernameNotFoundException ex) {
+                this.logger.debug("Failed to find user '" + username + "'");
+                if (!this.hideUserNotFoundExceptions) {
+                    throw ex;
+                }
+                throw new BadCredentialsException(this.messages
+                        .getMessage("ImageCaptchaAuthenticationProvider.badCredentials", "Bad credentials"));
+            }
+            Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
+        }
+        try {
+            this.preAuthenticationChecks.check(user);
+            additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
+        }
+        catch (AuthenticationException ex) {
+            if (!cacheWasUsed) {
+                throw ex;
+            }
+            // There was a problem, so try again after checking
+            // we're using latest data (i.e. not from the cache)
+            cacheWasUsed = false;
+            user = retrieveUser(username, (ImageCaptchaAuthenticationToken) authentication);
+            this.preAuthenticationChecks.check(user);
+            additionalAuthenticationChecks(user, (ImageCaptchaAuthenticationToken) authentication);
+        }
+        this.postAuthenticationChecks.check(user);
+        if (!cacheWasUsed) {
+            this.userCache.putUserInCache(user);
+        }
+        Object principalToReturn = user;
+        if (this.forcePrincipalAsString) {
+            principalToReturn = user.getUsername();
+        }
+        return createSuccessAuthentication(principalToReturn, authentication, user);
     }
 
-    @Override
+    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
+                                                         UserDetails user) {
+        // Ensure we return the original credentials the user supplied,
+        // so subsequent attempts are successful even with encoded passwords.
+        // Also ensure we return the original getDetails(), so that future
+        // authentication events after cache expiry contain the details
+        ImageCaptchaAuthenticationToken result = ImageCaptchaAuthenticationToken.authenticated(principal,
+                authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
+        result.setDetails(authentication.getDetails());
+        this.logger.debug("Authenticated user");
+        return result;
+    }
+
+
     protected void additionalAuthenticationChecks(UserDetails userDetails,
-                                                  UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+                                                  ImageCaptchaAuthenticationToken authentication) throws AuthenticationException {
         if (authentication.getCredentials() == null) {
             log.debug("Failed to authenticate since no credentials provided");
             throw new BadCredentialsException(this.messages
@@ -84,12 +171,11 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
         }
     }
 
-    @Override
-    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
+    protected final UserDetails retrieveUser(String username, ImageCaptchaAuthenticationToken authentication)
             throws AuthenticationException {
 
         try {
-            String platformType = ((ImageCaptchaAuthenticationToken) authentication).getPlatformType();
+            String platformType =  authentication.getPlatformType();
             UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username, PlatformType.valueOf(platformType));
 //            UserDetails loadedUser = this.userDetailsService.loadUserByUsername(username,platformType);
             if (loadedUser == null) {
@@ -107,5 +193,45 @@ public class ImageCaptchaAuthenticationProvider extends AbstractUserDetailsAuthe
         }
     }
 
+    private class DefaultPreAuthenticationChecks implements UserDetailsChecker {
+
+        @Override
+        public void check(UserDetails user) {
+            if (!user.isAccountNonLocked()) {
+                ImageCaptchaAuthenticationProvider.this.logger
+                        .debug("Failed to authenticate since user account is locked");
+                throw new LockedException(ImageCaptchaAuthenticationProvider.this.messages
+                        .getMessage("ImageCaptchaAuthenticationProvider.locked", "User account is locked"));
+            }
+            if (!user.isEnabled()) {
+                ImageCaptchaAuthenticationProvider.this.logger
+                        .debug("Failed to authenticate since user account is disabled");
+                throw new DisabledException(ImageCaptchaAuthenticationProvider.this.messages
+                        .getMessage("ImageCaptchaAuthenticationProvider.disabled", "User is disabled"));
+            }
+            if (!user.isAccountNonExpired()) {
+                ImageCaptchaAuthenticationProvider.this.logger
+                        .debug("Failed to authenticate since user account has expired");
+                throw new AccountExpiredException(ImageCaptchaAuthenticationProvider.this.messages
+                        .getMessage("ImageCaptchaAuthenticationProvider.expired", "User account has expired"));
+            }
+        }
+
+    }
+
+    private class DefaultPostAuthenticationChecks implements UserDetailsChecker {
+
+        @Override
+        public void check(UserDetails user) {
+            if (!user.isCredentialsNonExpired()) {
+                ImageCaptchaAuthenticationProvider.this.logger
+                        .debug("Failed to authenticate since user account credentials have expired");
+                throw new CredentialsExpiredException(ImageCaptchaAuthenticationProvider.this.messages
+                        .getMessage("ImageCaptchaAuthenticationProvider.credentialsExpired",
+                                "User credentials have expired"));
+            }
+        }
+
+    }
 
 }
