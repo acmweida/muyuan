@@ -3,40 +3,20 @@ package com.muyuan.auth.base.config;
 import com.muyuan.auth.base.exception.WebResponseExceptionTranslator;
 import com.muyuan.auth.base.oauth2.ImageCaptchaAuthenticationProvider;
 import com.muyuan.auth.service.impl.UserServiceImpl;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.*;
-import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
-import java.security.KeyPair;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
@@ -135,65 +115,65 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-//        PasswordEncoder passwordEncoder = passwordEncoder();
-//            RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-//                    .clientId("WEB-CLIENT")
-//                    .clientSecret(passwordEncoder.encode("123456"))
-//                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                    .redirectUri("http://127.0.0.1:8080/authorized")
-//                    .scope("scope-a")
-//                    .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-//                    .build();
-        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));
-//            jdbcRegisteredClientRepository.save(registeredClient);
-        return jdbcRegisteredClientRepository;
-    }
-
-    @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        KeyPair keyPair = keyPair();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return new ImmutableJWKSet<>(jwkSet);
-    }
-
-    @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-    }
-
-    @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
-    }
-
-    @Bean
-    public KeyPair keyPair() {
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
-    }
-
-    @Bean
-    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
-        return new NimbusJwtEncoder(jwkSource);
-    }
-
-    @Bean
-    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder) {
-        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
-        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
-        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
-        return new DelegatingOAuth2TokenGenerator(
-                jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
-    }
+//    @Bean
+//    public RegisteredClientRepository registeredClientRepository() {
+////        PasswordEncoder passwordEncoder = passwordEncoder();
+////            RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+////                    .clientId("WEB-CLIENT")
+////                    .clientSecret(passwordEncoder.encode("123456"))
+////                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+////                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+////                    .redirectUri("http://127.0.0.1:8080/authorized")
+////                    .scope("scope-a")
+////                    .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+////                    .build();
+//        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));
+////            jdbcRegisteredClientRepository.save(registeredClient);
+//        return jdbcRegisteredClientRepository;
+//    }
+//
+//    @Bean
+//    public JWKSource<SecurityContext> jwkSource() {
+//        KeyPair keyPair = keyPair();
+//        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+//        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+//        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+//                .privateKey(privateKey)
+//                .keyID(UUID.randomUUID().toString())
+//                .build();
+//        JWKSet jwkSet = new JWKSet(rsaKey);
+//        return new ImmutableJWKSet<>(jwkSet);
+//    }
+//
+//    @Bean
+//    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+//        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+//    }
+//
+//    @Bean
+//    public AuthorizationServerSettings authorizationServerSettings() {
+//        return AuthorizationServerSettings.builder().build();
+//    }
+//
+//    @Bean
+//    public KeyPair keyPair() {
+//        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
+//        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
+//    }
+//
+//    @Bean
+//    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+//        return new NimbusJwtEncoder(jwkSource);
+//    }
+//
+//    @Bean
+//    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder) {
+//        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
+//        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
+//        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+//        return new DelegatingOAuth2TokenGenerator(
+//                jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
+//    }
 
 //
 
