@@ -1,7 +1,7 @@
 package com.muyuan.auth.base.oauth2;
 
 import lombok.Getter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
@@ -10,7 +10,7 @@ import java.util.Collection;
 
 
 @Getter
-public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {
+public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken {
 
     @Serial
     private static final long serialVersionUID = -4040750678873008922L;
@@ -21,12 +21,12 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
 
     private String platformType;
 
-    private final Object principal;
+    private Object principal;
 
-    private final Object credentials;
+    private Object credentials;
 
     public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String captcha, String uuid,String platformType) {
-        super(principal, credentials);
+        super(null);
         this.principal = principal;
         this.credentials = credentials;
         this.captcha = captcha;
@@ -36,7 +36,7 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
     }
 
     public ImageCaptchaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
-        super(principal,credentials,grantedAuthorities);
+        super(grantedAuthorities);
         this.principal = principal;
         this.credentials =credentials;
     }
@@ -60,7 +60,7 @@ public class ImageCaptchaAuthenticationToken extends UsernamePasswordAuthenticat
 
     public static ImageCaptchaAuthenticationToken authenticated(Object principal, Object credentials,
                                                                     Collection<? extends GrantedAuthority> authorities) {
-        return new ImageCaptchaAuthenticationToken(principal, credentials, authorities);
+        return new ImageCaptchaAuthenticationToken(principal,  credentials, authorities);
     }
 
 }

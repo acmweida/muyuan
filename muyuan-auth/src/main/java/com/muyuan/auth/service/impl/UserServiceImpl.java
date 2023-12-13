@@ -15,7 +15,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,9 @@ import java.util.Set;
 
 @Slf4j
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl
+//        implements UserDetailsService
+{
 
     @DubboReference(group = ServiceTypeConst.USER, version = "1.0")
     private UserInterface operatorInterFace;
@@ -82,4 +83,8 @@ public class UserServiceImpl {
         return user;
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return loadUserByUsername(username,PlatformType.OPERATOR);
+//    }
 }

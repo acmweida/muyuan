@@ -9,12 +9,12 @@ import com.muyuan.common.core.enums.PlatformType;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.util.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.SpringSecurityMessageSource;
@@ -26,13 +26,12 @@ import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * 自定义密码比较
  */
 @Slf4j
-public class ImageCaptchaAuthenticationProvider extends DaoAuthenticationProvider {
+public class ImageCaptchaAuthenticationProvider implements AuthenticationProvider {
 
     protected final Log logger = LogFactory.getLog(getClass());
     private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
@@ -65,10 +64,6 @@ public class ImageCaptchaAuthenticationProvider extends DaoAuthenticationProvide
         return (authentication.getPrincipal() == null) ? "NONE_PROVIDED" : authentication.getName();
     }
 
-    @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -88,7 +83,7 @@ public class ImageCaptchaAuthenticationProvider extends DaoAuthenticationProvide
         if (!captcha.toString().equals(captchaInput)) {
             throw new ImageCaptchaException("验证码错误");
         }
-        redisTemplate.delete(GlobalConst.CAPTCHA_KEY_PREFIX + uuid);
+//        redisTemplate.delete(GlobalConst.CAPTCHA_KEY_PREFIX + uuid);
 
         String username = determineUsername(authentication);
         boolean cacheWasUsed = true;

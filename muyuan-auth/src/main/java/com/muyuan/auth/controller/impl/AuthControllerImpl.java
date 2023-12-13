@@ -26,11 +26,26 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class AuthControllerImpl implements AuthController {
 
+
+//    @Resource
+//    private AuthenticationManager authenticationManager;
+
     @Autowired
     private RedisTemplate redisTemplate;
 
     @Autowired
     DefaultKaptcha kaptcha;
+
+//    @Override
+//    public Result login(ImageCaptchaLoginParams params) {
+//        Authentication authenticationRequest =
+//                new ImageCaptchaAuthenticationToken(params.getUsername()
+//                        , params.getPassword(),params.getCaptcha(),params.getUuid(),params.getPlatformType());
+//        Authentication authenticationResponse =
+//                this.authenticationManager.authenticate(authenticationRequest);
+//
+//        return ResultUtil.success(authenticationResponse);
+//    }
 
     public Result captchaImage(HttpServletRequest httpServletRequest) throws IOException {
         byte[] captchaChallengeAsJpeg = null;
