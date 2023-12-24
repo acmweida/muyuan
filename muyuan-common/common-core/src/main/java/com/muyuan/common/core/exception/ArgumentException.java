@@ -2,6 +2,8 @@ package com.muyuan.common.core.exception;
 
 import com.muyuan.common.core.enums.ResponseCode;
 
+import java.io.Serial;
+
 /**
  * @ClassName ArgumentException
  * Description 参数异常
@@ -11,6 +13,9 @@ import com.muyuan.common.core.enums.ResponseCode;
  */
 public class ArgumentException  extends MuyuanException {
 
+
+    @Serial
+    private static final long serialVersionUID = 6546669146555765604L;
 
     public ArgumentException(String message) {
         this(ResponseCode.ARGUMENT_ERROR.getCode(),message);

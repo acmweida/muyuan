@@ -13,11 +13,6 @@ import java.io.IOException;
 @Tag(name = "登录接口")
 public interface AuthController {
 
-
-
-//    @PostMapping("/login")
-//    Result login(ImageCaptchaLoginParams params);
-
     @GetMapping("/captchaImage")
     @Operation(summary = "获取登录验证码")
     Result captchaImage(HttpServletRequest httpServletRequest) throws IOException;

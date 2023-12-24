@@ -34,7 +34,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<Object,Object> redisTemplate;
 
     @SneakyThrows
     @Override
@@ -57,7 +57,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         Map jsonObject =  JSONUtil.parseObject(payload, HashMap.class);
         String jti = (String) jsonObject.get(SecurityConst.JWT_JTI);
         Boolean isBlack = redisTemplate.hasKey(SecurityConst.TOKEN_BLACKLIST_PREFIX + jti);
-        if (isBlack) {
+        if (Boolean.TRUE.equals(isBlack)) {
             return ResponseUtils.writeErrorInfo(response, ResponseCode.TOKEN_INVALID_FAIL);
         }
 

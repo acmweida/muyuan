@@ -2,6 +2,7 @@ spring:
   profiles:
     active: dev
 
+
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
@@ -9,4 +10,6 @@ logging:
     io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
-
+server:
+  servlet:
+    context-path: /auth

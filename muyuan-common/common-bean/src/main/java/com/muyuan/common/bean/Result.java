@@ -3,6 +3,7 @@ package com.muyuan.common.bean;
 import lombok.Data;
 import org.joda.time.DateTime;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -10,7 +11,8 @@ import java.util.UUID;
 @Data
 public class Result<T> implements Serializable {
 
-    private static final long serialVersionUID = 155793214856l;
+    @Serial
+    private static final long serialVersionUID = 155793214856L;
 
     private int code;
 

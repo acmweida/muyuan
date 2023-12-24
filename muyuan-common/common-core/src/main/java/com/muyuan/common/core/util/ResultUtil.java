@@ -20,10 +20,6 @@ public class ResultUtil {
         return new Result(ResponseCode.SUCCESS.getCode(), "操作成功", data);
     }
 
-    public static Result success(String msg) {
-        return new Result(ResponseCode.SUCCESS.getCode(), msg);
-    }
-
     public static <T> Result<T> success(String msg, T data) {
         return new Result(ResponseCode.SUCCESS.getCode(), msg, data);
     }

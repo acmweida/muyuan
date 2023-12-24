@@ -11,6 +11,7 @@
 
     <artifactId>muyuan-common</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>common-core</module>
         <module>common-redis</module>

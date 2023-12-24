@@ -9,11 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -27,7 +29,7 @@ import java.util.Objects;
  * @Version 1.0
  */
 @Slf4j
-public class WebResponseExceptionTranslator  implements AuthenticationEntryPoint, AccessDeniedHandler {
+public class WebResponseExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler, AuthenticationFailureHandler {
 
 
     @Override
@@ -35,15 +37,16 @@ public class WebResponseExceptionTranslator  implements AuthenticationEntryPoint
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
         headers.set("Pragma", "no-cache");
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         log.error(authException.toString());
         Result result = null;
-        if (ImageCaptchaException.class.isAssignableFrom(authException.getClass())) {
-            result =  ResultUtil.error(ResponseCode.CAPTCHA_ERROR.getCode(),ResponseCode.CAPTCHA_ERROR.getMsg());
-        } else {
-            result =  ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(),ResponseCode.AUTHORIZED_ERROR.getMsg());
+        if (CaptchaMatchFailException.class.isAssignableFrom(authException.getClass())) {
+            result =  ResultUtil.fail(((CaptchaMatchFailException) authException).getResponseCode());
+        }
+        else {
+            result =  ResultUtil.fail(ResponseCode.AUTHORIZED_ERROR.getCode(),ResponseCode.AUTHORIZED_ERROR.getMsg());
         }
 
+        response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(result)));
@@ -58,9 +61,29 @@ public class WebResponseExceptionTranslator  implements AuthenticationEntryPoint
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         log.error(accessDeniedException.toString());
         Result result = null;
-        ImageCaptchaException.class.isAssignableFrom(accessDeniedException.getClass());
+        AuthException.class.isAssignableFrom(accessDeniedException.getClass());
         result = ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(), ResponseCode.AUTHORIZED_ERROR.getMsg());
 
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(result)));
+        response.getWriter().flush();
+    }
+
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cache-Control", "no-store");
+        headers.set("Pragma", "no-cache");
+        log.error(exception.toString());
+        Result result = null;
+        if (AuthException.class.isAssignableFrom(exception.getClass())) {
+            result =  ResultUtil.fail(((AuthException) exception).getResponseCode());
+        } else {
+            result =  ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(),ResponseCode.AUTHORIZED_ERROR.getMsg());
+        }
+
+        response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.getWriter().write(Objects.requireNonNull(JSONUtil.toJsonString(result)));

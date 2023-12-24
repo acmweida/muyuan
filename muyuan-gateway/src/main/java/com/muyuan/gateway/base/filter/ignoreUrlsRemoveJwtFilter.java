@@ -1,8 +1,8 @@
 package com.muyuan.gateway.base.filter;
 
 import com.muyuan.gateway.base.config.IgnoreUrlsConfig;
+import jakarta.annotation.Resource;
 import org.apache.http.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 public class ignoreUrlsRemoveJwtFilter implements WebFilter {
 
-    @Autowired
+    @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Override

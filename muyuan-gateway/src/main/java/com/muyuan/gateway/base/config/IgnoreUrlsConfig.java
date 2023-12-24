@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,5 +18,5 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "secure")
 public class IgnoreUrlsConfig {
-  private List<String> ignore;
+  private List<String> ignore = Collections.emptyList();
 }

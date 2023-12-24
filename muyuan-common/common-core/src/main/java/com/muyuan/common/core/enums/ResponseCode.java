@@ -1,5 +1,8 @@
 package com.muyuan.common.core.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ResponseCode {
 
     SUCCESS(0,"操作成功"),
@@ -14,15 +17,16 @@ public enum ResponseCode {
     CLIENT_AUTHENTICATION_FAILED(406,"OAUTH2 CLIENT认证错误"),
 
     /** 通用 */
-    ADD_EXIST(410,"新增内容已存在"),
-    QUERY_NOT_EXIST(411,"数据未找到"),
-    UPDATE_EXIST(412,"更新内容已存在"),
-    STATUS_CHANGE_FAIL(413,"状态变更不符合要求"),
+    ADD_EXIST(1410,"新增内容已存在"),
+    QUERY_NOT_EXIST(1411,"数据未找到"),
+    UPDATE_EXIST(1412,"更新内容已存在"),
+    STATUS_CHANGE_FAIL(1413,"状态变更不符合要求"),
 
     /**
      * 登录
      */
-    CAPTCHA_ERROR(408,"验证码错误"),
+    CAPTCHA_MATCH_FAIL(408,"验证码错误"),
+    CAPTCHA_NOT_FOUND(410,"验证码失效"),
     LOGIN_INFO_ERROR(409,"用户名或密码错误"),
     AUTHORIZED_ERROR(407,"认证异常,请联系管理员!"),
     USER_ONT_FOUND(801,"用户信息没有查询到"),
@@ -31,23 +35,16 @@ public enum ResponseCode {
     FILE_UPLOAD_FAIL(601,"文件上传失败"),
 
 
+
     REPEATABLE_REQUEST_FAIL(701,"请求在处理中，请勿重复提交");
 
 
-    private int code;
-    private String msg;
+    private final int code;
+    private final String msg;
 
     ResponseCode(int code,String msg) {
         this.code = code;
         this.msg = msg;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public int getCode() {
-        return code;
     }
 
 }

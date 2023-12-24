@@ -40,20 +40,17 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
-        RedisTemplate template = new RedisTemplate();
-        template.setConnectionFactory(lettuceConnectionFactory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        jackson2JsonRedisSerializer.setObjectMapper(JSONUtil.objectMapper);
+    public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer(RedisTemplate<Object, Object> template ) {
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(JSONUtil.objectMapper,Object.class);
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
         template.afterPropertiesSet();
-        return template;
+        return jackson2JsonRedisSerializer;
     }
 
     @Bean
-    public RedisCacheService redisCacheManager1(RedisTemplate redisTemplate) {
+    public RedisCacheService redisCacheService(RedisTemplate<Object, Object> redisTemplate) {
         return new RedisCacheService(redisTemplate);
     }
 

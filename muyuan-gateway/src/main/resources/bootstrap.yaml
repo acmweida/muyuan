@@ -10,9 +10,25 @@ spring:
     name: gateway
 server:
   port: 20000
+  servlet:
+    session:
+      cookie:
+        name: GATEWAY-CLIENT
 
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.alibaba.nacos.client.*: warn
     io.lettuce: error
+
+knife4j:
+  gateway:
+    discover:
+      enabled: on
+      excluded-services: gateway
+
+secure:
+  ignore:
+    - /doc.html
+    - /auth/captchaImage
+    - /auth/login

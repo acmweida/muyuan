@@ -9,15 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
@@ -35,7 +39,7 @@ public class AuthConfig {
 
     private final AuthorizationManager authorizationManager;
 
-    private  IgnoreUrlsConfig ignoreUrlsConfig;
+    private IgnoreUrlsConfig ignoreUrlsConfig;
 
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
@@ -46,33 +50,32 @@ public class AuthConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 //         1、自定义处理JWT请求头过期或签名错误的结果
-        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter())
-                .publicKey(rsaPublicKey()); // 本地获取公钥
-        //.jwkSetUri() // 远程获取公钥
-        http.oauth2ResourceServer().authenticationEntryPoint(restAuthenticationEntryPoint);
+        http.oauth2ResourceServer(conf -> conf.jwt(
+                        c -> c.jwtAuthenticationConverter(jwtAuthenticationConverter()
+                        ).publicKey(rsaPublicKey()) // 本地获取公钥
+                ).authenticationEntryPoint(restAuthenticationEntryPoint)   //.jwkSetUri() // 远程获取公钥
+        );
+
         // 2、对白名单路径，直接移除JWT请求头
         http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
-        log.info("ignore url : "+ignoreUrlsConfig.getIgnore());
+        log.info("ignore url : " + ignoreUrlsConfig.getIgnore());
         String[] urls = new String[ignoreUrlsConfig.getIgnore().size()];
         ignoreUrlsConfig.getIgnore().toArray(urls);
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange()
-                .pathMatchers(urls).permitAll()
-                .anyExchange().access(authorizationManager)
-                .and()
-                .exceptionHandling()
-                .accessDeniedHandler(restfulAccessDeniedHandler) // 处理未授权
-                .authenticationEntryPoint(restAuthenticationEntryPoint) //处理未认证
+                .authorizeExchange(c -> c.pathMatchers(urls).permitAll())
+                .authorizeExchange(c -> c.anyExchange().access(authorizationManager))
+                .exceptionHandling(c -> c.accessDeniedHandler(restfulAccessDeniedHandler) // 处理未授权
+                        .authenticationEntryPoint(restAuthenticationEntryPoint)) //处理未认证)
         ;
         http.addFilterAfter(SwaggerHeaderFilter.getWebFilter(), SecurityWebFiltersOrder.FIRST);
-
 
         return http.build();
     }
 
     @Bean
     public Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
+
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix(SecurityConst.AUTHORITY_PREFIX);
         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConst.JWT_AUTHORITIES_KEY);
@@ -93,7 +96,7 @@ public class AuthConfig {
         byte[] context = new byte[is.available()];
         IOUtils.readFully(is, context);
         String publicKeyData = new String(context);
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.getDecoder().decode(publicKeyData)));
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec((Base64.getMimeDecoder().decode(publicKeyData)));
 
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPublicKey rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);

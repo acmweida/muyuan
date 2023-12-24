@@ -8,9 +8,9 @@ import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.SecurityConst;
 import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.common.web.util.SecurityUtils;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -27,25 +27,11 @@ import java.util.concurrent.TimeUnit;
 public class AuthControllerImpl implements AuthController {
 
 
-//    @Resource
-//    private AuthenticationManager authenticationManager;
-
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    DefaultKaptcha kaptcha;
-
-//    @Override
-//    public Result login(ImageCaptchaLoginParams params) {
-//        Authentication authenticationRequest =
-//                new ImageCaptchaAuthenticationToken(params.getUsername()
-//                        , params.getPassword(),params.getCaptcha(),params.getUuid(),params.getPlatformType());
-//        Authentication authenticationResponse =
-//                this.authenticationManager.authenticate(authenticationRequest);
-//
-//        return ResultUtil.success(authenticationResponse);
-//    }
+    @Resource
+    private DefaultKaptcha kaptcha;
 
     public Result captchaImage(HttpServletRequest httpServletRequest) throws IOException {
         byte[] captchaChallengeAsJpeg = null;

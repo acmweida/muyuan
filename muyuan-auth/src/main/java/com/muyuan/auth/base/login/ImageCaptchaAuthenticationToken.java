@@ -1,4 +1,4 @@
-package com.muyuan.auth.base.oauth2;
+package com.muyuan.auth.base.login;
 
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -15,27 +15,21 @@ public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken
     @Serial
     private static final long serialVersionUID = -4040750678873008922L;
 
-    private String captcha;
-
-    private String uuid;
-
     private String platformType;
 
-    private Object principal;
+    private final Object principal;
 
-    private Object credentials;
+    private final Object credentials;
 
-    public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String captcha, String uuid,String platformType) {
+    public ImageCaptchaAuthenticationToken(Object principal, Object credentials,String platformType) {
         super(null);
         this.principal = principal;
         this.credentials = credentials;
-        this.captcha = captcha;
-        this.uuid = uuid;
         this.platformType = platformType;
         setAuthenticated(false);
     }
 
-    public ImageCaptchaAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
+    public ImageCaptchaAuthenticationToken(Object principal, Object credentials, String platformType,Collection<? extends GrantedAuthority> grantedAuthorities) {
         super(grantedAuthorities);
         this.principal = principal;
         this.credentials =credentials;
@@ -58,9 +52,13 @@ public class ImageCaptchaAuthenticationToken extends AbstractAuthenticationToken
         super.setAuthenticated(false);
     }
 
-    public static ImageCaptchaAuthenticationToken authenticated(Object principal, Object credentials,
+    public static ImageCaptchaAuthenticationToken unauthenticated(Object principal, Object credentials,String platformType) {
+        return new ImageCaptchaAuthenticationToken(principal,  credentials,platformType);
+    }
+
+    public static ImageCaptchaAuthenticationToken authenticated(Object principal, Object credentials,String platformType,
                                                                     Collection<? extends GrantedAuthority> authorities) {
-        return new ImageCaptchaAuthenticationToken(principal,  credentials, authorities);
+        return new ImageCaptchaAuthenticationToken(principal,  credentials, platformType,authorities);
     }
 
 }

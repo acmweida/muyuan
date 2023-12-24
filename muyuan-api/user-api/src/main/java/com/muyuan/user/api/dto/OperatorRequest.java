@@ -2,13 +2,13 @@ package com.muyuan.user.api.dto;
 
 import com.muyuan.common.bean.OptRequest;
 import com.muyuan.common.valueobject.Opt;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
