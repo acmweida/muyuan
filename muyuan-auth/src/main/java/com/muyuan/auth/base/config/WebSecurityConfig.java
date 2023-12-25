@@ -1,5 +1,6 @@
 package com.muyuan.auth.base.config;
 
+import com.muyuan.auth.base.exception.ExceptionHandlerFilter;
 import com.muyuan.auth.base.exception.WebResponseExceptionHandler;
 import com.muyuan.auth.base.login.ImageCaptchaAuthenticationFilter;
 import com.muyuan.auth.base.login.ImageCaptchaAuthenticationProvider;
@@ -40,6 +41,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import javax.sql.DataSource;
@@ -132,6 +134,7 @@ public class WebSecurityConfig extends WebSecurityConfiguration {
                                 .requestMatchers("/oauth/**", "/captchaImage", "/cancel", "/v3/**")
                                 .permitAll()
                 )
+                .addFilterBefore(new ExceptionHandlerFilter(), CsrfFilter.class)
                 .addFilterBefore(imageCaptchaAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize

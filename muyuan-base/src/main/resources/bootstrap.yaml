@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: base
+  main:
+    allow-bean-definition-overriding: true
+
+  profiles:
+    active: dev
+server:
+  port: 20008
+
+logging:
+  config: classpath:log4j-${spring.profiles.active}.xml
+  level:
+    com.muyuan.member.repo.dao: debug
+    io.lettuce.core: error
+    com.alibaba.nacos.client.*: warn
+    com.alibaba.cloud.dubbo.*: error
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: 21008
+  application:
+    name: ${spring.application.name}
+    id: ${spring.application.name}
+  consumer:
+    check: false
+  cloud:
+    subscribed-services: service-config,service-user
+  registry:
+    address: spring-cloud://localhost
+knife4j:
+  setting:
+    enableSwaggerModels: true
+    enableOpenApi: true
+  enable: true # 开启增强
+
+fastDFS:
+  profiles:
+    active: fastDFS-${spring.profiles.active}.properties
+
+springdoc:
+  packages-to-scan: com.muyuan.system.facade.controller

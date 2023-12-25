@@ -22,3 +22,8 @@ spring:
           uri: lb://auth
           predicates:
             - Path=/auth/**
+        - id: base
+          uri: lb://base
+          predicates:
+            - Path=/base/**
+

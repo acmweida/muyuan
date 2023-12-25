@@ -6,8 +6,8 @@ import com.muyuan.config.api.dto.DictDataDTO;
 import com.muyuan.system.dto.converter.DictConverter;
 import com.muyuan.system.dto.vo.DictDataVO;
 import com.muyuan.system.service.DictDataService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Api(tags = {"字典数据接口"})
+@Tag(name = "字典数据接口")
 @AllArgsConstructor
 public class DictDataController {
 
@@ -27,7 +27,7 @@ public class DictDataController {
     private DictConverter converter;
 
     @GetMapping("/dictData/{dictType}")
-    @ApiOperation(value = "字典类型数值查询")
+    @Operation(summary = "字典类型数值查询")
     public Result<List<DictDataVO>> get(@PathVariable String dictType) {
         List<DictDataVO> res = new ArrayList<>();
 

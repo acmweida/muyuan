@@ -1,8 +1,5 @@
 package com.muyuan.manager.system.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.muyuan.manager.system.base.common.GenConstants;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;

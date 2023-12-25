@@ -1,11 +1,9 @@
 package com.muyuan.system.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * @ClassName DictDataDTO
@@ -14,15 +12,15 @@ import jakarta.validation.constraints.NotBlank;
  * @Date 2022/3/30 16:47
  * @Version 1.0
  */
-@ApiModel("字典DTO")
+@Schema(name = "字典DTO")
 @Data
 public class DictDataQueryParams extends PageDTO {
 
-    @ApiModelProperty(value = "字典标签")
+    @Schema(name = "字典标签")
     private String label;
 
     @NotBlank(message = "字典值不能为空")
-    @ApiModelProperty(value = "字典类型编码")
+    @Schema(name = "字典类型编码")
     private String type;
 
     private String status;

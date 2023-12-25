@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -79,7 +80,10 @@ public class WebResponseExceptionHandler implements AuthenticationEntryPoint, Ac
         Result result = null;
         if (AuthException.class.isAssignableFrom(exception.getClass())) {
             result =  ResultUtil.fail(((AuthException) exception).getResponseCode());
-        } else {
+        } else if (BadCredentialsException.class.isAssignableFrom(exception.getClass())) {
+            result = ResultUtil.fail(ResponseCode.LOGIN_INFO_ERROR);
+        }
+        else {
             result =  ResultUtil.error(ResponseCode.AUTHORIZED_ERROR.getCode(),ResponseCode.AUTHORIZED_ERROR.getMsg());
         }
 

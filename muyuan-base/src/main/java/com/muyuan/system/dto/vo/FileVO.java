@@ -1,10 +1,10 @@
 package com.muyuan.system.dto.vo;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "文件上传返回")
+@Schema(name = "文件上传返回")
 public class FileVO {
 
     private String url;

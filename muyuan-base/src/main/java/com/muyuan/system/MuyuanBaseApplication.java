@@ -13,9 +13,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class MuyuanSystemApplication {
+public class MuyuanBaseApplication {
 
      public static void main(String[] args) {
-        SpringApplication.run(MuyuanSystemApplication.class, args);
+        SpringApplication.run(MuyuanBaseApplication.class, args);
     }
 }

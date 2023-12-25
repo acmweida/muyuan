@@ -8,33 +8,34 @@ import com.muyuan.system.dto.FileDTO;
 import com.muyuan.system.dto.vo.FileVO;
 import com.muyuan.system.entity.File;
 import com.muyuan.system.service.FileService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.csource.common.MyException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/file")
-@Api(tags = {"文件接口"})
+@Tag(name = "文件接口")
 @AllArgsConstructor
 public class FileController {
 
     private FileService fileService;
 
     @PostMapping("/upload")
-    @ApiOperation(value = "上传单个文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "file",value = "文件",required = true)
+    @Operation(summary = "上传单个文件")
+    @Parameters({
+            @Parameter(name = "file",description = "文件",required = true)
     })
     public Result<FileVO> uploadFile(FileDTO fileDTO) {
         long size = fileDTO.getFile().getSize();
@@ -49,9 +50,9 @@ public class FileController {
 
 
     @GetMapping("/{fileUrl}")
-    @ApiOperation(value = "下载单个文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fileUrl",value = "文件路径",required = true,type ="path")
+    @Operation(summary = "下载单个文件")
+    @Parameters({
+            @Parameter(name = "fileUrl",description = "文件路径",required = true,in = ParameterIn.PATH)
     })
     public void view(@PathVariable  String fileUrl, HttpServletResponse response) throws MyException, IOException {
         Optional<File> fileInfo = fileService.getFileInfo(fileUrl);

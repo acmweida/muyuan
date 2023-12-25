@@ -13,7 +13,7 @@
         <module>muyuan-member</module>
         <module>muyuan-service</module>
         <module>muyuan-user</module>
-        <module>muyuan-system</module>
+        <module>muyuan-base</module>
     </modules>
 
     <groupId>com.muyuan</groupId>
@@ -45,8 +45,8 @@
         <hibernate.validator.version>6.1.7.Final</hibernate.validator.version>
         <shardingsphere.jdbc.version>5.4.1</shardingsphere.jdbc.version>
         <dynamic.datesource.version>4.2.0</dynamic.datesource.version>
-        <boot.version>3.1.5</boot.version>
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <boot.version>3.2.0</boot.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
@@ -86,9 +86,9 @@
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.47</version>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>8.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
