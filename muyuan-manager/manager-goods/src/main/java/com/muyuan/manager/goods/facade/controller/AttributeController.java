@@ -10,9 +10,10 @@ import com.muyuan.goods.api.dto.AttributeDTO;
 import com.muyuan.manager.goods.dto.AttributeParams;
 import com.muyuan.manager.goods.dto.converter.AttributeConverter;
 import com.muyuan.manager.goods.service.AttributeService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
@@ -56,8 +57,8 @@ public class AttributeController {
      */
     @RequirePermissions("category:attribute:add")
     @Log(title = "商品分类属性", businessType = BusinessType.INSERT)
-    @ApiOperation(value = "商品分类属性新增")
-    //    //    @ApiOperationSupport(ignoreParameters = "id")
+    @Operation(summary = "商品分类属性新增")
+    //    //    @OperationSupport(ignoreParameters = "id")
     @PostMapping
     public Result add(@RequestBody @Validated(AttributeParams.Add.class) AttributeParams params) {
         return ResultUtil.success(attributeService.add(params));
@@ -69,7 +70,7 @@ public class AttributeController {
     @RequirePermissions("category:attribute:edit")
     @Log(title = "商品分类属性", businessType = BusinessType.UPDATE)
     @PutMapping
-    @ApiOperation(value = "商品分类属性更新")
+    @Operation(summary = "商品分类属性更新")
     public Result update(@RequestBody @Validated(AttributeParams.Update.class) AttributeParams params) {
         return ResultUtil.success(attributeService.update(converter.to(params)));
     }
@@ -80,8 +81,8 @@ public class AttributeController {
     @RequirePermissions("category:attribute:edit")
     @Log(title = "商品分类属性", businessType = BusinessType.UPDATE)
     @PutMapping("values")
-    @ApiOperation(value = "商品分类属性可选值更新")
-    //    @ApiOperationSupport(includeParameters = {"id","values"})
+    @Operation(summary = "商品分类属性可选值更新")
+    //    @OperationSupport(includeParameters = {"id","values"})
     public Result updateValues(@RequestBody @Validated(AttributeParams.ValuesUpdate.class) AttributeParams params) {
         return ResultUtil.success(attributeService.updateValues(params));
     }
@@ -89,9 +90,9 @@ public class AttributeController {
     /**
      * 删除商品分类属性
      */
-    @ApiOperation(value = "商品分类属性删除")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "主键", dataTypeClass = Long[].class, paramType = "path", required = true)}
+    @Operation(summary = "商品分类属性删除")
+    @Parameters(
+            {@Parameter(name = "id", description = "主键", in = ParameterIn.PATH)}
     )
     @RequirePermissions("goods:category:attribute:remove")
     @Log(title = "商品分类属性", businessType = BusinessType.DELETE)

@@ -20,12 +20,6 @@ spring:
 server:
   port: 20008
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
 dubbo:
   protocol:
     name: dubbo
@@ -35,8 +29,6 @@ dubbo:
     id: ${spring.application.name}
   consumer:
     check: false
-  cloud:
-    subscribed-services: service-user
   registry:
     address: nacos://192.168.56.109:8848
     use-as-metadata-center: true

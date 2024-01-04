@@ -2,7 +2,9 @@ package com.muyuan.system.dto;
 
 import com.muyuan.common.bean.PageDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.util.Date;
 
 
@@ -12,8 +14,12 @@ import java.util.Date;
  * @author wd
  * @date 2022-11-30T10:41:23.089+08:00
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ConfigQueryParams extends PageDTO {
+
+    @Serial
+    private static final long serialVersionUID = 3688920172853449293L;
 
     /** 参数主键 */
     private Long id;

@@ -11,8 +11,8 @@ import com.muyuan.store.shop.application.ShopApplicationService;
 import com.muyuan.store.shop.domains.dto.ShopDTO;
 import com.muyuan.store.shop.domains.service.ShopDomainService;
 import com.muyuan.store.shop.domains.vo.ShopVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/shop")
-@Api(tags = {"店铺基本信息接口"})
+@Tag(name = "店铺基本信息接口")
 @Slf4j
 @AllArgsConstructor
 public class ShopController {
@@ -32,7 +32,7 @@ public class ShopController {
     private ShopApplicationService applicationService;
 
     @GetMapping("/getShopBaseInfo")
-    @ApiOperation(value = "通过Token获取店铺基本信息")
+    @Operation(summary = "通过Token获取店铺基本信息")
     public Result<ShopVO> getShopBaseInfo() {
         final long currentUserId = SecurityUtils.getUserId();
         log.info("user id: {} invoke /shop/getShopBaseInfo ",currentUserId);
@@ -46,7 +46,7 @@ public class ShopController {
 
     @PostMapping("/create")
     @Log(title = "店铺入驻",businessType = BusinessType.INSERT,operatorType = OperatorType.WEB)
-    @ApiOperation("店铺入住 - 设置店铺信息")
+    @Operation(summary = "店铺入住 - 设置店铺信息")
     public Result createSettledShop(@RequestBody @Validated ShopDTO shopDTO) {
         applicationService.createSettledShop(shopDTO);
         return ResultUtil.success();

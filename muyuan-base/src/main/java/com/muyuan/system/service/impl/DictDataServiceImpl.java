@@ -5,18 +5,21 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.constant.GlobalConst;
 import com.muyuan.common.core.constant.ServiceTypeConst;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.web.util.SecurityUtils;
 import com.muyuan.config.api.DictInterface;
 import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.config.api.dto.DictDataRequest;
 import com.muyuan.config.api.dto.DictQueryRequest;
+import com.muyuan.system.dto.DictDataParams;
 import com.muyuan.system.dto.DictDataQueryParams;
 import com.muyuan.system.service.DictDataService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictDataDomainService
@@ -43,7 +46,7 @@ public class DictDataServiceImpl implements DictDataService {
     @Override
     public Page<DictDataDTO> page(DictDataQueryParams params) {
 
-        DictQueryRequest request = new  DictQueryRequest();
+        DictQueryRequest request = new   DictQueryRequest();
         request.setLabel(params.getLabel());
         request.setType(params.getType());
         request.setStatus(params.getStatus());
@@ -58,6 +61,16 @@ public class DictDataServiceImpl implements DictDataService {
 
 
         return res.getData();
+    }
+
+    @Override
+    public Optional<DictDataDTO> getById(Long id) {
+
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<DictDataDTO> dictType = dictInterface.getDictData(id_);
+                    return ResultUtil.getOr(dictType,null);
+                });
     }
 
     /**
@@ -84,19 +97,43 @@ public class DictDataServiceImpl implements DictDataService {
     // ##############################  query ########################## //
 
     @Override
-    public Result add(DictDataRequest dictDataRequest) {
+    public Result add(DictDataParams dictDataParams) {
         return dictInterface.addDictData(com.muyuan.config.api.dto.DictDataRequest.builder()
-                .label(dictDataRequest.getLabel())
-                .type(dictDataRequest.getType())
-                .value(dictDataRequest.getValue())
-                .status(dictDataRequest.getStatus())
-                .cssClass(dictDataRequest.getCssClass())
-                .listClass(dictDataRequest.getListClass())
-                .orderNum(dictDataRequest.getOrderNum())
-                .remark(dictDataRequest.getRemark())
+                .label(dictDataParams.getLabel())
+                .type(dictDataParams.getType())
+                .value(dictDataParams.getValue())
+                .status(dictDataParams.getStatus())
+                .opt(SecurityUtils.getOpt())
+                .cssClass(dictDataParams.getCssClass())
+                .listClass(dictDataParams.getListClass())
+                .orderNum(dictDataParams.getOrderNum())
+                .remark(dictDataParams.getRemark())
                 .build());
     }
 
+    @Override
+    public Result update(DictDataParams dictDataParams) {
+        return dictInterface.updateDictData(com.muyuan.config.api.dto.DictDataRequest.builder()
+                .label(dictDataParams.getLabel())
+                .type(dictDataParams.getType())
+                .value(dictDataParams.getValue())
+                .status(dictDataParams.getStatus())
+                .opt(SecurityUtils.getOpt())
+                .cssClass(dictDataParams.getCssClass())
+                .listClass(dictDataParams.getListClass())
+                .orderNum(dictDataParams.getOrderNum())
+                .remark(dictDataParams.getRemark())
+                .id(dictDataParams.getId())
+                .build());
+    }
 
+    @Override
+    public Result deleteById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+
+       return  dictInterface.deleteDictData(ids);
+    }
 
 }

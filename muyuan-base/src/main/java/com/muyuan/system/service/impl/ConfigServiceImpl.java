@@ -7,6 +7,8 @@ import com.muyuan.common.core.util.ResultUtil;
 import com.muyuan.config.api.ConfigInterface;
 import com.muyuan.config.api.dto.ConfigDTO;
 import com.muyuan.config.api.dto.ConfigQueryRequest;
+import com.muyuan.config.api.dto.ConfigRequest;
+import com.muyuan.system.dto.ConfigQueryParams;
 import com.muyuan.system.service.ConfigService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -28,21 +30,56 @@ public class ConfigServiceImpl implements ConfigService {
     private ConfigInterface  configInterface;
 
     @Override
-    public Optional<ConfigDTO> get(String configKey) {
-        return Optional.of(configKey)
-                .map(configKey_ -> {
-                    ConfigQueryRequest configQueryRequest = new ConfigQueryRequest();
-                    configQueryRequest.setConfigKey(configKey);
+    public Page<ConfigDTO> list(ConfigQueryParams params) {
+        ConfigQueryRequest request = ConfigQueryRequest.builder()
+                .id(params.getId())
+                .name(params.getName())
+                .configKey(params.getConfigKey())
+                .configValue(params.getConfigValue())
+                .type(params.getType())
+                .createBy(params.getCreateBy())
+                .createTime(params.getCreateTime())
+                .updateBy(params.getUpdateBy())
+                .updateTime(params.getUpdateTime())
+                .remark(params.getRemark())
+                .creator(params.getCreator())
+                .updater(params.getUpdater())
+                .build();
+        if (params.enablePage()) {
+            request.setPageNum(params.getPageNum());
+            request.setPageSize(params.getPageSize());
+        }
 
-                    Result<Page<ConfigDTO>> configHander = configInterface.list(configQueryRequest);
-                    if (ResultUtil.isSuccess(configHander)) {
-                        if (ObjectUtils.isNotEmpty(configHander.getData().getRows())) {
-                            return configHander.getData().getRows().get(0);
-                        }
-                    }
-                    return null;
+        Result<Page<ConfigDTO>> res = configInterface.list(request);
+
+        return res.getData();
+    }
+
+    @Override
+    public Result add(ConfigRequest request) {
+        return configInterface.add(request);
+    }
+
+    @Override
+    public Optional<ConfigDTO> get(Long id) {
+        return Optional.of(id)
+                .map(id_ -> {
+                    Result<ConfigDTO> configHander = configInterface.getConfig(id_);
+                    return ResultUtil.getOr(configHander, null);
                 });
     }
 
+    @Override
+    public Result update(ConfigRequest request) {
+        return configInterface.updateConfig(request);
+    }
 
+    @Override
+    public Result deleteById(Long... ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return ResultUtil.fail();
+        }
+
+        return configInterface.deleteConfig(ids);
+    }
 }

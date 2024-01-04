@@ -7,8 +7,8 @@ import com.muyuan.common.redis.manage.RedisCacheService;
 import com.muyuan.store.system.application.service.UserApplicationService;
 import com.muyuan.store.system.domains.dto.RegisterDTO;
 import com.muyuan.store.system.domains.vo.UserVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController()
-@Api(tags = {"商家账号接口"})
+@Tag(name = "商家账号接口")
 @AllArgsConstructor
 public class UserController {
 
@@ -28,13 +28,13 @@ public class UserController {
     private RedisCacheService redisCacheService;
 
     @GetMapping("/user")
-    @ApiOperation(value = "获取用户信息")
+    @Operation(summary = "获取用户信息")
     public Result<UserVO> getUserInfo() {
         final Optional<UserVO> userInfo = userApplicationService.getUserInfo();
         return userInfo.map(ResultUtil::success).orElseGet(() -> ResultUtil.fail("用户信息不存在"));
     }
 
-    @ApiOperation(value = "账号密码注册", code = 0)
+    @Operation(summary = "账号密码注册")
     @PostMapping("/user")
     public Result add(@RequestBody @Validated RegisterDTO register) {
 

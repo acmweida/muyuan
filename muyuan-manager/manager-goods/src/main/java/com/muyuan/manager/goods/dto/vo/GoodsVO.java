@@ -1,14 +1,14 @@
 package com.muyuan.manager.goods.dto.vo;
 
 import com.muyuan.manager.goods.model.Sku;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-@ApiModel("商品返回体")
+@Schema(name = "商品返回体")
 public class GoodsVO {
 
     private Long id;

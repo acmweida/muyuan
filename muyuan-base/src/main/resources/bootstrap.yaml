@@ -17,12 +17,6 @@ logging:
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
 dubbo:
   protocol:
     name: dubbo
@@ -32,10 +26,13 @@ dubbo:
     id: ${spring.application.name}
   consumer:
     check: false
-  cloud:
-    subscribed-services: service-config,service-user
   registry:
-    address: spring-cloud://localhost
+    address: nacos://192.168.56.109:8848
+    use-as-metadata-center: true
+    parameters:
+      namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
+    group: MUYUAN
+
 knife4j:
   setting:
     enableSwaggerModels: true

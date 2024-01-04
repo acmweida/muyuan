@@ -1,6 +1,10 @@
 package com.muyuan.system.service;
 
+import com.muyuan.common.bean.Page;
+import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.ConfigDTO;
+import com.muyuan.config.api.dto.ConfigRequest;
+import com.muyuan.system.dto.ConfigQueryParams;
 
 import java.util.Optional;
 
@@ -14,10 +18,36 @@ import java.util.Optional;
 public interface ConfigService {
 
     /**
-     * 参数配置查询
-     * @param configKey
+     * 查询参数配置
+     * @param params
      * @return
      */
-    Optional<ConfigDTO> get(String configKey);
+    Page<ConfigDTO> list(ConfigQueryParams params);
 
+    /**
+     * 参数配置添加
+     * @param request
+     */
+    Result add(ConfigRequest request);
+
+    /**
+     * 参数配置查询
+     * @param id
+     * @return
+     */
+    Optional<ConfigDTO> get(Long id);
+
+    /**
+     * 参数配置变更
+     * @param request
+     * @return
+     */
+    Result update(ConfigRequest request);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    Result deleteById(Long... ids);
 }

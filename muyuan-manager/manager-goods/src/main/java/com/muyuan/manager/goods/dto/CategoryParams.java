@@ -1,13 +1,12 @@
 package com.muyuan.manager.goods.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * @ClassName CategoryDTO
@@ -33,7 +32,7 @@ public class CategoryParams {
     @NotNull(message = "主机不能为空",groups = {Update.class})
     private Long id;
 
-    @ApiModelProperty(value = "商品分类名称")
+    @Schema(name = "商品分类名称")
     @NotBlank(message = "分类名称不能为空",groups = {Update.class,Add.class})
     private String name;
 
@@ -41,10 +40,10 @@ public class CategoryParams {
     private Integer status;
 
     @NotBlank(message = "分类图标不能为空",groups = {Update.class,Add.class})
-    @ApiModelProperty(value = "分类图标")
+    @Schema(name = "分类图标")
     private String logo;
 
-    @ApiModelProperty(value = "显示顺序")
+    @Schema(name = "显示顺序")
     private Integer orderNum;
 
 }

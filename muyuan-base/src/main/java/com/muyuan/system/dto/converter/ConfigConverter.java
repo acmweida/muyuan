@@ -1,8 +1,12 @@
 package com.muyuan.system.dto.converter;
 
 import com.muyuan.config.api.dto.ConfigDTO;
+import com.muyuan.config.api.dto.ConfigRequest;
+import com.muyuan.system.dto.ConfigParams;
 import com.muyuan.system.dto.vo.ConfigVO;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * @ClassName ConfigConverter
@@ -13,6 +17,10 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface ConfigConverter {
+
+    List<ConfigVO> toVO(List<ConfigDTO> configVOS);
+
+    ConfigRequest to(ConfigParams params);
 
     ConfigVO toVO(ConfigDTO configDTO);
 

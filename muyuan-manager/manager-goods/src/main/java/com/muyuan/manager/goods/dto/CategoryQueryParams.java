@@ -1,6 +1,6 @@
 package com.muyuan.manager.goods.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryQueryParams {
 
-    @ApiModelProperty(name = "商品分类名称")
+    @Schema(name = "商品分类名称")
     private String name;
 
-    @ApiModelProperty(name = "状态")
+    @Schema(name = "状态")
     private Integer status;
 
     private Long parentId;

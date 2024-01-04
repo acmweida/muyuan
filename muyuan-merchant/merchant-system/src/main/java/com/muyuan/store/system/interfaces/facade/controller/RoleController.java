@@ -12,15 +12,16 @@ import com.muyuan.store.system.domains.model.Role;
 import com.muyuan.store.system.domains.service.RoleDomainService;
 import com.muyuan.store.system.domains.vo.RoleVO;
 import com.muyuan.store.system.interfaces.assembler.RoleAssembler;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +34,14 @@ import java.util.Optional;
  * @Version 1.0
  */
 @RestController
-@Api(tags = {"角色接口"})
+@Tag(name = "角色接口")
 @AllArgsConstructor
 public class RoleController {
 
     private RoleDomainService roleDomainService;
 
     @GetMapping("/role/list")
-    @ApiOperation(value = "角色查询")
+    @Operation(summary = "角色查询")
     @RequirePermissions("member:role:lise")
     public Result list(@ModelAttribute RoleDTO sysRoleDTO) {
         Page page = roleDomainService.page(sysRoleDTO);
@@ -48,7 +49,7 @@ public class RoleController {
     }
 
     @GetMapping("/role/{id}")
-    @ApiOperation(value = "角色查询")
+    @Operation(summary = "角色查询")
     @RequirePermissions("member:role:lise")
     public Result<Role> get(@PathVariable Long id) {
         Optional<Role> sysRoleInfo = roleDomainService.getById(id);
@@ -57,7 +58,7 @@ public class RoleController {
     }
 
     @PostMapping("/role")
-    @ApiOperation(value = "角色添加")
+    @Operation(summary = "角色添加")
     @RequirePermissions("member:role:add")
     public Result add(@RequestBody @Validated RoleDTO roleDTO) {
         if (roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getCode()))) {
@@ -69,7 +70,7 @@ public class RoleController {
     }
 
     @PutMapping("/role")
-    @ApiOperation(value = "角色添加")
+    @Operation(summary = "角色添加")
     @RequirePermissions("member:role:update")
     public Result update(@RequestBody @Validated RoleDTO roleDTO) {
         if (roleDomainService.checkRoleCodeUnique(new Role(roleDTO.getId(),roleDTO.getCode()))) {
@@ -81,7 +82,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/role/{id}")
-    @ApiOperation(value = "角色删除")
+    @Operation(summary = "角色删除")
     @RequirePermissions("member:role:del")
     public Result del(@PathVariable String... id) {
         roleDomainService.deleteById(id);
@@ -89,20 +90,20 @@ public class RoleController {
     }
 
     @PostMapping("/role/export")
-    @ApiOperation(value = "角色下载")
+    @Operation(summary = "角色下载")
     @RequirePermissions("member:role:export")
     public void export(@ModelAttribute RoleDTO sysRoleDTO, HttpServletResponse response) throws IOException {
         List<Role> rows = roleDomainService.list(sysRoleDTO);
         ExcelUtil.export(response, RoleVO.class, "角色信息", RoleAssembler.buildRoleVO(rows));
     }
 
-    @ApiOperation(value = "角色分配用户查询")
+    @Operation(summary = "角色分配用户查询")
     @RequirePermissions("member:role:query")
     @GetMapping("/role/authUser/allocatedList")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "roleId", value = "角色ID", dataTypeClass = Long.class, paramType = "query", required = true),
-                    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, paramType = "query"),
-                    @ApiImplicitParam(name = "phone", value = "手机号", dataTypeClass = String.class, paramType = "query")
+    @Parameters(
+            {@Parameter(name = "roleId", description = "角色ID",  in = ParameterIn.QUERY ),
+                    @Parameter(name = "username", description = "用户名",  in = ParameterIn.QUERY ),
+                    @Parameter(name = "phone", description = "手机号",in = ParameterIn.QUERY )
             }
     )
     public Result allocatedList(@ModelAttribute UserDTO userDTO) {

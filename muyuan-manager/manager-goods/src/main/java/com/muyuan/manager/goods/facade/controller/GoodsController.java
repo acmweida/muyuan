@@ -11,15 +11,16 @@ import com.muyuan.common.redis.util.TokenUtil;
 import com.muyuan.common.web.annotations.Repeatable;
 import com.muyuan.common.web.annotations.RequirePermissions;
 import com.muyuan.common.web.util.SecurityUtils;
-import com.muyuan.manager.goods.dto.assembler.GoodsAssembler;
 import com.muyuan.manager.goods.dto.GoodsDTO;
+import com.muyuan.manager.goods.dto.assembler.GoodsAssembler;
+import com.muyuan.manager.goods.dto.vo.GoodsVO;
 import com.muyuan.manager.goods.model.Goods;
 import com.muyuan.manager.goods.service.GoodsService;
-import com.muyuan.manager.goods.dto.vo.GoodsVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequestMapping("/goods")
-@Api(tags = {"商品接口"})
+@Tag(name = "商品接口")
 @RestController
 @AllArgsConstructor
 public class GoodsController {
 
     private GoodsService goodsService;
 
-    @ApiOperation(value = "通过商店信息查询商品列表")
+    @Operation(summary = "通过商店信息查询商品列表")
     @RequirePermissions("goods:goods:list")
     @GetMapping("/list")
     public Result<Page<GoodsVO>> list(@ModelAttribute GoodsDTO goodsDTO) {
@@ -50,7 +51,7 @@ public class GoodsController {
 
     @RequirePermissions("goods:goods:add")
     @PostMapping("/token")
-    @ApiOperation("token生成")
+    @Operation(summary = "token生成")
     public Result token() {
         String token = TokenUtil.generate(TokenType.ADD_GOODS);
         Map<String,String> res = new HashMap();
@@ -59,17 +60,17 @@ public class GoodsController {
     }
 
     @Repeatable(tokenType = TokenType.ADD_GOODS)
-    @ApiOperation(value = "添加商品接口")
+    @Operation(summary = "添加商品接口")
     @RequirePermissions("goods:goods:add")
     @Log(title = "商品", businessType = BusinessType.INSERT)
     @PostMapping
-    @ApiImplicitParams(
+    @Parameters(
             {
-                    @ApiImplicitParam(name = "token", value = "token", dataTypeClass = String.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "name", value = "商品名称", dataTypeClass = String.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "brandId", value = "品牌ID", dataTypeClass = String.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "categoryCode", value = "分类编码", dataTypeClass = String.class, paramType = "body",required = true),
-                    @ApiImplicitParam(name = "tags", value = "商品标签", dataTypeClass = String[].class, paramType = "body")
+                    @Parameter(name = "token", description = "token",  in = ParameterIn.QUERY,required = true),
+                    @Parameter(name = "name", description = "商品名称", in = ParameterIn.QUERY,required = true),
+                    @Parameter(name = "brandId", description = "品牌ID",in = ParameterIn.QUERY,required = true),
+                    @Parameter(name = "categoryCode", description = "分类编码",  in = ParameterIn.QUERY,required = true),
+                    @Parameter(name = "tags", description = "商品标签",in = ParameterIn.QUERY)
             }
     )
     public Result add(@RequestBody @Validated GoodsDTO goodsDTO) {

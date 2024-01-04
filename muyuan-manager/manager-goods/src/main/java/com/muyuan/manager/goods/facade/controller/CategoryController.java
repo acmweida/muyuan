@@ -12,16 +12,17 @@ import com.muyuan.manager.goods.dto.CategoryQueryParams;
 import com.muyuan.manager.goods.dto.assembler.CategoryAssembler;
 import com.muyuan.manager.goods.dto.converter.CategoryConverter;
 import com.muyuan.manager.goods.service.CategoryService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
 
 /**
@@ -32,7 +33,7 @@ import java.util.Optional;
  * @Version 1.0
  */
 @RequestMapping("/category")
-@Api(tags = {"商品类目接口"})
+@Tag(name = "商品类目接口")
 @RestController
 @AllArgsConstructor
 public class CategoryController {
@@ -43,7 +44,7 @@ public class CategoryController {
 
     @GetMapping("/list")
     @RequirePermissions("goods:category:query")
-//    //    @ApiOperationSupport(includeParameters = {"name","status"})
+//    //    @OperationSupport(includeParameters = {"name","status"})
     public Result list(@ModelAttribute CategoryQueryParams params) {
         Page<CategoryDTO> list = goodsCategoryService.list(params);
         return ResultUtil.success(converter.toVO(list.getRows()));
@@ -51,13 +52,13 @@ public class CategoryController {
 
     @PostMapping()
     @RequirePermissions("goods:category:add")
-    //    //    @ApiOperationSupport(ignoreParameters = "id")
+    //    //    @OperationSupport(ignoreParameters = "id")
     public Result add(@RequestBody @Validated(CategoryParams.Add.class) CategoryParams params) {
         return  goodsCategoryService.add(converter.to(params));
     }
 
     @PutMapping()
-    @ApiOperation("商品分类更新")
+    @Operation(summary = "商品分类更新")
     @RequirePermissions("goods:category:edit")
     public Result update(@RequestBody @Validated(CategoryParams.Update.class) CategoryParams params) {
         return ResultUtil.success(goodsCategoryService.update(converter.to(params)));
@@ -66,8 +67,8 @@ public class CategoryController {
 
     @GetMapping("/treeSelect")
     @RequirePermissions("goods:category:query")
-    @ApiOperation("商品分类树型结构查询")
-//    //    @ApiOperationSupport(includeParameters = {"parentId","level"})
+    @Operation(summary = "商品分类树型结构查询")
+//    //    @OperationSupport(includeParameters = {"parentId","level"})
     public Result treeSelect(@ModelAttribute CategoryQueryParams params) {
         if (ObjectUtils.isEmpty(params.getParentId()) && ObjectUtils.isEmpty(params.getLevel())) {
             params.setParentId(0L);
@@ -81,11 +82,11 @@ public class CategoryController {
         return ResultUtil.success(CategoryAssembler.buildSelectTree(list.getRows()));
     }
 
-    @ApiOperation("商品分类简单查询")
+    @Operation(summary = "商品分类简单查询")
     @GetMapping("/{id}")
     @RequirePermissions("goods:category:query")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path",required = true)}
+    @Parameters(
+            {@Parameter(name = "id", description = "ID", in = ParameterIn.PATH,required = true)}
     )
     public Result get(@PathVariable @Validated @NotBlank(message = "id不能未空") Long id) {
         Optional<CategoryDTO> goodsCategory = goodsCategoryService.get(id);
@@ -93,11 +94,11 @@ public class CategoryController {
                 .orElseGet(() -> ResultUtil.fail(ResponseCode.QUERY_NOT_EXIST));
     }
 
-    @ApiOperation("商品分类详细查询")
+    @Operation(summary = "商品分类详细查询")
     @GetMapping("/detail/{code}")
     @RequirePermissions("goods:category:query")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
+    @Parameters(
+            {@Parameter(name = "code", description = "商品编码",  in = ParameterIn.PATH)}
     )
     public Result detail(@PathVariable @Validated @NotBlank(message = "code不能未空") Long code) {
         Optional<CategoryDTO> goodsCategory = goodsCategoryService.detail(code);
@@ -110,11 +111,11 @@ public class CategoryController {
      * @param code
      * @return
      */
-    @ApiOperation("通过商品编码 获取三级分类信息")
+    @Operation(summary = "通过商品编码 获取三级分类信息")
     @GetMapping("/leaf/{code}")
     @RequirePermissions("goods:category:query")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "code", value = "商品编码", dataTypeClass = Long.class, paramType = "path")}
+    @Parameters(
+            {@Parameter(name = "code", description = "商品编码", in = ParameterIn.PATH)}
     )
     public Result getLeaf(@PathVariable @Validated @NotBlank(message = "code不能未空") Long code) {
         Optional<CategoryDTO> goodsCategory = goodsCategoryService.detail(code);
@@ -126,7 +127,7 @@ public class CategoryController {
      * 通过商品编码 获取三级分类信息
      * @return
      */
-    @ApiOperation("列表查询所有最终分类")
+    @Operation(summary = "列表查询所有最终分类")
     @GetMapping("/leaf/selectOption")
     @RequirePermissions("goods:category:query")
     public Result selectOption() {
@@ -137,11 +138,11 @@ public class CategoryController {
         return ResultUtil.success(CategoryAssembler.buildSelect(goodsCategorys.getRows()));
     }
 
-    @ApiOperation("商品分类删除")
+    @Operation(summary = "商品分类删除")
     @DeleteMapping("/{ids}")
     @RequirePermissions("goods:category:remove")
-    @ApiImplicitParams(
-            {@ApiImplicitParam(name = "id", value = "ID", dataTypeClass = Long.class, paramType = "path")}
+    @Parameters(
+            {@Parameter(name = "id", description = "ID", in = ParameterIn.PATH)}
     )
     public Result delete(@PathVariable Long ids) {
         goodsCategoryService.delete(ids);

@@ -10,15 +10,15 @@ import com.muyuan.manager.goods.dto.FeatureParams;
 import com.muyuan.manager.goods.dto.FeatureQueryParams;
 import com.muyuan.manager.goods.dto.converter.FeatureConverter;
 import com.muyuan.manager.goods.service.FeatureService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * 通用特征量Controller
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotBlank;
 @RestController
 @RequestMapping("/feature")
 @AllArgsConstructor
-@Api(tags = {"商品特征量接口"})
+@Tag(name = "商品特征量接口")
 public class FeatureController {
 
     private FeatureService featureService;
@@ -41,7 +41,7 @@ public class FeatureController {
      *
      * @return
      */
-    @ApiOperation(value = "特征量列表查询")
+    @Operation(summary = "特征量列表查询")
     @RequirePermissions("goods:feature:query")
     @GetMapping("/list")
     public Result list(@ModelAttribute FeatureQueryParams params) {
@@ -94,9 +94,9 @@ public class FeatureController {
      */
     @RequirePermissions("goods:feature:query")
     @GetMapping("/options")
-    @ApiOperation("特征量选项")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "特征量名称", dataTypeClass = String.class, paramType = "query", required = true),
+    @Operation(summary = "特征量选项")
+    @Parameters({
+            @Parameter(name = "name", description = "特征量名称", in = ParameterIn.QUERY),
     })
     public Result options(@RequestParam @Validated @NotBlank(message = "特征量名称必填") String name) {
         return ResultUtil.success(featureService.options(

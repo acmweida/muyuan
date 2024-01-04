@@ -1,7 +1,9 @@
 package com.muyuan.system.dto.converter;
 
 import com.muyuan.config.api.dto.DictDataDTO;
+import com.muyuan.config.api.dto.DictTypeDTO;
 import com.muyuan.system.dto.vo.DictDataVO;
+import com.muyuan.system.dto.vo.DictTypeVO;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -16,6 +18,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DictConverter {
 
-    List<DictDataVO> toDictDataVO(List<DictDataDTO> dictDatas);
+    DictTypeVO toVO(DictTypeDTO dictTypeDTO);
+
+    DictDataVO toVO(DictDataDTO dictDataDTO);
+
+    List<DictDataVO> toDictDataVO2(List<DictDataDTO> dictDatas);
 
 }

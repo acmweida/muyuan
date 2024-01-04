@@ -4,6 +4,7 @@ import com.muyuan.common.bean.PageDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @ClassName DictDataDTO
@@ -12,6 +13,7 @@ import lombok.Data;
  * @Date 2022/3/30 16:47
  * @Version 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Schema(name = "字典DTO")
 @Data
 public class DictDataQueryParams extends PageDTO {

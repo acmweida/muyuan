@@ -1,11 +1,11 @@
 package com.muyuan.manager.goods.facade.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/sku")
-@Api(tags = {"商品接口"})
+@Tag(name = "商品接口")
 @RestController
 public class SkuController {
 }

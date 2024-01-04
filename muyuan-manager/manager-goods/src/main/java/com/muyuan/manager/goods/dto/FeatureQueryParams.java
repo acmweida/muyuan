@@ -1,7 +1,7 @@
 package com.muyuan.manager.goods.dto;
 
 import com.muyuan.common.bean.PageDTO;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,20 +22,20 @@ public class FeatureQueryParams extends PageDTO {
 
     private static final long serialVersionUID = 5548139660715321650L;
 
-    @ApiModelProperty(name = "特征量名称")
+    @Schema(name = "特征量名称")
     /** 属性名称 */
     private String name;
 
-    @ApiModelProperty(name = "父特征量ID")
+    @Schema(name = "父特征量ID")
     /** $column.columnComment */
     private String parentId;
 
     /** 是否叶子节点 0-是 1-否 */
-    @ApiModelProperty(name = "是否叶子节点 0-是 1-否")
+    @Schema(name = "是否叶子节点 0-是 1-否")
     private Integer leaf;
 
     /** 状态 */
-    @ApiModelProperty(name = "状态 0-上架 1-下架 2-删除")
+    @Schema(name = "状态 0-上架 1-下架 2-删除")
     private Integer status;
 
 }

@@ -29,11 +29,9 @@ public class DictDataVO {
 
     private Date createTime;
 
-    private Date updateTime;
+    private String updteBy;
 
-    private String updater;
-
-    private Long updateBy;
+    private Date updateBy;
 
     private String remark;
 }

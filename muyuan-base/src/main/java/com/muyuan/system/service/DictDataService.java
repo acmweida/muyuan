@@ -3,10 +3,11 @@ package com.muyuan.system.service;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.bean.Result;
 import com.muyuan.config.api.dto.DictDataDTO;
-import com.muyuan.config.api.dto.DictDataRequest;
+import com.muyuan.system.dto.DictDataParams;
 import com.muyuan.system.dto.DictDataQueryParams;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DictDataService
@@ -24,6 +25,8 @@ public interface DictDataService {
      */
     Page<DictDataDTO> page(DictDataQueryParams params);
 
+    Optional<DictDataDTO> getById(Long dictDataRequest);
+
     /**
      * 通过DataType 查询字典数据
      * @param dictType
@@ -34,8 +37,22 @@ public interface DictDataService {
 
     /**
      * 字典数据添加
-     * @param dictDataRequest
+     * @param dictDataParams
      */
-    Result add(DictDataRequest dictDataRequest);
+    Result add(DictDataParams dictDataParams);
+
+    /**
+     * 字典数据更新
+     * @param dictDataParams
+     * @return
+     */
+    Result update(DictDataParams dictDataParams);
+
+    /**
+     * 根据ID删除记录
+     * @param ids
+     * @return
+     */
+    Result deleteById(Long... ids);
 
 }

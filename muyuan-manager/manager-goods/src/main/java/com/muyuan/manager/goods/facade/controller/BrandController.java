@@ -12,9 +12,10 @@ import com.muyuan.manager.goods.dto.BrandParams;
 import com.muyuan.manager.goods.dto.BrandQueryParams;
 import com.muyuan.manager.goods.dto.converter.BrandConverter;
 import com.muyuan.manager.goods.service.BrandService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
@@ -39,10 +40,10 @@ public class BrandController {
     /**
      * 查询品牌列表
      */
-    @ApiOperation("品牌分页查询")
+    @Operation(summary = "品牌分页查询")
     @RequirePermissions("goods:brand:query")
     @GetMapping("/list")
-    //    @ApiOperationSupport(ignoreParameters = {"categoryCodes","categoryCode"})
+    //    @OperationSupport(ignoreParameters = {"categoryCodes","categoryCode"})
     public Result<Page<BrandDTO>> page(@ModelAttribute BrandQueryParams params) {
         Page<BrandDTO> list = brandService.list(params);
         return ResultUtil.success(list);
@@ -70,8 +71,8 @@ public class BrandController {
     @RequirePermissions("goods:brand:add")
     @Log(title = "品牌", businessType = BusinessType.INSERT)
     @PostMapping
-    @ApiOperation("品牌新增")
-    //    @ApiOperationSupport(includeParameters = {"name","logo"})
+    @Operation(summary = "品牌新增")
+    //    @OperationSupport(includeParameters = {"name","logo"})
     public Result add(@RequestBody @Validated(BrandParams.Add.class) BrandParams params) {
         return brandService.add(converter.to(params));
     }
@@ -82,8 +83,8 @@ public class BrandController {
     @RequirePermissions("goods:brand:edit")
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping
-    @ApiOperation("品牌信息修改")
-    //    @ApiOperationSupport(ignoreParameters = {"auditStatus","status"})
+    @Operation(summary = "品牌信息修改")
+    //    @OperationSupport(ignoreParameters = {"auditStatus","status"})
     public Result edit(@RequestBody @Validated(BrandParams.Update.class) BrandParams params) {
         return brandService.update(converter.to(params));
     }
@@ -94,8 +95,8 @@ public class BrandController {
     @RequirePermissions("goods:brand:audit")
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/audit")
-    @ApiOperation("品牌审核")
-    //    @ApiOperationSupport(includeParameters = {"id","auditStatus"})
+    @Operation(summary = "品牌审核")
+    //    @OperationSupport(includeParameters = {"id","auditStatus"})
     public Result audit(@RequestBody @Validated(BrandParams.Audit.class) BrandParams params) {
         return  brandService.audit(params);
     }
@@ -116,8 +117,8 @@ public class BrandController {
     @RequirePermissions("goods:brand:linkCategory")
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping("/category")
-    @ApiOperation("品牌关联分类")
-    //    @ApiOperationSupport(includeParameters = {"id","categoryCodes"})
+    @Operation(summary = "品牌关联分类")
+    //    @OperationSupport(includeParameters = {"id","categoryCodes"})
     public Result link(@RequestBody @Validated(BrandQueryParams.Link.class) BrandQueryParams brandParams) {
         return  brandService.linkCategory(brandParams);
     }
@@ -127,10 +128,10 @@ public class BrandController {
      */
     @RequirePermissions("goods:brand:query")
     @GetMapping("/category/{id}")
-    @ApiOperation("品牌关联分类查询")
-    @ApiImplicitParams(
+    @Operation(summary = "品牌关联分类查询")
+    @Parameters(
             {
-                    @ApiImplicitParam(name = "id", value = "品牌ID", dataTypeClass = Long.class, paramType = "path",required = true),
+                    @Parameter(name = "id", description = "品牌ID", in = ParameterIn.PATH,required = true),
             }
     )
     public Result queryBrandCategory(@PathVariable Long id) {
@@ -143,10 +144,10 @@ public class BrandController {
      */
     @RequirePermissions("goods:brand:query")
     @GetMapping("/options/{categoryCode}")
-    @ApiOperation("分类关联品牌查询")
-    @ApiImplicitParams(
+    @Operation(summary = "分类关联品牌查询")
+    @Parameters(
             {
-                    @ApiImplicitParam(name = "categoryCode", value = "分类Code", dataTypeClass = Long.class, paramType = "path",required = true),
+                    @Parameter(name = "categoryCode", description = "分类Code", in = ParameterIn.PATH,required = true),
             }
     )
     public Result options(@PathVariable Long categoryCode) {
