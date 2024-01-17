@@ -40,7 +40,7 @@ import static java.util.stream.Collectors.toCollection;
  * @Version 1.0
  */
 @Service
-@AllArgsConstructor
+@AllArgsConstructor()
 public class MenuServiceImpl implements MenuService {
 
     private MenuRepo menuRepo;

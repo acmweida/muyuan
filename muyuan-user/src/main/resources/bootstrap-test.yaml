@@ -13,14 +13,12 @@ spring:
         server-addr: 192.168.56.109
         group: MUYUAN
         namespace: 92811ba7-b1e5-46f3-8e21-6207b3e1051b
-  application:
-    name: auth
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
 
 server:
-  port: 20001
+  port: 20007
 
 management:
   endpoints:
@@ -31,11 +29,10 @@ management:
 dubbo:
   protocol:
     name: dubbo
-    port: 21001
+    port: 21007
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
-    qos-port: 22001
   consumer:
     check: false
   registry:

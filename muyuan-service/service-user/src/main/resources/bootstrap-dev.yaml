@@ -1,6 +1,3 @@
-server:
-  port: 10003
-
 spring:
   cloud:
     nacos:
@@ -17,18 +14,16 @@ spring:
         group: MUYUAN
         namespace: c3108468-5b07-4639-a101-3cf12feff1ba
 
-
-
 dubbo:
   scan:
     base-packages: com.muyuan.user.face.interfaces
   protocol:
     name: dubbo
-    port: 11003
+    port: 21003
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
-    qos-port: 21003
+    qos-port: 22003
   consumer:
     check: false
   registry:

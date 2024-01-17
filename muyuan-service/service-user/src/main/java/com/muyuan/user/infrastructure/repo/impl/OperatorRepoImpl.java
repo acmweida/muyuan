@@ -72,7 +72,7 @@ public class OperatorRepoImpl implements OperatorRepo {
                 .eq(OperatorDO::getUsername, username.getValue())
                 .eq(OperatorDO::getStatus, OperatorMapper.STATUS_OK));
         Operator operator = converter.to(operatorDO);
-        if (null != operatorDO) {
+        if (ObjectUtils.isNotEmpty(operator)) {
             List<RoleDO> roleDOS = roleMapper.selectRoleByUserId(operatorDO.getId(), platformType.getCode());
             operator.setRoles(converter.toRoles(roleDOS));
         }

@@ -39,7 +39,7 @@ public class UserInterfaceApi implements UserInterface {
     private MerchantService merchantService;
 
     @Override
-    public Result<UserDTO> getUserByUsername(String username,PlatformType platformType) {
+    public Result getUserByUsername(String username, PlatformType platformType) {
         switch (platformType) {
             case OPERATOR:
                 Optional<Operator> operator = operatorService.getUserByUsername(username);

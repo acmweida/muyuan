@@ -23,10 +23,9 @@ public class MenuVO {
     private String name;
 
     /**
-     * 父菜单ID
+     * 父菜单ID66
      */
     private Long parentId;
-
     /**
      * 显示顺序
      */

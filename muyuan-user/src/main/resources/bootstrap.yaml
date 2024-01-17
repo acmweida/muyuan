@@ -1,61 +1,28 @@
 spring:
-  cloud:
-    nacos:
-      config:
-        server-addr: 192.168.1.131
-        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
-        group: MUYUAN
-        file-extension: yaml
-        shared-configs:
-          - data-id: common.yaml
-            group: MUYUAN
-      discovery:
-        server-addr: 192.168.1.131
-        group: MUYUAN
-        namespace: c3108468-5b07-4639-a101-3cf12feff1ba
   application:
     name: user
   main:
     allow-bean-definition-overriding: true
-  redis:
-    lettuce:
-      pool:
-        max-idle: 5
-        min-idle: 2
-    timeout: 10000
   profiles:
-    active: ''
+    active: dev
+
 server:
   port: 20007
+
 logging:
-  config: classpath:log4j${spring.profiles.active}.xml
+  config: classpath:log4j-${spring.profiles.active}.xml
   level:
     com.muyuan.member.repo.dao: debug
     io.lettuce.core: error
     com.alibaba.nacos.client.*: warn
     com.alibaba.cloud.dubbo.*: error
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 
-dubbo:
-  protocol:
-    name: dubbo
-    port: 21007
-  application:
-    name: ${spring.application.name}
-    id: ${spring.application.name}
-  consumer:
-    check: false
-  cloud:
-    subscribed-services: service-user
-  registry:
-    address: spring-cloud://localhost
 knife4j:
   setting:
     enableSwaggerModels: true
     enableOpenApi: true
+  enable: true # 开启增强
 
+springdoc:
+  packages-to-scan: com.muyuan.user.controller

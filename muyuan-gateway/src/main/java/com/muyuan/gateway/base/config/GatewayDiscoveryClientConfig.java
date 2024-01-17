@@ -9,7 +9,6 @@ import org.springframework.cloud.gateway.handler.predicate.PathRoutePredicateFac
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
  * @Date 2021/12/16 17:19
  * @Version 1.0
  */
-@Configuration(proxyBeanMethods = false)
+//@Configuration(proxyBeanMethods = false)
 public class GatewayDiscoveryClientConfig extends GatewayDiscoveryClientAutoConfiguration {
 
     @Value("${spring.gateway.api-prefix:/api}")
@@ -36,7 +35,7 @@ public class GatewayDiscoveryClientConfig extends GatewayDiscoveryClientAutoConf
     }
 
     public  List<PredicateDefinition> initPrefixPredicates() {
-        ArrayList<PredicateDefinition> definitions = new ArrayList();
+        ArrayList<PredicateDefinition> definitions = new ArrayList<>();
         PredicateDefinition predicate = new PredicateDefinition();
         predicate.setName(NameUtils.normalizeRoutePredicateName(PathRoutePredicateFactory.class));
         predicate.addArg("pattern","'"+ prefix+"/'+serviceId+'/**'");
@@ -45,7 +44,7 @@ public class GatewayDiscoveryClientConfig extends GatewayDiscoveryClientAutoConf
     }
 
     public  List<FilterDefinition> initPrefixFilters() {
-        ArrayList<FilterDefinition> definitions = new ArrayList();
+        ArrayList<FilterDefinition> definitions = new ArrayList<>();
         FilterDefinition filter = new FilterDefinition();
         filter.setName(NameUtils.normalizeFilterFactoryName(RewritePathGatewayFilterFactory.class));
         String regex ="'"+ prefix+"/' + serviceId + '/?(?<remaining>.*)'";

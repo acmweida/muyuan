@@ -4,6 +4,7 @@ import com.muyuan.common.bean.Result;
 import com.muyuan.common.core.enums.ResponseCode;
 import com.muyuan.common.core.exception.MuyuanException;
 import com.muyuan.common.core.util.ResultUtil;
+import com.muyuan.common.dubbo.exception.DubboRpcException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,12 @@ public class ExceptionHandlerAdvice {
         e.printStackTrace();
         log.error("RuntimeException error : {}", e.toString());
         return ResultUtil.error();
+    }
+
+    @ExceptionHandler(DubboRpcException.class)
+    public Result muyuanExceptionHaneler(DubboRpcException e) {
+        log.error("Rpc Error ",e);
+        return ResultUtil.fail(e.getCause().getCode(),e.getCause().getMessage());
     }
 
 }

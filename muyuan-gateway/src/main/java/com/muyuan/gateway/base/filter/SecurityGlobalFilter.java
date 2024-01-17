@@ -20,6 +20,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
 
         // 存在token且不是黑名单，request写入JWT的载体信息
         request = exchange.getRequest().mutate()
-                .header(SecurityConst.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, "UTF-8"))
+                .header(SecurityConst.JWT_PAYLOAD_KEY, URLEncoder.encode(payload, StandardCharsets.UTF_8))
                 .build();
         exchange = exchange.mutate().request(request).build();
         return chain.filter(exchange);

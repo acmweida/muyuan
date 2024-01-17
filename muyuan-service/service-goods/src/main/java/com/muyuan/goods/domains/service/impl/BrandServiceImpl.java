@@ -13,6 +13,7 @@ import com.muyuan.goods.domains.repo.CategoryRepo;
 import com.muyuan.goods.domains.service.BrandService;
 import com.muyuan.goods.face.dto.BrandCommand;
 import com.muyuan.goods.face.dto.BrandQueryCommand;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -40,6 +41,7 @@ public class BrandServiceImpl implements BrandService {
 
     private CategoryRepo categoryRepo;
 
+    @Resource
     private RedisCacheService cacheService;
 
     private static String BRAND_KEY_PREFIX = "BRAND_OPTIONS:";
@@ -167,7 +169,7 @@ public class BrandServiceImpl implements BrandService {
         } else {
             List<Category> categories = categoryRepo.selectByBrandId(brand.getId());
             List<Long> codes = categories.stream().map(Category::getCode).collect(Collectors.toList());
-            List<Long> common = ListUtils.retainAll(Arrays.asList(categoryCodes), codes);
+            List<Long> common = List.retainAll(Arrays.asList(categoryCodes), codes);
 
             // 删除
             List<Long> temp = new ArrayList<>();

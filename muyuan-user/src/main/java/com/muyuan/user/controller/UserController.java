@@ -26,7 +26,7 @@ public class UserController {
 
     private UserService userService;
 
-    @GetMapping("/user/get")
+    @GetMapping("/getInfo")
     @Operation(summary = "获取指定用户信息")
     public Result<UserVO> getUserInfo() {
         final Optional<UserVO> userInfo = userService.get();

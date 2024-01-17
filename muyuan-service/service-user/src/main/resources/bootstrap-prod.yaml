@@ -14,19 +14,19 @@ spring:
   shardingsphere:
     datasource:
       ds-master:
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://192.168.1.131:3306/user?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         password: '82@Jeom+p_'
         type: com.zaxxer.hikari.HikariDataSource
         username: user
       ds-slave-0:
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://192.168.1.132:3306/user?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         password: '82@Jeom+p_'
         type: com.zaxxer.hikari.HikariDataSource
         username: user
       ds-slave-1:
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://192.168.1.133:3306/user?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         password: '82@Jeom+p_'
         type: com.zaxxer.hikari.HikariDataSource

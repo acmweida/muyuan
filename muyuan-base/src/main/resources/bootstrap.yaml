@@ -24,6 +24,7 @@ dubbo:
   application:
     name: ${spring.application.name}
     id: ${spring.application.name}
+    qos-port: 22008
   consumer:
     check: false
   registry:

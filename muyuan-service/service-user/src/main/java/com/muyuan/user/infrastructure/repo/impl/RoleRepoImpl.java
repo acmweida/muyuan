@@ -1,5 +1,6 @@
 package com.muyuan.user.infrastructure.repo.impl;
 
+import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.muyuan.common.bean.Page;
 import com.muyuan.common.core.constant.GlobalConst;
@@ -16,12 +17,10 @@ import com.muyuan.user.infrastructure.repo.dataobject.UserRoleDO;
 import com.muyuan.user.infrastructure.repo.mapper.RoleMapper;
 import com.muyuan.user.infrastructure.repo.mapper.UserRoleMapper;
 import lombok.AllArgsConstructor;
-import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -138,7 +137,7 @@ public class RoleRepoImpl implements RoleRepo {
         List<RoleDO> roleDOS = roleMapper.selectList(new LambdaQueryWrapper<RoleDO>()
                 .in(RoleDO::getId, ids));
 
-        roleMapper.deleteBatchIds(Lists.newArrayList(Arrays.stream(ids).iterator()));
+        roleMapper.deleteBatchIds(Lists.newArrayList(ids));
 
         return converter.toRoles(roleDOS);
     }

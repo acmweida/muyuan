@@ -8,18 +8,18 @@ datasource:
   master:
     username: user
     password: 82@Jeom+p_
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     jdbc-url: jdbc:mysql://192.168.1.131:3306/user?serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
   slave1:
     username: user
     password: 82@Jeom+p_
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     jdbc-url: jdbc:mysql://192.168.1.132:3306/user?serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
   slave2:
     username: user
     password: 82@Jeom+p_
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     jdbc-url: jdbc:mysql://192.168.1.133:3306/user?serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource

@@ -1,3 +1,6 @@
+server:
+  port: 20003
+
 spring:
   application:
     name: service-user
@@ -9,8 +12,8 @@ spring:
 
 logging:
   config: classpath:log4j-${spring.profiles.active}.xml
-#  level:
-#    com.muyuan.system.infrastructure.persistence.mapper.*: debug
+  level:
+    com.muyuan.system.infrastructure.persistence.mapper.*: debug
 #    com.alibaba.nacos.client.*: warn
 #    com.alibaba.cloud.dubbo.*: error
 #    org.apache.dubbo.*: error
@@ -23,3 +26,7 @@ mybatis:
     lazy-loading-enabled: true
     cache-enabled: false
   mapper-locations: classpath*:mapper/*.xml
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -3,7 +3,6 @@ package com.muyuan.common.redis.config;
 import com.muyuan.common.core.util.JSONUtil;
 import com.muyuan.common.redis.listener.KeyDeleteListener;
 import com.muyuan.common.redis.manage.RedisCacheService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
@@ -26,8 +25,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig {
 
-    @Autowired
-    private  KeyDeleteListener keyDeleteListener;
+    @Bean
+    public KeyDeleteListener keyDeleteListener() {
+        return new KeyDeleteListener();
+    }
 
     @Bean
     public CacheManager cacheManager(LettuceConnectionFactory factory) {
@@ -59,7 +60,7 @@ public class RedisConfig {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        container.addMessageListener(keyDeleteListener,keyDeleteListener.getTopic());
+        container.addMessageListener(keyDeleteListener(),keyDeleteListener().getTopic());
         return container;
     }
 

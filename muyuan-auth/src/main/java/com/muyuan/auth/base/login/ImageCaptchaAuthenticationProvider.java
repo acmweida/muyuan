@@ -27,11 +27,11 @@ import org.springframework.util.Assert;
 public class ImageCaptchaAuthenticationProvider implements AuthenticationProvider {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
+    private final UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
 
-    private UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
+    private final UserDetailsChecker postAuthenticationChecks = new DefaultPostAuthenticationChecks();
 
-    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+    private final GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     protected boolean hideUserNotFoundExceptions = true;
     protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();

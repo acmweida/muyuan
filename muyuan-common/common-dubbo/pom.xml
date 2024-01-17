@@ -46,6 +46,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.muyuan</groupId>
+            <artifactId>common-log</artifactId>
+            <version>1.0</version>
+        </dependency>
+
 
     </dependencies>
 

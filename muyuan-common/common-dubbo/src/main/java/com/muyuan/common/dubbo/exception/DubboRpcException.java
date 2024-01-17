@@ -2,6 +2,8 @@ package com.muyuan.common.dubbo.exception;
 
 import com.muyuan.common.core.exception.MuyuanException;
 
+import java.io.Serial;
+
 /**
  * @ClassName RpcException
  * Description TODO
@@ -9,9 +11,12 @@ import com.muyuan.common.core.exception.MuyuanException;
  * @Date 2022/7/21 13:57
  * @Version 1.0
  */
-public class DubboRpcException extends Exception {
+public class DubboRpcException extends RuntimeException {
 
-    private MuyuanException cause;
+    @Serial
+    private static final long serialVersionUID = -3880369791600184613L;
+
+    private final MuyuanException cause;
 
     public DubboRpcException(MuyuanException cause) {
         super(cause);

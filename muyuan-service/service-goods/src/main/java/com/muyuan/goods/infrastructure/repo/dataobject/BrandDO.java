@@ -2,7 +2,9 @@ package com.muyuan.goods.infrastructure.repo.dataobject;
 
 import com.muyuan.common.mybatis.common.BaseDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BrandDO extends BaseDO {
 

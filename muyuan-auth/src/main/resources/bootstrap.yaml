@@ -12,4 +12,4 @@ logging:
     com.alibaba.cloud.dubbo.*: error
 server:
   servlet:
-    context-path: /auth
+    context-path: /
